@@ -1,0 +1,23 @@
+@import "ui-variables";
+
+html,
+atom-workspace,
+.atom-dock-mask,
+.pane {
+	background: transparent;
+}
+
+atom-panel.left,
+.tool-panel.left,
+atom-panel.panel-left,
+.tool-panel.panel-left {
+  border-right: none !important;
+}
+
+// #62: Partially hide scrollbars
+// https://github.com/fv0/native-ui/issues/62
+.suggestion-list-scroller {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

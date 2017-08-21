@@ -1,0 +1,9 @@
+<?php
+
+/**
+ * @deprecated
+ */
+function foo()
+{
+
+}

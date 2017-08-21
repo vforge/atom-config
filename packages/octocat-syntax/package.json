@@ -1,0 +1,72 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117114-48511-5pee61"
+    ]
+  ],
+  "_from": "../d-117114-48511-1bkyn64/package.tgz",
+  "_id": "octocat-syntax@1.3.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/octocat-syntax",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117114-48511-1bkyn64/package.tgz",
+  "_shasum": "d3a18be4dab272d9057f6093e790618d00562db6",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117114-48511-5pee61",
+  "author": {
+    "name": "Vincent Klaiber",
+    "email": "hello@vinkla.com",
+    "url": "vinkla.com"
+  },
+  "bugs": {
+    "url": "https://github.com/vinkla/atom-octocat-syntax/issues"
+  },
+  "dependencies": {},
+  "description": "Octocat syntax theme for Atom with GitHub flavoured highlighting",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.13.0 <2.0.0"
+  },
+  "homepage": "https://github.com/vinkla/atom-octocat-syntax#readme",
+  "keywords": [
+    "atom",
+    "octocat",
+    "github",
+    "syntax",
+    "theme"
+  ],
+  "license": "MIT",
+  "name": "octocat-syntax",
+  "optionalDependencies": {},
+  "readme": "# Octocat Syntax\n\n![octocat](https://cloud.githubusercontent.com/assets/499192/11710436/7965dc4e-9f1f-11e5-81dd-0a344c90c50a.png)\n\nOctocat syntax theme for Atom with GitHub flavoured highlighting.\n\n```sh\napm install octocat-syntax\n```\n\n## License\n\n[MIT](LICENSE) © [Vincent Klaiber](https://vinkla.com)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinkla/atom-octocat-syntax.git"
+  },
+  "theme": "syntax",
+  "version": "1.3.1"
+}

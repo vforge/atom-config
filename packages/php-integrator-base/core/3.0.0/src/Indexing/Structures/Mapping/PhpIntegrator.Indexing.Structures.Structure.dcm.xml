@@ -1,0 +1,64 @@
+<doctrine-mapping
+    xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd"
+>
+
+    <entity name="PhpIntegrator\Indexing\Structures\Structure" change-tracking-policy="DEFERRED_EXPLICIT" inheritance-type="SINGLE_TABLE">
+        <discriminator-column name="type" type="string" length="255" />
+
+        <discriminator-map>
+            <discriminator-mapping value="class"     class="PhpIntegrator\Indexing\Structures\Class_" />
+            <discriminator-mapping value="interface" class="PhpIntegrator\Indexing\Structures\Interface_" />
+            <discriminator-mapping value="trait"     class="PhpIntegrator\Indexing\Structures\Trait_" />
+        </discriminator-map>
+
+        <id name="id" type="string"></id>
+
+        <field name="name"               type="string"  nullable="false" length="255" />
+        <field name="fqcn"               type="string"  nullable="false" length="255" />
+        <field name="startLine"          type="integer" nullable="false" />
+        <field name="endLine"            type="integer" nullable="false" />
+        <field name="shortDescription"   type="text"    nullable="true"  length="15000" />
+        <field name="longDescription"    type="text"    nullable="true"  length="15000" />
+        <field name="isDeprecated"       type="boolean" nullable="false" />
+        <field name="hasDocblock"        type="boolean" nullable="false" />
+
+        <many-to-one field="file" target-entity="PhpIntegrator\Indexing\Structures\File" inversed-by="structures">
+            <join-column on-delete="CASCADE" on-update="CASCADE" nullable="false" />
+
+            <!-- <cache>
+                <usage>READ_ONLY</usage>
+                <region>structureFile</region>
+            </cache> -->
+        </many-to-one>
+
+        <one-to-many field="constants" target-entity="PhpIntegrator\Indexing\Structures\ClassConstant" mapped-by="structure">
+            <!-- <cache>
+                <usage>READ_ONLY</usage>
+                <region>structureConstants</region>
+            </cache> -->
+        </one-to-many>
+
+        <one-to-many field="properties" target-entity="PhpIntegrator\Indexing\Structures\Property" mapped-by="structure">
+            <!-- <cache>
+                <usage>READ_ONLY</usage>
+                <region>structureProperties</region>
+            </cache> -->
+        </one-to-many>
+
+        <one-to-many field="methods" target-entity="PhpIntegrator\Indexing\Structures\Method" mapped-by="structure">
+            <!-- <cache>
+                <usage>READ_ONLY</usage>
+                <region>structureMethods</region>
+            </cache> -->
+        </one-to-many>
+
+        <!-- <cache>
+            <usage>READ_ONLY</usage>
+            <region>structure</region>
+        </cache> -->
+    </entity>
+
+</doctrine-mapping>

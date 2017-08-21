@@ -1,0 +1,80 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116112-10833-1r70lei/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116112-10833-1r70lei/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116112-10833-1r70lei/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-116112-10833-w7kay"
+    ]
+  ],
+  "_from": "../d-116112-10833-1r70lei/package.tgz",
+  "_id": "minimap-pigments@0.2.2",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/minimap-pigments",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116112-10833-1r70lei/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116112-10833-1r70lei/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116112-10833-1r70lei/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-116112-10833-1r70lei/package.tgz",
+  "_shasum": "fa6abb5dfc73f1e56c1d700e16720eb4655252b3",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116112-10833-1r70lei/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-116112-10833-w7kay",
+  "bugs": {
+    "url": "https://github.com/abe33/minimap-pigments/issues"
+  },
+  "consumedServices": {
+    "minimap": {
+      "versions": {
+        "1.0.0": "consumeMinimapServiceV1"
+      }
+    },
+    "pigments.api": {
+      "versions": {
+        "1.0.0": "consumePigmentsServiceV1"
+      }
+    }
+  },
+  "dependencies": {
+    "event-kit": ">= 0.7.2"
+  },
+  "description": "An Atom plugin to display pigments colors in the Minimap.",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "homepage": "https://github.com/abe33/minimap-pigments#readme",
+  "keywords": [
+    "minimap",
+    "pigments",
+    "colors",
+    "palette"
+  ],
+  "license": "MIT",
+  "main": "./lib/minimap-pigments",
+  "name": "minimap-pigments",
+  "optionalDependencies": {},
+  "readme": "# minimap-pigments package [![Build Status](https://travis-ci.org/abe33/minimap-pigments.svg?branch=master)](https://travis-ci.org/abe33/minimap-pigments)\n\nAn Atom plugin to display pigments colors in the Minimap.\n\n![Screenshot](https://github.com/abe33/minimap-pigments/blob/master/screenshot.png?raw=true)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abe33/minimap-pigments.git"
+  },
+  "version": "0.2.2"
+}

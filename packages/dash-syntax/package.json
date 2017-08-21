@@ -1,0 +1,73 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117624-3760-1k9ric5.ldg4q2gldi"
+    ]
+  ],
+  "_from": "../d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+  "_id": "dash-syntax@0.3.0",
+  "_inCache": true,
+  "_location": "/dash-syntax",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+  "_shasum": "6f52766ef450305a8dcd72cbdfeaad5ded7c602c",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117624-3760-1k9ric5.ldg4q2gldi",
+  "bugs": {
+    "url": "https://github.com/cpsdqs/dash-syntax/issues"
+  },
+  "dependencies": {},
+  "description": "Vibrant dark syntax theme",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.13.0 <2.0.0"
+  },
+  "homepage": "https://github.com/cpsdqs/dash-syntax#readme",
+  "keywords": [
+    "syntax",
+    "theme"
+  ],
+  "license": "MIT",
+  "name": "dash-syntax",
+  "optionalDependencies": {},
+  "readme": "# dash-syntax theme\n\nVibrant dark syntax theme\n\n![screenshot](https://i.imgur.com/J5lEvrB.png)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cpsdqs/dash-syntax.git"
+  },
+  "theme": "syntax",
+  "version": "0.3.0",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

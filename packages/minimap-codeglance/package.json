@@ -1,0 +1,108 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117626-52846-1nlklsd.fg1jzfflxr/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117626-52846-1nlklsd.fg1jzfflxr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117626-52846-1nlklsd.fg1jzfflxr/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117626-52846-18nk15e.kar860qkt9"
+    ]
+  ],
+  "_from": "../d-117626-52846-1nlklsd.fg1jzfflxr/package.tgz",
+  "_id": "minimap-codeglance@0.4.7",
+  "_inCache": true,
+  "_location": "/minimap-codeglance",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117626-52846-1nlklsd.fg1jzfflxr/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117626-52846-1nlklsd.fg1jzfflxr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117626-52846-1nlklsd.fg1jzfflxr/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117626-52846-1nlklsd.fg1jzfflxr/package.tgz",
+  "_shasum": "b1a779a511a64b7562fe74982796cbf2a6785e52",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117626-52846-1nlklsd.fg1jzfflxr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117626-52846-18nk15e.kar860qkt9",
+  "bugs": {
+    "url": "https://github.com/olmokramer/atom-minimap-codeglance/issues"
+  },
+  "consumedServices": {
+    "minimap": {
+      "versions": {
+        "1.0.0": "consumeMinimapServiceV1"
+      }
+    }
+  },
+  "dependencies": {
+    "object-assign-shim": "^1.0.0"
+  },
+  "description": "Codeglance like functionality for Atom",
+  "devDependencies": {
+    "babel-eslint": "^4.1.3",
+    "eslint": "^1.6.0"
+  },
+  "engines": {
+    "atom": ">=1.1.0"
+  },
+  "homepage": "https://github.com/olmokramer/atom-minimap-codeglance#readme",
+  "license": "MIT",
+  "main": "./lib/main.js",
+  "name": "minimap-codeglance",
+  "optionalDependencies": {},
+  "readme": "# minimap-codeglance package\n\nCodeglance for Atom as a [minimap](https://atom.io/packages/minimap) plugin. Shows the code that's under the mouse cursor when hovering the minimap.\n\n![Minimap codeglance](https://raw.githubusercontent.com/olmokramer/atom-minimap-codeglance/master/screencast.gif)\n\n# styling the codeglance element\n\nYou can style the codeglance element from your stylesheet (`~/.atom/styles.less`) like this:\n\n```less\nminimap-codeglance {\n  // see through the codeglance element\n  opacity: .8;\n  // change the shadow of the element\n  box-shadow: 0 0 10px rgba(0, 0, 0, .5);\n  // etc.\n}\n```\n\n# todo\n\n- [ ] Better support for huge files\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olmokramer/atom-minimap-codeglance.git"
+  },
+  "version": "0.4.7",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [
+      {
+        "name": "object-assign-shim",
+        "version": "1.0.0",
+        "path": "node_modules/object-assign-shim/index.js"
+      }
+    ],
+    "extensions": {
+      ".js": [
+        "lib/config.js",
+        "lib/dom-listener.js",
+        "lib/main.js",
+        "lib/minimap-codeglance-element.js",
+        "lib/minimap-codeglance.js",
+        "node_modules/object-assign-shim/index.js"
+      ],
+      ".json": [
+        "node_modules/object-assign-shim/.jscs.json",
+        "node_modules/object-assign-shim/package.json",
+        "package.json"
+      ]
+    },
+    "folders": [
+      {
+        "paths": [
+          "lib",
+          "",
+          "spec"
+        ],
+        "dependencies": {
+          "object-assign-shim": "^1.0.0"
+        }
+      }
+    ]
+  }
+}

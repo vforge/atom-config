@@ -1,0 +1,187 @@
+@import 'syntax-variables';
+
+.atom-text-editor, atom-text-editor {
+  background-color: @syntax-background-color;
+  color: @syntax-text-color;
+
+  .invisible-character {
+    color: @syntax-invisible-character-color;
+  }
+
+  .indent-guide {
+    color: @syntax-indent-guide-color;
+  }
+
+  .wrap-guide {
+    background-color: @syntax-wrap-guide-color;
+  }
+
+  .gutter {
+    background-color: @syntax-gutter-background-color;
+
+    .cursor-line {
+      background-color: @syntax-gutter-background-color-selected;
+    }
+  }
+
+  .line-number.cursor-line-no-selection {
+    background-color: @syntax-gutter-background-color-selected;
+  }
+
+  .invisible {
+    color: @syntax-text-color;
+  }
+
+  .cursor {
+    border-color: @syntax-cursor-color;
+  }
+
+  .selection .region {
+    background-color: @syntax-selection-color;
+  }
+
+  .search-results .syntax--marker .region {
+    background-color: transparent;
+    border: 1px solid @syntax-result-marker-color;
+  }
+
+  .search-results .syntax--marker.current-result .region {
+    border: 1px solid @syntax-result-marker-color-selected;
+  }
+
+  .syntax--gfm {
+    .syntax--markup {
+      &.syntax--heading {
+        color: #A6E22E;
+        font-weight: bold;
+      }
+
+      &.syntax--underline {
+        color: #E6DB74;
+        text-decoration: underline;
+      }
+    }
+
+    .syntax--bold {
+      font-weight: bold;
+    }
+
+    .syntax--italic {
+      font-style: italic;
+    }
+
+    .syntax--raw {
+      color: #66D9EF;
+    }
+
+    .syntax--variable.syntax--list {
+      color: #F92672;
+      font-weight: bold;
+    }
+
+    .syntax--link {
+      color: #CCC;
+
+      .syntax--entity {
+        color: #AE81FF;
+      }
+    }
+  }
+}
+
+.syntax--comment {
+  color: #75715E;
+}
+
+.syntax--string {
+  color: #E6DB74;
+}
+
+.syntax--constant {
+  &.syntax--numeric,
+  &.syntax--language,
+  &.syntax--character,
+  &.syntax--other {
+    color: #AE81FF;
+  }
+}
+
+.syntax--keyword {
+  color: #F92672;
+}
+
+.syntax--storage {
+  color: #F92672;
+
+  &.syntax--type {
+    font-style: italic;
+    color: #66D9EF;
+  }
+}
+
+.syntax--entity {
+  &.syntax--other {
+    &.syntax--inherited-class {
+      font-style: italic;
+      text-decoration: underline;
+      color: #A6E22E;
+    }
+
+    &.syntax--attribute-name {
+      color: #A6E22E;
+    }
+  }
+
+  &.syntax--name {
+    &.syntax--class {
+      text-decoration: underline;
+      color: #A6E22E;
+    }
+
+    &.syntax--function {
+      color: #A6E22E;
+    }
+
+    &.syntax--instance {
+      color: #66D9EF;
+    }
+
+    &.syntax--tag {
+      color: #F92672;
+    }
+  }
+}
+
+.syntax--variable.syntax--parameter {
+  font-style: italic;
+  color: #FD971F;
+}
+
+.syntax--support {
+  &.syntax--function,
+  &.syntax--constant,
+  &.syntax--type,
+  &.syntax--class {
+    color: #66D9EF;
+  }
+
+  &.syntax--type,
+  &.syntax--class {
+    font-style: italic;
+  }
+}
+
+.syntax--invalid {
+  color: #F8F8F0;
+  background-color: #F92672;
+
+  &.syntax--deprecated {
+    color: #F8F8F0;
+    background-color: #AE81FF;
+  }
+}
+
+// Jade syntax
+.syntax--class.syntax--jade {
+  color: #AE81FF;
+}

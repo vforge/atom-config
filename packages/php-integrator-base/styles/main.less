@@ -1,0 +1,164 @@
+// The ui-variables file is provided by base themes provided by Atom.
+//
+// See https://github.com/atom/atom-dark-ui/blob/master/stylesheets/ui-variables.less
+// for a full listing of what's available.
+@import "ui-variables";
+@import "octicon-utf-codes";
+
+.php-integrator-popover {
+    max-width: 45%;
+    pointer-events: none;
+
+    .php-integrator-popover-wrapper {
+        margin: 0em 0em 0em 0em;
+        text-align: left;
+
+        div {
+            white-space: normal;
+        }
+
+        .section {
+            > h4 {
+                margin-top: 1em;
+                font-size: larger;
+                font-weight: bold;
+            }
+
+            > div {
+                padding-left: 1em;
+            }
+
+            td {
+                vertical-align: top;
+            }
+
+            td:not(:last-child) {
+                padding-right: 1em;
+            }
+        }
+    }
+}
+
+.php-integrator-progress-bar {
+    display: inline-block;
+
+    > span {
+        margin-left: 0.5em;
+    }
+}
+
+.php-integrator-documentation-pane {
+    height: 100%;
+    padding: 1em 1em;
+    overflow-y: scroll;
+
+    .php-integrator-documentation-placeholder {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        .icon:before {
+            font-size: 32px;
+            width: 32px;
+            height: 32px;
+        }
+
+        .php-integrator-documentation-placeholder-note {
+            font-size: 0.8em;
+        }
+    }
+
+    p {
+        line-height: 1.25em;
+
+        &:not(:first-child) {
+            margin-left: 1.5em;
+        }
+
+        // &:last-child {
+        //     margin-bottom: -1.25em;
+        // }
+    }
+
+    a {
+        font-weight: bold;
+    }
+
+    table {
+        margin-left: 1.5em;
+        margin-bottom: 1em;
+
+        tr {
+            td {
+                padding-right: 1em;
+                padding-bottom: 0.25em;
+            }
+        }
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.75em;
+        margin-left: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.5em;
+        margin-left: 1.5rem;
+    }
+
+    h4 {
+        font-size: 1.25em;
+        margin-left: 1.5rem;
+    }
+
+    h5 {
+        font-size: 1em;
+        margin-left: 1.5rem;
+    }
+}
+
+.php-integrator-signature-help {
+    width: 50%;
+    max-width: 50%;
+
+    .tooltip {
+        pointer-events: none;
+    }
+
+    .php-integrator-signature-help-type {
+        font-style: italic;
+    }
+
+    .php-integrator-signature-help-active-argument {
+        font-weight: bold;
+    }
+
+    .php-integrator-signature-help-inactive-argument {
+        opacity: 0.50;
+    }
+
+    .php-integrator-signature-help-default-value {
+        margin: initial !important;
+    }
+
+    .php-integrator-signature-help-wrapper {
+        margin: 0;
+        padding: 0.25em 0.50em !important;
+        text-align: left;
+        line-height: 1.55em !important;
+
+        div {
+            white-space: normal;
+        }
+
+        p {
+            line-height: 1.25em;
+        }
+    }
+}

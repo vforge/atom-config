@@ -1,0 +1,85 @@
+parameters:
+
+
+services:
+    cacheClearingEventMediator.clearableCache:
+        class: PhpIntegrator\Analysis\ClearableCacheCollection
+        arguments:
+            -
+                - '@classlikeExistenceChecker'
+                - '@globalFunctionExistenceChecker'
+                - '@globalConstantExistenceChecker'
+                - '@fileStructureListProvider.cachingDecorator'
+
+    cacheClearingEventMediator1:
+        class: PhpIntegrator\Mediating\CacheClearingEventMediator
+        arguments:
+            - '@cacheClearingEventMediator.clearableCache'
+            - '@indexer'
+            - !php/const:PhpIntegrator\Indexing\Indexer::INDEXING_SUCCEEDED_EVENT
+
+    cacheClearingEventMediator2:
+        class: PhpIntegrator\Mediating\CacheClearingEventMediator
+        arguments:
+            - '@fileNamespaceProvider.cachingFileNamespaceProvider'
+            - '@storage'
+            - !php/const:PhpIntegrator\Indexing\IndexingEventName::NAMESPACE_UPDATED
+
+    cacheClearingEventMediator3:
+        class: PhpIntegrator\Mediating\CacheClearingEventMediator
+        arguments:
+            - '@fileNamespaceProvider.cachingFileNamespaceProvider'
+            - '@storage'
+            - !php/const:PhpIntegrator\Indexing\IndexingEventName::IMPORT_INSERTED
+
+    constantIndexingConstantRegistryMediator:
+        class: PhpIntegrator\Mediating\ConstantIndexingConstantRegistryMediator
+        arguments:
+            - '@constantListProvider.registry'
+            - '@constantConverter'
+            - '@storage.eventEmittingStorage'
+
+    functionIndexingFunctionRegistryMediator:
+        class: PhpIntegrator\Mediating\FunctionIndexingFunctionRegistryMediator
+        arguments:
+            - '@functionListProvider.registry'
+            - '@functionConverter'
+            - '@storage.eventEmittingStorage'
+
+    structureIndexingStructureRegistryMediator:
+        class: PhpIntegrator\Mediating\StructureIndexingStructureRegistryMediator
+        arguments:
+            - '@structureListProvider.registry'
+            - '@classlikeConverter'
+            - '@storage.eventEmittingStorage'
+
+    namespaceIndexingNamespaceRegistryMediator:
+        class: PhpIntegrator\Mediating\NamespaceIndexingNamespaceRegistryMediator
+        arguments:
+            - '@namespaceListProvider.registry'
+            - '@namespaceConverter'
+            - '@storage.eventEmittingStorage'
+
+    workspaceEventConstantRegistryMediator:
+        class: PhpIntegrator\Mediating\WorkspaceEventConstantRegistryMediator
+        arguments:
+            - '@constantListProvider.registry'
+            - '@managerRegistry'
+
+    workspaceEventFunctionRegistryMediator:
+        class: PhpIntegrator\Mediating\WorkspaceEventFunctionRegistryMediator
+        arguments:
+            - '@functionListProvider.registry'
+            - '@managerRegistry'
+
+    workspaceEventStructureRegistryMediator:
+        class: PhpIntegrator\Mediating\WorkspaceEventStructureRegistryMediator
+        arguments:
+            - '@structureListProvider.registry'
+            - '@managerRegistry'
+
+    workspaceEventNamespaceRegistryMediator:
+        class: PhpIntegrator\Mediating\WorkspaceEventNamespaceRegistryMediator
+        arguments:
+            - '@namespaceListProvider.registry'
+            - '@managerRegistry'

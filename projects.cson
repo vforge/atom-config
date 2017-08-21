@@ -1,0 +1,33 @@
+[
+  {
+    title: "Fan Profile"
+    group: "Wikia"
+    paths: [
+      "/Users/v/Code/fan-profile"
+    ]
+    "opened-files": []
+  }
+  {
+    title: "F2"
+    group: "Fandom"
+    paths: [
+      "/Users/v/Code/f2"
+    ]
+    php:
+      enabled: true
+      php_integrator:
+        enabled: true
+        phpVersion: 5.6
+        excludedPaths: []
+        fileExtensions: [
+          "php"
+        ]
+  }
+  {
+    title: "Upstream"
+    group: "Fandom"
+    paths: [
+      "/Users/v/Code/upstream"
+    ]
+  }
+]

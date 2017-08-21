@@ -1,0 +1,64 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117310-18294-1gpo8px/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117310-18294-1gpo8px/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117310-18294-1gpo8px/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117310-18294-10zs636"
+    ]
+  ],
+  "_from": "../d-117310-18294-1gpo8px/package.tgz",
+  "_id": "Visual-Studio-2015-Dark-Theme@2.4.2",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/Visual-Studio-2015-Dark-Theme",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117310-18294-1gpo8px/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117310-18294-1gpo8px/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117310-18294-1gpo8px/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117310-18294-1gpo8px/package.tgz",
+  "_shasum": "df0dae7d1d25b804b85cdf1ffe0b62fba964fb94",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117310-18294-1gpo8px/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117310-18294-10zs636",
+  "bugs": {
+    "url": "https://github.com/Nidre/VS2015-Dark-Atom/issues"
+  },
+  "dependencies": {},
+  "description": "This is as close as I can get to a replica of the Visual Studio 2015's Dark theme in Atom.",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/Nidre/VS2015-Dark-Atom#readme",
+  "keywords": [
+    "syntax",
+    "theme"
+  ],
+  "license": "MIT",
+  "name": "Visual-Studio-2015-Dark-Theme",
+  "optionalDependencies": {},
+  "readme": "# VS2015 Dark Theme for Atom\n\n- [Notepad++ Version](https://github.com/Nidre/VS2015-Dark-Npp/)\n- [Android Studio / IntelliJ Version](https://github.com/Nidre/VS2015-Dark-Android-Studio/)\n\nThis is as close as I can get to a replica of the Visual Studio 2015's Dark theme in Atom.\n\nInstallation\n--------------------------\n1. Go to Atom -> Preferences...\n2. Then select the Themes tab\n3. Enter Visual-Studio-2015-Dark-Theme in the search box\n\nIssues\n------\nIf you find anything else wrong, feel free to [let me know](https://github.com/Nidre/VS2015-Dark-Atom/issues/new).\n\nScreenshot\n----------\n![Screenshot](https://github.com/Nidre/VS2015-Dark-Atom/blob/master/screenshot.png \"Screenshot\")\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nidre/VS2015-Dark-Atom.git"
+  },
+  "theme": "syntax",
+  "version": "2.4.2"
+}

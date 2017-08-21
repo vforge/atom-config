@@ -1,0 +1,55 @@
+<doctrine-mapping
+    xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd"
+>
+
+    <entity name="PhpIntegrator\Indexing\Structures\ClassConstant" change-tracking-policy="DEFERRED_EXPLICIT">
+        <id name="id" type="string"></id>
+
+        <field name="name"             type="string"     nullable="false" length="255" />
+        <field name="startLine"        type="integer"    nullable="false" />
+        <field name="endLine"          type="integer"    nullable="false" />
+        <field name="defaultValue"     type="string"     nullable="false" length="255" />
+        <field name="isDeprecated"     type="boolean"    nullable="false" />
+        <field name="hasDocblock"      type="boolean"    nullable="false" />
+        <field name="shortDescription" type="text"       nullable="true"  length="15000" />
+        <field name="longDescription"  type="text"       nullable="true"  length="15000" />
+        <field name="typeDescription"  type="text"       nullable="true"  length="15000" />
+        <field name="types"            type="array"      nullable="false" />
+
+        <many-to-one field="file" target-entity="PhpIntegrator\Indexing\Structures\File">
+            <join-column on-delete="CASCADE" on-update="CASCADE" nullable="false" />
+
+            <!-- <cache>
+                <usage>READ_ONLY</usage>
+                <region>classConstantFile</region>
+            </cache> -->
+        </many-to-one>
+
+        <many-to-one field="structure" target-entity="PhpIntegrator\Indexing\Structures\Structure" inversed-by="constants">
+            <join-column on-delete="CASCADE" on-update="CASCADE" nullable="false" />
+
+            <!-- <cache>
+                <usage>READ_ONLY</usage>
+                <region>classConstantStructure</region>
+            </cache> -->
+        </many-to-one>
+
+        <many-to-one field="accessModifier" target-entity="PhpIntegrator\Indexing\Structures\AccessModifier">
+            <join-column on-delete="RESTRICT" on-update="RESTRICT" nullable="false" />
+
+            <!-- <cache>
+                <usage>READ_ONLY</usage>
+                <region>classConstantAccessModifier</region>
+            </cache> -->
+        </many-to-one>
+
+        <!-- <cache>
+            <usage>READ_ONLY</usage>
+            <region>classConstant</region>
+        </cache> -->
+    </entity>
+
+</doctrine-mapping>

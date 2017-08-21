@@ -1,0 +1,14 @@
+imports:
+    - { resource: Typing/Deduction.yml }
+    - { resource: Typing/Localization.yml }
+    - { resource: SourceCodeReading/SourceCodeReading.yml }
+
+parameters:
+
+
+services:
+    parameterDocblockTypeSemanticEqualityChecker:
+        class: PhpIntegrator\Analysis\Typing\ParameterDocblockTypeSemanticEqualityChecker
+        arguments:
+            - '@structureAwareNameResolverFactory'
+            - '@classlikeInfoBuilder'

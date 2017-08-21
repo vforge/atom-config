@@ -1,0 +1,17 @@
+imports:
+    - { resource: Analysis.yml }
+    - { resource: Indexing.yml }
+    - { resource: Linting.yml }
+    - { resource: Mediating.yml }
+    - { resource: Parsing.yml }
+    - { resource: PrettyPrinting.yml }
+    - { resource: SignatureHelp.yml }
+    - { resource: Tooltips.yml }
+    - { resource: UserInterface.yml }
+
+parameters:
+
+
+services:
+    cache:
+        class: Doctrine\Common\Cache\ArrayCache

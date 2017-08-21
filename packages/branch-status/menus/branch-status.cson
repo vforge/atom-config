@@ -1,0 +1,20 @@
+# See https://atom.io/docs/latest/creating-a-package#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      label: 'Enable branch-status',
+      command: 'branch-status:toggle'
+    }
+  ]
+
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Branch Status'
+      'submenu': [
+        { 'label': 'Update', 'command': 'branch-status:toggle' }
+      ]
+    ]
+  }
+]

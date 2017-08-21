@@ -1,0 +1,80 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11706-63862-1903ewq/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11706-63862-1903ewq/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11706-63862-1903ewq/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11706-63862-eipgd5"
+    ]
+  ],
+  "_from": "../d-11706-63862-1903ewq/package.tgz",
+  "_id": "imdone-atom-github@0.1.11",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/imdone-atom-github",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11706-63862-1903ewq/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11706-63862-1903ewq/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11706-63862-1903ewq/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-11706-63862-1903ewq/package.tgz",
+  "_shasum": "92b6e9f67b652c469869371aed7af0324b36700d",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11706-63862-1903ewq/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11706-63862-eipgd5",
+  "bugs": {
+    "url": "https://github.com/imdone/imdone-atom-github/issues"
+  },
+  "consumedServices": {
+    "imdone": {
+      "versions": {
+        "^1.0.0": "consumeImdone"
+      }
+    }
+  },
+  "dependencies": {
+    "async": "^1.5.0",
+    "atom-space-pen-views": "^2.0.5",
+    "git-up": "^1.2.0",
+    "github": "^0.2.4"
+  },
+  "description": "Link GitHub issues to FIXME and TODO comments in your code.",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/imdone/imdone-atom-github#readme",
+  "keywords": [
+    "scrum",
+    "tasks",
+    "agile",
+    "productivity",
+    "issues",
+    "github"
+  ],
+  "license": "MIT",
+  "main": "./lib/imdone-atom-github",
+  "name": "imdone-atom-github",
+  "optionalDependencies": {},
+  "readme": "imdone-atom-github package\n====\n\nCreate GitHub issues from TODO comments in your code, or search for issues and link them to your TODOs.\n\n![gifrecord_2015-11-12_164006](https://cloud.githubusercontent.com/assets/233505/11133613/5f91df08-895c-11e5-9caa-caa6bde93300.gif)\n\nInstallation\n----\nRequires [imdone-atom](https://atom.io/packages/imdone-atom) package.  \n`apm install imdone-atom imdone-atom-github`\n\nUsage\n----\n- Open imdone in a project\n- Click the octocat icon on a task to bring up issue search and association\n\nFor GitHub Enterprise\n----\n- If you want to use imdone-atom-github with GitHub Enterprise, enter the hostname in the plugin settings.\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imdone/imdone-atom-github.git"
+  },
+  "version": "0.1.11"
+}

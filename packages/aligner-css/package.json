@@ -1,0 +1,73 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/tmp/d-117414-5531-9rvdc0.lksfgeewmi/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/tmp/d-117414-5531-9rvdc0.lksfgeewmi/package.tgz",
+        "spec": "/private/tmp/d-117414-5531-9rvdc0.lksfgeewmi/package.tgz",
+        "type": "local"
+      },
+      "/private/tmp/apm-install-dir-117414-5531-1j5nr2l.ent2pm0a4i"
+    ]
+  ],
+  "_from": "../d-117414-5531-9rvdc0.lksfgeewmi/package.tgz",
+  "_id": "aligner-css@1.2.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/aligner-css",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/tmp/d-117414-5531-9rvdc0.lksfgeewmi/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/tmp/d-117414-5531-9rvdc0.lksfgeewmi/package.tgz",
+    "spec": "/private/tmp/d-117414-5531-9rvdc0.lksfgeewmi/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117414-5531-9rvdc0.lksfgeewmi/package.tgz",
+  "_shasum": "c05a306f68c6016a07effde5924329895a892bbc",
+  "_shrinkwrap": null,
+  "_spec": "/private/tmp/d-117414-5531-9rvdc0.lksfgeewmi/package.tgz",
+  "_where": "/private/tmp/apm-install-dir-117414-5531-1j5nr2l.ent2pm0a4i",
+  "bugs": {
+    "url": "https://github.com/adrianlee44/atom-aligner-css/issues"
+  },
+  "dependencies": {},
+  "description": "CSS support for aligner",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.9.0"
+  },
+  "homepage": "https://github.com/adrianlee44/atom-aligner-css#readme",
+  "keywords": [
+    "aligner",
+    "alignment",
+    "align",
+    "css"
+  ],
+  "license": "MIT",
+  "main": "./lib/main",
+  "name": "aligner-css",
+  "optionalDependencies": {},
+  "providedServices": {
+    "aligner.provider": {
+      "versions": {
+        "1.0.0": "getProvider"
+      }
+    }
+  },
+  "readme": "# aligner-css\n\n[Aligner](https://github.com/adrianlee44/atom-aligner) add-on to support CSS and LESS.\n\n## Supported operators\n`:`\n```css\nbody {\n  display:   none;\n  position:  absolute;\n  font-size: 20px;\n}\n```\n\n## Installation\nAligner must be installed along with this package. For more information, please check out [Aligner](https://github.com/adrianlee44/atom-aligner)\n\n## Changelog\n- 2017-05-13   v1.2.1   Update documentation\n- 2015-03-26   v1.2.0   Added LESS and moved SASS/SCSS to [aligner-scss](https://github.com/adrianlee44/atom-aligner-scss)\n- 2015-03-22   v1.1.0   Added support for SASS and SCSS\n- 2015-03-22   v1.0.0   Initial release\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianlee44/atom-aligner-css.git"
+  },
+  "version": "1.2.1"
+}

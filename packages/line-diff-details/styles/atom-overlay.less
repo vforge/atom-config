@@ -1,0 +1,29 @@
+@import 'ui-variables';
+@import 'syntax-variables';
+
+.bubble {
+  box-shadow: 0px 0px 20px 0px @syntax-text-color;
+  left: 3px;
+  background: rgba(33, 38, 38, 0.92);
+  font-family: inherit;
+  font-size: @font-size;
+  width: auto;
+  padding: 10px;
+  border-radius: 3px;
+
+  .bubble-code {
+    line-height: 18px;
+    color: #f6f6f6;
+    white-space: pre-wrap;
+    padding: 5px;
+    margin-top: 5px;
+  }
+
+  .diff-button {
+    margin-right: 5px;
+    text-align: center;
+    .icon::before {
+      margin: 0;
+    }
+  }
+}

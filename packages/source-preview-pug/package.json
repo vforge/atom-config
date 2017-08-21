@@ -1,0 +1,75 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35741-1burc71/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35741-1burc71/package.tgz",
+        "spec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35741-1burc71/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/apm-install-dir-117221-35741-5ob1pq"
+    ]
+  ],
+  "_from": "../d-117221-35741-1burc71/package.tgz",
+  "_id": "source-preview-pug@0.2.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/source-preview-pug",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35741-1burc71/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35741-1burc71/package.tgz",
+    "spec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35741-1burc71/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117221-35741-1burc71/package.tgz",
+  "_shasum": "0d3ca3e91096b87059d7fcce1ac2519bbcb317ff",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35741-1burc71/package.tgz",
+  "_where": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/apm-install-dir-117221-35741-5ob1pq",
+  "bugs": {
+    "url": "https://github.com/aki77/atom-source-preview-pug/issues"
+  },
+  "dependencies": {
+    "jade": "^1.11.0",
+    "loophole": "^1.0.0",
+    "pug": "^2.0.0-alpha3"
+  },
+  "description": "source-preview provider for Pug.",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/aki77/atom-source-preview-pug#readme",
+  "keywords": [
+    "pug",
+    "jade"
+  ],
+  "license": "MIT",
+  "main": "./lib/main",
+  "name": "source-preview-pug",
+  "optionalDependencies": {},
+  "providedServices": {
+    "preview.provider": {
+      "versions": {
+        "0.1.0": "provide"
+      }
+    }
+  },
+  "readme": "# source-preview-pug package\n\n[source-preview](https://atom.io/packages/source-preview) provider for [Pug](https://github.com/pugjs/pug) (formerly Jade).\n\n[![Gyazo](http://i.gyazo.com/e9be65838fad5d98f930f2f23acdf588.gif)](http://gyazo.com/e9be65838fad5d98f930f2f23acdf588)\n\n## Requirement\n\n* [source-preview](https://atom.io/packages/source-preview)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aki77/atom-source-preview-pug.git"
+  },
+  "version": "0.2.0"
+}

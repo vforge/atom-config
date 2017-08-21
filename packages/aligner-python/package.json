@@ -1,0 +1,87 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117422-15786-13zfvnj.al17d86w29/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117422-15786-13zfvnj.al17d86w29/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117422-15786-13zfvnj.al17d86w29/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117422-15786-150vadt.pzek3uwhfr"
+    ]
+  ],
+  "_from": "../d-117422-15786-13zfvnj.al17d86w29/package.tgz",
+  "_id": "aligner-python@1.1.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/aligner-python",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117422-15786-13zfvnj.al17d86w29/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117422-15786-13zfvnj.al17d86w29/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117422-15786-13zfvnj.al17d86w29/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117422-15786-13zfvnj.al17d86w29/package.tgz",
+  "_shasum": "53dca5162307d48a6ed0ba2b1c74e7d87238cd9a",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117422-15786-13zfvnj.al17d86w29/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117422-15786-150vadt.pzek3uwhfr",
+  "bugs": {
+    "url": "https://github.com/adrianlee44/atom-aligner-python/issues"
+  },
+  "dependencies": {},
+  "description": "Python support for Aligner",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/adrianlee44/atom-aligner-python#readme",
+  "keywords": [
+    "aligner",
+    "alignment",
+    "align",
+    "python"
+  ],
+  "license": "MIT",
+  "main": "./lib/main",
+  "name": "aligner-python",
+  "optionalDependencies": {},
+  "providedServices": {
+    "aligner.provider": {
+      "versions": {
+        "1.0.0": "getProvider"
+      }
+    }
+  },
+  "readme": "# aligner-python\n\n[Aligner](https://github.com/adrianlee44/atom-aligner) add-on to support Python.\n\n## Supported operators\n`:`:\n```python\ncolors = {\n    \"red\":    \"ff0000\",\n    \"blue\":   \"0000ff\",\n    \"yellow\": \"ffff00\"\n}\n```\n`=`: assignment\n```python\nsomeArray = [0, 1]\nzero      = 0\n\n```\n\n## Installation\nAligner must be installed along with this package. For more information, please check out [Aligner](https://github.com/adrianlee44/atom-aligner)\n\n## Changelog\n- 2017-05-21   v1.1.0   Add support for `=` and embedded python\n- 2017-05-13   v1.0.2   Update documentation\n- 2015-09-13   v1.0.1   Fix invalid copy in config\n- 2015-09-09   v1.0.0   Initial release\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianlee44/atom-aligner-python.git"
+  },
+  "version": "1.1.0",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".js": [
+        "lib/main.js",
+        "lib/provider.js"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

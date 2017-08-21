@@ -1,0 +1,68 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1161112-44329-1ywjw1a/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1161112-44329-1ywjw1a/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1161112-44329-1ywjw1a/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1161112-44329-1yqfemq"
+    ]
+  ],
+  "_from": "../d-1161112-44329-1ywjw1a/package.tgz",
+  "_id": "dark-flat-ui@1.2.4",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/dark-flat-ui",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1161112-44329-1ywjw1a/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1161112-44329-1ywjw1a/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1161112-44329-1ywjw1a/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-1161112-44329-1ywjw1a/package.tgz",
+  "_shasum": "3fea5326cfbb8783c1117a1b35aa1bf31b38f612",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1161112-44329-1ywjw1a/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1161112-44329-1yqfemq",
+  "bugs": {
+    "url": "https://github.com/olmokramer/atom-dark-flat-ui/issues"
+  },
+  "dependencies": {},
+  "description": "A dark flat ui theme",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">0.140.0"
+  },
+  "homepage": "https://github.com/olmokramer/atom-dark-flat-ui#readme",
+  "keywords": [
+    "dark",
+    "flat",
+    "ui",
+    "grey",
+    "gray"
+  ],
+  "license": "MIT",
+  "main": "lib/dark-flat-ui",
+  "name": "dark-flat-ui",
+  "optionalDependencies": {},
+  "readme": "# Dark Flat UI\n\nDark and flat UI theme for Atom.\n\n[![dark-flat-ui](https://github.com/olmokramer/atom-dark-flat-ui/raw/master/screenshot.png)](https://github.com/olmokramer/atom-dark-flat-ui/raw/master/screenshot.png)\n\nDark Flat UI is designed to work especially well with [outlander-syntax](https://atom.io/packages/outlander-syntax), which is used in the screenshot.\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olmokramer/atom-dark-flat-ui.git"
+  },
+  "theme": "ui",
+  "version": "1.2.4"
+}

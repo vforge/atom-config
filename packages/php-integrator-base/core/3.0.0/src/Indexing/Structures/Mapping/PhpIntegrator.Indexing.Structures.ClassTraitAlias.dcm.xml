@@ -1,0 +1,39 @@
+<doctrine-mapping
+    xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd"
+>
+
+    <entity name="PhpIntegrator\Indexing\Structures\ClassTraitAlias" change-tracking-policy="DEFERRED_EXPLICIT">
+        <id name="id" type="string"></id>
+
+        <field name="name"      type="string"  nullable="false" length="255" />
+        <field name="alias"     type="string"  nullable="true"  length="255" />
+        <field name="traitFqcn" type="string"  nullable="true"  length="255" />
+
+        <many-to-one field="class" target-entity="PhpIntegrator\Indexing\Structures\Class_" inversed-by="traitAliases">
+            <join-column on-delete="CASCADE" on-update="CASCADE" nullable="false" />
+
+            <!-- <cache>
+                <usage>READ_ONLY</usage>
+                <region>classTraitAliasClass</region>
+            </cache> -->
+        </many-to-one>
+
+        <many-to-one field="accessModifier" target-entity="PhpIntegrator\Indexing\Structures\AccessModifier">
+            <join-column on-delete="RESTRICT" on-update="RESTRICT" nullable="true" />
+
+            <!-- <cache>
+                <usage>READ_ONLY</usage>
+                <region>classTraitAliasAccessModifier</region>
+            </cache> -->
+        </many-to-one>
+
+        <!-- <cache>
+            <usage>READ_ONLY</usage>
+            <region>classTraitAlias</region>
+        </cache> -->
+    </entity>
+
+</doctrine-mapping>

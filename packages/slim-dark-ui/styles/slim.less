@@ -1,0 +1,58 @@
+// Change the tab height to be smaller
+@tabheight: 2.5em;
+.tab-bar {
+    height: @tabheight;
+    .tab {
+        height: @tabheight;
+        line-height: @tabheight;
+        .close-icon {
+            line-height: @tabheight;
+        }
+    }
+    .tab::before, .tab::after {
+        border-radius: 0px;
+    }
+}
+
+// Make the top pane smaller
+atom-pane-container atom-pane {
+    padding-top: 0em;
+}
+atom-workspace atom-panel-container.left:empty {
+    padding-left: 0;
+}
+
+// Style the theme to be a bit more sleek
+.editor, atom-text-editor::shadow {
+    background-color: #202020;
+    font-weight: 500;
+    // Make comments normal instead of italic
+    .comment, .entity.other.inherited-class {
+        font-style: normal;
+        font-weight: 600;
+    }
+    .entity {
+        font-weight: 600;
+    }
+    // Make the gutter look more like TextMate's
+    .gutter {
+        background-color: #3E3E41;
+        border-right: 1px solid #525254;
+        .line-number {
+            padding-left: 1em;
+            font-size: 0.86em;
+            line-height: 16.5px;
+            padding-left: 1.4em;
+        }
+    }
+    .scroll-view {
+        padding-left: 8px;
+    }
+}
+
+// Remove highlighting of the current line
+atom-text-editor.is-focused::shadow {
+    .line.cursor-line, .line-number.cursor-line-no-selection {
+        background-color: transparent;
+    }
+}

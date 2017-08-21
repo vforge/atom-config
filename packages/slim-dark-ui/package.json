@@ -1,0 +1,68 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-61549-evgndj/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-61549-evgndj/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-61549-evgndj/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117017-61549-16nlsoz"
+    ]
+  ],
+  "_from": "../d-117017-61549-evgndj/package.tgz",
+  "_id": "slim-dark-ui@0.12.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/slim-dark-ui",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-61549-evgndj/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-61549-evgndj/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-61549-evgndj/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117017-61549-evgndj/package.tgz",
+  "_shasum": "c55457dfe8fa14e44b9d2c1d64d456760fd8c4a3",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-61549-evgndj/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117017-61549-16nlsoz",
+  "bugs": {
+    "url": "https://github.com/Tehnix/slim-dark-ui/issues"
+  },
+  "dependencies": {},
+  "description": "Slim dark UI based on the Atom One dark UI theme",
+  "devDependencies": {
+    "coffeelint": "^1.9.7"
+  },
+  "engines": {
+    "atom": ">0.40.0"
+  },
+  "homepage": "https://github.com/Tehnix/slim-dark-ui#readme",
+  "keywords": [
+    "dark",
+    "adaptive",
+    "ui"
+  ],
+  "license": "MIT",
+  "main": "lib/settings",
+  "name": "slim-dark-ui",
+  "optionalDependencies": {},
+  "readme": "## Slim dark UI theme\n\nA slim dark UI theme that adjusts to most Syntax themes. Based on the Atom One dark UI\n\n### Install\n\nThis theme is installed by default with Atom and can be activated by going to the __Settings > Themes__ section and selecting \"Slim Dark\" from the __UI Themes__ drop-down menu.\n\n### Settings\n\nIn the theme settings you can switch between 3 __Layout Modes__:\n\n1. `Auto` (default) - In Auto mode, the UI and font size will automatically change based on the window size.\n2. `Compact` - The UI stays compact to leave more space for the editor.\n3. `Spacious` - The UI is expanded, giving some breathing room.\n\nAs well as change the __Font Size__ to scale the whole UI up or down.\n\n### Customize\n\nIt's also possible to resize only certain areas by adding the following to your `styles.less` (Use the DevTools to find the right selectors):\n\n```css\n.theme-slim-dark-ui {\n  .tab-bar { font-size: 18px; }\n  .tree-view { font-size: 14px; }\n  .status-bar { font-size: 12px; }\n}\n```\n\n### FAQ\n\n__Why do the colors change when I switch Syntax themes.__\nThis UI theme uses the same background color as the chosen Syntax theme. In case that Syntax theme has a light background color, it only uses its hue, but otherwise stays dark. This lets you use dark-light combos.\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tehnix/slim-dark-ui.git"
+  },
+  "theme": "ui",
+  "version": "0.12.0"
+}

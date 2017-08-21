@@ -1,0 +1,17 @@
+body {
+    display: block;
+}
+
+.body {
+    display: block;
+}
+
+#body {
+    display: block;
+}
+
+body#body.body, h1:after {
+    display: block;
+}
+
+body .oneline { display: hidden; }

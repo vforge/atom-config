@@ -1,0 +1,73 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-et9f2b.olygmn29/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-et9f2b.olygmn29/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-et9f2b.olygmn29/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117624-16260-tibkt4.fh1f1g7gb9"
+    ]
+  ],
+  "_from": "../d-117624-16260-et9f2b.olygmn29/package.tgz",
+  "_id": "visual-studio-dark-syntax@0.2.0",
+  "_inCache": true,
+  "_location": "/visual-studio-dark-syntax",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-et9f2b.olygmn29/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-et9f2b.olygmn29/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-et9f2b.olygmn29/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117624-16260-et9f2b.olygmn29/package.tgz",
+  "_shasum": "fdac479fcf32e689f4901f361bd3fed2a3ea0643",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-et9f2b.olygmn29/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117624-16260-tibkt4.fh1f1g7gb9",
+  "bugs": {
+    "url": "https://github.com/Kromi75/visual-studio-dark-syntax/issues"
+  },
+  "dependencies": {},
+  "description": "Mimics the dark theme of Visual Studio 2015",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.13.0"
+  },
+  "homepage": "https://github.com/Kromi75/visual-studio-dark-syntax#readme",
+  "keywords": [
+    "syntax",
+    "theme"
+  ],
+  "license": "MIT",
+  "name": "visual-studio-dark-syntax",
+  "optionalDependencies": {},
+  "readme": "# vs-dark-syntax theme\n\nA theme that mimics the dark theme of Visual Studio 2015.\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kromi75/visual-studio-dark-syntax.git"
+  },
+  "theme": "syntax",
+  "version": "0.2.0",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

@@ -1,0 +1,224 @@
+"*":
+  achievements: {}
+  "activate-power-mode":
+    comboMode: {}
+    particles:
+      enabled: false
+      size:
+        max: 3
+        min: 1
+      spawnCount:
+        max: 5
+        min: 2
+      totalCount:
+        max: 10
+    playAudio: {}
+    plugins:
+      playAudio: true
+      screenShake: true
+    screenShake:
+      enabled: false
+      maxIntensity: 2
+      minIntensity: 0
+  "atom-beautify": {}
+  "atom-import-sort": {}
+  "atom-material-ui":
+    colors:
+      abaseColor: "#7e7e7e"
+      predefinedColor: "Grey"
+    tabs:
+      compactTabs: true
+      noTabMinWidth: true
+      tintedTabBar: true
+    treeView:
+      compactList: true
+    ui:
+      panelContrast: true
+      panelShadows: true
+  "autoclose-html": {}
+  "autocomplete-plus":
+    strictMatching: true
+  "autocomplete-ruby":
+    rsensePath: "/Users/v/.rbenv/shims/rsense"
+  autosave:
+    enabled: true
+  "branch-status":
+    personalAccessToken: "e5d4c867f6cb535fb7160f2b734dfe110b383d36"
+  core:
+    closeEmptyWindows: false
+    customFileTypes:
+      "source.shell": [
+        "symlink"
+      ]
+    disabledPackages: [
+      "battery-status"
+      "whitespace"
+      "imdone-atom"
+      "language-gfm"
+      "autocomplete-ruby"
+      "foldername-tabs"
+      "linter-csslint"
+      "branch-status"
+    ]
+    packagesWithKeymapsDisabled: []
+    telemetryConsent: "no"
+    themes: [
+      "dash-ui"
+      "dash-syntax"
+    ]
+    titleBar: "custom"
+    warnOnLargeFileLimit: 10
+  "ctags-status":
+    outerScope: true
+  "custom-title":
+    template: '''
+      <%= fileName %><% if (projectPath) { %> - <%= projectPath %><% if (gitHead) { %> [<%= gitHead %>]<% } %><% } %>
+      
+    '''
+  "dark-flat-ui": {}
+  "dash-ui":
+    iconsEnabled: false
+  docblockr:
+    param_description: false
+    return_description: false
+    return_tag: "@returns"
+  editor:
+    fontFamily: "Operator Mono"
+    fontSize: 15
+    invisibles: {}
+    showIndentGuide: true
+    showInvisibles: true
+    zoomFontWhenCtrlScrolling: true
+  "exception-reporting":
+    userId: "244c6646-2010-4303-a61c-1a7716d514ce"
+  "file-icons":
+    onChanges: true
+  "flatwhite-syntax":
+    ebmedded: "Full"
+  "fuzzy-finder":
+    preserveLastSearch: true
+  "git-plus": {}
+  "git-projects":
+    rootPath: "/Users/v/Git;/Users/v/Dropbox/Development/vforge"
+  "git-status": {}
+  "isotope-light-ui": {}
+  "isotope-ui":
+    backgroundGradient: true
+    matchEditorFont: true
+  "line-count-status": {}
+  "linter-eslint": {}
+  "linter-phpcs":
+    codeStandardOrConfigFile: "~/Code/f2/backend/lint/standards/FanContributor/ruleset.xml"
+    disableWhenNoConfigFile: true
+    executablePath: "backend/vendor/bin/phpcs"
+  "linter-sass-lint":
+    noConfigDisable: true
+    resolvePathsRelativeToConfig: true
+  "linter-ui-default":
+    decorateOnTreeView: "Files and Directories"
+    panelHeight: 171
+    showProviderName: true
+  "markdown-preview-plus":
+    useGitHubStyle: true
+  "markdown-writer":
+    fileExtension: ".md"
+  "merge-conflicts": {}
+  minimap:
+    adjustAbsoluteModeHeight: true
+    plugins:
+      bookmarks: true
+      bookmarksDecorationsZIndex: 0
+      codeglance: true
+      codeglanceDecorationsZIndex: 0
+      cursorline: true
+      cursorlineDecorationsZIndex: 0
+      "find-and-replace": false
+      "find-and-replaceDecorationsZIndex": 0
+      "git-diff": true
+      "git-diffDecorationsZIndex": 0
+      "highlight-selected": false
+      "highlight-selectedDecorationsZIndex": 0
+      linter: true
+      linterDecorationsZIndex: 0
+      "minimap-autohide": true
+      "minimap-autohideDecorationsZIndex": 0
+      "minimap-autohider": true
+      "minimap-autohiderDecorationsZIndex": 0
+      pigments: true
+      pigmentsDecorationsZIndex: 0
+      selection: true
+      selectionDecorationsZIndex: 0
+      "split-diff": true
+      "split-diffDecorationsZIndex": 0
+  "minimap-codeglance":
+    numberOfLines: 11
+  "minimap-plus": {}
+  "my-github-profile":
+    githubUsername: "vforge"
+    refreshTimeout: 20
+    statusbarNumber: "notifications"
+  "nord-atom-ui":
+    darkerFormFocusEffect: true
+    tabSizing: false
+  "one-dark-ui": {}
+  "one-light-ui": {}
+  "open-terminal-here": {}
+  "opened-files":
+    removeOnClose: true
+  "package-sync": {}
+  "php-integrator-base:confirmed-upgrade-message": true
+  "pristine-ui":
+    tabSizing: "Minimum"
+  "project-manager":
+    prettifyTitle: false
+    showPath: false
+  "project-viewer":
+    convertOldData: false
+  "recent-projects":
+    showFtpUrl: false
+  "seti-icons": {}
+  "seti-ui":
+    fileIcons: false
+  "slim-dark-ui":
+    fontSize: 10
+  "statusbar-datetime":
+    format: "YYYY-MM-DD HH:mm"
+  "sync-settings":
+    _analyticsUserId: "e91079f2-a801-4b65-ada3-9c988de56934"
+    _lastBackupHash: "135a4e5c0257fb71dc92270fdacf59a91978e4cf"
+    analytics: false
+    extraFiles: [
+      "config.cson"
+    ]
+    gistId: "7205d66b199a958671f2"
+    personalAccessToken: "788043829ed4c90da34b9dec10dfddd3de91a5db"
+  "terminal-plus":
+    core: {}
+    style: {}
+  "tool-bar":
+    position: "Left"
+  "tool-bar-almighty": {}
+  "travis-ci-status": {}
+  "tree-view": {}
+  "tree-view-breadcrumb": {}
+  "tree-view-git-branch":
+    location: "top"
+  "tree-view-git-status": {}
+  "tree-view-open-files": {}
+  wakatime:
+    apikey: "Saved in your ~/.wakatime.cfg file"
+  "wakatime-hidden":
+    lastInit: 1492447732
+  welcome:
+    showOnStartup: false
+  wordcount: {}
+".babel.regexp.source":
+  editor:
+    softWrapAtPreferredLineLength: true
+".blade.html.php.text":
+  editor:
+    commentEnd: " --}}"
+    commentStart: "{{-- "
+".ini.source":
+  editor:
+    showIndentGuide: true

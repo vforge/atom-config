@@ -1,0 +1,9 @@
+<?php
+
+/**
+ * @deprecated
+ */
+trait Test
+{
+
+}

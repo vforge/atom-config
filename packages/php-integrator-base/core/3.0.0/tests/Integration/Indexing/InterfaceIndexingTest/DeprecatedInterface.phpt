@@ -1,0 +1,9 @@
+<?php
+
+/**
+ * @deprecated
+ */
+interface Test
+{
+
+}

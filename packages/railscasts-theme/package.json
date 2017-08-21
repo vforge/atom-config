@@ -1,0 +1,35 @@
+{
+  "name": "railscasts-theme",
+  "theme": "syntax",
+  "version": "1.4.0",
+  "private": true,
+  "description": "Port from original Railscasts TextMate theme.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/formaweb/railscasts-atom-theme.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "readme": "RailsCasts Theme\n================\n\nPort from original [Railscasts TextMate theme](http://railscasts.com/about).\n\nScreenshots\n-----------\n\n![](https://raw.github.com/formaweb/railscasts-atom-theme/master/screenshots/preview.png)\n\nTips\n----\n\nYou can download [Bitstream Vera Sans Mono](http://www.dafont.com/bitstream-vera-mono.font) font to get a perfect combination!\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/formaweb/railscasts-atom-theme/issues"
+  },
+  "homepage": "https://github.com/formaweb/railscasts-atom-theme#readme",
+  "_id": "railscasts-theme@1.4.0",
+  "_shasum": "d1ead0a49cb06b5181bcfd7242c8c6240c97e204",
+  "_resolved": "file:../d-1151027-25474-34hy9u/package.tgz",
+  "_from": "../d-1151027-25474-34hy9u/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

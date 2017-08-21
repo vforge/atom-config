@@ -1,0 +1,75 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117710-55153-y26az7.zb0g9wl8fr/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117710-55153-y26az7.zb0g9wl8fr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117710-55153-y26az7.zb0g9wl8fr/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117710-55153-utk0hg.j20ys98uxr"
+    ]
+  ],
+  "_from": "../d-117710-55153-y26az7.zb0g9wl8fr/package.tgz",
+  "_id": "atom-overtype-mode@0.4.0",
+  "_inCache": true,
+  "_location": "/atom-overtype-mode",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117710-55153-y26az7.zb0g9wl8fr/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117710-55153-y26az7.zb0g9wl8fr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117710-55153-y26az7.zb0g9wl8fr/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117710-55153-y26az7.zb0g9wl8fr/package.tgz",
+  "_shasum": "fb18fc8ee04e9ab12f344817e64800739bb9755d",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117710-55153-y26az7.zb0g9wl8fr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117710-55153-utk0hg.j20ys98uxr",
+  "activationCommands": {
+    "atom-text-editor": "overtype-mode:toggle"
+  },
+  "bugs": {
+    "url": "https://github.com/brunetton/atom-overtype-mode/issues"
+  },
+  "dependencies": {},
+  "description": "Provides overtype mode for Atom",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.13 <2.0.0"
+  },
+  "homepage": "https://github.com/brunetton/atom-overtype-mode#readme",
+  "license": "MIT",
+  "main": "./lib/atom-overtype-mode",
+  "name": "atom-overtype-mode",
+  "optionalDependencies": {},
+  "readme": "# Overtype mode for Atom\n\nSwitch beetween insert and overtype mode by using `Ins` key.\nThe cursor turns into a rectangle to indicate that overtype is enabled.\n\n![](http://i.imgur.com/DejekQN.gif)\n\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brunetton/atom-overtype-mode.git"
+  },
+  "version": "0.4.0",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".coffee": [
+        "lib/atom-overtype-mode.coffee"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

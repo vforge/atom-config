@@ -1,0 +1,27 @@
+parameters:
+
+
+services:
+    nodePrettyPrinter:
+        class: PhpIntegrator\PrettyPrinting\NodePrettyPrinter
+
+    typePrettyPrinter:
+        class: PhpIntegrator\PrettyPrinting\TypePrettyPrinter
+
+    typeListPrettyPrinter:
+        class: PhpIntegrator\PrettyPrinting\TypeListPrettyPrinter
+        arguments:
+            - '@typePrettyPrinter'
+
+    parameterDefaultValuePrettyPrinter:
+        class: PhpIntegrator\PrettyPrinting\ParameterDefaultValuePrettyPrinter
+
+    parameterNamePrettyPrinter:
+        class: PhpIntegrator\PrettyPrinting\ParameterNamePrettyPrinter
+
+    functionParameterPrettyPrinter:
+        class: PhpIntegrator\PrettyPrinting\FunctionParameterPrettyPrinter
+        arguments:
+            - '@parameterDefaultValuePrettyPrinter'
+            - '@typeListPrettyPrinter'
+            - '@parameterNamePrettyPrinter'

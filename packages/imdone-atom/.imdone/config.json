@@ -1,0 +1,77 @@
+{
+  "exclude": [
+    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+  ],
+  "watcher": true,
+  "keepEmptyPriority": false,
+  "code": {
+    "include_lists": [
+      "TODO",
+      "DOING",
+      "DONE",
+      "PLANNING",
+      "FIXME",
+      "ARCHIVE",
+      "HACK",
+      "CHANGED",
+      "XXX",
+      "IDEA",
+      "NOTE",
+      "REVIEW",
+      "BACKLOG",
+      "READY",
+      "ICEBOX",
+      "INBOX"
+    ]
+  },
+  "lists": [
+    {
+      "name": "BACKLOG",
+      "hidden": true
+    },
+    {
+      "name": "TODO",
+      "hidden": false
+    },
+    {
+      "name": "DOING",
+      "hidden": false
+    },
+    {
+      "name": "READY",
+      "hidden": true
+    },
+    {
+      "name": "DONE",
+      "hidden": false
+    },
+    {
+      "name": "CHANGED",
+      "hidden": true
+    },
+    {
+      "name": "NOTE",
+      "hidden": true
+    }
+  ],
+  "marked": {
+    "gfm": true,
+    "tables": true,
+    "breaks": false,
+    "pedantic": false,
+    "smartLists": true,
+    "langPrefix": "language-"
+  },
+  "meta": {
+    "gh": {
+      "urlTemplate": "https://github.com/imdone/imdone-atom/issues/%s",
+      "titleTemplate": "View github issue %s",
+      "icon": "icon-octoface"
+    }
+  },
+  "sync": {
+    "id": "586bcdf521a4015bf98226ca",
+    "name": "imdone-atom",
+    "useImdoneioForPriority": true
+  }
+}

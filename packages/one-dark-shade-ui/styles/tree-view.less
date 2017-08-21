@@ -1,0 +1,57 @@
+@tree-view-height: @ui-padding*1.5;
+
+.tree-view {
+  font-size: @ui-size;
+  background: @tree-view-background-color;
+  background:#1e1e1e;
+
+  .project-root.project-root {
+    padding-top: @ui-padding/2;
+    &:before {
+      height: @ui-tab-height;
+      border-top: 1px solid transparent;
+      background-clip: padding-box;
+    }
+    & > .header .name {
+      line-height: @ui-tab-height;
+    }
+  }
+
+  .selected:before {
+    background: @background-color-highlight;
+  }
+}
+
+.tree-view-resizer {
+  .tree-view-resize-handle {
+    width: 8px;
+  }
+}
+
+// Variable height, based on ems
+.list-group li:not(.list-nested-item),
+.list-tree li:not(.list-nested-item),
+.list-group li.list-nested-item > .list-item,
+.list-tree li.list-nested-item > .list-item {
+  line-height: @tree-view-height;
+}
+
+.list-group .selected::before,
+.list-tree .selected::before {
+  height: @tree-view-height;
+}
+
+// icon
+.list-group .icon,
+.list-tree .icon {
+  display: inline-block;
+  height: inherit;
+  &::before {
+    top: initial;
+    line-height: inherit;
+    height: inherit;
+    vertical-align: top;
+    font-size:14px;
+    color: rgba(255,255,255,.2);
+  }
+}

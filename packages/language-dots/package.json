@@ -1,0 +1,74 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75845-79mbyj/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75845-79mbyj/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75845-79mbyj/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-116919-75845-1ndrhe3"
+    ]
+  ],
+  "_from": "../d-116919-75845-79mbyj/package.tgz",
+  "_id": "language-dots@0.0.4",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/language-dots",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75845-79mbyj/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75845-79mbyj/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75845-79mbyj/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-116919-75845-79mbyj/package.tgz",
+  "_shasum": "0ed26447459f1edd85a3be66ed7f9515d49f352a",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75845-79mbyj/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-116919-75845-1ndrhe3",
+  "bugs": {
+    "url": "https://github.com/MaxGraey/language-dots/issues"
+  },
+  "dependencies": {},
+  "description": "Atom language support for dot files like .gitignore, .npmignore, .env and etc",
+  "devDependencies": {},
+  "engines": {
+    "atom": "*",
+    "node": "*"
+  },
+  "homepage": "https://github.com/MaxGraey/language-dots",
+  "keywords": [
+    "language",
+    "gitignore",
+    "npmrc",
+    "env",
+    "hidden",
+    "resource",
+    "dot",
+    "bash",
+    "file",
+    "atom",
+    "editor",
+    "syntax"
+  ],
+  "license": "MIT",
+  "name": "language-dots",
+  "optionalDependencies": {},
+  "readme": "Atom Dots Language Package\n==============================\n\n#### Add to Atom language support for dot files like .gitignore, .npmignore, .env and etc.\n\n### Example:\n> enviroments file with [atom-dark-fusion-syntax](https://atom.io/themes/atom-dark-fusion-syntax) theme:\n\n![examaple.png](https://raw.githubusercontent.com/MaxGraey/language-dots/master/screenshots/example.png)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaxGraey/language-dots.git"
+  },
+  "version": "0.0.4"
+}

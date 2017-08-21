@@ -1,0 +1,1 @@
+# Private .atom configuration

@@ -1,0 +1,76 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11709-14265-17bth47/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11709-14265-17bth47/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11709-14265-17bth47/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11709-14265-e50zda"
+    ]
+  ],
+  "_from": "../d-11709-14265-17bth47/package.tgz",
+  "_id": "ctags-status@1.3.7",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/ctags-status",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11709-14265-17bth47/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11709-14265-17bth47/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11709-14265-17bth47/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-11709-14265-17bth47/package.tgz",
+  "_shasum": "bb81ecf80da86639a5c80b1a14e793be9438bf8a",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11709-14265-17bth47/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11709-14265-e50zda",
+  "bugs": {
+    "url": "https://github.com/mrkschan/ctags-status/issues"
+  },
+  "consumedServices": {
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "consumeStatusBar"
+      }
+    }
+  },
+  "dependencies": {
+    "q": "^1.2.0"
+  },
+  "description": "Show the class/function/scope name of the current line on the status bar.",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "homepage": "https://github.com/mrkschan/ctags-status#readme",
+  "keywords": [
+    "ctags",
+    "statusbar",
+    "function",
+    "class",
+    "scope"
+  ],
+  "license": "MIT",
+  "main": "./lib/ctags-status",
+  "name": "ctags-status",
+  "optionalDependencies": {},
+  "readme": "# ctags-status package\n\n[![Build Status](https://travis-ci.org/mrkschan/ctags-status.svg?branch=master)](https://travis-ci.org/mrkschan/ctags-status)\n\nShow the class/function/scope name of the current line on the status bar.\n\n![A screenshot of ctags-status package](https://github.com/mrkschan/ctags-status/blob/master/docs/screenshot.gif?raw=true)\n\nInspired by VIM Tag List plugin. Using Ctags to locate the start of functions / classes and heuristic (e.g. indentation / closing curly '}') to locate the end of them.\n\nIf you like this plugin, leave it a **star** :) If you find any problem, create an **issue** at https://github.com/mrkschan/ctags-status/issues. If you find it works for any programming languages that are not in the **Tested languages** list, you may add it to the list by making a **pull request** at https://github.com/mrkschan/ctags-status/pulls.\n\n\n# Tested languages\n\n* C / C++\n* Coffeescript\n* CSS / LESS / SCSS / SASS\n* Go\n* Java\n* Javascript\n* HTML / XML\n* PHP\n* Perl\n* Python\n* Ruby\n\n\n# Dependency\n\n## Ubuntu / Debian\n\n```\nsudo apt-get install exuberant-ctags\n```\n\n## Red Hat / Fedora / CentOS\n\n```\nsudo yum install ctags\n```\n\n## OS X\n\n```\nbrew install ctags\n```\n\nAnd, put `/usr/local/bin/ctags` to your ctags-status settings.\n\n## Windows\n\n1. Download CTags binary from http://prdownloads.sourceforge.net/ctags/ctags58.zip.\n2. Unzip the binary to anywhere that can be located by your PATH.\n\n\n# How it works\n\n* Scope finding - http://mrkschan.blogspot.hk/2015/05/scope-finding-in-source-file.html\n\n\n# Changelog\n\nhttps://github.com/mrkschan/ctags-status/blob/master/CHANGELOG.md\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrkschan/ctags-status.git"
+  },
+  "version": "1.3.7"
+}

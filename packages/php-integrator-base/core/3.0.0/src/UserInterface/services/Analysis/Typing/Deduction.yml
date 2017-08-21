@@ -1,0 +1,188 @@
+parameters:
+
+
+services:
+    expressionLocalTypeAnalyzer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\ExpressionLocalTypeAnalyzer
+        arguments:
+            - '@parser'
+            - '@docblockParser'
+            - '@nodePrettyPrinter'
+
+    localTypeScanner:
+        class: PhpIntegrator\Analysis\Typing\Deduction\LocalTypeScanner
+        arguments:
+            - '@docblockParser'
+            - '@structureAwareNameResolverFactory'
+            - '@typeAnalyzer'
+            - '@nodeTypeDeducer'
+            - '@foreachNodeLoopValueTypeDeducer'
+            - '@functionLikeParameterTypeDeducer'
+            - '@expressionLocalTypeAnalyzer'
+
+    variableNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\VariableNodeTypeDeducer
+        arguments:
+            - '@localTypeScanner'
+
+    lNumberNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\LNumberNodeTypeDeducer
+
+    dNumberNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\DNumberNodeTypeDeducer
+
+    stringNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\StringNodeTypeDeducer
+
+    constFetchNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\ConstFetchNodeTypeDeducer
+        arguments:
+            - '@structureAwareNameResolverFactory'
+            - '@managerRegistry'
+            - '@constantConverter'
+
+    arrayDimFetchNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\ArrayDimFetchNodeTypeDeducer
+        arguments:
+            - '@typeAnalyzer'
+            - '@nodeTypeDeducer'
+
+    closureNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\ClosureNodeTypeDeducer
+
+    newNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\NewNodeTypeDeducer
+        arguments:
+            - '@nodeTypeDeducer'
+
+    cloneNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\CloneNodeTypeDeducer
+        arguments:
+            - '@nodeTypeDeducer'
+
+    arrayNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\ArrayNodeTypeDeducer
+
+    selfNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\SelfNodeTypeDeducer
+        arguments:
+            - '@nodeTypeDeducer'
+
+    staticNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\StaticNodeTypeDeducer
+        arguments:
+            - '@nodeTypeDeducer'
+
+    parentNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\ParentNodeTypeDeducer
+        arguments:
+            - '@nodeTypeDeducer'
+
+    nameNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\NameNodeTypeDeducer
+        arguments:
+            - '@typeAnalyzer'
+            - '@classlikeInfoBuilder'
+            - '@fileStructureListProvider'
+            - '@structureAwareNameResolverFactory'
+
+    funcCallNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\FuncCallNodeTypeDeducer
+        arguments:
+            - '@managerRegistry'
+            - '@functionConverter'
+            - '@functionNameNodeFqsenDeterminer'
+
+    methodCallNodeTypeDeducer.delegate:
+        class: PhpIntegrator\Analysis\Typing\Deduction\MethodCallNodeTypeDeducer
+        arguments:
+            - '@methodCallMethodInfoRetriever'
+
+    methodCallNodeMetaTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\MethodCallNodeMetaTypeDeducer
+        arguments:
+            - '@methodCallNodeTypeDeducer.delegate'
+            - '@nodeTypeDeducer'
+            - '@metadataProvider'
+
+    methodCallNodeTypeDeducer:
+        alias: methodCallNodeMetaTypeDeducer
+
+    propertyFetchNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\PropertyFetchNodeTypeDeducer
+        arguments:
+            - '@propertyFetchPropertyInfoRetriever'
+            - '@localTypeScanner'
+            - '@nodePrettyPrinter'
+
+    classConstFetchNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\ClassConstFetchNodeTypeDeducer
+        arguments:
+            - '@nodeTypeDeducer'
+            - '@classlikeInfoBuilder'
+
+    assignNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\AssignNodeTypeDeducer
+        arguments:
+            - '@nodeTypeDeducer'
+
+    ternaryNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\TernaryNodeTypeDeducer
+        arguments:
+            - '@nodeTypeDeducer'
+
+    classLikeNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\ClassLikeNodeTypeDeducer
+
+    catchNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\CatchNodeTypeDeducer
+        arguments:
+            - '@nodeTypeDeducer'
+
+    foreachNodeLoopValueTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\ForeachNodeLoopValueTypeDeducer
+        arguments:
+            - '@nodeTypeDeducer'
+            - '@typeAnalyzer'
+
+    functionLikeParameterTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\FunctionLikeParameterTypeDeducer
+        arguments:
+            - '@nodeTypeDeducer'
+            - '@typeAnalyzer'
+            - '@docblockParser'
+
+    expressionNodeTypeDeducer:
+        class: PhpIntegrator\Analysis\Typing\Deduction\ExpressionNodeTypeDeducer
+        arguments:
+            - '@nodeTypeDeducer'
+
+    nodeTypeDeducer.instance:
+        class: PhpIntegrator\Analysis\Typing\Deduction\NodeTypeDeducer
+        arguments:
+            - '@variableNodeTypeDeducer'
+            - '@lNumberNodeTypeDeducer'
+            - '@dNumberNodeTypeDeducer'
+            - '@stringNodeTypeDeducer'
+            - '@constFetchNodeTypeDeducer'
+            - '@arrayDimFetchNodeTypeDeducer'
+            - '@closureNodeTypeDeducer'
+            - '@newNodeTypeDeducer'
+            - '@cloneNodeTypeDeducer'
+            - '@arrayNodeTypeDeducer'
+            - '@selfNodeTypeDeducer'
+            - '@staticNodeTypeDeducer'
+            - '@parentNodeTypeDeducer'
+            - '@nameNodeTypeDeducer'
+            - '@funcCallNodeTypeDeducer'
+            - '@methodCallNodeTypeDeducer'
+            - '@propertyFetchNodeTypeDeducer'
+            - '@classConstFetchNodeTypeDeducer'
+            - '@assignNodeTypeDeducer'
+            - '@ternaryNodeTypeDeducer'
+            - '@classLikeNodeTypeDeducer'
+            - '@catchNodeTypeDeducer'
+            - '@expressionNodeTypeDeducer'
+
+    nodeTypeDeducer:
+        alias: nodeTypeDeducer.configurableDelegator

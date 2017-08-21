@@ -1,0 +1,67 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116920-99453-1ar1qw0/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116920-99453-1ar1qw0/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116920-99453-1ar1qw0/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-116920-99453-2jpsr1"
+    ]
+  ],
+  "_from": "../d-116920-99453-1ar1qw0/package.tgz",
+  "_id": "auto-indent-file@0.2.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/auto-indent-file",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116920-99453-1ar1qw0/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116920-99453-1ar1qw0/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116920-99453-1ar1qw0/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-116920-99453-1ar1qw0/package.tgz",
+  "_shasum": "80c0212501eceba26560a51fbbe4c9a596219034",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116920-99453-1ar1qw0/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-116920-99453-2jpsr1",
+  "activationCommands": {
+    "atom-text-editor": "auto-indent-file:autoindentfile"
+  },
+  "bugs": {
+    "url": "https://github.com/lucbu/auto-indent-file/issues"
+  },
+  "dependencies": {},
+  "description": "Allow user to auto indent the current file.",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/lucbu/auto-indent-file#readme",
+  "keywords": [
+    "autoindent",
+    "fast"
+  ],
+  "license": "MIT",
+  "main": "./lib/auto-indent-file",
+  "name": "auto-indent-file",
+  "optionalDependencies": {},
+  "readme": "Allow user to auto indent the current file.\n\nPress alt-f5\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucbu/auto-indent-file.git"
+  },
+  "version": "0.2.0"
+}

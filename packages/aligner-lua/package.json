@@ -1,0 +1,73 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/tmp/d-117414-5531-m6owxu.7as9py14i/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/tmp/d-117414-5531-m6owxu.7as9py14i/package.tgz",
+        "spec": "/private/tmp/d-117414-5531-m6owxu.7as9py14i/package.tgz",
+        "type": "local"
+      },
+      "/private/tmp/apm-install-dir-117414-5531-11zuwxz.m9nnszia4i"
+    ]
+  ],
+  "_from": "../d-117414-5531-m6owxu.7as9py14i/package.tgz",
+  "_id": "aligner-lua@1.0.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/aligner-lua",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/tmp/d-117414-5531-m6owxu.7as9py14i/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/tmp/d-117414-5531-m6owxu.7as9py14i/package.tgz",
+    "spec": "/private/tmp/d-117414-5531-m6owxu.7as9py14i/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117414-5531-m6owxu.7as9py14i/package.tgz",
+  "_shasum": "4cc50f762a4d569ae74aa43c6a65dd87818d63cf",
+  "_shrinkwrap": null,
+  "_spec": "/private/tmp/d-117414-5531-m6owxu.7as9py14i/package.tgz",
+  "_where": "/private/tmp/apm-install-dir-117414-5531-11zuwxz.m9nnszia4i",
+  "bugs": {
+    "url": "https://github.com/adrianlee44/atom-aligner-lua/issues"
+  },
+  "dependencies": {},
+  "description": "Lua support for aligner",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.9.0"
+  },
+  "homepage": "https://github.com/adrianlee44/atom-aligner-lua#readme",
+  "keywords": [
+    "aligner",
+    "alignment",
+    "align",
+    "lua"
+  ],
+  "license": "MIT",
+  "main": "./lib/main",
+  "name": "aligner-lua",
+  "optionalDependencies": {},
+  "providedServices": {
+    "aligner.provider": {
+      "versions": {
+        "1.0.0": "getProvider"
+      }
+    }
+  },
+  "readme": "# aligner-lua\n\n[Aligner](https://github.com/adrianlee44/atom-aligner) add-on to support Lua.\n\n## Supported operator\n`=`:\n```lua\nlocal string_format = string.format\nlocal chat_AddText  = chat.AddText\n```\n\n## Installation\nAligner must be installed along with this package. For more information, please check out [Aligner](https://github.com/adrianlee44/atom-aligner)\n\n## Changelog\n- 2017-05-13   v1.0.1   Update documentation\n- 2016-06-30   v1.0.0   Initial release\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianlee44/atom-aligner-lua.git"
+  },
+  "version": "1.0.1"
+}

@@ -1,0 +1,97 @@
+@import 'ui-variables';
+
+.log-view {
+  padding: @component-padding/2;
+
+  .header {
+    padding: @component-padding/2;
+
+    .description {
+      display: inline-block;
+      color: @text-color-subtle;
+      padding-left: @component-padding;
+      &.warning {
+        color: @text-color-warning;
+        font-weight: normal;
+      }
+    }
+  }
+
+  .btn-icon {
+    line-height: 0;
+    overflow: hidden;
+
+    &::before {
+      line-height: 0.5;
+      font-size: 32px;
+      width: 32px;
+    }
+  }
+
+  .icon-scroll {
+    background: @text-color-success !important;
+    &::before {
+      animation: scroll-down 1s linear infinite;
+      @keyframes scroll-down {
+        0% { transform: translateY(0%); }
+        49% { transform: translateY(150%); }
+        50% { transform: translateY(-150%); }
+        100% { transform: translateY(0%); }
+      }
+    }
+  }
+
+  .input-block {
+    @item-width: 300px;
+
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+
+    .input-block-item {
+      display: flex;
+      flex: 1 1 @item-width;
+      padding: @component-padding / 2;
+
+      .btn-group {
+        display: flex;
+      }
+    }
+
+    .input-block-item--flex {
+      flex: 100 1 @item-width;
+    }
+
+    .btn-group {
+      display: flex;
+      flex: 1;
+      .btn {
+        flex: 1;
+      }
+      & + .btn-group {
+        margin-left: @component-padding;
+      }
+    }
+
+    .btn-group {
+      flex: 1 1 @item-width;
+    }
+
+    .btn-group-level {
+      flex: 1 1 @item-width * 2;
+
+      .btn {
+        flex: 1 1 20%;
+        padding: 0;
+        text-align: center;
+      }
+    }
+  }
+
+  .editor-container {
+    position: relative;
+    atom-text-editor {
+      width: 100%;
+    }
+  }
+}

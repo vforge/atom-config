@@ -1,0 +1,60 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11734-64861-gamf1w/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11734-64861-gamf1w/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11734-64861-gamf1w/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11734-64861-gcgex4"
+    ]
+  ],
+  "_from": "../d-11734-64861-gamf1w/package.tgz",
+  "_id": "afterglow-plus@3.0.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/afterglow-plus",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11734-64861-gamf1w/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11734-64861-gamf1w/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11734-64861-gamf1w/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-11734-64861-gamf1w/package.tgz",
+  "_shasum": "fb5fc5e169588579cc4531f0b9e361fa78c8230a",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11734-64861-gamf1w/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11734-64861-gcgex4",
+  "bugs": {
+    "url": "https://github.com/smlombardi/afterglow-plus/issues"
+  },
+  "dependencies": {},
+  "description": "ST3 theme Afterglow with improved Angular JS coloring",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.13.0 <2.0.0"
+  },
+  "homepage": "https://github.com/smlombardi/afterglow-plus#readme",
+  "license": "MIT",
+  "name": "afterglow-plus",
+  "optionalDependencies": {},
+  "readme": "# Afterglow Plus\n\n\nA minimal dark syntax theme forked from [Afterglow Like](https://atom.io/themes/afterglow-like), which itself was converted from [Afterglow](https://github.com/YabataDesign/afterglow-theme) (Sublime Text). The syntax color scheme is mostly derived from [idlefingers](http://idlefingers.co.uk/).\n\nI forked this primarily to add selectors for Angular JS tags in HTML/AngularJS documents that were introduced in Atom .200 -- as more are added to Atom I will include them in the theme.\n\n![screenshot](https://github.com/smlombardi/afterglow-plus/raw/master/screenshot.png)\n\n### Notes\nRecommend theme [Isotope UI](https://github.com/braver/isotope-ui) with a custom background color of #252525.\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smlombardi/afterglow-plus.git"
+  },
+  "theme": "syntax",
+  "version": "3.0.0"
+}

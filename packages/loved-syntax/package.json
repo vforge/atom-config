@@ -1,0 +1,73 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117610-37077-1olas1c.v6yfuvj9k9/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117610-37077-1olas1c.v6yfuvj9k9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117610-37077-1olas1c.v6yfuvj9k9/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117610-37077-1o549dv.zxhwcanhfr"
+    ]
+  ],
+  "_from": "../d-117610-37077-1olas1c.v6yfuvj9k9/package.tgz",
+  "_id": "loved-syntax@1.0.2",
+  "_inCache": true,
+  "_location": "/loved-syntax",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117610-37077-1olas1c.v6yfuvj9k9/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117610-37077-1olas1c.v6yfuvj9k9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117610-37077-1olas1c.v6yfuvj9k9/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117610-37077-1olas1c.v6yfuvj9k9/package.tgz",
+  "_shasum": "75b7de43c068338e07afbd21b54ba43d7f24bd63",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117610-37077-1olas1c.v6yfuvj9k9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117610-37077-1o549dv.zxhwcanhfr",
+  "bugs": {
+    "url": "https://github.com/DanielPintilei/atom-loved-syntax/issues"
+  },
+  "dependencies": {},
+  "description": "Love never ends",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "homepage": "https://github.com/DanielPintilei/atom-loved-syntax#readme",
+  "keywords": [
+    "dark",
+    "syntax"
+  ],
+  "license": "MIT",
+  "name": "loved-syntax",
+  "optionalDependencies": {},
+  "readme": "## Loved Syntax theme\nDark syntax theme inspired by [this beautiful image](http://www.handlettering.co/1-john4-19).\n\n![loved-syntax-css](https://raw.githubusercontent.com/DanielPintilei/atom-loved-syntax/screenshots/screenshots/loved-syntax-css.png)\n\n![loved-syntax-css](https://raw.githubusercontent.com/DanielPintilei/atom-loved-syntax/screenshots/screenshots/loved-syntax-js.png)\n\nThe fonts in the screenshots are Inconsolata and Flottflott.\n\n### License\n\nMIT © [Daniel Pintilei][website]\n\n[website]: http://danielpintilei.cf\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielPintilei/atom-loved-syntax.git"
+  },
+  "theme": "syntax",
+  "version": "1.0.2",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

@@ -1,0 +1,9 @@
+.apm
+.node-gyp
+.storage
+blob-store
+compile-cache/
+storage
+recovery
+packages/php-integrator-base/indexes
+!packages/php-integrator-base/indexes/.npmignore

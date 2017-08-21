@@ -1,0 +1,64 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11727-31047-pe3fqq/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11727-31047-pe3fqq/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11727-31047-pe3fqq/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11727-31047-s7qbbz"
+    ]
+  ],
+  "_from": "../d-11727-31047-pe3fqq/package.tgz",
+  "_id": "custom-title@1.0.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/custom-title",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11727-31047-pe3fqq/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11727-31047-pe3fqq/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11727-31047-pe3fqq/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-11727-31047-pe3fqq/package.tgz",
+  "_shasum": "35d49ee718fed9270b0fa45dcf492c26c735bdf3",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11727-31047-pe3fqq/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11727-31047-s7qbbz",
+  "bugs": {
+    "url": "https://github.com/postcasio/custom-title/issues"
+  },
+  "dependencies": {
+    "event-kit": "^0.7.2",
+    "loophole": "^1.0.0",
+    "underscore": "^1.6.0"
+  },
+  "description": "Set your own template for Atom's title bar.",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">0.136.0"
+  },
+  "homepage": "https://github.com/postcasio/custom-title#readme",
+  "license": "MIT",
+  "main": "./lib/custom-title",
+  "name": "custom-title",
+  "optionalDependencies": {},
+  "readme": "# custom-title package\n\nSet your own template for Atom's title bar. Uses [underscore.js templates](http://underscorejs.org/#template).\n\nThe following variables are available:\n\n- `projectPath`\n- `projectName`\n- `filePath`\n- `fileInProject`\n- `relativeFilePath`\n- `fileName`\n- `gitHead`\n- `gitAdded`\n- `gitDeleted`\n- `devMode`\n- `safeMode` (always false, since the package will not be loaded in safe mode!)\n\nPlus the `atom` global, as usual.\n\nProject and git variables always refer to the first path in your project.\n\n## Examples\n\n### Default\n\nThe default template matches the regular Atom titlebar:\n\n```\n<%= fileName %><% if (projectPath) { %> - <%= projectPath %><% } %>\n```\n\n### With Atom version\n\n```\n<%= fileName %><% if (projectPath) { %> - <%= projectPath %><% } %> - Atom <%= atom.getVersion() %>\n```\n\n### With the current git branch\n\n```\n<%= fileName %><% if (projectPath) { %> - <%= projectPath %><% if (gitHead) { %> [<%= gitHead %>]<% } %><% } %>\n```\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/postcasio/custom-title.git"
+  },
+  "version": "1.0.1"
+}

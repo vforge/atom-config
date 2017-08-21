@@ -1,0 +1,62 @@
+parameters:
+
+
+services:
+    lexer:
+        class: PhpParser\Lexer
+        arguments:
+            - usedAttributes:
+                - comments
+                - startLine
+                - endLine
+                - startFilePos
+                - endFilePos
+
+    parser.phpParserFactory:
+        class: PhpParser\ParserFactory
+
+    parser.phpParser:
+        class: PhpParser\Parser
+        factory:
+            - '@parser.phpParserFactory'
+            - 'create'
+        arguments:
+            - !php/const:PhpParser\ParserFactory::PREFER_PHP7
+            - '@lexer'
+
+    parser.metadataAttachingParser:
+        class: PhpIntegrator\Parsing\MetadataAttachingParser
+        arguments:
+            - '@parser.phpParser'
+
+    parser.cachingParser:
+        class: PhpIntegrator\Parsing\CachingParser
+        arguments:
+            - '@parser.metadataAttachingParser'
+
+    parser:
+        alias: parser.cachingParser
+
+    partialParser:
+        class: PhpIntegrator\Parsing\PartialParser
+        arguments:
+            - '@parser.phpParserFactory'
+            - '@lexer'
+
+    parserTokenHelper:
+        class: PhpIntegrator\Parsing\ParserTokenHelper
+
+    lastExpressionParser:
+        class: PhpIntegrator\Parsing\LastExpressionParser
+        arguments:
+            - '@partialParser'
+            - '@parserTokenHelper'
+
+    docblockParser:
+        class: PhpIntegrator\Parsing\DocblockParser
+        arguments:
+            - '@docblockAnalyzer'
+            - '@docblockTypeParser'
+
+    docblockTypeParser:
+        class: PhpIntegrator\DocblockTypeParser\DocblockTypeParser

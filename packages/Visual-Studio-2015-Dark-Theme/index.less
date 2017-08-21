@@ -1,0 +1,113 @@
+atom-text-editor {
+  background-color: #1E1E1E;
+  color: #DCDCDC;
+
+  .cursor {
+    border-color: #DCDCDC;
+  }
+
+  .selection .region {
+    background-color: #264F78;
+  }
+
+  .line-number.cursor-line-no-selection {
+    background-color: #0F0F0F;
+  }
+
+  .syntax--meta.syntax--directive {
+    color: #9B9B9B;
+
+    .syntax--name {
+      color: #DCDCDC;
+    }
+  }
+
+  .line.cursor-line {
+    box-sizing:border-box;
+    background-color: #0F0F0F;
+    box-shadow: inset 0 0 0 2px #282828;
+  }
+
+  .line-number {
+    color: #2B91AF;
+  }
+
+  .indent-guide {
+    color: #165060;
+  }
+
+  .syntax--comment {
+    color: #57A64A;
+  }
+
+  .syntax--keyword.syntax--operator.syntax--js, .syntax--entity.syntax--name.syntax--tag, .syntax--constant.syntax--other, .syntax--source.syntax--php.syntax--embedded.line, .syntax--variable.syntax--parameter, .syntax--meta.syntax--tag,  .syntax--declaration.syntax--tag {
+    color: #F1F2F3;
+  }
+
+  .syntax--support.syntax--other.syntax--variable, .syntax--string.syntax--other.syntax--link, .syntax--entity.syntax--name.syntax--tag, .syntax--entity.syntax--name.syntax--filename.syntax--find-in-files {
+    color: #569CD6;
+  }
+
+  .syntax--string.syntax--regexp, .syntax--meta.syntax--link {
+    color: #D69D85;
+  }
+
+  .syntax--constant.syntax--numeric, .syntax--support.syntax--constant, .syntax--punctuation.syntax--section.syntax--embedded, .syntax--keyword.syntax--other.syntax--unit, .syntax--entity.syntax--name.syntax--interface, .syntax--meta.syntax--generic.syntax--type.syntax--specifier > .syntax--entity.syntax--name {
+    color: #B8D7A3;
+  }
+
+  .syntax--entity.syntax--name.syntax--class, .syntax--entity.syntax--name.syntax--type.syntax--class, .syntax--support.syntax--type,  .syntax--support.syntax--class {
+    color: #4EC9B0;
+  }
+
+  .syntax--string, .syntax--constant.syntax--other.syntax--symbol, .syntax--constant.syntax--character, .syntax--entity.syntax--other.syntax--inherited-class, .syntax--markup.syntax--heading, .syntax--constant.syntax--numeric.line-number.syntax--match.syntax--find-in-files {
+    color: #D69D85;
+  }
+
+  .syntax--entity.syntax--name.syntax--tag.syntax--localname, .syntax--entity.syntax--name.syntax--type.syntax--class {
+    color: #4EC9B0;
+  }
+
+  .syntax--keyword, .syntax--storage,.syntax--entity.syntax--name.syntax--tag.syntax--css, .syntax--constant.syntax--language, .syntax--keyword.syntax--operator {
+    color: #569CD6;
+  }
+
+  .syntax--invalid {
+    color: #ffffff;
+    background-color: #963a46;
+  }
+
+  .syntax--meta.syntax--separator {
+    color: #ffffff;
+    background-color: #82A3BF;
+  }
+
+  .syntax--invalid.syntax--deprecated {
+    color: #ffffff;
+    background-color: #a082bd;
+  }
+
+  .invisible-character {
+    color: #2B91AF;
+  }
+
+  .syntax--markup.syntax--underline {
+    text-decoration: underline;
+  }
+
+  .syntax--markup.syntax--hyperlink {
+    color: #569AD6;
+  }
+
+  .syntax--comment.syntax--block.syntax--documentation {
+    color: #608B4E;
+
+    .syntax--meta.syntax--tag.syntax--xml, .syntax--punctuation.syntax--tag, .syntax--localname.syntax--xml {
+      color: #608B4E;
+    }
+
+    .syntax--entity.syntax--attribute-name, .syntax--string.syntax--quoted.syntax--double.syntax--xml, .syntax--punctuation.syntax--definition.syntax--string.syntax--xml {
+      color: #DCDCDC;
+    }
+  }
+}
