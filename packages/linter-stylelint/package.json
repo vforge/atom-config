@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-1vddt8w.uuif9lik9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117721-27880-1ugbu85.pcwr85b3xr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-1vddt8w.uuif9lik9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-1vddt8w.uuif9lik9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117721-27880-1ugbu85.pcwr85b3xr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117721-27880-1ugbu85.pcwr85b3xr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117624-16260-ksqimv.hldumwvcxr"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117721-27880-9dhf7.z2fxcivn29"
     ]
   ],
-  "_from": "../d-117624-16260-1vddt8w.uuif9lik9/package.tgz",
-  "_id": "linter-stylelint@4.0.1",
+  "_from": "../d-117721-27880-1ugbu85.pcwr85b3xr/package.tgz",
+  "_id": "linter-stylelint@4.0.2",
   "_inCache": true,
   "_location": "/linter-stylelint",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-1vddt8w.uuif9lik9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117721-27880-1ugbu85.pcwr85b3xr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-1vddt8w.uuif9lik9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-1vddt8w.uuif9lik9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117721-27880-1ugbu85.pcwr85b3xr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117721-27880-1ugbu85.pcwr85b3xr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117624-16260-1vddt8w.uuif9lik9/package.tgz",
-  "_shasum": "f2b3a37b15dfd181a6d422423745586d5699b106",
+  "_resolved": "file:../d-117721-27880-1ugbu85.pcwr85b3xr/package.tgz",
+  "_shasum": "aecb13a0662646a48062facaab72dda9fa7de636",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117624-16260-1vddt8w.uuif9lik9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117624-16260-ksqimv.hldumwvcxr",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117721-27880-1ugbu85.pcwr85b3xr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117721-27880-9dhf7.z2fxcivn29",
   "author": {
     "name": "1000ch",
     "email": "shogo.sensui@gmail.com",
@@ -137,7 +137,7 @@
     "lint": "eslint .",
     "test": "apm test"
   },
-  "version": "4.0.1",
+  "version": "4.0.2",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -203,7 +203,7 @@
       },
       {
         "name": "assign-deep",
-        "version": "0.4.5",
+        "version": "0.4.6",
         "path": "node_modules/assign-deep/index.js"
       },
       {
@@ -253,7 +253,7 @@
       },
       {
         "name": "browserslist",
-        "version": "2.2.2",
+        "version": "2.3.3",
         "path": "node_modules/browserslist/index.js"
       },
       {
@@ -273,12 +273,12 @@
       },
       {
         "name": "caniuse-lite",
-        "version": "1.0.30000704",
+        "version": "1.0.30000716",
         "path": "node_modules/caniuse-lite/dist/unpacker/index.js"
       },
       {
         "name": "chalk",
-        "version": "2.0.1",
+        "version": "2.1.0",
         "path": "node_modules/chalk/index.js"
       },
       {
@@ -353,7 +353,7 @@
       },
       {
         "name": "electron-to-chromium",
-        "version": "1.3.16",
+        "version": "1.3.18",
         "path": "node_modules/electron-to-chromium/index.js"
       },
       {
@@ -587,6 +587,11 @@
         "path": "node_modules/is-number/index.js"
       },
       {
+        "name": "kind-of",
+        "version": "3.2.2",
+        "path": "node_modules/is-number/node_modules/kind-of/index.js"
+      },
+      {
         "name": "is-path-cwd",
         "version": "1.0.0",
         "path": "node_modules/is-path-cwd/index.js"
@@ -643,7 +648,7 @@
       },
       {
         "name": "js-yaml",
-        "version": "3.9.0",
+        "version": "3.9.1",
         "path": "node_modules/js-yaml/index.js"
       },
       {
@@ -658,7 +663,7 @@
       },
       {
         "name": "kind-of",
-        "version": "3.2.2",
+        "version": "5.0.2",
         "path": "node_modules/kind-of/index.js"
       },
       {
@@ -730,6 +735,11 @@
         "name": "micromatch",
         "version": "2.3.11",
         "path": "node_modules/micromatch/index.js"
+      },
+      {
+        "name": "kind-of",
+        "version": "3.2.2",
+        "path": "node_modules/micromatch/node_modules/kind-of/index.js"
       },
       {
         "name": "minimatch",
@@ -868,7 +878,7 @@
       },
       {
         "name": "postcss",
-        "version": "6.0.8",
+        "version": "6.0.9",
         "path": "node_modules/postcss/lib/postcss.js"
       },
       {
@@ -998,7 +1008,7 @@
       },
       {
         "name": "remove-trailing-separator",
-        "version": "1.0.2",
+        "version": "1.1.0",
         "path": "node_modules/remove-trailing-separator/index.js"
       },
       {
@@ -1078,7 +1088,7 @@
       },
       {
         "name": "source-map",
-        "version": "0.5.6",
+        "version": "0.5.7",
         "path": "node_modules/source-map/source-map.js"
       },
       {
@@ -1203,7 +1213,7 @@
       },
       {
         "name": "tmp",
-        "version": "0.0.31",
+        "version": "0.0.33",
         "path": "node_modules/tmp/lib/tmp.js"
       },
       {
@@ -1482,8 +1492,10 @@
         "node_modules/caniuse-lite/data/features/css-boxdecorationbreak.js",
         "node_modules/caniuse-lite/data/features/css-boxshadow.js",
         "node_modules/caniuse-lite/data/features/css-canvas.js",
+        "node_modules/caniuse-lite/data/features/css-caret-color.js",
         "node_modules/caniuse-lite/data/features/css-case-insensitive.js",
         "node_modules/caniuse-lite/data/features/css-clip-path.js",
+        "node_modules/caniuse-lite/data/features/css-conic-gradients.js",
         "node_modules/caniuse-lite/data/features/css-containment.js",
         "node_modules/caniuse-lite/data/features/css-counters.js",
         "node_modules/caniuse-lite/data/features/css-crisp-edges.js",
@@ -1608,6 +1620,7 @@
         "node_modules/caniuse-lite/data/features/eot.js",
         "node_modules/caniuse-lite/data/features/es5.js",
         "node_modules/caniuse-lite/data/features/es6-class.js",
+        "node_modules/caniuse-lite/data/features/es6-generators.js",
         "node_modules/caniuse-lite/data/features/es6-module-dynamic-import.js",
         "node_modules/caniuse-lite/data/features/es6-module-nomodule.js",
         "node_modules/caniuse-lite/data/features/es6-module.js",
@@ -1719,6 +1732,7 @@
         "node_modules/caniuse-lite/data/features/midi.js",
         "node_modules/caniuse-lite/data/features/minmaxwh.js",
         "node_modules/caniuse-lite/data/features/mp3.js",
+        "node_modules/caniuse-lite/data/features/mpeg-dash.js",
         "node_modules/caniuse-lite/data/features/mpeg4.js",
         "node_modules/caniuse-lite/data/features/multibackgrounds.js",
         "node_modules/caniuse-lite/data/features/multicolumn.js",
@@ -1734,6 +1748,7 @@
         "node_modules/caniuse-lite/data/features/object-observe.js",
         "node_modules/caniuse-lite/data/features/objectrtc.js",
         "node_modules/caniuse-lite/data/features/offline-apps.js",
+        "node_modules/caniuse-lite/data/features/offscreencanvas.js",
         "node_modules/caniuse-lite/data/features/ogg-vorbis.js",
         "node_modules/caniuse-lite/data/features/ogv.js",
         "node_modules/caniuse-lite/data/features/ol-reversed.js",
@@ -2110,7 +2125,15 @@
         "node_modules/caniuse-lite/data/regions/alt-oc.js",
         "node_modules/caniuse-lite/data/regions/alt-sa.js",
         "node_modules/caniuse-lite/data/regions/alt-ww.js",
+        "node_modules/caniuse-lite/dist/lib/statuses.js",
+        "node_modules/caniuse-lite/dist/lib/supported.js",
+        "node_modules/caniuse-lite/dist/unpacker/agents.js",
+        "node_modules/caniuse-lite/dist/unpacker/browserVersions.js",
+        "node_modules/caniuse-lite/dist/unpacker/browsers.js",
+        "node_modules/caniuse-lite/dist/unpacker/feature.js",
+        "node_modules/caniuse-lite/dist/unpacker/features.js",
         "node_modules/caniuse-lite/dist/unpacker/index.js",
+        "node_modules/caniuse-lite/dist/unpacker/region.js",
         "node_modules/chalk/index.js",
         "node_modules/chalk/templates.js",
         "node_modules/circular-json/build/circular-json.js",
@@ -2216,6 +2239,7 @@
         "node_modules/is-fullwidth-code-point/index.js",
         "node_modules/is-glob/index.js",
         "node_modules/is-number/index.js",
+        "node_modules/is-number/node_modules/kind-of/index.js",
         "node_modules/is-path-cwd/index.js",
         "node_modules/is-path-in-cwd/index.js",
         "node_modules/is-path-inside/index.js",
@@ -3341,6 +3365,7 @@
         "node_modules/micromatch/lib/expand.js",
         "node_modules/micromatch/lib/glob.js",
         "node_modules/micromatch/lib/utils.js",
+        "node_modules/micromatch/node_modules/kind-of/index.js",
         "node_modules/minimatch/minimatch.js",
         "node_modules/minimist/example/parse.js",
         "node_modules/minimist/index.js",
@@ -4031,6 +4056,7 @@
         "node_modules/is-finite/package.json",
         "node_modules/is-fullwidth-code-point/package.json",
         "node_modules/is-glob/package.json",
+        "node_modules/is-number/node_modules/kind-of/package.json",
         "node_modules/is-number/package.json",
         "node_modules/is-path-cwd/package.json",
         "node_modules/is-path-in-cwd/package.json",
@@ -4064,6 +4090,7 @@
         "node_modules/mathml-tag-names/index.json",
         "node_modules/mathml-tag-names/package.json",
         "node_modules/meow/package.json",
+        "node_modules/micromatch/node_modules/kind-of/package.json",
         "node_modules/micromatch/package.json",
         "node_modules/minimatch/package.json",
         "node_modules/minimist/package.json",
@@ -4255,7 +4282,7 @@
         "dependencies": {
           "assign-symbols": "^0.1.1",
           "is-primitive": "^2.0.0",
-          "kind-of": "^3.0.2"
+          "kind-of": "^5.0.2"
         }
       },
       {
@@ -4344,8 +4371,8 @@
           "node_modules/browserslist"
         ],
         "dependencies": {
-          "caniuse-lite": "^1.0.30000704",
-          "electron-to-chromium": "^1.3.16"
+          "caniuse-lite": "^1.0.30000715",
+          "electron-to-chromium": "^1.3.18"
         }
       },
       {
@@ -4650,6 +4677,14 @@
       },
       {
         "paths": [
+          "node_modules/is-number/node_modules/kind-of"
+        ],
+        "dependencies": {
+          "is-buffer": "^1.1.5"
+        }
+      },
+      {
+        "paths": [
           "node_modules/is-path-in-cwd"
         ],
         "dependencies": {
@@ -4696,14 +4731,6 @@
         ],
         "dependencies": {
           "jsonify": "~0.0.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/kind-of"
-        ],
-        "dependencies": {
-          "is-buffer": "^1.1.5"
         }
       },
       {
@@ -4783,6 +4810,14 @@
           "object.omit": "^2.0.0",
           "parse-glob": "^3.0.4",
           "regex-cache": "^0.4.2"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/micromatch/node_modules/kind-of"
+        ],
+        "dependencies": {
+          "is-buffer": "^1.1.5"
         }
       },
       {
@@ -4893,9 +4928,9 @@
           "node_modules/postcss"
         ],
         "dependencies": {
-          "chalk": "^2.0.1",
+          "chalk": "^2.1.0",
           "source-map": "^0.5.6",
-          "supports-color": "^4.2.0"
+          "supports-color": "^4.2.1"
         }
       },
       {
@@ -5430,7 +5465,7 @@
           "node_modules/tmp"
         ],
         "dependencies": {
-          "os-tmpdir": "~1.0.1"
+          "os-tmpdir": "~1.0.2"
         }
       },
       {
