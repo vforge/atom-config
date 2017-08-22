@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117714-4179-62rg2q.ba8jepcik9/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117721-39718-1tt3zo1.wvsosf9a4i/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117714-4179-62rg2q.ba8jepcik9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117714-4179-62rg2q.ba8jepcik9/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117721-39718-1tt3zo1.wvsosf9a4i/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117721-39718-1tt3zo1.wvsosf9a4i/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117714-4179-ej9cc8.50qo6zjjor"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117721-39718-1k21lyh.bty9tqpvi"
     ]
   ],
-  "_from": "../d-117714-4179-62rg2q.ba8jepcik9/package.tgz",
-  "_id": "language-babel@2.71.0",
+  "_from": "../d-117721-39718-1tt3zo1.wvsosf9a4i/package.tgz",
+  "_id": "language-babel@2.72.0",
   "_inCache": true,
   "_location": "/language-babel",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117714-4179-62rg2q.ba8jepcik9/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117721-39718-1tt3zo1.wvsosf9a4i/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117714-4179-62rg2q.ba8jepcik9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117714-4179-62rg2q.ba8jepcik9/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117721-39718-1tt3zo1.wvsosf9a4i/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117721-39718-1tt3zo1.wvsosf9a4i/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117714-4179-62rg2q.ba8jepcik9/package.tgz",
-  "_shasum": "77b3f1d65fe4f9006e6eaacfd9cba6bea2b4a200",
+  "_resolved": "file:../d-117721-39718-1tt3zo1.wvsosf9a4i/package.tgz",
+  "_shasum": "f095f9d0fed54a74273e23d6d8ca0e090cd728b2",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117714-4179-62rg2q.ba8jepcik9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117714-4179-ej9cc8.50qo6zjjor",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117721-39718-1tt3zo1.wvsosf9a4i/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117721-39718-1k21lyh.bty9tqpvi",
   "activationCommands": [],
   "bugs": {
     "url": "https://github.com/gandm/language-babel/issues"
@@ -193,7 +193,7 @@
     "type": "git",
     "url": "git+https://github.com/gandm/language-babel.git"
   },
-  "version": "2.71.0",
+  "version": "2.72.0",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -219,17 +219,17 @@
       },
       {
         "name": "babel-code-frame",
-        "version": "6.22.0",
+        "version": "6.26.0",
         "path": "node_modules/babel-code-frame/lib/index.js"
       },
       {
         "name": "babel-core",
-        "version": "6.25.0",
+        "version": "6.26.0",
         "path": "node_modules/babel-core/index.js"
       },
       {
         "name": "babel-generator",
-        "version": "6.25.0",
+        "version": "6.26.0",
         "path": "node_modules/babel-generator/lib/index.js"
       },
       {
@@ -244,27 +244,27 @@
       },
       {
         "name": "babel-register",
-        "version": "6.24.1",
+        "version": "6.26.0",
         "path": "node_modules/babel-register/lib/node.js"
       },
       {
         "name": "babel-template",
-        "version": "6.25.0",
+        "version": "6.26.0",
         "path": "node_modules/babel-template/lib/index.js"
       },
       {
         "name": "babel-traverse",
-        "version": "6.25.0",
+        "version": "6.26.0",
         "path": "node_modules/babel-traverse/lib/index.js"
       },
       {
         "name": "babel-types",
-        "version": "6.25.0",
+        "version": "6.26.0",
         "path": "node_modules/babel-types/lib/index.js"
       },
       {
         "name": "babylon",
-        "version": "6.17.4",
+        "version": "6.18.0",
         "path": "node_modules/babylon/lib/index.js"
       },
       {
@@ -469,7 +469,7 @@
       },
       {
         "name": "regenerator-runtime",
-        "version": "0.10.5",
+        "version": "0.11.0",
         "path": "node_modules/regenerator-runtime/runtime-module.js"
       },
       {
@@ -489,12 +489,12 @@
       },
       {
         "name": "source-map",
-        "version": "0.5.6",
+        "version": "0.5.7",
         "path": "node_modules/source-map/source-map.js"
       },
       {
         "name": "source-map-support",
-        "version": "0.4.15",
+        "version": "0.4.16",
         "path": "node_modules/source-map-support/source-map-support.js"
       },
       {
@@ -551,15 +551,22 @@
         "node_modules/ansi-styles/package.json",
         "node_modules/argparse/package.json",
         "node_modules/async/package.json",
+        "node_modules/babel-code-frame/package-lock.json",
         "node_modules/babel-code-frame/package.json",
+        "node_modules/babel-core/package-lock.json",
         "node_modules/babel-core/package.json",
         "node_modules/babel-generator/package.json",
         "node_modules/babel-helpers/package.json",
         "node_modules/babel-messages/package.json",
+        "node_modules/babel-register/package-lock.json",
         "node_modules/babel-register/package.json",
+        "node_modules/babel-runtime/package-lock.json",
         "node_modules/babel-runtime/package.json",
+        "node_modules/babel-template/package-lock.json",
         "node_modules/babel-template/package.json",
+        "node_modules/babel-traverse/package-lock.json",
         "node_modules/babel-traverse/package.json",
+        "node_modules/babel-types/package-lock.json",
         "node_modules/babel-types/package.json",
         "node_modules/babylon/package.json",
         "node_modules/balanced-match/package.json",
@@ -3701,9 +3708,9 @@
           "node_modules/babel-code-frame"
         ],
         "dependencies": {
-          "chalk": "^1.1.0",
+          "chalk": "^1.1.3",
           "esutils": "^2.0.2",
-          "js-tokens": "^3.0.0"
+          "js-tokens": "^3.0.2"
         }
       },
       {
@@ -3719,25 +3726,25 @@
           "node_modules/babel-core/lib/transformation"
         ],
         "dependencies": {
-          "babel-code-frame": "^6.22.0",
-          "babel-generator": "^6.25.0",
+          "babel-code-frame": "^6.26.0",
+          "babel-generator": "^6.26.0",
           "babel-helpers": "^6.24.1",
           "babel-messages": "^6.23.0",
-          "babel-register": "^6.24.1",
-          "babel-runtime": "^6.22.0",
-          "babel-template": "^6.25.0",
-          "babel-traverse": "^6.25.0",
-          "babel-types": "^6.25.0",
-          "babylon": "^6.17.2",
-          "convert-source-map": "^1.1.0",
-          "debug": "^2.1.1",
-          "json5": "^0.5.0",
-          "lodash": "^4.2.0",
-          "minimatch": "^3.0.2",
-          "path-is-absolute": "^1.0.0",
-          "private": "^0.1.6",
+          "babel-register": "^6.26.0",
+          "babel-runtime": "^6.26.0",
+          "babel-template": "^6.26.0",
+          "babel-traverse": "^6.26.0",
+          "babel-types": "^6.26.0",
+          "babylon": "^6.18.0",
+          "convert-source-map": "^1.5.0",
+          "debug": "^2.6.8",
+          "json5": "^0.5.1",
+          "lodash": "^4.17.4",
+          "minimatch": "^3.0.4",
+          "path-is-absolute": "^1.0.1",
+          "private": "^0.1.7",
           "slash": "^1.0.0",
-          "source-map": "^0.5.0"
+          "source-map": "^0.5.6"
         }
       },
       {
@@ -3749,12 +3756,12 @@
         ],
         "dependencies": {
           "babel-messages": "^6.23.0",
-          "babel-runtime": "^6.22.0",
-          "babel-types": "^6.25.0",
+          "babel-runtime": "^6.26.0",
+          "babel-types": "^6.26.0",
           "detect-indent": "^4.0.0",
           "jsesc": "^1.3.0",
-          "lodash": "^4.2.0",
-          "source-map": "^0.5.0",
+          "lodash": "^4.17.4",
+          "source-map": "^0.5.6",
           "trim-right": "^1.0.1"
         }
       },
@@ -3783,13 +3790,13 @@
           "node_modules/babel-register"
         ],
         "dependencies": {
-          "babel-core": "^6.24.1",
-          "babel-runtime": "^6.22.0",
-          "core-js": "^2.4.0",
+          "babel-core": "^6.26.0",
+          "babel-runtime": "^6.26.0",
+          "core-js": "^2.5.0",
           "home-or-tmp": "^2.0.0",
-          "lodash": "^4.2.0",
+          "lodash": "^4.17.4",
           "mkdirp": "^0.5.1",
-          "source-map-support": "^0.4.2"
+          "source-map-support": "^0.4.15"
         }
       },
       {
@@ -3812,7 +3819,7 @@
         ],
         "dependencies": {
           "core-js": "^2.4.0",
-          "regenerator-runtime": "^0.10.0"
+          "regenerator-runtime": "^0.11.0"
         }
       },
       {
@@ -3821,11 +3828,11 @@
           "node_modules/babel-template"
         ],
         "dependencies": {
-          "babel-runtime": "^6.22.0",
-          "babel-traverse": "^6.25.0",
-          "babel-types": "^6.25.0",
-          "babylon": "^6.17.2",
-          "lodash": "^4.2.0"
+          "babel-runtime": "^6.26.0",
+          "babel-traverse": "^6.26.0",
+          "babel-types": "^6.26.0",
+          "babylon": "^6.18.0",
+          "lodash": "^4.17.4"
         }
       },
       {
@@ -3839,15 +3846,15 @@
           "node_modules/babel-traverse"
         ],
         "dependencies": {
-          "babel-code-frame": "^6.22.0",
+          "babel-code-frame": "^6.26.0",
           "babel-messages": "^6.23.0",
-          "babel-runtime": "^6.22.0",
-          "babel-types": "^6.25.0",
-          "babylon": "^6.17.2",
-          "debug": "^2.2.0",
-          "globals": "^9.0.0",
-          "invariant": "^2.2.0",
-          "lodash": "^4.2.0"
+          "babel-runtime": "^6.26.0",
+          "babel-types": "^6.26.0",
+          "babylon": "^6.18.0",
+          "debug": "^2.6.8",
+          "globals": "^9.18.0",
+          "invariant": "^2.2.2",
+          "lodash": "^4.17.4"
         }
       },
       {
@@ -3857,10 +3864,10 @@
           "node_modules/babel-types"
         ],
         "dependencies": {
-          "babel-runtime": "^6.22.0",
+          "babel-runtime": "^6.26.0",
           "esutils": "^2.0.2",
-          "lodash": "^4.2.0",
-          "to-fast-properties": "^1.0.1"
+          "lodash": "^4.17.4",
+          "to-fast-properties": "^1.0.3"
         }
       },
       {
