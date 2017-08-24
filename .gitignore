@@ -7,3 +7,7 @@ storage
 recovery
 packages/php-integrator-base/indexes
 !packages/php-integrator-base/indexes/.npmignore
+packages/php-integrator-base/core
+!packages/php-integrator-base/core/.npmignore
+!packages/php-integrator-base/core/composer.phar
+!packages/php-integrator-base/core/installer

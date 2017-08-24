@@ -1,7 +1,0 @@
-imports:
-    - { resource: UserInterface/Command.yml }
-
-parameters:
-
-
-services:

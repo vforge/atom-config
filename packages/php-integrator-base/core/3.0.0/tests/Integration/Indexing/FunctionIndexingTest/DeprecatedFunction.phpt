@@ -1,9 +1,0 @@
-<?php
-
-/**
- * @deprecated
- */
-function foo()
-{
-
-}

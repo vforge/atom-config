@@ -1,8 +1,0 @@
-parameters:
-
-
-services:
-    positionalNameLocalizerFactory:
-        class: PhpIntegrator\NameQualificationUtilities\PositionalNameLocalizerFactory
-        arguments:
-            - '@positionalNamespaceDeterminer'

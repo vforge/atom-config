@@ -1,9 +1,0 @@
-<?php
-
-/**
- * @Annotation
- */
-class Test
-{
-
-}

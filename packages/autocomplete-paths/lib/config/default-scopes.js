@@ -2,16 +2,18 @@
 
 export default [
   {
-    scopes: ['source.js', 'source.js.jsx', 'source.coffee', 'source.coffee.jsx', 'source.ts', 'source.tsx'],
+    scopes: ['source.js', 'source.js.jsx', 'source.coffee', 'source.coffee.jsx', 'source.ts', 'source.tsx', 'text.html.vue'],
     prefixes: [
       'import\\s+.*?from\\s+[\'"]', // import foo from './foo'
+      'import\s+[\'"]', // import './foo'
       'require\\([\'"]', // require('./foo')
       'define\\(\\[?[\'"]' // define(['./foo']) or define('./foo')
     ],
-    extensions: ['js', 'jsx', 'ts', 'tsx', 'coffee'],
+    extensions: ['js', 'jsx', 'vue', 'ts', 'tsx', 'coffee'],
     relative: true,
     replaceOnInsert: [
       ['.jsx?$', ''],
+      ['.vue$', ''],
       ['.ts$', ''],
       ['.coffee$', '']
     ]
@@ -40,7 +42,7 @@ export default [
     relative: true
   },
   {
-    scopes: ['source.sass', 'source.scss', 'source.less', 'source.stylus'],
+    scopes: ['source.sass', 'source.css.scss', 'source.less', 'source.stylus'],
     prefixes: [
       '@import[\\(|\\s+]?[\'"]' // @import 'foo' or @import('foo')
     ],
@@ -60,7 +62,7 @@ export default [
     relative: true
   },
   {
-    scopes: ['source.css', 'source.sass', 'source.less', 'source.scss', 'source.stylus'],
+    scopes: ['source.css', 'source.sass', 'source.less', 'source.css.scss', 'source.stylus'],
     prefixes: [
       'url\\([\'"]?'
     ],

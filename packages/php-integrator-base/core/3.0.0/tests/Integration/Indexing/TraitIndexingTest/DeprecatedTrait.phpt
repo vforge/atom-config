@@ -1,9 +1,0 @@
-<?php
-
-/**
- * @deprecated
- */
-trait Test
-{
-
-}
