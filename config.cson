@@ -36,6 +36,8 @@
       panelContrast: true
       panelShadows: true
   "autoclose-html": {}
+  "autocomplete-paths":
+    maxFileCount: 5000
   "autocomplete-plus":
     strictMatching: true
   "autocomplete-ruby":
