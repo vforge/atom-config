@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11779-50180-1xnv9rw.y7efz2gldi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-86234-8qx39u.0nh7x2yb9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11779-50180-1xnv9rw.y7efz2gldi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11779-50180-1xnv9rw.y7efz2gldi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-86234-8qx39u.0nh7x2yb9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-86234-8qx39u.0nh7x2yb9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11779-50180-15o01lo.6c7edhd7vi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117725-86234-1jwbw9b.ns1qicz0k9"
     ]
   ],
-  "_from": "../d-11779-50180-1xnv9rw.y7efz2gldi/package.tgz",
-  "_id": "apex-ui@1.0.0",
+  "_from": "../d-117725-86234-8qx39u.0nh7x2yb9/package.tgz",
+  "_id": "apex-ui@1.0.1",
   "_inCache": true,
   "_location": "/apex-ui",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11779-50180-1xnv9rw.y7efz2gldi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-86234-8qx39u.0nh7x2yb9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11779-50180-1xnv9rw.y7efz2gldi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11779-50180-1xnv9rw.y7efz2gldi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-86234-8qx39u.0nh7x2yb9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-86234-8qx39u.0nh7x2yb9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11779-50180-1xnv9rw.y7efz2gldi/package.tgz",
-  "_shasum": "38b5a50965077a7c258d8fce90fdb2588b229546",
+  "_resolved": "file:../d-117725-86234-8qx39u.0nh7x2yb9/package.tgz",
+  "_shasum": "d7172a658ef4f5154949993c84b0c534aeca11cf",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11779-50180-1xnv9rw.y7efz2gldi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11779-50180-15o01lo.6c7edhd7vi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-86234-8qx39u.0nh7x2yb9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117725-86234-1jwbw9b.ns1qicz0k9",
   "bugs": {
     "url": "https://github.com/apex/apex-ui/issues"
   },
@@ -63,7 +63,7 @@
     "url": "git+https://github.com/apex/apex-ui.git"
   },
   "theme": "ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],
