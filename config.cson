@@ -119,7 +119,8 @@
     resolvePathsRelativeToConfig: true
   "linter-ui-default":
     decorateOnTreeView: "Files and Directories"
-    panelHeight: 171
+    panelHeight: 300
+    showPanel: true
     showProviderName: true
   "markdown-preview-plus":
     useGitHubStyle: true
