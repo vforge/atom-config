@@ -1,6 +1,8 @@
 'use babel'
 
-export default {
+import OptionScopes from './option-scopes'
+
+const options = {
   normalizeSlashes: {
     type: 'boolean',
     description: 'Replaces backward slashes with forward slashes on windows (if possible)',
@@ -20,6 +22,11 @@ export default {
     type: 'boolean',
     default: true,
     description: 'Ignore items matched by the `Ignore Names` core option.'
+  },
+  ignoreSubmodules: {
+    type: 'boolean',
+    default: false,
+    description: 'Ignore submodule directories.'
   },
   scopes: {
     type: 'array',
@@ -62,3 +69,12 @@ export default {
     }
   }
 }
+
+for (let key in OptionScopes) {
+  options[key] = {
+    type: 'boolean',
+    default: false
+  }
+}
+
+export default options

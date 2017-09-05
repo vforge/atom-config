@@ -4,6 +4,7 @@
 import Config from './config'
 import PathsProvider from './paths-provider'
 import { CompositeDisposable } from 'atom'
+import OptionScopes from './config/option-scopes'
 
 export default {
   config: Config,
@@ -16,10 +17,30 @@ export default {
         this._provider.rebuildCache()
       }
     }))
-    this.subscriptions.add(atom.config.observe('autocomplete-paths.scopes', value => {
-      if (!this._provider) return
-      this._provider.reloadScopes()
-    }))
+
+    const cacheOptions = [
+      'core.ignoredNames',
+      'core.excludeVcsIgnoredPaths',
+      'autocomplete-paths.ignoreSubmodules',
+      'autocomplete-paths.ignoredNames'
+    ]
+    cacheOptions.forEach(cacheOption => {
+      this.subscriptions.add(atom.config.observe(cacheOption, value => {
+        if (!this._provider) return
+        this._provider.rebuildCache()
+      }))
+    })
+
+    const scopeOptions = ['autocomplete-paths.scopes']
+    for (let key in OptionScopes) {
+      scopeOptions.push(`autocomplete-paths.${key}`)
+    }
+    scopeOptions.forEach(scopeOption => {
+      this.subscriptions.add(atom.config.observe(scopeOption, value => {
+        if (!this._provider) return
+        this._provider.reloadScopes()
+      }))
+    })
   },
 
   deactivate: function () {
