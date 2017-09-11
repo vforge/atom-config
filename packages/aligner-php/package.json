@@ -2,40 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/tmp/d-117414-5531-1qoahv1.ts5z7rdx6r/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117810-56948-fws2yi.u1a653766r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/tmp/d-117414-5531-1qoahv1.ts5z7rdx6r/package.tgz",
-        "spec": "/private/tmp/d-117414-5531-1qoahv1.ts5z7rdx6r/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117810-56948-fws2yi.u1a653766r/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117810-56948-fws2yi.u1a653766r/package.tgz",
         "type": "local"
       },
-      "/private/tmp/apm-install-dir-117414-5531-14jj4w3.spaxlxr"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117810-56948-1chjv31.ojojpaxlxr"
     ]
   ],
-  "_from": "../d-117414-5531-1qoahv1.ts5z7rdx6r/package.tgz",
-  "_id": "aligner-php@1.1.1",
+  "_from": "../d-117810-56948-fws2yi.u1a653766r/package.tgz",
+  "_id": "aligner-php@1.2.0",
   "_inCache": true,
-  "_installable": true,
   "_location": "/aligner-php",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/tmp/d-117414-5531-1qoahv1.ts5z7rdx6r/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117810-56948-fws2yi.u1a653766r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/tmp/d-117414-5531-1qoahv1.ts5z7rdx6r/package.tgz",
-    "spec": "/private/tmp/d-117414-5531-1qoahv1.ts5z7rdx6r/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117810-56948-fws2yi.u1a653766r/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117810-56948-fws2yi.u1a653766r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117414-5531-1qoahv1.ts5z7rdx6r/package.tgz",
-  "_shasum": "232f8374eb166b951d9fed656be87090f41d3195",
+  "_resolved": "file:../d-117810-56948-fws2yi.u1a653766r/package.tgz",
+  "_shasum": "ad44a1859c0d14d403d023cdc4f83d201b6ba05e",
   "_shrinkwrap": null,
-  "_spec": "/private/tmp/d-117414-5531-1qoahv1.ts5z7rdx6r/package.tgz",
-  "_where": "/private/tmp/apm-install-dir-117414-5531-14jj4w3.spaxlxr",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117810-56948-fws2yi.u1a653766r/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117810-56948-1chjv31.ojojpaxlxr",
   "bugs": {
     "url": "https://github.com/adrianlee44/atom-aligner-php/issues"
   },
@@ -63,11 +62,25 @@
       }
     }
   },
-  "readme": "# aligner-php\n\n[Aligner](https://github.com/adrianlee44/atom-aligner) add-on to support PHP.\n\n## Supported operators\n`=>`\n```php\narray(\n    key  => value,\n    key2 => value2,\n    key3 => value3,\n)\n```\n`=`:\n```php\n$a   == 2;\n$bcd == 3;\n```\n`==` and `===`:\n```php\necho (\n    $a    == 1 ? 'one' :\n    $a    == 2 ? 'two' :\n    $abc  == 3 ? 'three' :\n    $a   === 3 ? 'three' :\n    $a    == 4 ? 'four' : 'other');\n```\n\n## Installation\nAligner must be installed along with this package. For more information, please check out [Aligner](https://github.com/adrianlee44/atom-aligner)\n\n## Changelog\n- 2017-05-13   v1.1.1   Fix config titles.\n- 2017-05-13   v1.1.0   Add support for == and ===. Update documentation.\n- 2015-05-13   v1.0.0   Initial release\n",
+  "readme": "# aligner-php\n\n[Aligner](https://github.com/adrianlee44/atom-aligner) add-on to support PHP.\n\n## Supported operators\n`=>`\n```php\narray(\n    key  => value,\n    key2 => value2,\n    key3 => value3,\n)\n```\n`=`:\n```php\n$a   == 2;\n$bcd == 3;\n```\n`==` and `===`:\n```php\necho (\n    $a    == 1 ? 'one' :\n    $a    == 2 ? 'two' :\n    $abc  == 3 ? 'three' :\n    $a   === 3 ? 'three' :\n    $a    == 4 ? 'four' : 'other');\n```\n\n## Installation\nAligner must be installed along with this package. For more information, please check out [Aligner](https://github.com/adrianlee44/atom-aligner)\n\n## Changelog\n- 2017-09-10   v1.2.0   Add support for Blade\n- 2017-05-13   v1.1.1   Fix config titles.\n- 2017-05-13   v1.1.0   Add support for == and ===. Update documentation.\n- 2015-05-13   v1.0.0   Initial release\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adrianlee44/atom-aligner-php.git"
   },
-  "version": "1.1.1"
+  "version": "1.2.0",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".js": [
+        "lib/main.js",
+        "lib/provider.js"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
 }
