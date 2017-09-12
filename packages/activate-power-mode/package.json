@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117717-64242-16n3tn.o4kyfirudi/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117717-64242-16n3tn.o4kyfirudi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117717-64242-16n3tn.o4kyfirudi/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117717-64242-1ruw38a.ugqvy22o6r"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117811-62154-jw84nd.lrx5vobt9"
     ]
   ],
-  "_from": "../d-117717-64242-16n3tn.o4kyfirudi/package.tgz",
-  "_id": "activate-power-mode@2.4.0",
+  "_from": "../d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
+  "_id": "activate-power-mode@2.5.0",
   "_inCache": true,
   "_location": "/activate-power-mode",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117717-64242-16n3tn.o4kyfirudi/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117717-64242-16n3tn.o4kyfirudi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117717-64242-16n3tn.o4kyfirudi/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117717-64242-16n3tn.o4kyfirudi/package.tgz",
-  "_shasum": "86368659fe6b55abc5a921c1b3294cff5a5d1042",
+  "_resolved": "file:../d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
+  "_shasum": "893407c58c2001ac3c910ba2b5885bc9931472c6",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117717-64242-16n3tn.o4kyfirudi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117717-64242-1ruw38a.ugqvy22o6r",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117811-62154-jw84nd.lrx5vobt9",
   "author": {
     "name": "Joel Besada",
     "email": "joel@joelb.me",
@@ -75,7 +75,7 @@
     "type": "git",
     "url": "git+https://github.com/JoelBesada/activate-power-mode.git"
   },
-  "version": "2.4.0",
+  "version": "2.5.0",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -121,6 +121,7 @@
         "lib/api.coffee",
         "lib/canvas-renderer.coffee",
         "lib/color-helper.coffee",
+        "lib/color-list.coffee",
         "lib/combo-renderer.coffee",
         "lib/config-schema.coffee",
         "lib/effect/default.coffee",
@@ -136,6 +137,7 @@
         "lib/plugin/play-audio.coffee",
         "lib/plugin/power-canvas.coffee",
         "lib/plugin/screen-shake.coffee",
+        "lib/plugin-list.coffee",
         "lib/plugin-manager.coffee",
         "lib/plugin-registry.coffee",
         "lib/power-editor.coffee",

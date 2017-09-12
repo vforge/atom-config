@@ -2,18 +2,22 @@
 
 module.exports =
   subscriptions: null
+  key: "activate-power-mode.particles.colours"
   conf: []
   golden_ratio_conjugate: 0.618033988749895
 
   init: ->
     @initConfigSubscribers()
+    @initList()
 
   disable: ->
     @subscriptions?.dispose()
+    @colorList?.dispose()
+    @colorList = null
 
   observe: (key) ->
     @subscriptions.add atom.config.observe(
-      "activate-power-mode.particles.colours.#{key}", (value) =>
+      "#{@key}.#{key}", (value) =>
         @conf[key] = value
     )
 
@@ -43,17 +47,29 @@ module.exports =
       yield color
     return
 
+  getRandomColor: (seed) ->
+    seed = Math.random()
+    seed += @golden_ratio_conjugate
+    seed = seed - (seed//1)
+    rgb = @hsvToRgb(seed,1,1)
+    r = (rgb[0]*255)//1
+    g = (rgb[1]*255)//1
+    b = (rgb[2]*255)//1
+    "rgb(#{r},#{g},#{b})"
+
   getRandomGenerator: ->
     seed = Math.random()
-    loop
-      seed += @golden_ratio_conjugate
-      seed = seed - (seed//1)
-      rgb = @hsvToRgb(seed,1,1)
-      r = (rgb[0]*255)//1
-      g = (rgb[1]*255)//1
-      b = (rgb[2]*255)//1
 
-      yield "rgb(#{r},#{g},#{b})"
+    loop
+      yield @getRandomColor seed
+    return
+
+  getRandomSpawnGenerator: ->
+    seed = Math.random()
+    color = @getRandomColor seed
+
+    loop
+      yield color
     return
 
   getColorAtCursorGenerator: (cursor, editorElement) ->
@@ -82,5 +98,20 @@ module.exports =
       return @getRandomGenerator()
     else if colorType == 'fixed'
       @getFixedColorGenerator()
+    else if colorType == 'randomSpawn'
+      @getRandomSpawnGenerator()
     else
       @getColorAtCursorGenerator cursor, editorElement
+
+  selectColor: (code) ->
+    atom.config.set("#{@key}.type", code)
+
+  initList: ->
+    return if @colorList?
+
+    @colorList = require "./color-list"
+    @colorList.init this
+
+    @subscriptions.add atom.commands.add "atom-workspace",
+      "activate-power-mode:select-color": =>
+        @colorList.toggle()

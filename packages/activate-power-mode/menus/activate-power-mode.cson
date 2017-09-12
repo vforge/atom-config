@@ -33,6 +33,14 @@
           'command': 'activate-power-mode:select-flow'
         },
         {
+          'label': 'Select Plugin'
+          'command': 'activate-power-mode:select-plugin'
+        },
+        {
+          'label': 'Select Color'
+          'command': 'activate-power-mode:select-color'
+        },
+        {
           'label': 'Reset Max Combo'
           'command': 'activate-power-mode:reset-max-combo'
         }
