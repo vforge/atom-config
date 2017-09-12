@@ -62,6 +62,8 @@
       "branch-status"
       "language-markdown"
       "language-gfm"
+      "linter"
+      "linter-ui-default"
     ]
     packagesWithKeymapsDisabled: []
     telemetryConsent: "no"
@@ -119,7 +121,7 @@
     resolvePathsRelativeToConfig: true
   "linter-ui-default":
     decorateOnTreeView: "Files and Directories"
-    panelHeight: 300
+    panelHeight: 171
     showPanel: true
     showProviderName: true
   "markdown-preview-plus":
