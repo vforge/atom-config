@@ -203,7 +203,9 @@
     position: "Left"
   "tool-bar-almighty": {}
   "travis-ci-status": {}
-  "tree-view": {}
+  "tree-view":
+    autoReveal: true
+    squashDirectoryNames: true
   "tree-view-breadcrumb": {}
   "tree-view-git-branch":
     location: "top"
