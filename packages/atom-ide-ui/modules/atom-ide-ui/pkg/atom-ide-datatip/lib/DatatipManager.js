@@ -231,8 +231,8 @@ function mountDatatipWithMarker(editor, element, {
     invalidate: 'never'
   });
 
-  _reactDom.default.render(renderedProviders, element);
   element.style.display = 'block';
+  _reactDom.default.render(renderedProviders, element);
 
   editor.decorateMarker(marker, {
     type: 'overlay',

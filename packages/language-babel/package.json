@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11785-46871-1e5zgad.d3y096bt9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-51388-11kxiob.oirnyu8fr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11785-46871-1e5zgad.d3y096bt9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11785-46871-1e5zgad.d3y096bt9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-51388-11kxiob.oirnyu8fr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-51388-11kxiob.oirnyu8fr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11785-46871-1lrbek4.k2xsqncdi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117813-51388-1na8y3q.ltop9cnmi"
     ]
   ],
-  "_from": "../d-11785-46871-1e5zgad.d3y096bt9/package.tgz",
-  "_id": "language-babel@2.74.1",
+  "_from": "../d-117813-51388-11kxiob.oirnyu8fr/package.tgz",
+  "_id": "language-babel@2.74.2",
   "_inCache": true,
   "_location": "/language-babel",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11785-46871-1e5zgad.d3y096bt9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-51388-11kxiob.oirnyu8fr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11785-46871-1e5zgad.d3y096bt9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11785-46871-1e5zgad.d3y096bt9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-51388-11kxiob.oirnyu8fr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-51388-11kxiob.oirnyu8fr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11785-46871-1e5zgad.d3y096bt9/package.tgz",
-  "_shasum": "38ff26689fd1ce27e886ddea7783eb32c7988782",
+  "_resolved": "file:../d-117813-51388-11kxiob.oirnyu8fr/package.tgz",
+  "_shasum": "24907633b2d3fb40b7170951825ef0eded64b057",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11785-46871-1e5zgad.d3y096bt9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11785-46871-1lrbek4.k2xsqncdi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-51388-11kxiob.oirnyu8fr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117813-51388-1na8y3q.ltop9cnmi",
   "activationCommands": [],
   "bugs": {
     "url": "https://github.com/gandm/language-babel/issues"
@@ -193,7 +193,7 @@
     "type": "git",
     "url": "git+https://github.com/gandm/language-babel.git"
   },
-  "version": "2.74.1",
+  "version": "2.74.2",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -389,7 +389,7 @@
       },
       {
         "name": "js-yaml",
-        "version": "3.9.1",
+        "version": "3.10.0",
         "path": "node_modules/js-yaml/index.js"
       },
       {
@@ -479,7 +479,7 @@
       },
       {
         "name": "rimraf",
-        "version": "2.6.1",
+        "version": "2.6.2",
         "path": "node_modules/rimraf/rimraf.js"
       },
       {
@@ -494,7 +494,7 @@
       },
       {
         "name": "source-map-support",
-        "version": "0.4.17",
+        "version": "0.4.18",
         "path": "node_modules/source-map-support/source-map-support.js"
       },
       {

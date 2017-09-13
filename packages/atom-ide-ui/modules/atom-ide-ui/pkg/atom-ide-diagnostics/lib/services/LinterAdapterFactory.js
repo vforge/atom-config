@@ -30,7 +30,7 @@ function createSingleAdapter(provider) {
     return new (_LinterAdapter || _load_LinterAdapter()).LinterAdapter(provider);
   } else {
     const nameString = provider.name;
-    let message = `nuclide-diagnostics-store found problems with a linter${nameString}. ` + 'Diagnostic messages from that linter will be unavailable.\n';
+    let message = `nuclide-diagnostics-store found problems with the linter \`${nameString}\`. ` + 'Diagnostic messages from that linter will be unavailable.\n';
     message += validationErrors.map(error => `- ${error}\n`).join('');
     atom.notifications.addError(message, { dismissable: true });
     return null;
@@ -74,6 +74,11 @@ function validateLinter(provider) {
     validate(provider.lint, 'lint function must be specified', errors);
     validate(typeof provider.lint === 'function', 'lint must be a function', errors);
 
+    // Older LinterV1 providers didn't have to provide a name.
+    // We'll tolerate this, since there's still a few out there.
+    if (provider.name == null) {
+      provider.name = 'Linter';
+    }
     validate(typeof provider.name === 'string', 'provider must have a name', errors);
   }
 

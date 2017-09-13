@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117718-73110-dencso.lerp1zto6r/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-12807-o5tyb8.lnod9xjemi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117718-73110-dencso.lerp1zto6r/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117718-73110-dencso.lerp1zto6r/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-12807-o5tyb8.lnod9xjemi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-12807-o5tyb8.lnod9xjemi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117718-73110-17cwddf.5jodh1tt9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117813-12807-496b8o.5a7wg66r"
     ]
   ],
-  "_from": "../d-117718-73110-dencso.lerp1zto6r/package.tgz",
-  "_id": "pristine-ui@1.1.7",
+  "_from": "../d-117813-12807-o5tyb8.lnod9xjemi/package.tgz",
+  "_id": "pristine-ui@1.1.8",
   "_inCache": true,
   "_location": "/pristine-ui",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117718-73110-dencso.lerp1zto6r/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-12807-o5tyb8.lnod9xjemi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117718-73110-dencso.lerp1zto6r/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117718-73110-dencso.lerp1zto6r/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-12807-o5tyb8.lnod9xjemi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-12807-o5tyb8.lnod9xjemi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117718-73110-dencso.lerp1zto6r/package.tgz",
-  "_shasum": "1e72f4a2f247420f0652862e378cac142209d011",
+  "_resolved": "file:../d-117813-12807-o5tyb8.lnod9xjemi/package.tgz",
+  "_shasum": "264437b04841320a794146ae72157f2af3575087",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117718-73110-dencso.lerp1zto6r/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117718-73110-17cwddf.5jodh1tt9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117813-12807-o5tyb8.lnod9xjemi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117813-12807-496b8o.5a7wg66r",
   "bugs": {
     "url": "https://github.com/cdonohue/pristine-ui/issues"
   },
@@ -98,7 +98,7 @@
     "url": "git+https://github.com/cdonohue/pristine-ui.git"
   },
   "theme": "ui",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],
