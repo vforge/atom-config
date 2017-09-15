@@ -121,7 +121,7 @@ class PinnedDatatip {
 
   handleGlobalMouseUp() {
     // If the datatip was moved, push the effects of mouseUp to the next tick,
-    // in order to allow cancelation of captured events (e.g. clicks on child components).
+    // in order to allow cancellation of captured events (e.g. clicks on child components).
     this._mouseUpTimeout = setTimeout(() => {
       this._isDragging = false;
       this._dragOrigin = null;

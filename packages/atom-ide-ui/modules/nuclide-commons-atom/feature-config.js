@@ -6,12 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
-let packageName = null;
-
-/**
- * Sets the root package name.
- * This gets automatically called from FeatureLoader.
- */
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  * All rights reserved.
@@ -29,8 +23,22 @@ let packageName = null;
  * Each individual loaded package's config is a subconfig of the root package.
  */
 
+let packageName = null;
+
+/**
+ * Sets the root package name.
+ * This gets automatically called from FeatureLoader.
+ */
 function setPackageName(name) {
   packageName = name;
+}
+
+function getPackageName() {
+  if (!(packageName != null)) {
+    throw new Error('No package name available');
+  }
+
+  return packageName;
 }
 
 function formatKeyPath(keyPath) {
@@ -136,6 +144,7 @@ function isFeatureDisabled(name) {
 
 exports.default = {
   setPackageName,
+  getPackageName,
   get,
   getWithDefaults,
   getSchema,

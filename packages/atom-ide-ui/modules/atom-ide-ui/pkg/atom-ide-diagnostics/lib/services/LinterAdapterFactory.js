@@ -24,10 +24,10 @@ function _load_LinterAdapter() {
  * @format
  */
 
-function createSingleAdapter(provider) {
+function createSingleAdapter(provider, busyReporter) {
   const validationErrors = validateLinter(provider);
   if (validationErrors.length === 0) {
-    return new (_LinterAdapter || _load_LinterAdapter()).LinterAdapter(provider);
+    return new (_LinterAdapter || _load_LinterAdapter()).LinterAdapter(provider, busyReporter);
   } else {
     const nameString = provider.name;
     let message = `nuclide-diagnostics-store found problems with the linter \`${nameString}\`. ` + 'Diagnostic messages from that linter will be unavailable.\n';
@@ -37,21 +37,21 @@ function createSingleAdapter(provider) {
   }
 }
 
-function addSingleAdapter(adapters, provider) {
-  const adapter = createSingleAdapter(provider);
+function addSingleAdapter(adapters, provider, busyReporter) {
+  const adapter = createSingleAdapter(provider, busyReporter);
   if (adapter) {
     adapters.add(adapter);
   }
 }
 
-function createAdapters(providers) {
+function createAdapters(providers, busyReporter) {
   const adapters = new Set();
   if (Array.isArray(providers)) {
     for (const provider of providers) {
-      addSingleAdapter(adapters, provider);
+      addSingleAdapter(adapters, provider, busyReporter);
     }
   } else {
-    addSingleAdapter(adapters, providers);
+    addSingleAdapter(adapters, providers, busyReporter);
   }
   return adapters;
 }

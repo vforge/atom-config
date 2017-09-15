@@ -130,7 +130,7 @@ class ContextMenu {
       return internalItem.item;
     } else if (internalItem.type === 'menu') {
       // Note that due to our own strict renaming rules, this must be a private method instead of a
-      // static function becuase of the access to _menuOptions and _items.
+      // static function because of the access to _menuOptions and _items.
       const menuOptions = internalItem.menu._menuOptions;
 
       if (!(menuOptions.type === 'submenu')) {

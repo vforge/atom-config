@@ -18,6 +18,20 @@ function _load_featureConfig() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const { devMode } = atom.getLoadSettings(); /**
+                                             * Copyright (c) 2017-present, Facebook, Inc.
+                                             * All rights reserved.
+                                             *
+                                             * This source code is licensed under the BSD-style license found in the
+                                             * LICENSE file in the root directory of this source tree. An additional grant
+                                             * of patent rights can be found in the PATENTS file in the same directory.
+                                             *
+                                             * 
+                                             * @format
+                                             */
+
+/* global localStorage */
+
 class FeatureLoader {
 
   constructor({ config, features, pkgName }) {
@@ -26,6 +40,8 @@ class FeatureLoader {
     this._pkgName = pkgName;
     this._config = {
       use: {
+        title: 'Enabled Features',
+        description: 'Enable and disable individual features',
         type: 'object',
         collapsed: true,
         properties: {}
@@ -74,19 +90,23 @@ class FeatureLoader {
 
       // Entry for enabling/disabling the feature
       const setting = {
-        title: `Enable the "${name}" feature`,
+        title: featurePkg.displayName == null ? `Enable the "${name}" feature` : `Enable ${featurePkg.displayName}`,
         description: featurePkg.description || '',
         type: 'boolean',
         default: enabled
       };
-      if (featurePkg.providedServices) {
-        const provides = Object.keys(featurePkg.providedServices).join(', ');
-        setting.description += `<br/>**Provides:** _${provides}_`;
+
+      if (devMode) {
+        if (featurePkg.providedServices) {
+          const provides = Object.keys(featurePkg.providedServices).join(', ');
+          setting.description += `<br/>**Provides:** _${provides}_`;
+        }
+        if (featurePkg.consumedServices) {
+          const consumes = Object.keys(featurePkg.consumedServices).join(', ');
+          setting.description += `<br/>**Consumes:** _${consumes}_`;
+        }
       }
-      if (featurePkg.consumedServices) {
-        const consumes = Object.keys(featurePkg.consumedServices).join(', ');
-        setting.description += `<br/>**Consumes:** _${consumes}_`;
-      }
+
       this._config.use.properties[name] = setting;
 
       // Merge in the feature's config
@@ -95,6 +115,8 @@ class FeatureLoader {
       if (featurePkgConfig) {
         this._config[name] = {
           type: 'object',
+          title: featurePkg.displayName,
+          description: featurePkg.description,
           collapsed: true,
           properties: {}
         };
@@ -215,20 +237,7 @@ class FeatureLoader {
   }
 }
 
-exports.default = FeatureLoader; /**
-                                  * Copyright (c) 2017-present, Facebook, Inc.
-                                  * All rights reserved.
-                                  *
-                                  * This source code is licensed under the BSD-style license found in the
-                                  * LICENSE file in the root directory of this source tree. An additional grant
-                                  * of patent rights can be found in the PATENTS file in the same directory.
-                                  *
-                                  * 
-                                  * @format
-                                  */
-
-/* global localStorage */
-
+exports.default = FeatureLoader;
 function safeDeactivate(feature, suppressSerialization = false) {
   const name = feature.pkg.name;
   try {

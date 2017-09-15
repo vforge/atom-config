@@ -72,10 +72,14 @@ function renderRowWithLinks(message, rowIndex) {
     }
   });
 
-  return _react.createElement(
-    'div',
-    { key: rowIndex },
-    parts
+  return (
+    // We need to use a span here instead of a div so that `text-overflow: ellipsis` works.
+    _react.createElement(
+      'span',
+      { key: rowIndex },
+      parts,
+      _react.createElement('br', null)
+    )
   );
 }
 

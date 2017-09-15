@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PromiseWithState = exports.asyncSome = exports.asyncObjFilter = exports.asyncFilter = exports.Deferred = exports.retryLimit = exports.triggerAfterWait = exports.RequestSerializer = undefined;
+exports.PromiseWithState = exports.asyncSome = exports.asyncObjFilter = exports.asyncFilter = exports.Deferred = exports.retryLimit = exports.TimedOutError = exports.triggerAfterWait = exports.RequestSerializer = undefined;
 
 var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
 
@@ -37,8 +37,7 @@ let triggerAfterWait = exports.triggerAfterWait = (() => {
 })();
 
 /**
- * Returns a Promise that resolves to the same value as the given promise, or rejects if it takes
- * longer than `milliseconds` milliseconds
+ * Thrown by `timeoutPromise` if the timer fires before the promise resolves/rejects.
  */
 
 
@@ -365,11 +364,23 @@ function nextTick() {
   return new Promise(resolve => {
     process.nextTick(resolve);
   });
-}function timeoutPromise(promise, milliseconds) {
+}class TimedOutError extends Error {
+  constructor(milliseconds) {
+    super(`Timed out after ${String(milliseconds)} ms`);
+    this.timeout = milliseconds;
+  }
+}
+
+exports.TimedOutError = TimedOutError; /**
+                                        * Returns a Promise that resolves to the same value as the given promise, or rejects with
+                                        * `TimedOutError` if it takes longer than `milliseconds` milliseconds.
+                                        */
+
+function timeoutPromise(promise, milliseconds) {
   return new Promise((resolve, reject) => {
     let timeout = setTimeout(() => {
       timeout = null;
-      reject(new Error(`Promise timed out after ${String(milliseconds)} ms`));
+      reject(new TimedOutError(milliseconds));
     }, milliseconds);
     promise.then(value => {
       if (timeout != null) {

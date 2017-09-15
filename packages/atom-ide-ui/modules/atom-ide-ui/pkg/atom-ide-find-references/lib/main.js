@@ -126,7 +126,7 @@ class Activation {
     this._supportedProviders = new Map();
 
     this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-    // Add this seperately as registerOpenerAndCommand requires
+    // Add this separately as registerOpenerAndCommand requires
     // this._subscriptions to be initialized for observeTextEditors function.
     this._subscriptions.add(this.registerOpenerAndCommand());
   }

@@ -328,9 +328,9 @@ function runCommand(command, args = [], options = {}, rest) {
 //
 // ## Why observables?
 //
-// Unlike Promises, observables have a standardized, composable cancelation mechanism _today_.
+// Unlike Promises, observables have a standardized, composable cancellation mechanism _today_.
 // Moreover, observables integrate nicely with Atom's callback + IDisposable formula for cancelable,
-// async APIs. Along with React, [RxJS] is one of the core libaries utilized by Nuclide.
+// async APIs. Along with React, [RxJS] is one of the core libraries utilized by Nuclide.
 //
 // ## Why errors?
 //
@@ -380,6 +380,7 @@ function runCommandDetailed(command, args = [], options = {}, rest) {
         const { error } = event;
         throw new ProcessExitError(error.exitCode, error.signal, error.process, acc.stderr, acc.stdout);
       default:
+        event.kind;
         throw new Error(`Invalid event kind: ${event.kind}`);
     }
   }, { stdout: '', stderr: '', exitCode: null });
@@ -488,7 +489,7 @@ function getOutputStream(proc, options, rest) {
 //
 // # Miscellaneous Utilities
 //
-// The following utilites don't spawn processes or necessarily use observables. Instead, they're
+// The following utilities don't spawn processes or necessarily use observables. Instead, they're
 // used to format arguments to the above functions or for acting on already-spawned processes.
 //
 
@@ -745,7 +746,7 @@ function createProcessStream(type = 'spawn', commandOrModulePath, args = [], opt
     // TODO: Use `timeoutWith()` when we upgrade to an RxJS that has it.
     timeoutWith(x, timeout, _rxjsBundlesRxMinJs.Observable.throw(new ProcessTimeoutError(timeout, proc))) : x => x;
     const proc = _child_process.default[type]((_nuclideUri || _load_nuclideUri()).default.expandHomeDir(commandOrModulePath), args,
-    // $FlowFixMe: child_process$spawnOpts and child_process$forkOpts have incompatable stdio types.
+    // $FlowFixMe: child_process$spawnOpts and child_process$forkOpts have incompatible stdio types.
     Object.assign({}, options));
 
     // Don't let Node throw stream errors and crash the process. Note that we never dispose of
@@ -788,7 +789,8 @@ function createProcessStream(type = 'spawn', commandOrModulePath, args = [], opt
     // that an error is forthcoming.
     //
     // [1]: https://github.com/nodejs/node/blob/v7.10.0/lib/internal/child_process.js#L301
-    proc.pid == null ? _rxjsBundlesRxMinJs.Observable.empty() : _rxjsBundlesRxMinJs.Observable.of(proc), _rxjsBundlesRxMinJs.Observable.never())).takeUntil(errors).takeUntil(exitEvents).merge(
+    proc.pid == null ? _rxjsBundlesRxMinJs.Observable.empty() : _rxjsBundlesRxMinJs.Observable.of(proc), _rxjsBundlesRxMinJs.Observable.never() // Don't complete until we say so!
+    )).takeUntil(errors).takeUntil(exitEvents).merge(
     // Write any input to stdin. This is just for the side-effect. We merge it here to
     // ensure that writing to the stdin stream happens after our event listeners are added.
     input == null ? _rxjsBundlesRxMinJs.Observable.empty() : input.do({

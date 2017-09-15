@@ -28,12 +28,6 @@ function _load_Toolbar() {
   return _Toolbar = require('nuclide-commons-ui/Toolbar');
 }
 
-var _ToolbarCenter;
-
-function _load_ToolbarCenter() {
-  return _ToolbarCenter = require('nuclide-commons-ui/ToolbarCenter');
-}
-
 var _ToolbarLeft;
 
 function _load_ToolbarLeft() {
@@ -61,6 +55,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Dismissable panel that displays the diagnostics from diagnostics-store.
  */
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
+
 class DiagnosticsView extends _react.Component {
   constructor(props) {
     super(props);
@@ -95,35 +101,6 @@ class DiagnosticsView extends _react.Component {
     // flowlint-next-line sketchy-null-string:off
     diagnostic.trace || diagnostic.text && diagnostic.text.includes('\n'));
 
-    let linterWarning = null;
-    if (this.props.warnAboutLinter) {
-      linterWarning = _react.createElement(
-        (_Toolbar || _load_Toolbar()).Toolbar,
-        null,
-        _react.createElement(
-          (_ToolbarCenter || _load_ToolbarCenter()).ToolbarCenter,
-          null,
-          _react.createElement(
-            'span',
-            { className: 'inline-block highlight-info' },
-            'diagnostics is not compatible with the linter package. We recommend that you\xA0',
-            _react.createElement(
-              'a',
-              { onClick: this.props.disableLinter },
-              'disable the linter package'
-            ),
-            '.\xA0',
-            _react.createElement(
-              'a',
-              { href: 'http://nuclide.io/docs/advanced-topics/linter-package-compatibility/' },
-              'Learn More'
-            ),
-            '.'
-          )
-        )
-      );
-    }
-
     const errorSpanClassName = `inline-block ${errorCount > 0 ? 'text-error' : ''}`;
     const warningSpanClassName = `inline-block ${warningCount > 0 ? 'text-warning' : ''}`;
 
@@ -136,7 +113,6 @@ class DiagnosticsView extends _react.Component {
           flexDirection: 'column',
           width: '100%'
         } },
-      linterWarning,
       _react.createElement(
         (_Toolbar || _load_Toolbar()).Toolbar,
         { location: 'top' },
@@ -215,14 +191,4 @@ class DiagnosticsView extends _react.Component {
     atom.commands.dispatch(atom.views.getView(atom.workspace), 'diagnostics:open-all-files-with-errors');
   }
 }
-exports.default = DiagnosticsView; /**
-                                    * Copyright (c) 2017-present, Facebook, Inc.
-                                    * All rights reserved.
-                                    *
-                                    * This source code is licensed under the BSD-style license found in the
-                                    * LICENSE file in the root directory of this source tree. An additional grant
-                                    * of patent rights can be found in the PATENTS file in the same directory.
-                                    *
-                                    * 
-                                    * @format
-                                    */
+exports.default = DiagnosticsView;

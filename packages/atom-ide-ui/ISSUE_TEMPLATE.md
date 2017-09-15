@@ -1,5 +1,7 @@
 ### Before Submitting
 
+* Have you installed an "ide-" language package? atom-ide-ui provides no functionality
+  out-of-the box unless you've installed a suitable package.
 * If your issue is language-specific, please file an issue against
   the "ide-" language package you're using instead.
 
@@ -14,9 +16,8 @@ Tell us what happens instead.
 
 ### Versions
 * Atom:
-* Nuclide:
 * Client OS:
-* Server OS (optional):
+* atom-ide-ui:
 
 ### Additional Details
 * Installed packages (`apm ls --installed`):

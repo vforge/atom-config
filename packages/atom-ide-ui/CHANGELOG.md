@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.3.3
+
+- Ensure linter message types are converted correctly.
+
+## v0.3.2
+
+- Improved readability of section labels in the Atom Settings panel.
+- Improved the `linter` conflict warning by using a notification instead. (#17)
+- Use busy signal while waiting for Linter V1 providers. (#18)
+- Removed extraneous Outline View toolbar icon. (#27)
+- Fix Linter V2 compatibility with empty solutions. (#32)
+
+## v0.3.1
+
+- Fixed occasional empty datatips.
+- Removed default datatip keybindings on Windows/Linux.
+- Fixed Hyperclick underlines in 1.21-beta.
+- Tolerate legacy nameless Linter V1 providers.
+
 ## v0.3.0
 
 - Find References and Code Format now use the busy signal while waiting for providers.

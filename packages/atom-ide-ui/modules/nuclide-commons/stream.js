@@ -50,7 +50,7 @@ function observeRawStream(stream) {
 }
 
 /**
- * Write an observed readable stream into a writeable stream. Effectively a pipe() for observables.
+ * Write an observed readable stream into a writable stream. Effectively a pipe() for observables.
  * Returns an observable accumulating the number of bytes processed.
  */
 function writeToStream(source, destStream) {

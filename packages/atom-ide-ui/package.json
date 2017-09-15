@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117812-12807-1tzz6r0.d1cnnx9a4i/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117815-5497-tknu62.9y0hpvi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117812-12807-1tzz6r0.d1cnnx9a4i/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117812-12807-1tzz6r0.d1cnnx9a4i/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117815-5497-tknu62.9y0hpvi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117815-5497-tknu62.9y0hpvi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117812-12807-1yve14j.uaunbtke29"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117815-5497-rbapc6.kr8fgbke29"
     ]
   ],
-  "_from": "../d-117812-12807-1tzz6r0.d1cnnx9a4i/package.tgz",
-  "_id": "atom-ide-ui@0.3.1",
+  "_from": "../d-117815-5497-tknu62.9y0hpvi/package.tgz",
+  "_id": "atom-ide-ui@0.3.3",
   "_inCache": true,
   "_location": "/atom-ide-ui",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117812-12807-1tzz6r0.d1cnnx9a4i/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117815-5497-tknu62.9y0hpvi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117812-12807-1tzz6r0.d1cnnx9a4i/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117812-12807-1tzz6r0.d1cnnx9a4i/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117815-5497-tknu62.9y0hpvi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117815-5497-tknu62.9y0hpvi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117812-12807-1tzz6r0.d1cnnx9a4i/package.tgz",
-  "_shasum": "fef8fdc4783465bf833efbd08e7644667e235567",
+  "_resolved": "file:../d-117815-5497-tknu62.9y0hpvi/package.tgz",
+  "_shasum": "7741a3a8af46d05fe6f7fc8584eaffd2948042e0",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117812-12807-1tzz6r0.d1cnnx9a4i/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117812-12807-1yve14j.uaunbtke29",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117815-5497-tknu62.9y0hpvi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117815-5497-rbapc6.kr8fgbke29",
   "bugs": {
     "url": "https://github.com/facebook-atom/atom-ide-ui/issues"
   },
@@ -110,7 +110,7 @@
   "main": "./index-entry.js",
   "name": "atom-ide-ui",
   "optionalDependencies": {},
-  "readme": "# atom-ide-ui &middot; [![Package version](https://img.shields.io/apm/v/atom-ide-ui.svg)](https://atom.io/packages/atom-ide-ui) [![CircleCI](https://img.shields.io/circleci/project/github/facebook-atom/atom-ide-ui.svg)](https://circleci.com/gh/facebook-atom/atom-ide-ui)\n\nA collection of Atom UIs to support language services as part of Atom IDE,\ndesigned for use with packages built on top of\n[atom-languageclient](https://github.com/atom/atom-languageclient).\n\n![Screenshot](https://raw.githubusercontent.com/facebook-atom/atom-ide-ui/master/docs/images/screenshot.png)\n\nContributions are welcome! File bugs and feature requests from the issues page,\nor read the [CONTRIBUTING.md](../master/CONTRIBUTING.md) file for details on how to submit a pull request.\n\n## Getting Started\n\nInstall `atom-ide-ui` from \"Install\" in Atom's settings or run:\n\n```\napm install atom-ide-ui\n```\n\n## Requirements\n\n`atom-ide-ui` requires Atom 1.17+.\nPackages based on https://github.com/atom/atom-languageclient should work out of the box with `atom-ide-ui` installed, such as:\n\n* [ide-csharp](https://github.com/atom/ide-csharp)\n* [ide-flowtype](https://github.com/flowtype/ide-flowtype)\n* [ide-java](https://github.com/atom/ide-java)\n* [ide-php](https://github.com/atom/ide-php)\n* [ide-typescript](https://github.com/atom/ide-typescript)\n\n## Feature Overview\n\nCheck out the documentation pages for more information about each feature!\n\n<!--- These links must use ../master to work from the atom.io page --->\n\n- [Busy Signal](../master/docs/busy-signal.md)\n- [Code Actions](../master/docs/code-actions.md)\n- [Code Format](../master/docs/code-format.md)\n- [Code Highlight](../master/docs/code-highlight.md)\n- [Datatips](../master/docs/datatips.md)\n- [Definitions (plus Hyperclick)](../master/docs/definitions.md)\n- [Diagnostics](../master/docs/diagnostics.md)\n- [Find References](../master/docs/find-references.md)\n- [Outline View](../master/docs/outline-view.md)\n\nSee [Keybindings](../master/docs/keybindings.md) for a list of default keybindings.\n\n## License\n\n`atom-ide-ui` is BSD-licensed. We also provide an additional patent grant.\n",
+  "readme": "# atom-ide-ui &middot; [![Package version](https://img.shields.io/apm/v/atom-ide-ui.svg)](https://atom.io/packages/atom-ide-ui) [![CircleCI](https://img.shields.io/circleci/project/github/facebook-atom/atom-ide-ui.svg)](https://circleci.com/gh/facebook-atom/atom-ide-ui)\n\nA collection of Atom UIs to support language services as part of Atom IDE,\ndesigned for use with packages built on top of\n[atom-languageclient](https://github.com/atom/atom-languageclient).\n\n![Screenshot](https://raw.githubusercontent.com/facebook-atom/atom-ide-ui/master/docs/images/screenshot.png)\n\nContributions are welcome! File bugs and feature requests from the issues page,\nor read the [CONTRIBUTING.md](../master/CONTRIBUTING.md) file for details on how to submit a pull request.\n\n## Getting Started\n\nFirst, make sure you have Atom 1.17+ installed.  \nInstall `atom-ide-ui` from \"Install\" in Atom's settings or run:\n\n```\napm install atom-ide-ui\n```\n\nYou'll also want to install a suitable language package:\n`atom-ide-ui` doesn't provide any language features by default.\n\nPackages based on https://github.com/atom/atom-languageclient should work out of the box with `atom-ide-ui` installed, such as:\n\n* [ide-csharp](https://github.com/atom/ide-csharp)\n* [ide-flowtype](https://github.com/flowtype/ide-flowtype)\n* [ide-java](https://github.com/atom/ide-java)\n* [ide-php](https://github.com/atom/ide-php)\n* [ide-typescript](https://github.com/atom/ide-typescript)\n* [and more...](https://github.com/atom/atom-languageclient/wiki/List-of-Atom-packages-using-Atom-LanguageClient)\n\n## Feature Overview\n\nCheck out the documentation pages for more information about each feature!\n\n<!--- These links must use ../master to work from the atom.io page --->\n\n- [Busy Signal](../master/docs/busy-signal.md)\n- [Code Actions](../master/docs/code-actions.md)\n- [Code Format](../master/docs/code-format.md)\n- [Code Highlight](../master/docs/code-highlight.md)\n- [Datatips](../master/docs/datatips.md)\n- [Definitions (plus Hyperclick)](../master/docs/definitions.md)\n- [Diagnostics](../master/docs/diagnostics.md)\n- [Find References](../master/docs/find-references.md)\n- [Outline View](../master/docs/outline-view.md)\n\nSee [Keybindings](../master/docs/keybindings.md) for a list of default keybindings.\n\n## License\n\n`atom-ide-ui` is BSD-licensed. We also provide an additional patent grant.\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
@@ -123,7 +123,7 @@
     "release-transpile": "./modules/nuclide-node-transpiler/bin/release-transpile.js",
     "test": "npm run flow && npm run lint-all && ./scripts/test.js"
   },
-  "version": "0.3.1",
+  "version": "0.3.3",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [

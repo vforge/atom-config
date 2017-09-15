@@ -30,6 +30,12 @@ function _load_event() {
   return _event = require('nuclide-commons/event');
 }
 
+var _nuclideUri;
+
+function _load_nuclideUri() {
+  return _nuclideUri = _interopRequireDefault(require('nuclide-commons/nuclideUri'));
+}
+
 var _UniversalDisposable;
 
 function _load_UniversalDisposable() {
@@ -39,31 +45,20 @@ function _load_UniversalDisposable() {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Exported for testing.
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- * @format
- */
-
 function linterMessageToDiagnosticMessage(msg, providerName) {
   // The types are slightly different, so we need to copy to make Flow happy. Basically, a Trace
   // does not need a filePath property, but a LinterTrace does. Trace is a subtype of LinterTrace,
   // so copying works but aliasing does not. For a detailed explanation see
   // https://github.com/facebook/flow/issues/908
   const trace = msg.trace ? msg.trace.map(component => Object.assign({}, component)) : undefined;
+  const type = convertLinterType(msg.type);
   // flowlint-next-line sketchy-null-string:off
   if (msg.filePath) {
     const { fix } = msg;
     return {
       scope: 'file',
       providerName: msg.name != null ? msg.name : providerName,
-      type: msg.type,
+      type,
       filePath: msg.filePath,
       text: msg.text,
       html: msg.html,
@@ -79,7 +74,7 @@ function linterMessageToDiagnosticMessage(msg, providerName) {
     return {
       scope: 'project',
       providerName: msg.name != null ? msg.name : providerName,
-      type: msg.type,
+      type,
       text: msg.text,
       html: msg.html,
       range: msg.range && _atom.Range.fromObject(msg.range),
@@ -88,11 +83,33 @@ function linterMessageToDiagnosticMessage(msg, providerName) {
   }
 }
 
-const LinterSeverityMap = {
-  error: 'Error',
-  warning: 'Warning',
-  info: 'Info'
-};
+// Be flexible in accepting various linter types/severities.
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
+
+function convertLinterType(type) {
+  switch (type) {
+    case 'Error':
+    case 'error':
+      return 'Error';
+    case 'Warning':
+    case 'warning':
+      return 'Warning';
+    case 'Info':
+    case 'info':
+      return 'Info';
+  }
+  return 'Error';
+}
 
 // Version 2 only handles file-level diagnostics.
 function linterMessageV2ToDiagnosticMessage(msg, providerName) {
@@ -111,7 +128,7 @@ function linterMessageV2ToDiagnosticMessage(msg, providerName) {
   // TODO: handle multiple solutions and priority.
   let fix;
   const { solutions } = msg;
-  if (solutions != null) {
+  if (solutions != null && solutions.length > 0) {
     const solution = solutions[0];
     if (solution.replaceWith !== undefined) {
       fix = {
@@ -132,7 +149,7 @@ function linterMessageV2ToDiagnosticMessage(msg, providerName) {
     scope: 'file',
     // flowlint-next-line sketchy-null-string:off
     providerName: msg.linterName || providerName,
-    type: LinterSeverityMap[msg.severity],
+    type: convertLinterType(msg.severity),
     filePath: msg.location.file,
     text,
     range: _atom.Range.fromObject(msg.location.position),
@@ -181,7 +198,7 @@ function linterMessagesToDiagnosticUpdate(currentPath, msgs, providerName) {
  */
 class LinterAdapter {
 
-  constructor(provider) {
+  constructor(provider, busyReporter) {
     this._provider = provider;
     this._updates = new _rxjsBundlesRxMinJs.Subject();
     this._invalidations = new _rxjsBundlesRxMinJs.Subject();
@@ -198,7 +215,14 @@ class LinterAdapter {
     // When the buffer gets destroyed, immediately stop linting and invalidate.
     _rxjsBundlesRxMinJs.Observable.of(null))
     // switchMap ensures that earlier lints are overridden by later ones.
-    .switchMap(editor => editor == null ? _rxjsBundlesRxMinJs.Observable.of(null) : this._runLint(editor))
+    .switchMap(editor => {
+      if (editor == null) {
+        return _rxjsBundlesRxMinJs.Observable.of(null);
+      }
+      const path = editor.getPath();
+      const basename = path == null ? '(untitled)' : (_nuclideUri || _load_nuclideUri()).default.basename(path);
+      return _rxjsBundlesRxMinJs.Observable.using(() => new (_UniversalDisposable || _load_UniversalDisposable()).default(busyReporter(`${this._provider.name}: running on "${basename}"`)), () => this._runLint(editor));
+    })
     // Track the previous update so we can invalidate its results.
     // (Prevents dangling diagnostics when a linter affects multiple files).
     .scan((acc, update) => ({ update, lastUpdate: acc.update }), {

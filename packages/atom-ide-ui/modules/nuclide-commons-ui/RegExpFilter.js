@@ -135,6 +135,7 @@ function getButtonSize(size) {
     case 'lg':
       return (_Button || _load_Button()).ButtonSizes.LARGE;
     default:
+      size;
       throw new Error(`Invalid size: ${size}`);
   }
 }

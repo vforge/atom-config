@@ -12,12 +12,6 @@ function _load_idx() {
   return _idx = _interopRequireDefault(require('idx'));
 }
 
-var _AtomLinter;
-
-function _load_AtomLinter() {
-  return _AtomLinter = _interopRequireWildcard(require('./AtomLinter'));
-}
-
 var _KeyboardShortcuts;
 
 function _load_KeyboardShortcuts() {
@@ -110,7 +104,11 @@ function _load_showActionsMenu() {
   return _showActionsMenu = _interopRequireDefault(require('./showActionsMenu'));
 }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _showAtomLinterWarning;
+
+function _load_showAtomLinterWarning() {
+  return _showAtomLinterWarning = _interopRequireDefault(require('./showAtomLinterWarning'));
+}
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -133,7 +131,7 @@ class Activation {
   constructor(state) {
     var _ref;
 
-    this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default(this.registerOpenerAndCommand(), this._registerActionsMenu());
+    this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default(this.registerOpenerAndCommand(), this._registerActionsMenu(), (0, (_showAtomLinterWarning || _load_showAtomLinterWarning()).default)());
     this._model = new (_Model || _load_Model()).default({
       filterByActiveTextEditor: ((_ref = state) != null ? _ref.filterByActiveTextEditor : _ref) === true,
       diagnosticUpdater: null
@@ -244,11 +242,6 @@ class Activation {
         (_featureConfig || _load_featureConfig()).default.set(SHOW_TRACES_SETTING, showTraces);
       };
 
-      const warnAboutLinterStream = (_AtomLinter || _load_AtomLinter()).observePackageIsEnabled();
-      const disableLinter = () => {
-        (_AtomLinter || _load_AtomLinter()).disable();
-      };
-
       const pathToActiveTextEditorStream = getActiveEditorPaths();
 
       const filterByActiveTextEditorStream = packageStates.map(state => state.filterByActiveTextEditor).distinctUntilChanged();
@@ -256,14 +249,12 @@ class Activation {
         this._model.setState({ filterByActiveTextEditor });
       };
 
-      this._globalViewStates = _rxjsBundlesRxMinJs.Observable.combineLatest(diagnosticsStream, filterByActiveTextEditorStream, pathToActiveTextEditorStream, warnAboutLinterStream, showTracesStream, (diagnostics, filterByActiveTextEditor, pathToActiveTextEditor, warnAboutLinter, showTraces) => ({
+      this._globalViewStates = _rxjsBundlesRxMinJs.Observable.combineLatest(diagnosticsStream, filterByActiveTextEditorStream, pathToActiveTextEditorStream, showTracesStream, (diagnostics, filterByActiveTextEditor, pathToActiveTextEditor, showTraces) => ({
         diagnostics,
         filterByActiveTextEditor,
         pathToActiveTextEditor,
-        warnAboutLinter,
         showTraces,
         onShowTracesChange: setShowTraces,
-        disableLinter,
         onFilterByActiveTextEditorChange: setFilterByActiveTextEditor
       }));
     }
