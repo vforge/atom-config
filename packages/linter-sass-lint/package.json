@@ -2,55 +2,56 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117729-71076-1pxqibm.k5sbawcdi/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117729-71076-1pxqibm.k5sbawcdi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117729-71076-1pxqibm.k5sbawcdi/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117729-71076-9vp7dl.vixwkrcnmi"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117818-71306-1kze8h.vefwecow29"
     ]
   ],
-  "_from": "../d-117729-71076-1pxqibm.k5sbawcdi/package.tgz",
-  "_id": "linter-sass-lint@1.7.6",
+  "_from": "../d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
+  "_id": "linter-sass-lint@1.8.0",
   "_inCache": true,
   "_location": "/linter-sass-lint",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117729-71076-1pxqibm.k5sbawcdi/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117729-71076-1pxqibm.k5sbawcdi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117729-71076-1pxqibm.k5sbawcdi/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117729-71076-1pxqibm.k5sbawcdi/package.tgz",
-  "_shasum": "c6f6ae8ba8674113e1f674586031caf4d139347c",
+  "_resolved": "file:../d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
+  "_shasum": "5fff4bfcb67c419a20adf3f66d7df3f3bf287ff1",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117729-71076-1pxqibm.k5sbawcdi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117729-71076-9vp7dl.vixwkrcnmi",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117818-71306-1kze8h.vefwecow29",
   "bugs": {
     "url": "https://github.com/AtomLinter/linter-sass-lint/issues"
   },
   "dependencies": {
     "atom-linter": "^10.0.0",
-    "atom-package-deps": "^4.4.0",
-    "consistent-env": "^1.0.1",
-    "globule": "^1.0.0",
+    "atom-package-deps": "^4.6.0",
+    "consistent-env": "^1.3.1",
+    "globule": "^1.2.0",
     "sass-lint": "1.11.1"
   },
   "description": "Atom Linter plugin to lint your Sass/SCSS with pure node sass-lint",
   "devDependencies": {
-    "coffeelint": "^1.14.2",
-    "eslint": "^4.3.0",
-    "eslint-config-airbnb-base": "^11.3.1",
-    "eslint-plugin-import": "^2.7.0"
+    "coffeelint": "^1.16.0",
+    "eslint": "^4.6.0",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-import": "^2.7.0",
+    "jasmine-fix": "^1.3.0"
   },
   "engines": {
     "atom": ">=1.0.0"
@@ -95,13 +96,13 @@
   "scripts": {
     "lint": "coffeelint lib && eslint spec"
   },
-  "version": "1.7.6",
+  "version": "1.8.0",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
       {
         "name": "acorn",
-        "version": "5.1.1",
+        "version": "5.1.2",
         "path": "node_modules/acorn/dist/acorn.js"
       },
       {
@@ -326,7 +327,7 @@
       },
       {
         "name": "espree",
-        "version": "3.5.0",
+        "version": "3.5.1",
         "path": "node_modules/espree/espree.js"
       },
       {
@@ -426,7 +427,7 @@
       },
       {
         "name": "gonzales-pe",
-        "version": "4.1.1",
+        "version": "4.2.2",
         "path": "node_modules/gonzales-pe/lib/gonzales.js"
       },
       {
@@ -516,7 +517,7 @@
       },
       {
         "name": "js-yaml",
-        "version": "3.9.1",
+        "version": "3.10.0",
         "path": "node_modules/js-yaml/index.js"
       },
       {
@@ -601,7 +602,7 @@
       },
       {
         "name": "named-js-regexp",
-        "version": "1.3.2",
+        "version": "1.3.3",
         "path": "node_modules/named-js-regexp/lib/named-js-regexp.js"
       },
       {
@@ -711,7 +712,7 @@
       },
       {
         "name": "rimraf",
-        "version": "2.6.1",
+        "version": "2.6.2",
         "path": "node_modules/rimraf/rimraf.js"
       },
       {
@@ -3568,9 +3569,9 @@
         ],
         "dependencies": {
           "atom-linter": "^10.0.0",
-          "atom-package-deps": "^4.4.0",
-          "consistent-env": "^1.0.1",
-          "globule": "^1.0.0",
+          "atom-package-deps": "^4.6.0",
+          "consistent-env": "^1.3.1",
+          "globule": "^1.2.0",
           "sass-lint": "1.11.1"
         }
       },

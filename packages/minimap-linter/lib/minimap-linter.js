@@ -5,9 +5,9 @@ import { CompositeDisposable } from 'atom';
 import MinimapLinterBinding from './minimap-linter-binding';
 
 const messagePath = message =>
-  (message.version === 1 ? message.filePath : message.location.file);
+  (message.filePath ? message.filePath : message.location.file);
 const messageRange = message =>
-  (message.version === 1 ? message.range : message.location.position);
+  (message.range ? message.range : message.location.position);
 const goodMessage = (message, filePath) =>
   (messagePath(message) === filePath && messageRange(message));
 
@@ -27,12 +27,14 @@ export default {
     this.idleCallbacks.add(depsCallbackID);
 
     this.subscriptions = new CompositeDisposable();
+    this.minimapSubscriptions = new CompositeDisposable();
     this.messageCache = new Set();
   },
 
   deactivate() {
     this.idleCallbacks.forEach(callbackID => window.cancelIdleCallback(callbackID));
     this.idleCallbacks.clear();
+    this.subscriptions.dispose();
     if (!this.minimapProvider) {
       return;
     }
@@ -43,6 +45,19 @@ export default {
   // Atom package lifecycle events end
 
   // Package dependencies provisioning start
+  // Message management
+  updateMessageCache(added, removed) {
+    added.forEach(message => this.messageCache.add(message));
+    removed.forEach((message) => {
+      this.bindings.forEach((binding) => {
+        if (binding.hasMessage(message)) {
+          binding.removeMessage(message);
+        }
+      });
+      this.messageCache.delete(message);
+    });
+  },
+
   // Minimap
   consumeMinimapServiceV1(minimap) {
     this.minimapProvider = minimap;
@@ -51,35 +66,38 @@ export default {
 
   // LinterUI (for messages)
   provideUI() {
-    const minimapBindings = this.bindings;
-    const messageCache = this.messageCache;
+    const updateMessageCache = this.updateMessageCache.bind(this);
+    const { bindings: minimapBindings } = this;
+
     return {
       name: 'minimap-linter',
       render(messagePatch) {
         // Parse out what messages have been added/removed
         const added = new Set();
-        const removed = new Set();
+        // Store the removed messages for later batched removal
+        const removed = new Set(messagePatch.removed);
+
         minimapBindings.forEach((binding, minimap) => {
+          // Validate the editor
           const textEditor = minimap.getTextEditor();
           if (!atom.workspace.isTextEditor(textEditor)) {
             return;
           }
           const filePath = textEditor.getPath();
+          if (!filePath) {
+            return;
+          }
+
+          // Add the messages specific to this TextEditor
           messagePatch.added.forEach((message) => {
             if (goodMessage(message, filePath)) {
               added.add(message);
               binding.addMessage(message);
             }
           });
-          messagePatch.removed.forEach((message) => {
-            removed.add(message);
-            if (binding.hasMessage(message)) {
-              binding.removeMessage(message);
-            }
-          });
         });
-        added.forEach(message => messageCache.add(message));
-        removed.forEach(message => messageCache.delete(message));
+
+        updateMessageCache(added, removed);
       },
       didBeginLinting() {},
       didFinishLinting() {},
@@ -87,6 +105,52 @@ export default {
         minimapBindings.forEach(binding => binding.removeMessages());
       },
     };
+  },
+
+  // atom-ide-ui / Nuclide messages
+  consumeDiagnosticUpdates(diagnosticUpdater) {
+    const updateMessageCache = this.updateMessageCache.bind(this);
+
+    this.subscriptions.add(diagnosticUpdater.observeMessages((messages) => {
+      const added = new Set();
+      const removed = new Set();
+      this.bindings.forEach((binding, minimap) => {
+        // Validate the editor
+        const textEditor = minimap.getTextEditor();
+        if (!atom.workspace.isTextEditor(textEditor)) {
+          return;
+        }
+        const filePath = textEditor.getPath();
+        if (!filePath) {
+          return;
+        }
+
+        // Filter the message list for the current binding's TextEditor
+        const filteredMessages = messages.filter((message) => {
+          if (message.scope !== 'file' || message.filePath == null) {
+            return false;
+          }
+          return goodMessage(message, filePath);
+        });
+
+        // Remove any messages not in the given list
+        binding.getMessages().forEach((message) => {
+          if (!filteredMessages.includes(message)) {
+            removed.add(message);
+          }
+        });
+
+        // Add any new messages
+        filteredMessages.forEach((message) => {
+          if (!binding.hasMessage(message)) {
+            added.add(message);
+            binding.addMessage(message);
+          }
+        });
+      });
+
+      updateMessageCache(added, removed);
+    }));
   },
   // Package dependencies provisioning end
 
@@ -110,11 +174,11 @@ export default {
       this.bindings.set(minimap, binding);
       const subscription = minimap.onDidDestroy(() => {
         binding.destroy();
-        this.subscriptions.remove(subscription);
+        this.minimapSubscriptions.remove(subscription);
         subscription.dispose();
         this.bindings.delete(minimap);
       });
-      this.subscriptions.add(subscription);
+      this.minimapSubscriptions.add(subscription);
 
       // Force rendering of old messages after a small delay
       let oldMsgCallbackID;
@@ -126,7 +190,7 @@ export default {
         }
         const filePath = textEditor.getPath();
         this.messageCache.forEach((message) => {
-          if (goodMessage(message, filePath)) {
+          if (goodMessage(message, filePath) && !binding.hasMessage(message)) {
             binding.addMessage(message);
           }
         });
@@ -134,6 +198,7 @@ export default {
       oldMsgCallbackID = window.requestIdleCallback(renderOldMessages);
       this.idleCallbacks.add(oldMsgCallbackID);
     });
+    this.minimapSubscriptions.add(this.minimapsSubscription);
   },
 
   deactivatePlugin() {
@@ -144,8 +209,7 @@ export default {
       binding.destroy();
       this.bindings.delete(minimap);
     });
-    this.minimapsSubscription.dispose();
-    this.subscriptions.dispose();
+    this.minimapSubscriptions.dispose();
   },
   // Minimap plugin lifecycle events end
 };
