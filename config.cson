@@ -81,6 +81,7 @@
       
     '''
   "dark-flat-ui": {}
+  "dash-syntax": {}
   "dash-ui":
     iconsEnabled: false
   docblockr:

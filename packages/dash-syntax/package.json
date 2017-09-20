@@ -2,41 +2,50 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117624-3760-1k9ric5.ldg4q2gldi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117820-17341-1ibqt2o.g7rsikvs4i"
     ]
   ],
-  "_from": "../d-117624-3760-w4k679.gqjnyiudi/package.tgz",
-  "_id": "dash-syntax@0.3.0",
+  "_from": "../d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
+  "_id": "dash-syntax@0.4.0",
   "_inCache": true,
   "_location": "/dash-syntax",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117624-3760-w4k679.gqjnyiudi/package.tgz",
-  "_shasum": "6f52766ef450305a8dcd72cbdfeaad5ded7c602c",
+  "_resolved": "file:../d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
+  "_shasum": "9e8473a97831b8d6c37c461517788de21a827641",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-3760-w4k679.gqjnyiudi/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117624-3760-1k9ric5.ldg4q2gldi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117820-17341-1ibqt2o.g7rsikvs4i",
   "bugs": {
     "url": "https://github.com/cpsdqs/dash-syntax/issues"
+  },
+  "configSchema": {
+    "cursorAnimated": {
+      "title": "Smooth Cursor Blink",
+      "order": 1,
+      "description": "Makes the cursor fade smoothly instead of blinking. Disable this if you experience issues with font rendering.",
+      "type": "boolean",
+      "default": true
+    }
   },
   "dependencies": {},
   "description": "Vibrant dark syntax theme",
@@ -47,23 +56,28 @@
   "homepage": "https://github.com/cpsdqs/dash-syntax#readme",
   "keywords": [
     "syntax",
-    "theme"
+    "theme",
+    "dark"
   ],
   "license": "MIT",
+  "main": "./lib/dash-syntax",
   "name": "dash-syntax",
   "optionalDependencies": {},
-  "readme": "# dash-syntax theme\n\nVibrant dark syntax theme\n\n![screenshot](https://i.imgur.com/J5lEvrB.png)\n",
+  "readme": "# dash-syntax theme\n\nVibrant dark syntax theme\n\n![screenshot](https://i.imgur.com/gS7kKbz.png)\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cpsdqs/dash-syntax.git"
   },
   "theme": "syntax",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],
     "extensions": {
+      ".coffee": [
+        "lib/dash-syntax.coffee"
+      ],
       ".json": [
         "package.json"
       ]
