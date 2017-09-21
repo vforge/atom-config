@@ -1,10 +1,14 @@
-# Change Log
+# Changelog
 All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](http://semver.org/).
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Changed
-- Nothing
+
+## [0.36.0] - 2017-09-22
+### Added
+- New directive: `includeFirst`.
 
 ## [0.35.0] - 2017-09-18
 ### Added
@@ -191,7 +195,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Complete rewrite of the grammar with PHP parts based on language-php 0.22.0
 
-[Unreleased]: https://github.com/jawee/language-blade/compare/v0.35.0...HEAD
+[Unreleased]: https://github.com/jawee/language-blade/compare/v0.36.0...HEAD
+[0.36.0]: https://github.com/jawee/language-blade/compare/v0.35.0...v0.36.0
 [0.35.0]: https://github.com/jawee/language-blade/compare/v0.34.0...v0.35.0
 [0.34.0]: https://github.com/jawee/language-blade/compare/v0.33.0...v0.34.0
 [0.33.0]: https://github.com/jawee/language-blade/compare/v0.32.0...v0.33.0
