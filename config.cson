@@ -64,6 +64,16 @@
       "language-gfm"
       "linter"
       "linter-ui-default"
+      "aligner"
+      "aligner-css"
+      "aligner-javascript"
+      "aligner-lua"
+      "aligner-php"
+      "aligner-python"
+      "aligner-ruby"
+      "aligner-scss"
+      "imdone-atom-github"
+      "ide-go"
     ]
     packagesWithKeymapsDisabled: []
     telemetryConsent: "no"

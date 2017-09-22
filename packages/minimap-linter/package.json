@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-xaans4.q3xepwg66r/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-xaans4.q3xepwg66r/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-xaans4.q3xepwg66r/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117818-71306-ff9bo5.duvmtpgb9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117822-67862-10kofew.2kr9zilik9"
     ]
   ],
-  "_from": "../d-117818-71306-xaans4.q3xepwg66r/package.tgz",
-  "_id": "minimap-linter@2.1.0",
+  "_from": "../d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
+  "_id": "minimap-linter@2.1.1",
   "_inCache": true,
   "_location": "/minimap-linter",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-xaans4.q3xepwg66r/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-xaans4.q3xepwg66r/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-xaans4.q3xepwg66r/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117818-71306-xaans4.q3xepwg66r/package.tgz",
-  "_shasum": "69373aff3662e194ba855449bbb33a202c35eb17",
+  "_resolved": "file:../d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
+  "_shasum": "2feb76cd1ff68294aba05a9d15ed4160d25dec4f",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-xaans4.q3xepwg66r/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117818-71306-ff9bo5.duvmtpgb9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117822-67862-10kofew.2kr9zilik9",
   "bugs": {
     "url": "https://github.com/AtomLinter/atom-minimap-linter/issues"
   },
@@ -129,7 +129,7 @@
     "lint": "eslint .",
     "test": "apm test"
   },
-  "version": "2.1.0",
+  "version": "2.1.1",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -201,6 +201,7 @@
     ],
     "extensions": {
       ".js": [
+        "lib/helpers.js",
         "lib/minimap-linter-binding.js",
         "lib/minimap-linter.js",
         "node_modules/atom-package-deps/lib/helpers.js",
