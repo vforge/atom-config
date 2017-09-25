@@ -1,0 +1,72 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81412-6l9mis.k0ov1xxbt9/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81412-6l9mis.k0ov1xxbt9/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81412-6l9mis.k0ov1xxbt9/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117824-81412-1n0laiy.tiwegynwmi"
+    ]
+  ],
+  "_from": "../d-117824-81412-6l9mis.k0ov1xxbt9/package.tgz",
+  "_id": "browser-refresh-on-save@0.0.6",
+  "_inCache": true,
+  "_location": "/browser-refresh-on-save",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81412-6l9mis.k0ov1xxbt9/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81412-6l9mis.k0ov1xxbt9/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81412-6l9mis.k0ov1xxbt9/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117824-81412-6l9mis.k0ov1xxbt9/package.tgz",
+  "_shasum": "f04c40a74b152f81d4d49a9769310ca349c9fb55",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81412-6l9mis.k0ov1xxbt9/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117824-81412-1n0laiy.tiwegynwmi",
+  "bugs": {
+    "url": "https://github.com/jkroso/atom-browser-refresh-on-save/issues"
+  },
+  "dependencies": {},
+  "description": "reloads assets in the browser as soon as you save them",
+  "devDependencies": {},
+  "engines": {
+    "atom": "1"
+  },
+  "homepage": "https://github.com/jkroso/atom-browser-refresh-on-save#readme",
+  "license": "MIT",
+  "main": "plugin.coffee",
+  "name": "browser-refresh-on-save",
+  "optionalDependencies": {},
+  "readme": "# browser-refresh-on-save\n\nWhen you save a file it tells the active tab in each of your selected browsers to run some JavaScript. Depending on which type of file that is it will run different code.\n\n## Default behavior for each file type\n\n- css,styl: reloads just the CSS files in the page without doing a full refresh\n- js,md,html,jade: reload the whole page\n- others: nothing\n\n## Supported browsers\n\n- Chrome\n- Chrome Canary\n- Safari\n- Vivaldi\n\n## Supported platforms\n\n- Mac\n",
+  "readmeFilename": "Readme.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkroso/atom-browser-refresh-on-save.git"
+  },
+  "version": "0.0.6",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ],
+      ".coffee": [
+        "plugin.coffee"
+      ]
+    },
+    "folders": []
+  }
+}

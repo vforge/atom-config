@@ -1,0 +1,13 @@
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Fold Comments'
+      'submenu': [
+        { 'label': 'Toggle', 'command': 'fold-comments:toggle' },
+        { 'label': 'Fold All', 'command': 'fold-comments:fold-all' },
+        { 'label': 'Unfold All', 'command': 'fold-comments:unfold-all' }
+      ]
+    ]
+  }
+]

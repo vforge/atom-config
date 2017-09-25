@@ -1,0 +1,75 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81487-1mfgz9x.ypq7k9ms4i/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81487-1mfgz9x.ypq7k9ms4i/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81487-1mfgz9x.ypq7k9ms4i/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117824-81487-1cn2are.r6zft4vx6r"
+    ]
+  ],
+  "_from": "../d-117824-81487-1mfgz9x.ypq7k9ms4i/package.tgz",
+  "_id": "fold-comments@0.6.0",
+  "_inCache": true,
+  "_location": "/fold-comments",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81487-1mfgz9x.ypq7k9ms4i/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81487-1mfgz9x.ypq7k9ms4i/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81487-1mfgz9x.ypq7k9ms4i/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117824-81487-1mfgz9x.ypq7k9ms4i/package.tgz",
+  "_shasum": "be2e1e4a558c414ce6afb00f74f0d95c0d6da447",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117824-81487-1mfgz9x.ypq7k9ms4i/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117824-81487-1cn2are.r6zft4vx6r",
+  "activationCommands": {
+    "atom-workspace": "fold-comments:toggle"
+  },
+  "bugs": {
+    "url": "https://github.com/jenius/atom-fold-comments/issues"
+  },
+  "dependencies": {},
+  "description": "Quickly toggle folding on all comments",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">0.180.0"
+  },
+  "homepage": "https://github.com/jenius/atom-fold-comments#readme",
+  "license": "MIT",
+  "main": "./lib/fold-comments",
+  "name": "fold-comments",
+  "optionalDependencies": {},
+  "readme": "# Atom Fold Comments\n\nQuickly toggle folding on all block comments with `ctrl+shift+/`.\n\n![screenshot](https://i.cloudup.com/rrXaFlda9t.gif)\n\n# Autofolding\n\nYou can specify comments autofolding on file opening with next config option\n\n```\n\"fold-comments\":\n  autofold: true\n```\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jenius/atom-fold-comments.git"
+  },
+  "version": "0.6.0",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".coffee": [
+        "lib/fold-comments.coffee"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}
