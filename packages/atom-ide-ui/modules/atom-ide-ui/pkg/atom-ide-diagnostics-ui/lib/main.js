@@ -12,6 +12,12 @@ function _load_idx() {
   return _idx = _interopRequireDefault(require('idx'));
 }
 
+var _collection;
+
+function _load_collection() {
+  return _collection = require('nuclide-commons/collection');
+}
+
 var _KeyboardShortcuts;
 
 function _load_KeyboardShortcuts() {
@@ -112,18 +118,19 @@ function _load_showAtomLinterWarning() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const MAX_OPEN_ALL_FILES = 20; /**
-                                * Copyright (c) 2017-present, Facebook, Inc.
-                                * All rights reserved.
-                                *
-                                * This source code is licensed under the BSD-style license found in the
-                                * LICENSE file in the root directory of this source tree. An additional grant
-                                * of patent rights can be found in the PATENTS file in the same directory.
-                                *
-                                * 
-                                * @format
-                                */
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
 
+const MAX_OPEN_ALL_FILES = 20;
 const SHOW_TRACES_SETTING = 'atom-ide-diagnostics-ui.showDiagnosticTraces';
 
 class Activation {
@@ -249,13 +256,16 @@ class Activation {
         this._model.setState({ filterByActiveTextEditor });
       };
 
-      this._globalViewStates = _rxjsBundlesRxMinJs.Observable.combineLatest(diagnosticsStream, filterByActiveTextEditorStream, pathToActiveTextEditorStream, showTracesStream, (diagnostics, filterByActiveTextEditor, pathToActiveTextEditor, showTraces) => ({
+      const supportedMessageKindsStream = packageStates.map(state => state.diagnosticUpdater).switchMap(updater => updater == null ? _rxjsBundlesRxMinJs.Observable.of(new Set(['lint'])) : (0, (_event || _load_event()).observableFromSubscribeFunction)(updater.observeSupportedMessageKinds.bind(updater))).distinctUntilChanged((_collection || _load_collection()).areSetsEqual);
+
+      this._globalViewStates = _rxjsBundlesRxMinJs.Observable.combineLatest(diagnosticsStream, filterByActiveTextEditorStream, pathToActiveTextEditorStream, showTracesStream, supportedMessageKindsStream, (diagnostics, filterByActiveTextEditor, pathToActiveTextEditor, showTraces, supportedMessageKinds) => ({
         diagnostics,
         filterByActiveTextEditor,
         pathToActiveTextEditor,
         showTraces,
         onShowTracesChange: setShowTraces,
-        onFilterByActiveTextEditorChange: setFilterByActiveTextEditor
+        onFilterByActiveTextEditorChange: setFilterByActiveTextEditor,
+        supportedMessageKinds
       }));
     }
     return this._globalViewStates;
@@ -349,7 +359,7 @@ function addAtomCommands(diagnosticUpdater) {
       }
 
       const column = 0;
-      errorsToOpen.forEach((line, uri) => (0, (_goToLocation || _load_goToLocation()).goToLocation)(uri, line, column));
+      errorsToOpen.forEach((line, uri) => (0, (_goToLocation || _load_goToLocation()).goToLocation)(uri, { line, column }));
     });
   };
 

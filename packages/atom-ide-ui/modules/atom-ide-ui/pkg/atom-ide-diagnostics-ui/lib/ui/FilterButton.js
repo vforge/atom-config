@@ -46,9 +46,10 @@ function getFilterTypeDisplayName(type) {
       return 'Errors';
     case 'warnings':
       return 'Warnings & Info';
-    case 'feedback':
-      return 'Feedback';
+    case 'review':
+      return 'Review';
     default:
+      type;
       throw new Error(`Invalid filter type: ${type}`);
   }
 }
@@ -59,9 +60,10 @@ function getIcon(type) {
       return 'nuclicon-stop';
     case 'warnings':
       return 'alert';
-    case 'feedback':
+    case 'review':
       return 'nuclicon-comment-discussion';
     default:
+      type;
       throw new Error(`Invalid filter type: ${type}`);
   }
 }

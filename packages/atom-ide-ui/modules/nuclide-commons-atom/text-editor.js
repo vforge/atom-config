@@ -11,7 +11,7 @@ exports.setScrollTop = setScrollTop;
 exports.setPositionAndScroll = setPositionAndScroll;
 exports.getCursorPositions = getCursorPositions;
 exports.observeEditorDestroy = observeEditorDestroy;
-exports.enforceReadOnly = enforceReadOnly;
+exports.enforceReadOnlyEditor = enforceReadOnlyEditor;
 exports.enforceSoftWrap = enforceSoftWrap;
 exports.observeTextEditors = observeTextEditors;
 exports.isValidTextEditor = isValidTextEditor;
@@ -122,23 +122,22 @@ function observeEditorDestroy(editor) {
 // is to create an ordinary TextEditor and then override any methods that would allow it to
 // change its contents.
 // TODO: https://github.com/atom/atom/issues/9237.
-function enforceReadOnly(textEditor) {
-  const noop = () => {};
-
+function enforceReadOnlyEditor(textEditor, readOnlyExceptions = ['append', 'setText']) {
   // Cancel insert events to prevent typing in the text editor and disallow editing (read-only).
   textEditor.onWillInsertText(event => {
     event.cancel();
   });
+  // `setText` & `append` are the only exceptions that's used to set the read-only text.
+  enforceReadOnlyBuffer(textEditor.getBuffer(), readOnlyExceptions);
+}
 
-  const textBuffer = textEditor.getBuffer();
-
+function enforceReadOnlyBuffer(textBuffer, readOnlyExceptions = []) {
+  const noop = () => {};
   // All user edits use `transact` - so, mocking this will effectively make the editor read-only.
   const originalApplyChange = textBuffer.applyChange;
   textBuffer.applyChange = noop;
 
-  // `setText` & `append` are the only exceptions that's used to set the read-only text.
-  passReadOnlyException('append');
-  passReadOnlyException('setText');
+  readOnlyExceptions.forEach(passReadOnlyException);
 
   function passReadOnlyException(functionName) {
     const buffer = textBuffer;

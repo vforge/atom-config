@@ -789,8 +789,7 @@ function createProcessStream(type = 'spawn', commandOrModulePath, args = [], opt
     // that an error is forthcoming.
     //
     // [1]: https://github.com/nodejs/node/blob/v7.10.0/lib/internal/child_process.js#L301
-    proc.pid == null ? _rxjsBundlesRxMinJs.Observable.empty() : _rxjsBundlesRxMinJs.Observable.of(proc), _rxjsBundlesRxMinJs.Observable.never() // Don't complete until we say so!
-    )).takeUntil(errors).takeUntil(exitEvents).merge(
+    proc.pid == null ? _rxjsBundlesRxMinJs.Observable.empty() : _rxjsBundlesRxMinJs.Observable.of(proc), _rxjsBundlesRxMinJs.Observable.never())).takeUntil(errors).takeUntil(exitEvents).merge(
     // Write any input to stdin. This is just for the side-effect. We merge it here to
     // ensure that writing to the stdin stream happens after our event listeners are added.
     input == null ? _rxjsBundlesRxMinJs.Observable.empty() : input.do({

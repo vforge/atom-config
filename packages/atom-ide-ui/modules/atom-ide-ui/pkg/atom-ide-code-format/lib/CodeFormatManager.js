@@ -6,12 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _atom = require('atom');
 
-var _semver;
-
-function _load_semver() {
-  return _semver = _interopRequireDefault(require('semver'));
-}
-
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
 var _event;
@@ -71,19 +65,17 @@ function _load_log4js() {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Save events are critical, so don't allow providers to block them.
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- * @format
- */
-
-const SAVE_TIMEOUT = 2500;
+const SAVE_TIMEOUT = 2500; /**
+                            * Copyright (c) 2017-present, Facebook, Inc.
+                            * All rights reserved.
+                            *
+                            * This source code is licensed under the BSD-style license found in the
+                            * LICENSE file in the root directory of this source tree. An additional grant
+                            * of patent rights can be found in the PATENTS file in the same directory.
+                            *
+                            * 
+                            * @format
+                            */
 
 class CodeFormatManager {
 
@@ -150,15 +142,8 @@ class CodeFormatManager {
       // it's a poor user experience (and also races the text buffer's reload).
       const editor_ = editor;
       editor_.save = () => {
-        // TODO(19829039): remove check
-        if ((_semver || _load_semver()).default.gte(atom.getVersion(), '1.19.0-beta0')) {
-          // In 1.19, TextEditor.save() is async (and the promise is used).
-          // We can just directly format + save here.
-          newSaves.next('new-save');
-          return this._safeFormatCodeOnSave(editor).takeUntil(newSaves).toPromise().then(() => realSave.call(editor));
-        } else {
-          observer.next('save');
-        }
+        newSaves.next('new-save');
+        return this._safeFormatCodeOnSave(editor).takeUntil(newSaves).toPromise().then(() => realSave.call(editor));
       };
       const subscription = newSaves.subscribe(observer);
       return () => {

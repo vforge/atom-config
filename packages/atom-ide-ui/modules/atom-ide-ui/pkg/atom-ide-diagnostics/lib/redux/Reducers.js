@@ -7,6 +7,7 @@ exports.messages = messages;
 exports.projectMessages = projectMessages;
 exports.codeActionFetcher = codeActionFetcher;
 exports.codeActionsForMessage = codeActionsForMessage;
+exports.providers = providers;
 
 var _Actions;
 
@@ -79,6 +80,7 @@ function messages(state = new Map(), action) {
               return nextState;
             }
           default:
+            invalidation.scope;
             throw new Error(`Invalid scope: ${invalidation.scope}`);
         }
       }
@@ -185,6 +187,24 @@ function codeActionsForMessage(state = new Map(), action) {
       codeActions.forEach(codeAction => codeAction.dispose());
     });
     return action.payload.codeActionsForMessage;
+  }
+  return state;
+}
+
+function providers(state = new Set(), action) {
+  switch (action.type) {
+    case (_Actions || _load_Actions()).ADD_PROVIDER:
+      {
+        const nextState = new Set(state);
+        nextState.add(action.payload.provider);
+        return nextState;
+      }
+    case (_Actions || _load_Actions()).REMOVE_PROVIDER:
+      {
+        const nextState = new Set(state);
+        nextState.delete(action.payload.provider);
+        return nextState;
+      }
   }
   return state;
 }

@@ -311,7 +311,7 @@ class DatatipManagerForEditor {
       this._hideIfOutside();
     }), _rxjsBundlesRxMinJs.Observable.fromEvent(this._editorView, 'mousedown').subscribe(e => {
       let node = e.target;
-      while (node !== null) {
+      while (node != null) {
         if (node === this._datatipElement) {
           return;
         }

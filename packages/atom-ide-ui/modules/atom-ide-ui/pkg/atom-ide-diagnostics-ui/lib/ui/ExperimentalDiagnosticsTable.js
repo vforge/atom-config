@@ -84,8 +84,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const MAX_RESULTS_COUNT = 1000;
 
 class ExperimentalDiagnosticsTable extends _react.Component {
+
   constructor(props) {
     super(props);
+
+    this._handleSelectTableRow = (item, index, event) => {
+      this.props.selectMessage(item.diagnostic);
+      // Users navigating with the keyboard may just be moving through items on their way to another.
+      // If they have pending pane items enabled, it's not a big deal if we open the editor anyway.
+      // But if they don't, we could wind up opening a ton of files they didn't even care about so,
+      // to be safe, we won't do anything in that case.
+      if (event.type !== 'click' && !atom.config.get('core.allowPendingPaneItems')) {
+        return;
+      }
+      this.props.gotoMessageLocation(item.diagnostic, { focusEditor: false });
+    };
+
+    this._handleConfirmTableRow = item => {
+      this.props.gotoMessageLocation(item.diagnostic, { focusEditor: true });
+    };
+
     this._handleSort = this._handleSort.bind(this);
     this._handleSelectTableRow = this._handleSelectTableRow.bind(this);
     this.state = {
@@ -99,10 +117,6 @@ class ExperimentalDiagnosticsTable extends _react.Component {
       sortedColumn,
       sortDescending
     });
-  }
-
-  _handleSelectTableRow(item) {
-    this.props.gotoMessageLocation(item.diagnostic);
   }
 
   _getColumns() {
@@ -136,11 +150,13 @@ class ExperimentalDiagnosticsTable extends _react.Component {
       key: 'classification',
       title: 'Type',
       width: TYPE_WIDTH,
+      minWidth: 55,
       cellClassName: 'nuclide-diagnostics-ui-cell-classification'
     }, {
       key: 'providerName',
       title: 'Source',
-      width: SOURCE_WIDTH
+      width: SOURCE_WIDTH,
+      minWidth: 70
     }, {
       component: DescriptionComponent,
       key: 'description',
@@ -174,6 +190,9 @@ class ExperimentalDiagnosticsTable extends _react.Component {
           'diagnostics-ui-table-container-empty': sortedRows.length === 0
         }) },
       _react.createElement((_Table || _load_Table()).Table, {
+        ref: table => {
+          this._table = table;
+        },
         collapsable: true,
         columns: this._getColumns(),
         emptyComponent: EmptyComponent,
@@ -186,10 +205,18 @@ class ExperimentalDiagnosticsTable extends _react.Component {
         sortDescending: sortDescending,
         selectable: true,
         selectedIndex: selectedIndex,
-        onSelect: this._handleSelectTableRow
+        onSelect: this._handleSelectTableRow,
+        onConfirm: this._handleConfirmTableRow,
+        enableKeyboardNavigation: true
       }),
       maxResultsMessage
     );
+  }
+
+  focus() {
+    if (this._table != null) {
+      this._table.focus();
+    }
   }
 
   // TODO: Memoize this so we don't recompute unnecessarily.
@@ -236,7 +263,7 @@ function TypeComponent(props) {
 
 function getIconName(classification) {
   const { kind, severity } = classification;
-  if (kind === 'feedback') {
+  if (kind === 'review') {
     return 'nuclicon-comment-discussion';
   }
   switch (severity) {
@@ -247,6 +274,7 @@ function getIconName(classification) {
     case 'Info':
       return 'info';
     default:
+      severity;
       throw new Error(`Invalid severity: ${severity}`);
   }
 }
@@ -274,7 +302,7 @@ function DescriptionComponent(props) {
   const { showTraces, diagnostic, text, isPlainText } = props.data;
   return showTraces && diagnostic.scope === 'file' ? (0, (_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessageNoHeader)({
     message: diagnostic,
-    goToLocation: (_goToLocation || _load_goToLocation()).goToLocation,
+    goToLocation: (file, line) => (0, (_goToLocation || _load_goToLocation()).goToLocation)(file, { line }),
     fixer: () => {}
   }) : (0, (_DiagnosticsMessageText || _load_DiagnosticsMessageText()).DiagnosticsMessageText)({
     preserveNewlines: showTraces,
@@ -289,7 +317,7 @@ function DirComponent(props) {
       'div',
       { className: 'nuclide-diagnostics-ui-path-cell' },
       '\u200E',
-      (0, (_humanizePath || _load_humanizePath()).default)(props.data, { isDirectory: true }),
+      (_nuclideUri || _load_nuclideUri()).default.normalizeDir(props.data),
       '\u200E'
     )
   );

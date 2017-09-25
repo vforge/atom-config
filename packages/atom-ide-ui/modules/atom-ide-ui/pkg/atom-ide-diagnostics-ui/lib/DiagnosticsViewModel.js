@@ -106,7 +106,9 @@ class DiagnosticsViewModel {
       diagnostics: this._filterDiagnostics(globalState.diagnostics, instanceState.textFilter.pattern, instanceState.hiddenTypes),
       onTypeFilterChange: this._handleTypeFilterChange,
       onTextFilterChange: this._handleTextFilterChange,
-      gotoMessageLocation: this._gotoMessageLocation
+      selectMessage: this._selectMessage,
+      gotoMessageLocation: goToDiagnosticLocation,
+      supportedMessageKinds: globalState.supportedMessageKinds
     }));
 
     // "Mute" the props stream when the view is hidden so we don't do unnecessary updates.
@@ -197,14 +199,14 @@ var _initialiseProps = function () {
     });
   };
 
-  this._gotoMessageLocation = message => {
+  this._selectMessage = message => {
     this._model.setState({ selectedMessage: message });
-    goToDiagnosticLocation(message);
   };
 };
 
 function getMessageFilterType(message) {
-  switch (message.kind) {
+  const { kind } = message;
+  switch (kind) {
     case 'lint':
     case null:
     case undefined:
@@ -217,16 +219,18 @@ function getMessageFilterType(message) {
         case 'Info':
           return 'warnings';
         default:
+          message.type;
           throw new Error(`Invalid message severity: ${message.type}`);
       }
-    case 'feedback':
-      return 'feedback';
+    case 'review':
+      return 'review';
     default:
-      throw new Error(`Invalid message kind: ${message.kind}`);
+      kind;
+      throw new Error(`Invalid message kind: ${kind}`);
   }
 }
 
-function goToDiagnosticLocation(message) {
+function goToDiagnosticLocation(message, options) {
   if (message.scope !== 'file' || message.filePath == null) {
     return;
   }
@@ -238,5 +242,10 @@ function goToDiagnosticLocation(message) {
   // Flow sometimes reports a row of -1, so this ensures the line is at least one.
   const line = Math.max(message.range ? message.range.start.row : 0, 0);
   const column = 0;
-  (0, (_goToLocation || _load_goToLocation()).goToLocation)(uri, line, column);
+  (0, (_goToLocation || _load_goToLocation()).goToLocation)(uri, {
+    line,
+    column,
+    activatePane: options.focusEditor,
+    pending: true
+  });
 }

@@ -125,7 +125,7 @@ function DescriptionComponent(props) {
   const { showTraces, diagnostic, text, isPlainText } = props.data;
   return showTraces && diagnostic.scope === 'file' ? (0, (_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessageNoHeader)({
     message: diagnostic,
-    goToLocation: (_goToLocation || _load_goToLocation()).goToLocation,
+    goToLocation: (file, line) => (0, (_goToLocation || _load_goToLocation()).goToLocation)(file, { line }),
     fixer: () => {}
   }) : (0, (_DiagnosticsMessageText || _load_DiagnosticsMessageText()).DiagnosticsMessageText)({
     preserveNewlines: showTraces,
@@ -133,7 +133,7 @@ function DescriptionComponent(props) {
   });
 }
 
-function goToDiagnosticLocation(rowData) {
+function goToDiagnosticLocation(rowData, options) {
   if (rowData.scope !== 'file' || rowData.filePath == null) {
     return;
   }
@@ -145,29 +145,36 @@ function goToDiagnosticLocation(rowData) {
   // Flow sometimes reports a row of -1, so this ensures the line is at least one.
   const line = Math.max(rowData.range ? rowData.range.start.row : 0, 0);
   const column = 0;
-  (0, (_goToLocation || _load_goToLocation()).goToLocation)(uri, line, column);
+  (0, (_goToLocation || _load_goToLocation()).goToLocation)(uri, { line, column, activatePane: options.focusEditor });
 }
 
 class DiagnosticsTable extends _react.Component {
   constructor(props) {
     super(props);
-    this._handleSort = this._handleSort.bind(this);
-    this._handleSelectTableRow = this._handleSelectTableRow.bind(this);
+
+    this._handleSort = (sortedColumn, sortDescending) => {
+      this.setState({
+        sortedColumn,
+        sortDescending
+      });
+    };
+
+    this._handleSelectTableRow = (item, selectedIndex) => {
+      // This version of the table doesn't support keyboard navigation so we can just go to the
+      // location. If it did, we would only go if the selection was triggered by a mouse (as
+      // selections triggered by the keyboard may just be the user moving through the item to select
+      // another).
+      goToDiagnosticLocation(item.diagnostic, { focusEditor: false });
+    };
+
+    this._handleConfirmTableRow = item => {
+      goToDiagnosticLocation(item.diagnostic, { focusEditor: true });
+    };
+
     this.state = {
       sortDescending: false,
       sortedColumn: null
     };
-  }
-
-  _handleSort(sortedColumn, sortDescending) {
-    this.setState({
-      sortedColumn,
-      sortDescending
-    });
-  }
-
-  _handleSelectTableRow(item, selectedIndex) {
-    goToDiagnosticLocation(item.diagnostic);
   }
 
   _getColumns() {
@@ -249,7 +256,8 @@ class DiagnosticsTable extends _react.Component {
         sortedColumn: sortedColumn,
         sortDescending: sortDescending,
         selectable: true,
-        onSelect: this._handleSelectTableRow
+        onSelect: this._handleSelectTableRow,
+        onConfirm: this._handleConfirmTableRow
       }),
       maxResultsMessage
     );

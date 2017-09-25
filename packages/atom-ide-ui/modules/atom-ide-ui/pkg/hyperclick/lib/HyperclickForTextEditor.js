@@ -106,19 +106,6 @@ class HyperclickForTextEditor {
   }
 
   _setupMouseListeners() {
-    const getLinesDomNode = () => {
-      const { component } = this._textEditorView;
-
-      if (!component) {
-        throw new Error('Invariant violation: "component"');
-      }
-
-      if (component.refs != null) {
-        return component.refs.lineTiles;
-      } else {
-        return component.linesComponent.getDomNode();
-      }
-    };
     const addMouseListeners = () => {
       const { component } = this._textEditorView;
 
@@ -126,7 +113,7 @@ class HyperclickForTextEditor {
         throw new Error('Invariant violation: "component"');
       }
 
-      const linesDomNode = getLinesDomNode();
+      const linesDomNode = component.refs.lineTiles;
       if (linesDomNode == null) {
         return;
       }
@@ -274,11 +261,6 @@ class HyperclickForTextEditor {
 
       if (_this._lastSuggestionAtMouse != null) {
         const { range } = _this._lastSuggestionAtMouse;
-
-        if (!range) {
-          throw new Error('Hyperclick result must have a valid Range');
-        }
-
         if ((0, (_range2 || _load_range2()).isPositionInRange)(position, range)) {
           return;
         }
@@ -348,11 +330,6 @@ class HyperclickForTextEditor {
       return false;
     }
     const { range } = this._lastSuggestionAtMouse;
-
-    if (!range) {
-      throw new Error('Hyperclick result must have a valid Range');
-    }
-
     return (0, (_range2 || _load_range2()).isPositionInRange)(this._getMousePositionAsBufferPosition(), range);
   }
 

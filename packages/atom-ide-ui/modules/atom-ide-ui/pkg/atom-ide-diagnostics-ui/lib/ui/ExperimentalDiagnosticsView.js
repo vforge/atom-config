@@ -80,8 +80,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 class ExperimentalDiagnosticsView extends _react.Component {
+
   constructor(props) {
     super(props);
+
+    this._handleFocus = event => {
+      if (this._table == null) {
+        return;
+      }
+      let el = event.target;
+      while (el != null) {
+        if (el.tagName === 'INPUT' || el.tagName === 'BUTTON') {
+          return;
+        }
+        el = el.parentElement;
+      }
+      this._table.focus();
+    };
+
     this._onShowTracesChange = this._onShowTracesChange.bind(this);
     this._onFilterByActiveTextEditorChange = this._onFilterByActiveTextEditorChange.bind(this);
     this._openAllFilesWithErrors = this._openAllFilesWithErrors.bind(this);
@@ -92,7 +108,7 @@ class ExperimentalDiagnosticsView extends _react.Component {
     const { showTraces } = this.props;
     if (this.props.filterByActiveTextEditor) {
       const pathToFilterBy = this.props.pathToActiveTextEditor;
-      if (pathToFilterBy !== null) {
+      if (pathToFilterBy != null) {
         diagnostics = diagnostics.filter(diagnostic => diagnostic.scope === 'file' && diagnostic.filePath === pathToFilterBy);
       } else {
         // Current pane is not a text editor; do not show diagnostics.
@@ -100,9 +116,16 @@ class ExperimentalDiagnosticsView extends _react.Component {
       }
     }
 
+    const filterTypes = ['errors', 'warnings'];
+    if (this.props.supportedMessageKinds.has('review')) {
+      filterTypes.push('review');
+    }
+
     return _react.createElement(
       'div',
       {
+        onFocus: this._handleFocus,
+        tabIndex: -1,
         style: {
           display: 'flex',
           flex: 1,
@@ -118,7 +141,7 @@ class ExperimentalDiagnosticsView extends _react.Component {
           _react.createElement(
             (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
             null,
-            ['errors', 'warnings', 'feedback'].map(type => _react.createElement((_FilterButton || _load_FilterButton()).default, {
+            filterTypes.map(type => _react.createElement((_FilterButton || _load_FilterButton()).default, {
               key: type,
               type: type,
               selected: !this.props.hiddenTypes.has(type),
@@ -148,10 +171,14 @@ class ExperimentalDiagnosticsView extends _react.Component {
         )
       ),
       _react.createElement((_ExperimentalDiagnosticsTable || _load_ExperimentalDiagnosticsTable()).default, {
+        ref: table => {
+          this._table = table;
+        },
         showFileName: !this.props.filterByActiveTextEditor,
         diagnostics: diagnostics,
         showTraces: showTraces,
         selectedMessage: this.props.selectedMessage,
+        selectMessage: this.props.selectMessage,
         gotoMessageLocation: this.props.gotoMessageLocation
       })
     );
@@ -174,5 +201,6 @@ class ExperimentalDiagnosticsView extends _react.Component {
   _openAllFilesWithErrors() {
     atom.commands.dispatch(atom.views.getView(atom.workspace), 'diagnostics:open-all-files-with-errors');
   }
+
 }
 exports.default = ExperimentalDiagnosticsView;

@@ -256,7 +256,7 @@ function createGutterItem(messages, gutterMarkerCssClass, diagnosticUpdater) {
     // Before we jump to the location, we want to close the popup.
     dispose();
     const column = 0;
-    (0, (_goToLocation || _load_goToLocation()).goToLocation)(path, line, column);
+    (0, (_goToLocation || _load_goToLocation()).goToLocation)(path, { line, column });
   };
   item.addEventListener('mouseenter', event => {
     // If there was somehow another popup for this gutter item, dispose it. This can happen if the

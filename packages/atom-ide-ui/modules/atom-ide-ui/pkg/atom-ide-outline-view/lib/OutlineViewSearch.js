@@ -82,7 +82,10 @@ class OutlineViewSearchComponent extends _react.Component {
       (_analytics || _load_analytics()).default.track('outline-view:search-enter');
       pane.activate();
       pane.activateItem(this.props.editor);
-      (0, (_goToLocation || _load_goToLocation()).goToLocationInEditor)(this.props.editor, firstElement.startPosition.row, firstElement.startPosition.column);
+      (0, (_goToLocation || _load_goToLocation()).goToLocationInEditor)(this.props.editor, {
+        line: firstElement.startPosition.row,
+        column: firstElement.startPosition.column
+      });
       this.setState({ currentQuery: '' });
     };
 

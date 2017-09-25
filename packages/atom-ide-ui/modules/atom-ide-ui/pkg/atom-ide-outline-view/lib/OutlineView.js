@@ -232,24 +232,36 @@ class OutlineTree extends _react.PureComponent {
   constructor(...args) {
     var _temp2;
 
-    return _temp2 = super(...args), this.onClick = () => {
+    return _temp2 = super(...args), this.onClick = e => {
       const { editor, outline } = this.props;
-      const pane = atom.workspace.paneForItem(editor);
-      if (pane == null) {
-        return;
-      }
-      (_analytics || _load_analytics()).default.track('atom-ide-outline-view:go-to-location');
-      pane.activate();
-      pane.activateItem(editor);
-      (0, (_goToLocation || _load_goToLocation()).goToLocationInEditor)(editor, outline.startPosition.row, outline.startPosition.column);
-    }, this.onDoubleClick = () => {
-      const { editor, outline } = this.props;
+      const numberOfClicks = e.detail;
 
-      // Assumes that the click handler has already run, activating the text editor and moving the
-      // cursor to the start of the symbol.
-      const endPosition = outline.endPosition;
-      if (endPosition != null) {
-        editor.selectToBufferPosition(endPosition);
+      if (numberOfClicks === 1) {
+        // single click moves the cursor, but does not focus the editor
+        (_analytics || _load_analytics()).default.track('atom-ide-outline-view:go-to-location');
+        (0, (_goToLocation || _load_goToLocation()).goToLocationInEditor)(editor, {
+          line: outline.startPosition.row,
+          column: outline.startPosition.column
+        });
+      } else if (numberOfClicks === 3) {
+        // triple click selects the symbol's region
+        const endPosition = outline.endPosition;
+        if (endPosition != null) {
+          editor.selectToBufferPosition(endPosition);
+        }
+      }
+
+      if (numberOfClicks === 2 || numberOfClicks === 3) {
+        // double and triple clicks focus the editor afterwards
+        const pane = atom.workspace.paneForItem(editor);
+        if (pane == null) {
+          return;
+        }
+
+        // Assumes that the click handler has already run, which moves the
+        // cursor to the start of the symbol. Let's activate the pane now.
+        pane.activate();
+        pane.activateItem(editor);
       }
     }, _temp2;
   }
@@ -269,10 +281,7 @@ class OutlineTree extends _react.PureComponent {
       { className: classes },
       _react.createElement(
         'div',
-        {
-          className: 'list-item outline-view-item',
-          onClick: this.onClick,
-          onDoubleClick: this.onDoubleClick },
+        { className: 'list-item outline-view-item', onClick: this.onClick },
         renderItem(outline, searchResults.get(outline))
       ),
       renderTrees(editor, outline.children, searchResults)

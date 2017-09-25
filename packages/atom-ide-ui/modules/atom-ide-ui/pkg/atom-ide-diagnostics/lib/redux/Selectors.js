@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getMessages = exports.getProjectMessages = undefined;
+exports.getSupportedMessageKinds = exports.getMessages = exports.getProjectMessages = undefined;
 exports.getFileMessages = getFileMessages;
 exports.getFileMessageUpdates = getFileMessageUpdates;
 
@@ -26,6 +26,7 @@ const getMessagesState = state => state.messages; /**
                                                    */
 
 const getProjectMessagesState = state => state.projectMessages;
+const getProviders = state => state.providers;
 
 /**
   * Gets the current diagnostic messages for the file.
@@ -80,4 +81,16 @@ const getMessages = exports.getMessages = (0, (_reselect || _load_reselect()).cr
   messages.push(...projectMessages);
 
   return messages;
+});
+
+const getSupportedMessageKinds = exports.getSupportedMessageKinds = (0, (_reselect || _load_reselect()).createSelector)([getProviders], providers => {
+  const kinds = new Set(['lint']); // Lint is always supported.
+  providers.forEach(provider => {
+    if (provider.supportedMessageKinds != null) {
+      provider.supportedMessageKinds.forEach(kind => {
+        kinds.add(kind);
+      });
+    }
+  });
+  return kinds;
 });

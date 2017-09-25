@@ -190,7 +190,9 @@ const _DOMObserverObservable = exports._DOMObserverObservable = DOMObserverObser
  */
 class IntersectionObservable extends DOMObserverObservable {
   constructor(target) {
-    if (!(global.IntersectionObserver !== null)) {
+    if (!(
+    // eslint-disable-next-line eqeqeq
+    global.IntersectionObserver !== null)) {
       throw new Error('environment must contain IntersectionObserver');
     }
 
@@ -204,7 +206,9 @@ exports.IntersectionObservable = IntersectionObservable; /**
 
 class MutationObservable extends DOMObserverObservable {
   constructor(target, options) {
-    if (!(global.MutationObserver !== null)) {
+    if (!(
+    // eslint-disable-next-line eqeqeq
+    global.MutationObserver !== null)) {
       throw new Error('environment must contain MutationObserver');
     }
 
@@ -218,7 +222,9 @@ exports.MutationObservable = MutationObservable; /**
 
 class PerformanceObservable extends DOMObserverObservable {
   constructor(options) {
-    if (!(global.PerformanceObserver !== null)) {
+    if (!(
+    // eslint-disable-next-line eqeqeq
+    global.PerformanceObserver !== null)) {
       throw new Error('environment must contain PerformanceObserver');
     }
 
@@ -232,7 +238,9 @@ exports.PerformanceObservable = PerformanceObservable; /**
 
 class ResizeObservable extends DOMObserverObservable {
   constructor(target) {
-    if (!(global.ResizeObserver !== null)) {
+    if (!(
+    // eslint-disable-next-line eqeqeq
+    global.ResizeObserver !== null)) {
       throw new Error('environment must contain ResizeObserver');
     }
 

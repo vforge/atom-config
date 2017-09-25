@@ -74,7 +74,10 @@ class KeyboardShortcuts {
     if (range == null) {
       (0, (_goToLocation || _load_goToLocation()).goToLocation)(diagnostic.filePath);
     } else {
-      (0, (_goToLocation || _load_goToLocation()).goToLocation)(diagnostic.filePath, range.start.row, range.start.column);
+      (0, (_goToLocation || _load_goToLocation()).goToLocation)(diagnostic.filePath, {
+        line: range.start.row,
+        column: range.start.column
+      });
     }
   }
 
@@ -123,7 +126,10 @@ class KeyboardShortcuts {
     const trace = traces[traceIndex];
     if (trace.filePath != null && trace.range != null) {
       this._traceIndex = traceIndex;
-      (0, (_goToLocation || _load_goToLocation()).goToLocation)(trace.filePath, trace.range.start.row, trace.range.start.column);
+      (0, (_goToLocation || _load_goToLocation()).goToLocation)(trace.filePath, {
+        line: trace.range.start.row,
+        column: trace.range.start.column
+      });
       return true;
     }
     return false;

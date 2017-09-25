@@ -68,6 +68,10 @@ class DiagnosticUpdater {
       return new (_UniversalDisposable || _load_UniversalDisposable()).default(this._states.map(state => state.codeActionsForMessage).distinctUntilChanged().subscribe(callback));
     };
 
+    this.observeSupportedMessageKinds = callback => {
+      return new (_UniversalDisposable || _load_UniversalDisposable()).default(this._states.map((_Selectors || _load_Selectors()).getSupportedMessageKinds).subscribe(callback));
+    };
+
     this.applyFix = message => {
       this._store.dispatch((_Actions || _load_Actions()).applyFix(message));
     };
