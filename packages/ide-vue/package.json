@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-68819-vqzhsn.ymtnbfbt9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117826-50489-1wc13ks.b7ukpujtt9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-68819-vqzhsn.ymtnbfbt9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-68819-vqzhsn.ymtnbfbt9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117826-50489-1wc13ks.b7ukpujtt9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117826-50489-1wc13ks.b7ukpujtt9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117822-68819-1ni56b6.6gf4j9k9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117826-50489-1kiv4ns.3pcvqdunmi"
     ]
   ],
-  "_from": "../d-117822-68819-vqzhsn.ymtnbfbt9/package.tgz",
-  "_id": "ide-vue@0.1.6",
+  "_from": "../d-117826-50489-1wc13ks.b7ukpujtt9/package.tgz",
+  "_id": "ide-vue@0.1.7",
   "_inCache": true,
   "_location": "/ide-vue",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-68819-vqzhsn.ymtnbfbt9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117826-50489-1wc13ks.b7ukpujtt9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-68819-vqzhsn.ymtnbfbt9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-68819-vqzhsn.ymtnbfbt9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117826-50489-1wc13ks.b7ukpujtt9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117826-50489-1wc13ks.b7ukpujtt9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117822-68819-vqzhsn.ymtnbfbt9/package.tgz",
-  "_shasum": "435e88f0ea6cf8a5cf65595f2510944e484283b2",
+  "_resolved": "file:../d-117826-50489-1wc13ks.b7ukpujtt9/package.tgz",
+  "_shasum": "49d77d3a9a3533fe32857de8b7f91ee2d27594d2",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-68819-vqzhsn.ymtnbfbt9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117822-68819-1ni56b6.6gf4j9k9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117826-50489-1wc13ks.b7ukpujtt9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117826-50489-1kiv4ns.3pcvqdunmi",
   "author": {
     "name": "Ryan Watts",
     "email": "ryandwatts@gmail.com",
@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "atom-languageclient": "^0.6.4",
-    "vue-language-server": "^0.0.18"
+    "vue-language-server": "^0.0.19"
   },
   "description": "Vue language support for Atom-IDE.",
   "devDependencies": {
@@ -87,7 +87,7 @@
     "language-client"
   ],
   "license": "MIT",
-  "main": "./build/main",
+  "main": "./src/main",
   "name": "ide-vue",
   "optionalDependencies": {},
   "providedServices": {
@@ -118,12 +118,8 @@
     "type": "git",
     "url": "git+https://github.com/rwatts3/atom-ide-vue.git"
   },
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "prepublish": "npm run build"
-  },
-  "version": "0.1.6",
+  "scripts": {},
+  "version": "0.1.7",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -149,12 +145,12 @@
       },
       {
         "name": "ajv",
-        "version": "5.2.2",
+        "version": "5.2.3",
         "path": "node_modules/ajv/lib/ajv.js"
       },
       {
         "name": "ajv-keywords",
-        "version": "1.5.1",
+        "version": "2.1.0",
         "path": "node_modules/ajv-keywords/index.js"
       },
       {
@@ -829,7 +825,7 @@
       },
       {
         "name": "slice-ansi",
-        "version": "0.0.4",
+        "version": "1.0.0",
         "path": "node_modules/slice-ansi/index.js"
       },
       {
@@ -884,23 +880,8 @@
       },
       {
         "name": "table",
-        "version": "4.0.1",
+        "version": "4.0.2",
         "path": "node_modules/table/dist/index.js"
-      },
-      {
-        "name": "ajv",
-        "version": "4.11.8",
-        "path": "node_modules/table/node_modules/ajv/lib/ajv.js"
-      },
-      {
-        "name": "chalk",
-        "version": "1.1.3",
-        "path": "node_modules/table/node_modules/chalk/index.js"
-      },
-      {
-        "name": "strip-ansi",
-        "version": "3.0.1",
-        "path": "node_modules/table/node_modules/strip-ansi/index.js"
       },
       {
         "name": "text-table",
@@ -944,17 +925,17 @@
       },
       {
         "name": "vscode-css-languageservice",
-        "version": "2.1.7",
+        "version": "2.1.8",
         "path": "node_modules/vscode-css-languageservice/lib/cssLanguageService.js"
       },
       {
         "name": "vscode-emmet-helper",
-        "version": "1.1.8",
+        "version": "1.1.11",
         "path": "node_modules/vscode-emmet-helper/out/emmetHelper.js"
       },
       {
         "name": "vscode-jsonrpc",
-        "version": "3.4.0",
+        "version": "3.4.1",
         "path": "node_modules/vscode-jsonrpc/lib/main.js"
       },
       {
@@ -964,7 +945,7 @@
       },
       {
         "name": "vscode-languageserver-protocol",
-        "version": "3.4.2",
+        "version": "3.4.4",
         "path": "node_modules/vscode-languageserver-protocol/lib/main.js"
       },
       {
@@ -989,7 +970,7 @@
       },
       {
         "name": "vue-language-server",
-        "version": "0.0.18",
+        "version": "0.0.19",
         "path": "node_modules/vue-language-server/dist/vueServerMain.js"
       },
       {
@@ -1115,6 +1096,7 @@
         "node_modules/ajv/scripts/compile-dots.js",
         "node_modules/ajv-keywords/index.js",
         "node_modules/ajv-keywords/keywords/_formatLimit.js",
+        "node_modules/ajv-keywords/keywords/_util.js",
         "node_modules/ajv-keywords/keywords/deepProperties.js",
         "node_modules/ajv-keywords/keywords/deepRequired.js",
         "node_modules/ajv-keywords/keywords/dotjs/_formatLimit.js",
@@ -1128,11 +1110,12 @@
         "node_modules/ajv-keywords/keywords/instanceof.js",
         "node_modules/ajv-keywords/keywords/patternRequired.js",
         "node_modules/ajv-keywords/keywords/prohibited.js",
-        "node_modules/ajv-keywords/keywords/propertyNames.js",
         "node_modules/ajv-keywords/keywords/range.js",
         "node_modules/ajv-keywords/keywords/regexp.js",
+        "node_modules/ajv-keywords/keywords/select.js",
         "node_modules/ajv-keywords/keywords/switch.js",
         "node_modules/ajv-keywords/keywords/typeof.js",
+        "node_modules/ajv-keywords/keywords/uniqueItemProperties.js",
         "node_modules/amdefine/amdefine.js",
         "node_modules/amdefine/intercept.js",
         "node_modules/ansi-escapes/index.js",
@@ -3231,54 +3214,6 @@
         "node_modules/table/dist/validateTableData.js",
         "node_modules/table/dist/wrapString.js",
         "node_modules/table/dist/wrapWord.js",
-        "node_modules/table/node_modules/ajv/.tonic_example.js",
-        "node_modules/table/node_modules/ajv/dist/ajv.bundle.js",
-        "node_modules/table/node_modules/ajv/dist/ajv.min.js",
-        "node_modules/table/node_modules/ajv/dist/nodent.min.js",
-        "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
-        "node_modules/table/node_modules/ajv/lib/ajv.js",
-        "node_modules/table/node_modules/ajv/lib/async.js",
-        "node_modules/table/node_modules/ajv/lib/cache.js",
-        "node_modules/table/node_modules/ajv/lib/compile/_rules.js",
-        "node_modules/table/node_modules/ajv/lib/compile/equal.js",
-        "node_modules/table/node_modules/ajv/lib/compile/formats.js",
-        "node_modules/table/node_modules/ajv/lib/compile/index.js",
-        "node_modules/table/node_modules/ajv/lib/compile/resolve.js",
-        "node_modules/table/node_modules/ajv/lib/compile/rules.js",
-        "node_modules/table/node_modules/ajv/lib/compile/schema_obj.js",
-        "node_modules/table/node_modules/ajv/lib/compile/ucs2length.js",
-        "node_modules/table/node_modules/ajv/lib/compile/util.js",
-        "node_modules/table/node_modules/ajv/lib/compile/validation_error.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/_formatLimit.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/_limit.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/_limitItems.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/_limitLength.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/_limitProperties.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/allOf.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/anyOf.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/constant.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/custom.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/dependencies.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/enum.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/format.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/items.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/multipleOf.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/not.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/oneOf.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/pattern.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/patternRequired.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/properties.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/ref.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/required.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/switch.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/uniqueItems.js",
-        "node_modules/table/node_modules/ajv/lib/dotjs/validate.js",
-        "node_modules/table/node_modules/ajv/lib/keyword.js",
-        "node_modules/table/node_modules/ajv/lib/v5.js",
-        "node_modules/table/node_modules/ajv/scripts/bundle.js",
-        "node_modules/table/node_modules/ajv/scripts/compile-dots.js",
-        "node_modules/table/node_modules/chalk/index.js",
-        "node_modules/table/node_modules/strip-ansi/index.js",
         "node_modules/text-table/example/align.js",
         "node_modules/text-table/example/center.js",
         "node_modules/text-table/example/dotalign.js",
@@ -3303,8 +3238,6 @@
         "node_modules/typescript/lib/watchGuard.js",
         "node_modules/util-deprecate/browser.js",
         "node_modules/util-deprecate/node.js",
-        "node_modules/vscode-css-languageservice/coverage/lcov-report/prettify.js",
-        "node_modules/vscode-css-languageservice/coverage/lcov-report/sorter.js",
         "node_modules/vscode-css-languageservice/lib/cssLanguageService.js",
         "node_modules/vscode-css-languageservice/lib/data/browsers.js",
         "node_modules/vscode-css-languageservice/lib/parser/cssErrors.js",
@@ -3356,6 +3289,7 @@
         "node_modules/vscode-languageserver-protocol/lib/protocol.js",
         "node_modules/vscode-languageserver-protocol/lib/protocol.workspaceFolders.proposed.js",
         "node_modules/vscode-languageserver-protocol/lib/utils/is.js",
+        "node_modules/vscode-languageserver-protocol/types/lib/main.js",
         "node_modules/vscode-languageserver-types/lib/main.js",
         "node_modules/vscode-nls/lib/main.js",
         "node_modules/vscode-uri/lib/index.js",
@@ -3418,7 +3352,8 @@
         "node_modules/wrappy/wrappy.js",
         "node_modules/write/index.js",
         "node_modules/yallist/iterator.js",
-        "node_modules/yallist/yallist.js"
+        "node_modules/yallist/yallist.js",
+        "src/main.js"
       ],
       ".json": [
         "node_modules/@emmetio/extract-abbreviation/package.json",
@@ -3610,11 +3545,6 @@
         "node_modules/supports-color/package.json",
         "node_modules/table/dist/schemas/config.json",
         "node_modules/table/dist/schemas/streamConfig.json",
-        "node_modules/table/node_modules/ajv/lib/refs/json-schema-draft-04.json",
-        "node_modules/table/node_modules/ajv/lib/refs/json-schema-v5.json",
-        "node_modules/table/node_modules/ajv/package.json",
-        "node_modules/table/node_modules/chalk/package.json",
-        "node_modules/table/node_modules/strip-ansi/package.json",
         "node_modules/table/package.json",
         "node_modules/text-table/package.json",
         "node_modules/through/package.json",
@@ -3624,7 +3554,6 @@
         "node_modules/typedarray/package.json",
         "node_modules/typescript/package.json",
         "node_modules/util-deprecate/package.json",
-        "node_modules/vscode-css-languageservice/coverage/coverage.json",
         "node_modules/vscode-css-languageservice/package.json",
         "node_modules/vscode-emmet-helper/package.json",
         "node_modules/vscode-emmet-helper/testData/custom-snippets-invalid-json/snippets.json",
@@ -3656,11 +3585,12 @@
     "folders": [
       {
         "paths": [
-          ""
+          "",
+          "src"
         ],
         "dependencies": {
           "atom-languageclient": "^0.6.4",
-          "vue-language-server": "^0.0.18"
+          "vue-language-server": "^0.0.19"
         }
       },
       {
@@ -4363,6 +4293,14 @@
       },
       {
         "paths": [
+          "node_modules/slice-ansi"
+        ],
+        "dependencies": {
+          "is-fullwidth-code-point": "^2.0.0"
+        }
+      },
+      {
+        "paths": [
           "node_modules/source-map",
           "node_modules/source-map/build",
           "node_modules/source-map/lib/source-map",
@@ -4437,52 +4375,15 @@
         "paths": [
           "node_modules/table/dist",
           "node_modules/table/dist/schemas",
-          "node_modules/table",
-          "node_modules/table/test/README/usage",
-          "node_modules/table/test"
+          "node_modules/table"
         ],
         "dependencies": {
-          "ajv": "^4.7.0",
-          "ajv-keywords": "^1.0.0",
-          "chalk": "^1.1.1",
-          "lodash": "^4.0.0",
-          "slice-ansi": "0.0.4",
-          "string-width": "^2.0.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/table/node_modules/ajv",
-          "node_modules/table/node_modules/ajv/dist",
-          "node_modules/table/node_modules/ajv/lib",
-          "node_modules/table/node_modules/ajv/lib/compile",
-          "node_modules/table/node_modules/ajv/lib/dotjs",
-          "node_modules/table/node_modules/ajv/lib/refs",
-          "node_modules/table/node_modules/ajv/scripts"
-        ],
-        "dependencies": {
-          "co": "^4.6.0",
-          "json-stable-stringify": "^1.0.1"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/table/node_modules/chalk"
-        ],
-        "dependencies": {
-          "ansi-styles": "^2.2.1",
-          "escape-string-regexp": "^1.0.2",
-          "has-ansi": "^2.0.0",
-          "strip-ansi": "^3.0.0",
-          "supports-color": "^2.0.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/table/node_modules/strip-ansi"
-        ],
-        "dependencies": {
-          "ansi-regex": "^2.0.0"
+          "ajv": "^5.2.3",
+          "ajv-keywords": "^2.1.0",
+          "chalk": "^2.1.0",
+          "lodash": "^4.17.4",
+          "slice-ansi": "1.0.0",
+          "string-width": "^2.1.1"
         }
       },
       {
@@ -4505,8 +4406,6 @@
       },
       {
         "paths": [
-          "node_modules/vscode-css-languageservice/coverage",
-          "node_modules/vscode-css-languageservice/coverage/lcov-report",
           "node_modules/vscode-css-languageservice/lib",
           "node_modules/vscode-css-languageservice/lib/data",
           "node_modules/vscode-css-languageservice/lib/parser",
@@ -4515,7 +4414,7 @@
           "node_modules/vscode-css-languageservice"
         ],
         "dependencies": {
-          "vscode-languageserver-types": "^3.3.0",
+          "vscode-languageserver-types": "^3.4.0",
           "vscode-nls": "^2.0.1"
         }
       },
@@ -4548,10 +4447,12 @@
         "paths": [
           "node_modules/vscode-languageserver-protocol/lib",
           "node_modules/vscode-languageserver-protocol/lib/utils",
-          "node_modules/vscode-languageserver-protocol"
+          "node_modules/vscode-languageserver-protocol",
+          "node_modules/vscode-languageserver-protocol/types/lib",
+          "node_modules/vscode-languageserver-protocol/types/lib/test"
         ],
         "dependencies": {
-          "vscode-jsonrpc": "^3.4.0",
+          "vscode-jsonrpc": "^3.4.1",
           "vscode-languageserver-types": "^3.4.0"
         }
       },
