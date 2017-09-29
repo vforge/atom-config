@@ -28,8 +28,8 @@ class SimpleDragDropText
         return
 
       @linesSubs?.dispose()
-      @lines = atom.views.getView(@editor)
-      @lines = @lines.querySelector '.lines'
+      @views = atom.views.getView(@editor)
+      @lines = @views.querySelector '.lines'
       @linesSubs = new SubAtom
       @linesSubs.add @lines, 'mousedown', (e) => @mousedown e
       @linesSubs.add @lines, 'mousemove', (e) =>
@@ -43,7 +43,11 @@ class SimpleDragDropText
     if @selBufferRange.isEmpty() then return
 
     inSelection = no
-    $(@lines).find('.highlights .highlight.selection .region').each (__, ele) =>
+
+    @highlights = $(@lines).find('.highlights')
+    @highlights = if 0 == @highlights.length then @views.querySelector '.highlights' else @highlights
+
+    $(@highlights).find('.highlight.selection .region').each (__, ele) =>
       {left, top, right, bottom} = ele.getBoundingClientRect()
       if left <= e.pageX < right and
           top <= e.pageY < bottom

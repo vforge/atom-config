@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117722-71508-25h7a7.3ae1urf6r/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117828-5998-pz1brq.uptit3xr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117722-71508-25h7a7.3ae1urf6r/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117722-71508-25h7a7.3ae1urf6r/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117828-5998-pz1brq.uptit3xr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117828-5998-pz1brq.uptit3xr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117722-71508-1j9n9jp.z2fnqj8aor"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117828-5998-vvofa.i73mdndn29"
     ]
   ],
-  "_from": "../d-117722-71508-25h7a7.3ae1urf6r/package.tgz",
-  "_id": "autocomplete-modules@1.7.0",
+  "_from": "../d-117828-5998-pz1brq.uptit3xr/package.tgz",
+  "_id": "autocomplete-modules@1.7.1",
   "_inCache": true,
   "_location": "/autocomplete-modules",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117722-71508-25h7a7.3ae1urf6r/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117828-5998-pz1brq.uptit3xr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117722-71508-25h7a7.3ae1urf6r/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117722-71508-25h7a7.3ae1urf6r/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117828-5998-pz1brq.uptit3xr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117828-5998-pz1brq.uptit3xr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117722-71508-25h7a7.3ae1urf6r/package.tgz",
-  "_shasum": "63d6c71ee55e1fe88a77f7730878bdf7aa550d37",
+  "_resolved": "file:../d-117828-5998-pz1brq.uptit3xr/package.tgz",
+  "_shasum": "bda156a08106ecc66c437669170ac303ed8f2a0f",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117722-71508-25h7a7.3ae1urf6r/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117722-71508-1j9n9jp.z2fnqj8aor",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117828-5998-pz1brq.uptit3xr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117828-5998-vvofa.i73mdndn29",
   "activationHooks": [
     "language-javascript:grammar-used",
     "language-babel:grammar-used",
@@ -92,7 +92,7 @@
     "pretest": "eslint src/",
     "test": "exit 0"
   },
-  "version": "1.7.0",
+  "version": "1.7.1",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [

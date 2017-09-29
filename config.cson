@@ -99,7 +99,8 @@
     return_description: false
     return_tag: "@returns"
   editor:
-    fontFamily: "Operator Mono"
+    fontFamily: "Fantasque Sans Mono"
+    fontSize: 15
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true

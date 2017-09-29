@@ -1,3 +1,18 @@
+### 0.3.6 - 9/27/17
+- Adds missing renamed variable for 0.3.5
+
+### 0.3.5 - 9/27/17
+- Fixes breaking change from Atom core in 1.21.0-beta
+- Maintains fallback for Atom pre-1.21.0 releases
+
+### 0.3.4 - 2/9/17
+- Changes default modifier key to `CTRL`
+- Updates README and Settings wording for clarity
+
+### 0.3.3 - 2/9/17
+- Updates installation instructions
+- Updates repository URI
+
 ### 0.3.2 - 2/9/17
 - Removes shadowRoot reference
 
