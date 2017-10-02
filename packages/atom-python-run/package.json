@@ -1,0 +1,76 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95170-e8v5sc.exm51p2e29/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95170-e8v5sc.exm51p2e29/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95170-e8v5sc.exm51p2e29/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11791-95170-rmxlis.ukhkm4pldi"
+    ]
+  ],
+  "_from": "../d-11791-95170-e8v5sc.exm51p2e29/package.tgz",
+  "_id": "atom-python-run@0.9.0",
+  "_inCache": true,
+  "_location": "/atom-python-run",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95170-e8v5sc.exm51p2e29/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95170-e8v5sc.exm51p2e29/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95170-e8v5sc.exm51p2e29/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-11791-95170-e8v5sc.exm51p2e29/package.tgz",
+  "_shasum": "1f0f9d9b30a0beb6bd335221d2c30462bbda0ff6",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95170-e8v5sc.exm51p2e29/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11791-95170-rmxlis.ukhkm4pldi",
+  "bugs": {
+    "url": "https://github.com/foreshadow/atom-python-run/issues"
+  },
+  "dependencies": {},
+  "description": "Run a python source file.",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/foreshadow/atom-python-run#readme",
+  "keywords": [
+    "python"
+  ],
+  "license": "MIT",
+  "main": "./lib/atom-python-run.js",
+  "name": "atom-python-run",
+  "optionalDependencies": {},
+  "readme": "# atom-python-run package\n[![GitHub issues](https://img.shields.io/github/issues/foreshadow/atom-python-run.svg?style=plastic)](https://github.com/foreshadow/atom-python-run/issues)\n[![GitHub stars](https://img.shields.io/github/stars/foreshadow/atom-python-run.svg?style=plastic)](https://github.com/foreshadow/atom-python-run/stargazers)\n[![GitHub forks](https://img.shields.io/github/forks/foreshadow/atom-python-run.svg?style=plastic)](https://github.com/foreshadow/atom-python-run/network)\n[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=plastic)](https://raw.githubusercontent.com/foreshadow/atom-python-run/master/LICENSE.md)\n\nRun your python (.py) source file using `F5` or `F6`!\n\n![](https://cloud.githubusercontent.com/assets/2712675/18710388/9a665ed8-8037-11e6-803a-35e4555e89d0.jpg)\n\n# Prerequisite\n\n- Add the directory of `python` (or the intended interpreter) to ```PATH```.\n\n- Filter file extensions (unset by default) (optional)\n\n# Method of use\n\n1. Open a source file.\n2. Hit `F5` or `F6` to run.\n  - **It will save the file in current editor immediately without a confirmation, be aware.**\n\n\n# Features\n\n- Using `python`\n  - Almost the same console with python IDLE, which provides syntax error and runtime error messages.\n- CodeBlocks debug console style\n  - Shows return value and execution time\n    - It is a rough time based on real time rather than CPU kernel / user time\n\n# Settings\n\n- Extension filter\n  - It accepts all extension by default (empty value), you can change it into `.py`\n    - or an array `.py, .something-else`\n\n- Command\n  - You can hack it using these variant, or\n    - `{file}` = `{dir}/{name}{ext}`\n  - Run with interactive mode, or\n    - `python -i {file}`\n  - Run with idle, and you may need the next setting.\n    - `pythonw C:\\python27\\Lib\\idlelib\\idle.pyw -r {file}`\n\n- Exit immediately\n  - You can disable the default cp wrapper if you don't want it.\n\n# Compatibility\n\n- Cross Platform Compatible\n  - Runs on Windows, Mac OS X, and Linux\n\n- True Arbitrary Execution\n  - Global python is the default interpreter\n  - Execute using any interpreter\n  - Pass options to the given interpreter\n\n- Python 2 and 3\n  - Note: If you have problems executing, you can install a global version of latest `python2.7.x` (even if you have `python3.x.x` installed). Please report any `python3` issues if you want to avoid installing a global `python2` version.\n\n# Issues\n- The new version of atom-python-run fully supports logging.\n  - Please post these logs with along with issue you're experiencing.\n  - Note that there are two logs in case the latter fails. The first log is the console log and the second log is created by the cp main.py executable.\n\n- How to access Atoms Console Log\n  - Windows/Linux\n    - Ctrl + Shift + I\n  - Mac OS X\n    - Cmd + Alt + I\n  - Copy and paste the console output along with your post.\n\n- How to access `cp`'s built-in log\n  - Windows\n    1. Open file explorer\n    2. Click the location bar (where the file path usually is)\n    3. Type in `%userprofile%\\.atom\\packages\\atom-python-run`\n    4. Locate, Open, and Copy the contents of the cp.log file along with your post.\n  - Mac OS X/Linux\n    1. Open a terminal window.\n    `$ cat ~/.atom/packages/atom-python-run/cp.log`\n    2. Copy and paste the contents along with your post.\n  - NOTE: If the `cp.log` file is missing, empty, or inaccurate, please note that this was case in your post.\n\n- Detailed issues are well presented issues. This will help us locate your issue.\n\n- New an issue if you have any idea of new features.\n\n![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)\n\nThis is a package for Atom\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/foreshadow/atom-python-run.git"
+  },
+  "version": "0.9.0",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".js": [
+        "lib/atom-python-run.js",
+        "lib/terminal.js"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

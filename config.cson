@@ -40,6 +40,8 @@
     maxFileCount: 5000
   "autocomplete-plus":
     strictMatching: true
+  "autocomplete-python":
+    useKite: false
   "autocomplete-ruby":
     rsensePath: "/Users/v/.rbenv/shims/rsense"
   autosave:
@@ -99,7 +101,7 @@
     return_description: false
     return_tag: "@returns"
   editor:
-    fontFamily: "Fantasque Sans Mono"
+    fontFamily: "Operator Mono"
     fontSize: 15
     invisibles: {}
     showIndentGuide: true
@@ -117,6 +119,7 @@
   "git-projects":
     rootPath: "/Users/v/Git;/Users/v/Dropbox/Development/vforge"
   "git-status": {}
+  "ide-python": {}
   "isotope-light-ui": {}
   "isotope-ui":
     backgroundGradient: true
