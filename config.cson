@@ -21,6 +21,8 @@
       maxIntensity: 2
       minIntensity: 0
   "atom-beautify": {}
+  "atom-ide-ui":
+    "atom-ide-outline-view": {}
   "atom-import-sort": {}
   "atom-material-ui":
     colors:
@@ -76,6 +78,9 @@
       "aligner-scss"
       "imdone-atom-github"
       "ide-go"
+      "busy-signal"
+      "hyperclick"
+      "hyperlink-hyperclick"
     ]
     packagesWithKeymapsDisabled: []
     telemetryConsent: "no"
