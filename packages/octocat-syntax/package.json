@@ -2,40 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-86745-aa2xel.bvj04o0f6r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-86745-aa2xel.bvj04o0f6r/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-86745-aa2xel.bvj04o0f6r/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117114-48511-5pee61"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11793-86745-1l2ekog.6zji3323xr"
     ]
   ],
-  "_from": "../d-117114-48511-1bkyn64/package.tgz",
-  "_id": "octocat-syntax@1.3.1",
+  "_from": "../d-11793-86745-aa2xel.bvj04o0f6r/package.tgz",
+  "_id": "octocat-syntax@1.3.2",
   "_inCache": true,
-  "_installable": true,
   "_location": "/octocat-syntax",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-86745-aa2xel.bvj04o0f6r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-86745-aa2xel.bvj04o0f6r/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-86745-aa2xel.bvj04o0f6r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117114-48511-1bkyn64/package.tgz",
-  "_shasum": "d3a18be4dab272d9057f6093e790618d00562db6",
+  "_resolved": "file:../d-11793-86745-aa2xel.bvj04o0f6r/package.tgz",
+  "_shasum": "951208f96c01136896844bb2c00a3e218449e93c",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-48511-1bkyn64/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117114-48511-5pee61",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-86745-aa2xel.bvj04o0f6r/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11793-86745-1l2ekog.6zji3323xr",
   "author": {
     "name": "Vincent Klaiber",
     "email": "hello@vinkla.com",
@@ -61,12 +60,11 @@
   "license": "MIT",
   "name": "octocat-syntax",
   "optionalDependencies": {},
-  "readme": "# Octocat Syntax\n\n![octocat](https://cloud.githubusercontent.com/assets/499192/11710436/7965dc4e-9f1f-11e5-81dd-0a344c90c50a.png)\n\nOctocat syntax theme for Atom with GitHub flavoured highlighting.\n\n```sh\napm install octocat-syntax\n```\n\n## License\n\n[MIT](LICENSE) © [Vincent Klaiber](https://vinkla.com)\n",
-  "readmeFilename": "README.md",
+  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vinkla/atom-octocat-syntax.git"
   },
   "theme": "syntax",
-  "version": "1.3.1"
+  "version": "1.3.2"
 }

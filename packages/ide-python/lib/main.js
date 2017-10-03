@@ -5,7 +5,7 @@ const { AutoLanguageClient } = require("atom-languageclient");
 
 // Ref: https://github.com/nteract/hydrogen/blob/master/lib/autocomplete-provider.js#L33
 // adapted from http://stackoverflow.com/q/5474008
-const PYTHON_REGEX = /([^\d\W]|[\u00A0-\uFFFF])[\w.\u00A0-\uFFFF]*$/;
+const PYTHON_REGEX = /(([^\d\W]|[\u00A0-\uFFFF])[\w.\u00A0-\uFFFF]*)|\.$/;
 
 class PythonLanguageClient extends AutoLanguageClient {
   getGrammarScopes() {
@@ -16,6 +16,16 @@ class PythonLanguageClient extends AutoLanguageClient {
   }
   getServerName() {
     return "pyls";
+  }
+
+  postInitialization({ connection }) {
+    this._disposable.add(
+      atom.config.observe("ide-python.pylsPlugins", params => {
+        connection.didChangeConfiguration({
+          settings: { pyls: { plugins: params } }
+        });
+      })
+    );
   }
 
   async startServerProcess(projectPath) {

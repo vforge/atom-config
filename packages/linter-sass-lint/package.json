@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-59296-1oh3r8e.355nszia4i/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-59296-1oh3r8e.355nszia4i/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-59296-1oh3r8e.355nszia4i/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117818-71306-1kze8h.vefwecow29"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11793-59296-ryrbkw.vu26fg8pvi"
     ]
   ],
-  "_from": "../d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
-  "_id": "linter-sass-lint@1.8.0",
+  "_from": "../d-11793-59296-1oh3r8e.355nszia4i/package.tgz",
+  "_id": "linter-sass-lint@1.8.2",
   "_inCache": true,
   "_location": "/linter-sass-lint",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-59296-1oh3r8e.355nszia4i/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-59296-1oh3r8e.355nszia4i/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-59296-1oh3r8e.355nszia4i/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
-  "_shasum": "5fff4bfcb67c419a20adf3f66d7df3f3bf287ff1",
+  "_resolved": "file:../d-11793-59296-1oh3r8e.355nszia4i/package.tgz",
+  "_shasum": "1ac5fdd9907c93981389155b482f8422c97beb66",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-8cpmd.mswhjb57b9/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117818-71306-1kze8h.vefwecow29",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-59296-1oh3r8e.355nszia4i/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11793-59296-ryrbkw.vu26fg8pvi",
   "bugs": {
     "url": "https://github.com/AtomLinter/linter-sass-lint/issues"
   },
@@ -43,11 +43,11 @@
     "atom-package-deps": "^4.6.0",
     "consistent-env": "^1.3.1",
     "globule": "^1.2.0",
-    "sass-lint": "1.11.1"
+    "sass-lint": "1.12.0"
   },
   "description": "Atom Linter plugin to lint your Sass/SCSS with pure node sass-lint",
   "devDependencies": {
-    "coffeelint": "^1.16.0",
+    "coffeelint": "^2.0.0",
     "eslint": "^4.6.0",
     "eslint-config-airbnb-base": "^12.0.0",
     "eslint-plugin-import": "^2.7.0",
@@ -96,7 +96,7 @@
   "scripts": {
     "lint": "coffeelint lib && eslint spec"
   },
-  "version": "1.8.0",
+  "version": "1.8.2",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -262,7 +262,7 @@
       },
       {
         "name": "debug",
-        "version": "2.6.8",
+        "version": "2.6.9",
         "path": "node_modules/debug/src/index.js"
       },
       {
@@ -377,7 +377,7 @@
       },
       {
         "name": "flat-cache",
-        "version": "1.2.2",
+        "version": "1.3.0",
         "path": "node_modules/flat-cache/cache.js"
       },
       {
@@ -732,7 +732,7 @@
       },
       {
         "name": "sass-lint",
-        "version": "1.11.1",
+        "version": "1.12.0",
         "path": "node_modules/sass-lint/index.js"
       },
       {
@@ -1294,6 +1294,7 @@
         "node_modules/debug/src/browser.js",
         "node_modules/debug/src/debug.js",
         "node_modules/debug/src/index.js",
+        "node_modules/debug/src/inspector-log.js",
         "node_modules/debug/src/node.js",
         "node_modules/deep-is/example/cmp.js",
         "node_modules/deep-is/index.js",
@@ -3572,7 +3573,7 @@
           "atom-package-deps": "^4.6.0",
           "consistent-env": "^1.3.1",
           "globule": "^1.2.0",
-          "sass-lint": "1.11.1"
+          "sass-lint": "1.12.0"
         }
       },
       {
@@ -4455,11 +4456,7 @@
           "node_modules/sass-lint/bin",
           "node_modules/sass-lint",
           "node_modules/sass-lint/lib",
-          "node_modules/sass-lint/lib/rules",
-          "node_modules/sass-lint/tests",
-          "node_modules/sass-lint/tests/helpers",
-          "node_modules/sass-lint/tests/rules",
-          "node_modules/sass-lint/tests/selector-helpers"
+          "node_modules/sass-lint/lib/rules"
         ],
         "dependencies": {
           "commander": "^2.8.1",
