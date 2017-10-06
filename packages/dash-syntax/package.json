@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-57747-1hubzf5.hc6msd1jor/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-57747-1hubzf5.hc6msd1jor/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-57747-1hubzf5.hc6msd1jor/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117820-17341-1ibqt2o.g7rsikvs4i"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11796-57747-tg5587.ho2zdoyldi"
     ]
   ],
-  "_from": "../d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
-  "_id": "dash-syntax@0.4.0",
+  "_from": "../d-11796-57747-1hubzf5.hc6msd1jor/package.tgz",
+  "_id": "dash-syntax@0.4.1",
   "_inCache": true,
   "_location": "/dash-syntax",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-57747-1hubzf5.hc6msd1jor/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-57747-1hubzf5.hc6msd1jor/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-57747-1hubzf5.hc6msd1jor/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
-  "_shasum": "9e8473a97831b8d6c37c461517788de21a827641",
+  "_resolved": "file:../d-11796-57747-1hubzf5.hc6msd1jor/package.tgz",
+  "_shasum": "de06366df3907c4b57130b64a95d5945da82336c",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117820-17341-wi9r2z.24u1wtgldi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117820-17341-1ibqt2o.g7rsikvs4i",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-57747-1hubzf5.hc6msd1jor/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11796-57747-tg5587.ho2zdoyldi",
   "bugs": {
     "url": "https://github.com/cpsdqs/dash-syntax/issues"
   },
@@ -70,18 +70,5 @@
     "url": "git+https://github.com/cpsdqs/dash-syntax.git"
   },
   "theme": "syntax",
-  "version": "0.4.0",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [],
-    "extensions": {
-      ".coffee": [
-        "lib/dash-syntax.coffee"
-      ],
-      ".json": [
-        "package.json"
-      ]
-    },
-    "folders": []
-  }
+  "version": "0.4.1"
 }

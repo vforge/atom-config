@@ -81,6 +81,7 @@ module.exports =
           type:
             title: "Colours"
             description: "Configure colour options"
+            description: "Configure colour options. You can also use the command `Activate Power Mode:Select Color`"
             type: "string"
             default: "cursor"
             enum: [
@@ -96,6 +97,16 @@ module.exports =
             description: "Colour when fixed colour is selected"
             type: "color"
             default: "#fff"
+
+          randomType:
+            title: "Random colour type"
+            description: "Type of ramdom colour"
+            type: "string"
+            default: 'bright'
+            enum: [
+              {value: 'bright', description: 'Bright colours'}
+              {value: 'all', description: 'All colours'}
+            ]
 
       totalCount:
         type: "object"
@@ -141,7 +152,7 @@ module.exports =
 
       effect:
         title: "Effect"
-        description: "Defines the effect."
+        description: "Defines the canvas effect. Select it with the command `Activate Power Mode:Select Effect`"
         type: "string"
         default: ""
         order: 7
@@ -223,7 +234,7 @@ module.exports =
 
   flow:
     title: "Flow"
-    description: "Defines the flow when typing."
+    description: "Defines the flow when typing. Select with the command `Activate Power Mode:Select Flow`"
     type: "string"
     default: ""
     order: 7

@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-18871-1jewl13.vzy28d7vi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-18871-1jewl13.vzy28d7vi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-18871-1jewl13.vzy28d7vi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117811-62154-jw84nd.lrx5vobt9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11796-18871-b8dd3a.8w34ohia4i"
     ]
   ],
-  "_from": "../d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
-  "_id": "activate-power-mode@2.5.0",
+  "_from": "../d-11796-18871-1jewl13.vzy28d7vi/package.tgz",
+  "_id": "activate-power-mode@2.6.0",
   "_inCache": true,
   "_location": "/activate-power-mode",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-18871-1jewl13.vzy28d7vi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-18871-1jewl13.vzy28d7vi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-18871-1jewl13.vzy28d7vi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
-  "_shasum": "893407c58c2001ac3c910ba2b5885bc9931472c6",
+  "_resolved": "file:../d-11796-18871-1jewl13.vzy28d7vi/package.tgz",
+  "_shasum": "36376a21407250b54d8095669b93b56500bd1c7c",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117811-62154-1aqb7ez.0qwaikvs4i/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117811-62154-jw84nd.lrx5vobt9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11796-18871-1jewl13.vzy28d7vi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11796-18871-b8dd3a.8w34ohia4i",
   "author": {
     "name": "Joel Besada",
     "email": "joel@joelb.me",
@@ -75,152 +75,5 @@
     "type": "git",
     "url": "git+https://github.com/JoelBesada/activate-power-mode.git"
   },
-  "version": "2.5.0",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [
-      {
-        "name": "atom-select-list",
-        "version": "0.2.0",
-        "path": "node_modules/atom-select-list/src/select-list-view.js"
-      },
-      {
-        "name": "etch",
-        "version": "0.9.5",
-        "path": "node_modules/etch/lib/index.js"
-      },
-      {
-        "name": "fuzzaldrin",
-        "version": "2.1.0",
-        "path": "node_modules/fuzzaldrin/lib/fuzzaldrin.js"
-      },
-      {
-        "name": "lodash.debounce",
-        "version": "4.0.8",
-        "path": "node_modules/lodash.debounce/index.js"
-      },
-      {
-        "name": "lodash.random",
-        "version": "3.2.0",
-        "path": "node_modules/lodash.random/index.js"
-      },
-      {
-        "name": "lodash.sample",
-        "version": "4.2.1",
-        "path": "node_modules/lodash.sample/index.js"
-      },
-      {
-        "name": "lodash.throttle",
-        "version": "4.1.1",
-        "path": "node_modules/lodash.throttle/index.js"
-      }
-    ],
-    "extensions": {
-      ".coffee": [
-        "lib/activate-power-mode.coffee",
-        "lib/api.coffee",
-        "lib/canvas-renderer.coffee",
-        "lib/color-helper.coffee",
-        "lib/color-list.coffee",
-        "lib/combo-renderer.coffee",
-        "lib/config-schema.coffee",
-        "lib/effect/default.coffee",
-        "lib/effect/particles.coffee",
-        "lib/effect-list.coffee",
-        "lib/effect-registry.coffee",
-        "lib/flow/default.coffee",
-        "lib/flow/user-file.coffee",
-        "lib/flow-list.coffee",
-        "lib/flow-registry.coffee",
-        "lib/input-handler.coffee",
-        "lib/plugin/combo-mode.coffee",
-        "lib/plugin/play-audio.coffee",
-        "lib/plugin/power-canvas.coffee",
-        "lib/plugin/screen-shake.coffee",
-        "lib/plugin-list.coffee",
-        "lib/plugin-manager.coffee",
-        "lib/plugin-registry.coffee",
-        "lib/power-editor.coffee",
-        "lib/service/audio-player.coffee",
-        "lib/service/combo-api.coffee",
-        "lib/service/editor-registry.coffee",
-        "lib/service/screen-shaker.coffee",
-        "lib/service.coffee",
-        "lib/switcher.coffee"
-      ],
-      ".json": [
-        "node_modules/atom-select-list/package.json",
-        "node_modules/etch/package.json",
-        "node_modules/fuzzaldrin/package.json",
-        "node_modules/lodash.debounce/package.json",
-        "node_modules/lodash.random/package.json",
-        "node_modules/lodash.sample/package.json",
-        "node_modules/lodash.throttle/package.json",
-        "package.json"
-      ],
-      ".js": [
-        "node_modules/atom-select-list/src/select-list-view.js",
-        "node_modules/etch/dist/component-helpers.js",
-        "node_modules/etch/dist/default-scheduler.js",
-        "node_modules/etch/dist/dom.js",
-        "node_modules/etch/dist/event-listener-props.js",
-        "node_modules/etch/dist/index.js",
-        "node_modules/etch/dist/patch.js",
-        "node_modules/etch/dist/render.js",
-        "node_modules/etch/dist/scheduler-assignment.js",
-        "node_modules/etch/dist/svg-attribute-translations.js",
-        "node_modules/etch/dist/svg-tags.js",
-        "node_modules/etch/dist/update-props.js",
-        "node_modules/etch/lib/component-helpers.js",
-        "node_modules/etch/lib/default-scheduler.js",
-        "node_modules/etch/lib/dom.js",
-        "node_modules/etch/lib/event-listener-props.js",
-        "node_modules/etch/lib/index.js",
-        "node_modules/etch/lib/patch.js",
-        "node_modules/etch/lib/render.js",
-        "node_modules/etch/lib/scheduler-assignment.js",
-        "node_modules/etch/lib/svg-attribute-translations.js",
-        "node_modules/etch/lib/svg-tags.js",
-        "node_modules/etch/lib/update-props.js",
-        "node_modules/fuzzaldrin/lib/filter.js",
-        "node_modules/fuzzaldrin/lib/fuzzaldrin.js",
-        "node_modules/fuzzaldrin/lib/matcher.js",
-        "node_modules/fuzzaldrin/lib/scorer.js",
-        "node_modules/lodash.debounce/index.js",
-        "node_modules/lodash.random/index.js",
-        "node_modules/lodash.sample/index.js",
-        "node_modules/lodash.throttle/index.js"
-      ]
-    },
-    "folders": [
-      {
-        "paths": [
-          "lib",
-          "lib/effect",
-          "lib/flow",
-          "lib/plugin",
-          "lib/service",
-          ""
-        ],
-        "dependencies": {
-          "atom-select-list": "^0.2.0",
-          "lodash.debounce": "^4.0.8",
-          "lodash.random": "^3.1.5",
-          "lodash.sample": "^4.2.1",
-          "lodash.throttle": "^4.0.1"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/atom-select-list",
-          "node_modules/atom-select-list/src",
-          "node_modules/atom-select-list/test"
-        ],
-        "dependencies": {
-          "etch": "^0.9.5",
-          "fuzzaldrin": "^2.1.0"
-        }
-      }
-    ]
-  }
+  "version": "2.6.0"
 }
