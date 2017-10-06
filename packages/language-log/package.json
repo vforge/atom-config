@@ -2,40 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-30242-1m7mkzh/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-30242-1m7mkzh/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-30242-1m7mkzh/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117017-30242-63043x"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11795-99734-qdv02m.wwxr996bt9"
     ]
   ],
-  "_from": "../d-117017-30242-1m7mkzh/package.tgz",
-  "_id": "language-log@1.8.0",
+  "_from": "../d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
+  "_id": "language-log@1.9.0",
   "_inCache": true,
-  "_installable": true,
   "_location": "/language-log",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-30242-1m7mkzh/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-30242-1m7mkzh/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-30242-1m7mkzh/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117017-30242-1m7mkzh/package.tgz",
-  "_shasum": "b263dbc626ad9f7e9dbf483de40de12d0f2f3e00",
+  "_resolved": "file:../d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
+  "_shasum": "959e4d203849dc3c053aa4542fbbc75b0d84ea59",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117017-30242-1m7mkzh/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117017-30242-63043x",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11795-99734-qdv02m.wwxr996bt9",
   "bugs": {
     "url": "https://github.com/MRodalgaard/language-log/issues"
   },
@@ -65,5 +64,5 @@
     "type": "git",
     "url": "git+https://github.com/MRodalgaard/language-log.git"
   },
-  "version": "1.8.0"
+  "version": "1.9.0"
 }

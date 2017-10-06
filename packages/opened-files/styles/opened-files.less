@@ -1,0 +1,84 @@
+// The ui-variables file is provided by base themes provided by Atom.
+//
+// See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
+// for a full listing of what's available.
+@import "ui-variables";
+
+ul.tab-bar>li.tab.of-highlight,
+ul.tab-bar>li.tab.of-highlight:before,
+ul.tab-bar>li.tab.of-highlight:after {
+  background-color: @background-color-highlight;
+}
+.file-list .of-highlight {
+  &.directory:before,
+  &.file:before {
+    content: '';
+    background-color: @background-color-highlight;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 25px;
+  }
+}
+.file-list.opened-files .save{
+  z-index: 2;
+  position:absolute;
+  top: 3px;
+  right: 0;
+}
+.file-list.opened-files {
+  padding-left: 6px;
+  width: 100%;
+  background-color: @tree-view-background-color;
+  overflow: scroll;
+  min-height: 33px;
+  max-height: 210px;
+  flex: 0 0 auto;
+  >ol.list-tree {
+    font-size: 11px;
+    span.icon {
+      display:inline-block;
+    }
+    span.path {
+      font-size: 0.9em;
+      padding-left: 6px;
+      color: @text-color-subtle;
+    }
+    span.name {
+      font-size: 1.025em;
+    }
+    li.file {
+      padding-left: 0;
+    }
+    .file>span.icon-x {
+      position: relative;
+      width: 0px;
+      left: -16px;
+      top: 0px;
+      &.not-hovered {
+        color: @tree-view-background-color;
+      }
+    }
+    .file.selected>span.icon-x.not-hovered {
+      color: @background-color-selected;
+      text-shadow: none;
+    }
+    .directory {
+      .icon-x {
+        z-index: 10;
+        margin-left: .5em;
+      }
+      &.list-nested-item {
+        .list-tree.entries {
+          max-height: 25vh;
+          overflow: auto;
+        }
+      }
+    }
+    .file {
+      .icon-paintcan {
+        margin-left: .5em;
+      }
+    }
+  }
+}

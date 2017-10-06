@@ -189,6 +189,8 @@
   "one-light-ui": {}
   "open-terminal-here": {}
   "opened-files":
+    colorStyle: "solid"
+    highlightOnHover: false
     removeOnClose: true
   "package-sync": {}
   "php-integrator-base:confirmed-upgrade-message": true
