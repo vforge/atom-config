@@ -330,6 +330,7 @@ class SpawnWrapper extends Base {
     tty(model) {
         model.options = this.optionWrapper(model.options);
         let tty = this.spawnWrapper(model);
+
         if (model.log) {
             new Log({
                 'tty': tty,
