@@ -2,14 +2,19 @@
 /* global atom */
 
 import { EventEmitter } from 'events'
+import fs from 'fs'
+import gitIgnoreParser from 'git-ignore-parser';
 import path from 'path'
 import _ from 'underscore-plus'
 import minimatch from 'minimatch'
 import { Directory, File } from 'atom'
+import { execPromise } from './utils'
 
 export default class PathsCache extends EventEmitter {
   constructor () {
     super()
+
+    this._projectChangeWatcher = atom.project.onDidChangePaths(() => this.rebuildCache())
 
     this._repositories = []
     this._filePathsByProjectDirectory = new Map()
@@ -43,6 +48,15 @@ export default class PathsCache extends EventEmitter {
         ignored = ignored || minimatch(path, ignoredName, { matchBase: true, dot: true })
       })
     }
+
+    const ignoredPatterns = atom.config.get('autocomplete-paths.ignoredPatterns')
+    if (ignoredPatterns) {
+      ignoredPatterns.forEach(ignoredPattern => {
+        if (ignored) return
+        ignored = ignored || minimatch(path, ignoredPattern, { dot: true })
+      })
+    }
+
     return ignored
   }
 
@@ -194,11 +208,14 @@ export default class PathsCache extends EventEmitter {
 
     this._cancelled = false
     this.emit('rebuild-cache')
-    if (!path) {
-      return this._buildInitialCache()
-    } else {
-      return this._rebuildCacheForPath(path)
-    }
+
+    return execPromise('find --version')
+      .then(
+        // `find` is available
+        () => this._buildInitialCacheWithFind(),
+        // `find` is not available
+        () => this._buildInitialCache()
+      )
   }
 
   /**
@@ -219,18 +236,6 @@ export default class PathsCache extends EventEmitter {
         this.emit('rebuild-cache-done')
         return result
       })
-  }
-
-  /**
-   * Rebuilds the cache for the given path
-   * @param  {String} directoryPath
-   * @return {Promise}
-   * @private
-   */
-  _rebuildCacheForPath (directoryPath) {
-    const projectPath = this._getProjectPathForPath(directoryPath)
-    const subPath = path.relative(projectPath, directoryPath)
-    return this._cacheProjectFiles(projectPath, subPath, true)
   }
 
   /**
@@ -264,14 +269,10 @@ export default class PathsCache extends EventEmitter {
     return filePaths
   }
 
-  getFilePathsForDirectory (directory) {
-    return this._filePathsByDirectory.get(directory.path) || []
-  }
-
   /**
    * Disposes this PathsCache
    */
-  dispose () {
+  dispose(isPackageDispose) {
     this._fileWatchersByDirectory.forEach((watcher, directory) => {
       watcher.dispose()
     })
@@ -279,5 +280,151 @@ export default class PathsCache extends EventEmitter {
     this._filePathsByProjectDirectory = new Map()
     this._filePathsByDirectory = new Map()
     this._repositories = []
+    if (this._projectWatcher) {
+      this._projectWatcher.dispose()
+      this._projectWatcher = null
+    }
+    if (isPackageDispose && this._projectChangeWatcher) {
+      this._projectChangeWatcher.dispose()
+      this._projectChangeWatcher = null
+    }
+  }
+
+  //
+  // Cache with `find`
+  //
+
+  /**
+   * Builds the initial file cache with `find`
+   * @return {Promise}
+   * @private
+   */
+  _buildInitialCacheWithFind() {
+    return this._cacheProjectPathsAndRepositories()
+      .then(() => {
+        this._projectWatcher = atom.project.onDidChangeFiles(this._onDidChangeFiles.bind(this))
+
+        return Promise.all(
+          this._projectDirectories.map(this._populateCacheFor.bind(this))
+        );
+      })
+      .then(result => {
+        this.emit('rebuild-cache-done');
+        return result;
+      });
+  }
+
+  _onDidChangeFiles(events) {
+    events
+      .filter(event => event.action !== 'modified')
+      .forEach(event => {
+        if (!this._projectDirectories) {
+          return;
+        }
+
+        const { action, path, oldPath } = event;
+
+        const projectDirectory = this._projectDirectories
+          .find(projectDirectory => path.indexOf(projectDirectory.path) === 0);
+
+        if (!projectDirectory) {
+          return;
+        }
+        const directoryPath = projectDirectory.path;
+        const ignored = this._isPathIgnored(path);
+
+        if (ignored) {
+          return;
+        }
+
+        const files = this._filePathsByProjectDirectory.get(directoryPath);
+
+        switch (action) {
+          case 'created':
+            files.push(path);
+            break;
+
+          case 'deleted':
+            const i = files.indexOf(path);
+            if (i > -1) {
+              files.splice(i, 1);
+            }
+            break;
+
+          case 'renamed':
+            const j = files.indexOf(oldPath);
+            if (j > -1) {
+              files[j] = path;
+            }
+            break;
+        }
+      });
+  }
+
+  /**
+   * Returns a list of ignore patterns for a directory
+   * @param  {String} directoryPath
+   * @return {String[]}
+   * @private
+   */
+  _getIgnorePatterns(directoryPath) {
+    const patterns = [];
+
+    if (atom.config.get('autocomplete-paths.ignoredNames')) {
+      atom.config.get('core.ignoredNames').forEach(pattern => patterns.push(pattern));
+    }
+
+    if (atom.config.get('core.excludeVcsIgnoredPaths')) {
+      try {
+        const gitIgnore = fs.readFileSync(directoryPath + '/.gitignore', 'utf-8');
+        gitIgnoreParser(gitIgnore).forEach(pattern => patterns.push(pattern));
+      }
+      catch(err) {
+        // .gitignore does not exist for this directory, ignoring
+      }
+    }
+
+    const ignoredPatterns = atom.config.get('autocomplete-paths.ignoredPatterns');
+    if (ignoredPatterns) {
+      ignoredPatterns.forEach(pattern => patterns.push(pattern));
+    }
+
+    return patterns;
+  }
+
+  /**
+   * Populates cache for a project directory
+   * @param  {Directory} projectDirectory
+   * @return {Promise}
+   * @private
+   */
+  _populateCacheFor(projectDirectory) {
+    const directoryPath = projectDirectory.path;
+
+    const ignorePatterns = this._getIgnorePatterns(directoryPath);
+    const ignorePatternsForFind = ignorePatterns.map(
+      pattern => pattern
+        .replace(/\./g, '\\.')
+        .replace(/\*/g, '.*')
+    );
+    const ignorePattern = '\'.*\\(' + ignorePatternsForFind.join('\\|') + '\\).*\'';
+
+    const cmd = [
+      'find',
+      '-L',
+      directoryPath + '/',
+      '-type', 'f',
+      '-not', '-regex', ignorePattern,
+    ].join(' ');
+
+    return execPromise(cmd, {
+      maxBuffer: 1024 * 1024,
+    }).then(stdout => {
+      const files = _.compact(stdout.split('\n'));
+
+      this._filePathsByProjectDirectory.set(directoryPath, files);
+
+      return files;
+    });
   }
 }

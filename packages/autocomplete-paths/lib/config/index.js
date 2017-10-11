@@ -28,6 +28,19 @@ const options = {
     default: false,
     description: 'Ignore submodule directories.'
   },
+  ignoredPatterns: {
+    type: 'array',
+    default: [],
+    items: {
+      type: 'string'
+    },
+    description: 'Ignore additional file path patterns.'
+  },
+  ignoreBuiltinScopes: {
+    type: 'boolean',
+    default: false,
+    description: 'Ignore built-in scopes and use only scopes from user configuration.'
+  },
   scopes: {
     type: 'array',
     default: [],

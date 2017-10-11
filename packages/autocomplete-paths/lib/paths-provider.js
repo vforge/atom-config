@@ -29,8 +29,11 @@ export default class PathsProvider extends EventEmitter {
    * Reloads the scopes
    */
   reloadScopes () {
-    this._scopes = atom.config.get('autocomplete-paths.scopes') || []
-    this._scopes = this._scopes.slice(0).concat(DefaultScopes)
+    this._scopes = atom.config.get('autocomplete-paths.scopes').slice(0) || []
+
+    if (!atom.config.get('autocomplete-paths.ignoreBuiltinScopes')) {
+      this._scopes = this._scopes.concat(DefaultScopes)
+    }
 
     for (var key in OptionScopes) {
       if (atom.config.get(`autocomplete-paths.${key}`)) {
@@ -150,7 +153,8 @@ export default class PathsProvider extends EventEmitter {
     let suggestions = files.map(pathName => {
       const normalizeSlashes = atom.config.get('autocomplete-paths.normalizeSlashes')
 
-      let displayText = atom.project.relativizePath(pathName)[1]
+      const projectRelativePath = atom.project.relativizePath(pathName)[1]
+      let displayText = projectRelativePath
       if (directoryGiven) {
         displayText = path.relative(requestedDirectoryPath, pathName)
       }
@@ -170,13 +174,17 @@ export default class PathsProvider extends EventEmitter {
         }
       }
 
+      if (scope.projectRelativePath) {
+        pathName = projectRelativePath
+      }
+
       // Replace stuff if necessary
       if (scope.replaceOnInsert) {
         let originalPathName = pathName
         scope.replaceOnInsert.forEach(([from, to]) => {
           const regex = new RegExp(from)
-          if (regex.test(originalPathName)) {
-            pathName = originalPathName.replace(regex, to)
+          if (regex.test(pathName)) {
+            pathName = pathName.replace(regex, to)
           }
         })
       }
@@ -265,13 +273,20 @@ export default class PathsProvider extends EventEmitter {
     return atom.config.get('autocomplete-paths.suggestionPriority')
   }
 
+  get fileCount() {
+    return atom.project.getDirectories().reduce((accumulated, directory) => {
+      const filePaths = this._pathsCache.getFilePathsForProjectDirectory(directory)
+      return accumulated + filePaths.length;
+    }, 0)
+  }
+
   /**
    * Disposes this provider
    */
   dispose () {
     this._pathsCache.removeListener('rebuild-cache', this._onRebuildCache)
     this._pathsCache.removeListener('rebuild-cache-done', this._onRebuildCacheDone)
-    this._pathsCache.dispose()
+    this._pathsCache.dispose(true)
   }
 }
 

@@ -9,12 +9,12 @@ export default [
       'require\\([\'"]', // require('./foo')
       'define\\(\\[?[\'"]' // define(['./foo']) or define('./foo')
     ],
-    extensions: ['js', 'jsx', 'ts', 'tsx', 'coffee'],
+    extensions: ['js', 'jsx', 'ts', 'tsx', 'coffee', 'json'],
     relative: true,
     replaceOnInsert: [
-      ['\\.jsx?$', ''],
-      ['\\.ts$', ''],
-      ['\\.coffee$', '']
+      ['([\\/]?index)?\\.jsx?$', ''],
+      ['([\\/]?index)?\\.ts$', ''],
+      ['([\\/]?index)?\\.coffee$', '']
     ]
   },
   {

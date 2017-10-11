@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95079-3th2dr.miizyyzaor/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11797-64084-13wyk9r.k21mmtpgb9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95079-3th2dr.miizyyzaor/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95079-3th2dr.miizyyzaor/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11797-64084-13wyk9r.k21mmtpgb9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11797-64084-13wyk9r.k21mmtpgb9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11791-95079-3uw4jk.2mhe3wstt9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11797-64084-1cdoy0g.9xef80k9"
     ]
   ],
-  "_from": "../d-11791-95079-3th2dr.miizyyzaor/package.tgz",
-  "_id": "python-indent@1.1.1",
+  "_from": "../d-11797-64084-13wyk9r.k21mmtpgb9/package.tgz",
+  "_id": "python-indent@1.1.2",
   "_inCache": true,
   "_location": "/python-indent",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95079-3th2dr.miizyyzaor/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11797-64084-13wyk9r.k21mmtpgb9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95079-3th2dr.miizyyzaor/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95079-3th2dr.miizyyzaor/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11797-64084-13wyk9r.k21mmtpgb9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11797-64084-13wyk9r.k21mmtpgb9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11791-95079-3th2dr.miizyyzaor/package.tgz",
-  "_shasum": "df74a7c7a1b0e2ed80da205b05c0cbe991ed9ae6",
+  "_resolved": "file:../d-11797-64084-13wyk9r.k21mmtpgb9/package.tgz",
+  "_shasum": "4a86d1959cf106ee1c2f7299c62521fe599c75ad",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-95079-3th2dr.miizyyzaor/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11791-95079-3uw4jk.2mhe3wstt9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11797-64084-13wyk9r.k21mmtpgb9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11797-64084-1cdoy0g.9xef80k9",
   "author": {
     "name": "Dustin Speckhals",
     "email": "dustin1114@gmail.com"
@@ -74,19 +74,5 @@
     "type": "git",
     "url": "git+https://github.com/DSpeckhals/python-indent.git"
   },
-  "version": "1.1.1",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [],
-    "extensions": {
-      ".js": [
-        "lib/main.js",
-        "lib/python-indent.js"
-      ],
-      ".json": [
-        "package.json"
-      ]
-    },
-    "folders": []
-  }
+  "version": "1.1.2"
 }
