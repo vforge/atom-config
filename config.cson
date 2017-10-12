@@ -22,6 +22,7 @@
       minIntensity: 0
   "atom-beautify": {}
   "atom-ide-ui":
+    "atom-ide-diagnostics-ui": {}
     "atom-ide-outline-view": {}
   "atom-import-sort": {}
   "atom-material-ui":

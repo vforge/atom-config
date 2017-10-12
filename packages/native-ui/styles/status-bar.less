@@ -12,6 +12,7 @@ status-bar {
 
 status-bar .flexbox-repaint-hack {
   padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 status-bar .status-bar-right > *,
@@ -41,6 +42,6 @@ status-bar .status-bar-left > * {
   }
 }// status-bar .status-bar-right a.inline-block
 
-.inline-block:empty {
+.inline-block:empty:not(busy-signal):not(status-bar-launch-mode) {
   display: none;
 }

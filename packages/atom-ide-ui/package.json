@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117910-22713-14wd0xe.7dnhwu3di/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117912-49934-lga524.2xguys0pb9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117910-22713-14wd0xe.7dnhwu3di/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117910-22713-14wd0xe.7dnhwu3di/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117912-49934-lga524.2xguys0pb9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117912-49934-lga524.2xguys0pb9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117910-22713-1elwogr.itdgjbgldi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117912-49934-trbrgz.q1t580vn29"
     ]
   ],
-  "_from": "../d-117910-22713-14wd0xe.7dnhwu3di/package.tgz",
-  "_id": "atom-ide-ui@0.5.0",
+  "_from": "../d-117912-49934-lga524.2xguys0pb9/package.tgz",
+  "_id": "atom-ide-ui@0.5.1",
   "_inCache": true,
   "_location": "/atom-ide-ui",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117910-22713-14wd0xe.7dnhwu3di/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117912-49934-lga524.2xguys0pb9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117910-22713-14wd0xe.7dnhwu3di/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117910-22713-14wd0xe.7dnhwu3di/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117912-49934-lga524.2xguys0pb9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117912-49934-lga524.2xguys0pb9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117910-22713-14wd0xe.7dnhwu3di/package.tgz",
-  "_shasum": "840b09af9f63f1b76a24566b1257c759c3fc355e",
+  "_resolved": "file:../d-117912-49934-lga524.2xguys0pb9/package.tgz",
+  "_shasum": "ba44040d86fbec6e47c2816480ec2d13d24fd34c",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117910-22713-14wd0xe.7dnhwu3di/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117910-22713-1elwogr.itdgjbgldi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117912-49934-lga524.2xguys0pb9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117912-49934-trbrgz.q1t580vn29",
   "bugs": {
     "url": "https://github.com/facebook-atom/atom-ide-ui/issues"
   },
@@ -54,6 +54,7 @@
     "marked": "0.3.6",
     "mime-types": "2.1.16",
     "mkdirp": "0.5.1",
+    "mv": "2.1.1",
     "nullthrows": "1.0.0",
     "react": "16.0.0",
     "react-dom": "16.0.0",
@@ -61,7 +62,7 @@
     "redux-logger": "3.0.6",
     "reselect": "3.0.1",
     "resolve-from": "2.0.0",
-    "rimraf": "2.5.4",
+    "rimraf": "2.6.2",
     "rxjs": "5.3.1",
     "semver": "5.3.0",
     "shallowequal": "0.2.2",
@@ -72,18 +73,18 @@
   },
   "description": "A collection of Atom UIs to support language services.",
   "devDependencies": {
-    "babel-core": "6.24.1",
+    "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
     "babel-plugin-idx": "1.4.0",
     "babel-plugin-istanbul": "4.1.5",
     "babel-plugin-syntax-flow": "6.18.0",
     "babel-plugin-transform-async-to-module-method": "6.24.1",
     "babel-plugin-transform-class-properties": "6.24.1",
-    "babel-plugin-transform-es2015-modules-commonjs": "6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "6.26.0",
     "babel-plugin-transform-flow-strip-types": "6.22.0",
     "babel-plugin-transform-inline-imports-commonjs": "1.2.0",
-    "babel-plugin-transform-object-rest-spread": "6.23.0",
-    "babel-plugin-transform-react-display-name": "6.23.0",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-plugin-transform-react-display-name": "6.25.0",
     "babel-plugin-transform-react-jsx": "6.24.1",
     "babel-plugin-transform-strict-mode": "6.24.1",
     "codecov": "2.3.0",
@@ -127,5 +128,5 @@
     "release-transpile": "./modules/nuclide-node-transpiler/bin/release-transpile.js",
     "test": "npm run flow && npm run lint-all && ./scripts/test.js"
   },
-  "version": "0.5.0"
+  "version": "0.5.1"
 }
