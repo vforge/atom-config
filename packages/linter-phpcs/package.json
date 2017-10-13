@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11794-20549-n0p888.9ethntgldi/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-x34dp6.z4hx5hfr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11794-20549-n0p888.9ethntgldi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11794-20549-n0p888.9ethntgldi/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-x34dp6.z4hx5hfr/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-x34dp6.z4hx5hfr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11794-20549-1eromyc.6xo85jnhfr"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-1fz3ak2.x6yyq1if6r"
     ]
   ],
-  "_from": "../d-11794-20549-n0p888.9ethntgldi/package.tgz",
+  "_from": "../d-117913-40922-x34dp6.z4hx5hfr/package.tgz",
   "_id": "linter-phpcs@1.6.8",
   "_inCache": true,
   "_location": "/linter-phpcs",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11794-20549-n0p888.9ethntgldi/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-x34dp6.z4hx5hfr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11794-20549-n0p888.9ethntgldi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11794-20549-n0p888.9ethntgldi/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-x34dp6.z4hx5hfr/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-x34dp6.z4hx5hfr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11794-20549-n0p888.9ethntgldi/package.tgz",
+  "_resolved": "file:../d-117913-40922-x34dp6.z4hx5hfr/package.tgz",
   "_shasum": "99012eacdc5612dbe54793e2592c1decae029ed0",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11794-20549-n0p888.9ethntgldi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11794-20549-1eromyc.6xo85jnhfr",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-x34dp6.z4hx5hfr/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-1fz3ak2.x6yyq1if6r",
   "bugs": {
     "url": "https://github.com/AtomLinter/linter-phpcs/issues"
   },

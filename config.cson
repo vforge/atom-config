@@ -195,6 +195,9 @@
     highlightOnHover: false
     removeOnClose: true
   "package-sync": {}
+  "php-integrator-base":
+    core:
+      phpCommand: "/usr/local/bin/php"
   "php-integrator-base:confirmed-upgrade-message": true
   "pristine-ui":
     tabSizing: "Minimum"

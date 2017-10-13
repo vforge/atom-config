@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-hdslz0.9rkd3d6lxr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-hdslz0.9rkd3d6lxr/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-hdslz0.9rkd3d6lxr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11795-99734-qdv02m.wwxr996bt9"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-8vunb5.d9h4c84cxr"
     ]
   ],
-  "_from": "../d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
+  "_from": "../d-117913-40922-hdslz0.9rkd3d6lxr/package.tgz",
   "_id": "language-log@1.9.0",
   "_inCache": true,
   "_location": "/language-log",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-hdslz0.9rkd3d6lxr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-hdslz0.9rkd3d6lxr/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-hdslz0.9rkd3d6lxr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
+  "_resolved": "file:../d-117913-40922-hdslz0.9rkd3d6lxr/package.tgz",
   "_shasum": "959e4d203849dc3c053aa4542fbbc75b0d84ea59",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11795-99734-gh6wg2.89w3fpqfr/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11795-99734-qdv02m.wwxr996bt9",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-hdslz0.9rkd3d6lxr/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-8vunb5.d9h4c84cxr",
   "bugs": {
     "url": "https://github.com/MRodalgaard/language-log/issues"
   },

@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117911-91787-1i2yjv1.1st94zehfr/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117911-91787-1i2yjv1.1st94zehfr/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117911-91787-1i2yjv1.1st94zehfr/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117911-91787-1a993jj.1xa0grpb9"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-1tdtwf9.hjqpu2qpvi"
     ]
   ],
-  "_from": "../d-117911-91787-1i2yjv1.1st94zehfr/package.tgz",
+  "_from": "../d-117913-40922-1vezq8z.q0xry66r/package.tgz",
   "_id": "octocat-syntax@2.1.6",
   "_inCache": true,
   "_location": "/octocat-syntax",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117911-91787-1i2yjv1.1st94zehfr/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117911-91787-1i2yjv1.1st94zehfr/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117911-91787-1i2yjv1.1st94zehfr/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117911-91787-1i2yjv1.1st94zehfr/package.tgz",
+  "_resolved": "file:../d-117913-40922-1vezq8z.q0xry66r/package.tgz",
   "_shasum": "05da1215823a60d2d23fd14807b0ba65e83034d1",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117911-91787-1i2yjv1.1st94zehfr/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117911-91787-1a993jj.1xa0grpb9",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-1tdtwf9.hjqpu2qpvi",
   "author": {
     "name": "Vincent Klaiber",
     "email": "hello@vinkla.com",
