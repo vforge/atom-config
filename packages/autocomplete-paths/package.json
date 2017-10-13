@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11799-66858-1davkkr.61ayfu5wmi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117913-54503-fam2wn.811c3di/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11799-66858-1davkkr.61ayfu5wmi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11799-66858-1davkkr.61ayfu5wmi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117913-54503-fam2wn.811c3di/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117913-54503-fam2wn.811c3di/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11799-66858-1a5l2zk.dg6y5pnwmi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117913-54503-fetbel.cx7lm1jor"
     ]
   ],
-  "_from": "../d-11799-66858-1davkkr.61ayfu5wmi/package.tgz",
-  "_id": "autocomplete-paths@2.12.0",
+  "_from": "../d-117913-54503-fam2wn.811c3di/package.tgz",
+  "_id": "autocomplete-paths@2.12.1",
   "_inCache": true,
   "_location": "/autocomplete-paths",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11799-66858-1davkkr.61ayfu5wmi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117913-54503-fam2wn.811c3di/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11799-66858-1davkkr.61ayfu5wmi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11799-66858-1davkkr.61ayfu5wmi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117913-54503-fam2wn.811c3di/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117913-54503-fam2wn.811c3di/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11799-66858-1davkkr.61ayfu5wmi/package.tgz",
-  "_shasum": "3607a1b284e18ef6caf9d8545af9e309c805f055",
+  "_resolved": "file:../d-117913-54503-fam2wn.811c3di/package.tgz",
+  "_shasum": "e0588d5e0fef90591d8a26f747c467119c12ec77",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11799-66858-1davkkr.61ayfu5wmi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11799-66858-1a5l2zk.dg6y5pnwmi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117913-54503-fam2wn.811c3di/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117913-54503-fetbel.cx7lm1jor",
   "bugs": {
     "url": "https://github.com/atom-community/autocomplete-paths/issues"
   },
@@ -75,5 +75,5 @@
     "type": "git",
     "url": "git+https://github.com/atom-community/autocomplete-paths.git"
   },
-  "version": "2.12.0"
+  "version": "2.12.1"
 }
