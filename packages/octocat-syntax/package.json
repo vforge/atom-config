@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70269-dzebjh.yzeyiudi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70269-dzebjh.yzeyiudi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70269-dzebjh.yzeyiudi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-1tdtwf9.hjqpu2qpvi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117917-70269-1go77j2.9sa7qr529"
     ]
   ],
-  "_from": "../d-117913-40922-1vezq8z.q0xry66r/package.tgz",
-  "_id": "octocat-syntax@2.1.6",
+  "_from": "../d-117917-70269-dzebjh.yzeyiudi/package.tgz",
+  "_id": "octocat-syntax@2.1.9",
   "_inCache": true,
   "_location": "/octocat-syntax",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70269-dzebjh.yzeyiudi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70269-dzebjh.yzeyiudi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70269-dzebjh.yzeyiudi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117913-40922-1vezq8z.q0xry66r/package.tgz",
-  "_shasum": "05da1215823a60d2d23fd14807b0ba65e83034d1",
+  "_resolved": "file:../d-117917-70269-dzebjh.yzeyiudi/package.tgz",
+  "_shasum": "ab643b6ec741cfbc10d1446fd126fa968f278b0e",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-1vezq8z.q0xry66r/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-1tdtwf9.hjqpu2qpvi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70269-dzebjh.yzeyiudi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117917-70269-1go77j2.9sa7qr529",
   "author": {
     "name": "Vincent Klaiber",
     "email": "hello@vinkla.com",
@@ -69,5 +69,5 @@
     "url": "git+https://github.com/vinkla/atom-octocat-syntax.git"
   },
   "theme": "syntax",
-  "version": "2.1.6"
+  "version": "2.1.9"
 }

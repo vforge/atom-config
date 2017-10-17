@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-88774-1f43s0t.p6kurtfbt9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70239-dh608v.41cx9wwmi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-88774-1f43s0t.p6kurtfbt9/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-88774-1f43s0t.p6kurtfbt9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70239-dh608v.41cx9wwmi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70239-dh608v.41cx9wwmi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11791-88774-1irben3.i0tesl9pb9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117917-70239-1a1hcjg.cuc8m5nrk9"
     ]
   ],
-  "_from": "../d-11791-88774-1f43s0t.p6kurtfbt9/package.tgz",
-  "_id": "autocomplete-modules@1.7.2",
+  "_from": "../d-117917-70239-dh608v.41cx9wwmi/package.tgz",
+  "_id": "autocomplete-modules@1.7.3",
   "_inCache": true,
   "_location": "/autocomplete-modules",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-88774-1f43s0t.p6kurtfbt9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70239-dh608v.41cx9wwmi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-88774-1f43s0t.p6kurtfbt9/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-88774-1f43s0t.p6kurtfbt9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70239-dh608v.41cx9wwmi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70239-dh608v.41cx9wwmi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11791-88774-1f43s0t.p6kurtfbt9/package.tgz",
-  "_shasum": "df39e0cacd1b2f22cbb2c8fe1e7b4d3b71207d79",
+  "_resolved": "file:../d-117917-70239-dh608v.41cx9wwmi/package.tgz",
+  "_shasum": "2e45d8d17702378003362ce2db8852918108e8fb",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11791-88774-1f43s0t.p6kurtfbt9/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11791-88774-1irben3.i0tesl9pb9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70239-dh608v.41cx9wwmi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117917-70239-1a1hcjg.cuc8m5nrk9",
   "activationHooks": [
     "language-javascript:grammar-used",
     "language-babel:grammar-used",
@@ -47,7 +47,7 @@
     "url": "https://github.com/nkt/atom-autocomplete-modules/issues"
   },
   "dependencies": {
-    "bluebird": "3.5.0",
+    "bluebird": "3.5.1",
     "find-babel-config": "1.1.0",
     "fuzzaldrin": "2.1.0",
     "lodash.escaperegexp": "4.1.2",
@@ -92,141 +92,5 @@
     "pretest": "eslint src/",
     "test": "exit 0"
   },
-  "version": "1.7.2",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [
-      {
-        "name": "bluebird",
-        "version": "3.5.0",
-        "path": "node_modules/bluebird/js/release/bluebird.js"
-      },
-      {
-        "name": "find-babel-config",
-        "version": "1.1.0",
-        "path": "node_modules/find-babel-config/lib/index.js"
-      },
-      {
-        "name": "fuzzaldrin",
-        "version": "2.1.0",
-        "path": "node_modules/fuzzaldrin/lib/fuzzaldrin.js"
-      },
-      {
-        "name": "json5",
-        "version": "0.5.1",
-        "path": "node_modules/json5/lib/json5.js"
-      },
-      {
-        "name": "lodash.escaperegexp",
-        "version": "4.1.2",
-        "path": "node_modules/lodash.escaperegexp/index.js"
-      },
-      {
-        "name": "lodash.get",
-        "version": "4.4.2",
-        "path": "node_modules/lodash.get/index.js"
-      },
-      {
-        "name": "path-exists",
-        "version": "3.0.0",
-        "path": "node_modules/path-exists/index.js"
-      }
-    ],
-    "extensions": {
-      ".json": [
-        ".eslintrc.json",
-        "node_modules/bluebird/package.json",
-        "node_modules/find-babel-config/package.json",
-        "node_modules/fuzzaldrin/package.json",
-        "node_modules/json5/package.json",
-        "node_modules/lodash.escaperegexp/package.json",
-        "node_modules/lodash.get/package.json",
-        "node_modules/path-exists/package.json",
-        "package.json"
-      ],
-      ".js": [
-        "node_modules/bluebird/js/browser/bluebird.core.js",
-        "node_modules/bluebird/js/browser/bluebird.core.min.js",
-        "node_modules/bluebird/js/browser/bluebird.js",
-        "node_modules/bluebird/js/browser/bluebird.min.js",
-        "node_modules/bluebird/js/release/any.js",
-        "node_modules/bluebird/js/release/assert.js",
-        "node_modules/bluebird/js/release/async.js",
-        "node_modules/bluebird/js/release/bind.js",
-        "node_modules/bluebird/js/release/bluebird.js",
-        "node_modules/bluebird/js/release/call_get.js",
-        "node_modules/bluebird/js/release/cancel.js",
-        "node_modules/bluebird/js/release/catch_filter.js",
-        "node_modules/bluebird/js/release/context.js",
-        "node_modules/bluebird/js/release/debuggability.js",
-        "node_modules/bluebird/js/release/direct_resolve.js",
-        "node_modules/bluebird/js/release/each.js",
-        "node_modules/bluebird/js/release/errors.js",
-        "node_modules/bluebird/js/release/es5.js",
-        "node_modules/bluebird/js/release/filter.js",
-        "node_modules/bluebird/js/release/finally.js",
-        "node_modules/bluebird/js/release/generators.js",
-        "node_modules/bluebird/js/release/join.js",
-        "node_modules/bluebird/js/release/map.js",
-        "node_modules/bluebird/js/release/method.js",
-        "node_modules/bluebird/js/release/nodeback.js",
-        "node_modules/bluebird/js/release/nodeify.js",
-        "node_modules/bluebird/js/release/promise.js",
-        "node_modules/bluebird/js/release/promise_array.js",
-        "node_modules/bluebird/js/release/promisify.js",
-        "node_modules/bluebird/js/release/props.js",
-        "node_modules/bluebird/js/release/queue.js",
-        "node_modules/bluebird/js/release/race.js",
-        "node_modules/bluebird/js/release/reduce.js",
-        "node_modules/bluebird/js/release/schedule.js",
-        "node_modules/bluebird/js/release/settle.js",
-        "node_modules/bluebird/js/release/some.js",
-        "node_modules/bluebird/js/release/synchronous_inspection.js",
-        "node_modules/bluebird/js/release/thenables.js",
-        "node_modules/bluebird/js/release/timers.js",
-        "node_modules/bluebird/js/release/using.js",
-        "node_modules/bluebird/js/release/util.js",
-        "node_modules/find-babel-config/lib/index.js",
-        "node_modules/fuzzaldrin/lib/filter.js",
-        "node_modules/fuzzaldrin/lib/fuzzaldrin.js",
-        "node_modules/fuzzaldrin/lib/matcher.js",
-        "node_modules/fuzzaldrin/lib/scorer.js",
-        "node_modules/json5/lib/cli.js",
-        "node_modules/json5/lib/json5.js",
-        "node_modules/json5/lib/require.js",
-        "node_modules/lodash.escaperegexp/index.js",
-        "node_modules/lodash.get/index.js",
-        "node_modules/path-exists/index.js",
-        "src/completion-provider.js",
-        "src/main.js",
-        "src/utils/internal-modules.js"
-      ]
-    },
-    "folders": [
-      {
-        "paths": [
-          "",
-          "src",
-          "src/utils"
-        ],
-        "dependencies": {
-          "bluebird": "3.5.0",
-          "find-babel-config": "1.1.0",
-          "fuzzaldrin": "2.1.0",
-          "lodash.escaperegexp": "4.1.2",
-          "lodash.get": "4.4.2"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/find-babel-config/lib",
-          "node_modules/find-babel-config"
-        ],
-        "dependencies": {
-          "json5": "^0.5.1",
-          "path-exists": "^3.0.0"
-        }
-      }
-    ]
-  }
+  "version": "1.7.3"
 }

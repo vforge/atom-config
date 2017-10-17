@@ -1,37 +1,50 @@
 @import './node_modules/github-atom-light-syntax/index.less';
 
+@black: #24292e;
+@blue: #005cc5;
+@grey: #6a737d;
+@light-grey: #eaecef;
+@purple: #6f42c1;
+
 atom-text-editor {
   // Fix wrap guide color.
-  .wrap-guide { background-color: #eaecef; }
+  .wrap-guide { background-color: @light-grey; }
 
   .syntax--js {
     // Fix jsdoc type color.
-    .syntax--jsdoc.syntax--support { color: #6f42c1; }
+    .syntax--jsdoc.syntax--support { color: @purple; }
 
     // Fix accessor (.) color.
-    .syntax--accessor.syntax--keyword { color: #24292e; }
+    .syntax--accessor.syntax--keyword { color: @black; }
   }
 
   .syntax--php {
     // Fix variable color.
-    .syntax--variable.syntax--php { color: #24292e; }
+    .syntax--variable.syntax--php { color: @black; }
 
     // Fix static function color.
-    .syntax--static .syntax--function { color: #24292e; }
+    .syntax--static .syntax--function { color: @black; }
 
     // Fix function name color.
     .syntax--function-call > .syntax--function.syntax--name,
-    .syntax--function-call > .syntax--function.syntax--support { color: #005cc5; }
+    .syntax--function-call > .syntax--function.syntax--support { color: @blue; }
 
     // Fix method call color.
-    .syntax--method-call .syntax--function { color: #24292e; }
+    .syntax--method-call .syntax--function { color: @black; }
+
+    // Fix class constant color.
+    .syntax--operator + .syntax--class { color: @blue; }
 
     // Fix return type colon color.
-    .syntax--return-value { color: #24292e; }
+    .syntax--return-value { color: @black; }
+
+    // Fix typehint and return type color.
+    .syntax--return-value + .syntax--type,
+    .syntax--typehinted .syntax--type.syntax--php { color: @blue; }
 
     // Fix phpdoc type color.
     .syntax--phpdoc {
-      .syntax--type, .syntax--class, .syntax--namespace { color: #6a737d; }
+      .syntax--type, .syntax--class, .syntax--namespace { color: @grey; }
     }
   }
 }
