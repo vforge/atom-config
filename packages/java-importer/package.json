@@ -1,0 +1,62 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21694-x1vucm.bsha2oi529/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21694-x1vucm.bsha2oi529/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21694-x1vucm.bsha2oi529/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117918-21694-vs6m47.euvg8n0zfr"
+    ]
+  ],
+  "_from": "../d-117918-21694-x1vucm.bsha2oi529/package.tgz",
+  "_id": "java-importer@1.4.1",
+  "_inCache": true,
+  "_location": "/java-importer",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21694-x1vucm.bsha2oi529/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21694-x1vucm.bsha2oi529/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21694-x1vucm.bsha2oi529/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117918-21694-x1vucm.bsha2oi529/package.tgz",
+  "_shasum": "41f7338fa35448f21955da9da143838d6e7f43a1",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21694-x1vucm.bsha2oi529/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117918-21694-vs6m47.euvg8n0zfr",
+  "bugs": {
+    "url": "https://github.com/CodeMySky/java-importer/issues"
+  },
+  "dependencies": {
+    "atom-space-pen-views": "^2.1.0"
+  },
+  "description": "Helps java users to easily import and organize their import statements",
+  "devDependencies": {},
+  "homepage": "https://github.com/CodeMySky/java-importer#readme",
+  "keywords": [
+    "java",
+    "import"
+  ],
+  "license": "MIT",
+  "main": "./lib/java-importer",
+  "name": "java-importer",
+  "optionalDependencies": {},
+  "readme": "# java-importer package [![Build Status](https://travis-ci.org/CodeMySky/java-importer.svg?branch=master)](https://travis-ci.org/CodeMySky/java-importer)\nProject Page: https://atom.io/packages/java-importer \n\n## How to use:\n### Import class\n1. install the package using package manager.\n2. select the class you want to import.\n3. right click and select \"Get import statement\"\n  1. Select appropriate path when there are multiple candidates.\n4. Look at the notifications, success: paste the statement to wherever it is appropriate, failed, you should import it manually.\n\n### Organize import statements\n1. Select all import statements, select \"Organize imports\" in Edit menu.\n2. Paste the sorted statements and remove the original one.\n\n## Update dictionary manually\n1. Press Cmd+Shift+P to open command panel.\n2. Type java-importer:update to trigger manual update.\n\n## Attention:\n1. Only supports: JAVA 8 classes, and classes in your project, and classes to have used in your project.\n\n## Roadmap:\n- Run scan function every hour to catch the latest changes.\n- Add extra line break when sorting statements.\n- Add function: detect unused statements\n- Warn if you have already imported the class.\n- Detect libs in local environment and import automatically.\n\n- ~~Detect import statements you once used.~~\n- ~~Solve the window freeze problem.~~\n- ~~Add more test cases.~~\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeMySky/java-importer.git"
+  },
+  "version": "1.4.1"
+}

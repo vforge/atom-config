@@ -1,0 +1,132 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117918-21663-1ug6hq4.g0258qia4i"
+    ]
+  ],
+  "_from": "../d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+  "_id": "ide-java@0.6.5",
+  "_inCache": true,
+  "_location": "/ide-java",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+  "_shasum": "314d539e14b1e5c8176d0e9ff420d07400cc8197",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117918-21663-1ug6hq4.g0258qia4i",
+  "atomTestRunner": "./test/runner",
+  "bugs": {
+    "url": "https://github.com/atom/ide-java/issues"
+  },
+  "configSchema": {
+    "javaHome": {
+      "type": "string",
+      "default": "",
+      "description": "Absolute path to Java 8 or later home folder used to launch the Java language server."
+    }
+  },
+  "consumedServices": {
+    "linter-indie": {
+      "versions": {
+        "2.0.0": "consumeLinterV2"
+      }
+    },
+    "datatip": {
+      "versions": {
+        "0.1.0": "consumeDatatip"
+      }
+    },
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "consumeStatusBar"
+      }
+    }
+  },
+  "dependencies": {
+    "atom-languageclient": "^0.6.4",
+    "decompress": "^4.2.0"
+  },
+  "description": "Java language support for Atom-IDE.",
+  "devDependencies": {
+    "atom-mocha-test-runner": "^1.0.1",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "mocha": "^3.4.2",
+    "mocha-appveyor-reporter": "^0.4.0",
+    "mocha-junit-and-console-reporter": "^1.6.0"
+  },
+  "engines": {
+    "atom": ">=1.21.0"
+  },
+  "enhancedScopes": [
+    "source.java"
+  ],
+  "homepage": "https://github.com/atom/ide-java#readme",
+  "license": "MIT",
+  "main": "./lib/main",
+  "name": "ide-java",
+  "optionalDependencies": {},
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "2.0.0": "provideAutocomplete"
+      }
+    },
+    "code-format.range": {
+      "versions": {
+        "0.1.0": "provideCodeFormat"
+      }
+    },
+    "code-highlight": {
+      "versions": {
+        "0.1.0": "provideCodeHighlight"
+      }
+    },
+    "definitions": {
+      "versions": {
+        "0.1.0": "provideDefinitions"
+      }
+    },
+    "find-references": {
+      "versions": {
+        "0.1.0": "provideFindReferences"
+      }
+    },
+    "outline-view": {
+      "versions": {
+        "0.1.0": "provideOutlines"
+      }
+    }
+  },
+  "readme": "# IDE-Java package\n[![macOS Build Status](https://travis-ci.org/atom/ide-java.svg?branch=master)](https://travis-ci.org/atom/id4e-java) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/1jvknxt9jhykgrxo?svg=true)](https://ci.appveyor.com/project/Atom/ide-java/branch/master) [![Dependency Status](https://david-dm.org/atom/ide-java.svg)](https://david-dm.org/atom/ide-java)\n\nJava language support for Atom-IDE, powered by the [Eclipse JDT language server](https://github.com/eclipse/eclipse.jdt.ls).\n\n**Requires [Atom 1.21](https://atom.io/beta) - currently in beta**\n\n![Screenshot of IDE-Java](https://user-images.githubusercontent.com/118951/30291233-0b6e04ac-96e7-11e7-9aa8-3cc6143537c1.png)\n\n## Early access\nThis package is currently an early access release.  You should also install the [atom-ide-ui](https://atom.io/packages/atom-ide-ui) package to expose the functionality within Atom.\n\n## Features\n\n* Auto completion\n* Code format\n* Diagnostics (errors & warnings)\n* Document outline\n* Find references\n* Go to definition\n* Hover\n* Reference highlighting\n\n## Contributing\nAlways feel free to help out!  Whether it's [filing bugs and feature requests](https://github.com/atom/languageserver-java/issues/new) or working on some of the [open issues](https://github.com/atom/languageserver-java/issues), Atom's [contributing guide](https://github.com/atom/atom/blob/master/CONTRIBUTING.md) will help get you started while the [guide for contributing to packages](https://github.com/atom/atom/blob/master/docs/contributing-to-packages.md) has some extra information.\n\n## License\nMIT License.  See [the license](LICENSE.md) for more details.\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atom/ide-java.git"
+  },
+  "scripts": {
+    "test": "atom --test test"
+  },
+  "version": "0.6.5"
+}

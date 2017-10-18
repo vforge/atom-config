@@ -1,0 +1,105 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21819-jolb8y.lhek3uwhfr/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21819-jolb8y.lhek3uwhfr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21819-jolb8y.lhek3uwhfr/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117918-21819-jzkkti.8qw4abrzfr"
+    ]
+  ],
+  "_from": "../d-117918-21819-jolb8y.lhek3uwhfr/package.tgz",
+  "_id": "ide-clangd@0.1.2",
+  "_inCache": true,
+  "_location": "/ide-clangd",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21819-jolb8y.lhek3uwhfr/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21819-jolb8y.lhek3uwhfr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21819-jolb8y.lhek3uwhfr/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117918-21819-jolb8y.lhek3uwhfr/package.tgz",
+  "_shasum": "f7cf9430eeb176e1bbd2e11d6d33d480c45ec1ad",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21819-jolb8y.lhek3uwhfr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117918-21819-jzkkti.8qw4abrzfr",
+  "author": {
+    "name": "Joshua Breeden",
+    "email": "jbreeden@me.com"
+  },
+  "bugs": {
+    "url": "https://github.com/jbree/ide-clangd/issues"
+  },
+  "consumedServices": {
+    "linter-indie": {
+      "versions": {
+        "2.0.0": "consumeLinterV2"
+      }
+    },
+    "datatip": {
+      "versions": {
+        "0.1.0": "consumeDatatip"
+      }
+    }
+  },
+  "dependencies": {
+    "atom-languageclient": "^0.6.1"
+  },
+  "description": "C/C++ language support for Atom IDE",
+  "devDependencies": {},
+  "engines ": {
+    "atom": ">=1.21.0"
+  },
+  "enhancedScopes": [
+    "source.c",
+    "source.cpp"
+  ],
+  "homepage": "https://github.com/jbree/ide-clangd#readme",
+  "keywords": [
+    "atom-ide",
+    "ide",
+    "c",
+    "c++",
+    "cpp",
+    "clang",
+    "clangd",
+    "languageserver",
+    "language-server-protocol",
+    "language-client"
+  ],
+  "license": "MIT",
+  "main": "lib/main.js",
+  "name": "ide-clangd",
+  "optionalDependencies": {},
+  "providedServices": {
+    "code-format.range": {
+      "versions": {
+        "0.1.0": "provideCodeFormat"
+      }
+    },
+    "definitions": {
+      "versions": {
+        "0.1.0": "provideDefinitions"
+      }
+    }
+  },
+  "readme": "# ide-clangd\n\nProvides C and C++ language support for [Atom][atom] using\n[Clangd language server](clangd)\n\n## About\n\nThis plugin only provides some of the functionality designated by the language\nserver protocol. This plugin currently supports 3 of the 5 features supported by Clangd itself:\n+ Diagnostics (errors, warnings, info),\n+ Code Formatting,\n+ Go To Definition\n+ ~~Completion~~\n+ ~~Fix-its~~\n\nClangd, the language server upon which this plugin depends, is still a \"work in\nprogress\" according to [langserver.org][langserver], and only implements some\nparts of the protocol.\n\nThis plugin is in very early development, so don't expect it to be fully\nfunctional.\n\nAll contributions and feedback are appreciated.\n\n## Requirements\n\n+ [Atom 1.21-beta][atom]\n+ [atom-ide-ui][atom-ide-ui] atom plugin\n+ Clangd executable installed in your path ([prebuilt binaries][llvm-releases])\n\n## Additional Notes\n\n+ In the current release of Clangd, there's no way to tell it where to look for\nheaders. The binary distribution includes headers, and by creating a symlink to\nthe `include/c++` directory in your `/usr/local/include/` directory, headers\nwill be recognized.\n\n## Areas of interest\n\n+ Autocomplete is supported by Clangd, but what comes back isn't useful, so it's\ndisable for now.\n+ `clang-format` supports a plethora of formatting options. Need to figure out\nhow to use `.clang-format` options with Clangd.\n\n[atom]: http://atom.io/beta\n[clangd]: https://clang.llvm.org/extra/clangd.html\n[langserver]: http://langserver.org\n[llvm-releases]: http://releases.llvm.org/download.html\n[atom-ide-ui]: https://atom.io/packages/atom-ide-ui\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbree/ide-clangd.git"
+  },
+  "version": "0.1.2"
+}

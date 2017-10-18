@@ -1,0 +1,60 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21801-1g2u3s4.4vwdx11yvi/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21801-1g2u3s4.4vwdx11yvi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21801-1g2u3s4.4vwdx11yvi/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117918-21801-11404gy.ffta1qbyb9"
+    ]
+  ],
+  "_from": "../d-117918-21801-1g2u3s4.4vwdx11yvi/package.tgz",
+  "_id": "ide-c@0.0.2",
+  "_inCache": true,
+  "_location": "/ide-c",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21801-1g2u3s4.4vwdx11yvi/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21801-1g2u3s4.4vwdx11yvi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21801-1g2u3s4.4vwdx11yvi/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117918-21801-1g2u3s4.4vwdx11yvi/package.tgz",
+  "_shasum": "86120506d2d90913063567d4f0666b41dc7b5aaf",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21801-1g2u3s4.4vwdx11yvi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117918-21801-11404gy.ffta1qbyb9",
+  "bugs": {
+    "url": "https://github.com/jbree/ide-c/issues"
+  },
+  "dependencies": {},
+  "description": "Soon-to-be home of ide-clangd",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/jbree/ide-c#readme",
+  "keywords": [],
+  "license": "MIT",
+  "main": "./lib/ide-c",
+  "name": "ide-c",
+  "optionalDependencies": {},
+  "readme": "# ide-c\n\nA soon-to-be clang-based language server client for ide-atom-ui\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbree/ide-c.git"
+  },
+  "version": "0.0.2"
+}

@@ -1,0 +1,17 @@
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Get import statement'
+      'command': 'java-importer:import'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Edit'
+    'submenu': [
+      'label': 'Organize Imports'
+      'command': 'java-importer:organize'
+    ]
+  }
+]
