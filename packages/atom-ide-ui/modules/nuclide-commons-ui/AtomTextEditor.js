@@ -55,7 +55,7 @@ function setupTextEditor(props) {
 
   const disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
   if (props.onDidTextBufferChange != null) {
-    disposables.add(textBuffer.onDidChange(props.onDidTextBufferChange));
+    disposables.add(textBuffer.onDidChangeText(props.onDidTextBufferChange));
   }
 
   const textEditorParams = {

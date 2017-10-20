@@ -82,9 +82,10 @@ class OutlineViewSearchComponent extends _react.Component {
       (_analytics || _load_analytics()).default.track('outline-view:search-enter');
       pane.activate();
       pane.activateItem(this.props.editor);
+      const landingPosition = firstElement.landingPosition != null ? firstElement.landingPosition : firstElement.startPosition;
       (0, (_goToLocation || _load_goToLocation()).goToLocationInEditor)(this.props.editor, {
-        line: firstElement.startPosition.row,
-        column: firstElement.startPosition.column
+        line: landingPosition.row,
+        column: landingPosition.column
       });
       this.setState({ currentQuery: '' });
     };
@@ -142,6 +143,7 @@ class OutlineViewSearchComponent extends _react.Component {
       { className: 'outline-view-search-bar' },
       _react.createElement((_Icon || _load_Icon()).Icon, { icon: 'search', className: 'outline-view-search-icon' }),
       _react.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
+        autofocus: true,
         className: 'outline-view-search-pane',
         onConfirm: this._onConfirm,
         onCancel: this._onDidClear,

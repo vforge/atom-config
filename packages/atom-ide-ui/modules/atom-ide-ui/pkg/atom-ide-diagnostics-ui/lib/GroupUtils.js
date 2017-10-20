@@ -6,6 +6,21 @@ Object.defineProperty(exports, "__esModule", {
 exports.getGroup = getGroup;
 exports.getDisplayName = getDisplayName;
 exports.getIcon = getIcon;
+exports.getHighestPriorityGroup = getHighestPriorityGroup;
+
+
+const PRIORITIZED_GROUPS = ['review', 'errors', 'warnings', 'info']; /**
+                                                                      * Copyright (c) 2017-present, Facebook, Inc.
+                                                                      * All rights reserved.
+                                                                      *
+                                                                      * This source code is licensed under the BSD-style license found in the
+                                                                      * LICENSE file in the root directory of this source tree. An additional grant
+                                                                      * of patent rights can be found in the PATENTS file in the same directory.
+                                                                      *
+                                                                      * 
+                                                                      * @format
+                                                                      */
+
 function getGroup(message) {
   const { kind } = message;
   switch (kind) {
@@ -30,17 +45,7 @@ function getGroup(message) {
       kind;
       throw new Error(`Invalid message kind: ${kind}`);
   }
-} /**
-   * Copyright (c) 2017-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the BSD-style license found in the
-   * LICENSE file in the root directory of this source tree. An additional grant
-   * of patent rights can be found in the PATENTS file in the same directory.
-   *
-   * 
-   * @format
-   */
+}
 
 function getDisplayName(group) {
   switch (group) {
@@ -72,4 +77,13 @@ function getIcon(group) {
       group;
       throw new Error(`Invalid filter type: ${group}`);
   }
+}
+
+function getHighestPriorityGroup(groups) {
+  for (const group of PRIORITIZED_GROUPS) {
+    if (groups.has(group)) {
+      return group;
+    }
+  }
+  throw new Error(`Invalid group set: ${[...groups].toString()}`);
 }

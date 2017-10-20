@@ -118,13 +118,17 @@ class DiagnosticsView extends _react.Component {
     }, _temp;
   }
 
+  shouldComponentUpdate(nextProps) {
+    return nextProps.isVisible;
+  }
+
   render() {
     let { diagnostics } = this.props;
     const { showDirectoryColumn, showTraces } = this.props;
     if (this.props.filterByActiveTextEditor) {
       const pathToFilterBy = this.props.pathToActiveTextEditor;
       if (pathToFilterBy != null) {
-        diagnostics = diagnostics.filter(diagnostic => diagnostic.scope === 'file' && diagnostic.filePath === pathToFilterBy);
+        diagnostics = diagnostics.filter(diagnostic => diagnostic.filePath === pathToFilterBy);
       } else {
         // Current pane is not a text editor; do not show diagnostics.
         diagnostics = [];

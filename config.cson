@@ -109,7 +109,6 @@
     return_tag: "@returns"
   editor:
     fontFamily: "Operator Mono"
-    fontSize: 22
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true

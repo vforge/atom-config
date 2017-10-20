@@ -32,7 +32,7 @@ class HighlightedText extends _react.Component {
   }
 
   render() {
-    const { highlightedRanges, text } = this.props;
+    const { className, highlightedRanges, style, text } = this.props;
 
     // generate counterpart unhighlightedRanges for the highlightedRanges
     const unhighlightedRanges = [];
@@ -60,6 +60,10 @@ class HighlightedText extends _react.Component {
       }
     }
 
+    if (unhighlightedRanges.length === 0) {
+      unhighlightedRanges.push([0, text.length]);
+    }
+
     if (!(unhighlightedRanges.length === highlightedRanges.length || unhighlightedRanges.length === highlightedRanges.length + 1)) {
       throw new Error('Invariant violation: "unhighlightedRanges.length === highlightedRanges.length ||\\n        unhighlightedRanges.length === highlightedRanges.length + 1"');
     }
@@ -79,7 +83,7 @@ class HighlightedText extends _react.Component {
 
     return _react.createElement(
       'span',
-      null,
+      { className: className, style: style },
       renderedSequences
     );
   }

@@ -11,6 +11,30 @@ function _load_goToLocation() {
   return _goToLocation = require('nuclide-commons-atom/go-to-location');
 }
 
+var _nuclideUri;
+
+function _load_nuclideUri() {
+  return _nuclideUri = _interopRequireDefault(require('nuclide-commons/nuclideUri'));
+}
+
+var _observePaneItemVisibility;
+
+function _load_observePaneItemVisibility() {
+  return _observePaneItemVisibility = _interopRequireDefault(require('nuclide-commons-atom/observePaneItemVisibility'));
+}
+
+var _collection;
+
+function _load_collection() {
+  return _collection = require('nuclide-commons/collection');
+}
+
+var _observable;
+
+function _load_observable() {
+  return _observable = require('nuclide-commons/observable');
+}
+
 var _UniversalDisposable;
 
 function _load_UniversalDisposable() {
@@ -31,22 +55,10 @@ function _load_Model() {
   return _Model = _interopRequireDefault(require('nuclide-commons/Model'));
 }
 
-var _observePaneItemVisibility;
-
-function _load_observePaneItemVisibility() {
-  return _observePaneItemVisibility = _interopRequireDefault(require('nuclide-commons-atom/observePaneItemVisibility'));
-}
-
 var _renderReactRoot;
 
 function _load_renderReactRoot() {
   return _renderReactRoot = require('nuclide-commons-ui/renderReactRoot');
-}
-
-var _observable;
-
-function _load_observable() {
-  return _observable = require('nuclide-commons/observable');
 }
 
 var _bindObservableAsProps;
@@ -106,13 +118,14 @@ class DiagnosticsViewModel {
       selectedMessage: null
     });
     const visibility = (0, (_observePaneItemVisibility || _load_observePaneItemVisibility()).default)(this).distinctUntilChanged();
-    this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default(visibility.debounceTime(1000).distinctUntilChanged().filter(Boolean).subscribe(() => {
+    this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default(visibility.let((0, (_observable || _load_observable()).fastDebounce)(1000)).distinctUntilChanged().filter(Boolean).subscribe(() => {
       (_analytics || _load_analytics()).default.track('diagnostics-show-table');
     }));
 
     // Combine the state that's shared between instances, the state that's unique to this instance,
     // and unchanging callbacks, to get the props for our component.
-    const props = _rxjsBundlesRxMinJs.Observable.combineLatest(globalStates, this._model.toObservable(), (globalState, instanceState) => Object.assign({}, globalState, instanceState, {
+    const props = _rxjsBundlesRxMinJs.Observable.combineLatest(globalStates, this._model.toObservable(), visibility, (globalState, instanceState, isVisible) => Object.assign({}, globalState, instanceState, {
+      isVisible,
       diagnostics: this._filterDiagnostics(globalState.diagnostics, instanceState.textFilter.pattern, instanceState.hiddenGroups),
       onTypeFilterChange: this._handleTypeFilterChange,
       onTextFilterChange: this._handleTextFilterChange,
@@ -121,8 +134,41 @@ class DiagnosticsViewModel {
       supportedMessageKinds: globalState.supportedMessageKinds
     }));
 
-    // "Mute" the props stream when the view is hidden so we don't do unnecessary updates.
-    this._props = (0, (_observable || _load_observable()).toggle)(props, visibility);
+    this._props = this._trackVisibility(props);
+  }
+
+  // If autoVisibility setting is on, then automatically show/hide on changes.
+  // Otherwise mute the props stream to prevent unnecessary updates.
+  _trackVisibility(props) {
+    let lastDiagnostics = [];
+    return props.do(newProps => {
+      if (newProps.autoVisibility && !(0, (_collection || _load_collection()).arrayEqual)(newProps.diagnostics, lastDiagnostics, (a, b) => a.text === b.text)) {
+        if (newProps.diagnostics.length > 0) {
+          const activePane = atom.workspace.getActivePane();
+          // Do not use goToLocation because diagnostics item is not a file.
+          atom.workspace // eslint-disable-line
+          // $FlowFixMe: workspace.open accepts an item or URI
+          .open(this).then(() => {
+            // Since workspace.open focuses the pane containing the diagnostics,
+            // we manually return focus to the previously active pane.
+            if (activePane != null) {
+              // Somehow calling activate immediately does not return focus.
+              activePane.activate();
+            }
+          });
+        } else {
+          const pane = atom.workspace.paneForItem(this);
+          // Only hide the diagnostics if it's the only item in its pane.
+          if (pane != null) {
+            const items = pane.getItems();
+            if (items.length === 1 && items[0] instanceof DiagnosticsViewModel) {
+              atom.workspace.hide(this);
+            }
+          }
+        }
+        lastDiagnostics = newProps.diagnostics;
+      }
+    });
   }
 
   destroy() {
@@ -179,7 +225,7 @@ class DiagnosticsViewModel {
       if (pattern == null) {
         return true;
       }
-      return message.text != null && pattern.test(message.text) || message.html != null && pattern.test(message.html) || pattern.test(message.providerName) || message.scope === 'file' && pattern.test(message.filePath);
+      return message.text != null && pattern.test(message.text) || message.html != null && pattern.test(message.html) || pattern.test(message.providerName) || pattern.test(message.filePath);
     });
   }
 
@@ -215,7 +261,8 @@ var _initialiseProps = function () {
 };
 
 function goToDiagnosticLocation(message, options) {
-  if (message.scope !== 'file' || message.filePath == null) {
+  // TODO: what should we do for project-path diagnostics?
+  if ((_nuclideUri || _load_nuclideUri()).default.endsWithSeparator(message.filePath)) {
     return;
   }
 

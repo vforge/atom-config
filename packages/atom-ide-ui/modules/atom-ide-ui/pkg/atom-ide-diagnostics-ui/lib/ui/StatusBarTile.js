@@ -22,6 +22,12 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
+var _observable;
+
+function _load_observable() {
+  return _observable = require('nuclide-commons/observable');
+}
+
 var _react = _interopRequireWildcard(require('react'));
 
 var _reactDom = _interopRequireDefault(require('react-dom'));
@@ -55,19 +61,17 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Stick this to the left of remote-projects (-99)
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- * @format
- */
-
-const STATUS_BAR_PRIORITY = -99.5;
+const STATUS_BAR_PRIORITY = -99.5; /**
+                                    * Copyright (c) 2017-present, Facebook, Inc.
+                                    * All rights reserved.
+                                    *
+                                    * This source code is licensed under the BSD-style license found in the
+                                    * LICENSE file in the root directory of this source tree. An additional grant
+                                    * of patent rights can be found in the PATENTS file in the same directory.
+                                    *
+                                    * 
+                                    * @format
+                                    */
 
 const RENDER_DEBOUNCE_TIME = 100;
 
@@ -92,7 +96,7 @@ class StatusBarTile {
       warningCount: 0
     };
     this._diagnosticUpdaters.set(diagnosticUpdater, diagnosticCount);
-    this._subscriptions.add((0, (_event || _load_event()).observableFromSubscribeFunction)(diagnosticUpdater.observeMessages).debounceTime(RENDER_DEBOUNCE_TIME).subscribe(this._onAllMessagesDidUpdate.bind(this, diagnosticUpdater), null, this._onAllMessagesDidUpdate.bind(this, diagnosticUpdater, [])));
+    this._subscriptions.add((0, (_event || _load_event()).observableFromSubscribeFunction)(diagnosticUpdater.observeMessages).let((0, (_observable || _load_observable()).fastDebounce)(RENDER_DEBOUNCE_TIME)).subscribe(this._onAllMessagesDidUpdate.bind(this, diagnosticUpdater), null, this._onAllMessagesDidUpdate.bind(this, diagnosticUpdater, [])));
   }
 
   consumeStatusBar(statusBar) {

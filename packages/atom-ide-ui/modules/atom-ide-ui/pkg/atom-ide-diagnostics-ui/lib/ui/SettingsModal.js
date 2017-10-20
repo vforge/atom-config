@@ -51,6 +51,9 @@ function SettingsModal(props) {
       { className: 'settings-panel' },
       _react.createElement((_BoundSettingsControl || _load_BoundSettingsControl()).default, {
         keyPath: (_featureConfig || _load_featureConfig()).default.formatKeyPath('atom-ide-diagnostics-ui.showDirectoryColumn')
+      }),
+      _react.createElement((_BoundSettingsControl || _load_BoundSettingsControl()).default, {
+        keyPath: (_featureConfig || _load_featureConfig()).default.formatKeyPath('atom-ide-diagnostics-ui.autoVisibility')
       })
     ),
     hasProviderSettings ? _react.createElement((_HR || _load_HR()).HR, null) : null,

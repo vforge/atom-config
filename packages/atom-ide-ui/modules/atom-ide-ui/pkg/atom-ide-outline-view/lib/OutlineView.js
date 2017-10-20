@@ -257,9 +257,10 @@ class OutlineTree extends _react.PureComponent {
       const { editor, outline } = this.props;
       // single click moves the cursor, but does not focus the editor
       (_analytics || _load_analytics()).default.track('atom-ide-outline-view:go-to-location');
+      const landingPosition = outline.landingPosition != null ? outline.landingPosition : outline.startPosition;
       (0, (_goToLocation || _load_goToLocation()).goToLocationInEditor)(editor, {
-        line: outline.startPosition.row,
-        column: outline.startPosition.column
+        line: landingPosition.row,
+        column: landingPosition.column
       });
     }, this._handleConfirm = () => {
       this._focusEditor();

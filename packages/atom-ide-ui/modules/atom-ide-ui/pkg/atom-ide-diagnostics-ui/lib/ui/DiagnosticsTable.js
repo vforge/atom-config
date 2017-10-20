@@ -10,6 +10,12 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
+var _UniversalDisposable;
+
+function _load_UniversalDisposable() {
+  return _UniversalDisposable = _interopRequireDefault(require('nuclide-commons/UniversalDisposable'));
+}
+
 var _humanizePath;
 
 function _load_humanizePath() {
@@ -66,6 +72,8 @@ function _load_Icon() {
   return _Icon = require('nuclide-commons-ui/Icon');
 }
 
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -87,11 +95,20 @@ const MAX_RESULTS_COUNT = 1000; /**
                                  * @format
                                  */
 
-class DiagnosticsTable extends _react.Component {
+class DiagnosticsTable extends _react.PureComponent {
 
   constructor(props) {
     super(props);
     this._previousSelectedIndex = -1;
+    this._focusChangeEvents = new _rxjsBundlesRxMinJs.Subject();
+    this._selectedMessages = new _rxjsBundlesRxMinJs.BehaviorSubject();
+
+    this._handleSort = (sortedColumn, sortDescending) => {
+      this.setState({
+        sortedColumn,
+        sortDescending
+      });
+    };
 
     this._handleSelectTableRow = (item, index, event) => {
       this.props.selectMessage(item.diagnostic);
@@ -109,19 +126,48 @@ class DiagnosticsTable extends _react.Component {
       this.props.gotoMessageLocation(item.diagnostic, { focusEditor: true });
     };
 
-    this._handleSort = this._handleSort.bind(this);
-    this._handleSelectTableRow = this._handleSelectTableRow.bind(this);
+    this._handleFocusChangeEvent = event => {
+      this._focusChangeEvents.next(event);
+    };
+
     this.state = {
+      focused: false,
+      selectedMessage: null,
       sortDescending: true,
       sortedColumn: 'classification'
     };
   }
 
-  _handleSort(sortedColumn, sortDescending) {
-    this.setState({
-      sortedColumn,
-      sortDescending
-    });
+  componentWillReceiveProps(nextProps) {
+    this._selectedMessages.next(nextProps.selectedMessage);
+  }
+
+  componentDidMount() {
+    const focusedStream = this._focusChangeEvents.map(event => event.type === 'focus');
+    this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default(
+    // If we change the state synchronously on the focus change, the component will be
+    // re-rendered, removing the element with the click handler before the click event gets to us
+    // (via the table's `onSelect()`). This would manifest itself in rows not being selected when
+    // a click both changes the selection and focuses the table. A naive solution would be to
+    // simply delay the focus event, however, users would perceive the selection and focus styling
+    // changes (quick flashing changes). Therefore, we hold onto focus changes (i.e. don't
+    // re-render) until we hear the selection change. Because a focus change may occur without a
+    // subsequent selection change, we also always force a re-render after a certain number of
+    // milliseconds without hearing a selection change. The end result is that clicking a row when
+    // the table is not focused will immediately render the table with the correct focus and
+    // selection. Focusing the table without clicking a row will be queue a re-render in a few
+    // milliseconds.
+    this._selectedMessages.distinctUntilChanged().withLatestFrom(focusedStream).subscribe(([selectedMessage, focused]) => {
+      this.setState({ selectedMessage, focused });
+    }), focusedStream.delay(100).subscribe(focused => this.setState({ focused })));
+  }
+
+  componentWillUnmount() {
+    if (!(this._disposables != null)) {
+      throw new Error('Invariant violation: "this._disposables != null"');
+    }
+
+    this._disposables.dispose();
   }
 
   _getColumns() {
@@ -161,6 +207,21 @@ class DiagnosticsTable extends _react.Component {
       descriptionWidth -= FILENAME_WIDTH;
     }
 
+    // False positive for this lint rule?
+    // eslint-disable-next-line react/no-unused-prop-types
+    const DescriptionComponent = props => {
+      const { showTraces, diagnostic, text, isPlainText } = props.data;
+      const expanded = showTraces || this.state.focused && diagnostic === this.state.selectedMessage;
+      return expanded ? (0, (_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessageNoHeader)({
+        message: diagnostic,
+        goToLocation: (file, line) => (0, (_goToLocation || _load_goToLocation()).goToLocation)(file, { line }),
+        fixer: () => {}
+      }) : (0, (_DiagnosticsMessageText || _load_DiagnosticsMessageText()).DiagnosticsMessageText)({
+        preserveNewlines: showTraces,
+        message: { text, html: isPlainText ? undefined : text }
+      });
+    };
+
     return [{
       component: TypeComponent,
       key: 'classification',
@@ -183,8 +244,8 @@ class DiagnosticsTable extends _react.Component {
   }
 
   render() {
-    const { diagnostics, selectedMessage, showTraces } = this.props;
-    const { sortedColumn, sortDescending } = this.state;
+    const { diagnostics, showTraces } = this.props;
+    const { selectedMessage, sortedColumn, sortDescending } = this.state;
     const diagnosticRows = this._getRows(diagnostics, showTraces);
     let sortedRows = this._sortRows(diagnosticRows, sortedColumn, sortDescending);
     let maxResultsMessage;
@@ -210,6 +271,8 @@ class DiagnosticsTable extends _react.Component {
         ref: table => {
           this._table = table;
         },
+        onBodyFocus: this._handleFocusChangeEvent,
+        onBodyBlur: this._handleFocusChangeEvent,
         collapsable: true,
         columns: this._getColumns(),
         emptyComponent: EmptyComponent,
@@ -345,18 +408,6 @@ function getMessageContent(diagnostic, showTraces) {
   return { text: text.trim(), isPlainText };
 }
 
-function DescriptionComponent(props) {
-  const { showTraces, diagnostic, text, isPlainText } = props.data;
-  return showTraces && diagnostic.scope === 'file' ? (0, (_DiagnosticsMessage || _load_DiagnosticsMessage()).DiagnosticsMessageNoHeader)({
-    message: diagnostic,
-    goToLocation: (file, line) => (0, (_goToLocation || _load_goToLocation()).goToLocation)(file, { line }),
-    fixer: () => {}
-  }) : (0, (_DiagnosticsMessageText || _load_DiagnosticsMessageText()).DiagnosticsMessageText)({
-    preserveNewlines: showTraces,
-    message: { text, html: isPlainText ? undefined : text }
-  });
-}
-
 function DirComponent(props) {
   return (
     // We're abusing `direction: rtl` here so we need the LRM to keep the slash on the right.
@@ -395,18 +446,11 @@ function FilenameComponent(props) {
 }
 
 function getLocation(diagnostic) {
-  const filePath = typeof diagnostic.filePath === 'string' ? diagnostic.filePath : null;
-  const line = diagnostic.range ? diagnostic.range.start.row + 1 : 0;
-
-  if (filePath == null) {
-    return {
-      dir: '', // TODO: Use current working root?
-      location: null
-    };
-  }
+  const { filePath, range } = diagnostic;
+  const line = range ? range.start.row + 1 : 0;
 
   const humanized = (0, (_humanizePath || _load_humanizePath()).default)(filePath);
-  if (humanized.endsWith('/')) {
+  if ((_nuclideUri || _load_nuclideUri()).default.endsWithSeparator(humanized)) {
     // It's a directory.
     return {
       dir: humanized,
@@ -434,9 +478,9 @@ function getLocation(diagnostic) {
 function compareMessages(a, b) {
   const aKind = a.kind || 'lint';
   const bKind = b.kind || 'lint';
-  const aFilePath = a.scope === 'file' ? a.filePath : null;
-  const bFilePath = b.scope === 'file' ? b.filePath : null;
-  if (aKind !== bKind || a.scope !== b.scope || a.providerName !== b.providerName || a.type !== b.type || aFilePath !== bFilePath) {
+  const aFilePath = a.filePath;
+  const bFilePath = b.filePath;
+  if (aKind !== bKind || a.providerName !== b.providerName || a.type !== b.type || aFilePath !== bFilePath) {
     return null;
   }
   const aRange = a.range;

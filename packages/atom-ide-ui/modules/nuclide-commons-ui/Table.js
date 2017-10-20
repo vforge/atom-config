@@ -169,9 +169,7 @@ class Table extends _react.Component {
     this._resizingDisposable = new (_UniversalDisposable || _load_UniversalDisposable()).default(_rxjsBundlesRxMinJs.Observable.fromEvent(document, 'mousemove').subscribe(evt => {
       this._handleResizerGlobalMouseMove(evt, startX,
       // $FlowFixMe(>=0.55.0) Flow suppress
-      startWidths,
-      // $FlowFixMe(>=0.55.0) Flow suppress
-      resizerLocation, tableWidth);
+      startWidths, resizerLocation, tableWidth);
     }), _rxjsBundlesRxMinJs.Observable.fromEvent(document, 'mouseup').subscribe(() => {
       this._stopResizing();
     }));
@@ -461,7 +459,7 @@ class Table extends _react.Component {
             'nuclide-ui-table-row-alternate': alternateBackground !== false && i % 2 === 1,
             'nuclide-ui-table-collapsed-row': this.props.collapsable && !isSelectedRow
           }),
-          'data-rowIndex': i,
+          'data-row-index': i,
           key: i
         }, rowProps),
         renderedRow
@@ -489,7 +487,19 @@ class Table extends _react.Component {
       )
     ), _react.createElement(
       'div',
-      { key: 'body', style: scrollableBodyStyle },
+      {
+        key: 'body',
+        style: scrollableBodyStyle,
+        onFocus: event => {
+          if (this.props.onBodyFocus != null) {
+            this.props.onBodyFocus(event);
+          }
+        },
+        onBlur: event => {
+          if (this.props.onBodyBlur != null) {
+            this.props.onBodyBlur(event);
+          }
+        } },
       _react.createElement(
         'div',
         {

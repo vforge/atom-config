@@ -11,7 +11,11 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _atom = require('atom');
+var _UniversalDisposable;
+
+function _load_UniversalDisposable() {
+  return _UniversalDisposable = _interopRequireDefault(require('nuclide-commons/UniversalDisposable'));
+}
 
 var _debounce;
 
@@ -76,7 +80,7 @@ class AtomInput extends _react.Component {
   }
 
   componentDidMount() {
-    const disposables = this._disposables = new _atom.CompositeDisposable();
+    const disposables = this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
 
     // There does not appear to be any sort of infinite loop where calling
     // setState({value}) in response to onDidChange() causes another change
@@ -213,7 +217,7 @@ class AtomInput extends _react.Component {
   }
 
   onDidChange(callback) {
-    return this.getTextEditor().onDidChange(callback);
+    return this.getTextEditor().getBuffer().onDidChangeText(callback);
   }
 
   getTextEditorElement() {

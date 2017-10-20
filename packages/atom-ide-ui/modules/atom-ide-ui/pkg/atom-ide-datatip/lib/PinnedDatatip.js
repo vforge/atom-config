@@ -21,6 +21,12 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
+var _UniversalDisposable;
+
+function _load_UniversalDisposable() {
+  return _UniversalDisposable = _interopRequireDefault(require('nuclide-commons/UniversalDisposable'));
+}
+
 var _DatatipComponent;
 
 function _load_DatatipComponent() {
@@ -31,19 +37,17 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- * @format
- */
-
-const LINE_END_MARGIN = 20;
+const LINE_END_MARGIN = 20; /**
+                             * Copyright (c) 2017-present, Facebook, Inc.
+                             * All rights reserved.
+                             *
+                             * This source code is licensed under the BSD-style license found in the
+                             * LICENSE file in the root directory of this source tree. An additional grant
+                             * of patent rights can be found in the PATENTS file in the same directory.
+                             *
+                             * 
+                             * @format
+                             */
 
 let _mouseMove$;
 function documentMouseMove$() {
@@ -64,7 +68,7 @@ function documentMouseUp$() {
 class PinnedDatatip {
 
   constructor(datatip, editor, params) {
-    this._subscriptions = new _atom.CompositeDisposable();
+    this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
     this._subscriptions.add(new _atom.Disposable(() => params.onDispose(this)));
     this._datatip = datatip;
     this._editor = editor;

@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.ensureArray = ensureArray;
 exports.arrayRemove = arrayRemove;
 exports.arrayEqual = arrayEqual;
 exports.arrayCompact = arrayCompact;
@@ -50,6 +51,10 @@ exports.insideOut = insideOut;
  * 
  * @format
  */
+
+function ensureArray(x) {
+  return Array.isArray(x) ? x : [x];
+}
 
 function arrayRemove(array, element) {
   const index = array.indexOf(element);

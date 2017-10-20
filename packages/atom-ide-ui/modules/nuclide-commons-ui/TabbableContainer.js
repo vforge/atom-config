@@ -13,10 +13,22 @@ function _load_tabbable() {
   return _tabbable = _interopRequireDefault(require('tabbable'));
 }
 
+var _classnames;
+
+function _load_classnames() {
+  return _classnames = _interopRequireDefault(require('classnames'));
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // NOTE: This constant must be kept in sync with the keybinding in
 //       ../nuclide-tab-focus/keymaps/nuclide-tab-focus.json
+const _TABBABLE_CLASS_NAME = exports._TABBABLE_CLASS_NAME = 'nuclide-tabbable';
+
+/**
+ * Enables focusing between inputs with tab and shift-tab. Can also be used to
+ * trap focus within the container by using the contained property.
+ */
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  * All rights reserved.
@@ -29,12 +41,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @format
  */
 
-const _TABBABLE_CLASS_NAME = exports._TABBABLE_CLASS_NAME = 'nuclide-tabbable';
-
-/**
- * Enables focusing between inputs with tab and shift-tab. Can also be used to
- * trap focus within the container by using the contained property.
- */
 class TabbableContainer extends _react.default.Component {
 
   componentDidMount() {
@@ -61,7 +67,7 @@ class TabbableContainer extends _react.default.Component {
     return _react.default.createElement(
       'div',
       {
-        className: _TABBABLE_CLASS_NAME,
+        className: (0, (_classnames || _load_classnames()).default)(_TABBABLE_CLASS_NAME, this.props.className),
         'data-contained': this.props.contained,
         ref: node => this._rootNode = node },
       this.props.children

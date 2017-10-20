@@ -34,6 +34,12 @@ function _load_event() {
   return _event = require('nuclide-commons/event');
 }
 
+var _observable;
+
+function _load_observable() {
+  return _observable = require('nuclide-commons/observable');
+}
+
 var _UniversalDisposable;
 
 function _load_UniversalDisposable() {
@@ -51,6 +57,9 @@ function _load_getSignatureDatatip() {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Chosen to be a little more than the default key repeat rate.
+const CURSOR_DEBOUNCE_TIME = 200;
+
+// Aggressively timeout signature requests to avoid 'stuck' signatures.
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  * All rights reserved.
@@ -63,9 +72,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @format
  */
 
-const CURSOR_DEBOUNCE_TIME = 200;
-
-// Aggressively timeout signature requests to avoid 'stuck' signatures.
 const SIGNATURE_TIMEOUT = 2500;
 
 class SignatureHelpManager {
@@ -103,13 +109,11 @@ class SignatureHelpManager {
    * 3) Signature help stops once we get a null signature, or once the user hits 'escape'.
    */
   _subscribeToEditors() {
-    return (0, (_debounced || _load_debounced()).observeActiveEditorsDebounced)().switchMap(editor => {
+    return (0, (_debounced || _load_debounced()).observeActiveEditorsDebounced)(0).switchMap(editor => {
       if (editor == null) {
         return _rxjsBundlesRxMinJs.Observable.of({ editor, signatureHelp: null });
       }
-      return this._signatureHelpTriggers(editor)
-      // $FlowFixMe: add to rxjs libs
-      .exhaustMap(() => this._getSignatureStream(editor)).takeUntil((0, (_event || _load_event()).observableFromSubscribeFunction)(editor.onDidDestroy.bind(editor))).map(signatureHelp => ({ editor, signatureHelp }));
+      return this._signatureHelpTriggers(editor).exhaustMap(() => this._getSignatureStream(editor)).takeUntil((0, (_event || _load_event()).observableFromSubscribeFunction)(editor.onDidDestroy.bind(editor))).map(signatureHelp => ({ editor, signatureHelp }));
     }).switchMap(({ editor, signatureHelp }) => {
       if (editor != null && signatureHelp != null) {
         return this._showSignatureDatatip(editor, signatureHelp);
@@ -124,10 +128,14 @@ class SignatureHelpManager {
   _signatureHelpTriggers(editor) {
     return _rxjsBundlesRxMinJs.Observable.merge(
     // 1) Any keypresses that match a triggerCharacter.
-    (0, (_event || _load_event()).observableFromSubscribeFunction)(cb => editor.getBuffer().onDidChange(cb))
+    (0, (_event || _load_event()).observableFromSubscribeFunction)(cb => editor.getBuffer().onDidChangeText(cb))
     // The change events and cursor changes are often sequential.
     // We need to make sure we use the final cursor position.
-    .debounceTime(0).filter(change => {
+    .let((0, (_observable || _load_observable()).fastDebounce)(0)).filter(edit => {
+      if (edit.changes.length !== 1) {
+        return false;
+      }
+      const change = edit.changes[0];
       if (
       // Only handle single/double-character insertions.
       // (e.g. bracket-matcher inserts two characters on open parenthesis)
@@ -161,7 +169,7 @@ class SignatureHelpManager {
     // Immediately start fetching signatures for the current position.
     _rxjsBundlesRxMinJs.Observable.concat(_rxjsBundlesRxMinJs.Observable.defer(() => _rxjsBundlesRxMinJs.Observable.of(editor.getCursorBufferPosition())),
     // Further cursor changes will be debounced.
-    (0, (_textEditor || _load_textEditor()).getCursorPositions)(editor).debounceTime(CURSOR_DEBOUNCE_TIME)).distinctUntilChanged((a, b) => a.isEqual(b)).switchMap(point => this._getSignatures(editor, point))
+    (0, (_textEditor || _load_textEditor()).getCursorPositions)(editor).let((0, (_observable || _load_observable()).fastDebounce)(CURSOR_DEBOUNCE_TIME))).distinctUntilChanged((a, b) => a.isEqual(b)).switchMap(point => this._getSignatures(editor, point))
     // Stop once we get a null result.
     .takeWhile(Boolean)
     // Stop once the escape key is pressed.
@@ -183,9 +191,7 @@ class SignatureHelpManager {
         (0, (_log4js || _load_log4js()).getLogger)('atom-ide-signature-help').error(`Caught error from signature help provider for ${editorPath}`, err);
         return null;
       });
-    }).filter(x => x != null && x.signatures.length > 0)
-    // $FlowFixMe: Add timeoutWith to rxjs defs
-    .timeoutWith(SIGNATURE_TIMEOUT, _rxjsBundlesRxMinJs.Observable.of(null)).take(1).defaultIfEmpty(null);
+    }).filter(x => x != null && x.signatures.length > 0).timeoutWith(SIGNATURE_TIMEOUT, _rxjsBundlesRxMinJs.Observable.of(null)).take(1).defaultIfEmpty(null);
   }
 
   /**
@@ -202,7 +208,7 @@ class SignatureHelpManager {
       // Make sure the datatip follows the cursor position.
       return (0, (_textEditor || _load_textEditor()).getCursorPositions)(editor)
       // But don't go too far.
-      .takeWhile(position => Math.abs(currentPosition.row - position.row) + Math.abs(currentPosition.column - position.column) <= 2).switchMap(point => {
+      .takeWhile(position => Math.abs(currentPosition.row - position.row) + Math.abs(currentPosition.column - position.column) <= 2).let((0, (_observable || _load_observable()).completingSwitchMap)(point => {
         return _rxjsBundlesRxMinJs.Observable.create(() => {
           const disposable = datatipService.createPinnedDataTip((0, (_getSignatureDatatip || _load_getSignatureDatatip()).default)(signatureHelp, point), editor, {
             position: 'above-range',
@@ -210,7 +216,7 @@ class SignatureHelpManager {
           });
           return new (_UniversalDisposable || _load_UniversalDisposable()).default(disposable);
         });
-      });
+      }));
     });
   }
 }

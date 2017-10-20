@@ -67,6 +67,7 @@ function showModal(contentFactory, options = defaults) {
   });
   const shouldDismissOnClickOutsideModal = options.shouldDismissOnClickOutsideModal || (() => true);
 
+  const previouslyFocusedElement = document.activeElement;
   const disposable = new (_UniversalDisposable || _load_UniversalDisposable()).default(_rxjsBundlesRxMinJs.Observable.fromEvent(document, 'mousedown').subscribe(({ target }) => {
     if (!shouldDismissOnClickOutsideModal()) {
       return;
@@ -90,6 +91,9 @@ function showModal(contentFactory, options = defaults) {
     }
     _reactDom.default.unmountComponentAtNode(hostElement);
     atomPanel.destroy();
+    if (previouslyFocusedElement != null) {
+      previouslyFocusedElement.focus();
+    }
   });
 
   _reactDom.default.render(_react.createElement(
