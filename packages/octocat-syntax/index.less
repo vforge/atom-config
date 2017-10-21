@@ -32,6 +32,9 @@ atom-text-editor {
     // Fix method call color.
     .syntax--method-call .syntax--function { color: @black; }
 
+    // Fix class alias color.
+    .syntax--use-as + .syntax--alias { color: @blue; }
+
     // Fix class constant color.
     .syntax--operator + .syntax--class { color: @blue; }
 
@@ -42,9 +45,9 @@ atom-text-editor {
     .syntax--return-value + .syntax--type,
     .syntax--typehinted .syntax--type.syntax--php { color: @blue; }
 
-    // Fix phpdoc type color.
+    // Fix phpdoc color.
     .syntax--phpdoc {
-      .syntax--type, .syntax--class, .syntax--namespace { color: @grey; }
+      .syntax--type, .syntax--class, .syntax--namespace, .syntax--array { color: @grey; }
     }
   }
 }
