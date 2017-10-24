@@ -1,0 +1,81 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117924-43336-1enjefm.f6bk68byb9/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117924-43336-1enjefm.f6bk68byb9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117924-43336-1enjefm.f6bk68byb9/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117924-43336-o8dxhc.4ckhntgldi"
+    ]
+  ],
+  "_from": "../d-117924-43336-1enjefm.f6bk68byb9/package.tgz",
+  "_id": "linter-annotations@1.0.2",
+  "_inCache": true,
+  "_location": "/linter-annotations",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117924-43336-1enjefm.f6bk68byb9/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117924-43336-1enjefm.f6bk68byb9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117924-43336-1enjefm.f6bk68byb9/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117924-43336-1enjefm.f6bk68byb9/package.tgz",
+  "_shasum": "8b78eb195696217d70c46c2c9ac7257e051dc932",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117924-43336-1enjefm.f6bk68byb9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117924-43336-o8dxhc.4ckhntgldi",
+  "bugs": {
+    "url": "https://github.com/josa42/atom-linter-annotations/issues"
+  },
+  "dependencies": {
+    "atom-package-deps": "^4.6.0"
+  },
+  "description": "Hightlights annotations like `TODO`, `FIXME` or `NOTE`",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "homepage": "https://github.com/josa42/atom-linter-annotations#readme",
+  "license": "MIT",
+  "main": "./lib/init",
+  "name": "linter-annotations",
+  "optionalDependencies": {},
+  "package-deps": [
+    "linter"
+  ],
+  "providedServices": {
+    "linter": {
+      "versions": {
+        "2.0.0": "provideLinter"
+      }
+    }
+  },
+  "readme": "# linter-annotations\n\n[![Build Status](https://img.shields.io/travis/josa42/atom-linter-annotations.svg?style=flat-square)](https://travis-ci.org/josa42/atom-linter-annotations)\n[![Plugin installs!](https://img.shields.io/apm/dm/linter-annotations.svg?style=flat-square)](https://atom.io/packages/linter-annotations)\n[![Package version!](https://img.shields.io/apm/v/linter-annotations.svg?style=flat-square)](https://atom.io/packages/linter-annotations)\n[![Dependencies!](https://img.shields.io/david/josa42/atom-linter-annotations.svg?style=flat-square)](https://david-dm.org/josa42/atom-linter-annotations)\n\nThis linter plugin for [linter](https://github.com/AtomLinter/Linter)\nhightlights annotations like `TODO`, `FIXME` or `NOTE`.\n\n![](screenshot.png)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josa42/atom-linter-annotations.git"
+  },
+  "scripts": {
+    "test": "standard"
+  },
+  "version": "1.0.2"
+}
