@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117923-29738-7ixdmp.tqckk5ipb9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117923-29738-7ixdmp.tqckk5ipb9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117923-29738-7ixdmp.tqckk5ipb9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117918-21663-1ug6hq4.g0258qia4i"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117923-29738-1ba884i.pjszpeewmi"
     ]
   ],
-  "_from": "../d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
-  "_id": "ide-java@0.6.5",
+  "_from": "../d-117923-29738-7ixdmp.tqckk5ipb9/package.tgz",
+  "_id": "ide-java@0.6.6",
   "_inCache": true,
   "_location": "/ide-java",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117923-29738-7ixdmp.tqckk5ipb9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117923-29738-7ixdmp.tqckk5ipb9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117923-29738-7ixdmp.tqckk5ipb9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
-  "_shasum": "314d539e14b1e5c8176d0e9ff420d07400cc8197",
+  "_resolved": "file:../d-117923-29738-7ixdmp.tqckk5ipb9/package.tgz",
+  "_shasum": "9203798759e67267d9e308000fc0db1a4b5ba704",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21663-lqbjhr.cu83nb3xr/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117918-21663-1ug6hq4.g0258qia4i",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117923-29738-7ixdmp.tqckk5ipb9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117923-29738-1ba884i.pjszpeewmi",
   "atomTestRunner": "./test/runner",
   "bugs": {
     "url": "https://github.com/atom/ide-java/issues"
@@ -64,7 +64,7 @@
     }
   },
   "dependencies": {
-    "atom-languageclient": "^0.6.4",
+    "atom-languageclient": "^0.6.5",
     "decompress": "^4.2.0"
   },
   "description": "Java language support for Atom-IDE.",
@@ -119,7 +119,7 @@
       }
     }
   },
-  "readme": "# IDE-Java package\n[![macOS Build Status](https://travis-ci.org/atom/ide-java.svg?branch=master)](https://travis-ci.org/atom/id4e-java) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/1jvknxt9jhykgrxo?svg=true)](https://ci.appveyor.com/project/Atom/ide-java/branch/master) [![Dependency Status](https://david-dm.org/atom/ide-java.svg)](https://david-dm.org/atom/ide-java)\n\nJava language support for Atom-IDE, powered by the [Eclipse JDT language server](https://github.com/eclipse/eclipse.jdt.ls).\n\n**Requires [Atom 1.21](https://atom.io/beta) - currently in beta**\n\n![Screenshot of IDE-Java](https://user-images.githubusercontent.com/118951/30291233-0b6e04ac-96e7-11e7-9aa8-3cc6143537c1.png)\n\n## Early access\nThis package is currently an early access release.  You should also install the [atom-ide-ui](https://atom.io/packages/atom-ide-ui) package to expose the functionality within Atom.\n\n## Features\n\n* Auto completion\n* Code format\n* Diagnostics (errors & warnings)\n* Document outline\n* Find references\n* Go to definition\n* Hover\n* Reference highlighting\n\n## Contributing\nAlways feel free to help out!  Whether it's [filing bugs and feature requests](https://github.com/atom/languageserver-java/issues/new) or working on some of the [open issues](https://github.com/atom/languageserver-java/issues), Atom's [contributing guide](https://github.com/atom/atom/blob/master/CONTRIBUTING.md) will help get you started while the [guide for contributing to packages](https://github.com/atom/atom/blob/master/docs/contributing-to-packages.md) has some extra information.\n\n## License\nMIT License.  See [the license](LICENSE.md) for more details.\n",
+  "readme": "# IDE-Java package\n[![macOS Build Status](https://travis-ci.org/atom/ide-java.svg?branch=master)](https://travis-ci.org/atom/id4e-java) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/1jvknxt9jhykgrxo?svg=true)](https://ci.appveyor.com/project/Atom/ide-java/branch/master) [![Dependency Status](https://david-dm.org/atom/ide-java.svg)](https://david-dm.org/atom/ide-java)\n\nJava language support for Atom-IDE, powered by the [Eclipse JDT language server](https://github.com/eclipse/eclipse.jdt.ls).\n\n![Screenshot of IDE-Java](https://user-images.githubusercontent.com/118951/30291233-0b6e04ac-96e7-11e7-9aa8-3cc6143537c1.png)\n\n## Early access\nThis package is currently an early access release.  You should also install the [atom-ide-ui](https://atom.io/packages/atom-ide-ui) package to expose the functionality within Atom.\n\n## Features\n\n* Auto completion\n* Code format\n* Diagnostics (errors & warnings)\n* Document outline\n* Find references\n* Go to definition\n* Hover\n* Reference highlighting\n\n## Contributing\nAlways feel free to help out!  Whether it's [filing bugs and feature requests](https://github.com/atom/languageserver-java/issues/new) or working on some of the [open issues](https://github.com/atom/languageserver-java/issues), Atom's [contributing guide](https://github.com/atom/atom/blob/master/CONTRIBUTING.md) will help get you started while the [guide for contributing to packages](https://github.com/atom/atom/blob/master/docs/contributing-to-packages.md) has some extra information.\n\n## License\nMIT License.  See [the license](LICENSE.md) for more details.\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
@@ -128,5 +128,5 @@
   "scripts": {
     "test": "atom --test test"
   },
-  "version": "0.6.5"
+  "version": "0.6.6"
 }
