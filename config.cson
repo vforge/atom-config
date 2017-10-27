@@ -83,6 +83,10 @@
       "busy-signal"
       "hyperclick"
       "hyperlink-hyperclick"
+      "ide-cpp"
+      "ide-c"
+      "ide-clangd"
+      "ide-csharp"
     ]
     packagesWithKeymapsDisabled: []
     telemetryConsent: "no"
