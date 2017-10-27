@@ -141,7 +141,10 @@ class OutlineView extends _react.PureComponent {
           `
         }
       }),
-      _react.createElement(OutlineViewComponent, { outline: this.state.outline })
+      _react.createElement(OutlineViewComponent, {
+        outline: this.state.outline,
+        visibility: this.props.visibility
+      })
     );
   }
 }
@@ -200,7 +203,10 @@ class OutlineViewComponent extends _react.PureComponent {
           message: 'This is likely an error with the language package.'
         });
       case 'outline':
-        return _react.createElement(OutlineViewCore, { outline: outline });
+        return _react.createElement(OutlineViewCore, {
+          outline: outline,
+          visibility: this.props.visibility
+        });
       default:
         outline;
     }
@@ -220,7 +226,7 @@ class OutlineViewCore extends _react.PureComponent {
   }
 
   render() {
-    const { outline } = this.props;
+    const { outline, visibility } = this.props;
 
     if (!(outline.kind === 'outline')) {
       throw new Error('Invariant violation: "outline.kind === \'outline\'"');
@@ -234,7 +240,8 @@ class OutlineViewCore extends _react.PureComponent {
         editor: outline.editor,
         updateSearchResults: searchResults => {
           this.setState({ searchResults });
-        }
+        },
+        visibility: visibility
       }),
       _react.createElement(
         'div',

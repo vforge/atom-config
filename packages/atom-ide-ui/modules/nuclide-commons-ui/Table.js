@@ -441,10 +441,22 @@ class Table extends _react.Component {
       });
       const rowProps = selectable ? {
         onClick: event => {
-          this._selectRow({ index: i, event });
-        },
-        onDoubleClick: event => {
-          this._selectRow({ index: i, event, confirm: true });
+          switch (event.detail) {
+            // This (`event.detail === 0`) shouldn't happen normally but does when the click is
+            // triggered by the integration test.
+            case 0:
+            case 1:
+              this._selectRow({ index: i, event });
+              return;
+            case 2:
+              // We need to check `event.detail` (instead of using `onDoubleClick`) because
+              // (for some reason) `onDoubleClick` is only firing sporadically.
+              // TODO: Figure out why. Repros in the diagnostic table with React 16.0.0 and
+              // Atom 1.22.0-beta1 (Chrome 56.0.2924.87). This may be because we're swapping out
+              // the component on the click so a different one is receiving the second?
+              this._selectRow({ index: i, event, confirm: true });
+              return;
+          }
         }
       } : {};
       const isSelectedRow = selectedIndex != null && i === selectedIndex;
@@ -474,9 +486,13 @@ class Table extends _react.Component {
       scrollableBodyStyle.maxHeight = maxBodyHeight;
       scrollableBodyStyle.overflowY = 'auto';
     }
-    const bodyClassNames = (0, (_classnames || _load_classnames()).default)('nuclide-ui-table', 'nuclide-ui-table-body',
-    // Using native-key-bindings prevents the up and down arrows from being captured.
-    { 'native-key-bindings': !this.props.enableKeyboardNavigation });
+    const bodyClassNames = (0, (_classnames || _load_classnames()).default)('nuclide-ui-table', 'nuclide-ui-table-body', {
+      // Using native-key-bindings prevents the up and down arrows from being captured.
+      'native-key-bindings': !this.props.enableKeyboardNavigation,
+      // Only enable text selection if the rows aren't selectable as these two things conflict.
+      // TODO: Add the ability to copy text that doesn't involve text selection within selections.
+      'nuclide-ui-table-body-selectable-text': !this.props.selectable
+    });
     return [_react.createElement(
       'div',
       { key: 'header', className: 'nuclide-ui-table', ref: 'table' },

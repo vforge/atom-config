@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117927-90783-hfnmob.7ii50442t9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117927-90783-hfnmob.7ii50442t9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117927-90783-hfnmob.7ii50442t9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117822-67862-10kofew.2kr9zilik9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117927-90783-1kcrm3e.end59izfr"
     ]
   ],
-  "_from": "../d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
-  "_id": "minimap-linter@2.1.1",
+  "_from": "../d-117927-90783-hfnmob.7ii50442t9/package.tgz",
+  "_id": "minimap-linter@2.1.3",
   "_inCache": true,
   "_location": "/minimap-linter",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117927-90783-hfnmob.7ii50442t9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117927-90783-hfnmob.7ii50442t9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117927-90783-hfnmob.7ii50442t9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
-  "_shasum": "2feb76cd1ff68294aba05a9d15ed4160d25dec4f",
+  "_resolved": "file:../d-117927-90783-hfnmob.7ii50442t9/package.tgz",
+  "_shasum": "7fc542d4084c090c5f3b61fc1ed261d975826d8f",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117822-67862-1nlzupm.u0bwr0be29/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117822-67862-10kofew.2kr9zilik9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117927-90783-hfnmob.7ii50442t9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117927-90783-1kcrm3e.end59izfr",
   "bugs": {
     "url": "https://github.com/AtomLinter/atom-minimap-linter/issues"
   },
@@ -69,8 +69,8 @@
   },
   "description": "Minimap display for Linter messages",
   "devDependencies": {
-    "eslint": "^4.6.0",
-    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.7.0",
     "jasmine-fix": "^1.0.1"
   },
@@ -119,7 +119,7 @@
       }
     }
   },
-  "readme": "# minimap-linter package\n\nAtom package to display linter markers on minimap.\n\n![minimap-linter](https://raw.githubusercontent.com/nesukun/atom-minimap-linter/master/minimap-linter.gif)\n",
+  "readme": "# minimap-linter package\n\nA plugin for [minimap][] that shows the messages from [linter][] and\n[atom-ide-ui][], allowing you to get a quick overview of where you have lint\nissues in your code.\n\n![minimap-linter](https://raw.githubusercontent.com/nesukun/atom-minimap-linter/master/minimap-linter.gif)\n\n[minimap]: https://atom.io/packages/minimap\n[linter]: https://atom.io/packages/linter\n[atom-ide-ui]: https://atom.io/packages/atom-ide-ui\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
@@ -129,211 +129,5 @@
     "lint": "eslint .",
     "test": "apm test"
   },
-  "version": "2.1.1",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [
-      {
-        "name": "atom-package-deps",
-        "version": "4.6.0",
-        "path": "node_modules/atom-package-deps/lib/index.js"
-      },
-      {
-        "name": "atom-package-path",
-        "version": "1.1.0",
-        "path": "node_modules/atom-package-path/lib/index.js"
-      },
-      {
-        "name": "consistent-env",
-        "version": "1.3.1",
-        "path": "node_modules/consistent-env/lib/index.js"
-      },
-      {
-        "name": "is-utf8",
-        "version": "0.2.1",
-        "path": "node_modules/is-utf8/is-utf8.js"
-      },
-      {
-        "name": "lodash.uniq",
-        "version": "4.5.0",
-        "path": "node_modules/lodash.uniq/index.js"
-      },
-      {
-        "name": "sb-callsite",
-        "version": "1.1.2",
-        "path": "node_modules/sb-callsite/lib/main.js"
-      },
-      {
-        "name": "sb-exec",
-        "version": "3.1.0",
-        "path": "node_modules/sb-exec/lib/index.js"
-      },
-      {
-        "name": "sb-fs",
-        "version": "3.0.0",
-        "path": "node_modules/sb-fs/lib/index.js"
-      },
-      {
-        "name": "sb-memoize",
-        "version": "1.0.2",
-        "path": "node_modules/sb-memoize/lib/index.js"
-      },
-      {
-        "name": "sb-npm-path",
-        "version": "2.0.0",
-        "path": "node_modules/sb-npm-path/lib/index.js"
-      },
-      {
-        "name": "sb-promisify",
-        "version": "2.0.2",
-        "path": "node_modules/sb-promisify/lib/index.js"
-      },
-      {
-        "name": "semver",
-        "version": "5.4.1",
-        "path": "node_modules/semver/semver.js"
-      },
-      {
-        "name": "strip-bom-buf",
-        "version": "1.0.0",
-        "path": "node_modules/strip-bom-buf/index.js"
-      }
-    ],
-    "extensions": {
-      ".js": [
-        "lib/helpers.js",
-        "lib/minimap-linter-binding.js",
-        "lib/minimap-linter.js",
-        "node_modules/atom-package-deps/lib/helpers.js",
-        "node_modules/atom-package-deps/lib/index.js",
-        "node_modules/atom-package-deps/lib/types.js",
-        "node_modules/atom-package-deps/lib/view.js",
-        "node_modules/atom-package-path/lib/index.js",
-        "node_modules/consistent-env/lib/helpers.js",
-        "node_modules/consistent-env/lib/index.js",
-        "node_modules/is-utf8/is-utf8.js",
-        "node_modules/lodash.uniq/index.js",
-        "node_modules/sb-callsite/lib/main.js",
-        "node_modules/sb-exec/decls/jasmine.js",
-        "node_modules/sb-exec/lib/helpers.js",
-        "node_modules/sb-exec/lib/index.js",
-        "node_modules/sb-exec/lib/types.js",
-        "node_modules/sb-fs/lib/index.js",
-        "node_modules/sb-memoize/lib/index.js",
-        "node_modules/sb-npm-path/decls/jasmine.js",
-        "node_modules/sb-npm-path/lib/helpers.js",
-        "node_modules/sb-npm-path/lib/index.js",
-        "node_modules/sb-promisify/lib/index.js",
-        "node_modules/semver/semver.js",
-        "node_modules/strip-bom-buf/index.js"
-      ],
-      ".json": [
-        "node_modules/atom-package-deps/.eslintrc.json",
-        "node_modules/atom-package-deps/package.json",
-        "node_modules/atom-package-path/package.json",
-        "node_modules/consistent-env/.eslintrc.json",
-        "node_modules/consistent-env/package.json",
-        "node_modules/is-utf8/package.json",
-        "node_modules/lodash.uniq/package.json",
-        "node_modules/sb-callsite/package.json",
-        "node_modules/sb-exec/.eslintrc.json",
-        "node_modules/sb-exec/package.json",
-        "node_modules/sb-fs/package.json",
-        "node_modules/sb-memoize/.eslintrc.json",
-        "node_modules/sb-memoize/package.json",
-        "node_modules/sb-npm-path/.eslintrc.json",
-        "node_modules/sb-npm-path/package.json",
-        "node_modules/sb-promisify/package.json",
-        "node_modules/semver/package.json",
-        "node_modules/strip-bom-buf/package.json",
-        "package.json"
-      ]
-    },
-    "folders": [
-      {
-        "paths": [
-          "lib",
-          "",
-          "spec",
-          "spec/fake-linter",
-          "spec/fixtures"
-        ],
-        "dependencies": {
-          "atom-package-deps": "^4.5.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/atom-package-deps",
-          "node_modules/atom-package-deps/lib"
-        ],
-        "dependencies": {
-          "atom-package-path": "^1.1.0",
-          "sb-exec": "^3.0.1",
-          "sb-fs": "^3.0.0",
-          "semver": "^5.3.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/atom-package-path/lib",
-          "node_modules/atom-package-path",
-          "node_modules/atom-package-path/spec"
-        ],
-        "dependencies": {
-          "sb-callsite": "^1.1.2"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/consistent-env",
-          "node_modules/consistent-env/lib"
-        ],
-        "dependencies": {
-          "lodash.uniq": "^4.5.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/sb-exec",
-          "node_modules/sb-exec/decls",
-          "node_modules/sb-exec/lib"
-        ],
-        "dependencies": {
-          "consistent-env": "^1.2.0",
-          "lodash.uniq": "^4.5.0",
-          "sb-npm-path": "^2.0.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/sb-fs/lib",
-          "node_modules/sb-fs"
-        ],
-        "dependencies": {
-          "sb-promisify": "^2.0.1",
-          "strip-bom-buf": "^1.0.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/sb-npm-path",
-          "node_modules/sb-npm-path/decls",
-          "node_modules/sb-npm-path/lib"
-        ],
-        "dependencies": {
-          "sb-memoize": "^1.0.2",
-          "sb-promisify": "^2.0.1"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/strip-bom-buf"
-        ],
-        "dependencies": {
-          "is-utf8": "^0.2.1"
-        }
-      }
-    ]
-  }
+  "version": "2.1.3"
 }

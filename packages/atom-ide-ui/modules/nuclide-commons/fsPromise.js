@@ -507,6 +507,30 @@ function unlink(path) {
   });
 }
 
+function utimes(path, atime, mtime) {
+  return new Promise((resolve, reject) => {
+    _fs.default.utimes(path, atime, mtime, err => {
+      if (err == null) {
+        resolve();
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
+function rmdir(path) {
+  return new Promise((resolve, reject) => {
+    _fs.default.rmdir(path, err => {
+      if (err == null) {
+        resolve();
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
 exports.default = {
   tempdir,
   tempfile,
@@ -535,5 +559,7 @@ exports.default = {
   realpath,
   stat,
   symlink,
-  unlink
+  unlink,
+  utimes,
+  rmdir
 };

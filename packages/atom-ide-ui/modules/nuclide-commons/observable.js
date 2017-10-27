@@ -3,7 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.nextAnimationFrame = exports.macrotask = exports.microtask = undefined;
+exports.SingletonExecutor = exports.PromiseCancelledError = exports.nextAnimationFrame = exports.macrotask = exports.microtask = undefined;
+
+var _asyncToGenerator = _interopRequireDefault(require('async-to-generator'));
+
 exports.splitStream = splitStream;
 exports.bufferUntil = bufferUntil;
 exports.cacheWhileSubscribed = cacheWhileSubscribed;
@@ -17,6 +20,7 @@ exports.concatLatest = concatLatest;
 exports.throttle = throttle;
 exports.completingSwitchMap = completingSwitchMap;
 exports.fastDebounce = fastDebounce;
+exports.toCancellablePromise = toCancellablePromise;
 
 var _UniversalDisposable;
 
@@ -84,7 +88,8 @@ function splitStream(input) {
     }
 
     return input.subscribe(value => {
-      const lines = (current + value).split('\n');
+      const lines = value.split('\n');
+      lines[0] = current + lines[0];
       current = lines.pop();
       lines.forEach(line => observer.next(line + '\n'));
     }, error => {
@@ -367,3 +372,97 @@ const nextAnimationFrame = exports.nextAnimationFrame = _rxjsBundlesRxMinJs.Obse
     cancelAnimationFrame(id);
   };
 });
+
+/**
+ * Thrown when a CancellablePromise is cancelled().
+ */
+class PromiseCancelledError extends Error {
+  constructor() {
+    super();
+    this.name = 'PromiseCancelledError';
+  }
+}
+
+exports.PromiseCancelledError = PromiseCancelledError; // Given an observable, convert to a Promise (thereby subscribing to the Observable)
+// and return back a cancellation function as well.
+// If the cancellation function is called before the returned promise resolves,
+// then unsubscribe from the underlying Promise and have the returned Promise throw.
+// If the cancellation function is called after the returned promise resolves,
+// then it does nothing.
+
+function toCancellablePromise(observable) {
+  // Assign a dummy value to keep flow happy
+  let cancel = () => {};
+
+  const promise = new Promise((resolve, reject) => {
+    // Stolen from Rx.js toPromise.js
+    let value;
+    const subscription = observable.subscribe(v => {
+      value = v;
+    }, reject, () => {
+      resolve(value);
+    });
+
+    // Attempt cancellation of both the subscription and the promise.
+    // Do not let one failure prevent the other from succeeding.
+    cancel = () => {
+      try {
+        subscription.unsubscribe();
+      } catch (e) {}
+      try {
+        reject(new PromiseCancelledError());
+      } catch (e) {}
+    };
+  });
+
+  return { promise, cancel };
+}
+
+// Executes tasks. Ensures that at most one task is running at a time.
+// This class is handy for expensive tasks like processes, provided
+// you never want the result of a previous task after a new task has started.
+class SingletonExecutor {
+  constructor() {
+    this._currentTask = null;
+  }
+
+  // Executes(subscribes to) the task.
+  // Will terminate(unsubscribe) to any previously executing task.
+  // Subsequent executes() will terminate this task if called before
+  // this task completes.
+  execute(createTask) {
+    var _this = this;
+
+    return (0, _asyncToGenerator.default)(function* () {
+      // Kill any previously running processes
+      _this.cancel();
+
+      // Start a new process
+      const task = toCancellablePromise(createTask);
+      _this._currentTask = task;
+
+      // Wait for the process to complete or be cancelled ...
+      try {
+        return yield task.promise;
+      } finally {
+        // ... and always clean up if we haven't been cancelled already.
+        if (task === _this._currentTask) {
+          _this._currentTask = null;
+        }
+      }
+    })();
+  }
+
+  isExecuting() {
+    return this._currentTask != null;
+  }
+
+  // Cancells any currently executing tasks.
+  cancel() {
+    if (this._currentTask != null) {
+      this._currentTask.cancel();
+      this._currentTask = null;
+    }
+  }
+}
+exports.SingletonExecutor = SingletonExecutor;

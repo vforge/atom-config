@@ -62,37 +62,40 @@ class TreeItem extends _react.Component {
   }
 
   render() {
-    const _props = this.props,
-          { className, selected, children } = _props,
-          remainingProps = _objectWithoutProperties(_props, ['className', 'selected', 'children']);
+    const {
+      className,
+      selected,
+      children,
+      onMouseDown,
+      onMouseEnter,
+      onMouseLeave,
+      path,
+      name
+    } = this.props;
 
-    // don't forward these on to the <li>
-    delete remainingProps.onConfirm;
-    delete remainingProps.onSelect;
-    delete remainingProps.onTripleClick;
-
-    return (
-      // $FlowFixMe(>=0.53.0) Flow suppress
+    return _react.createElement(
+      'li',
+      {
+        'aria-selected': selected,
+        className: (0, (_classnames || _load_classnames()).default)(className, {
+          selected
+        }, 'list-item'),
+        onMouseDown: onMouseDown,
+        onMouseEnter: onMouseEnter,
+        onMouseLeave: onMouseLeave,
+        'data-path': path,
+        'data-name': name,
+        onClick: this._handleClick,
+        ref: liNode => this._liNode = liNode,
+        role: 'treeitem',
+        tabIndex: selected ? '0' : '-1' },
+      selected && typeof children === 'string' ?
+      // String children must be wrapped to receive correct styles when selected.
       _react.createElement(
-        'li',
-        Object.assign({
-          'aria-selected': selected,
-          className: (0, (_classnames || _load_classnames()).default)(className, {
-            selected
-          }, 'list-item')
-        }, remainingProps, {
-          onClick: this._handleClick,
-          ref: liNode => this._liNode = liNode,
-          role: 'treeitem',
-          tabIndex: selected ? '0' : '-1' }),
-        selected && typeof children === 'string' ?
-        // String children must be wrapped to receive correct styles when selected.
-        _react.createElement(
-          'span',
-          null,
-          children
-        ) : children
-      )
+        'span',
+        null,
+        children
+      ) : children
     );
   }
 }
@@ -119,35 +122,27 @@ class NestedTreeItem extends _react.Component {
   }
 
   render() {
-    const _props2 = this.props,
-          {
+    const {
       className,
       hasFlatChildren,
       selected,
       collapsed,
       title,
       children
-    } = _props2,
-          remainingProps = _objectWithoutProperties(_props2, ['className', 'hasFlatChildren', 'selected', 'collapsed', 'title', 'children']);
-
-    // don't forward these on to the <li>
-    delete remainingProps.onConfirm;
-    delete remainingProps.onSelect;
-    delete remainingProps.onTripleClick;
+    } = this.props;
 
     return _react.createElement(
       'li',
-      Object.assign({
+      {
         'aria-selected': selected,
         'aria-expanded': !collapsed,
         className: (0, (_classnames || _load_classnames()).default)(className, {
           selected,
           collapsed
-        }, 'list-nested-item')
-      }, remainingProps, {
+        }, 'list-nested-item'),
         onClick: this._handleClick,
         role: 'treeitem',
-        tabIndex: selected ? '0' : '-1' }),
+        tabIndex: selected ? '0' : '-1' },
       title == null ? null : _react.createElement(
         'div',
         { className: 'list-item', ref: node => this._itemNode = node },

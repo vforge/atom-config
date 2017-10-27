@@ -5,16 +5,24 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.AtomInput = undefined;
 
+var _react = _interopRequireWildcard(require('react'));
+
 var _classnames;
 
 function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-var _UniversalDisposable;
+var _string;
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('nuclide-commons/UniversalDisposable'));
+function _load_string() {
+  return _string = require('nuclide-commons/string');
+}
+
+var _observable;
+
+function _load_observable() {
+  return _observable = require('nuclide-commons/observable');
 }
 
 var _debounce;
@@ -23,23 +31,16 @@ function _load_debounce() {
   return _debounce = _interopRequireDefault(require('nuclide-commons/debounce'));
 }
 
-var _react = _interopRequireWildcard(require('react'));
+var _UniversalDisposable;
 
-var _string;
-
-function _load_string() {
-  return _string = require('nuclide-commons/string');
+function _load_UniversalDisposable() {
+  return _UniversalDisposable = _interopRequireDefault(require('nuclide-commons/UniversalDisposable'));
 }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const BLUR_FOCUS_DEBOUNCE_DELAY = 50;
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-/**
- * An input field rendered as an <atom-text-editor mini />.
- */
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  * All rights reserved.
@@ -52,6 +53,11 @@ const BLUR_FOCUS_DEBOUNCE_DELAY = 50;
  * @format
  */
 
+const BLUR_FOCUS_DEBOUNCE_DELAY = 100;
+
+/**
+ * An input field rendered as an <atom-text-editor mini />.
+ */
 class AtomInput extends _react.Component {
 
   constructor(props) {
@@ -90,14 +96,30 @@ class AtomInput extends _react.Component {
     if (this.props.autofocus) {
       this.focus();
     }
+
+    if (!!(this.props.startSelected && this.props.startSelectedRange != null)) {
+      throw new Error('cannot have both startSelected (all) and startSelectedRange');
+    }
+
     if (this.props.startSelected) {
       // For some reason, selectAll() has no effect if called right now.
-      process.nextTick(() => {
+      disposables.add((_observable || _load_observable()).microtask.subscribe(() => {
         if (!textEditor.isDestroyed()) {
           textEditor.selectAll();
         }
-      });
+      }));
     }
+
+    const startSelectedRange = this.props.startSelectedRange;
+    if (startSelectedRange != null) {
+      // For some reason, selectAll() has no effect if called right now.
+      disposables.add((_observable || _load_observable()).microtask.subscribe(() => {
+        if (!textEditor.isDestroyed()) {
+          textEditor.setSelectedBufferRange([[0, startSelectedRange[0]], [0, startSelectedRange[1]]]);
+        }
+      }));
+    }
+
     disposables.add(atom.commands.add(textEditorElement, {
       'core:confirm': () => {
         if (this.props.onConfirm != null) {

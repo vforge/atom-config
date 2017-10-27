@@ -214,6 +214,8 @@
     fontSize: 10
   "statusbar-datetime":
     format: "YYYY-MM-DD HH:mm"
+  "symbols-list":
+    hideOnEmptyList: true
   "sync-settings":
     _analyticsUserId: "e91079f2-a801-4b65-ada3-9c988de56934"
     _lastBackupHash: "135a4e5c0257fb71dc92270fdacf59a91978e4cf"
