@@ -1,7 +1,5 @@
 {Disposable, CompositeDisposable} = require 'atom'
 
-marked = require 'marked'
-
 module.exports =
 
 ##*
@@ -74,7 +72,7 @@ class SignatureHelpProvider
                     @registerEventsForPane(pane)
 
         @disposables.add atom.workspace.onDidStopChangingActivePaneItem (item) =>
-            @removeCallTip()
+            @removeSignatureHelp()
 
     ###*
      * Registers the necessary event handlers for the editors in the specified pane.
@@ -93,7 +91,7 @@ class SignatureHelpProvider
     deactivate: () ->
         @disposables.dispose()
 
-        @removeCallTip()
+        @removeSignatureHelp()
 
     ###*
      * Registers the necessary event handlers.
@@ -107,19 +105,7 @@ class SignatureHelpProvider
 
             return if event.cursor != cursors[0]
 
-            if @timeoutHandle?
-                # Putting this here will ensure the popover is removed when the user currently has a call tip active and
-                # then starts rapidly moving the cursor around. Otherwise, it will stick around for a while until the
-                # user stops moving the cursor.
-                @removeCallTip()
-
-                clearTimeout(@timeoutHandle)
-                @timeoutHandle = null
-
-            @timeoutHandle = setTimeout ( =>
-                @timeoutHandle = null
-                @onChangeCursorPosition(editor, event.newBufferPosition)
-            ), 50
+            @onChangeCursorPosition(editor, event.newBufferPosition)
 
 
     ###*
@@ -127,21 +113,31 @@ class SignatureHelpProvider
      * @param {Point}      newBufferPosition
     ###
     onChangeCursorPosition: (editor, newBufferPosition) ->
-        @showCallTipAt(editor, newBufferPosition)
+        @removeSignatureHelp()
+
+        if @timeoutHandle?
+            clearTimeout(@timeoutHandle)
+            @timeoutHandle = null
+
+        @timeoutHandle = setTimeout ( =>
+            @timeoutHandle = null
+            @showSignatureHelpAt(editor, newBufferPosition)
+        ), 500
+
 
     ###*
      * @param {TextEditor} editor
      * @param {Point}      bufferPosition
     ###
-    showCallTipAt: (editor, bufferPosition) ->
+    showSignatureHelpAt: (editor, bufferPosition) ->
         successHandler = (signatureHelp) =>
             return if not signatureHelp?
 
-            @removeCallTip()
-            @showCallTipForObject(editor, bufferPosition, signatureHelp)
+            @removeSignatureHelp()
+            @showSignatureHelpForObject(editor, bufferPosition, signatureHelp)
 
         failureHandler = () =>
-            @removeCallTip()
+            @removeSignatureHelp()
 
         return @service.signatureHelpAt(editor, bufferPosition).then(successHandler, failureHandler)
 
@@ -151,7 +147,7 @@ class SignatureHelpProvider
      * @param {Point}      bufferPosition
      * @param {Object}     signatureHelp
     ###
-    showCallTipForObject: (editor, bufferPosition, signatureHelp) ->
+    showSignatureHelpForObject: (editor, bufferPosition, signatureHelp) ->
         signature = signatureHelp.signatures[signatureHelp.activeSignature]
 
         text = signature.label
@@ -178,7 +174,7 @@ class SignatureHelpProvider
         if signature.parameters.length > 0 and signature.parameters[signatureHelp.activeParameter].documentation?
             text += '<br><br><p>' + signature.parameters[signatureHelp.activeParameter].documentation + '</p>'
 
-        @showCallTip(editor, bufferPosition, text)
+        @showSignatureHelp(editor, bufferPosition, text)
 
     ###*
      * @param {String} text
@@ -214,7 +210,7 @@ class SignatureHelpProvider
      * @param {Point}      bufferPosition
      * @param {String}     text
     ###
-    showCallTip: (editor, bufferPosition, text) ->
+    showSignatureHelp: (editor, bufferPosition, text) ->
         @callTipMarker = editor.markBufferPosition(bufferPosition, {
             invalidate : 'touch'
         })
@@ -242,7 +238,7 @@ class SignatureHelpProvider
     ###*
      * Removes the popover, if it is displayed.
     ###
-    removeCallTip: () ->
+    removeSignatureHelp: () ->
         if @callTipMarker
             @callTipMarker.destroy()
             @callTipMarker = null

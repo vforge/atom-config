@@ -1,3 +1,23 @@
+## 0.4.4
+* Added icons for:
+  - pug
+  - styl
+  - scss
+* Updated sass icon to be the actual sass logo
+## 0.4.3
+* Added icons for:
+  - vue
+  - otf
+  - ttf
+  - woff
+  - woff2
+  - eot
+  - xml
+  - package.json
+  - npmignore
+  - lock
+  - log
+  - htaccess
 ## 0.4.2
 * Added icon for jsx
 ## 0.4.1

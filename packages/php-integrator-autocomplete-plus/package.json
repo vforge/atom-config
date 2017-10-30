@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-6252-1g4ukmz.t4tp3hxgvi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49321-rz11kw.li6q1tt9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-6252-1g4ukmz.t4tp3hxgvi/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-6252-1g4ukmz.t4tp3hxgvi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49321-rz11kw.li6q1tt9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49321-rz11kw.li6q1tt9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117624-6252-uqhh6l.v4qm7snhfr"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117930-49321-sj6hx2.2pdzyf1or"
     ]
   ],
-  "_from": "../d-117624-6252-1g4ukmz.t4tp3hxgvi/package.tgz",
-  "_id": "php-integrator-autocomplete-plus@1.6.0",
+  "_from": "../d-117930-49321-rz11kw.li6q1tt9/package.tgz",
+  "_id": "php-integrator-autocomplete-plus@1.6.1",
   "_inCache": true,
   "_location": "/php-integrator-autocomplete-plus",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-6252-1g4ukmz.t4tp3hxgvi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49321-rz11kw.li6q1tt9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-6252-1g4ukmz.t4tp3hxgvi/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-6252-1g4ukmz.t4tp3hxgvi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49321-rz11kw.li6q1tt9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49321-rz11kw.li6q1tt9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117624-6252-1g4ukmz.t4tp3hxgvi/package.tgz",
-  "_shasum": "8c253d0103331c4e8bd0bbc8ef5b6b38256e0aff",
+  "_resolved": "file:../d-117930-49321-rz11kw.li6q1tt9/package.tgz",
+  "_shasum": "d9223acb5a18ff006a6c43fe3509c2c54c2b7bb4",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117624-6252-1g4ukmz.t4tp3hxgvi/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117624-6252-uqhh6l.v4qm7snhfr",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49321-rz11kw.li6q1tt9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117930-49321-sj6hx2.2pdzyf1or",
   "bugs": {
     "url": "https://github.com/php-integrator/atom-autocompletion/issues"
   },
@@ -49,7 +49,7 @@
   "description": "Provides autocompletion for your PHP source code.",
   "devDependencies": {},
   "engines": {
-    "atom": ">=1.13.0 <2.0.0"
+    "atom": ">=1.19.0 <2.0.0"
   },
   "homepage": "https://github.com/php-integrator/atom-autocompletion#readme",
   "keywords": [
@@ -77,35 +77,5 @@
     "type": "git",
     "url": "git+https://github.com/php-integrator/atom-autocompletion.git"
   },
-  "version": "1.6.0",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [],
-    "extensions": {
-      ".coffee": [
-        "lib/AbstractProvider.coffee",
-        "lib/AtomConfig.coffee",
-        "lib/ClassProvider.coffee",
-        "lib/Config.coffee",
-        "lib/DocblockAnnotationProvider.coffee",
-        "lib/DocblockTagProvider.coffee",
-        "lib/GlobalConstantProvider.coffee",
-        "lib/GlobalFunctionProvider.coffee",
-        "lib/GlobalVariableProvider.coffee",
-        "lib/KeywordProvider.coffee",
-        "lib/MagicConstantProvider.coffee",
-        "lib/Main.coffee",
-        "lib/MemberProvider.coffee",
-        "lib/NamespaceProvider.coffee",
-        "lib/PHPUnitTagProvider.coffee",
-        "lib/SnippetProvider.coffee",
-        "lib/TypeHintNewVariableNameProvider.coffee",
-        "lib/VariableProvider.coffee"
-      ],
-      ".json": [
-        "package.json"
-      ]
-    },
-    "folders": []
-  }
+  "version": "1.6.1"
 }

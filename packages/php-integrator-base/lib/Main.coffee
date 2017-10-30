@@ -1,3 +1,25 @@
+{Disposable, CompositeDisposable} = require 'atom';
+
+{Emitter} = require 'event-kit';
+
+packageDeps = require('atom-package-deps')
+
+Service =                require './Service'
+AtomConfig =             require './AtomConfig'
+CoreManager =            require './CoreManager';
+CachingProxy =           require './CachingProxy'
+ConfigTester =           require './ConfigTester'
+ProjectManager =         require './ProjectManager'
+LinterProvider =         require './LinterProvider'
+ComposerService =        require './ComposerService';
+TooltipProvider =        require './TooltipProvider'
+StatusBarManager =       require "./Widgets/StatusBarManager"
+IndexingMediator =       require './IndexingMediator'
+UseStatementHelper =     require './UseStatementHelper';
+SignatureHelpProvider =  require './SignatureHelpProvider'
+GotoDefinitionProvider = require './GotoDefinitionProvider'
+AutocompletionProvider = require './AutocompletionProvider'
+
 module.exports =
     ###*
      * Configuration settings.
@@ -87,9 +109,20 @@ module.exports =
                     default     : true
                     order       : 1
 
-        linting:
+        gotoDefinition:
             type: 'object'
             order: 5
+            properties:
+                enable:
+                    title       : 'Enable'
+                    description : 'When enabled, code navigation will be activated via the hyperclick package.'
+                    type        : 'boolean'
+                    default     : true
+                    order       : 1
+
+        linting:
+            type: 'object'
+            order: 6
             properties:
                 enable:
                     title       : 'Enable'
@@ -158,7 +191,7 @@ module.exports =
      *
      * @var {String}
     ###
-    coreVersionSpecification: "3.0.0"
+    coreVersionSpecification: "3.1.0"
 
     ###*
      * The name of the package.
@@ -249,6 +282,11 @@ module.exports =
     ###*
      * @var {Object|null}
     ###
+    gotoDefinitionProvider: null
+
+    ###*
+     * @var {Object|null}
+    ###
     linterProvider: null
 
     ###*
@@ -259,8 +297,6 @@ module.exports =
      * @return {bool}
     ###
     testConfig: (testServices = true) ->
-        ConfigTester = require './ConfigTester'
-
         configTester = new ConfigTester(@getConfiguration())
 
         result = configTester.test()
@@ -402,6 +438,13 @@ module.exports =
             else
                 @deactivateSignatureHelp()
 
+        config.onDidChange 'gotoDefintion.enable', (value) =>
+            if value
+                @activateGotoDefinition()
+
+            else
+                @deactivateGotoDefinition()
+
         config.onDidChange 'linting.enable', (value) =>
             if value
                 @activateLinting()
@@ -470,8 +513,6 @@ module.exports =
     ###
     attachStatusBarItems: (statusBarService) ->
         if not @statusBarManager
-            StatusBarManager = require "./Widgets/StatusBarManager"
-
             @statusBarManager = new StatusBarManager()
             @statusBarManager.initialize(statusBarService)
             @statusBarManager.setLabel("Indexing...")
@@ -493,26 +534,74 @@ module.exports =
                 resolve()
 
         message =
-            "The core isn't installed yet or is outdated. A new version is in the process of being downloaded."
+            "The core isn't installed yet or is outdated. A new version is in the process of being downloaded.\n \n" +
 
-        atom.notifications.addInfo('PHP Integrator - Downloading Core', {'detail': message})
+            "Progress is being sent to the developer tools console, in case you'd like to monitor it.\n \n" +
+
+            "You will be notified once the install finishes (or fails)."
+
+        atom.notifications.addInfo('PHP Integrator - Downloading Core', {'detail': message, dismissable: true})
 
         successHandler = () ->
-            atom.notifications.addSuccess('Core installation successful')
+            atom.notifications.addSuccess('Core installation successful', dismissable: true)
 
         failureHandler = () ->
-            atom.notifications.addError('Core installation failed')
+            message =
+                "The core failed to install. This can happen for a variety of reasons, such as an outdated PHP " +
+                "version or missing extensions.\n \n" +
+
+                "Logs in the developer tools will likely provide you with more information about what is wrong. You " +
+                "can open it via the menu View → Developer → Toggle Developer Tools.\n \n" +
+
+                "Additionally, the README provides more information about requirements and troubleshooting."
+
+            atom.notifications.addError('Core installation failed', {detail: message, dismissable: true})
 
         return @getCoreManager().install().then(successHandler, failureHandler)
+
+    ###*
+     * Checks if the php-integrator-navigation package is installed and notifies the user it is obsolete if it is.
+    ###
+    notifyAboutRedundantNavigationPackageIfnecessary: () ->
+        atom.packages.onDidActivatePackage (packageData) ->
+            return if packageData.name != 'php-integrator-navigation'
+
+            message =
+                "It seems you still have the php-integrator-navigation package installed and activated. As of this " +
+                "release, it is obsolete and all its functionality is already included in the base package.\n \n" +
+
+                "It is recommended to disable or remove it, shall I disable it for you?"
+
+            notification = atom.notifications.addInfo('PHP Integrator - Navigation', {
+                detail      : message
+                dismissable : true
+
+                buttons: [
+                    {
+                        text: 'Yes, nuke it'
+                        onDidClick: () ->
+                            atom.packages.disablePackage('php-integrator-navigation');
+                            notification.dismiss()
+                    },
+
+                    {
+                        text: 'No, don\'t touch it'
+                        onDidClick: () ->
+                            notification.dismiss()
+                    }
+                ]
+            })
 
     ###*
      * Activates the package.
     ###
     activate: ->
-        require('atom-package-deps').install(@packageName, true).then () =>
+        packageDeps.install(@packageName, true).then () =>
             return if not @testConfig(false)
 
             @updateCoreIfOutdated().then () =>
+                @notifyAboutRedundantNavigationPackageIfnecessary()
+
                 @registerCommands()
                 @registerConfigListeners()
                 @registerStatusBarListeners()
@@ -530,7 +619,17 @@ module.exports =
                 if @getConfiguration().get('linting.enable')
                     @activateLinting()
 
+                if @getConfiguration().get('gotoDefinition.enable')
+                    @activateGotoDefinition()
+
                 @getCachingProxy().setIsActive(true)
+
+                # This fixes the corner case where the core is still installing, the project manager service has already
+                # loaded and the project is already active. At that point, the index that resulted from it silently
+                # failed because the proxy (and core) weren't active yet. This in turn causes the project to not
+                # automatically start indexing, which is especially relevant if a core update requires a reindex.
+                if @activeProject?
+                    @changeActiveProject(@activeProject)
 
     ###*
      * Registers listeners for events from Atom's API.
@@ -562,6 +661,18 @@ module.exports =
     ###
     deactivateSignatureHelp: () ->
         @getSignatureHelpProvider().deactivate()
+
+    ###*
+     * Activates the goto definition provider.
+    ###
+    activateGotoDefinition: () ->
+        @getGotoDefinitionProvider().activate(@getService())
+
+    ###*
+     * Deactivates the goto definition provider.
+    ###
+    deactivateGotoDefinition: () ->
+        @getGotoDefinitionProvider().deactivate()
 
     ###*
      * Activates linting.
@@ -647,8 +758,6 @@ module.exports =
         if not @getProjectManager().isProjectIndexing()
             @statusBarManager.hide()
 
-        {Disposable} = require 'atom'
-
         return new Disposable => @detachStatusBarItems()
 
     ###*
@@ -681,6 +790,12 @@ module.exports =
      * @param {Object} project
     ###
     onProjectChanged: (project) ->
+        @changeActiveProject(project)
+
+    ###*
+     * @param {Object} project
+    ###
+    changeActiveProject: (project) ->
         @activeProject = project
 
         return if not project?
@@ -706,6 +821,8 @@ module.exports =
 
         @proxy.test().then(successHandler, failureHandler)
 
+        return
+
     ###*
      * Retrieves the base package service that can be used by other packages.
      *
@@ -720,7 +837,8 @@ module.exports =
      * @return {Array}
     ###
     getAutocompletionProviderServices: () ->
-        return [@getAutocompletionProvider()]
+        return []
+        # return [@getAutocompletionProvider()]
 
     ###*
      * Returns a list of intention providers.
@@ -731,12 +849,18 @@ module.exports =
         return @getTooltipProvider().getIntentionProviders()
 
     ###*
+     * Returns the hyperclick provider.
+     *
+     * @return {Object}
+    ###
+    getHyperclickProvider: () ->
+        return @getGotoDefinitionProvider()
+
+    ###*
      * @return {Service}
     ###
     getService: () ->
         if not @service?
-            Service = require './Service'
-
             @service = new Service(
                 @getConfiguration(),
                 @getCachingProxy(),
@@ -752,8 +876,6 @@ module.exports =
     ###
     getDisposables: () ->
         if not @disposables?
-            {CompositeDisposable} = require 'atom';
-
             @disposables = new CompositeDisposable()
 
         return @disposables
@@ -763,8 +885,6 @@ module.exports =
     ###
     getConfiguration: () ->
         if not @configuration?
-            AtomConfig = require './AtomConfig'
-
             @configuration = new AtomConfig(@packageName)
 
         return @configuration
@@ -774,8 +894,6 @@ module.exports =
     ###
     getCachingProxy: () ->
         if not @proxy?
-            CachingProxy = require './CachingProxy'
-
             @proxy = new CachingProxy(@getConfiguration())
             @proxy.setCorePath(@getCoreManager().getCoreSourcePath())
 
@@ -786,8 +904,6 @@ module.exports =
     ###
     getEmitter: () ->
         if not @emitter?
-            {Emitter} = require 'event-kit';
-
             @emitter = new Emitter()
 
         return @emitter
@@ -797,8 +913,6 @@ module.exports =
     ###
     getComposerService: () ->
         if not @composerService?
-            ComposerService = require './ComposerService';
-
             @composerService = new ComposerService(
                 @getConfiguration().get('core.phpCommand'),
                 @getConfiguration().get('packagePath') + '/core/'
@@ -811,8 +925,6 @@ module.exports =
     ###
     getCoreManager: () ->
         if not @coreManager?
-            CoreManager = require './CoreManager';
-
             @coreManager = new CoreManager(
                 @getComposerService(),
                 @coreVersionSpecification,
@@ -826,8 +938,6 @@ module.exports =
     ###
     getUseStatementHelper: () ->
         if not @useStatementHelper?
-            UseStatementHelper = require './UseStatementHelper';
-
             @useStatementHelper = new UseStatementHelper(@getConfiguration().get('general.insertNewlinesForUseStatements'))
 
         return @useStatementHelper
@@ -837,8 +947,6 @@ module.exports =
     ###
     getIndexingMediator: () ->
         if not @indexingMediator?
-            IndexingMediator = require './IndexingMediator'
-
             @indexingMediator = new IndexingMediator(@getCachingProxy(), @getEmitter())
 
         return @indexingMediator
@@ -848,8 +956,6 @@ module.exports =
     ###
     getProjectManager: () ->
         if not @projectManager?
-            ProjectManager = require './ProjectManager'
-
             @projectManager = new ProjectManager(@getCachingProxy(), @getIndexingMediator())
 
         return @projectManager
@@ -859,8 +965,6 @@ module.exports =
     ###
     getTooltipProvider: () ->
         if not @tooltipProvider?
-            TooltipProvider = require './TooltipProvider'
-
             @tooltipProvider = new TooltipProvider()
 
         return @tooltipProvider
@@ -870,19 +974,24 @@ module.exports =
     ###
     getSignatureHelpProvider: () ->
         if not @signatureHelpProvider?
-            SignatureHelpProvider = require './SignatureHelpProvider'
-
             @signatureHelpProvider = new SignatureHelpProvider()
 
         return @signatureHelpProvider
+
+    ###*
+     * @return {GotoDefinitionProvider}
+    ###
+    getGotoDefinitionProvider: () ->
+        if not @gotoDefinitionProvider?
+            @gotoDefinitionProvider = new GotoDefinitionProvider()
+
+        return @gotoDefinitionProvider
 
     ###*
      * @return {LinterProvider}
     ###
     getLinterProvider: () ->
         if not @linterProvider?
-            LinterProvider = require './LinterProvider'
-
             @linterProvider = new LinterProvider(@getConfiguration())
 
         return @linterProvider
@@ -892,8 +1001,6 @@ module.exports =
     ###
     getAutocompletionProvider: () ->
         if not @autocompletionProvider?
-            AutocompletionProvider = require './AutocompletionProvider'
-
             @autocompletionProvider = new AutocompletionProvider(@getConfiguration(), @getService())
 
         return @autocompletionProvider

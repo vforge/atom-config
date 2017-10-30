@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-fbxn6l.qvo4vd9529/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49299-3o4u2j.nafv67p66r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-fbxn6l.qvo4vd9529/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-fbxn6l.qvo4vd9529/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49299-3o4u2j.nafv67p66r/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49299-3o4u2j.nafv67p66r/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117818-71306-g020y2.cxxxvquxr"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117930-49299-1jl82eg.mlnkjiqkt9"
     ]
   ],
-  "_from": "../d-117818-71306-fbxn6l.qvo4vd9529/package.tgz",
-  "_id": "dash-ui@0.4.3",
+  "_from": "../d-117930-49299-3o4u2j.nafv67p66r/package.tgz",
+  "_id": "dash-ui@0.4.4",
   "_inCache": true,
   "_location": "/dash-ui",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-fbxn6l.qvo4vd9529/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49299-3o4u2j.nafv67p66r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-fbxn6l.qvo4vd9529/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-fbxn6l.qvo4vd9529/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49299-3o4u2j.nafv67p66r/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49299-3o4u2j.nafv67p66r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117818-71306-fbxn6l.qvo4vd9529/package.tgz",
-  "_shasum": "82fc5ea44a085d91ca25834a02997dca9ca3819c",
+  "_resolved": "file:../d-117930-49299-3o4u2j.nafv67p66r/package.tgz",
+  "_shasum": "5e6c4f828365587d421dc02ec9020241bd13eb0a",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117818-71306-fbxn6l.qvo4vd9529/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117818-71306-g020y2.cxxxvquxr",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117930-49299-3o4u2j.nafv67p66r/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117930-49299-1jl82eg.mlnkjiqkt9",
   "bugs": {
     "url": "https://github.com/cpsdqs/dash-ui/issues"
   },
@@ -94,21 +94,5 @@
     "url": "git+https://github.com/cpsdqs/dash-ui.git"
   },
   "theme": "ui",
-  "version": "0.4.3",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [],
-    "extensions": {
-      ".js": [
-        "gulpfile.js"
-      ],
-      ".coffee": [
-        "lib/dash-ui.coffee"
-      ],
-      ".json": [
-        "package.json"
-      ]
-    },
-    "folders": []
-  }
+  "version": "0.4.4"
 }

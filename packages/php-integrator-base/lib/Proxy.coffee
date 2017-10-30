@@ -2,6 +2,7 @@ fs            = require 'fs'
 net           = require 'net'
 stream        = require 'stream'
 child_process = require 'child_process'
+sanitize      = require 'sanitize-filename'
 
 module.exports =
 
@@ -355,8 +356,15 @@ class Proxy
 
             relatedJsonRpcRequest = @requestQueue[jsonRpcResponse.result.requestId]
 
-            if not relatedJsonRpcRequest.streamCallback?
-                console.warn('Received progress information for a request that isn\'t interested in it')
+            if not relatedJsonRpcRequest?
+                console.warn(
+                    'Received progress information for request that doesn\'t exist or was already finished',
+                    jsonRpcResponse
+                )
+                return
+
+            else if not relatedJsonRpcRequest.streamCallback?
+                console.warn('Received progress information for a request that isn\'t interested in it', jsonRpcResponse)
                 return
 
             relatedJsonRpcRequest.streamCallback(jsonRpcResponse.result.progress)
@@ -787,16 +795,16 @@ class Proxy
     ###*
      * Fetches all available variables at a specific location.
      *
-     * @param {String|null} file   The path to the file to examine. May be null if the source parameter is passed.
+     * @param {String}      file   The path to the file to examine. May be null if the source parameter is passed.
      * @param {String|null} source The source code to search. May be null if a file is passed instead.
      * @param {Number}      offset The character offset into the file to examine.
      *
      * @return {Promise}
     ###
     getAvailableVariables: (file, source, offset) ->
-        if not file? and not source?
+        if not file
             return new Promise (resolve, reject) ->
-                reject('Either a path to a file or source code must be passed!')
+                reject('No file passed!')
 
         if not @getIndexDatabasePath()?
             return new Promise (resolve, reject) ->
@@ -806,10 +814,8 @@ class Proxy
             database   : @getIndexDatabasePath()
             offset     : offset
             charoffset : true
+            file       : file
         }
-
-        if file?
-            parameters.file = file
 
         return @performRequest('availableVariables', parameters, null, source)
 
@@ -866,6 +872,33 @@ class Proxy
         }
 
         return @performRequest('signatureHelp', parameters, null, source)
+
+    ###*
+     * Fetches definition information for code navigation purposes of the structural element at the specified location.
+     *
+     * @param {String}      file   The path to the file to examine.
+     * @param {String|null} source The source code to search. May be null if a file is passed instead.
+     * @param {Number}      offset The character offset into the file to examine.
+     *
+     * @return {Promise}
+    ###
+    gotoDefinition: (file, source, offset) ->
+        if not file?
+            return new Promise (resolve, reject) ->
+                reject('Either a path to a file or source code must be passed!')
+
+        if not @getIndexDatabasePath()?
+            return new Promise (resolve, reject) ->
+                reject('Request aborted as there is no project active (yet)')
+
+        parameters = {
+            database   : @getIndexDatabasePath()
+            offset     : offset
+            charoffset : true
+            file       : file
+        }
+
+        return @performRequest('gotoDefinition', parameters, null, source)
 
     ###*
      * Deduces the resulting types of an expression.
@@ -1024,8 +1057,6 @@ class Proxy
         }
 
         if progressStreamCallback?
-            parameters['stream-progress'] = true
-
             progressStreamCallbackWrapper = progressStreamCallback
 
         parameters.source = pathsToIndex
@@ -1040,8 +1071,6 @@ class Proxy
      * @param {String} name
     ###
     setIndexDatabaseName: (name) ->
-        sanitize = require 'sanitize-filename'
-
         @indexDatabaseName = sanitize(name)
 
     ###*
