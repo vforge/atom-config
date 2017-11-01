@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117716-55755-1sety18.ygn1h8h0k9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-8mj8ch.abowwv1jor/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117716-55755-1sety18.ygn1h8h0k9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117716-55755-1sety18.ygn1h8h0k9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-8mj8ch.abowwv1jor/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-8mj8ch.abowwv1jor/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117716-55755-1u9oli.z8ptpxecdi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117101-39679-sm37hd.zm88o4unmi"
     ]
   ],
-  "_from": "../d-117716-55755-1sety18.ygn1h8h0k9/package.tgz",
-  "_id": "language-slim@0.6.0",
+  "_from": "../d-117101-39679-8mj8ch.abowwv1jor/package.tgz",
+  "_id": "language-slim@1.0.0",
   "_inCache": true,
   "_location": "/language-slim",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117716-55755-1sety18.ygn1h8h0k9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-8mj8ch.abowwv1jor/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117716-55755-1sety18.ygn1h8h0k9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117716-55755-1sety18.ygn1h8h0k9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-8mj8ch.abowwv1jor/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-8mj8ch.abowwv1jor/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117716-55755-1sety18.ygn1h8h0k9/package.tgz",
-  "_shasum": "7b9420b861250d7e98efd8299193b3a4fb926d85",
+  "_resolved": "file:../d-117101-39679-8mj8ch.abowwv1jor/package.tgz",
+  "_shasum": "0a1209e8953b0a8e315e2e4920fe5c0a29595280",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117716-55755-1sety18.ygn1h8h0k9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117716-55755-1u9oli.z8ptpxecdi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-8mj8ch.abowwv1jor/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117101-39679-sm37hd.zm88o4unmi",
   "bugs": {
     "url": "https://github.com/slim-template/language-slim/issues"
   },
@@ -49,21 +49,11 @@
   "name": "language-slim",
   "optionalDependencies": {},
   "private": true,
-  "readme": "# Slim Atom language package [![endorse](http://api.coderwall.com/fredwu/endorsecount.png)](http://coderwall.com/fredwu)\n\n## Description\n\nThis is the [Atom](http://atom.io/) language package, converted from the [Slim TextMate/Sublime bundle](https://github.com/slim-template/ruby-slim.tmbundle).\n\n## Author\n\n[Fred Wu](http://fredwu.me/)\n",
+  "readme": "# Slim Atom language package\n\n## Looking for maintainer(s)! See [this issue](https://github.com/slim-template/language-slim/issues/25).\n\n## Description\n\nThis is the [Atom](http://atom.io/) language package, converted from the [Slim TextMate/Sublime bundle](https://github.com/slim-template/ruby-slim.tmbundle).\n\n## Author\n\n[Fred Wu](http://fredwu.me/)\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/slim-template/language-slim.git"
   },
-  "version": "0.6.0",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [],
-    "extensions": {
-      ".json": [
-        "package.json"
-      ]
-    },
-    "folders": []
-  }
+  "version": "1.0.0"
 }

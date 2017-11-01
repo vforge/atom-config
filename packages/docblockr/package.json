@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117931-79651-rtz5aj.5hirx80k9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-1xod5k5.5wbyddvx6r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117931-79651-rtz5aj.5hirx80k9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117931-79651-rtz5aj.5hirx80k9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-1xod5k5.5wbyddvx6r/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-1xod5k5.5wbyddvx6r/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117931-79651-158x5th.jz9lrtfbt9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117101-39679-17gxe1k.1mw4hg2e29"
     ]
   ],
-  "_from": "../d-117931-79651-rtz5aj.5hirx80k9/package.tgz",
-  "_id": "docblockr@0.12.0",
+  "_from": "../d-117101-39679-1xod5k5.5wbyddvx6r/package.tgz",
+  "_id": "docblockr@0.12.1",
   "_inCache": true,
   "_location": "/docblockr",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117931-79651-rtz5aj.5hirx80k9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-1xod5k5.5wbyddvx6r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117931-79651-rtz5aj.5hirx80k9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117931-79651-rtz5aj.5hirx80k9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-1xod5k5.5wbyddvx6r/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-1xod5k5.5wbyddvx6r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117931-79651-rtz5aj.5hirx80k9/package.tgz",
-  "_shasum": "1ce80931aa2f95cb3bb5acb2ed57422523eed468",
+  "_resolved": "file:../d-117101-39679-1xod5k5.5wbyddvx6r/package.tgz",
+  "_shasum": "2db0a5f5a7165c8f106f14886ac881d0fc2a64d5",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117931-79651-rtz5aj.5hirx80k9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117931-79651-158x5th.jz9lrtfbt9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-39679-1xod5k5.5wbyddvx6r/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117101-39679-17gxe1k.1mw4hg2e29",
   "atomTestRunner": "./spec/runner",
   "bugs": {
     "url": "https://github.com/nikhilkalige/docblockr/issues"
@@ -69,8 +69,8 @@
     "url": "git+https://github.com/nikhilkalige/docblockr.git"
   },
   "scripts": {
-    "lint": "node_modules/eslint/bin/eslint.js ./",
+    "lint": "eslint ./",
     "test": "cd ~/.atom/packages; atom --test docblockr/spec"
   },
-  "version": "0.12.0"
+  "version": "0.12.1"
 }
