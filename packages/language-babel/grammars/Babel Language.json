@@ -357,13 +357,14 @@
       "patterns": [
         {
           "name": "meta.for.js",
-          "begin": "(?<!\\.)\\s*+\\b(for)\\b",
+          "begin": "(?<!\\.)\\s*+\\b(for)\\b\\s*(await)?\\b",
           "end": "\\s*(\\))",
           "endCaptures": {
             "1": { "name": "meta.brace.round.js" }
           },
           "beginCaptures": {
-            "1": { "name": "keyword.control.loop.js" }
+            "1": { "name": "keyword.control.loop.js" },
+            "2": { "name": "keyword.control.flow.js" }
           },
           "patterns": [
             {
@@ -1989,7 +1990,7 @@
         {
           "comment": "e.g. play<T,T>(arg1, arg2): Type<T> { }",
           "name": "meta.function.method.js",
-          "begin": "(?<!:)(?<=^|;|,|@@|}|{)\\s*+(\\bstatic\\b)?\\s*+(\\basync\\b)?\\s*+(\\*?)\\s*+(?<!\\.)(\\#?)((?:[$_\\p{L}\\p{Nl}]|\\\\u\\h{4}|\\\\u{\\h+})(?:[$_\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}\\x{200C}\\x{200D}]|\\\\u\\h{4}|\\\\u{\\h+})*+)\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?(\\())",
+          "begin": "(?<!:)(?<=^|;|,|@@|}|{)\\s*+(\\bstatic\\b)?\\s*+(\\basync\\b)?\\s*+(\\*?)\\s*+(?<!\\.)(\\#?)(?!\\bstatic\\b)((?:[$_\\p{L}\\p{Nl}]|\\\\u\\h{4}|\\\\u{\\h+})(?:[$_\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}\\x{200C}\\x{200D}]|\\\\u\\h{4}|\\\\u{\\h+})*+)\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?(\\())",
           "end": "(?<=})|(?=;|}|,)",
           "beginCaptures": {
             "1": { "name": "storage.modifier.js" },
@@ -2045,7 +2046,7 @@
         {
           "comment": "getter/setter",
           "name": "meta.accessor.js",
-          "begin": "(?<=^|;|,|@@|}|{)\\s*+\\b(?:(static)\\s+)?(get|set)\\s++(\\#?)((?:[$_\\p{L}\\p{Nl}]|\\\\u\\h{4}|\\\\u{\\h+})(?:[$_\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}\\x{200C}\\x{200D}]|\\\\u\\h{4}|\\\\u{\\h+})*+)\\s*+(?=\\()",
+          "begin": "(?<=^|;|,|@@|}|{)\\s*+\\b(?:(static)\\s+)?(get|set)\\s++(\\#?)(?!\\bstatic\\b)((?:[$_\\p{L}\\p{Nl}]|\\\\u\\h{4}|\\\\u{\\h+})(?:[$_\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}\\x{200C}\\x{200D}]|\\\\u\\h{4}|\\\\u{\\h+})*+)\\s*+(?=\\()",
           "end": "(?<=})|(?=;|}|,)",
           "beginCaptures": {
             "1": { "name": "storage.modifier.js" },
@@ -2927,7 +2928,7 @@
           },
           {
             "comment": "custom primitive/var Types e.g. abc avoid abc(",
-            "match": "(?!\\s*\\b(if|switch|case|break|default|try|var|let|const|static|function|return|class|do|for|while|debugger|export|import|yield|type|declare|interface)\\b)(?!^)\\s*(?<=\\s|:|&|\\|)([$_\\p{L}][$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}]*+)(?!\\s*+\\()",
+            "match": "(?!\\s*\\b(if|switch|case|break|default|try|var|let|const|static|function|return|class|do|for|while|debugger|export|import|yield|type|declare|interface)\\b)(?!^)\\s*(?<=\\s|:|&|\\||<)([$_\\p{L}][$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}]*+)(?!\\s*+\\()",
             "captures": {
               "2": { "name": "support.type.primitive.flowtype" }
             }
@@ -2979,9 +2980,32 @@
     "flowtype-bracketed-parameters": {
       "patterns": [
         {
+          "comment": "Bracketed elements which are not likely functions/methods",
+          "comment": "trap balanced parens which are NOT followed by : => { or /*: ",
+          "begin": "\\s*+(?=(\\((?:(?>[^()]+)|\\g<-1>)*\\))\\s*+(?!:|=>|{|/\\*\\s*:))",
+          "end": "(?=.)",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            {
+              "begin": "\\s*(\\()",
+              "end": "\\s*(\\))",
+
+              "beginCaptures": {
+                "1": { "name": "meta.brace.round.js" }
+              },
+              "endCaptures": {
+                "1": { "name": "meta.brace.round.js" }
+              },
+              "patterns": [
+                { "include": "#flowtype-parse-types" }
+              ]
+            }
+          ]
+        },
+        {
           "comment": "Get parameters within a function/method call",
           "contentName": "meta.function.parameters.js",
-          "begin": "(?<!})\\s*+((\\())",
+          "begin": "(?<!})\\s*((\\())",
           "end": "\\s*((\\)))",
           "beginCaptures": {
             "1": { "name": "punctuation.definition.parameters.begin.js" },
@@ -3047,7 +3071,7 @@
     "flowtype-parse-objects": {
       "name": "meta.object.flowtype",
       "comment": "object literal flowtype  preceded by either => : | & ? symbols",
-      "begin": "(?<=:|\\||&|\\?|=>|<)\\s*+({)",
+      "begin": "(?<=:|\\||&|\\?|=>|<|\\()\\s*+({)",
       "end": "\\s*(\\})",
       "applyEndPatternLast": 1,
       "beginCaptures": {
@@ -3086,6 +3110,17 @@
         "1": { "name": "meta.brace.square.end.flowtype" }
       },
       "patterns": [
+        {
+          "comment": "destructring in arrays requires vars parse before types",
+          "begin": "\\s*(?=[_$[:alpha:]][_$[:alnum:]]*\\s*[=:])",
+          "end": "(?=.)",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            { "include": "#flowtype-variable" },
+            { "include": "#flowtype-parse-types" }
+          ]
+        },
+        { "include": "#flowtype-parse-types" },
         { "include": "#flowtype-variable" }
       ]
     },
@@ -3243,7 +3278,6 @@
             "3": { "name": "storage.type.class.flowtype" }
           },
           "patterns": [
-            { "include": "#flowtype-polymorphs" },
             {
               "comment": "look for extends keyword",
               "match": "\\s*+\\b((extends))\\b\\s*+",
@@ -3281,6 +3315,7 @@
                 { "include": "#class-body" }
               ]
             },
+            { "include": "#flowtype-polymorphs" },
             { "include": "#literal-comma" },
             {
               "match": "\\s*(\\.)",
