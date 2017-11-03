@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-70094-1y08cmh.bf33anhfr/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117103-88913-1ucn9dc.712epqr529/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-70094-1y08cmh.bf33anhfr/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-70094-1y08cmh.bf33anhfr/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117103-88913-1ucn9dc.712epqr529/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117103-88913-1ucn9dc.712epqr529/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11793-70094-1st4r26.p3f65n4s4i"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117103-88913-1akw1oz.e4gtn2vs4i"
     ]
   ],
-  "_from": "../d-11793-70094-1y08cmh.bf33anhfr/package.tgz",
-  "_id": "ide-cpp@0.0.2",
+  "_from": "../d-117103-88913-1ucn9dc.712epqr529/package.tgz",
+  "_id": "ide-cpp@0.0.3",
   "_inCache": true,
   "_location": "/ide-cpp",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-70094-1y08cmh.bf33anhfr/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117103-88913-1ucn9dc.712epqr529/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-70094-1y08cmh.bf33anhfr/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-70094-1y08cmh.bf33anhfr/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117103-88913-1ucn9dc.712epqr529/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117103-88913-1ucn9dc.712epqr529/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11793-70094-1y08cmh.bf33anhfr/package.tgz",
-  "_shasum": "5131b350326282accc43942601472f307ed30b73",
+  "_resolved": "file:../d-117103-88913-1ucn9dc.712epqr529/package.tgz",
+  "_shasum": "9ccc5973d54b36ec0d34a4131ae521e9eb0394d8",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11793-70094-1y08cmh.bf33anhfr/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11793-70094-1st4r26.p3f65n4s4i",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117103-88913-1ucn9dc.712epqr529/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117103-88913-1akw1oz.e4gtn2vs4i",
   "bugs": {
     "url": "https://github.com/thomasjo/atom-ide-cpp/issues"
   },
@@ -135,5 +135,5 @@
       "waitsForPromise"
     ]
   },
-  "version": "0.0.2"
+  "version": "0.0.3"
 }
