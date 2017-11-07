@@ -1,0 +1,18 @@
+INFO: Platform: darwin
+INFO: Version Info: v0.2.0
+DEBUG: Log Path: /Users/v/.atom/packages/atom-python-run/cp.log
+DEBUG: _ast: "['--pause', 'python', '/Users/v/Code/f2/frontend/components/tooltips/tooltips.scss']"
+DEBUG: Index: "0" Token: "--pause"
+DEBUG: Index: "1" Token: "python"
+DEBUG: Index: "2" Token: "/Users/v/Code/f2/frontend/components/tooltips/tooltips.scss"
+DEBUG: namespace: [key] "pause" [value] "True"
+DEBUG: namespace: [key] "last" [value] "/Users/v/Code/f2/frontend/components/tooltips/tooltips.scss"
+DEBUG: namespace: [key] "name" [value] "/Users/v/.atom/packages/atom-python-run/lib/../cp/main.py"
+DEBUG: namespace: [key] "script" [value] "/Users/v/Code/f2/frontend/components/tooltips/tooltips.scss"
+DEBUG: namespace: [key] "repl" [value] "python"
+DEBUG: namespace: [key] "file" [value] "False"
+DEBUG: namespace: [key] "path" [value] ""
+DEBUG: namespace: [key] "options" [value] "[]"
+DEBUG: command: ['python', '/Users/v/Code/f2/frontend/components/tooltips/tooltips.scss']
+INFO: return code: 1 (0x1)
+INFO: elapsed time: 0.057063
