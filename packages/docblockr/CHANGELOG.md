@@ -1,3 +1,16 @@
+# 0.13.2 (8 Nov 2017)
+* Add support for classes in JS (#267)
+* Prevent `Uncaught TypeError: Cannot read property 'name' of null` errors while parsing arguments (#257)
+
+# 0.13.1 (7 Nov 2017)
+* Handle ES2015 generators in function shorthands (#292)
+
+# 0.12.3 (7 Nov 2017)
+* Fixed last release
+
+# 0.12.2 (7 Nov 2017)
+* Fixed a wrong undefined check, that could lead to an uncaught exception (#262)
+
 # 0.12.1 (1 Nov 2017)
 * Fixed language detection (all languages were considered to be JS) (#291)
 

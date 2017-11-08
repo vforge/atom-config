@@ -1,5 +1,5 @@
 var DocsParser = require('../docsparser');
-var xregexp = require('../xregexp').XRegExp;
+var xregexp = require('xregexp');
 
 function ObjCParser(settings) {
     DocsParser.call(this, settings);
@@ -75,7 +75,7 @@ ObjCParser.prototype.parse_function = function(line) {
     var args = [];
     var result;
 
-    if(arg_str !== null) {
+    if(arg_str) {
         regex = /\s*:\s*/g;
         var groups = arg_str.split(regex);
         var num_groups = groups.length;

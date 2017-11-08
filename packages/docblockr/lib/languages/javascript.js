@@ -1,6 +1,6 @@
 var util = require('util');
 var DocsParser = require('../docsparser');
-var xregexp = require('../xregexp').XRegExp;
+var xregexp = require('xregexp');
 
 function JsParser(settings) {
     // this.setup_settings();
@@ -21,12 +21,40 @@ JsParser.prototype.setup_settings = function() {
         // technically, they can contain all sorts of unicode, but w/e
         'varIdentifier': identifier,
         'fnIdentifier':  identifier,
+        'classIdentifier': identifier,
         'fnOpener': 'function(?:\\s+' + identifier + ')?\\s*\\(',
         'commentCloser': ' */',
         'bool': 'Boolean',
         'function': 'Function'
     };
 };
+
+JsParser.prototype.parse_class = function(line) {
+    var regex = xregexp(
+        '^\\s*class\\s+' +
+        '(?P<name>' + this.settings.classIdentifier + ')' +
+        '(:?\\s+extends\\s+(?P<extends>' + this.settings.classIdentifier + '))?'
+    );
+
+    var matches = xregexp.exec(line, regex);
+    if(!matches)
+        return null;
+
+    return [matches.name, matches.extends || null];
+};
+
+
+JsParser.prototype.format_class = function(name, superClass) {
+    var out = [];
+    out.push(util.format('${1:[%s description]}', escape(name)));
+
+    if (superClass) {
+        out.push('@extends ' + superClass);
+    }
+
+    return out;
+};
+
 
 JsParser.prototype.parse_function = function(line) {
     // single quotes indicate what will be matched in each line
@@ -175,7 +203,7 @@ JsParser.prototype.get_arg_name = function(arg) {
         return util.format('[%s=%s]', matches.name, matches.value);
     }
 
-    return matches.name;
+    return matches ? matches.name : arg;
 };
 
 JsParser.prototype.guess_type_from_value = function(val) {
@@ -221,5 +249,15 @@ JsParser.prototype.get_function_return_type = function(name, retval) {
     }
     return DocsParser.prototype.get_function_return_type.call(this, name, retval);
 };
+
+JsParser.prototype.is_existing_comment = function(line) {
+    // handle ES2015 generator shorhand for Object
+    // example: * funcName(arg1, arg2, ...restArg) {}
+    if (/^\s*\*\s*[$_A-Za-z][\$\w]+\s*\(.*?\)\s*\{/.test(line)) {
+        return false;
+    }
+    return /^\s*\*/.test(line);
+};
+
 
 module.exports = JsParser;

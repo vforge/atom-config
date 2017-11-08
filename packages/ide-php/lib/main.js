@@ -17,8 +17,7 @@ class PHPLanguageClient extends AutoLanguageClient {
 
   constructor () {
     super()
-    this.statusElement = document.createElement('span')
-    this.statusElement.className = 'inline-block'
+    this.busySignalElement = null
   }
 
   startServerProcess () {
@@ -67,7 +66,7 @@ class PHPLanguageClient extends AutoLanguageClient {
       childProcess.stdout.on('data', chunk => stdOut += chunk.toString())
       childProcess.on('close', exitCode => {
         if (exitCode === 0 && stdOut != '') {
-          this.logger.debug(`found PHP version ${stdOut} using "${command}"`)
+          this.logger.debug(`Using PHP ${stdOut} from ${command}`)
           if (Number(stdOut.split('.')[0]) >= minPHPRuntime) {
             resolve()
           } else {
@@ -113,10 +112,7 @@ class PHPLanguageClient extends AutoLanguageClient {
       const childProcess = cp.spawn(command, args, { cwd: serverHome })
       this.captureServerErrors(childProcess)
       childProcess.on('exit', exitCode => {
-        if (exitCode == 0 || exitCode == null) {
-          this.updateStatusBar()
-        } else {
-          this.updateStatusBar('stopped')
+        if (exitCode != 0 && exitCode != null) {
           atom.notifications.addError('IDE-PHP language server stopped unexpectedly.', {
             dismissable: true,
             description: this.processStdErr != null ? `<code>${this.processStdErr}</code>` : `Exit code ${exitCode}`
@@ -142,31 +138,39 @@ class PHPLanguageClient extends AutoLanguageClient {
     this.logger.log(`Downloading ${serverDownloadUrl} to ${localFileName}`);
     return this.fileExists(serverHome)
       .then(doesExist => { if (!doesExist) fs.mkdirSync(serverHome) })
-      .then(() => DownloadFile(serverDownloadUrl, localFileName, (bytesDone, percent) => this.updateStatusBar(`downloading ${percent}%`), serverDownloadSize))
-      .then(() => this.updateStatusBar('unpacking'))
+      .then(() => DownloadFile(serverDownloadUrl, localFileName, (bytesDone, percent) => this.updateBusySignal(`downloading ${percent}%`), serverDownloadSize))
+      .then(() => this.updateBusySignal('unpacking'))
       .then(() => decompress(localFileName, serverHome))
+      .then(() => this.updateBusySignal())
       .then(() => this.fileExists(path.join(serverHome, serverLauncher)))
       .then(doesExist => { if (!doesExist) throw Error(`Failed to install the ${this.getServerName()} language server`) })
-      .then(() => this.updateStatusBar('installed'))
       .then(() => fs.unlinkSync(localFileName))
   }
 
   preInitialization(connection) {
-    this.updateStatusBar('started')
+    this.updateBusySignal()
   }
 
-  updateStatusBar (text) {
+  updateBusySignal (text) {
+    if (!this.busySignal) {
+      // busy signal not available
+      return;
+    }
+
     if (text == null || text === '') {
-      this.statusElement.hidden = true
-      this.statusElement.textContent = ''
+      if (this.busySignalElement != null) {
+        this.busySignalElement.dispose()
+        this.busySignalElement = null
+      }
+    } else if (this.busySignalElement == null) {
+      this.busySignalElement = this.busySignal.reportBusy(`${this.name} ${text}`, { revealTooltip: true })
     } else {
-      this.statusElement.hidden = false
-      this.statusElement.textContent = `${this.name} ${text}`
+      this.busySignalElement.setTitle(`${this.name} ${text}`)
     }
   }
 
-  consumeStatusBar (statusBar) {
-    this.statusTile = statusBar.addRightTile({ item: this.statusElement, priority: 1000 })
+  consumeBusySignal (busySignal) {
+    this.busySignal = busySignal
   }
 
   getPHPCommand () {

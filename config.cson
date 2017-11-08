@@ -49,10 +49,13 @@
     rsensePath: "/Users/v/.rbenv/shims/rsense"
   autosave:
     enabled: true
+  "bracket-matcher":
+    highlightMatchingLineNumber: true
   "branch-status":
     personalAccessToken: "e5d4c867f6cb535fb7160f2b734dfe110b383d36"
+  "command-palette":
+    preserveLastSearch: true
   core:
-    audioBeep: false
     closeEmptyWindows: false
     customFileTypes:
       "source.shell": [
@@ -89,6 +92,7 @@
       "ide-csharp"
     ]
     packagesWithKeymapsDisabled: []
+    restorePreviousWindowsOnStart: "always"
     telemetryConsent: "no"
     themes: [
       "dash-ui"
@@ -113,6 +117,7 @@
     return_tag: "@returns"
   editor:
     fontFamily: "Operator Mono"
+    fontSize: 16
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true
@@ -121,6 +126,8 @@
     userId: "244c6646-2010-4303-a61c-1a7716d514ce"
   "file-icons":
     onChanges: true
+  "find-and-replace":
+    autocompleteSearches: true
   "flatwhite-syntax":
     ebmedded: "Full"
   "fuzzy-finder":
@@ -229,6 +236,8 @@
     ]
     gistId: "7205d66b199a958671f2"
     personalAccessToken: "788043829ed4c90da34b9dec10dfddd3de91a5db"
+  tabs:
+    enableVcsColoring: true
   "terminal-plus":
     core: {}
     style: {}
