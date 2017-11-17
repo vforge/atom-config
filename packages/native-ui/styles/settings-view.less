@@ -2,38 +2,42 @@
   margin: 8px;
 }
 
-.settings-view input[type="checkbox"] {
-  box-shadow: 0 0 0 1/@rem @base-border-color;
-  background-color: @input-background-color;
+@_dimensions-checkbox: 20px;
 
-  &:checked {
-    box-shadow: 0 0 0 1/@rem @background-color-selected;
-    background-color: @background-color-selected;
-  }
+.settings-view .checkbox {
+  padding-left: @_dimensions-checkbox;
+}
+
+.settings-view input[type="checkbox"] {
+  margin: 1px 0 0 -@_dimensions-checkbox;
 
   &:after,
   &:before {
-    background-color: @text-color-selected;
-  }
-
-  &:before {
-    width: 6/@rem;
+    display: none; // don’t display the custom lines that simulate the arrow
   }
 }
 
-// .settings-view .section .editor.mini,
-// .settings-view .section .editor.mini::shadow {
-//   opacity: 1;
-// }
+.input-checkbox {
+  -webkit-appearance: checkbox;
+}
 
 .editor.mini .placeholder-text,
 .editor.mini::shadow .placeholder-text {
   color: fadeout(@text-color-ignored, 25%);
 }
 
-// Make avatars round
+// Make avatars square
 .settings-view .package-card .meta-user .avatar {
   border-radius: 100%;
+}
+
+.settings-view .package-card .meta-user,
+.settings-view .package-card .meta-controls {
+  margin-top: 0;
+}
+
+.settings-view .package-card .meta-controls .btn-group {
+  margin-top: 0 !important;
 }
 
 .settings-view .package-card .btn:hover {
@@ -43,19 +47,56 @@
 .settings-view .package-card {
   cursor: pointer;
   overflow: visible;
+  border: none;
+  padding: 0;
+
+  &:hover .body,
+  &:hover .meta {
+    background-color: @button-background-color;
+  }
+}
+
+.package-card .body {
+  padding: @component-padding;
+  background-color: @button-background-color;
+  border-radius: @component-border-radius @component-border-radius 0 0;
+  border: 1px solid @base-border-color;
+}
+
+.package-card .meta {
+  padding:(@component-padding / 2) @component-padding;
+  border-radius: 0 0 @component-border-radius @component-border-radius;
+  border: 1px solid @base-border-color;
+  border-top: none;
 }
 
 .settings-view .package-card .package-version {
   color: @text-color-subtle;
 }
 
+.settings-view .package-card .package-name {
+  font-weight: bold;
+  font-size: @font-size-h3;
+}
+
+.settings-view .package-card .meta-user .author {
+  color: @text-color;
+  display: inline-block;
+  transform: translateY(2px); // center with avatar
+}
+
+.settings-view .package-card .stats {
+  padding: @component-padding;
+}
+
+// Amount of downloads, amount of likes, etc.
 .settings-view .package-card .stats .stats-item {
   color: @text-color-subtle;
   font-size: 0.9em;
 }
 
 .settings-view .package-card .stats .stats-item .icon:before {
-  font-size: 1.2em;
+  transform: translateY(2px);
 }
 
 .badge {
@@ -154,4 +195,34 @@ ul.background-message.centered {
 
 .settings-view div > section.section.settings-panel {
   border-top: none;
+}
+
+// First-level heading
+.settings-view section .section-heading,
+.settings-view .section .section-heading {
+  font-size: @font-size-h1;
+  font-family: @font-family-headlines;
+}
+
+// Second-level heading
+.settings-view .sub-section .sub-section-heading {
+  font-size: @font-size-h2;
+  font-family: @font-family-headlines;
+}
+
+// Change the seperator icon in the settings breadcrumbs
+.settings-view .breadcrumb > li + li:before {
+  content: "\f078";
+  font-family: "Octicons Regular";
+  padding: 0 @component-padding;
+}
+
+// Add more spacing between input fields and their label text
+.settings-view .control-label {
+  margin-bottom: 1em;
+}
+
+
+.settings-view .settings-panel .control-group + .control-group {
+  margin-top: 2em;
 }

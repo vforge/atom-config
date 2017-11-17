@@ -1,3 +1,6 @@
+## 2.2.8
+- Add flow-typed directory to DEFAULT_EXCLUDES @johnhaley81
+
 ## 2.2.7
 - Add elm and Idris
 - Fix config hierarchy
@@ -473,4 +476,4 @@
 
 ----
 
-#TODO: Remember to update changelog before +publishing +package @piascikj id:0
+#TODO: Remember to update changelog before +publishing +package @piascikj

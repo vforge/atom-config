@@ -135,6 +135,8 @@
   "git-projects":
     rootPath: "/Users/v/Git;/Users/v/Dropbox/Development/vforge"
   "git-status": {}
+  "ide-php":
+    phpPath: "/usr/local/bin/php"
   "ide-python": {}
   "isotope-light-ui": {}
   "isotope-ui":
