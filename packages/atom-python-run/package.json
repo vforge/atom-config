@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-6n9eob.7ihc6561or/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-6n9eob.7ihc6561or/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-6n9eob.7ihc6561or/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-h5zwy3.ejsdmwjyvi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171021-35714-1frinkj.m97ljwnrk9"
     ]
   ],
-  "_from": "../d-117913-40922-6n9eob.7ihc6561or/package.tgz",
-  "_id": "atom-python-run@0.9.3",
+  "_from": "../d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
+  "_id": "atom-python-run@0.9.5",
   "_inCache": true,
   "_location": "/atom-python-run",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-6n9eob.7ihc6561or/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-6n9eob.7ihc6561or/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-6n9eob.7ihc6561or/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117913-40922-6n9eob.7ihc6561or/package.tgz",
-  "_shasum": "5c4f2b71f2bfd67545614d54259da78cd5269a0e",
+  "_resolved": "file:../d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
+  "_shasum": "1f7103c2ebaa2a2a8bd4f3a77a0f567b9f1770c1",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-6n9eob.7ihc6561or/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-h5zwy3.ejsdmwjyvi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171021-35714-1frinkj.m97ljwnrk9",
   "bugs": {
     "url": "https://github.com/foreshadow/atom-python-run/issues"
   },
@@ -58,5 +58,5 @@
     "type": "git",
     "url": "git+https://github.com/foreshadow/atom-python-run.git"
   },
-  "version": "0.9.3"
+  "version": "0.9.5"
 }

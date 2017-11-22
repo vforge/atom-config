@@ -90,6 +90,8 @@
       "ide-c"
       "ide-clangd"
       "ide-csharp"
+      "minimap-codeglance"
+      "minimap-bookmarks"
     ]
     packagesWithKeymapsDisabled: []
     restorePreviousWindowsOnStart: "always"

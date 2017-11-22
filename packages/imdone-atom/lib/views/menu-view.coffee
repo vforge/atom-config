@@ -3,7 +3,6 @@
 path = null
 util = null
 Sortable = null
-Client = null
 config = require '../../config'
 menuOpenClass = "icon-chevron-left"
 menuClosedClass = "icon-chevron-right"
@@ -19,14 +18,14 @@ class MenuView extends View
           @div click: "clearFilter", class:"icon icon-x clear-filter", outlet:'$clearFilter'
         @div class:'lists-wrapper', outlet:'$listWrapper', =>
           @ul outlet: "lists", class: "lists"
-        # BACKLOG: Save my favorite filters
+        # BACKLOG: Save my favorite filters id:16 gh:247
         @div click: "toggleMenu", outlet:"$menuButton", class: "imdone-menu-toggle imdone-toolbar-button", title: "Lists and filter", =>
           @a href: "#", class: "icon #{menuClosedClass}"
         @div outlet: '$toolbar', class: "imdone-toolbar", =>
 
           # - [Icon System with SVG Sprites | CSS-Tricks](https://css-tricks.com/svg-sprites-use-better-icon-fonts/)
           # - [SVG `symbol` a Good Choice for Icons | CSS-Tricks](https://css-tricks.com/svg-symbol-good-choice-icons/)
-          # BACKLOG: Open package config with a button click `atom.workspace.open 'atom://config/packages/imdone-atom'` <https://github.com/mrodalgaard/atom-todo-show/blob/804cced598daceb1c5f870ae87a241bbf31e2f17/lib/todo-options-view.coffee#L49> +feature gh:177
+          # BACKLOG: Open package config with a button click `atom.workspace.open 'atom://config/packages/imdone-atom'` <https://github.com/mrodalgaard/atom-todo-show/blob/804cced598daceb1c5f870ae87a241bbf31e2f17/lib/todo-options-view.coffee#L49> +feature gh:177 id:46
           # @div click: "toggleMenu", outlet:"$menuButton", class: "imdone-menu-toggle imdone-toolbar-button", title: "Lists and filter", =>
           #   @a href: "#", class: "icon #{menuClosedClass}"
           # @div class: "menu-sep-space-2x"
@@ -56,10 +55,10 @@ class MenuView extends View
           @div outlet:'$projectButtonsSpace', class: "imdone-project-plugins-spacer menu-sep-space-2x", style: "display:none;"
 
           @div outlet: "$imdoneioButtons", style: "display:none;", =>
-            @div click: "openShare", class: "imdone-toolbar-button", title: "Configure integrations", =>
-              @a href: "#", =>
-                @i class: "icon icon-settings toolbar-icon"
-                @span class:'tool-text', 'Configure integrations'
+            # @div click: "openShare", class: "imdone-toolbar-button", title: "Configure integrations", =>
+            #   @a href: "#", =>
+            #     @i class: "icon icon-settings toolbar-icon"
+            #     @span class:'tool-text', 'Configure integrations'
 
             @div outlet:'$disconnect', click: 'disconnectImdoneio', class: 'imdone-toolbar-button', style: 'display: none;', title: 'Disconnect from imdone.io', =>
               @a href: '#', =>
@@ -82,17 +81,15 @@ class MenuView extends View
                 @tag 'svg', => @tag 'use', "xlink:href":"#imdone-logo-icon"
               @span class:'tool-text', 'Login'
 
-          # BACKLOG: Add the plugin project buttons
+          # BACKLOG: Add the plugin project buttons. id:37 gh:260
 
   initialize: ({@imdoneRepo, @path, @uri}) ->
     path = require 'path'
     util = require 'util'
     Sortable = require 'sortablejs'
-    Client = require '../services/imdoneio-client'
     require('./jq-utils')($)
-    @client = Client.instance
-    return @authenticated() if @client.isAuthenticated()
-    @client.authFromStorage
+    return @authenticated() if @imdoneRepo.isAuthenticated()
+    @imdoneRepo.authFromStorage
     @$disconnect.show() if @imdoneRepo.isImdoneIOProject()
 
   addPluginProjectButtons: () ->
@@ -141,7 +138,7 @@ class MenuView extends View
 
   deleteTasks: -> @emitter.emit 'tasks.delete'
 
-  # NOTE: This issue was created in @atom with @imdone.  Stay in the flow~~~~~~~ +discuss gh:171
+  # NOTE: This issue was created in @atom with @imdone.  Stay in the flow~~~~~~~ +discuss gh:171 id:24
   openVisible: -> @emitter.emit 'visible.open'
 
   openReadme: -> @emitter.emit 'readme.open'
@@ -168,9 +165,6 @@ class MenuView extends View
     @emitter.on 'project.removed', => @$disconnect.hide()
 
     @emitter.on 'initialized', => @updateMenu()
-    # @emitter.on 'list.modified', => @updateMenu()
-    # @emitter.on 'file.update', => @updateMenu()
-    # @emitter.on 'tasks.moved', => @updateMenu()
     @emitter.on 'board.update', => @updateMenu()
 
     @emitter.on 'authenticated', => @authenticated()
@@ -178,8 +172,7 @@ class MenuView extends View
     @emitter.on 'unavailable', => @unauthenticated()
 
   authenticated: ->
-    #console.log 'authenticated:', @client.user
-    user = @client.user
+    user = @imdoneRepo.user()
     crlf = "&#x0a;"
     title = "Account: #{user.profile.name || user.handle} (#{user.email})"
     src = if user.profile.picture then user.profile.picture else user.thumbnail
@@ -197,12 +190,12 @@ class MenuView extends View
   openShare: -> @emitter.emit 'share'
 
   openLogin: ->
-    @client.authFromStorage (err) =>
+    @imdoneRepo.authFromStorage (err) =>
       #console.log err
       @emitter.emit 'login' if err
 
   logOff: ->
-    @client.logoff()
+    @imdoneRepo.logoff()
     @emitter.emit "logoff"
 
   disconnectImdoneio: (e) ->

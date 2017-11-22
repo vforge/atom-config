@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171016-4857-1y46t3t.ta6pqfr/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171020-80738-199cwbl.nxpis8m2t9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171016-4857-1y46t3t.ta6pqfr/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171016-4857-1y46t3t.ta6pqfr/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171020-80738-199cwbl.nxpis8m2t9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171020-80738-199cwbl.nxpis8m2t9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171016-4857-1jcqp67.friv5z5mi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171020-80738-nlfpaz.wsr0c3ow29"
     ]
   ],
-  "_from": "../d-1171016-4857-1y46t3t.ta6pqfr/package.tgz",
-  "_id": "native-ui@0.25.0",
+  "_from": "../d-1171020-80738-199cwbl.nxpis8m2t9/package.tgz",
+  "_id": "native-ui@0.25.1",
   "_inCache": true,
   "_location": "/native-ui",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171016-4857-1y46t3t.ta6pqfr/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171020-80738-199cwbl.nxpis8m2t9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171016-4857-1y46t3t.ta6pqfr/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171016-4857-1y46t3t.ta6pqfr/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171020-80738-199cwbl.nxpis8m2t9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171020-80738-199cwbl.nxpis8m2t9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1171016-4857-1y46t3t.ta6pqfr/package.tgz",
-  "_shasum": "47485d049ca9ac5727a7b8a9ce9a6726f25a5862",
+  "_resolved": "file:../d-1171020-80738-199cwbl.nxpis8m2t9/package.tgz",
+  "_shasum": "46ed8dce50d6bedeb0540f0145792edc8c868528",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171016-4857-1y46t3t.ta6pqfr/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171016-4857-1jcqp67.friv5z5mi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171020-80738-199cwbl.nxpis8m2t9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171020-80738-nlfpaz.wsr0c3ow29",
   "bugs": {
     "url": "https://github.com/fv0/native-ui/issues"
   },
@@ -92,5 +92,5 @@
     "url": "git+https://github.com/fv0/native-ui.git"
   },
   "theme": "ui",
-  "version": "0.25.0"
+  "version": "0.25.1"
 }

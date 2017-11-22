@@ -6,8 +6,6 @@ module.exports =
 class BottomView extends View
   constructor: ({@imdoneRepo, @path, @uri}) ->
     super
-    @client = require('../services/imdoneio-client').instance
-
 
   @content: (params) ->
     LoginView = require './login-view'
@@ -95,7 +93,9 @@ class BottomView extends View
 
     @closeButton.on 'click', => @hide()
 
-    @emitter.on 'authenticated', => @$login.hide()
+    @emitter.on 'authenticated', =>
+      @$login.hide()
+      @hide()
 
     @emitter.on 'unauthenticated', =>
       @hide() unless config.getSettings().showLoginOnLaunch
@@ -115,7 +115,7 @@ class BottomView extends View
 
     @emitter.on 'menu.toggle', => @toggleClass 'shift'
 
-    # BACKLOG: Close bottom-view if none of it's direct descendants are visible +bug gh:182 @piascikj
+    # BACKLOG: Close bottom-view if none of it's direct descendants are visible +bug gh:182 @piascikj id:34
 
   isOpen: ->
     @hasClass 'open'
@@ -154,17 +154,17 @@ class BottomView extends View
     @plugins.show()
     @show()
 
-  # BACKLOG: DRY these show... methods up
+  # BACKLOG: DRY these show... methods up id:21 gh:250
   showShare: () ->
     @hide()
     @shareTasks.show () => @shareTasksView.show()
-    @setHeight(700)
+    @setHeight(300)
     @show()
 
   showLogin: () ->
     @hide()
     @$login.show () => @loginView.show()
-    @setHeight(500)
+    @setHeight(300)
     @show()
 
   # showProjectSettings: () ->

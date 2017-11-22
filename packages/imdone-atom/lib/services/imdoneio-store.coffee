@@ -5,7 +5,8 @@ module.exports =  (repo) ->
   ERRORS = require('imdone-core/lib/constants').ERRORS
   ConnectorManager = require './connector-manager'
   connectorManager = cm = new ConnectorManager repo
-  imdoneioClient = client = require('./imdoneio-client').instance
+  Client = require('./imdoneio-client')
+  imdoneioClient = client = Client.instance
   log = require('debug') 'imdoneio-store'
   Task = require 'imdone-core/lib/task'
   fs = require 'fs'
@@ -34,7 +35,7 @@ module.exports =  (repo) ->
   repo.getProjectName = () -> _.get repo, 'config.sync.name'
   repo.setProjectName = (name) -> _.set repo, 'config.sync.name', name
 
-  # TODO: Handle the case when imdone.io is offline!  Keep a message saying offline! and auto reconnect when it's back.
+  # TODO: Handle the case when imdone.io is offline!  Keep a message saying offline! and auto reconnect when it's back. id:3 gh:239
   repo.isImdoneIOProject = () -> client.isAuthenticated() && repo.project && !repo.project.disabled
 
   repo.disableProject = (cb) ->
@@ -66,20 +67,20 @@ module.exports =  (repo) ->
     return unless client.isAuthenticated() && repo.initialized
     return repo.emit 'project.not-found' unless repo.getProjectId()
     client.getProject repo.getProjectId(), (err, project) =>
-      # TODO: Do something with this error gh:116
+      # TODO: Do something with this error gh:116 id:6
       unless project
         # repo.disableProject()
-        return repo.emit 'project.not-found' unless project # TODO: Handle the case where there is no project found. gh:116
+        return repo.emit 'project.not-found' unless project # TODO: Handle the case where there is no project found. gh:116 id:12
         # Check account for plan type
       return throw err if err
       repo.project = project
       repo.setProjectName project.name
       return unless repo.isImdoneIOProject()
       _.set repo, 'sync.sort', project.taskOrder if sortEnabled()
-      repo.syncTasks repo.getTasks(), (err, done) =>
-        repo.emit 'project.found', project
-        repo.initProducts()
-        done err if done
+      # repo.syncTasks repo.getTasks(), (err, done) =>
+      repo.emit 'project.found', project
+      repo.initProducts()
+        # done err if done
 
   checkForIIOProject() if client.isAuthenticated()
   client.on 'authenticated', => checkForIIOProject()
@@ -99,7 +100,7 @@ module.exports =  (repo) ->
     cm.emit 'tasks.syncing'
     #console.log "sending #{tasks.length} tasks to imdone-io "
     client.syncTasks repo, tasks, (err, ioTasks) ->
-      return if err # TODO: Do something with this error gh:116
+      return if err # TODO: Do something with this error gh:116 id:42
       #console.log "received tasks from imdone-io:", ioTasks
       async.eachSeries ioTasks,
         (task, cb) ->
@@ -122,7 +123,7 @@ module.exports =  (repo) ->
     cm.emit 'tasks.syncing'
     #console.log "sending tasks to imdone-io for: #{file.path}"
     client.syncTasks repo, file.getTasks(), (err, tasks) ->
-      return if err # TODO: Do something with this error gh:116
+      return if err # TODO: Do something with this error gh:116 id:33
       #console.log "received tasks from imdone-io for: %s", tasks
       async.eachSeries tasks,
         (task, cb) ->
@@ -132,7 +133,6 @@ module.exports =  (repo) ->
         (err) ->
           return cm.emit 'sync.error', err if err
           repo.writeFile file, (err, fileAfterSave)->
-            # DOING: The tasks should come from the files
             file ?= fileAfterSave
             client.syncTasksForDelete repo, file.getTasks(), (err, deletedTasks) ->
               return syncDone(tasks)(err) unless cb
@@ -193,7 +193,7 @@ module.exports =  (repo) ->
     return saveSort(cb) if _.get repo, 'project.taskOrder'
     fs.exists SORT_FILE, (exists) ->
       return cb() if exists
-      # BACKLOG: remove sort number on all TODO comments when saving sort to cloud +enhancement gh:168
+      # BACKLOG: remove sort number on all TODO comments when saving sort to cloud +enhancement gh:168 id:7
       # Populate the config.sync.sort from existing sort
       setListSort list.name, tasksToIds(list.tasks) for list in _getTasksByList()
       saveSort cb
@@ -218,19 +218,20 @@ module.exports =  (repo) ->
     shouldSync  = repo.isImdoneIOProject()
     cb ?= ()->
     _moveTasks tasks, newList, newPos, shouldSync, (err, tasksByList) ->
+      repo.emit 'tasks.moved', tasks
       return cb err if err
-      if shouldSync
-
-        #console.log "Tasks moved.  Syncing with imdone.io"
-        syncTasks tasks, (err, done) ->
-          repo.emit 'tasks.moved', tasks
-          return cb null, tasksByList unless sortEnabled()
-          saveSort (err) ->
-            done err
-            cb err, tasksByList
-      else
-        return cb null, tasksByList unless sortEnabled()
-        saveSort (err) -> cb err, tasksByList
+      # if shouldSync
+      #
+      #   #console.log "Tasks moved.  Syncing with imdone.io"
+      #   syncTasks tasks, (err, done) ->
+      #     repo.emit 'tasks.moved', tasks
+      #     return cb null, tasksByList unless sortEnabled()
+      #     saveSort (err) ->
+      #       done err
+      #       cb err, tasksByList
+      # else
+      return cb null, tasksByList unless sortEnabled()
+      saveSort (err) -> cb err, tasksByList
 
   repo.getTasksInList = (name, offset, limit) ->
     tasksInList = _getTasksInList  name, offset, limit
@@ -242,13 +243,13 @@ module.exports =  (repo) ->
     return tasksByList unless sortEnabled()
     ({name: list.name, tasks: sortBySyncId(list.name, list.tasks)} for list in tasksByList)
 
-  repo.emitFileUpdate = (file) ->
-    return _emitFileUpdate file unless client.isAuthenticated() && repo.project
-    if repo.shouldEmitFileUpdate file
-      syncFile file, (err, done) ->
-        _emitFileUpdate file
-        done err
-
+  # repo.emitFileUpdate = (file) ->
+  #   return _emitFileUpdate file unless client.isAuthenticated() && repo.project
+  #   if repo.shouldEmitFileUpdate file
+  #     syncFile file, (err, done) ->
+  #       _emitFileUpdate file
+  #       done err
+  #
 
   repo.init = (cb) ->
     cb ?= ()->
@@ -282,8 +283,7 @@ module.exports =  (repo) ->
           return cb err if err
           cb null, files
 
-  # DOING: Provide a way to delete tasks after they integrate,  maybe a delete\:true on the returning task.
-
+  # DOING: Provide a way to delete tasks after they integrate,  maybe a delete\:true on the returning task. gh:244 id:13
   repo.initProducts = (cb) ->
     cb ?= ()->
     connectorManager.getProducts (err, products) =>
@@ -301,7 +301,7 @@ module.exports =  (repo) ->
 
   repo.getPlugins = () -> @plugins
 
-  # BACKLOG: In new vue.js version we'll have to gain access to the $board
+  # BACKLOG: In new vue.js version we'll have to gain access to the $board id:43 gh:264
   repo.visibleTasks = (list) ->
     visibleTasks = []
     addTask = (id) =>
@@ -326,6 +326,13 @@ module.exports =  (repo) ->
   repo.enableConnector = (connector, cb) -> connectorManager.enableConnector connector, cb
   repo.disableConnector = (connector, cb) -> connectorManager.disableConnector connector, cb
   repo.getGitOrigin = () -> connectorManager.getGitOrigin()
-
+  repo.githubAuthUrl = Client.githubAuthUrl
+  repo.authenticate = client.authenticate.bind client
+  repo.isAuthenticated = client.isAuthenticated.bind client
+  repo.authFromStorage = client.authFromStorage.bind client
+  repo.logoff = client.logoff.bind client
+  repo.user = () -> client.user
+  repo.plansUrl = Client.plansUrl
+  repo.projectsUrl = Client.projectsUrl
   repo.connectorManager = connectorManager
   repo

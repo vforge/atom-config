@@ -1,3 +1,6 @@
+## 2.3
+- Performance improvement.  Run watcher in forked process
+
 ## 2.2.8
 - Add flow-typed directory to DEFAULT_EXCLUDES @johnhaley81
 
@@ -476,4 +479,4 @@
 
 ----
 
-#TODO: Remember to update changelog before +publishing +package @piascikj
+#TODO: Remember to update changelog before +publishing +package @piascikj id:0 gh:237
