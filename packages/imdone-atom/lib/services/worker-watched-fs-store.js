@@ -16,13 +16,15 @@ var workerPath = path.join(config.getPackagePath(), 'lib', 'services', 'worker.j
 
 module.exports = mixin;
 
-// READY: Only emit file.update if the file checksum has changed
 function mixin(repo, fs) {
   fs = fs || require('fs');
 
   repo = fsStore(repo, fs);
   repo.worker = fork(workerPath)
-  repo.worker.on('message', ({event, data}) => emitter.emit(event, data))
+  repo.worker.on('message', ({event, data}) => {
+    console.log(`Received watcher [${event}] with /* ${JSON.stringify(data)} */`)
+    emitter.emit(event, data)
+  })
   var _init = repo.init;
   repo.init = function(cb) {
     _init.call(repo, function(err, files) {
@@ -57,7 +59,8 @@ function mixin(repo, fs) {
 
   repo.initWatcher = function() {
     log("Creating a new watcher");
-    repo.worker.send({event: 'initWatcher', data: repo.path})
+    let data = {path: repo.path, exclude: repo.config.exclude, ignorePatterns: repo.ignorePatterns}
+    repo.worker.send({event: 'initWatcher', data})
 
     emitter
     .on('add', function(path) {
