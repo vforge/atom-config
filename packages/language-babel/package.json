@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-8309-1gqt7jz.f0t5ptlnmi/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171026-6323-jrvooj.6gz6y74x6r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-8309-1gqt7jz.f0t5ptlnmi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-8309-1gqt7jz.f0t5ptlnmi/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171026-6323-jrvooj.6gz6y74x6r/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171026-6323-jrvooj.6gz6y74x6r/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171015-8309-iyaeav.trymx11yvi"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-1171026-6323-ml8kkd.5zfghz1tt9"
     ]
   ],
-  "_from": "../d-1171015-8309-1gqt7jz.f0t5ptlnmi/package.tgz",
-  "_id": "language-babel@2.79.0",
+  "_from": "../d-1171026-6323-jrvooj.6gz6y74x6r/package.tgz",
+  "_id": "language-babel@2.80.0",
   "_inCache": true,
   "_location": "/language-babel",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-8309-1gqt7jz.f0t5ptlnmi/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171026-6323-jrvooj.6gz6y74x6r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-8309-1gqt7jz.f0t5ptlnmi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-8309-1gqt7jz.f0t5ptlnmi/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171026-6323-jrvooj.6gz6y74x6r/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171026-6323-jrvooj.6gz6y74x6r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1171015-8309-1gqt7jz.f0t5ptlnmi/package.tgz",
-  "_shasum": "fa6115763be6c70b242b1b7906b5998e72108c26",
+  "_resolved": "file:../d-1171026-6323-jrvooj.6gz6y74x6r/package.tgz",
+  "_shasum": "c75831bbb00206e29d6d9ad08fb5fbe1b5706fac",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-8309-1gqt7jz.f0t5ptlnmi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171015-8309-iyaeav.trymx11yvi",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171026-6323-jrvooj.6gz6y74x6r/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-1171026-6323-ml8kkd.5zfghz1tt9",
   "activationCommands": [],
   "bugs": {
     "url": "https://github.com/gandm/language-babel/issues"
@@ -56,6 +56,13 @@
         "type": "string"
       },
       "order": 20
+    },
+    "emmetCSSAutocomplete": {
+      "title": "Styled-Components Auto-Complete method",
+      "description": "Use Emmet to auto-complete instead of default CSS completion",
+      "type": "boolean",
+      "default": false,
+      "order": 25
     },
     "allowLocalOverride": {
       "description": "Allow .languagebabel files to overide the settings below. Useful for project based configurations.",
@@ -137,11 +144,12 @@
     }
   },
   "dependencies": {
-    "babel-core": "^6.7.6",
+    "@emmetio/expand-abbreviation": "^0.5.8",
+    "babel-core": "^6.26.0",
     "fs-plus": "^3.0.0",
     "fuzzaldrin": "^2.1.0",
     "jjv": "^1.0.2",
-    "js-yaml": "^3.6.0",
+    "js-yaml": "^3.10.0",
     "path-is-inside": "^1.0.1",
     "strip-json-comments": "^2.0.1"
   },
@@ -199,5 +207,5 @@
     "type": "git",
     "url": "git+https://github.com/gandm/language-babel.git"
   },
-  "version": "2.79.0"
+  "version": "2.80.0"
 }

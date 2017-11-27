@@ -27,7 +27,7 @@
   "lists": [
     {
       "name": "BACKLOG",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "TODO",
@@ -42,7 +42,7 @@
       "hidden": true
     },
     {
-      "name": "DONE",
+      "name": "REVIEW",
       "hidden": false
     },
     {

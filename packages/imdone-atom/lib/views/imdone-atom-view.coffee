@@ -217,7 +217,7 @@ class ImdoneAtomView extends ScrollView
         @hideMask()
 
     @emitter.on 'readme.open', =>
-      file = _.get @imdoneRepo.getDefaultFile(), 'path'
+      file = @imdoneRepo.getReadme()
       unless file
         @emitter.emit 'error', 'Sorry no readme :('
         return
@@ -239,7 +239,8 @@ class ImdoneAtomView extends ScrollView
 
     @emitter.on 'zoom', (dir) => @zoom dir
 
-    $('body').on 'click', '.source-link',  (e) =>
+    @on 'click', '.source-link',  (e) =>
+      # REVIEW: Fix issue with multiple tabs of same file opening gh:225 id:36
       link = e.target
       @openPath link.dataset.uri, link.dataset.line
 
@@ -451,7 +452,6 @@ class ImdoneAtomView extends ScrollView
     $filters = $el.div()
     $taskMetaTable = $el.table()
     $taskMeta = $el.div class: 'task-meta', $taskMetaTable
-
     if showTagsInline
       if contexts
         for context, i in contexts
@@ -657,7 +657,6 @@ class ImdoneAtomView extends ScrollView
     @emitter.on 'did-destroy', callback
 
   openPath: (filePath, line) ->
-    # TODO: Fix issue with multiple tabs of same file opening gh:225 id:36
     return unless filePath
 
     fileService.openFile @path, filePath, line, (success) =>

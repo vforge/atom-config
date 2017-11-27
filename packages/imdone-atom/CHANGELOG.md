@@ -1,3 +1,13 @@
+## 2.3.9
+- Add list to include_lists
+- Only run refresh once
+
+## 2.3.8
+- Fix task text on TODOs with sort order
+
+## 2.3.7
+- Fix readme opening when readme is ignored
+
 ## 2.3
 - Performance improvement.  Run watcher in forked process
 

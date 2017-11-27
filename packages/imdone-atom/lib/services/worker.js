@@ -1,10 +1,13 @@
 const chokidar = require('chokidar')
 const ignore = require('ignore')
 let watcher
-let relative = require('path').relative
+const _path = require('path')
+let relative = _path.relative
+
 
 process.on('message', ({event, data}) => {
   send('log',{event, data})
+  if (event === 'refresh') return refresh()
   if (event === 'initWatcher') return initWatcher(data)
   if (event === 'destroyWatcher') return destroyWatcher()
 })
@@ -16,6 +19,7 @@ const initWatcher = function ({path, exclude, ignorePatterns}) {
   watcher = chokidar.watch(repoPath, {
     ignored: function(path) {
       let relPath = relative(repoPath, path)
+      if (relPath.indexOf('.imdone') > -1) return false
       if (relPath && ig.ignores(relPath)) return true
       if (!exclude) return false
       for (let i=0;i < exclude.length;i++) {
@@ -42,4 +46,9 @@ const initWatcher = function ({path, exclude, ignorePatterns}) {
 const destroyWatcher = function () {
   if (!watcher) return
   watcher.close()
+}
+
+const refresh = function () {
+  destroyWatcher()
+  send('refresh', {})
 }
