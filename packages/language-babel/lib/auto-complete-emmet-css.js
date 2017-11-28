@@ -1,7 +1,8 @@
 /*global atom*/
 "use babel";
 
-const emmetExpand = require('@emmetio/expand-abbreviation').expand;
+const {expand} = require('@emmetio/expand-abbreviation');
+
 
 module.exports = {
   selector: '.source.inside-js.css.styled, .source.css.styled',
@@ -14,27 +15,27 @@ module.exports = {
   suggestionPriority: 100,
 
   getSuggestions({editor, bufferPosition}) {
-    console.log(atom.config.get('language-babel.emmetCSSAutocomplete'));
     if (atom.config.get('language-babel.emmetCSSAutocomplete')) {
       const prefix = this.getPrefix(editor, bufferPosition);
-      return this.emmetInsertSuggestion(prefix);
+      return this.emmetSuggestion(prefix);
     }
     return null;
   },
 
   getPrefix(editor, bufferPosition) {
-    const regex = /(^|\s|;)([\w0-9+-:@]+)$/;
+    const regex = /(^|;)(?:\s*)([\w\s0-9+-:@!#]+)$/g;
     const line = editor.getTextInRange([
       [bufferPosition.row, 0],
       bufferPosition
     ]);
-    return __guard__(line.match(regex), x => x[2]) || '';
+    const match = regex.exec(line);
+    return match ? match[2] : '';
   },
 
-  emmetInsertSuggestion(prefix) {
+  emmetSuggestion(prefix) {
     const completion = [];
     try {
-      emmetAbbreviation = emmetExpand(prefix, {
+      const emmetAbbreviation = expand(prefix, {
         syntax: 'css',
         field: (index, placeholder) =>
           `\${${index}${placeholder ? ':' + placeholder : ''}}`
@@ -57,9 +58,3 @@ module.exports = {
     return completion;
   }
 };
-
-function __guard__(value, transform) {
-  return typeof value !== 'undefined' && value !== null
-    ? transform(value)
-    : undefined;
-}
