@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/type-resolver/src', $vendorDir . '/phpdocumentor/reflection-docblock/src', $vendorDir . '/phpdocumentor/reflection-common/src'),
+    'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/type-resolver/src', $vendorDir . '/phpdocumentor/reflection-docblock/src'),
     'Webmozart\\PathUtil\\' => array($vendorDir . '/webmozart/path-util/src'),
     'Webmozart\\Glob\\' => array($vendorDir . '/webmozart/glob/src'),
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
@@ -22,8 +22,6 @@ return array(
     'Sabre\\Uri\\' => array($vendorDir . '/sabre/uri/lib'),
     'Sabre\\Event\\' => array($vendorDir . '/sabre/event/lib'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
-    'PHP_CodeSniffer\\Tests\\' => array($vendorDir . '/squizlabs/php_codesniffer/tests'),
-    'PHP_CodeSniffer\\' => array($vendorDir . '/squizlabs/php_codesniffer/src'),
     'Microsoft\\PhpParser\\' => array($vendorDir . '/microsoft/tolerant-php-parser/src'),
     'LanguageServer\\' => array($vendorDir . '/felixfbecker/language-server/src'),
     'JsonSchema\\' => array($vendorDir . '/justinrainbow/json-schema/src/JsonSchema'),

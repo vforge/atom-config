@@ -1200,6 +1200,8 @@ class RegexIterator extends FilterIterator {
      */
     const USE_KEY = 1;
 
+    const INVERT_MATCH = 2;
+
     public $replacement;
 
 
@@ -1516,6 +1518,11 @@ class RecursiveTreeIterator extends RecursiveIteratorIterator {
      * @since 5.3.0
      */
     public function getPrefix() { }
+
+    /**
+     * @param string $postfix
+     */
+    public function setPostfix($postfix) {}
 
     /**
      * Set a part of the prefix

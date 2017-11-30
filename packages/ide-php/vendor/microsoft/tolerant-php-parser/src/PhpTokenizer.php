@@ -7,7 +7,7 @@
 namespace Microsoft\PhpParser;
 
 /**
- * Tokenizes content using PHP's built-in `tokens_get_all`, and converts to "lightweight" Token representation.
+ * Tokenizes content using PHP's built-in `token_get_all`, and converts to "lightweight" Token representation.
  *
  * Initially we tried hand-spinning the lexer (see `experiments/Lexer.php`), but we had difficulties optimizing
  * performance (especially when working with Unicode characters.)
@@ -58,7 +58,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
             $passedPrefix = false;
         }
 
-        $tokens = \token_get_all($content);
+        $tokens = @\token_get_all($content);
 
         $arr = array();
         $fullStart = $start = $pos = $initialPos;
@@ -148,7 +148,6 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_CONTINUE => TokenKind::ContinueKeyword,
         T_DECLARE => TokenKind::DeclareKeyword,
         T_DEFAULT => TokenKind::DefaultKeyword,
-        T_EXIT => TokenKind::DieKeyword,
         T_DO => TokenKind::DoKeyword,
         T_ECHO => TokenKind::EchoKeyword,
         T_ELSE => TokenKind::ElseKeyword,
@@ -267,8 +266,6 @@ class PhpTokenizer implements TokenStreamProviderInterface {
 
         T_DNUMBER => TokenKind::FloatingLiteralToken,
 
-        T_CONSTANT_ENCAPSED_STRING => TokenKind::StringLiteralToken,
-
         T_OPEN_TAG => TokenKind::ScriptSectionStartTag,
         T_OPEN_TAG_WITH_ECHO => TokenKind::ScriptSectionStartTag,
         T_CLOSE_TAG => TokenKind::ScriptSectionEndTag,
@@ -289,11 +286,13 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_OBJECT_CAST       => TokenKind::ObjectCastToken,
         T_STRING_CAST       => TokenKind::StringCastToken,
         T_UNSET_CAST        => TokenKind::UnsetCastToken,
+
         T_START_HEREDOC     => TokenKind::HeredocStart,
         T_END_HEREDOC       => TokenKind::HeredocEnd,
-        T_STRING_VARNAME    => TokenKind::VariableName,
+        T_STRING_VARNAME    => TokenKind::StringVarname,
         T_COMMENT           => TokenKind::CommentToken,
-        T_DOC_COMMENT       => TokenKind::DocCommentToken
+        T_DOC_COMMENT       => TokenKind::DocCommentToken,
+        T_NUM_STRING        => TokenKind::IntegerLiteralToken
     ];
 
     const PARSE_CONTEXT_TO_PREFIX = [

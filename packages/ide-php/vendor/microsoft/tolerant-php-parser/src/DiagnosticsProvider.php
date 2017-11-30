@@ -9,14 +9,14 @@ namespace Microsoft\PhpParser;
 use Microsoft\PhpParser\Node;
 
 class DiagnosticsProvider {
-    /**
-     * Traverses AST to generate diagnostics.
-     * @param \Microsoft\PhpParser\Node $node
-     * @return \Generator | Diagnostic[]
-     */
 
     private static $tokenKindToText;
 
+    /**
+     * Returns the diagnostic for $node, or null.
+     * @param \Microsoft\PhpParser\Node $node
+     * @return Diagnostic|null
+     */
     public static function checkDiagnostics($node) {
         if (!isset(self::$tokenKindToText)) {
             self::$tokenKindToText = \array_flip(\array_merge(
@@ -71,7 +71,10 @@ class DiagnosticsProvider {
                 }
             }
             elseif ($node instanceof Node\Statement\NamespaceUseDeclaration) {
-                if (\count($node->useClauses->children) > 1) {
+                if (
+                    $node->useClauses != null
+                    && \count($node->useClauses->children) > 1
+                ) {
                     foreach ($node->useClauses->children as $useClause) {
                         if($useClause instanceof Node\NamespaceUseClause && !is_null($useClause->openBrace)) {
                             return new Diagnostic(
@@ -84,10 +87,57 @@ class DiagnosticsProvider {
                     }
                 }
             }
+            else if ($node instanceof Node\Statement\BreakOrContinueStatement) {
+                if ($node->breakoutLevel === null) {
+                    return null;
+                }
+
+                $breakoutLevel = $node->breakoutLevel;
+                while ($breakoutLevel instanceof Node\Expression\ParenthesizedExpression) {
+                    $breakoutLevel = $breakoutLevel->expression;
+                }
+
+                if (
+                    $breakoutLevel instanceof Node\NumericLiteral
+                    && $breakoutLevel->children->kind === TokenKind::IntegerLiteralToken
+                ) {
+                    $literalString = $breakoutLevel->getText();
+                    $firstTwoChars = \substr($literalString, 0, 2);
+
+                    if ($firstTwoChars === '0b' || $firstTwoChars === '0B') {
+                        if (\bindec(\substr($literalString, 2)) > 0) {
+                            return null;
+                        }
+                    }
+                    else if (\intval($literalString, 0) > 0) {
+                        return null;
+                    }
+                }
+
+                if ($breakoutLevel instanceof Token) {
+                    $start = $breakoutLevel->getStartPosition();
+                }
+                else {
+                    $start = $breakoutLevel->getStart();
+                }
+                $end = $breakoutLevel->getEndPosition();
+
+                return new Diagnostic(
+                    DiagnosticKind::Error,
+                    "Positive integer literal expected.",
+                    $start,
+                    $end - $start
+                );
+            }
         }
         return null;
     }
 
+    /**
+     * Traverses AST to generate diagnostics.
+     * @param \Microsoft\PhpParser\Node $n
+     * @return Diagnostic[]
+     */
     public static function getDiagnostics(Node $n) : array {
         $diagnostics = [];
 

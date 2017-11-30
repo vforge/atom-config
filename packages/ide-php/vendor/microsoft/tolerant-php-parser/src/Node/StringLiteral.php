@@ -13,7 +13,7 @@ class StringLiteral extends Expression {
     /** @var Token */
     public $startQuote;
 
-    /** @var Token[] | Node[] */
+    /** @var Token[]|Node[]|Token */
     public $children;
 
     /** @var Token */
@@ -30,7 +30,8 @@ class StringLiteral extends Expression {
         $stringContents = "";
         if (isset($this->startQuote)) {
             foreach ($this->children as $child) {
-                $stringContents .= $child->getFullText($this->getFileContents());
+                $contents = $this->getFileContents();
+                $stringContents .= $child->getFullText($contents);
             }
         } else {
             // TODO ensure string consistency (all strings should have start / end quote)

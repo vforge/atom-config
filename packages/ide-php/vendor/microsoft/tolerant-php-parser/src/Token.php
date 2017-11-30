@@ -35,7 +35,7 @@ class Token implements \JsonSerializable {
         return substr($document, $this->start, $this->length - ($this->start - $this->fullStart));
     }
 
-    public function getFullText(string & $document) : string {
+    public function getFullText(string $document) : string {
         return substr($document, $this->fullStart, $this->length);
     }
 
@@ -59,15 +59,25 @@ class Token implements \JsonSerializable {
         return $this->fullStart + $this->length;
     }
 
-    public static function getTokenKindNameFromValue($kindName) {
-        $constants = (new \ReflectionClass("Microsoft\\PhpParser\\TokenKind"))->getConstants();
-        foreach ($constants as $name => $val) {
-            if ($val == $kindName) {
-                $kindName = $name;
-                break;
-            }
+    /**
+     * @return string[] - A hash map of the format [int $tokenKind => string $tokenName]
+     */
+    private static function getTokenKindNameFromValueMap() {
+        static $mapToKindName;
+        if ($mapToKindName === null) {
+            $constants = (new \ReflectionClass("Microsoft\\PhpParser\\TokenKind"))->getConstants();
+            $mapToKindName = \array_flip($constants);
         }
-        return $kindName;
+        return $mapToKindName;
+    }
+
+    /**
+     * @param int $kind
+     * @return string (Or int, if the kind name for $kind wasn't found)
+     */
+    public static function getTokenKindNameFromValue($kind) {
+        $mapToKindName = self::getTokenKindNameFromValueMap();
+        return $mapToKindName[$kind] ?? $kind;
     }
 
     public function jsonSerialize() {
@@ -76,7 +86,7 @@ class Token implements \JsonSerializable {
         if (!isset($GLOBALS["SHORT_TOKEN_SERIALIZE"])) {
             $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
         }
-        
+
         if ($GLOBALS["SHORT_TOKEN_SERIALIZE"]) {
             return [
                 "kind" => $kindName,
