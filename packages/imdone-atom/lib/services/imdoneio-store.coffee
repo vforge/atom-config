@@ -83,7 +83,8 @@ module.exports =  (repo) ->
         # done err if done
 
   checkForIIOProject() if client.isAuthenticated()
-  client.on 'authenticated', => checkForIIOProject()
+  repo.on 'authenticated', => checkForIIOProject()
+  # repo.on 'initialized', => checkForIIOProject()
 
   syncDone = (tasks) ->
     return (err) ->
@@ -176,7 +177,10 @@ module.exports =  (repo) ->
 
   sortEnabled = () -> repo.usingImdoneioForPriority()
 
-  getTaskId = (task) -> _.get task, 'meta.id[0]'
+  getTaskId = (task) ->
+    id = _.get task, 'meta.id[0]'
+    return id if id
+    task.id
 
   tasksToIds = (tasks) -> (getTaskId task for task in tasks)
 

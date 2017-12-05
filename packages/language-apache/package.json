@@ -2,40 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116101-51974-1popv7p/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22551-1a6npsi.v58bqhbyb9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116101-51974-1popv7p/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116101-51974-1popv7p/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22551-1a6npsi.v58bqhbyb9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22551-1a6npsi.v58bqhbyb9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-116101-51974-1wj3e9s"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117114-22551-1tr5080.7lb53r3sor"
     ]
   ],
-  "_from": "../d-116101-51974-1popv7p/package.tgz",
-  "_id": "language-apache@1.7.0",
+  "_from": "../d-117114-22551-1a6npsi.v58bqhbyb9/package.tgz",
+  "_id": "language-apache@1.8.0",
   "_inCache": true,
-  "_installable": true,
   "_location": "/language-apache",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116101-51974-1popv7p/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22551-1a6npsi.v58bqhbyb9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116101-51974-1popv7p/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116101-51974-1popv7p/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22551-1a6npsi.v58bqhbyb9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22551-1a6npsi.v58bqhbyb9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-116101-51974-1popv7p/package.tgz",
-  "_shasum": "a6e6a2ac4e2a785a12b8ddf887920bf6ee774ffa",
+  "_resolved": "file:../d-117114-22551-1a6npsi.v58bqhbyb9/package.tgz",
+  "_shasum": "f88bf3f495edb473e081dd0024b846c960222186",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116101-51974-1popv7p/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-116101-51974-1wj3e9s",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22551-1a6npsi.v58bqhbyb9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117114-22551-1tr5080.7lb53r3sor",
   "bugs": {
     "url": "https://github.com/jacobbednarz/atom-language-apache/issues"
   },
@@ -56,5 +55,5 @@
     "type": "git",
     "url": "git+https://github.com/jacobbednarz/atom-language-apache.git"
   },
-  "version": "1.7.0"
+  "version": "1.8.0"
 }
