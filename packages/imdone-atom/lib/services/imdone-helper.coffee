@@ -25,12 +25,14 @@ module.exports =
 
   excludeVcsIgnoresMixin: (imdoneRepo) ->
     repoPath = imdoneRepo.getPath()
-    vcsRepo = @repoForPath repoPath
-    return unless vcsRepo
+    return unless @repoForPath repoPath
     _shouldExclude = imdoneRepo.shouldExclude
-    imdoneRepo.shouldExclude = (relPath) ->
-      _shouldExclude.call imdoneRepo, relPath unless getSettings().excludeVcsIgnoredPaths and vcsRepo
-      vcsRepo.isPathIgnored relPath
+    imdoneRepo.shouldExclude = (relPath) =>
+      excluded = false
+      vcsRepo = @repoForPath repoPath
+      if getSettings().excludeVcsIgnoredPaths and vcsRepo
+        excluded = vcsRepo.isPathIgnored relPath
+      return excluded || _shouldExclude.call imdoneRepo, relPath
 
   repoForPath: (repoPath) ->
     for projectPath, i in atom.project.getPaths()
