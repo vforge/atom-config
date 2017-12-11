@@ -92,6 +92,7 @@
       "ide-csharp"
       "minimap-codeglance"
       "minimap-bookmarks"
+      "activate-power-mode"
     ]
     packagesWithKeymapsDisabled: []
     restorePreviousWindowsOnStart: "always"
