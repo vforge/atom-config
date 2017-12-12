@@ -150,6 +150,42 @@ function checkToolchain(busySignalService) {
   .then(() => clearIdeRustInfos())
 }
 
+/** @param {string} [toolchain]  */
+function serverEnv(toolchain) {
+  const env = { PATH: getPath() }
+
+  if (toolchain) {
+    let rustSrcPath = process.env["RUST_SRC_PATH"] || ""
+    if (rustSrcPath.length === 0) {
+      rustSrcPath = path.join(
+        os.homedir(),
+        ".rustup/toolchains/" + toolchain + "/lib/rustlib/src/rust/src/"
+      )
+    }
+    env.RUST_SRC_PATH = rustSrcPath
+  }
+
+  return env
+}
+
+/**
+ * Logs stderr if `core.debugLSP` is enabled
+ * TODO should be handled upstream, see https://github.com/atom/atom-languageclient/issues/157
+ * @param {process} process
+ * @return {process}
+ */
+function logStdErr(process) {
+  if (atom.config.get('core.debugLSP')) {
+    process.stderr.on('data', chunk => {
+      chunk.toString()
+        .split('\n')
+        .filter(l => l)
+        .forEach(line => console.warn('Rls-stderr', line))
+    })
+  }
+  return process
+}
+
 /**
  * Check for and install Rls
  * @param [busySignalService]
@@ -173,7 +209,11 @@ function checkRls(busySignalService) {
       .catch(e => {
         atom.notifications.addError(`\`rls-preview\` was not found on \`${toolchain}\``, {
           detail: 'Try configuring another toolchain, like a previous nightly or `beta`',
-          dismissable: true
+          dismissable: true,
+          buttons: [{
+            text: 'Configure',
+            onDidClick: () => atom.workspace.open('atom://config/packages/ide-rust')
+          }]
         })
         e._logged = true
         throw e
@@ -183,10 +223,12 @@ function checkRls(busySignalService) {
         exec(`rustup component add rust-analysis --toolchain ${toolchain}`)
       )
       .catch(e => {
-        if (!e._logged)
+        if (!e._logged) {
           atom.notifications.addError(`\`rust-src\`/\`rust-analysis\` not found on \`${toolchain}\``, {
             dismissable: true
           })
+        }
+        throw e
       })
 
     busySignalService && busySignalService.reportBusyWhile(
@@ -289,42 +331,25 @@ class RustLanguageClient extends AutoLanguageClient {
   }
 
   startServerProcess() {
-    let toolchain
+    let cmdOverride = rlsCommandOverride()
+    if (cmdOverride) {
+      if (!this._warnedAboutRlsCommandOverride) {
+        clearIdeRustInfos()
+        atom.notifications.addInfo(`Using rls command \`${cmdOverride}\``)
+        this._warnedAboutRlsCommandOverride = true
+      }
+      return logStdErr(cp.spawn(cmdOverride, {
+        env: serverEnv(),
+        shell: true
+      }))
+    }
+
     return checkToolchain(this.busySignalService)
-      .then(toolchain_ => {
-        toolchain = toolchain_
-
-        return checkRls(this.busySignalService)
-      })
-      .then(() => {
-        let rustSrcPath = process.env["RUST_SRC_PATH"] || ""
-        if (rustSrcPath.length === 0) {
-          rustSrcPath = path.join(
-            os.homedir(),
-            ".rustup/toolchains/" + toolchain + "/lib/rustlib/src/rust/src/"
-          )
-        }
-
-        let cmdOverride = rlsCommandOverride()
-        let env = {
-          PATH: getPath(),
-          RUST_SRC_PATH: rustSrcPath
-        }
-
-        if (cmdOverride) {
-          if (!this._warnedAboutRlsCommandOverride) {
-            clearIdeRustInfos()
-            atom.notifications.addInfo(`Using rls command \`${cmdOverride}\``)
-            this._warnedAboutRlsCommandOverride = true
-          }
-          return cp.spawn(cmdOverride, {
-            env,
-            shell: true
-          })
-        }
-        else {
-          return cp.spawn("rustup", ["run", configToolchain(), "rls"], { env })
-        }
+      .then(toolchain => checkRls(this.busySignalService).then(() => toolchain))
+      .then(toolchain => {
+        return logStdErr(cp.spawn("rustup", ["run", configToolchain(), "rls"], {
+          env: serverEnv(toolchain)
+        }))
       })
   }
 }

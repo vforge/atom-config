@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171028-20417-i8255e.ghooluwhfr/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171028-20417-i8255e.ghooluwhfr/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171028-20417-i8255e.ghooluwhfr/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171028-20417-ie20fz.uf131bgldi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171111-87902-30a4gm.s5sd2yy14i"
     ]
   ],
-  "_from": "../d-1171028-20417-i8255e.ghooluwhfr/package.tgz",
-  "_id": "ide-php@0.7.3",
+  "_from": "../d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
+  "_id": "ide-php@0.7.4",
   "_inCache": true,
   "_location": "/ide-php",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171028-20417-i8255e.ghooluwhfr/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171028-20417-i8255e.ghooluwhfr/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171028-20417-i8255e.ghooluwhfr/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1171028-20417-i8255e.ghooluwhfr/package.tgz",
-  "_shasum": "089b54f16da5b43aab5e535003c104295584af4c",
+  "_resolved": "file:../d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
+  "_shasum": "eed86fbc5840ebb8967da8d302b64a828071f09d",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171028-20417-i8255e.ghooluwhfr/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171028-20417-ie20fz.uf131bgldi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171111-87902-30a4gm.s5sd2yy14i",
   "atomTestRunner": "./test/runner",
   "bugs": {
     "url": "https://github.com/atom/ide-php/issues"
@@ -78,6 +78,11 @@
     "datatip": {
       "versions": {
         "0.1.0": "consumeDatatip"
+      }
+    },
+    "signature-help": {
+      "versions": {
+        "0.1.0": "consumeSignatureHelp"
       }
     }
   },
@@ -130,7 +135,7 @@
       }
     }
   },
-  "readme": "# IDE-PHP package\n[![macOS Build Status](https://travis-ci.org/atom/ide-php.svg?branch=master)](https://travis-ci.org/atom/ide-php) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/99y003ssr76ovd17?svg=true)](https://ci.appveyor.com/project/Atom/ide-php/branch/master) [![Dependency Status](https://david-dm.org/atom/ide-php.svg)](https://david-dm.org/atom/ide-php)\n\nPHP language support for Atom-IDE, powered by [FelixFBeckers PHP Language Server](https://github.com/felixfbecker/php-language-server).\n\nRequires [Atom 1.21](https://atom.io/) and a PHP 7.1 runtime installed on your system.\n\n![Screen shot of IDE-PHP](https://user-images.githubusercontent.com/118951/30307874-5a0b03d6-9736-11e7-84d1-55eafe784cda.png)\n\n## Early access\n\nThis package is currently an early access release.  You should also install the [atom-ide-ui](https://atom.io/packages/atom-ide-ui) package to expose the functionality within Atom.\n\n## Features\n\n* Auto completion\n* Diagnostics (errors & warnings)\n* Document outline\n* Find references\n* Go to definition\n* Hover\n\n## Contributing\nAlways feel free to help out!  Whether it's [filing bugs and feature requests](https://github.com/atom/languageserver-php/issues/new) or working on some of the [open issues](https://github.com/atom/languageserver-php/issues), Atom's [contributing guide](https://github.com/atom/atom/blob/master/CONTRIBUTING.md) will help get you started while the [guide for contributing to packages](https://github.com/atom/atom/blob/master/docs/contributing-to-packages.md) has some extra information.\n\n## License\nMIT License.  See [the license](LICENSE.md) for more details.\n",
+  "readme": "# IDE-PHP package\n[![macOS Build Status](https://travis-ci.org/atom/ide-php.svg?branch=master)](https://travis-ci.org/atom/ide-php) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/99y003ssr76ovd17?svg=true)](https://ci.appveyor.com/project/Atom/ide-php/branch/master) [![Dependency Status](https://david-dm.org/atom/ide-php.svg)](https://david-dm.org/atom/ide-php)\n\nPHP language support for Atom-IDE, powered by [FelixFBeckers PHP Language Server](https://github.com/felixfbecker/php-language-server).\n\nRequires [Atom 1.21](https://atom.io/) and a PHP 7.1 runtime installed on your system.\n\n![Screen shot of IDE-PHP](https://user-images.githubusercontent.com/118951/30307874-5a0b03d6-9736-11e7-84d1-55eafe784cda.png)\n\n## Early access\n\nThis package is currently an early access release.  You should also install the [atom-ide-ui](https://atom.io/packages/atom-ide-ui) package to expose the functionality within Atom.\n\n## Features\n\n* Auto completion\n* Diagnostics (errors & warnings)\n* Document outline\n* Find references\n* Go to definition\n* Hover\n* Signature help\n\n## Contributing\nAlways feel free to help out!  Whether it's [filing bugs and feature requests](https://github.com/atom/languageserver-php/issues/new) or working on some of the [open issues](https://github.com/atom/languageserver-php/issues), Atom's [contributing guide](https://github.com/atom/atom/blob/master/CONTRIBUTING.md) will help get you started while the [guide for contributing to packages](https://github.com/atom/atom/blob/master/docs/contributing-to-packages.md) has some extra information.\n\n## License\nMIT License.  See [the license](LICENSE.md) for more details.\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
@@ -140,5 +145,5 @@
     "server-install": "rm -rf vendor && composer install --prefer-dist --no-dev && composer dump-autoload --optimize",
     "server-package": "7z a temp.tar ./vendor/* && 7z a php-ls-x.y.z.tar.gz temp.tar && rm -f temp.tar"
   },
-  "version": "0.7.3"
+  "version": "0.7.4"
 }
