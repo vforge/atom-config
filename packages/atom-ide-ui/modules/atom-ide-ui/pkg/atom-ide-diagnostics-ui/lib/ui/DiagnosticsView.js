@@ -85,6 +85,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Dismissable panel that displays the diagnostics from nuclide-diagnostics-store.
  */
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
+
 class DiagnosticsView extends _react.Component {
   constructor(...args) {
     var _temp;
@@ -123,17 +135,7 @@ class DiagnosticsView extends _react.Component {
   }
 
   render() {
-    let { diagnostics } = this.props;
-    const { showDirectoryColumn, showTraces } = this.props;
-    if (this.props.filterByActiveTextEditor) {
-      const pathToFilterBy = this.props.pathToActiveTextEditor;
-      if (pathToFilterBy != null) {
-        diagnostics = diagnostics.filter(diagnostic => diagnostic.filePath === pathToFilterBy);
-      } else {
-        // Current pane is not a text editor; do not show diagnostics.
-        diagnostics = [];
-      }
-    }
+    const { diagnostics, showDirectoryColumn, showTraces } = this.props;
 
     const groups = ['errors', 'warnings', 'info'];
     if (this.props.supportedMessageKinds.has('review')) {
@@ -226,14 +228,4 @@ class DiagnosticsView extends _react.Component {
   }
 
 }
-exports.default = DiagnosticsView; /**
-                                    * Copyright (c) 2017-present, Facebook, Inc.
-                                    * All rights reserved.
-                                    *
-                                    * This source code is licensed under the BSD-style license found in the
-                                    * LICENSE file in the root directory of this source tree. An additional grant
-                                    * of patent rights can be found in the PATENTS file in the same directory.
-                                    *
-                                    * 
-                                    * @format
-                                    */
+exports.default = DiagnosticsView;

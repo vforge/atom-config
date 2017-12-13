@@ -77,9 +77,10 @@ class FindReferencesModel {
    * @param references  A list of references to `symbolName`.
    * @param options     See `FindReferencesOptions`.
    */
-  constructor(basePath, symbolName, references, options) {
+  constructor(basePath, symbolName, title, references, options) {
     this._basePath = basePath;
     this._symbolName = symbolName;
+    this._title = title;
     this._referenceCount = references.length;
     this._options = options || {};
 
@@ -103,6 +104,10 @@ class FindReferencesModel {
 
   getBasePath() {
     return this._basePath;
+  }
+
+  getTitle() {
+    return this._title;
   }
 
   getSymbolName() {

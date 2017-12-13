@@ -179,7 +179,7 @@ class PinnedDatatip {
         _hostElement.style.left = (lineLength - range.end.column) * charWidth + LINE_END_MARGIN + _offset.x + 'px';
         break;
       case 'above-range':
-        _hostElement.style.bottom = _editor.getLineHeightInPixels() + _hostElement.clientHeight + _offset.y + 'px';
+        _hostElement.style.bottom = _editor.getLineHeightInPixels() + _hostElement.clientHeight - _offset.y + 'px';
         _hostElement.style.left = _offset.x + 'px';
         break;
       default:

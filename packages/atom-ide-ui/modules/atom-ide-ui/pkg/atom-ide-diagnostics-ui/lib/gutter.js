@@ -231,7 +231,7 @@ function createGutterItem(messages, diagnosticUpdater) {
   messages.forEach(msg => messageGroups.add((_GroupUtils || _load_GroupUtils()).getGroup(msg)));
   const group = (_GroupUtils || _load_GroupUtils()).getHighestPriorityGroup(messageGroups);
 
-  const item = document.createElement('a');
+  const item = document.createElement('span');
   const groupClassName = GUTTER_CSS_GROUPS[group];
   item.className = `diagnostics-gutter-ui-item ${groupClassName || ''}`;
 
@@ -304,7 +304,6 @@ function showPopupFor(messages, item, goToLocation, diagnosticUpdater) {
   // $FlowFixMe check parentNode for null
   workspaceElement.parentNode.appendChild(hostElement);
 
-  // Move it down vertically so it does not end up under the mouse pointer.
   const { top, left } = item.getBoundingClientRect();
 
   const trackedFixer = (...args) => {

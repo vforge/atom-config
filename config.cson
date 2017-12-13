@@ -61,6 +61,7 @@
       "source.shell": [
         "symlink"
       ]
+    debugLSP: true
     disabledPackages: [
       "battery-status"
       "whitespace"
@@ -93,6 +94,8 @@
       "minimap-codeglance"
       "minimap-bookmarks"
       "activate-power-mode"
+      "java-importer"
+      "symbols-list"
     ]
     packagesWithKeymapsDisabled: []
     restorePreviousWindowsOnStart: "always"

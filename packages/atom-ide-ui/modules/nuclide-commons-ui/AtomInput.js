@@ -182,7 +182,8 @@ class AtomInput extends _react.Component {
 
   componentWillUnmount() {
     // Note that destroy() is not part of TextEditor's public API.
-    this.getTextEditor().destroy();
+    const editor = this.getTextEditor();
+    process.nextTick(() => editor.destroy());
 
     if (this._disposables) {
       this._disposables.dispose();
