@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22565-1ezm4k0.z0vtgwrk9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171115-47798-15w7p1u.auv7ca0pb9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22565-1ezm4k0.z0vtgwrk9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22565-1ezm4k0.z0vtgwrk9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171115-47798-15w7p1u.auv7ca0pb9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171115-47798-15w7p1u.auv7ca0pb9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117114-22565-fvcc8g.m9qgpvte29"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171115-47798-16hbpya.vn6irudi"
     ]
   ],
-  "_from": "../d-117114-22565-1ezm4k0.z0vtgwrk9/package.tgz",
-  "_id": "linter-stylelint@4.1.0",
+  "_from": "../d-1171115-47798-15w7p1u.auv7ca0pb9/package.tgz",
+  "_id": "linter-stylelint@4.2.0",
   "_inCache": true,
   "_location": "/linter-stylelint",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22565-1ezm4k0.z0vtgwrk9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171115-47798-15w7p1u.auv7ca0pb9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22565-1ezm4k0.z0vtgwrk9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22565-1ezm4k0.z0vtgwrk9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171115-47798-15w7p1u.auv7ca0pb9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171115-47798-15w7p1u.auv7ca0pb9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117114-22565-1ezm4k0.z0vtgwrk9/package.tgz",
-  "_shasum": "9d000f6033c3d7ae9c2900ee20d5e4ac843026fa",
+  "_resolved": "file:../d-1171115-47798-15w7p1u.auv7ca0pb9/package.tgz",
+  "_shasum": "a45dc40c405696e55693464126106821654ee293",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117114-22565-1ezm4k0.z0vtgwrk9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117114-22565-fvcc8g.m9qgpvte29",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171115-47798-15w7p1u.auv7ca0pb9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171115-47798-16hbpya.vn6irudi",
   "author": {
     "name": "1000ch",
     "email": "shogo.sensui@gmail.com",
@@ -67,7 +67,7 @@
     "atom-linter": "^10.0.0",
     "atom-package-deps": "^4.6.0",
     "browserslist": "^2.2.2",
-    "stylelint": "8.3.1",
+    "stylelint": "8.4.0",
     "stylelint-config-standard": "^18.0.0"
   },
   "description": "A plugin for Atom Linter providing an interface to stylelint.",
@@ -137,5 +137,5 @@
     "lint": "eslint .",
     "test": "apm test"
   },
-  "version": "4.1.0"
+  "version": "4.2.0"
 }
