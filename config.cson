@@ -101,8 +101,8 @@
     restorePreviousWindowsOnStart: "always"
     telemetryConsent: "no"
     themes: [
-      "dash-ui"
-      "dash-syntax"
+      "city-lights-ui"
+      "city-lights-syntax"
     ]
     titleBar: "custom"
     warnOnLargeFileLimit: 10
