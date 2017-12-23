@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171110-4670-4inker.2puq8h0k9/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171122-11936-1s7o2ci.1xsyu2qpvi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171110-4670-4inker.2puq8h0k9/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171110-4670-4inker.2puq8h0k9/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171122-11936-1s7o2ci.1xsyu2qpvi/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171122-11936-1s7o2ci.1xsyu2qpvi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-1171110-4670-12dzavr.k3znvlhaor"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-1171122-11936-h6ipb2.c81v8ia4i"
     ]
   ],
-  "_from": "../d-1171110-4670-4inker.2puq8h0k9/package.tgz",
-  "_id": "imdone-atom@2.3.18",
+  "_from": "../d-1171122-11936-1s7o2ci.1xsyu2qpvi/package.tgz",
+  "_id": "imdone-atom@2.3.19",
   "_inCache": true,
   "_location": "/imdone-atom",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171110-4670-4inker.2puq8h0k9/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171122-11936-1s7o2ci.1xsyu2qpvi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171110-4670-4inker.2puq8h0k9/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171110-4670-4inker.2puq8h0k9/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171122-11936-1s7o2ci.1xsyu2qpvi/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171122-11936-1s7o2ci.1xsyu2qpvi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1171110-4670-4inker.2puq8h0k9/package.tgz",
-  "_shasum": "54d619caa5d8aa09d24e8ce71e5fc0ad748c2649",
+  "_resolved": "file:../d-1171122-11936-1s7o2ci.1xsyu2qpvi/package.tgz",
+  "_shasum": "4b8b70eb5575777992a77c1b3278a56869afa682",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171110-4670-4inker.2puq8h0k9/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-1171110-4670-12dzavr.k3znvlhaor",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-1171122-11936-1s7o2ci.1xsyu2qpvi/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-1171122-11936-h6ipb2.c81v8ia4i",
   "author": {
     "name": "Jesse Piascik",
     "email": "jesse@imdone.io",
@@ -59,7 +59,7 @@
     "fs-plus": "^2.8.1",
     "git-up": "^2.0.1",
     "ignore": "^3.3.7",
-    "imdone-core": "1.3.43",
+    "imdone-core": "1.3.44",
     "json-editor": "^0.7.28",
     "laconic": "^0.2.2",
     "lodash": "^4.12.0",
@@ -115,5 +115,5 @@
     "type": "git",
     "url": "git+https://github.com/imdone/imdone-atom.git"
   },
-  "version": "2.3.18"
+  "version": "2.3.19"
 }
