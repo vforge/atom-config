@@ -141,6 +141,9 @@ class DiagnosticsView extends _react.Component {
     if (this.props.supportedMessageKinds.has('review')) {
       groups.push('review');
     }
+    if (this.props.supportedMessageKinds.has('action')) {
+      groups.push('action');
+    }
 
     const showFullDescriptionToggle = diagnostics.find(diagnostic =>
     // flowlint-next-line sketchy-null-string:off

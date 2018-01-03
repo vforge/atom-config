@@ -1,11 +1,14 @@
-import {
-  Range, TextEditor, DisplayMarker,
-} from 'atom'
-
 import { TooltipMessage } from './tooltip-view'
 import { EventTable } from './event-table'
+import * as AtomTypes from 'atom'
+import * as UPI from 'atom-haskell-upi'
+import Range = AtomTypes.Range
+import TextEditor = AtomTypes.TextEditor
+import DisplayMarker = AtomTypes.DisplayMarker
+import TEventRangeType = UPI.TEventRangeType
+import { MessageObject } from '../utils'
 
-export interface IMarkerProperties {
+export interface IMarkerProperties extends AtomTypes.FindDisplayMarkerOptions {
   persistent: boolean
 }
 
@@ -14,8 +17,8 @@ export class TooltipManager {
   private editorElement: HTMLElement
   constructor(private editor: TextEditor) {
     this.markers = new EventTable(editor, [
-      [{ type: UPI.TEventRangeType.keyboard }, { type: UPI.TEventRangeType.context }],
-      [{ type: UPI.TEventRangeType.mouse }, { type: UPI.TEventRangeType.selection }],
+      [{ type: TEventRangeType.keyboard }, { type: TEventRangeType.context }],
+      [{ type: TEventRangeType.mouse }, { type: TEventRangeType.selection }],
     ])
     this.editorElement = atom.views.getView(this.editor)
   }
@@ -26,8 +29,8 @@ export class TooltipManager {
   }
 
   public show(
-    range: Range, text: UPI.IMessageObject | UPI.IMessageObject[],
-    type: UPI.TEventRangeType, source: string, detail: IMarkerProperties,
+    range: Range, text: MessageObject | MessageObject[],
+    type: TEventRangeType, source: string, detail: IMarkerProperties,
   ) {
     this.hide(type, source)
     const highlightMarker = this.markers.get(type, source).markBufferRange(range)
@@ -36,7 +39,7 @@ export class TooltipManager {
     this.editorElement.classList.add('ide-haskell--has-tooltips')
   }
 
-  public hide(type?: UPI.TEventRangeType, source?: string, template?: IMarkerProperties) {
+  public hide(type?: TEventRangeType, source?: string, template?: IMarkerProperties) {
     if (!type) {
       this.markers.clear()
       return
@@ -49,7 +52,7 @@ export class TooltipManager {
     if (!this.has()) { this.editorElement.classList.remove('ide-haskell--has-tooltips') }
   }
 
-  public has(type?: UPI.TEventRangeType, source?: string, template?: IMarkerProperties) {
+  public has(type?: TEventRangeType, source?: string, template?: IMarkerProperties) {
     if (!type) {
       return this.markers.getMarkerCount() > 0
     }

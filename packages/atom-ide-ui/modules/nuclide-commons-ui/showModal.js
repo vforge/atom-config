@@ -67,6 +67,7 @@ function showModal(contentFactory, options = defaults) {
   });
   const shouldDismissOnClickOutsideModal = options.shouldDismissOnClickOutsideModal || (() => true);
 
+  let panelElement = atomPanel.getElement();
   const previouslyFocusedElement = document.activeElement;
   const disposable = new (_UniversalDisposable || _load_UniversalDisposable()).default(_rxjsBundlesRxMinJs.Observable.fromEvent(document, 'mousedown').subscribe(({ target }) => {
     if (!shouldDismissOnClickOutsideModal()) {
@@ -90,17 +91,21 @@ function showModal(contentFactory, options = defaults) {
       options.onDismiss();
     }
     _reactDom.default.unmountComponentAtNode(hostElement);
+    panelElement = null;
     atomPanel.destroy();
     if (previouslyFocusedElement != null) {
       previouslyFocusedElement.focus();
     }
   });
 
+  disposable.getElement = () => panelElement;
+
   _reactDom.default.render(_react.createElement(
     ModalContainer,
     null,
     contentFactory(disposable.dispose.bind(disposable))
   ), hostElement);
+
   return disposable;
 }
 

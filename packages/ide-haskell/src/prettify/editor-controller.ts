@@ -1,16 +1,15 @@
 import {
   TextEditor, CompositeDisposable,
 } from 'atom'
-import { PluginManager } from '../plugin-manager'
 import { prettifyFile } from './index'
 import { config } from '../config'
+import { IEditorController } from '../plugin-manager'
 
 type SavePrettifyFormats = {[K in keyof typeof config.onSavePrettifyFormats.properties]: boolean}
 
-export class PrettifyEditorController {
+export class PrettifyEditorController implements IEditorController {
   private disposables = new CompositeDisposable()
-  private isPretty: boolean = false
-  constructor (private editor: TextEditor, pluginManager: PluginManager) {
+  constructor (private editor: TextEditor) {
     const buffer = this.editor.getBuffer()
     this.disposables.add(
       buffer.onWillSave(this.prettify),
@@ -33,21 +32,15 @@ export class PrettifyEditorController {
   }
 
   private prettify = async () => {
-    if (atom.config.get('ide-haskell.onSavePrettify', {scope: this.editor.getRootScopeDescriptor()})) {
-      if (this.isPretty) { return }
-      this.isPretty = true
-      try {
-        const format = this.editor.getGrammar().scopeName.replace(/\./g, '*')
-        const enabled: SavePrettifyFormats = atom.config.get(
-          'ide-haskell.onSavePrettifyFormats',
-          {scope: this.editor.getRootScopeDescriptor()},
-        )
-        if (! enabled[format]) { return }
-        await prettifyFile(this.editor)
-        await this.editor.getBuffer().save()
-      } finally {
-        this.isPretty = false
-      }
+    if (atom.config.get('ide-haskell.onSavePrettify', { scope: this.editor.getRootScopeDescriptor() })) {
+      const format = this.editor.getGrammar().scopeName.replace(/\./g, '*')
+      const enabled: SavePrettifyFormats | undefined = atom.config.get(
+        'ide-haskell.onSavePrettifyFormats',
+        { scope: this.editor.getRootScopeDescriptor() },
+      )
+      if (! enabled) throw new Error("Couldn't get 'ide-haskell.onSavePrettifyFormats'")
+      if (! enabled[format]) { return }
+      await prettifyFile(this.editor)
     }
   }
 }

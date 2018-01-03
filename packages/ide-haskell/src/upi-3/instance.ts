@@ -1,8 +1,11 @@
-import { CompositeDisposable, TextEditor } from 'atom'
-import { MAIN_MENU_LABEL, getEventType } from '../utils'
+import { MAIN_MENU_LABEL, getEventType, isTEventRangeType } from '../utils'
 import { PluginManager } from '../plugin-manager'
-import { isTEventRangeType } from '../utils'
 import { consume } from './'
+import * as UPI from 'atom-haskell-upi'
+import * as AtomTypes from 'atom'
+import CompositeDisposable = AtomTypes.CompositeDisposable
+import TextEditor = AtomTypes.TextEditor
+import TEventRangeType = UPI.TEventRangeType
 
 export function instance(
   pluginManager: PluginManager, options: UPI.IRegistrationOptions,
@@ -14,10 +17,10 @@ export function instance(
   disposables.add(consume(pluginManager, options))
 
   return {
-    setMenu (name: string, menu: AtomTypes.AtomMenuItem[]) {
+    setMenu (name: string, menu: ReadonlyArray<AtomTypes.MenuOptions>) {
       const menuDisp = atom.menu.add([{
         label: MAIN_MENU_LABEL,
-        submenu: [ {label: name, submenu: menu} ],
+        submenu: [ { label: name, submenu: menu } ],
       },
       ])
       disposables.add(menuDisp)
@@ -29,15 +32,15 @@ export function instance(
     setMessages (messages: UPI.IResultItem[]) {
       messageProvider.setMessages(messages)
     },
-    addMessageTab (name: string, opts: UPI.ISeverityTabDefinition) {
-      pluginManager.outputPanel.createTab(name, opts)
+    async addMessageTab (name: string, opts: UPI.ISeverityTabDefinition) {
+      return pluginManager.outputPanel.createTab(name, opts)
     },
-    showTooltip ({editor, eventType, detail, tooltip}: UPI.IShowTooltipParams) {
+    async showTooltip ({ editor, eventType, detail, tooltip }: UPI.IShowTooltipParams) {
       if (!eventType) {
         eventType = getEventType(detail)
       }
-      pluginManager.tooltipRegistry.showTooltip(
-        editor, eventType, {pluginName, tooltip},
+      return pluginManager.tooltipRegistry.showTooltip(
+        editor, eventType, { pluginName, tooltip },
       )
     },
     addPanelControl<T> (def: UPI.TControlDefinition<T>) {
@@ -55,8 +58,8 @@ export function instance(
     async setConfigParam<T> (name: string, value?: T): Promise<T | undefined> {
       return pluginManager.configParamManager.set<T>(pluginName, name, value)
     },
-    getEventRange (editor: TextEditor, typeOrDetail: UPI.TEventRangeType | Object) {
-      let type: UPI.TEventRangeType
+    getEventRange (editor: TextEditor, typeOrDetail: TEventRangeType | Object) {
+      let type: TEventRangeType
       if (isTEventRangeType(typeOrDetail)) {
         type = typeOrDetail
       } else {

@@ -7,6 +7,7 @@ import { OutputPanelItems } from './views/output-panel-items'
 import { ResultsDB, ResultItem } from '../results-db'
 import { StatusIcon } from './views/status-icon'
 import { isDock, isSimpleControlDef } from '../utils'
+import * as UPI from 'atom-haskell-upi'
 const $ = etch.dom
 
 export interface IState {
@@ -29,14 +30,16 @@ export class OutputPanel {
   private tabs: Map<string, IBtnDesc> = new Map()
   private itemFilter?: (item: ResultItem) => boolean
   private results?: ResultsDB
-  constructor(private state: IState = {fileFilter: false, activeTab: 'error'}) {
+  constructor(private state: IState = { fileFilter: false, activeTab: 'error' }) {
     etch.initialize(this)
 
     for (const tab of ['error', 'warning', 'lint']) {
+      // tslint:disable-next-line:no-floating-promises
       this.createTab(tab, {})
     }
 
     this.disposables.add(atom.workspace.onDidChangeActivePaneItem(() => {
+      // tslint:disable-next-line:no-floating-promises
       if (this.state.fileFilter) this.updateItems()
     }))
     setImmediate(async () => {
@@ -53,24 +56,27 @@ export class OutputPanel {
 
     const didUpdate = (severities: UPI.TSeverity[]) => {
       this.currentResult = 0
+      // tslint:disable-next-line:no-floating-promises
       this.updateItems()
       if (atom.config.get('ide-haskell.autoHideOutput') && (!this.results || this.results.isEmpty(severities))) {
         this.hide()
       } else if (atom.config.get('ide-haskell.switchTabOnCheck')) {
-        this.show()
         this.activateFirstNonEmptyTab(severities)
       }
     }
 
     this.disposables.add(this.results.onDidUpdate(didUpdate))
+    // tslint:disable-next-line:no-floating-promises
     this.update()
   }
 
   public render() {
     if (!this.results) {
+      // tslint:disable-next-line:no-unsafe-any
       return <ide-haskell-panel/>
     }
     return (
+      // tslint:disable:no-unsafe-any
       <ide-haskell-panel>
         <ide-haskell-panel-heading>
           <StatusIcon statusMap={this.statusMap} />
@@ -94,6 +100,7 @@ export class OutputPanel {
           ref="items"
         />
       </ide-haskell-panel>
+      // tslint:enable:no-unsafe-any
     )
   }
 
@@ -157,9 +164,11 @@ export class OutputPanel {
       newElement = $(def.element, def.opts)
     }
     this.elements.add(newElement)
+    // tslint:disable-next-line:no-floating-promises
     this.update()
     return new Disposable(() => {
       this.elements.delete(newElement)
+      // tslint:disable-next-line:no-floating-promises
       this.update()
     })
   }
@@ -190,21 +199,23 @@ export class OutputPanel {
 
     await this.update()
 
-    if (scroll && this.refs.items) this.refs.items.scrollToEnd()
+    if (scroll && this.refs.items) await this.refs.items.scrollToEnd()
   }
 
   public activateTab(tab: string) {
     this.state.activeTab = tab
+    // tslint:disable-next-line:no-floating-promises
     this.updateItems()
   }
 
   public activateFirstNonEmptyTab(severities: UPI.TSeverity[]) {
-    const sevs: UPI.TSeverity[] = severities
-    for (const i of sevs) {
+    for (const i of severities) {
       const tab = this.tabs.get(i)
       if (!tab) continue
       const count = tab.count
       if (count && count > 0) {
+        // tslint:disable-next-line:no-floating-promises
+        this.show()
         this.activateTab(i)
         break
       }
@@ -220,10 +231,14 @@ export class OutputPanel {
     return this.state.activeTab
   }
 
-  public createTab(
+  public async createTab(
     name: string,
     { uriFilter = true, autoScroll = false }: UPI.ISeverityTabDefinition,
   ) {
+    if (['error', 'warning', 'lint'].includes(name)
+      && atom.config.get('ide-haskell.messageDisplayFrontend') !== 'builtin') {
+      return
+    }
     if (!Array.from(this.tabs.keys()).includes(name)) {
       this.tabs.set(name, {
         name,
@@ -234,7 +249,7 @@ export class OutputPanel {
       })
       this.state.activeTab && this.activateTab(this.state.activeTab)
     }
-    this.update()
+    return this.update()
   }
 
   public serialize(): IState & {deserializer: 'ide-haskell/OutputPanel'} {
@@ -257,6 +272,7 @@ export class OutputPanel {
         },
         [] as number[],
       )
+    // tslint:disable-next-line:no-floating-promises
     this.update()
   }
 
@@ -284,6 +300,7 @@ export class OutputPanel {
 
   private switchFileFilter = () => {
     this.state.fileFilter = !this.state.fileFilter
+    // tslint:disable-next-line:no-floating-promises
     this.updateItems()
   }
 }

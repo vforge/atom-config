@@ -1,5 +1,6 @@
 import { CompositeDisposable, Disposable } from 'atom'
 import * as etch from 'etch'
+import * as UPI from 'atom-haskell-upi'
 
 import { ConfigParamStore } from './param-store'
 
@@ -10,6 +11,7 @@ export interface IProps<T> {
   store: ConfigParamStore
 }
 
+// tslint:disable-next-line:no-unsafe-any
 export class ParamControl<T> implements UPI.IElementObject<IProps<T>> {
   // tslint:disable-next-line: no-uninitialized
   public element: HTMLElement
@@ -25,6 +27,7 @@ export class ParamControl<T> implements UPI.IElementObject<IProps<T>> {
         'ide-haskell.hideParameterValues',
         (val: boolean) => {
           this.hiddenValue = val
+          // tslint:disable-next-line:no-floating-promises
           if (this.element) { this.update() }
         }),
     )
@@ -44,11 +47,13 @@ export class ParamControl<T> implements UPI.IElementObject<IProps<T>> {
     const classList = [`ide-haskell--${this.props.pluginName}`, `ide-haskell-param--${this.props.name}`]
     if (this.hiddenValue) { classList.push('hidden-value') }
     return (
+      // tslint:disable:no-unsafe-any
       <ide-haskell-param class={classList.join(' ')} on={{ click: async () => this.setValue() }}>
         <ide-haskell-param-value>
           {this.props.spec.displayTemplate(this.value)}
         </ide-haskell-param-value>
       </ide-haskell-param>
+      // tslint:enable:no-unsafe-any
     )
   }
 
@@ -71,6 +76,7 @@ export class ParamControl<T> implements UPI.IElementObject<IProps<T>> {
 
   public async setValue(e?: T) {
     await this.props.store.setValue(this.props.pluginName, this.props.name, e)
+    // tslint:disable-next-line:no-floating-promises
     this.update()
   }
 
@@ -84,15 +90,17 @@ export class ParamControl<T> implements UPI.IElementObject<IProps<T>> {
     this.storeDisposable =
       this.props.store.onDidUpdate<T>(this.props.pluginName, this.props.name, ({ value }) => {
         this.value = value
+        // tslint:disable-next-line:no-floating-promises
         this.update()
       })
     this.disposables.add(this.storeDisposable)
+    // tslint:disable-next-line:no-floating-promises
     this.setValueInitial()
   }
 
   private async setValueInitial() {
     this.value = await this.props.store.getValueRaw<T>(this.props.pluginName, this.props.name)
-    this.update()
+    return this.update()
   }
 
   private initSpec() {
@@ -101,11 +109,12 @@ export class ParamControl<T> implements UPI.IElementObject<IProps<T>> {
     }
   }
 
-  private tooltipTitle = () => {
+  private tooltipTitle = (): string => {
+    const displayName = this.props.spec.displayName || 'Undefined name'
     if (this.hiddenValue) {
-      return `${this.props.spec.displayName}: ${this.props.spec.displayTemplate(this.value)}`
+      return `${displayName}: ${this.props.spec.displayTemplate(this.value)}`
     } else {
-      return this.props.spec.displayName
+      return displayName
     }
   }
 }

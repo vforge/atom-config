@@ -279,6 +279,15 @@ class ImdoneAtomView extends ScrollView
       filter = filterAry.join '/' ;
       @setFilter filter
 
+    @on 'change', 'ul.checklist>li>input[type=checkbox]', (e) =>
+      target = e.target
+      $task = target.closest('.task')
+      taskId = $task.id
+      items = $task.querySelectorAll('.task-description .checklist-item')
+      [].forEach.call items, (el) ->
+        if (el.checked) then el.setAttribute('checked', true) else el.removeAttribute('checked') 
+      repo.modifyTaskFromHtml repo.getTask(taskId), $task.querySelector('.task-text').innerHTML
+
     pluginManager.emitter.on 'plugin.added', (Plugin) =>
       if (repo.getConfig())
         @addPlugin(Plugin)
@@ -442,13 +451,13 @@ class ImdoneAtomView extends ScrollView
     dateDue = task.getDateDue()
     dateCreated = task.getDateCreated()
     dateCompleted = task.getDateCompleted()
-    opts = $.extend {}, {stripMeta: true, stripDates: true, sanitize: true}, repo.getConfig().marked
-    taskHtml = task.getHtml(opts)
-    showTagsInline = config.getSettings().showTagsInline
-    $taskText = $el.div class: 'task-text'
+    $taskText = $el.div class: 'task-text native-key-bindings'
     $filters = $el.div()
     $taskMetaTable = $el.table()
     $taskMeta = $el.div class: 'task-meta', $taskMetaTable
+    opts = $.extend {}, {stripMeta: true, stripDates: true, sanitize: true}, repo.getConfig().marked
+    taskHtml = task.getHtml(opts)
+    showTagsInline = config.getSettings().showTagsInline
     if showTagsInline
       if contexts
         for context, i in contexts
@@ -462,6 +471,7 @@ class ImdoneAtomView extends ScrollView
             $link = @genFilterLink linkPrefix: "+", linkText: tag, linkClass: "task-tags", displayPrefix: true
             taskHtml = taskHtml.replace( "+#{tag}", $el.div($link).innerHTML )
     else
+      taskHtml = task.getHtml $.extend({stripTags: true, stripContext: true}, opts)
       if contexts
         $div = $el.div()
         $filters.appendChild $div
@@ -515,7 +525,7 @@ class ImdoneAtomView extends ScrollView
 
     $el.li class: 'task well native-key-bindings', id: "#{task.id}", tabindex: -1, "data-path": task.source.path, "data-line": task.line,
       $el.div class: 'imdone-task-plugins'
-      $el.div class: 'task-full-text hidden', task.rawTask
+      $el.div class: 'task-full-text hidden', task.getTextAndDescription()
       $taskText
       $filters
       $taskMeta

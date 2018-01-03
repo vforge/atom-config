@@ -2,40 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75727-cbwmxu/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1dyptec.v6h4r6bt9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75727-cbwmxu/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75727-cbwmxu/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1dyptec.v6h4r6bt9/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1dyptec.v6h4r6bt9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-116919-75727-1o29d2h"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11803-23314-zm89kg.xzfbikke29"
     ]
   ],
-  "_from": "../d-116919-75727-cbwmxu/package.tgz",
-  "_id": "language-htaccess@0.1.1",
+  "_from": "../d-11803-23314-1dyptec.v6h4r6bt9/package.tgz",
+  "_id": "language-htaccess@0.2.0",
   "_inCache": true,
-  "_installable": true,
   "_location": "/language-htaccess",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75727-cbwmxu/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1dyptec.v6h4r6bt9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75727-cbwmxu/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75727-cbwmxu/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1dyptec.v6h4r6bt9/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1dyptec.v6h4r6bt9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-116919-75727-cbwmxu/package.tgz",
-  "_shasum": "c26eb4dedcecd87033ae5d8f75bbd68df5d3265b",
+  "_resolved": "file:../d-11803-23314-1dyptec.v6h4r6bt9/package.tgz",
+  "_shasum": "9eec893af274f03e9b61278708322017f46dfabe",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-116919-75727-cbwmxu/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-116919-75727-1o29d2h",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1dyptec.v6h4r6bt9/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11803-23314-zm89kg.xzfbikke29",
   "bugs": {
     "url": "https://github.com/muchweb/atom-language-htaccess/issues"
   },
@@ -56,5 +55,5 @@
     "type": "git",
     "url": "git+https://github.com/muchweb/atom-language-htaccess.git"
   },
-  "version": "0.1.1"
+  "version": "0.2.0"
 }

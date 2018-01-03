@@ -1,5 +1,21 @@
+## 2.2.2
+* Update atom typings; bump devDependencies
+* Add lodash to dependencies
+
+## 2.2.1
+* Show currently-selected param value
+* Remove unnecessary `bind`s
+* Remove now-unnecessary onWillSave prettifier hack
+* Removed code duplication
+* Update license information
+* Hide MessageObject from UPI
+* Do not create error\/warning\/lint tabs if not using builtin frontend
+* Do not show ide-haskell panel when switchTabOnCheck if no messages
+* Migrate to Linter V2
+* Migrate to new typings
+
 ## 2.2.0
-* Dispatch appropriate settings on editor's root scope (refer to [ide-haskell documentation](https://atom-haskell.github.io/core-packages/ide-haskell/#advanced-configuration-since-v2-2-0) for more intformation)
+* Dispatch appropriate settings on editor's root scope (refer to [ide-haskell documentation](https://atom-haskell.github.io/core-packages/ide-haskell/#advanced-configuration-since-v2-2-0) for more information)
 * Individual prettify-on-save toggles **possibly breaking defaults if using prettify-on-save, check ide-haskell settings** (#216)
 * Move ide-haskell class mark to separate controller; Mark all full language-haskell grammars with ide-haskell class
 * More strict grammar match for editorControl

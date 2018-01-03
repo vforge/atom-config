@@ -535,6 +535,18 @@ function realpath(path, cache) {
   });
 }
 
+function access(path, mode) {
+  return new Promise((resolve, reject) => {
+    _fs.default.access(path, mode, err => {
+      if (err == null) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  });
+}
+
 function stat(path) {
   return new Promise((resolve, reject) => {
     _fs.default.stat(path, (err, result) => {
@@ -627,5 +639,6 @@ exports.default = {
   symlink,
   unlink,
   utimes,
-  rmdir
+  rmdir,
+  access
 };

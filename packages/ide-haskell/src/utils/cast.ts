@@ -1,5 +1,8 @@
+import * as AtomTypes from 'atom'
+import * as UPI from 'atom-haskell-upi'
 import Dock = AtomTypes.Dock
 import WorkspaceCenter = AtomTypes.WorkspaceCenter
+import TEventRangeType = UPI.TEventRangeType
 
 export function isDock(object: Dock | WorkspaceCenter): object is Dock {
   return object.constructor.name === 'Dock'
@@ -14,14 +17,14 @@ export function notUndefined<T>(val: T | undefined): val is T {
 }
 
 export const eventRangeTypeVals = [
-  UPI.TEventRangeType.context,
-  UPI.TEventRangeType.keyboard,
-  UPI.TEventRangeType.mouse,
-  UPI.TEventRangeType.selection,
+  TEventRangeType.context,
+  TEventRangeType.keyboard,
+  TEventRangeType.mouse,
+  TEventRangeType.selection,
 ]
 
-export function isTEventRangeType(x: UPI.TEventRangeType | Object): x is UPI.TEventRangeType {
-  return typeof x === 'string' && eventRangeTypeVals.includes(x as UPI.TEventRangeType)
+export function isTEventRangeType(x: TEventRangeType | Object): x is TEventRangeType {
+  return typeof x === 'string' && eventRangeTypeVals.includes(x as TEventRangeType)
 }
 
 export function isTextMessage(msg: UPI.TMessage): msg is UPI.IMessageText {
@@ -30,8 +33,4 @@ export function isTextMessage(msg: UPI.TMessage): msg is UPI.IMessageText {
 
 export function isHTMLMessage(msg: UPI.TMessage): msg is UPI.IMessageHTML {
   return !!(msg && (msg as UPI.IMessageHTML).html)
-}
-
-export function isIMessageObject(msg: UPI.TMessage | UPI.IMessageObject): msg is UPI.IMessageObject {
-  return !!(msg && (msg as UPI.IMessageObject).toHtml && (msg as UPI.IMessageObject).raw)
 }

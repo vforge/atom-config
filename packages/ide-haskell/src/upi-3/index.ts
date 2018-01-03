@@ -2,6 +2,8 @@ import { CompositeDisposable, Disposable } from 'atom'
 
 import { PluginManager } from '../plugin-manager'
 import { MAIN_MENU_LABEL } from '../utils'
+import * as UPI from 'atom-haskell-upi'
+import TEventRangeType = UPI.TEventRangeType
 
 export * from './instance'
 
@@ -20,24 +22,25 @@ export function consume(pluginManager: PluginManager, options: UPI.IRegistration
     // TODO: make disposable
     for (const type of Object.keys(messageTypes)) {
       const opts = messageTypes[type]
+      // tslint:disable-next-line:no-floating-promises
       pluginManager.outputPanel.createTab(type, opts)
     }
   }
   if (events) {
-    for (const k in events) {
-      if (k.startsWith('on') && pluginManager[k]) {
-        let v: UPI.TTextBufferCallback | UPI.TTextBufferCallback[] = events[k]
-        if (!Array.isArray(v)) { v = [v] }
-        for (const i of v) {
-          disp.add(pluginManager[k](i))
-        }
-      }
+    if (events.onWillSaveBuffer) {
+      disp.add(registerEvent(events.onWillSaveBuffer, pluginManager.onWillSaveBuffer))
+    }
+    if (events.onDidSaveBuffer) {
+      disp.add(registerEvent(events.onDidSaveBuffer, pluginManager.onDidSaveBuffer))
+    }
+    if (events.onDidStopChanging) {
+      disp.add(registerEvent(events.onDidStopChanging, pluginManager.onDidStopChanging))
     }
   }
   if (tooltip) {
     let handler: UPI.TTooltipHandler
     let priority: number | undefined
-    let eventTypes: UPI.TEventRangeType[] | undefined
+    let eventTypes: TEventRangeType[] | undefined
     if (typeof tooltip === 'function') {
       handler = tooltip
     } else {
@@ -61,4 +64,19 @@ export function consume(pluginManager: PluginManager, options: UPI.IRegistration
   }
 
   return disp
+}
+
+function registerEvent(
+  cb: UPI.TSingleOrArray<UPI.TTextBufferCallback>,
+  reg: (cb: UPI.TTextBufferCallback) => Disposable,
+) {
+  if (Array.isArray(cb)) {
+    const disp = new CompositeDisposable()
+    for (const i of cb) {
+      disp.add(reg(i))
+    }
+    return disp
+  } else {
+    return reg(cb)
+  }
 }

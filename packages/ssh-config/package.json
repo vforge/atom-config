@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-15009-1faok34.f5thu84cxr/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e3acaz.ze3gs6ecdi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-15009-1faok34.f5thu84cxr/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-15009-1faok34.f5thu84cxr/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e3acaz.ze3gs6ecdi/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e3acaz.ze3gs6ecdi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117725-15009-ropy45.rou13mobt9"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11803-23314-4fkhj.w1hrozuxr"
     ]
   ],
-  "_from": "../d-117725-15009-1faok34.f5thu84cxr/package.tgz",
-  "_id": "ssh-config@0.12.0",
+  "_from": "../d-11803-23314-e3acaz.ze3gs6ecdi/package.tgz",
+  "_id": "ssh-config@0.13.0",
   "_inCache": true,
   "_location": "/ssh-config",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-15009-1faok34.f5thu84cxr/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e3acaz.ze3gs6ecdi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-15009-1faok34.f5thu84cxr/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-15009-1faok34.f5thu84cxr/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e3acaz.ze3gs6ecdi/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e3acaz.ze3gs6ecdi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117725-15009-1faok34.f5thu84cxr/package.tgz",
-  "_shasum": "bcc02d4f36425e75edc1068d034efa24c9e83156",
+  "_resolved": "file:../d-11803-23314-e3acaz.ze3gs6ecdi/package.tgz",
+  "_shasum": "cdd76ba1ad55201577a45087d633dcc75d14d9f8",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117725-15009-1faok34.f5thu84cxr/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117725-15009-ropy45.rou13mobt9",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e3acaz.ze3gs6ecdi/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11803-23314-4fkhj.w1hrozuxr",
   "bugs": {
     "url": "https://github.com/lalyos/ssh-config/issues"
   },
@@ -56,16 +56,5 @@
     "type": "git",
     "url": "git+https://github.com/lalyos/ssh-config.git"
   },
-  "version": "0.12.0",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [],
-    "extensions": {
-      ".json": [
-        "coffeelint.json",
-        "package.json"
-      ]
-    },
-    "folders": []
-  }
+  "version": "0.13.0"
 }

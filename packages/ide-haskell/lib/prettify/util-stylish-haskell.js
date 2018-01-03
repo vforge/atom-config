@@ -1,23 +1,19 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const util_run_filter_1 = require("./util-run-filter");
-function format(text, workingDirectory, scope) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return util_run_filter_1.runFilter({
-            command: atom.config.get('ide-haskell.stylishHaskellPath', { scope }),
-            args: atom.config.get('ide-haskell.stylishHaskellArguments', { scope }),
-            cwd: workingDirectory,
-            stdin: text,
-        });
+async function format(text, workingDirectory, scope) {
+    const command = atom.config.get('ide-haskell.stylishHaskellPath', { scope });
+    const args = atom.config.get('ide-haskell.stylishHaskellArguments', { scope });
+    if (command === undefined)
+        throw new Error("Couldn't get 'ide-haskell.stylishHaskellPath'");
+    if (args === undefined)
+        throw new Error("Couldn't get 'ide-haskell.stylishHaskellArguments'");
+    return util_run_filter_1.runFilter({
+        command,
+        args,
+        cwd: workingDirectory,
+        stdin: text,
     });
 }
 exports.format = format;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidXRpbC1zdHlsaXNoLWhhc2tlbGwuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvcHJldHRpZnkvdXRpbC1zdHlsaXNoLWhhc2tlbGwudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7OztBQUFBLHVEQUE2QztBQUU3QyxnQkFBNkIsSUFBWSxFQUFFLGdCQUF3QixFQUFFLEtBQWdDOztRQUNuRyxNQUFNLENBQUMsMkJBQVMsQ0FBQztZQUNmLE9BQU8sRUFBRSxJQUFJLENBQUMsTUFBTSxDQUFDLEdBQUcsQ0FBQyxnQ0FBZ0MsRUFBRSxFQUFDLEtBQUssRUFBQyxDQUFDO1lBQ25FLElBQUksRUFBRSxJQUFJLENBQUMsTUFBTSxDQUFDLEdBQUcsQ0FBQyxxQ0FBcUMsRUFBRSxFQUFDLEtBQUssRUFBQyxDQUFDO1lBQ3JFLEdBQUcsRUFBRSxnQkFBZ0I7WUFDckIsS0FBSyxFQUFFLElBQUk7U0FDWixDQUFDLENBQUE7SUFDSixDQUFDO0NBQUE7QUFQRCx3QkFPQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHJ1bkZpbHRlciB9IGZyb20gJy4vdXRpbC1ydW4tZmlsdGVyJ1xuXG5leHBvcnQgYXN5bmMgZnVuY3Rpb24gZm9ybWF0KHRleHQ6IHN0cmluZywgd29ya2luZ0RpcmVjdG9yeTogc3RyaW5nLCBzY29wZTogQXRvbVR5cGVzLlNjb3BlRGVzY3JpcHRvcikge1xuICByZXR1cm4gcnVuRmlsdGVyKHtcbiAgICBjb21tYW5kOiBhdG9tLmNvbmZpZy5nZXQoJ2lkZS1oYXNrZWxsLnN0eWxpc2hIYXNrZWxsUGF0aCcsIHtzY29wZX0pLFxuICAgIGFyZ3M6IGF0b20uY29uZmlnLmdldCgnaWRlLWhhc2tlbGwuc3R5bGlzaEhhc2tlbGxBcmd1bWVudHMnLCB7c2NvcGV9KSxcbiAgICBjd2Q6IHdvcmtpbmdEaXJlY3RvcnksXG4gICAgc3RkaW46IHRleHQsXG4gIH0pXG59XG4iXX0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidXRpbC1zdHlsaXNoLWhhc2tlbGwuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvcHJldHRpZnkvdXRpbC1zdHlsaXNoLWhhc2tlbGwudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSx1REFBNkM7QUFHdEMsS0FBSyxpQkFBaUIsSUFBWSxFQUFFLGdCQUF3QixFQUFFLEtBQWdDO0lBQ25HLE1BQU0sT0FBTyxHQUFHLElBQUksQ0FBQyxNQUFNLENBQUMsR0FBRyxDQUFDLGdDQUFnQyxFQUFFLEVBQUUsS0FBSyxFQUFFLENBQUMsQ0FBQTtJQUM1RSxNQUFNLElBQUksR0FBRyxJQUFJLENBQUMsTUFBTSxDQUFDLEdBQUcsQ0FBQyxxQ0FBcUMsRUFBRSxFQUFFLEtBQUssRUFBRSxDQUFDLENBQUE7SUFDOUUsRUFBRSxDQUFDLENBQUMsT0FBTyxLQUFLLFNBQVMsQ0FBQztRQUFDLE1BQU0sSUFBSSxLQUFLLENBQUMsK0NBQStDLENBQUMsQ0FBQTtJQUMzRixFQUFFLENBQUMsQ0FBQyxJQUFJLEtBQUssU0FBUyxDQUFDO1FBQUMsTUFBTSxJQUFJLEtBQUssQ0FBQyxvREFBb0QsQ0FBQyxDQUFBO0lBQzdGLE1BQU0sQ0FBQywyQkFBUyxDQUFDO1FBQ2YsT0FBTztRQUNQLElBQUk7UUFDSixHQUFHLEVBQUUsZ0JBQWdCO1FBQ3JCLEtBQUssRUFBRSxJQUFJO0tBQ1osQ0FBQyxDQUFBO0FBQ0osQ0FBQztBQVhELHdCQVdDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgcnVuRmlsdGVyIH0gZnJvbSAnLi91dGlsLXJ1bi1maWx0ZXInXG5pbXBvcnQgKiBhcyBBdG9tVHlwZXMgZnJvbSAnYXRvbSdcblxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGZvcm1hdCh0ZXh0OiBzdHJpbmcsIHdvcmtpbmdEaXJlY3Rvcnk6IHN0cmluZywgc2NvcGU6IEF0b21UeXBlcy5TY29wZURlc2NyaXB0b3IpIHtcbiAgY29uc3QgY29tbWFuZCA9IGF0b20uY29uZmlnLmdldCgnaWRlLWhhc2tlbGwuc3R5bGlzaEhhc2tlbGxQYXRoJywgeyBzY29wZSB9KVxuICBjb25zdCBhcmdzID0gYXRvbS5jb25maWcuZ2V0KCdpZGUtaGFza2VsbC5zdHlsaXNoSGFza2VsbEFyZ3VtZW50cycsIHsgc2NvcGUgfSlcbiAgaWYgKGNvbW1hbmQgPT09IHVuZGVmaW5lZCkgdGhyb3cgbmV3IEVycm9yKFwiQ291bGRuJ3QgZ2V0ICdpZGUtaGFza2VsbC5zdHlsaXNoSGFza2VsbFBhdGgnXCIpXG4gIGlmIChhcmdzID09PSB1bmRlZmluZWQpIHRocm93IG5ldyBFcnJvcihcIkNvdWxkbid0IGdldCAnaWRlLWhhc2tlbGwuc3R5bGlzaEhhc2tlbGxBcmd1bWVudHMnXCIpXG4gIHJldHVybiBydW5GaWx0ZXIoe1xuICAgIGNvbW1hbmQsXG4gICAgYXJncyxcbiAgICBjd2Q6IHdvcmtpbmdEaXJlY3RvcnksXG4gICAgc3RkaW46IHRleHQsXG4gIH0pXG59XG4iXX0=

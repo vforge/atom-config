@@ -1,15 +1,21 @@
 import { TextEditor, DisplayMarkerLayer } from 'atom'
 import { eventRangeTypeVals } from '../utils'
+import * as UPI from 'atom-haskell-upi'
+import TEventRangeType = UPI.TEventRangeType
 
-export type IMarkerGroup = Array<{ type: UPI.TEventRangeType, source?: string }>
+export type IMarkerGroup = Array<{ type: TEventRangeType, source?: string }>
+
+export type TTableCell = Map<string | undefined, DisplayMarkerLayer>
+
+export type TTable = {
+  [K in TEventRangeType]: TTableCell
+}
 
 export class EventTable {
-  private table: {
-    [K in UPI.TEventRangeType]: Map<string | undefined, DisplayMarkerLayer>
-  }
+  private table: TTable
   private layers: Set<DisplayMarkerLayer>
   constructor(private editor: TextEditor, groups: IMarkerGroup[]) {
-    // tslint:disable-next-line:no-null-keyword
+    // tslint:disable-next-line:no-null-keyword no-unsafe-any
     this.table = Object.create(null)
     for (const i of eventRangeTypeVals) {
       this.table[i] = new Map()
@@ -19,7 +25,7 @@ export class EventTable {
       const layer = this.editor.addMarkerLayer()
       this.layers.add(layer)
       for (const { type, source } of i) {
-        this.table[type].set(source, layer)
+        (this.table[type] as TTableCell).set(source, layer)
       }
     }
   }
@@ -33,7 +39,7 @@ export class EventTable {
     }
   }
 
-  public get(type: UPI.TEventRangeType, source?: string) {
+  public get(type: TEventRangeType, source?: string) {
     const tbl = this.table[type] as Map<string | undefined, DisplayMarkerLayer>
     let res = tbl.get(source)
     if (!res) {
@@ -61,7 +67,7 @@ export class EventTable {
 
   public * values() {
     for (const i of eventRangeTypeVals) {
-      yield this.table[i]
+      yield this.table[i] as TTableCell
     }
   }
 

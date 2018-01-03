@@ -1,3 +1,18 @@
+## 2.3.29
+- Better detection of task ending description
+
+## 2.3.27
+- Add project daily journal to add daily journal files in the open project.  Alt+p
+
+## 2.3.24
+- Live checklist support.  Update TODO checklists from your board.
+
+## 2.3.21
+- Better rules for task descriptions in non code files
+
+## 2.3.20
+- Add following lines as task description
+
 ## 2.3.19
 - Add All list names found in non-code files
 

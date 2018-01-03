@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117109-61068-1s2ivph.mfqz3yp66r/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117109-61068-1s2ivph.mfqz3yp66r/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117109-61068-1s2ivph.mfqz3yp66r/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117109-61068-169p2at.grtjf6flxr"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11803-23314-hs4yaa.xwply58kt9"
     ]
   ],
-  "_from": "../d-117109-61068-1s2ivph.mfqz3yp66r/package.tgz",
-  "_id": "ide-python@0.3.0",
+  "_from": "../d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
+  "_id": "ide-python@0.4.0",
   "_inCache": true,
   "_location": "/ide-python",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117109-61068-1s2ivph.mfqz3yp66r/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117109-61068-1s2ivph.mfqz3yp66r/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117109-61068-1s2ivph.mfqz3yp66r/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117109-61068-1s2ivph.mfqz3yp66r/package.tgz",
-  "_shasum": "cf687c2b773ade9aa9dc1ff97f6f1ea25db80fd5",
+  "_resolved": "file:../d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
+  "_shasum": "3da8b4d2f413e0232f75207a48d849628781391c",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117109-61068-1s2ivph.mfqz3yp66r/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117109-61068-169p2at.grtjf6flxr",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11803-23314-hs4yaa.xwply58kt9",
   "bugs": {
     "url": "https://github.com/lgeiger/ide-python/issues"
   },
@@ -216,7 +216,7 @@
     }
   },
   "dependencies": {
-    "atom-languageclient": "^0.6.4"
+    "atom-languageclient": "^0.7.1"
   },
   "description": "Python language support for Atom-IDE",
   "devDependencies": {},
@@ -228,12 +228,20 @@
   ],
   "homepage": "https://github.com/lgeiger/ide-python#readme",
   "keywords": [
-    "atom-ide",
     "ide",
     "python",
+    "atom-ide",
     "languageserver",
     "language-server-protocol",
-    "language-client"
+    "language-client",
+    "autocomplete",
+    "jedi",
+    "rope",
+    "pyflakes",
+    "pycodestyle",
+    "pydocstyle",
+    "yapf",
+    "mccabe"
   ],
   "license": "MIT",
   "main": "./lib/main",
@@ -271,11 +279,11 @@
       }
     }
   },
-  "readme": "# IDE-python package\n\nPython language support for Atom-IDE, powered by the [Python language server](https://github.com/palantir/python-language-server).\n\n![ide-python](https://user-images.githubusercontent.com/13285808/30352538-b9687a76-9820-11e7-8876-c22751645d36.png)\n\n## Early access\nThis package is currently an early access release.  You should also install the [atom-ide-ui](https://atom.io/packages/atom-ide-ui) package to expose the functionality within Atom.\n\n## Features\n\n* Auto completion\n* Code format\n* Diagnostics (errors & warnings)\n* Document outline\n* Find references\n* Hover\n\n## Installation\n\nInstall the language server with\n```bash\npip install python-language-server\n```\n\nVerify that everything is correctly installed by running `pyls --help` from the command line.\nIt should return\n```bash\nusage: pyls [-h] [--tcp] [--host HOST] [--port PORT]\n            [--log-config LOG_CONFIG | --log-file LOG_FILE] [-v]\n\nPython Language Server\n...\n```\n\n## Contributing\nAlways feel free to help out!  Whether it's [filing bugs and feature requests](https://github.com/lgeiger/ide-python/issues/new) or working on some of the [open issues](https://github.com/lgeiger/ide-python/issues), Atom's [guide for contributing to packages](https://github.com/atom/atom/blob/master/docs/contributing-to-packages.md) will help get you started.\n\n## License\nMIT License.  See [the license](LICENSE.md) for more details.\n",
+  "readme": "# IDE-python package\n\n[![Greenkeeper badge](https://badges.greenkeeper.io/lgeiger/ide-python.svg)](https://greenkeeper.io/)\n\nPython language support for [Atom-IDE](https://ide.atom.io/), powered by the [Python language server](https://github.com/palantir/python-language-server).\n\n![ide-python](https://user-images.githubusercontent.com/13285808/30352538-b9687a76-9820-11e7-8876-c22751645d36.png)\n\n## Requirements\n[`ide-python`](https://atom.io/packages/ide-python) requires [Atom `1.21+`](https://atom.io/) and the [`atom-ide-ui`](https://atom.io/packages/atom-ide-ui) package to expose the functionality within Atom.\n\n## Feature Providers\n* [Jedi](https://github.com/davidhalter/jedi) for Completions, Definitions, Hover, References, Signature Help, and Symbols\n* [Rope](https://github.com/python-rope/rope) for Completions and renaming\n* [Pyflakes](https://github.com/PyCQA/pyflakes) linter to detect various errors\n* [McCabe](https://github.com/PyCQA/mccabe) linter for complexity checking\n* [pycodestyle](https://github.com/PyCQA/pycodestyle) linter for style checking\n* [pydocstyle](https://github.com/PyCQA/pydocstyle) linter for docstring style checking\n* [YAPF](https://github.com/google/yapf) for code formatting\n\n## Installation\nInstall the language server with\n```bash\npip install python-language-server\n```\n\nVerify that everything is correctly installed and `pyls` is on your `PATH` by running `pyls --help` from the command line.\nIt should return\n```bash\nusage: pyls [-h] [--tcp] [--host HOST] [--port PORT]\n            [--log-config LOG_CONFIG | --log-file LOG_FILE] [-v]\n\nPython Language Server\n...\n```\n\n## Contributing\nAlways feel free to help out!  Whether it's [filing bugs and feature requests](https://github.com/lgeiger/ide-python/issues/new) or working on some of the [open issues](https://github.com/lgeiger/ide-python/issues), Atom's [guide for contributing to packages](https://github.com/atom/atom/blob/master/docs/contributing-to-packages.md) will help get you started.\n\n## License\nMIT License.  See [the license](LICENSE.md) for more details.\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lgeiger/ide-python.git"
   },
-  "version": "0.3.0"
+  "version": "0.4.0"
 }

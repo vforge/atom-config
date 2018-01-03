@@ -1,4 +1,4 @@
-'scopeName': 'htaccess'
+'scopeName': 'source.htaccess'
 'name': 'HTACCESS'
 'fileTypes': [
   'htaccess'
@@ -84,7 +84,7 @@
         'name': 'keyword.definition.auth.htaccess'
       }
       {
-        'match': '\\b(Allow|Deny|Order|Access-Control-Allow-Origin|Accept-Encoding)\\b'
+        'match': '\\b((?i:Allow|Deny|Order)|Access-Control-Allow-Origin|Accept-Encoding)\\b'
         'name': 'constant.keyword.access.htaccess'
       }
       {
@@ -124,7 +124,7 @@
         'name': 'keyword.deflate.htaccess'
       }
       {
-        'match': '\\b(DirectoryIndex|DirectorySlash)\\b'
+        'match': '\\b(DirectoryIndex|DirectorySlash|FallbackResource)\\b'
         'name': 'keyword.dir.htaccess'
       }
       {
