@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-c5kbgo.xoa8twqaor/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11804-29474-1vwfuil.2eb6yo80k9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-c5kbgo.xoa8twqaor/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-c5kbgo.xoa8twqaor/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11804-29474-1vwfuil.2eb6yo80k9/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11804-29474-1vwfuil.2eb6yo80k9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-1vielqg.qr0qvholxr"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11804-29474-11khvl2.7syfhcl3di"
     ]
   ],
-  "_from": "../d-117913-40922-c5kbgo.xoa8twqaor/package.tgz",
-  "_id": "activate-power-mode@2.6.0",
+  "_from": "../d-11804-29474-1vwfuil.2eb6yo80k9/package.tgz",
+  "_id": "activate-power-mode@2.7.0",
   "_inCache": true,
   "_location": "/activate-power-mode",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-c5kbgo.xoa8twqaor/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11804-29474-1vwfuil.2eb6yo80k9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-c5kbgo.xoa8twqaor/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-c5kbgo.xoa8twqaor/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11804-29474-1vwfuil.2eb6yo80k9/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11804-29474-1vwfuil.2eb6yo80k9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117913-40922-c5kbgo.xoa8twqaor/package.tgz",
-  "_shasum": "36376a21407250b54d8095669b93b56500bd1c7c",
+  "_resolved": "file:../d-11804-29474-1vwfuil.2eb6yo80k9/package.tgz",
+  "_shasum": "36da0f39ec385a33dad93f74243490f5b3085f01",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-c5kbgo.xoa8twqaor/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-1vielqg.qr0qvholxr",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11804-29474-1vwfuil.2eb6yo80k9/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11804-29474-11khvl2.7syfhcl3di",
   "author": {
     "name": "Joel Besada",
     "email": "joel@joelb.me",
@@ -75,5 +75,5 @@
     "type": "git",
     "url": "git+https://github.com/JoelBesada/activate-power-mode.git"
   },
-  "version": "2.6.0"
+  "version": "2.7.0"
 }
