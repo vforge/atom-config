@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35690-1o9theh.0dnhk0rudi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35690-1o9theh.0dnhk0rudi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35690-1o9theh.0dnhk0rudi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11803-23314-hs4yaa.xwply58kt9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118011-35690-iciujt.ior6l2fbt9"
     ]
   ],
-  "_from": "../d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
-  "_id": "ide-python@0.4.0",
+  "_from": "../d-118011-35690-1o9theh.0dnhk0rudi/package.tgz",
+  "_id": "ide-python@0.5.0",
   "_inCache": true,
   "_location": "/ide-python",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35690-1o9theh.0dnhk0rudi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35690-1o9theh.0dnhk0rudi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35690-1o9theh.0dnhk0rudi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
-  "_shasum": "3da8b4d2f413e0232f75207a48d849628781391c",
+  "_resolved": "file:../d-118011-35690-1o9theh.0dnhk0rudi/package.tgz",
+  "_shasum": "358cb295aade8cbcfb00cc5c0d9f7cdac078dddf",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-1ns2h3p.zza6y9zfr/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11803-23314-hs4yaa.xwply58kt9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35690-1o9theh.0dnhk0rudi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118011-35690-iciujt.ior6l2fbt9",
   "bugs": {
     "url": "https://github.com/lgeiger/ide-python/issues"
   },
@@ -124,7 +124,7 @@
             "all_scopes": {
               "title": "All Scopes",
               "type": "boolean",
-              "default": false,
+              "default": true,
               "description": "If enabled lists the names of all scopes instead of only the module namespace. Requires pyls 0.7.0+"
             }
           }
@@ -216,7 +216,7 @@
     }
   },
   "dependencies": {
-    "atom-languageclient": "^0.7.1"
+    "atom-languageclient": "^0.8.0"
   },
   "description": "Python language support for Atom-IDE",
   "devDependencies": {},
@@ -285,5 +285,5 @@
     "type": "git",
     "url": "git+https://github.com/lgeiger/ide-python.git"
   },
-  "version": "0.4.0"
+  "version": "0.5.0"
 }

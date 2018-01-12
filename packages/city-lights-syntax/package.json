@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e2n7s4.1mz5eo2yb9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35686-fqyov5.7lmfyo80k9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e2n7s4.1mz5eo2yb9/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e2n7s4.1mz5eo2yb9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35686-fqyov5.7lmfyo80k9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35686-fqyov5.7lmfyo80k9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11803-23314-1k89b27.9b1qjs8aor"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118011-35686-1xnrspn.l0eb8x5hfr"
     ]
   ],
-  "_from": "../d-11803-23314-e2n7s4.1mz5eo2yb9/package.tgz",
-  "_id": "city-lights-syntax@1.1.5",
+  "_from": "../d-118011-35686-fqyov5.7lmfyo80k9/package.tgz",
+  "_id": "city-lights-syntax@1.1.6",
   "_inCache": true,
   "_location": "/city-lights-syntax",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e2n7s4.1mz5eo2yb9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35686-fqyov5.7lmfyo80k9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e2n7s4.1mz5eo2yb9/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e2n7s4.1mz5eo2yb9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35686-fqyov5.7lmfyo80k9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35686-fqyov5.7lmfyo80k9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11803-23314-e2n7s4.1mz5eo2yb9/package.tgz",
-  "_shasum": "2f525e72be1831796332c748020213e3b7783ed1",
+  "_resolved": "file:../d-118011-35686-fqyov5.7lmfyo80k9/package.tgz",
+  "_shasum": "364cb0eaa61ea298676c8f0fd6d0c659154c7347",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23314-e2n7s4.1mz5eo2yb9/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11803-23314-1k89b27.9b1qjs8aor",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118011-35686-fqyov5.7lmfyo80k9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118011-35686-1xnrspn.l0eb8x5hfr",
   "author": {
     "name": "Noud Adrichem"
   },
@@ -69,5 +69,5 @@
     "url": "git+https://github.com/Yummygum/city-lights-syntax-atom.git"
   },
   "theme": "syntax",
-  "version": "1.1.5"
+  "version": "1.1.6"
 }
