@@ -5,6 +5,7 @@
 @grey: #6a737d;
 @light-grey: #eaecef;
 @purple: #6f42c1;
+@red: #d73a49;
 
 atom-text-editor {
   // Fix wrap guide color.
@@ -24,6 +25,7 @@ atom-text-editor {
 
     // Fix static function color.
     .syntax--static .syntax--function { color: @black; }
+    .syntax--static .syntax--closure .syntax--function { color: @red; }
 
     // Fix function name color.
     .syntax--function-call > .syntax--function.syntax--name,
