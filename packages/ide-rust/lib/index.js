@@ -1,6 +1,7 @@
 const cp = require("child_process")
 const os = require("os")
 const path = require("path")
+const toml = require('toml')
 const _ = require('underscore-plus')
 const RlsProject = require('./rls-project.js')
 const { CompositeDisposable, Disposable } = require('atom')
@@ -58,6 +59,34 @@ function atomPrompt(message, options, buttons) {
     )
 
     notification.onDidDismiss(() => resolve(null))
+  })
+}
+
+/** @return {Promise<string>} new version of update available (falsy otherwise) */
+function checkForToolchainUpdates() {
+  const toolchain = configToolchain()
+
+  return exec(`rustup run ${toolchain} rustc --version`).then(({ stdout }) => {
+    return new Promise((resolve, reject) => {
+      require("https").get(`https://static.rust-lang.org/dist/channel-rust-${toolchain}.toml`,
+        res => {
+        if (res.statusCode !== 200) {
+          return reject(new Error(`check for toolchain update failed, status: ${res.statusCode}`))
+        }
+
+        res.setEncoding("utf8")
+        let body = ""
+        res.on("data", data => body += data)
+        res.on("end", () => {
+          // use a subsection as toml is slow to parse fully
+          let rustcInfo = body.match(/(\[pkg\.rustc\][^\[]*)/m)
+          if (!rustcInfo) return reject(new Error('could not split channel toml output'))
+          let rustcVersion = toml.parse(rustcInfo[1]).pkg.rustc.version.trim()
+          resolve(!stdout.trim().endsWith(rustcVersion) && body.includes('rls-preview') &&
+            `rustc ${rustcVersion}`)
+        })
+      })
+    })
   })
 }
 
@@ -169,24 +198,6 @@ function serverEnv(toolchain) {
 }
 
 /**
- * Logs stderr if `core.debugLSP` is enabled
- * TODO should be handled upstream, see https://github.com/atom/atom-languageclient/issues/157
- * @param {process} process
- * @return {process}
- */
-function logStdErr(process) {
-  if (atom.config.get('core.debugLSP')) {
-    process.stderr.on('data', chunk => {
-      chunk.toString()
-        .split('\n')
-        .filter(l => l)
-        .forEach(line => console.warn('Rls-stderr', line))
-    })
-  }
-  return process
-}
-
-/**
  * Check for and install Rls
  * @param [busySignalService]
  */
@@ -253,7 +264,66 @@ class RustLanguageClient extends AutoLanguageClient {
           ' For example ***beta*** or ***nightly-2017-11-01***.',
         type: 'string',
         default: 'nightly'
+      },
+      checkForToolchainUpdates: {
+        description: 'Check on startup for toolchain updates, prompting to install if available',
+        type: 'boolean',
+        default: true
       }
+    }
+  }
+
+  /**
+   * @param {string} reason Reason for the restart, shown in the prompt
+   * TODO I'd actually like to restart all servers with the new toolchain here
+   * but this doesn't currently seem possible see https://github.com/atom/atom-languageclient/issues/135
+   * Until it is possible a 'Reload' prompt is helpful
+   */
+  _restartLanguageServers(reason) {
+    atom.notifications.addSuccess(reason, {
+      _src: 'ide-rust',
+      dismissable: true,
+      detail: 'Close and reopen editor windows or reload atom to ensure usage of the new toolchain',
+      buttons: [{
+        text: 'Reload',
+        className: 'btn-warning',
+        onDidClick: () => atom.commands.dispatch(window, 'window:reload')
+      }]
+    })
+  }
+
+  // check for toolchain updates if installed & not dated
+  _promptToUpdateToolchain() {
+    const toolchain = configToolchain()
+    const datedRegex = /-\d{4,}-\d{2}-\d{2}$/
+
+    if (atom.config.get('ide-rust.checkForToolchainUpdates') && !datedRegex.test(toolchain)) {
+      checkForToolchainUpdates()
+        .then(newVersion => {
+          if (newVersion) {
+            atom.notifications.addInfo(`Rls \`${toolchain}\` toolchain update available`, {
+              description: newVersion,
+              _src: 'ide-rust',
+              dismissable: true,
+              buttons: [{
+                text: 'Update',
+                onDidClick: () => {
+                  clearIdeRustInfos()
+
+                  let updatePromise = exec(`rustup update ${toolchain}`)
+                    .then(() => checkToolchain())
+                    .then(() => checkRls())
+                    .then(() => this._restartLanguageServers(`Updated Rls toolchain`))
+                    .catch(e => console.error(e))
+                  this.busySignalService && this.busySignalService.reportBusyWhile(
+                    `Updating rust \`${toolchain}\` toolchain`,
+                    () => updatePromise)
+                }
+              }]
+            })
+          }
+        })
+        .catch(e => console.error(e))
     }
   }
 
@@ -279,21 +349,12 @@ class RustLanguageClient extends AutoLanguageClient {
       _.debounce(({ newValue }) => {
         checkToolchain(this.busySignalService)
           .then(() => checkRls(this.busySignalService))
-          .then(() => {
-            // TODO I'd actually like to restart all servers with the new toolchain here
-            // but this doesn't currently seem possible see https://github.com/atom/atom-languageclient/issues/135
-            // Until it is possible the 'Reload' button should help
-            atomPrompt(`Switched Rls toolchain to \`${newValue}\``, {
-              detail: 'Close and reopen editor windows or reload ' +
-                'atom to ensure usage of the new toolchain',
-              buttons: [{
-                text: 'Reload',
-                onDidClick: () => atom.commands.dispatch(window, 'window:reload')
-              }]
-            })
-          })
+          .then(() => this._restartLanguageServers(`Switched Rls toolchain to \`${newValue}\``))
+          .then(() => this._promptToUpdateToolchain())
       }, 1000)
     ))
+
+    this._promptToUpdateToolchain()
   }
 
   deactivate() {
@@ -327,7 +388,10 @@ class RustLanguageClient extends AutoLanguageClient {
     // TODO ignore all files and wait for `client/registerCapability`
     // to inform us of the correct files to watch, until that's implemented
     // these filters take eliminate the brunt of the watch message spam
-    return !filePath.includes('/.git/') && !filePath.includes('/target/rls/')
+    return !filePath.includes('/.git/') &&
+      !filePath.includes('/target/rls/') &&
+      !filePath.includes('/target/debug/') &&
+      !filePath.includes('/target/release/')
   }
 
   startServerProcess() {
@@ -338,18 +402,18 @@ class RustLanguageClient extends AutoLanguageClient {
         atom.notifications.addInfo(`Using rls command \`${cmdOverride}\``)
         this._warnedAboutRlsCommandOverride = true
       }
-      return logStdErr(cp.spawn(cmdOverride, {
+      return cp.spawn(cmdOverride, {
         env: serverEnv(),
         shell: true
-      }))
+      })
     }
 
     return checkToolchain(this.busySignalService)
       .then(toolchain => checkRls(this.busySignalService).then(() => toolchain))
       .then(toolchain => {
-        return logStdErr(cp.spawn("rustup", ["run", configToolchain(), "rls"], {
+        return cp.spawn("rustup", ["run", configToolchain(), "rls"], {
           env: serverEnv(toolchain)
-        }))
+        })
       })
   }
 }
