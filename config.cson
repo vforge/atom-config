@@ -53,6 +53,7 @@
     highlightMatchingLineNumber: true
   "branch-status":
     personalAccessToken: "e5d4c867f6cb535fb7160f2b734dfe110b383d36"
+  "city-lights-ui": {}
   "command-palette":
     preserveLastSearch: true
   core:

@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23411-l6b3cv.qpfyywg66r/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-9144-14qdzi3.x7sf4aq0k9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23411-l6b3cv.qpfyywg66r/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23411-l6b3cv.qpfyywg66r/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-9144-14qdzi3.x7sf4aq0k9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-9144-14qdzi3.x7sf4aq0k9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11803-23411-q3se1g.ce9uqbbj4i"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118019-9144-56ve7r.fwmbexko6r"
     ]
   ],
-  "_from": "../d-11803-23411-l6b3cv.qpfyywg66r/package.tgz",
-  "_id": "atom-ide-ui@0.7.1",
+  "_from": "../d-118019-9144-14qdzi3.x7sf4aq0k9/package.tgz",
+  "_id": "atom-ide-ui@0.7.2",
   "_inCache": true,
   "_location": "/atom-ide-ui",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23411-l6b3cv.qpfyywg66r/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-9144-14qdzi3.x7sf4aq0k9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23411-l6b3cv.qpfyywg66r/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23411-l6b3cv.qpfyywg66r/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-9144-14qdzi3.x7sf4aq0k9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-9144-14qdzi3.x7sf4aq0k9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11803-23411-l6b3cv.qpfyywg66r/package.tgz",
-  "_shasum": "c1430cfb33e0b37b1b0ab92f3ff5c6c2544d1315",
+  "_resolved": "file:../d-118019-9144-14qdzi3.x7sf4aq0k9/package.tgz",
+  "_shasum": "09120778bb886d08f68f4da178a6fd9bac69f7b6",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11803-23411-l6b3cv.qpfyywg66r/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11803-23411-q3se1g.ce9uqbbj4i",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-9144-14qdzi3.x7sf4aq0k9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118019-9144-56ve7r.fwmbexko6r",
   "bugs": {
     "url": "https://github.com/facebook-atom/atom-ide-ui/issues"
   },
@@ -42,6 +42,7 @@
     "async-to-generator": "1.1.0",
     "classnames": "2.2.5",
     "command-exists": "1.2.2",
+    "dedent": "0.6.0",
     "escape-string-regexp": "1.0.5",
     "event-kit": "2.2.0",
     "fs-plus": "2.9.3",
@@ -51,7 +52,7 @@
     "invariant": "2.2.2",
     "log4js": "1.1.1",
     "lru-cache": "4.0.2",
-    "marked": "0.3.6",
+    "marked": "0.3.9",
     "mime-types": "2.1.16",
     "mkdirp": "0.5.1",
     "mv": "2.1.1",
@@ -91,7 +92,6 @@
     "babel-plugin-transform-react-jsx": "6.24.1",
     "babel-plugin-transform-strict-mode": "6.24.1",
     "codecov": "2.3.0",
-    "dedent": "0.6.0",
     "eslint": "4.9.0",
     "eslint-plugin-dependencies": "2.4.0",
     "eslint-plugin-flowtype": "2.39.1",
@@ -101,7 +101,7 @@
     "eslint-plugin-prettier": "2.3.1",
     "eslint-plugin-react": "7.4.0",
     "eslint-plugin-rulesdir": "0.1.0",
-    "flow-bin": "0.61.0",
+    "flow-bin": "0.63.1",
     "jasmine-node": "1.14.5",
     "nyc": "11.2.1",
     "prettier": "1.9.1",
@@ -131,5 +131,5 @@
     "release-transpile": "./modules/nuclide-node-transpiler/bin/release-transpile.js",
     "test": "npm run flow && npm run lint-all && ./scripts/test.js"
   },
-  "version": "0.7.1"
+  "version": "0.7.2"
 }

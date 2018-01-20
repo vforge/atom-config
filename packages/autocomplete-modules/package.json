@@ -2,43 +2,44 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-3702-ajrwr7.8cggsc3di/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-67716-1yll0h1.it6luwhfr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-3702-ajrwr7.8cggsc3di/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-3702-ajrwr7.8cggsc3di/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-67716-1yll0h1.it6luwhfr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-67716-1yll0h1.it6luwhfr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117101-3702-rval48.x18gqlg14i"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118019-67716-185hyks.r0r6pc766r"
     ]
   ],
-  "_from": "../d-117101-3702-ajrwr7.8cggsc3di/package.tgz",
-  "_id": "autocomplete-modules@1.8.0",
+  "_from": "../d-118019-67716-1yll0h1.it6luwhfr/package.tgz",
+  "_id": "autocomplete-modules@1.10.0",
   "_inCache": true,
   "_location": "/autocomplete-modules",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-3702-ajrwr7.8cggsc3di/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-67716-1yll0h1.it6luwhfr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-3702-ajrwr7.8cggsc3di/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-3702-ajrwr7.8cggsc3di/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-67716-1yll0h1.it6luwhfr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-67716-1yll0h1.it6luwhfr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117101-3702-ajrwr7.8cggsc3di/package.tgz",
-  "_shasum": "ac6bf8453a45b614e71013a245782ac2de195b32",
+  "_resolved": "file:../d-118019-67716-1yll0h1.it6luwhfr/package.tgz",
+  "_shasum": "d5a9a76a3e4641b3f5dcbe93e5b188f346912673",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117101-3702-ajrwr7.8cggsc3di/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117101-3702-rval48.x18gqlg14i",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118019-67716-1yll0h1.it6luwhfr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118019-67716-185hyks.r0r6pc766r",
   "activationHooks": [
     "language-javascript:grammar-used",
     "language-babel:grammar-used",
     "language-coffee-script:grammar-used",
+    "language-typescript:grammar-used",
     "language-ts:grammar-used",
     "language-typescript-grammars-only:grammar-used",
     "atom-typescript:grammar-used"
@@ -48,12 +49,11 @@
   },
   "dependencies": {
     "bluebird": "3.5.1",
-    "esm-exports": "0.8.4",
+    "esm-exports": "^0.8.4",
     "find-babel-config": "1.1.0",
     "fuzzaldrin": "2.1.0",
     "lodash.escaperegexp": "4.1.2",
-    "lodash.get": "4.4.2",
-    "resolve": "1.5.0"
+    "lodash.get": "4.4.2"
   },
   "description": "Autocomplete for require/import statements",
   "devDependencies": {
@@ -84,7 +84,7 @@
       }
     }
   },
-  "readme": "# Atom autocomplete for modules.\n\n[![Build Status](https://circleci.com/gh/nkt/atom-autocomplete-modules/tree/master.svg?style=shield)](https://circleci.com/gh/nkt/atom-autocomplete-modules/tree/master)\n[![Current version](https://img.shields.io/apm/v/autocomplete-modules.svg)](https://atom.io/packages/autocomplete-modules)\n[![Downloads](https://img.shields.io/apm/dm/autocomplete-modules.svg)](https://atom.io/packages/autocomplete-modules)\n\nAutocomplete for require/import statements.\n\n![Preview](https://cloud.githubusercontent.com/assets/3505878/7442538/9c1892cc-f11e-11e4-8070-3fa8b79beefc.gif)\n\n## Configuration\n\n**Include file extension:**  Include the file's extension when filling in the completion.\n\n**Vendor directories:** A list of directories to search for modules relative to the project\n  root. (*Default:* `node_modules`)\n\n**Webpack support:** Look for webpack configuration file and add the `resolve.modulesDirectories` paths to the module search scope.\n\n**Webpack configuration filename:** Name of the configuration file to look for. (*Default:* `webpack.config.js`)\n\n**Babel Plugin Module Resolver support:** Look for a [Babel Plugin Module Resolver](https://github.com/tleunen/babel-plugin-module-resolver) configuration and use it for the autocomplete suggestions.\n\nLicense\n-------\n[![MIT License](https://img.shields.io/apm/l/autocomplete-modules.svg)](LICENSE)\n",
+  "readme": "# Atom autocomplete for modules.\n\n[![Build Status](https://circleci.com/gh/nkt/atom-autocomplete-modules/tree/master.svg?style=shield)](https://circleci.com/gh/nkt/atom-autocomplete-modules/tree/master)\n[![Current version](https://img.shields.io/apm/v/autocomplete-modules.svg)](https://atom.io/packages/autocomplete-modules)\n[![Downloads](https://img.shields.io/apm/dm/autocomplete-modules.svg)](https://atom.io/packages/autocomplete-modules)\n\nAutocomplete for require/import statements.\n\n![Preview](https://cloud.githubusercontent.com/assets/3505878/7442538/9c1892cc-f11e-11e4-8070-3fa8b79beefc.gif)\n\n## Configuration\n\n**Include file extension:**  Include the file's extension when filling in the completion.\n\n**Vendor directories:** A list of directories to search for modules relative to the project\n  root. (*Default:* `node_modules`)\n\n**Webpack support:** Look for webpack configuration file and add the `resolve.modulesDirectories` paths to the module search scope.\n\n**Webpack configuration filename:** Name of the configuration file to look for. (*Default:* `webpack.config.js`)\n\n**Babel Plugin Module Resolver support:** Look for a [Babel Plugin Module Resolver](https://github.com/tleunen/babel-plugin-module-resolver) configuration and use it for the autocomplete suggestions.\n\n## Troubleshooting\n\nThis package only activates if one of the following grammars/languages are being used:\n* [language-javascript](https://atom.io/packages/language-javascript)\n* [language-babel](https://atom.io/packages/language-babel)\n* [language-coffee-script](https://atom.io/packages/language-coffee-script)\n* [language-ts](https://atom.io/packages/language-ts)\n* [language-typescript-grammars-only](https://atom.io/packages/language-typescript-grammars-only)\n* [language-typescript](https://atom.io/packages/language-typescript)\n* [atom-typescript](https://atom.io/packages/atom-typescript)\n\nIf this package doesn't seem to be working, check that you are using one of these.\nIf you want another grammar/language to be supported, please submit an issue.\n\nLicense\n-------\n[![MIT License](https://img.shields.io/apm/l/autocomplete-modules.svg)](LICENSE)\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
@@ -94,5 +94,5 @@
     "pretest": "eslint src/",
     "test": "exit 0"
   },
-  "version": "1.8.0"
+  "version": "1.10.0"
 }
