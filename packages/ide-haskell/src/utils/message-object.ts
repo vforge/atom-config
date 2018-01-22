@@ -8,7 +8,9 @@ export class MessageObject {
     // noop
   }
 
-  public static fromObject = (message: UPI.TMessage | MessageObject): MessageObject => {
+  public static fromObject = (
+    message: UPI.TMessage | MessageObject,
+  ): MessageObject => {
     if (message instanceof MessageObject) {
       return message
     } else {
@@ -18,7 +20,7 @@ export class MessageObject {
 
   @Memoize()
   public toHtml(): string {
-    if (cast.isTextMessage(this.msg) && this.msg.highlighter) {
+    if (cast.isTextMessage(this.msg) && this.msg.highlighter !== undefined) {
       const html = highlight({
         fileContents: this.msg.text,
         scopeName: this.msg.highlighter,

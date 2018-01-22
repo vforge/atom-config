@@ -4,14 +4,17 @@ import { ResultsDB, ResultItem } from '../../results-db'
 
 export interface IProps extends JSX.Props {
   model: ResultsDB
-  filter: (item: ResultItem) => boolean
+  filter?: (item: ResultItem) => boolean
 }
 
 // tslint:disable-next-line:no-unsafe-any
 export class OutputPanelItems implements JSX.ElementClass {
   // tslint:disable-next-line:no-uninitialized
   private element: HTMLElement
-  private itemMap: WeakMap<ResultItem, { component: OutputPanelItem, domNode: HTMLElement }>
+  private itemMap: WeakMap<
+    ResultItem,
+    { component: OutputPanelItem; domNode: HTMLElement }
+  >
   constructor(public props: IProps) {
     this.itemMap = new WeakMap()
     etch.initialize(this)
@@ -54,16 +57,20 @@ export class OutputPanelItems implements JSX.ElementClass {
   }
 
   public atEnd() {
-    return (this.element.scrollTop >= (this.element.scrollHeight - this.element.clientHeight))
+    return (
+      this.element.scrollTop >=
+      this.element.scrollHeight - this.element.clientHeight
+    )
   }
 
   private renderItems() {
-    return Array.from(this.props.model.filter(this.props.filter)).map(
-      (item) => {
-        const view = <OutputPanelItem model={item} />
-        this.itemMap.set(item, view as any)
-        return view
-      },
-    )
+    const items = this.props.filter
+      ? this.props.model.filter(this.props.filter)
+      : this.props.model.results()
+    return Array.from(items).map((item) => {
+      const view = <OutputPanelItem model={item} />
+      this.itemMap.set(item, view as any)
+      return view
+    })
   }
 }

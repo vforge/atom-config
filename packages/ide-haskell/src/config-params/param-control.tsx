@@ -16,21 +16,13 @@ export class ParamControl<T> implements UPI.IElementObject<IProps<T>> {
   // tslint:disable-next-line: no-uninitialized
   public element: HTMLElement
   private disposables: CompositeDisposable
-  private hiddenValue?: boolean
+  private hiddenValue: boolean
   private value?: T
   private storeDisposable?: Disposable
   constructor(public props: IProps<T>) {
     this.disposables = new CompositeDisposable()
 
-    this.disposables.add(
-      atom.config.observe(
-        'ide-haskell.hideParameterValues',
-        (val: boolean) => {
-          this.hiddenValue = val
-          // tslint:disable-next-line:no-floating-promises
-          if (this.element) { this.update() }
-        }),
-    )
+    this.hiddenValue = atom.config.get('ide-haskell.hideParameterValues')
 
     this.initStore()
 
@@ -39,16 +31,35 @@ export class ParamControl<T> implements UPI.IElementObject<IProps<T>> {
     etch.initialize(this)
 
     this.disposables.add(
+      atom.config.onDidChange(
+        'ide-haskell.hideParameterValues',
+        ({ newValue }) => {
+          this.hiddenValue = newValue
+          // tslint:disable-next-line:no-floating-promises
+          this.update()
+        },
+      ),
+    )
+
+    this.disposables.add(
       atom.tooltips.add(this.element, { title: this.tooltipTitle }),
     )
   }
 
   public render() {
-    const classList = [`ide-haskell--${this.props.pluginName}`, `ide-haskell-param--${this.props.name}`]
-    if (this.hiddenValue) { classList.push('hidden-value') }
+    const classList = [
+      `ide-haskell--${this.props.pluginName}`,
+      `ide-haskell-param--${this.props.name}`,
+    ]
+    if (this.hiddenValue) {
+      classList.push('hidden-value')
+    }
     return (
       // tslint:disable:no-unsafe-any
-      <ide-haskell-param class={classList.join(' ')} on={{ click: async () => this.setValue() }}>
+      <ide-haskell-param
+        class={classList.join(' ')}
+        on={{ click: async () => this.setValue() }}
+      >
         <ide-haskell-param-value>
           {this.props.spec.displayTemplate(this.value)}
         </ide-haskell-param-value>
@@ -57,11 +68,15 @@ export class ParamControl<T> implements UPI.IElementObject<IProps<T>> {
     )
   }
 
-  public async update(props?: IProps<T>) {
+  public async update(props?: Partial<IProps<T>>) {
     if (props) {
       const { pluginName, name, spec, store } = props
-      if (pluginName) { this.props.pluginName = pluginName }
-      if (name) { this.props.name = name }
+      if (pluginName !== undefined) {
+        this.props.pluginName = pluginName
+      }
+      if (name !== undefined) {
+        this.props.name = name
+      }
       if (spec && this.props.spec !== spec) {
         this.props.spec = spec
         this.initSpec()
@@ -86,31 +101,43 @@ export class ParamControl<T> implements UPI.IElementObject<IProps<T>> {
   }
 
   private initStore() {
-    if (this.storeDisposable) { this.disposables.remove(this.storeDisposable) }
-    this.storeDisposable =
-      this.props.store.onDidUpdate<T>(this.props.pluginName, this.props.name, ({ value }) => {
+    if (this.storeDisposable) {
+      this.disposables.remove(this.storeDisposable)
+    }
+    this.storeDisposable = this.props.store.onDidUpdate<T>(
+      this.props.pluginName,
+      this.props.name,
+      ({ value }) => {
         this.value = value
         // tslint:disable-next-line:no-floating-promises
         this.update()
-      })
+      },
+    )
     this.disposables.add(this.storeDisposable)
     // tslint:disable-next-line:no-floating-promises
     this.setValueInitial()
   }
 
   private async setValueInitial() {
-    this.value = await this.props.store.getValueRaw<T>(this.props.pluginName, this.props.name)
+    this.value = await this.props.store.getValueRaw<T>(
+      this.props.pluginName,
+      this.props.name,
+    )
     return this.update()
   }
 
   private initSpec() {
-    if (!this.props.spec.displayName) {
-      this.props.spec.displayName = this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)
+    if (this.props.spec.displayName === undefined) {
+      this.props.spec.displayName =
+        this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1)
     }
   }
 
   private tooltipTitle = (): string => {
-    const displayName = this.props.spec.displayName || 'Undefined name'
+    const displayName =
+      this.props.spec.displayName !== undefined
+        ? this.props.spec.displayName
+        : 'Undefined name'
     if (this.hiddenValue) {
       return `${displayName}: ${this.props.spec.displayTemplate(this.value)}`
     } else {

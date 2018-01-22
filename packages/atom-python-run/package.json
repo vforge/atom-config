@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-18492-l69p10.cud4nghkt9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-18492-l69p10.cud4nghkt9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-18492-l69p10.cud4nghkt9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171021-35714-1frinkj.m97ljwnrk9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118022-18492-1akgcx9.pse6nr8uxr"
     ]
   ],
-  "_from": "../d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
-  "_id": "atom-python-run@0.9.5",
+  "_from": "../d-118022-18492-l69p10.cud4nghkt9/package.tgz",
+  "_id": "atom-python-run@0.9.6",
   "_inCache": true,
   "_location": "/atom-python-run",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-18492-l69p10.cud4nghkt9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-18492-l69p10.cud4nghkt9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-18492-l69p10.cud4nghkt9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
-  "_shasum": "1f7103c2ebaa2a2a8bd4f3a77a0f567b9f1770c1",
+  "_resolved": "file:../d-118022-18492-l69p10.cud4nghkt9/package.tgz",
+  "_shasum": "f1981a4baebb7bdf19eb2f5676f8707d9eb1e8cc",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-ubqw9k.e3mcej0pb9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171021-35714-1frinkj.m97ljwnrk9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-18492-l69p10.cud4nghkt9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118022-18492-1akgcx9.pse6nr8uxr",
   "bugs": {
     "url": "https://github.com/foreshadow/atom-python-run/issues"
   },
@@ -52,11 +52,11 @@
   "main": "./lib/atom-python-run.js",
   "name": "atom-python-run",
   "optionalDependencies": {},
-  "readme": "# atom-python-run package\n[![GitHub issues](https://img.shields.io/github/issues/foreshadow/atom-python-run.svg?style=plastic)](https://github.com/foreshadow/atom-python-run/issues)\n[![GitHub stars](https://img.shields.io/github/stars/foreshadow/atom-python-run.svg?style=plastic)](https://github.com/foreshadow/atom-python-run/stargazers)\n[![GitHub forks](https://img.shields.io/github/forks/foreshadow/atom-python-run.svg?style=plastic)](https://github.com/foreshadow/atom-python-run/network)\n[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=plastic)](https://raw.githubusercontent.com/foreshadow/atom-python-run/master/LICENSE.md)\n\nRun your python (.py) source file using `F5` or `F6`!\n\n![](https://cloud.githubusercontent.com/assets/2712675/18710388/9a665ed8-8037-11e6-803a-35e4555e89d0.jpg)\n\n# Prerequisite\n\n- Add the directory of `python` (or the intended interpreter) to ```PATH```.\n\n- Filter file extensions (unset by default) (optional)\n\n# Method of use\n\n1. Open a source file.\n2. Hit `F5` or `F6` to run.\n  - **It will save the file in current editor immediately without a confirmation, be aware.**\n\n\n# Features\n\n- Using `python`\n  - Almost the same console with python IDLE, which provides syntax error and runtime error messages.\n- CodeBlocks debug console style\n  - Shows return value and execution time\n    - It is a rough time based on real time rather than CPU kernel / user time\n\n# Settings\n\n- Extension filter\n  - It accepts all extension by default (empty value), you can change it into `.py`\n    - or an array `.py, .something-else`\n\n- Command\n  - You can hack it using these variant, or\n    - `{file}` = `{dir}/{name}{ext}`\n  - Run with interactive mode, or\n    - `python -i {file}`\n  - Run with idle, and you may need the next setting.\n    - `pythonw C:\\python27\\Lib\\idlelib\\idle.pyw -r {file}`\n\n- Exit immediately\n  - You can disable the default cp wrapper if you don't want it.\n\n# Compatibility\n\n- Cross Platform Compatible\n  - Runs on Windows, Mac OS X, and Linux\n\n- True Arbitrary Execution\n  - Global python is the default interpreter\n  - Execute using any interpreter\n  - Pass options to the given interpreter\n\n- Python 2 and 3\n  - Note: If you have problems executing, you can install a global version of latest `python2.7.x` (even if you have `python3.x.x` installed). Please report any `python3` issues if you want to avoid installing a global `python2` version.\n\n# Issues\n- The new version of atom-python-run fully supports logging.\n  - Please post these logs with along with issue you're experiencing.\n  - Note that there are two logs in case the latter fails. The first log is the console log and the second log is created by the cp main.py executable.\n\n- How to access Atoms Console Log\n  - Windows/Linux\n    - Ctrl + Shift + I\n  - Mac OS X\n    - Cmd + Alt + I\n  - Copy and paste the console output along with your post.\n\n- How to access `cp`'s built-in log\n  - Windows\n    1. Open file explorer\n    2. Click the location bar (where the file path usually is)\n    3. Type in `%userprofile%\\.atom\\packages\\atom-python-run`\n    4. Locate, Open, and Copy the contents of the cp.log file along with your post.\n  - Mac OS X/Linux\n    1. Open a terminal window.\n    `$ cat ~/.atom/packages/atom-python-run/cp.log`\n    2. Copy and paste the contents along with your post.\n  - NOTE: If the `cp.log` file is missing, empty, or inaccurate, please note that this was case in your post.\n\n- Detailed issues are well presented issues. This will help us locate your issue.\n\n- New an issue if you have any idea of new features.\n\n![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)\n\nThis is a package for Atom\n",
+  "readme": "# atom-python-run package\n[![GitHub issues](https://img.shields.io/github/issues/foreshadow/atom-python-run.svg?style=plastic)](https://github.com/foreshadow/atom-python-run/issues)\n[![GitHub stars](https://img.shields.io/github/stars/foreshadow/atom-python-run.svg?style=plastic)](https://github.com/foreshadow/atom-python-run/stargazers)\n[![GitHub forks](https://img.shields.io/github/forks/foreshadow/atom-python-run.svg?style=plastic)](https://github.com/foreshadow/atom-python-run/network)\n[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=plastic)](https://raw.githubusercontent.com/foreshadow/atom-python-run/master/LICENSE.md)\n\nRun your python (.py) source file using `F5` or `F6`!\n\n![](https://cloud.githubusercontent.com/assets/2712675/18710388/9a665ed8-8037-11e6-803a-35e4555e89d0.jpg)\n\n# Contents\n- [Prerequisite](https://github.com/foreshadow/atom-python-run#prerequisite)\n- [Method of use](https://github.com/foreshadow/atom-python-run#method-of-use)\n- [Features](https://github.com/foreshadow/atom-python-run#features)\n- [Settings](https://github.com/foreshadow/atom-python-run#settings)\n- [Compatability](https://github.com/foreshadow/atom-python-run#compatibility)\n- [Documentation](https://github.com/foreshadow/atom-python-run/wiki)\n- [Issues](https://github.com/foreshadow/atom-python-run#issues)\n- [Logs](https://github.com/foreshadow/atom-python-run#logs)\n- [Development](https://github.com/foreshadow/atom-python-run#development)\n\n# Prerequisite\n\n- Atom Text Editor (nightly or latest stable release)\n- Python 2 and/or 3\n- Add Python (and any other interpreters) to the `PATH` environment variable.\n\n# Method of use\n\n1. Open a source file.\n2. Hit `F5` or `F6` to run.\n  - **It will save the file in current editor immediately without a confirmation, be aware.**\n\n# Features\n\n- Using `python`\n  - Almost the same console with python IDLE, which provides syntax error and runtime error messages.\n- CodeBlocks debug console style\n  - Shows return value and execution time\n    - It is a rough time based on real time rather than CPU kernel / user time\n\n# Settings\n\n- Extension filter\n  - Accepts all file extensions by default (empty value), you can change it into `.py`\n    - or an array `.py, .js, .something-else`\n\n- Command\n  - You can hack it using these variant, or\n    - `{file}` = `{dir}/{name}{ext}`\n  - Run with interactive mode, or\n    - `python -i {file}`\n  - Run with idle, and you may need the next setting.\n    - `pythonw C:\\python27\\Lib\\idlelib\\idle.pyw -r {file}`\n  - Pass arguments\n    - `python {file} these are arguments for file`\n  - Pause\n    - Show elapsed time and pause `cp`\n      - Exit immediately\n      - You can disable the default cp wrapper if you don't want it.\n- Pipe to File\n  - Redirect standard output to a file instead of the screen\n    - Name the path and file to write to\n      - `/some/file/path/to/my-programs-output.txt`\n    - Create the file in the current working directory by omitting a path\n      - `my-programs-output.txt`\n- Terminal\n  - Left empty by default (uses the systems default terminal)\n  - Choose the type of terminal you'd like to use instead\n    - `terminator, -x`\n\n# Compatibility\n\n- Cross Platform Compatible\n  - Runs on Windows, Mac OS X, and Linux\n\n- True Arbitrary Execution\n  - Global python is the default interpreter\n  - Execute using any interpreter\n  - Pass options to the given interpreter\n  - Pass arguments to the program to be executed\n\n- Python 2 and 3\n  - Note: If you have problems executing, you can install a global version of latest `python2.7.x` (even if you have `python3.x.x` installed). Please report any `python3` issues if you want to avoid installing a global `python2` version.\n\n# Issues\n- Before newing an issue, check to see if someone else is experiencing any related issues.\n- Check to see if any issues that were closed resemble your issue and re-open it addressing that you're experiencing a similar issue.\n- Provide details about your issue, such as errors and/or logs.\n- Provide reproduction steps (we can't help you if we don't know how to reproduce the error!).\n\n# Logs\n- The `atom-python-run` plug-in fully supports logging.\n  - Please post these logs along with any issue you're experiencing (we can't help you if we don't know what's happening!).\n  - Note that there are 2 logs in case the latter fails. The first log is the console log and the second log is created by the cp main.py executable.\n\n- How to access Atoms Console Log\n  - Windows/Linux\n    - Ctrl + Shift + I\n  - Mac OS X\n    - Cmd + Alt + I\n  - Click on the `console` tab\n  - Copy and paste the console output along with your post.\n\n- How to access `cp`'s built-in log\n  - Windows\n    1. Open file explorer\n    2. Click the location bar (where the file path usually is)\n    3. Type in `%userprofile%\\.atom\\packages\\atom-python-run`\n    4. Locate, Open, and Copy the contents of the cp.log file along with your post.\n  - Mac OS X/Linux\n    1. Open a terminal window.\n    2. `$ cat ~/.atom/packages/atom-python-run/cp.log`\n    3. Copy and paste the contents along with your post.\n  - NOTE: If the `cp.log` file is missing, empty, or inaccurate, please note that this was case in your post.\n\n- Detailed issues are well presented issues. This will help us remedy the problem.\n\n# Development\n- New an issue if you have any idea of new features.\n\n![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)\n\nThis is a package for Atom\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/foreshadow/atom-python-run.git"
   },
-  "version": "0.9.5"
+  "version": "0.9.6"
 }

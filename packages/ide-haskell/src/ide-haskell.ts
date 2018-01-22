@@ -16,9 +16,9 @@ let pluginManager: PluginManager | undefined
 let outputPanel: OutputPanel.OutputPanel | undefined
 let menu: CompositeDisposable | undefined
 
-export { config } from './config'
-
-function cleanConfig() { /*noop*/ }
+function cleanConfig() {
+  /*noop*/
+}
 
 export function activate(state: IState) {
   cleanConfig()
@@ -31,29 +31,33 @@ export function activate(state: IState) {
   upiProvided = false
 
   if (atom.config.get('ide-haskell.startupMessageIdeBackend')) {
-    setTimeout(
-      () => {
-        if (!upiProvided) {
-          atom.notifications.addWarning(
-            `Ide-Haskell needs backends that provide most of functionality.
+    setTimeout(() => {
+      if (!upiProvided) {
+        atom.notifications.addWarning(
+          `Ide-Haskell needs backends that provide most of functionality.
             Please refer to README for details`,
-            { dismissable: true })
-        }
-      },
-      5000,
-    )
+          { dismissable: true },
+        )
+      }
+    }, 5000)
   }
 
   disposables = new CompositeDisposable()
 
-  pluginManager = new PluginManager(state, outputPanel || new OutputPanel.OutputPanel())
+  pluginManager = new PluginManager(state, deserializeOutputPanel())
 
   // global commands
   disposables.add(
     atom.commands.add('atom-workspace', {
-      'ide-haskell:toggle-output': () => { pluginManager && pluginManager.togglePanel() },
-      'ide-haskell:next-error': () => { pluginManager && pluginManager.nextError() },
-      'ide-haskell:prev-error': () => { pluginManager && pluginManager.prevError() },
+      'ide-haskell:toggle-output': () => {
+        if (pluginManager) pluginManager.togglePanel()
+      },
+      'ide-haskell:next-error': () => {
+        if (pluginManager) pluginManager.nextError()
+      },
+      'ide-haskell:prev-error': () => {
+        if (pluginManager) pluginManager.prevError()
+      },
     }),
     atom.commands.add('atom-text-editor.ide-haskell', {
       'ide-haskell:prettify-file': ({ currentTarget }) => {
@@ -63,10 +67,11 @@ export function activate(state: IState) {
     }),
     atom.commands.add('atom-text-editor.ide-haskell--has-tooltips', {
       'ide-haskell:close-tooltip': ({ currentTarget, abortKeyBinding }) => {
-        const controller = pluginManager && pluginManager.controller(currentTarget.getModel())
+        const controller =
+          pluginManager && pluginManager.controller(currentTarget.getModel())
         if (controller && controller.tooltips.has()) {
           controller.tooltips.hide()
-        } else if (abortKeyBinding) {
+        } else {
           abortKeyBinding()
         }
       },
@@ -74,23 +79,32 @@ export function activate(state: IState) {
   )
 
   menu = new CompositeDisposable()
-  menu.add(atom.menu.add([{
-    label: MAIN_MENU_LABEL,
-    submenu: [
-      { label: 'Prettify', command: 'ide-haskell:prettify-file' },
-      { label: 'Toggle Panel', command: 'ide-haskell:toggle-output' },
-    ],
-  }]))
+  menu.add(
+    atom.menu.add([
+      {
+        label: MAIN_MENU_LABEL,
+        submenu: [
+          { label: 'Prettify', command: 'ide-haskell:prettify-file' },
+          { label: 'Toggle Panel', command: 'ide-haskell:toggle-output' },
+        ],
+      },
+    ]),
+  )
 }
 
 export function deactivate() {
-  pluginManager && pluginManager.deactivate()
+  if (pluginManager) pluginManager.deactivate()
 
   // clear commands
-  disposables && disposables.dispose()
+  if (disposables) disposables.dispose()
 
-  menu && menu.dispose()
+  if (menu) menu.dispose()
   atom.menu.update()
+
+  disposables = undefined
+  pluginManager = undefined
+  menu = undefined
+  outputPanel = undefined
 }
 
 export function serialize() {
@@ -100,20 +114,26 @@ export function serialize() {
   return undefined
 }
 
-export function deserializeOutputPanel(state: OutputPanel.IState) {
-  outputPanel = new OutputPanel.OutputPanel(state)
+export function deserializeOutputPanel(state?: OutputPanel.IState) {
+  if (!outputPanel) outputPanel = new OutputPanel.OutputPanel(state)
   return outputPanel
 }
 
 export function provideUpi3(): UPI.IUPIRegistration {
   upiProvided = true
   return (options: UPI.IRegistrationOptions) => {
-    if (!pluginManager) { throw new Error('IDE-Haskell failed to provide UPI instance: pluginManager is undefined') }
+    if (!pluginManager) {
+      throw new Error(
+        'IDE-Haskell failed to provide UPI instance: pluginManager is undefined',
+      )
+    }
     return UPI3.instance(pluginManager, options)
   }
 }
 
-export function consumeUpi3(registration: UPI.IRegistrationOptions): Disposable | undefined {
+export function consumeUpi3(
+  registration: UPI.IRegistrationOptions,
+): Disposable | undefined {
   upiProvided = true
   if (pluginManager) {
     return UPI3.consume(pluginManager, registration)
@@ -121,16 +141,24 @@ export function consumeUpi3(registration: UPI.IRegistrationOptions): Disposable 
   return undefined
 }
 
-export function consumeLinter(register: (opts: {}) => Linter.IndieDelegate): Disposable | undefined {
-  if (!(disposables && pluginManager)) { return undefined }
+export function consumeLinter(
+  register: (opts: {}) => Linter.IndieDelegate,
+): Disposable | undefined {
+  if (!(disposables && pluginManager)) {
+    return undefined
+  }
   const linter = register({ name: 'IDE-Haskell' })
   disposables.add(linter)
   pluginManager.setLinter(linter)
   return linter
 }
 
-export function consumeStatusBar(statusBar: StatusBar.StatusBar): Disposable | undefined {
-  if (!pluginManager) { return undefined }
+export function consumeStatusBar(
+  statusBar: StatusBar.StatusBar,
+): Disposable | undefined {
+  if (!pluginManager) {
+    return undefined
+  }
   pluginManager.setStatusBar(statusBar)
   return new Disposable(() => {
     if (pluginManager) {

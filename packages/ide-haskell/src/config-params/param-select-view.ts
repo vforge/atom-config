@@ -9,9 +9,13 @@ export interface ISelectListParams<T> {
   activeItem?: T
 }
 
-export async function selectListView<T>(
-  { items, heading, itemTemplate, itemFilterKey, activeItem }: ISelectListParams<T>,
-): Promise<T | undefined> {
+export async function selectListView<T>({
+  items,
+  heading,
+  itemTemplate,
+  itemFilterKey,
+  activeItem,
+}: ISelectListParams<T>): Promise<T | undefined> {
   const elementForItem = (item: T) => {
     const li = document.createElement('li')
     const div = document.createElement('div')
@@ -43,9 +47,8 @@ export async function selectListView<T>(
   }
   const myitems = await Promise.resolve(items)
   let panel: Panel<SelectListView<T>> | undefined
-  let res: T | undefined
   try {
-    res = await new Promise<T | undefined>((resolve) => {
+    return await new Promise<T | undefined>((resolve) => {
       const select = new SelectListView({
         items: myitems,
         infoMessage: heading,
@@ -67,7 +70,6 @@ export async function selectListView<T>(
       select.focus()
     })
   } finally {
-    panel && panel.destroy()
+    if (panel) panel.destroy()
   }
-  return res
 }
