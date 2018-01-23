@@ -1,0 +1,63 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-33983-w4650z.hf29e8kt9/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-33983-w4650z.hf29e8kt9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-33983-w4650z.hf29e8kt9/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118022-33983-3t16or.bivn8nnrk9"
+    ]
+  ],
+  "_from": "../d-118022-33983-w4650z.hf29e8kt9/package.tgz",
+  "_id": "atom-eclipse-syntax@0.0.5",
+  "_inCache": true,
+  "_location": "/atom-eclipse-syntax",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-33983-w4650z.hf29e8kt9/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-33983-w4650z.hf29e8kt9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-33983-w4650z.hf29e8kt9/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-118022-33983-w4650z.hf29e8kt9/package.tgz",
+  "_shasum": "42bd792ba1d73c63456639f7d6fabef14a47190d",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118022-33983-w4650z.hf29e8kt9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118022-33983-3t16or.bivn8nnrk9",
+  "bugs": {
+    "url": "https://github.com/Niishi/atom-eclipse-syntax/issues"
+  },
+  "dependencies": {},
+  "description": "like IDE Eclipse",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/Niishi/atom-eclipse-syntax#readme",
+  "keywords": [
+    "syntax",
+    "theme"
+  ],
+  "license": "MIT",
+  "name": "atom-eclipse-syntax",
+  "optionalDependencies": {},
+  "readme": "# atom-eclipse-syntax\nEclipse default syntax on Atom.\n\nThsi syntax is for Java.\n\n![Imgur](https://i.imgur.com/qVGd4e1.png)\n> The font used in these screenshots is [Hack](http://sourcefoundry.org/hack/).\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Niishi/atom-eclipse-syntax.git"
+  },
+  "theme": "syntax",
+  "version": "0.0.5"
+}
