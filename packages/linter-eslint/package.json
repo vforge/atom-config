@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117919-67999-cfyn06.20r4quxr/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118029-5872-ckckq1.svvwtxogvi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117919-67999-cfyn06.20r4quxr/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117919-67999-cfyn06.20r4quxr/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118029-5872-ckckq1.svvwtxogvi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118029-5872-ckckq1.svvwtxogvi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117919-67999-qeyxd6.q2x8g833di"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118029-5872-1gch294.zrqoq7iudi"
     ]
   ],
-  "_from": "../d-117919-67999-cfyn06.20r4quxr/package.tgz",
-  "_id": "linter-eslint@8.4.0",
+  "_from": "../d-118029-5872-ckckq1.svvwtxogvi/package.tgz",
+  "_id": "linter-eslint@8.4.1",
   "_inCache": true,
   "_location": "/linter-eslint",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117919-67999-cfyn06.20r4quxr/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118029-5872-ckckq1.svvwtxogvi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117919-67999-cfyn06.20r4quxr/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117919-67999-cfyn06.20r4quxr/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118029-5872-ckckq1.svvwtxogvi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118029-5872-ckckq1.svvwtxogvi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117919-67999-cfyn06.20r4quxr/package.tgz",
-  "_shasum": "8ec91f3154137a4495d57089bbab58be203f2b78",
+  "_resolved": "file:../d-118029-5872-ckckq1.svvwtxogvi/package.tgz",
+  "_shasum": "0b8426a3b6f1b08c788fc1a27a1b183f39f81ead",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117919-67999-cfyn06.20r4quxr/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117919-67999-qeyxd6.q2x8g833di",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118029-5872-ckckq1.svvwtxogvi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118029-5872-1gch294.zrqoq7iudi",
   "atomTranspilers": [
     {
       "glob": "{src,spec}/*.js",
@@ -43,7 +43,14 @@
         "setBabelEnv": false,
         "babel": {
           "presets": [
-            "node5"
+            [
+              "env",
+              {
+                "targets": {
+                  "node": "current"
+                }
+              }
+            ]
           ],
           "sourceMaps": "inline",
           "babelrc": false
@@ -164,10 +171,10 @@
     }
   },
   "dependencies": {
-    "atom-babel6-transpiler": "^1.1.1",
+    "atom-babel6-transpiler": "^1.1.3",
     "atom-linter": "^10.0.0",
     "atom-package-deps": "^4.6.0",
-    "babel-preset-node5": "^12.0.0",
+    "babel-preset-env": "^1.6.1",
     "consistent-path": "^2.0.1",
     "crypto-random-string": "^1.0.0",
     "eslint": "^4.9.0",
@@ -253,5 +260,5 @@
     "lint": "eslint .",
     "test": "apm test"
   },
-  "version": "8.4.0"
+  "version": "8.4.1"
 }

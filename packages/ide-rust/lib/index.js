@@ -90,25 +90,43 @@ function installCompiler() {
 }
 
 /**
+ * @param {string} toolchain
+ * @return {string} `rustc --print sysroot` stdout
+ */
+function rustcSysroot(toolchain) {
+  return cp.execSync(`rustup run ${toolchain} rustc --print sysroot`, {
+    env: { PATH: getPath() }
+  }).toString().trim()
+}
+
+/**
  * @param {string} [toolchain]
  * @return {object} environment vars
  */
 function serverEnv(toolchain) {
-  const env = { PATH: getPath() }
-
-  if (toolchain) {
-    let rustSrcPath = process.env.RUST_SRC_PATH || ""
-    if (rustSrcPath.length === 0) {
-      rustSrcPath = path.join(
-        os.homedir(),
-        ".rustup/toolchains/" + toolchain + "/lib/rustlib/src/rust/src/"
-      )
-    }
-    env.RUST_SRC_PATH = rustSrcPath
+  const env = {
+    PATH: getPath(),
+    RUST_BACKTRACE: '1',
+    RUST_LOG: process.env.RUST_LOG,
   }
 
+  if (!env.RUST_LOG && atom.config.get('core.debugLSP')) {
+    env.RUST_LOG = 'rls=warn'
+  }
+
+  if (toolchain) {
+    try {
+      env.RUST_SRC_PATH = path.join(rustcSysroot(toolchain), "/lib/rustlib/src/rust/src/")
+    }
+    catch (e) {
+      console.error("Failed to find sysroot", e)
+    }
+  }
   return env
 }
+
+// ongoing promise
+let _checkingRls
 
 /**
  * Check for and install Rls
@@ -118,7 +136,9 @@ function serverEnv(toolchain) {
 function checkRls(busySignalService) {
   let toolchain = configToolchain()
 
-  return exec(`rustup component list --toolchain ${toolchain}`).then(results => {
+  if (_checkingRls) return _checkingRls
+
+  _checkingRls = exec(`rustup component list --toolchain ${toolchain}`).then(results => {
     const { stdout } = results
     if (
       stdout.search(/^rls-preview.* \((default|installed)\)$/m) >= 0 &&
@@ -165,9 +185,7 @@ function checkRls(busySignalService) {
         throw e[0]
       })
       .then(() => exec(`rustup component add rust-src --toolchain ${toolchain}`))
-      .then(() =>
-        exec(`rustup component add rust-analysis --toolchain ${toolchain}`)
-      )
+      .then(() => exec(`rustup component add rust-analysis --toolchain ${toolchain}`))
       .catch(e => {
         if (!e._logged) {
           atom.notifications.addError(`\`rust-src\`/\`rust-analysis\` not found on \`${toolchain}\``, {
@@ -186,6 +204,14 @@ function checkRls(busySignalService) {
 
     return installRlsPromise
   })
+
+  try {
+    return _checkingRls
+  }
+  finally {
+    let clearOngoing = () => _checkingRls = null
+    _checkingRls.then(clearOngoing).catch(clearOngoing)
+  }
 }
 
 class RustLanguageClient extends AutoLanguageClient {
@@ -469,8 +495,7 @@ class RustLanguageClient extends AutoLanguageClient {
 
     return this._checkToolchain(this.busySignalService)
       .then(() => checkRls(this.busySignalService))
-      .then(err => {
-        if (err) console.error(err)
+      .then(() => {
         let toolchain = configToolchain()
         return cp.spawn("rustup", ["run", toolchain, "rls"], {
           env: serverEnv(toolchain),
