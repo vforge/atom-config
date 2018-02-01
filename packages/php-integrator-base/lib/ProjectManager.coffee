@@ -306,7 +306,7 @@ class ProjectManager
      * @param {String}      fileName The file to index.
      * @param {String|null} source   The source code of the file to index.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     performFileIndex: (project, fileName, source = null) ->
         return @indexingMediator.reindex(
@@ -317,7 +317,7 @@ class ProjectManager
         )
 
     ###*
-     * Performs a file index, but only if the file is not currently already being indexed (otherwise silently returns).
+     * Performs a file index.
      *
      * @param {Object}      project
      * @param {String}      fileName The file to index.
@@ -326,36 +326,15 @@ class ProjectManager
      * @return {Promise|null}
     ###
     attemptFileIndex: (project, fileName, source = null) ->
-        return null if @isProjectIndexing()
+        if fileName of @indexMap
+            @indexMap[fileName].cancel()
 
-        if fileName not of @indexMap
-            @indexMap[fileName] = {
-                isBeingIndexed  : true
-                nextIndexSource : null
-            }
+        @indexMap[fileName] = @performFileIndex(project, fileName, source)
 
-        else if @indexMap[fileName].isBeingIndexed
-            # This file is already being indexed, so keep track of the most recent changes so we can index any changes
-            # after the current indexing process finishes.
-            @indexMap[fileName].nextIndexSource = source
-            return null
+        onIndexFinish = () =>
+            delete @indexMap[fileName]
 
-        @indexMap[fileName].isBeingIndexed = true
-
-        handler = () =>
-            @indexMap[fileName].isBeingIndexed = false
-
-            if @indexMap[fileName].nextIndexSource?
-                nextIndexSource = @indexMap[fileName].nextIndexSource
-
-                @indexMap[fileName].nextIndexSource = null
-
-                @attemptFileIndex(project, fileName, nextIndexSource)
-
-        successHandler = handler
-        failureHandler = handler
-
-        return @performFileIndex(project, fileName, source).then(successHandler, failureHandler)
+        return @indexMap[fileName].then(onIndexFinish, onIndexFinish)
 
     ###*
      * Indexes the current project asynchronously.

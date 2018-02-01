@@ -4,6 +4,8 @@ stream        = require 'stream'
 child_process = require 'child_process'
 sanitize      = require 'sanitize-filename'
 
+CancellablePromise = require './CancellablePromise'
+
 module.exports =
 
 ##*
@@ -40,7 +42,7 @@ class Proxy
     phpServer: null
 
     ###*
-     * @var {Promise}
+     * @var {CancellablePromise}
     ###
     phpServerPromise: null
 
@@ -131,7 +133,15 @@ class Proxy
                     console.error('Port ' + port + ' is already taken')
                     return
 
-                console.error('PHP socket server exited by itself, a fatal error must have occurred.')
+                else if code != 0
+                    detail =
+                        "The PHP core socket server was unexpectedly closed. Either something caused the process to " +
+                        "stop, it crashed, or the socket closed. In case of the first two, you should see additional" +
+                        "output indicating this is the case and you can report a bug. If there is no additional " +
+                        "output, the socket connection should automatically be reestablished and everything should " +
+                        "continue working."
+
+                    console.error(detail)
 
                 @closeServerConnection()
 
@@ -177,24 +187,6 @@ class Proxy
         return @phpServerPromise
 
     ###*
-     * Sends the kill signal to the socket server.
-     *
-     * Note that this is a signal, the process may ignore it (but it usually will not, unless it's really persistent in
-     * continuing whatever it's doing).
-     *
-     * @param {Array} parameters
-     *
-     * @return {Array}
-    ###
-    stopPhpServer: (port) ->
-        @closeServerConnection()
-
-        return if not @phpServer
-
-        @phpServer.kill()
-        @phpServer = null
-
-    ###*
      * Closes the socket connection to the server.
     ###
     closeServerConnection: () ->
@@ -217,7 +209,7 @@ class Proxy
         @requestQueue = {}
 
     ###*
-     * @return {Object}
+     * @return {Promise}
     ###
     getSocketConnection: () ->
         return new Promise (resolve, reject) =>
@@ -258,18 +250,6 @@ class Proxy
      * @param {Boolean} hadError
     ###
     onConnectionClosed: (hadError) ->
-        detail =
-            "The socket connection to the PHP server was unexpectedly closed. Either something caused the " +
-            "process to stop, it crashed, or the socket closed. In case of the first two, you should see " +
-            "additional output indicating this is the case and you can report a bug. If there is no additional " +
-            "output, the socket connection should automatically be reestablished and everything should continue " +
-            "working."
-
-        if hadError
-            detail += ' It was also reported that an error was involved'
-
-        console.warn(detail)
-
         @closeServerConnection()
 
     ###*
@@ -314,6 +294,10 @@ class Proxy
     processJsonRpcResponse: (jsonRpcResponse) ->
         if jsonRpcResponse.id?
             jsonRpcRequest = @requestQueue[jsonRpcResponse.id]
+
+            if not jsonRpcRequest?
+                console.warn('Received response for request that was already removed from the queue', jsonRpcResponse)
+                return
 
             @processJsonRpcResponseForRequest(jsonRpcResponse, jsonRpcRequest)
 
@@ -443,10 +427,10 @@ class Proxy
      * @param {Object}   parameters
      * @param {Callback} streamCallback
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     performJsonRpcRequest: (id, method, parameters, streamCallback = null) ->
-        return new Promise (resolve, reject) =>
+        executor = (resolve, reject) =>
             if not @getIsActive()
                 reject('The proxy is not yet active, the core may be in the process of being downloaded')
                 return
@@ -471,6 +455,11 @@ class Proxy
             content = @getContentForJsonRpcRequest(jsonRpcRequest)
 
             @writeRawRequest(content)
+
+        cancelHandler = () =>
+            @performRequest('cancelRequest', {id : id})
+
+        return new CancellablePromise(executor, cancelHandler)
 
     ###*
      * @param {Object} request
@@ -516,7 +505,7 @@ class Proxy
      * @param {Callback}    streamCallback A method to invoke each time streaming data is received.
      * @param {String|null} stdinData      The data to pass to STDIN.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     performRequest: (method, parameters, streamCallback = null, stdinData = null) ->
         if stdinData?
@@ -534,7 +523,7 @@ class Proxy
     ###
     getClassList: () ->
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -552,11 +541,11 @@ class Proxy
     ###
     getClassListForFile: (file) ->
         if not file
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No file passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -573,7 +562,7 @@ class Proxy
     ###
     getNamespaceList: () ->
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -591,11 +580,11 @@ class Proxy
     ###
     getNamespaceListForFile: (file) ->
         if not file
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No file passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -612,7 +601,7 @@ class Proxy
     ###
     getGlobalConstants: () ->
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -628,7 +617,7 @@ class Proxy
     ###
     getGlobalFunctions: () ->
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -646,11 +635,11 @@ class Proxy
     ###
     getClassInfo: (className) ->
         if not className
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No class name passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -672,23 +661,23 @@ class Proxy
     ###
     resolveType: (file, line, type, kind = 'classlike') ->
         if not file
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No file passed!')
 
         if not line
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No line passed!')
 
         if not type
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No type passed!')
 
         if not kind
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No kind passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -714,23 +703,23 @@ class Proxy
     ###
     localizeType: (file, line, type, kind = 'classlike') ->
         if not file
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No file passed!')
 
         if not line
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No line passed!')
 
         if not type
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No type passed!')
 
         if not kind
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No kind passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -752,15 +741,15 @@ class Proxy
      *                              noUnknownGlobalFunctions, noUnknownGlobalConstants, noDocblockCorrectness,
      *                              noUnusedUseStatements and noMissingDocumentation are supported.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     lint: (file, source, options = {}) ->
         if not file
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No file passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -803,11 +792,11 @@ class Proxy
     ###
     getAvailableVariables: (file, source, offset) ->
         if not file
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No file passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -826,15 +815,15 @@ class Proxy
      * @param {String|null} source The source code to search. May be null if a file is passed instead.
      * @param {Number}      offset The character offset into the file to examine.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     tooltip: (file, source, offset) ->
         if not file?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Either a path to a file or source code must be passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -853,15 +842,15 @@ class Proxy
      * @param {String|null} source The source code to search. May be null if a file is passed instead.
      * @param {Number}      offset The character offset into the file to examine.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     signatureHelp: (file, source, offset) ->
         if not file?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Either a path to a file or source code must be passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -880,15 +869,15 @@ class Proxy
      * @param {String|null} source The source code to search. May be null if a file is passed instead.
      * @param {Number}      offset The character offset into the file to examine.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     gotoDefinition: (file, source, offset) ->
         if not file?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Either a path to a file or source code must be passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -918,11 +907,11 @@ class Proxy
     ###
     deduceTypes: (expression, file, source, offset, ignoreLastElement) ->
         if not file?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('A path to a file must be passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -949,15 +938,15 @@ class Proxy
      * @param {String}      file              The path to the file to examine.
      * @param {String|null} source            The source code to search. May be null if a file is passed instead.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     autocomplete: (offset, file, source) ->
         if not file?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('A path to a file must be passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -978,7 +967,7 @@ class Proxy
     ###
     initialize: () ->
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -988,13 +977,24 @@ class Proxy
         return @performRequest('initialize', parameters, null, null)
 
     ###*
+     * Shuts the server down entirely.
+    ###
+    exit: () ->
+        handler = () =>
+            # Ignore promise rejection.
+
+        @performRequest('exit', {}, null, null).then(handler, handler)
+
+        return
+
+    ###*
      * Vacuums a project, cleaning up the index database (e.g. pruning files that no longer exist).
      *
      * @return {Promise}
     ###
     vacuum: () ->
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -1010,7 +1010,7 @@ class Proxy
     ###
     test: () ->
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         parameters = {
@@ -1030,7 +1030,7 @@ class Proxy
      * @param {Array}         excludedPaths          A list of paths to exclude from indexing.
      * @param {Array}         fileExtensionsToIndex  A list of file extensions (without leading dot) to index.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     reindex: (path, source, progressStreamCallback, excludedPaths, fileExtensionsToIndex) ->
         if typeof path == "string"
@@ -1043,11 +1043,11 @@ class Proxy
             pathsToIndex = path
 
         if path.length == 0
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('No filename passed!')
 
         if not @getIndexDatabasePath()?
-            return new Promise (resolve, reject) ->
+            return new CancellablePromise (resolve, reject) ->
                 reject('Request aborted as there is no project active (yet)')
 
         progressStreamCallbackWrapper = null

@@ -4,16 +4,15 @@
 
 packageDeps = require('atom-package-deps')
 
+Proxy =                  require './Proxy'
 Service =                require './Service'
 AtomConfig =             require './AtomConfig'
 CoreManager =            require './CoreManager';
-CachingProxy =           require './CachingProxy'
 ConfigTester =           require './ConfigTester'
 ProjectManager =         require './ProjectManager'
 LinterProvider =         require './LinterProvider'
 ComposerService =        require './ComposerService';
-TooltipProvider =        require './TooltipProvider'
-StatusBarManager =       require "./Widgets/StatusBarManager"
+DatatipProvider =        require './DatatipProvider'
 IndexingMediator =       require './IndexingMediator'
 UseStatementHelper =     require './UseStatementHelper';
 SignatureHelpProvider =  require './SignatureHelpProvider'
@@ -70,29 +69,17 @@ module.exports =
                                    linting are invoked less often. However, it also means that it will take longer for
                                    changes to code to be reflected in, for example, autocompletion.'
                     type        : 'integer'
-                    default     : 0
+                    default     : 500
                     order       : 2
 
-                insertNewlinesForUseStatements:
-                    title       : 'Allow newlines when inserting use statements'
-                    description : 'If enabled, additional newlines may be inserted before or after automatically added
-                                   use statements when they can\'t be nicely added to an existing \'group\'. This
-                                   results in more cleanly separated use statements but will create additional vertical
-                                   whitespace.'
-                    type        : 'boolean'
-                    default     : false
-                    order       : 3
-
-        tooltips:
+        datatips:
             type: 'object'
             order: 3
             properties:
                 enable:
                     title       : 'Enable'
                     description : 'When enabled, documentation for various structural elements can be displayed in a
-                                   dock by activating intentions. (This is called tooltips as the data provided is
-                                   meant to be displayed in tooltips, but a dock offers advantages such as proper
-                                   scrolling and can be permanent.)'
+                                  datatip (tooltip).'
                     type        : 'boolean'
                     default     : true
                     order       : 1
@@ -120,9 +107,20 @@ module.exports =
                     default     : true
                     order       : 1
 
-        linting:
+        autocompletion:
             type: 'object'
             order: 6
+            properties:
+                enable:
+                    title       : 'Enable'
+                    description : 'When enabled, autocompletion will be activated via the autocomplete-plus package.'
+                    type        : 'boolean'
+                    default     : true
+                    order       : 1
+
+        linting:
+            type: 'object'
+            order: 7
             properties:
                 enable:
                     title       : 'Enable'
@@ -191,7 +189,7 @@ module.exports =
      *
      * @var {String}
     ###
-    coreVersionSpecification: "3.1.0"
+    coreVersionSpecification: "3.2.0"
 
     ###*
      * The name of the package.
@@ -222,13 +220,6 @@ module.exports =
     service: null
 
     ###*
-     * The status bar manager.
-     *
-     * @var {Object}
-    ###
-    statusBarManager: null
-
-    ###*
      * @var {IndexingMediator}
     ###
     indexingMediator: null
@@ -253,11 +244,6 @@ module.exports =
     timerName: null
 
     ###*
-     * @var {String|null}
-    ###
-    progressBarTimeout: null
-
-    ###*
      * The service instance from the project-manager package.
      *
      * @var {Object|null}
@@ -272,7 +258,7 @@ module.exports =
     ###*
      * @var {Object|null}
     ###
-    tooltipProvider: null
+    datatipProvider: null
 
     ###*
      * @var {Object|null}
@@ -288,6 +274,11 @@ module.exports =
      * @var {Object|null}
     ###
     linterProvider: null
+
+    ###*
+     * @var {Object|null}
+    ###
+    busySignalService: null
 
     ###*
      * Tests the user's configuration.
@@ -340,7 +331,8 @@ module.exports =
 
             if not @activeProject?
                 errorMessage = '''
-                    No project is currently active. Please set up and activate one before attempting to set it up.
+                    No project is currently active. Please save and activate one before attempting to set it up.
+                    You can do it via the menu Packages → Project Manager → Save Project.
                 '''
 
                 atom.notifications.addError('Incorrect setup!', {'detail': errorMessage})
@@ -421,15 +413,12 @@ module.exports =
     registerConfigListeners: () ->
         config = @getConfiguration()
 
-        config.onDidChange 'general.insertNewlinesForUseStatements', (value) =>
-            @getUseStatementHelper().setAllowAdditionalNewlines(value)
-
-        config.onDidChange 'tooltips.enable', (value) =>
+        config.onDidChange 'datatips.enable', (value) =>
             if value
-                @activateTooltips()
+                @activateDatatips()
 
             else
-                @deactivateTooltips()
+                @deactivateDatatips()
 
         config.onDidChange 'signatureHelp.enable', (value) =>
             if value
@@ -445,6 +434,13 @@ module.exports =
             else
                 @deactivateGotoDefinition()
 
+        config.onDidChange 'autocompletion.enable', (value) =>
+            if value
+                @activateAutocompletion()
+
+            else
+                @deactivateAutocompletion()
+
         config.onDidChange 'linting.enable', (value) =>
             if value
                 @activateLinting()
@@ -458,72 +454,28 @@ module.exports =
     registerStatusBarListeners: () ->
         service = @getService()
 
-        service.onDidStartIndexing () =>
-            if @progressBarTimeout
-                clearTimeout(@progressBarTimeout)
+        indexBusyMessageMap = new Map()
+        message = "Indexing PHP code - code assistance may be unavailable or incomplete"
 
-            # Indexing could be anything: the entire project or just a file. If indexing anything takes too long, show
-            # the progress bar to indicate we're doing something.
-            @progressBarTimeout = setTimeout ( =>
-                @progressBarTimeout = null
+        service.onDidStartIndexing ({path}) =>
+            indexBusyMessageMap[path] = @busySignalService.reportBusy(message, {
+                waitingFor    : 'computer',
+                revealTooltip : true
+            })
 
-                @timerName = @packageName + " - Indexing"
+        service.onDidFinishIndexing ({path}) =>
+            if path of indexBusyMessageMap
+                indexBusyMessageMap[path].dispose()
+                delete indexBusyMessageMap[path]
 
-                console.time(@timerName);
+        service.onDidFailIndexing ({path}) =>
+            if path of indexBusyMessageMap
+                indexBusyMessageMap[path].dispose()
+                delete indexBusyMessageMap[path]
 
-                if @statusBarManager?
-                    @statusBarManager.setLabel("Indexing...")
-                    @statusBarManager.setProgress(null)
-                    @statusBarManager.show()
-            ), 1000
-
-        service.onDidFinishIndexing () =>
-            if @progressBarTimeout
-                clearTimeout(@progressBarTimeout)
-                @progressBarTimeout = null
-
-            else
-                console.timeEnd(@timerName)
-
-            if @statusBarManager?
-                @statusBarManager.setLabel("Indexing completed!")
-                @statusBarManager.hide()
-
-        service.onDidFailIndexing () =>
-            if @progressBarTimeout
-                clearTimeout(@progressBarTimeout)
-                @progressBarTimeout = null
-
-            else
-                console.timeEnd(@timerName)
-
-            if @statusBarManager?
-                @statusBarManager.showMessage("Indexing failed!", "highlight-error")
-                @statusBarManager.hide()
-
-        service.onDidIndexingProgress (data) =>
-            if @statusBarManager?
-                @statusBarManager.setProgress(data.percentage)
-                @statusBarManager.setLabel("Indexing... (" + data.percentage.toFixed(2) + " %)")
-
-    ###*
-     * Attaches items to the status bar.
-     *
-     * @param {mixed} statusBarService
-    ###
-    attachStatusBarItems: (statusBarService) ->
-        if not @statusBarManager
-            @statusBarManager = new StatusBarManager()
-            @statusBarManager.initialize(statusBarService)
-            @statusBarManager.setLabel("Indexing...")
-
-    ###*
-     * Detaches existing items from the status bar.
-    ###
-    detachStatusBarItems: () ->
-        if @statusBarManager
-            @statusBarManager.destroy()
-            @statusBarManager = null
+        service.onDidIndexingProgress ({path, percentage}) =>
+            if indexBusyMessageMap[path]?
+                indexBusyMessageMap[path].setTitle(message + " (" + percentage.toFixed(2) + " %)")
 
     ###*
      * @return {Promise}
@@ -593,6 +545,40 @@ module.exports =
             })
 
     ###*
+     * Checks if the php-integrator-autocomplete-plus package is installed and notifies the user it is obsolete if it
+     * is.
+    ###
+    notifyAboutRedundantAutocompletionPackageIfnecessary: () ->
+        atom.packages.onDidActivatePackage (packageData) ->
+            return if packageData.name != 'php-integrator-autocomplete-plus'
+
+            message =
+                "It seems you still have the php-integrator-autocomplete-plus package installed and activated. As of " +
+                "this release, it is obsolete and all its functionality is already included in the base package.\n \n" +
+
+                "It is recommended to disable or remove it, shall I disable it for you?"
+
+            notification = atom.notifications.addInfo('PHP Integrator - Autocompletion', {
+                detail      : message
+                dismissable : true
+
+                buttons: [
+                    {
+                        text: 'Yes, nuke it'
+                        onDidClick: () ->
+                            atom.packages.disablePackage('php-integrator-autocomplete-plus');
+                            notification.dismiss()
+                    },
+
+                    {
+                        text: 'No, don\'t touch it'
+                        onDidClick: () ->
+                            notification.dismiss()
+                    }
+                ]
+            })
+
+    ###*
      * Activates the package.
     ###
     activate: ->
@@ -601,6 +587,7 @@ module.exports =
 
             @updateCoreIfOutdated().then () =>
                 @notifyAboutRedundantNavigationPackageIfnecessary()
+                @notifyAboutRedundantAutocompletionPackageIfnecessary()
 
                 @registerCommands()
                 @registerConfigListeners()
@@ -610,8 +597,8 @@ module.exports =
 
                 @registerAtomListeners()
 
-                if @getConfiguration().get('tooltips.enable')
-                    @activateTooltips()
+                if @getConfiguration().get('datatips.enable')
+                    @activateDatatips()
 
                 if @getConfiguration().get('signatureHelp.enable')
                     @activateSignatureHelp()
@@ -622,7 +609,10 @@ module.exports =
                 if @getConfiguration().get('gotoDefinition.enable')
                     @activateGotoDefinition()
 
-                @getCachingProxy().setIsActive(true)
+                if @getConfiguration().get('autocompletion.enable')
+                    @activateAutocompletion()
+
+                @getProxy().setIsActive(true)
 
                 # This fixes the corner case where the core is still installing, the project manager service has already
                 # loaded and the project is already active. At that point, the index that resulted from it silently
@@ -639,16 +629,16 @@ module.exports =
             @registerTextEditorListeners(editor)
 
     ###*
-     * Activates the tooltip provider.
+     * Activates the datatip provider.
     ###
-    activateTooltips: () ->
-        @getTooltipProvider().activate(@getService())
+    activateDatatips: () ->
+        @getDatatipProvider().activate(@getService())
 
     ###*
-     * Deactivates the tooltip provider.
+     * Deactivates the datatip provider.
     ###
-    deactivateTooltips: () ->
-        @getTooltipProvider().deactivate()
+    deactivateDatatips: () ->
+        @getDatatipProvider().deactivate()
 
     ###*
      * Activates the signature help provider.
@@ -673,6 +663,18 @@ module.exports =
     ###
     deactivateGotoDefinition: () ->
         @getGotoDefinitionProvider().deactivate()
+
+    ###*
+     * Activates the goto definition provider.
+    ###
+    activateAutocompletion: () ->
+        @getAutocompletionProvider().activate(@getService())
+
+    ###*
+     * Deactivates the goto definition provider.
+    ###
+    deactivateAutocompletion: () ->
+        @getAutocompletionProvider().deactivate()
 
     ###*
      * Activates linting.
@@ -735,30 +737,17 @@ module.exports =
      * Deactivates the package.
     ###
     deactivate: ->
-        if @disposables
+        if @disposables?
             @disposables.dispose()
             @disposables = null
 
         @getLinterProvider().deactivate()
-        @getTooltipProvider().deactivate()
+        @getDatatipProvider().deactivate()
         @getSignatureHelpProvider().deactivate()
 
-        @getCachingProxy().stopPhpServer()
+        @getProxy().exit()
 
-    ###*
-     * Sets the status bar service, which is consumed by this package.
-     *
-     * @param {Object} service
-    ###
-    setStatusBarService: (service) ->
-        @attachStatusBarItems(service)
-
-        # This method is usually invoked after the indexing has already started, hence we can't unconditionally hide it
-        # here or it will never be made visible again.
-        if not @getProjectManager().isProjectIndexing()
-            @statusBarManager.hide()
-
-        return new Disposable => @detachStatusBarItems()
+        return
 
     ###*
      * @param {mixed} service
@@ -800,8 +789,6 @@ module.exports =
 
         return if not project?
 
-        @proxy.clearCache()
-
         projectManager = @getProjectManager()
         projectManager.load(project)
 
@@ -837,16 +824,25 @@ module.exports =
      * @return {Array}
     ###
     getAutocompletionProviderServices: () ->
-        return []
-        # return [@getAutocompletionProvider()]
+        return [@getAutocompletionProvider()]
 
     ###*
-     * Returns a list of intention providers.
-     *
-     * @return {Array}
+     * @param {Object} signatureHelpService
     ###
-    getIntentionProviders: () ->
-        return @getTooltipProvider().getIntentionProviders()
+    consumeSignatureHelpService: (signatureHelpService) ->
+        signatureHelpService(@getSignatureHelpProvider())
+
+    ###*
+     * @param {Object} busySignalService
+    ###
+    consumeBusySignalService: (busySignalService) ->
+        @busySignalService = busySignalService
+
+    ###*
+     * @param {Object} datatipService
+    ###
+    consumeDatatipService: (datatipService) ->
+        datatipService.addProvider(@getDatatipProvider())
 
     ###*
      * Returns the hyperclick provider.
@@ -863,7 +859,7 @@ module.exports =
         if not @service?
             @service = new Service(
                 @getConfiguration(),
-                @getCachingProxy(),
+                @getProxy(),
                 @getProjectManager(),
                 @getIndexingMediator(),
                 @getUseStatementHelper()
@@ -890,11 +886,11 @@ module.exports =
         return @configuration
 
     ###*
-     * @return {CachingProxy}
+     * @return {Proxy}
     ###
-    getCachingProxy: () ->
+    getProxy: () ->
         if not @proxy?
-            @proxy = new CachingProxy(@getConfiguration())
+            @proxy = new Proxy(@getConfiguration())
             @proxy.setCorePath(@getCoreManager().getCoreSourcePath())
 
         return @proxy
@@ -938,7 +934,7 @@ module.exports =
     ###
     getUseStatementHelper: () ->
         if not @useStatementHelper?
-            @useStatementHelper = new UseStatementHelper(@getConfiguration().get('general.insertNewlinesForUseStatements'))
+            @useStatementHelper = new UseStatementHelper(true)
 
         return @useStatementHelper
 
@@ -947,7 +943,7 @@ module.exports =
     ###
     getIndexingMediator: () ->
         if not @indexingMediator?
-            @indexingMediator = new IndexingMediator(@getCachingProxy(), @getEmitter())
+            @indexingMediator = new IndexingMediator(@getProxy(), @getEmitter())
 
         return @indexingMediator
 
@@ -956,18 +952,18 @@ module.exports =
     ###
     getProjectManager: () ->
         if not @projectManager?
-            @projectManager = new ProjectManager(@getCachingProxy(), @getIndexingMediator())
+            @projectManager = new ProjectManager(@getProxy(), @getIndexingMediator())
 
         return @projectManager
 
     ###*
-     * @return {TooltipProvider}
+     * @return {DatatipProvider}
     ###
-    getTooltipProvider: () ->
-        if not @tooltipProvider?
-            @tooltipProvider = new TooltipProvider()
+    getDatatipProvider: () ->
+        if not @datatipProvider?
+            @datatipProvider = new DatatipProvider()
 
-        return @tooltipProvider
+        return @datatipProvider
 
     ###*
      * @return {SignatureHelpProvider}
@@ -1001,6 +997,6 @@ module.exports =
     ###
     getAutocompletionProvider: () ->
         if not @autocompletionProvider?
-            @autocompletionProvider = new AutocompletionProvider(@getConfiguration(), @getService())
+            @autocompletionProvider = new AutocompletionProvider()
 
         return @autocompletionProvider

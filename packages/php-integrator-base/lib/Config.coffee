@@ -28,14 +28,19 @@ class Config
                 memoryLimit : 512
 
             general:
-                indexContinuously              : true
-                additionalIndexingDelay        : 200
-                insertNewlinesForUseStatements : false
+                indexContinuously       : true
+                additionalIndexingDelay : 200
 
-            tooltips:
+            datatips:
                 enable : true
 
             signatureHelp:
+                enable : true
+
+            gotoDefintion:
+                enable : true
+
+            autocompletion:
                 enable : true
 
             linting:

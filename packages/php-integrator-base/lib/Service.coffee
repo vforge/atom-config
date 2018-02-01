@@ -63,14 +63,6 @@ class Service
         return @projectManager.getCurrentProjectSettings()
 
     ###*
-     * Clears the autocompletion cache. Most fetching operations such as fetching constants, autocompletion, fetching
-     * members, etc. are cached when they are first retrieved. This clears the cache, forcing them to be retrieved
-     # again. Clearing the cache is automatically performed, so this method is usually unnecessary.
-    ###
-    clearCache: () ->
-        @proxy.clearCache()
-
-    ###*
      * Retrieves a list of available classes.
      *
      * @return {Promise}
@@ -168,7 +160,7 @@ class Service
      *                              noUnknownGlobalFunctions, noUnknownGlobalConstants, noDocblockCorrectness,
      *                              noUnusedUseStatements and noMissingDocumentation are supported.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     lint: (file, source, options = {}) ->
         return @proxy.lint(file, source, options)
@@ -211,7 +203,7 @@ class Service
      * @param {String}      file              The path to the file to examine.
      * @param {String|null} source            The source code to search. May be null if a file is passed instead.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     autocomplete: (offset, file, source) ->
         return @proxy.autocomplete(offset, file, source)
@@ -223,7 +215,7 @@ class Service
      * @param {String|null} source The source code to search. May be null if a file is passed instead.
      * @param {Number}      offset The character offset into the file to examine.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     tooltip: (file, source, offset) ->
         return @proxy.tooltip(file, source, offset)
@@ -235,7 +227,7 @@ class Service
      * @param {String|null} source The source code to search. May be null if a file is passed instead.
      * @param {Number}      offset The character offset into the file to examine.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     signatureHelp: (file, source, offset) ->
         return @proxy.signatureHelp(file, source, offset)
@@ -247,7 +239,7 @@ class Service
      * @param {String|null} source The source code to search. May be null if a file is passed instead.
      * @param {Number}      offset The character offset into the file to examine.
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     gotoDefinition: (file, source, offset) ->
         return @proxy.gotoDefinition(file, source, offset)
@@ -274,7 +266,7 @@ class Service
      * @param {TextEditor} editor
      * @param {Range}      bufferPosition
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     autocompleteAt: (editor, bufferPosition) ->
         offset = editor.getBuffer().characterIndexForPosition(bufferPosition)
@@ -304,7 +296,7 @@ class Service
      * @param {TextEditor} editor
      * @param {Range}      bufferPosition
      *
-     * @return {Promise}
+     * @return {CancellablePromise}
     ###
     signatureHelpAt: (editor, bufferPosition) ->
         offset = editor.getBuffer().characterIndexForPosition(bufferPosition)
