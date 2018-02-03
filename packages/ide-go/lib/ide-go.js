@@ -36,6 +36,12 @@ class GoLanguageClient extends AutoLanguageClient {
                 type: 'boolean',
                 default: true,
                 order: 2
+            },
+            pprofAddr: {
+                description: 'pprof address (requires restart)',
+                type: 'string',
+                default: '',
+                order: 3
             }
         }
     }
@@ -53,16 +59,21 @@ class GoLanguageClient extends AutoLanguageClient {
     async startServerProcess() {
         await install(pkg['name'])
 
-        const args = [];
-        if (atom.config.get(`${pkg['name']}.completionEnabled`)) {
-          args.push('-gocodecompletion');
+        const args = []
+        if (atomConfig('completionEnabled')) {
+            args.push('-gocodecompletion')
+        }
+
+        if (atomConfig('pprofAddr')) {
+            args.push(`-pprof=${atomConfig('pprofAddr')}`)
         }
 
         const childProcess = spawn(await this.serverPath(), args, {
             cwd: path.join(__dirname, '..'),
             env: process.env
         })
-        childProcess.on('error', this.onSpawnErr)
+        this.captureServerErrors(childProcess)
+        childProcess.on('exit', (code, signal) => this.onExit(code, signal))
         return childProcess
     }
 
@@ -90,7 +101,7 @@ class GoLanguageClient extends AutoLanguageClient {
     }
 
     async serverPath() {
-        let customPath = atom.config.get(`${pkg['name']}.customServerPath`)
+        let customPath = atomConfig('customServerPath')
         if (customPath !== this.config.customServerPath.default) {
             return customPath
         }
@@ -110,7 +121,7 @@ class GoLanguageClient extends AutoLanguageClient {
         return await this.goConfig.locator.findTool(this.getServerName())
     }
 
-    onSpawnErr(err) {
+    handleSpawnFailure(err) {
         atom.notifications.addError(
             `Unable to start the ${this.getLanguageName()} language server.`,
             {
@@ -124,9 +135,21 @@ class GoLanguageClient extends AutoLanguageClient {
                             )
                     }
                 ],
-                description: err.message
+                description: err.toString()
             }
         )
+    }
+
+    onExit(code, signal) {
+        if (code) {
+            atom.notifications.addError(
+                `${this.getLanguageName()} language server stopped unexpectedly.`,
+                {
+                    dismissable: true,
+                    description: `Exit code: ${code}\n${this.processStdErr}`
+                }
+            )
+        }
     }
 
     provideFileCodeFormat() {
@@ -155,6 +178,10 @@ class GoLanguageClient extends AutoLanguageClient {
             })
         })
     }
+}
+
+function atomConfig(key) {
+    return atom.config.get(`${pkg['name']}.${key}`)
 }
 
 module.exports = new GoLanguageClient()

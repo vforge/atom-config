@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45873-8hw2yg.zji3323xr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45873-8hw2yg.zji3323xr/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45873-8hw2yg.zji3323xr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171111-87902-30a4gm.s5sd2yy14i"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11813-45873-3yt11h.ln1urf6r"
     ]
   ],
-  "_from": "../d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
-  "_id": "ide-php@0.7.4",
+  "_from": "../d-11813-45873-8hw2yg.zji3323xr/package.tgz",
+  "_id": "ide-php@0.7.5",
   "_inCache": true,
   "_location": "/ide-php",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45873-8hw2yg.zji3323xr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45873-8hw2yg.zji3323xr/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45873-8hw2yg.zji3323xr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
-  "_shasum": "eed86fbc5840ebb8967da8d302b64a828071f09d",
+  "_resolved": "file:../d-11813-45873-8hw2yg.zji3323xr/package.tgz",
+  "_shasum": "5c09a03ca7791a378e186dd75b491165fbeb9586",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171111-87902-wuspu3.kj52tn8kt9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171111-87902-30a4gm.s5sd2yy14i",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45873-8hw2yg.zji3323xr/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11813-45873-3yt11h.ln1urf6r",
   "atomTestRunner": "./test/runner",
   "bugs": {
     "url": "https://github.com/atom/ide-php/issues"
@@ -44,7 +44,7 @@
       "title": "PHP Path",
       "type": "string",
       "default": "",
-      "description": "Absolute path to your PHP 7 binary (e.g. `/usr/local/bin/php`) if not in PATH or PHP_HOME. This is used to launch the PHP language server."
+      "description": "Absolute path of your PHP 7 binary (e.g. `/usr/local/bin/php` or `c:\\php7\\php.exe`) if not in PATH or PHP_HOME. This is used to launch the PHP language server."
     },
     "memoryLimit": {
       "title": "Memory Limit",
@@ -87,7 +87,7 @@
     }
   },
   "dependencies": {
-    "atom-languageclient": "^0.7.0",
+    "atom-languageclient": "0.8.3",
     "decompress": "^4.2.0"
   },
   "description": "PHP language support for Atom-IDE",
@@ -142,8 +142,8 @@
     "url": "git+https://github.com/atom/ide-php.git"
   },
   "scripts": {
-    "server-install": "rm -rf vendor && composer install --prefer-dist --no-dev && composer dump-autoload --optimize",
+    "server-install": "rm -rf vendor && rm composer.lock && composer install --prefer-dist --no-dev && composer dump-autoload --optimize",
     "server-package": "7z a temp.tar ./vendor/* && 7z a php-ls-x.y.z.tar.gz temp.tar && rm -f temp.tar"
   },
-  "version": "0.7.4"
+  "version": "0.7.5"
 }

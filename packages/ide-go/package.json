@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118013-2697-qx5w8v.9orrepnwmi/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118013-2697-qx5w8v.9orrepnwmi/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118013-2697-qx5w8v.9orrepnwmi/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118013-2697-tf5oag.06j0qqia4i"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11813-45888-1855r4z.khs81fko6r"
     ]
   ],
-  "_from": "../d-118013-2697-qx5w8v.9orrepnwmi/package.tgz",
-  "_id": "ide-go@0.5.0",
+  "_from": "../d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
+  "_id": "ide-go@0.6.1",
   "_inCache": true,
   "_location": "/ide-go",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118013-2697-qx5w8v.9orrepnwmi/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118013-2697-qx5w8v.9orrepnwmi/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118013-2697-qx5w8v.9orrepnwmi/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118013-2697-qx5w8v.9orrepnwmi/package.tgz",
-  "_shasum": "8c08efe4c84d9346c06bfaa5615c1d756403aea4",
+  "_resolved": "file:../d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
+  "_shasum": "047fecb470fec6d3d607c7bf4f8f7707769d53ba",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118013-2697-qx5w8v.9orrepnwmi/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118013-2697-tf5oag.06j0qqia4i",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11813-45888-1855r4z.khs81fko6r",
   "author": {
     "name": "Clifton Kaznocha",
     "email": "clifton@kaznocha.com",
@@ -66,7 +66,7 @@
     }
   },
   "dependencies": {
-    "atom-languageclient": "^0.8.0",
+    "atom-languageclient": "^0.8.1",
     "atom-package-deps": "^4.6.0"
   },
   "description": "Go language support for Atom-IDE.",
@@ -126,5 +126,5 @@
     "type": "git",
     "url": "git+https://github.com/ckaznocha/ide-go.git"
   },
-  "version": "0.5.0"
+  "version": "0.6.1"
 }

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.1
+*   Fix scope in call to onError
+
+## 0.6.0
+*   Better error handling
+*   Add option to set the pprof address
+*   Upgrade atom-languageclient to 0.8.1
+
 ## 0.5.0
 *   Upgrade atom-languageclient to 0.8.0
 *   Add autocomplete support ([@pbitty](https://github.com/pbitty))
