@@ -2,40 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35748-1ug9m6x/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-70637-cr464q.z6ff69wwmi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35748-1ug9m6x/package.tgz",
-        "spec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35748-1ug9m6x/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-70637-cr464q.z6ff69wwmi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-70637-cr464q.z6ff69wwmi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/apm-install-dir-117221-35748-1dsnhdq"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11818-70637-1fq4fnd.phc83nb3xr"
     ]
   ],
-  "_from": "../d-117221-35748-1ug9m6x/package.tgz",
-  "_id": "language-pug@0.0.21",
+  "_from": "../d-11818-70637-cr464q.z6ff69wwmi/package.tgz",
+  "_id": "language-pug@0.0.22",
   "_inCache": true,
-  "_installable": true,
   "_location": "/language-pug",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35748-1ug9m6x/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-70637-cr464q.z6ff69wwmi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35748-1ug9m6x/package.tgz",
-    "spec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35748-1ug9m6x/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-70637-cr464q.z6ff69wwmi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-70637-cr464q.z6ff69wwmi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117221-35748-1ug9m6x/package.tgz",
-  "_shasum": "f897eb0563fb61c8b70df6f96f14bc04153bd2de",
+  "_resolved": "file:../d-11818-70637-cr464q.z6ff69wwmi/package.tgz",
+  "_shasum": "ac1ef067f0851c7d1fafb7c82de7fff4fceeff40",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117221-35748-1ug9m6x/package.tgz",
-  "_where": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/apm-install-dir-117221-35748-1dsnhdq",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-70637-cr464q.z6ff69wwmi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11818-70637-1fq4fnd.phc83nb3xr",
   "bugs": {
     "url": "https://github.com/genoma/language-pug/issues"
   },
@@ -60,5 +59,5 @@
     "type": "git",
     "url": "git+https://github.com/genoma/language-pug.git"
   },
-  "version": "0.0.21"
+  "version": "0.0.22"
 }

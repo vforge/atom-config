@@ -13,15 +13,14 @@ log = null
 _ = null
 config = require '../services/imdone-config'
 envConfig = require '../../config'
-
-# #BACKLOG: Add keen stats for features id:8 gh:240
+# #BACKLOG: Add keen stats for features gh:240 id:89
 module.exports =
 class ImdoneAtomView extends ScrollView
 
   class PluginViewInterface extends Emitter
     constructor: (@imdoneView)->
       super()
-    emitter: -> @ # CHANGED: deprecated id:14 gh:245
+    emitter: -> @ # CHANGED: deprecated gh:245 id:74
     selectTask: (id) ->
       @imdoneView.selectTask id
     showPlugin: (plugin) ->
@@ -159,7 +158,7 @@ class ImdoneAtomView extends ScrollView
     @emitter.on 'sync.error', => @hideMask()
 
     @emitter.on 'tasks.updated', (tasks) =>
-      @onRepoUpdate(tasks) # TODO: For UI performance only update the lists that have changed. +enhancement gh:205 id:44
+      @onRepoUpdate(tasks) # TODO: For UI performance only update the lists that have changed. +enhancement gh:205 id:83
 
     @emitter.on 'initialized', =>
       @addPlugin(Plugin) for Plugin in pluginManager.getAll()
@@ -174,7 +173,7 @@ class ImdoneAtomView extends ScrollView
 
     @emitter.on 'tasks.moved', (tasks) =>
       #console.log 'tasks.moved', tasks
-      @onRepoUpdate(tasks) # TODO: For performance maybe only update the lists that have changed id:35 gh:259
+      @onRepoUpdate(tasks) # TODO: For performance maybe only update the lists that have changed gh:259 id:98
 
     @emitter.on 'config.update', =>
       #console.log 'config.update'
@@ -285,7 +284,7 @@ class ImdoneAtomView extends ScrollView
       taskId = $task.id
       items = $task.querySelectorAll('.task-description .checklist-item')
       [].forEach.call items, (el) ->
-        if (el.checked) then el.setAttribute('checked', true) else el.removeAttribute('checked') 
+        if (el.checked) then el.setAttribute('checked', true) else el.removeAttribute('checked')
       repo.modifyTaskFromHtml repo.getTask(taskId), $task.querySelector('.task-text').innerHTML
 
     pluginManager.emitter.on 'plugin.added', (Plugin) =>
@@ -422,7 +421,7 @@ class ImdoneAtomView extends ScrollView
       item.destroy()
 
   onRepoUpdate: (tasks) ->
-    # BACKLOG: This should be queued so two updates don't colide id:9 gh:241
+    # BACKLOG: This should be queued so two updates don't colide gh:241 id:90
     @updateBoard(tasks)
     @boardWrapper.css 'bottom', 0
     @bottomView.attr 'style', ''
@@ -442,7 +441,10 @@ class ImdoneAtomView extends ScrollView
       $el.span class: opts.linkClass, "#{linkPrefix}#{opts.linkText}"
     $link.dataset.filter = opts.linkPrefix.replace( "+", "\\+" )+opts.linkText
     $link
-
+  # TODO: Use web components to make the UI more testable and portable. +enhancement gh:297 id:75
+  # - Create a task component
+  # - Write task component tests
+  # - Use the new component in the UI
   getTask: (task) =>
     self = @;
     repo = @imdoneRepo
@@ -601,9 +603,9 @@ class ImdoneAtomView extends ScrollView
     @emitter.emit 'board.update'
 
 
-  # BACKLOG: Split this apart into it's own class to simplify. Call it BoardView +refactor id:15 gh:246
+  # BACKLOG: Split this apart into it's own class to simplify. Call it BoardView +refactor gh:246 id:84
   updateBoard: (tasks) ->
-    # TODO: Only update board with changed tasks gh:205 +master id:45
+    # TODO: Only update board with changed tasks gh:205 +master id:99
     # return if @updateTasksOnBoard tasks
     self = @
     @destroySortables()

@@ -1,3 +1,7 @@
+## 2.3.34
+- Add .pug to languages
+- Update comment symbol for .jade and .pug to be //-
+
 ## 2.3.33
 - Update screenshot in README
 
@@ -517,4 +521,4 @@
 
 ----
 
-#TODO: Remember to update changelog before +publishing +package @piascikj id:0 gh:237
+#TODO: Remember to update changelog before +publishing +package @piascikj gh:237 id:66

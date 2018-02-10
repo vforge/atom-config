@@ -38,16 +38,8 @@
       "hidden": false
     },
     {
-      "name": "READY",
-      "hidden": true
-    },
-    {
-      "name": "REVIEW",
-      "hidden": true
-    },
-    {
       "name": "CHANGED",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "NOTE",

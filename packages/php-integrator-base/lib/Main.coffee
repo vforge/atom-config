@@ -4,6 +4,8 @@
 
 packageDeps = require('atom-package-deps')
 
+fs = require 'fs'
+
 Proxy =                  require './Proxy'
 Service =                require './Service'
 AtomConfig =             require './AtomConfig'
@@ -189,7 +191,7 @@ module.exports =
      *
      * @var {String}
     ###
-    coreVersionSpecification: "3.2.0"
+    coreVersionSpecification: "3.2.1"
 
     ###*
      * The name of the package.
@@ -455,27 +457,42 @@ module.exports =
         service = @getService()
 
         indexBusyMessageMap = new Map()
-        message = "Indexing PHP code - code assistance may be unavailable or incomplete"
+
+        getBaseMessageForPath = (path) ->
+            if Array.isArray(path)
+                path = path[0]
+
+            if fs.lstatSync(path).isDirectory()
+                return 'Indexing project - code assistance may be unavailable or incomplete'
+
+            return 'Indexing ' + path
 
         service.onDidStartIndexing ({path}) =>
-            indexBusyMessageMap[path] = @busySignalService.reportBusy(message, {
+            if not indexBusyMessageMap.has(path)
+                indexBusyMessageMap.set(path, new Array())
+
+            indexBusyMessageMap.get(path).push(@busySignalService.reportBusy(getBaseMessageForPath(path), {
                 waitingFor    : 'computer',
                 revealTooltip : true
-            })
+            }))
 
         service.onDidFinishIndexing ({path}) =>
-            if path of indexBusyMessageMap
-                indexBusyMessageMap[path].dispose()
-                delete indexBusyMessageMap[path]
+            return if not indexBusyMessageMap.has(path)
+
+            indexBusyMessageMap.get(path).forEach((busyMessage) => busyMessage.dispose())
+            indexBusyMessageMap.delete(path)
 
         service.onDidFailIndexing ({path}) =>
-            if path of indexBusyMessageMap
-                indexBusyMessageMap[path].dispose()
-                delete indexBusyMessageMap[path]
+            return if not indexBusyMessageMap.has(path)
+
+            indexBusyMessageMap.get(path).forEach((busyMessage) => busyMessage.dispose())
+            indexBusyMessageMap.delete(path)
 
         service.onDidIndexingProgress ({path, percentage}) =>
-            if indexBusyMessageMap[path]?
-                indexBusyMessageMap[path].setTitle(message + " (" + percentage.toFixed(2) + " %)")
+            return if not indexBusyMessageMap.has(path)
+
+            indexBusyMessageMap.get(path).forEach (busyMessage) =>
+                busyMessage.setTitle(getBaseMessageForPath(path) + " (" + percentage.toFixed(2) + " %)")
 
     ###*
      * @return {Promise}

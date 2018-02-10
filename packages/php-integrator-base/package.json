@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11811-48790-1yh3w3p.21p4iy66r/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-6932-1cc0xcd.bngeqaor/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11811-48790-1yh3w3p.21p4iy66r/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11811-48790-1yh3w3p.21p4iy66r/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-6932-1cc0xcd.bngeqaor/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-6932-1cc0xcd.bngeqaor/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11811-48790-odpy1s.thhi05p14i"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11818-6932-oux9ys.692dsa714i"
     ]
   ],
-  "_from": "../d-11811-48790-1yh3w3p.21p4iy66r/package.tgz",
-  "_id": "php-integrator-base@3.2.0",
+  "_from": "../d-11818-6932-1cc0xcd.bngeqaor/package.tgz",
+  "_id": "php-integrator-base@3.2.1",
   "_inCache": true,
   "_location": "/php-integrator-base",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11811-48790-1yh3w3p.21p4iy66r/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-6932-1cc0xcd.bngeqaor/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11811-48790-1yh3w3p.21p4iy66r/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11811-48790-1yh3w3p.21p4iy66r/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-6932-1cc0xcd.bngeqaor/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-6932-1cc0xcd.bngeqaor/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11811-48790-1yh3w3p.21p4iy66r/package.tgz",
-  "_shasum": "c6b005fd1b189b13d96c12cc983a5ec6e9ec6efa",
+  "_resolved": "file:../d-11818-6932-1cc0xcd.bngeqaor/package.tgz",
+  "_shasum": "4019ce491c67310af438b0abba217e637bfd3570",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11811-48790-1yh3w3p.21p4iy66r/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11811-48790-odpy1s.thhi05p14i",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11818-6932-1cc0xcd.bngeqaor/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11818-6932-oux9ys.692dsa714i",
   "bugs": {
     "url": "https://github.com/php-integrator/atom-base/issues"
   },
@@ -117,5 +117,5 @@
     "type": "git",
     "url": "git+https://github.com/php-integrator/atom-base.git"
   },
-  "version": "3.2.0"
+  "version": "3.2.1"
 }

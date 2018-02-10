@@ -149,6 +149,8 @@
   "isotope-ui":
     backgroundGradient: true
     matchEditorFont: true
+  "language-babel":
+    autoIndentJSX: true
   "line-count-status": {}
   "linter-eslint": {}
   "linter-phpcs":
