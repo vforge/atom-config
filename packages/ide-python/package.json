@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118025-22527-to3m8z.qc3ngsyvi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118114-3587-11aygas.27idtmlsor/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118025-22527-to3m8z.qc3ngsyvi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118025-22527-to3m8z.qc3ngsyvi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118114-3587-11aygas.27idtmlsor/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118114-3587-11aygas.27idtmlsor/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118025-22527-5bhgsj.ybs36av2t9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118114-3587-2u77ax.fnfusor"
     ]
   ],
-  "_from": "../d-118025-22527-to3m8z.qc3ngsyvi/package.tgz",
-  "_id": "ide-python@0.7.0",
+  "_from": "../d-118114-3587-11aygas.27idtmlsor/package.tgz",
+  "_id": "ide-python@0.8.0",
   "_inCache": true,
   "_location": "/ide-python",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118025-22527-to3m8z.qc3ngsyvi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118114-3587-11aygas.27idtmlsor/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118025-22527-to3m8z.qc3ngsyvi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118025-22527-to3m8z.qc3ngsyvi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118114-3587-11aygas.27idtmlsor/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118114-3587-11aygas.27idtmlsor/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118025-22527-to3m8z.qc3ngsyvi/package.tgz",
-  "_shasum": "c5b1c346bb54fa4c1471d9bb74f6b5a0de133080",
+  "_resolved": "file:../d-118114-3587-11aygas.27idtmlsor/package.tgz",
+  "_shasum": "e64b809981171ca67d6161b52b66e7053ae784c7",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118025-22527-to3m8z.qc3ngsyvi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118025-22527-5bhgsj.ybs36av2t9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118114-3587-11aygas.27idtmlsor/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118114-3587-2u77ax.fnfusor",
   "bugs": {
     "url": "https://github.com/lgeiger/ide-python/issues"
   },
@@ -46,24 +46,24 @@
       "default": "pyls",
       "description": "Absolute path to `pyls` executable."
     },
+    "pylsConfigurationSources": {
+      "type": "array",
+      "default": [
+        "pycodestyle"
+      ],
+      "description": "List of configuration sources to use. Requires `pyls` 0.12.1+",
+      "items": {
+        "type": "string",
+        "enum": [
+          "pycodestyle",
+          "flake8"
+        ]
+      }
+    },
     "pylsPlugins": {
       "title": "Python Language Server Plugins",
       "type": "object",
       "properties": {
-        "configurationSources": {
-          "type": "array",
-          "default": [
-            "pycodestyle"
-          ],
-          "description": "List of configuration sources to use. Requires `pyls` 0.12.1+",
-          "items": {
-            "type": "string",
-            "enum": [
-              "pycodestyle",
-              "pyflakes"
-            ]
-          }
-        },
         "jedi_completion": {
           "title": "Jedi Completion",
           "type": "object",
@@ -170,6 +170,30 @@
               "type": "boolean",
               "default": true,
               "description": "Enable or disable PyCodeStyle."
+            },
+            "select": {
+              "type": "array",
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "description": "Select errors and warnings. Requires `pyls` 0.14+"
+            },
+            "ignore": {
+              "type": "array",
+              "default": [
+                "E121",
+                "E123",
+                "E126",
+                "E226",
+                "E24",
+                "E704",
+                "W503"
+              ],
+              "items": {
+                "type": "string"
+              },
+              "description": "Ignore errors and warnings. Requires `pyls` 0.14+"
             },
             "hangClosing": {
               "type": "boolean",
@@ -314,11 +338,11 @@
       }
     }
   },
-  "readme": "# IDE-python package\n\n[![Greenkeeper badge](https://badges.greenkeeper.io/lgeiger/ide-python.svg)](https://greenkeeper.io/)\n\nPython language support for [Atom-IDE](https://ide.atom.io/), powered by the [Python language server](https://github.com/palantir/python-language-server).\n\n![ide-python](https://user-images.githubusercontent.com/13285808/30352538-b9687a76-9820-11e7-8876-c22751645d36.png)\n\n## Requirements\n\n[`ide-python`](https://atom.io/packages/ide-python) requires [Atom `1.21+`](https://atom.io/) and the [`atom-ide-ui`](https://atom.io/packages/atom-ide-ui) package to expose the functionality within Atom.\n\n## Feature Providers\n\n* [Jedi](https://github.com/davidhalter/jedi) for Completions, Definitions, Hover, References, Signature Help, and Symbols\n* [Rope](https://github.com/python-rope/rope) for Completions and renaming\n* [Pyflakes](https://github.com/PyCQA/pyflakes) linter to detect various errors\n* [McCabe](https://github.com/PyCQA/mccabe) linter for complexity checking\n* [pycodestyle](https://github.com/PyCQA/pycodestyle) linter for style checking\n* [pydocstyle](https://github.com/PyCQA/pydocstyle) linter for docstring style checking\n* [YAPF](https://github.com/google/yapf) for code formatting\n\n## Installation\n\nInstall the language server with\n\n```bash\npip install python-language-server\n```\n\nVerify that everything is correctly installed and `pyls` is on your `PATH` by running `pyls --help` from the command line.\nIt should return\n\n```bash\nusage: pyls [-h] [--tcp] [--host HOST] [--port PORT]\n            [--log-config LOG_CONFIG | --log-file LOG_FILE] [-v]\n\nPython Language Server\n...\n```\n\n## Contributing\n\nAlways feel free to help out! Whether it's [filing bugs and feature requests](https://github.com/lgeiger/ide-python/issues/new) or working on some of the [open issues](https://github.com/lgeiger/ide-python/issues), Atom's [guide for contributing to packages](https://github.com/atom/atom/blob/master/docs/contributing-to-packages.md) will help get you started.\n\n## License\n\nMIT License. See [the license](LICENSE.md) for more details.\n",
+  "readme": "# IDE-python package\n\n[![Greenkeeper badge](https://badges.greenkeeper.io/lgeiger/ide-python.svg)](https://greenkeeper.io/)\n\nPython language support for [Atom-IDE](https://ide.atom.io/), powered by the [Python language server](https://github.com/palantir/python-language-server).\n\n![ide-python](https://user-images.githubusercontent.com/13285808/30352538-b9687a76-9820-11e7-8876-c22751645d36.png)\n\n## Requirements\n\n[`ide-python`](https://atom.io/packages/ide-python) requires [Atom `1.21+`](https://atom.io/) and the [`atom-ide-ui`](https://atom.io/packages/atom-ide-ui) package to expose the functionality within Atom.\n\n## Feature Providers\n\n* [Jedi](https://github.com/davidhalter/jedi) for Completions, Definitions, Hover, References, Signature Help, and Symbols\n* [Rope](https://github.com/python-rope/rope) for Completions and renaming\n* [Pyflakes](https://github.com/PyCQA/pyflakes) linter to detect various errors\n* [McCabe](https://github.com/PyCQA/mccabe) linter for complexity checking\n* [pycodestyle](https://github.com/PyCQA/pycodestyle) linter for style checking\n* [pydocstyle](https://github.com/PyCQA/pydocstyle) linter for docstring style checking\n* [YAPF](https://github.com/google/yapf) for code formatting\n\n## Installation\n\nInstall the language server (we recommend version `0.14.0` or newer) with\n\n```bash\npip install python-language-server\n```\n\nVerify that everything is correctly installed and `pyls` is on your `PATH` by running `pyls --help` from the command line.\nIt should return\n\n```bash\nusage: pyls [-h] [--tcp] [--host HOST] [--port PORT]\n            [--log-config LOG_CONFIG | --log-file LOG_FILE] [-v]\n\nPython Language Server\n...\n```\n\nDepending on your Python setup `pyls` may be installed in a non default folder. In this case either add the directory to your `PATH` or edit the \"Python Language Server Path\" setting of `ide-python` to point to the `pyls` executable.\n\n## Configuration\n\nConfiguration is loaded from zero or more configuration sources.\n\n* `pycodestyle` (default): discovered in `~/.config/pycodestyle`, `setup.cfg`, `tox.ini` and `pycodestyle.cfg`\n* `flake8`: discovered in `~/.config/flake8`, `setup.cfg`, `tox.ini` and `flake8.cfg`\n\nOverall configuration is computed first from user configuration (in home directory), overridden by configuration in the `ide-python` settings, and then overridden by configuration discovered in the current project.\n\n## Contributing\n\nAlways feel free to help out! Whether it's [filing bugs and feature requests](https://github.com/lgeiger/ide-python/issues/new) or working on some of the [open issues](https://github.com/lgeiger/ide-python/issues), Atom's [guide for contributing to packages](https://github.com/atom/atom/blob/master/docs/contributing-to-packages.md) will help get you started.\n\n## License\n\nMIT License. See [the license](LICENSE.md) for more details.\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lgeiger/ide-python.git"
   },
-  "version": "0.7.0"
+  "version": "0.8.0"
 }
