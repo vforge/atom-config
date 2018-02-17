@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171013-13724-s94xzg.mwflwbqpvi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118116-51602-nrbqp4.z3883hm2t9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171013-13724-s94xzg.mwflwbqpvi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171013-13724-s94xzg.mwflwbqpvi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118116-51602-nrbqp4.z3883hm2t9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118116-51602-nrbqp4.z3883hm2t9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171013-13724-deihf9.gl1nx3l3di"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118116-51602-qgvs8f.5i8bcyds4i"
     ]
   ],
-  "_from": "../d-1171013-13724-s94xzg.mwflwbqpvi/package.tgz",
-  "_id": "ide-csharp@0.6.1",
+  "_from": "../d-118116-51602-nrbqp4.z3883hm2t9/package.tgz",
+  "_id": "ide-csharp@0.6.2",
   "_inCache": true,
   "_location": "/ide-csharp",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171013-13724-s94xzg.mwflwbqpvi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118116-51602-nrbqp4.z3883hm2t9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171013-13724-s94xzg.mwflwbqpvi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171013-13724-s94xzg.mwflwbqpvi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118116-51602-nrbqp4.z3883hm2t9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118116-51602-nrbqp4.z3883hm2t9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1171013-13724-s94xzg.mwflwbqpvi/package.tgz",
-  "_shasum": "4ab5c16c115e349ec4984e2a08e0581161c64d0d",
+  "_resolved": "file:../d-118116-51602-nrbqp4.z3883hm2t9/package.tgz",
+  "_shasum": "d6cdc9e70c086dc9d69e21478cbe01660128d5da",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171013-13724-s94xzg.mwflwbqpvi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171013-13724-deihf9.gl1nx3l3di",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118116-51602-nrbqp4.z3883hm2t9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118116-51602-qgvs8f.5i8bcyds4i",
   "bugs": {
     "url": "https://github.com/atom/ide-csharp/issues"
   },
@@ -51,7 +51,7 @@
     }
   },
   "dependencies": {
-    "atom-languageclient": "^0.6.1",
+    "atom-languageclient": "^0.8.3",
     "omnisharp-client": "^7.2.2"
   },
   "description": "C# language support for Atom-IDE.",
@@ -105,5 +105,5 @@
     "type": "git",
     "url": "git+https://github.com/atom/ide-csharp.git"
   },
-  "version": "0.6.1"
+  "version": "0.6.2"
 }

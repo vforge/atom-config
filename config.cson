@@ -101,10 +101,6 @@
     packagesWithKeymapsDisabled: []
     restorePreviousWindowsOnStart: "always"
     telemetryConsent: "no"
-    themes: [
-      "city-lights-ui"
-      "city-lights-syntax"
-    ]
     titleBar: "custom"
     warnOnLargeFileLimit: 10
   "ctags-status":
