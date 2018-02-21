@@ -203,7 +203,8 @@
   "nord-atom-ui":
     darkerFormFocusEffect: true
     tabSizing: false
-  "one-dark-ui": {}
+  "one-dark-ui":
+    tabSizing: "Maximum"
   "one-light-ui": {}
   "open-terminal-here": {}
   "opened-files":
