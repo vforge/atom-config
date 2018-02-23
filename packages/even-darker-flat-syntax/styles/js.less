@@ -1,0 +1,19 @@
+@import 'syntax-variables';
+
+.syntax--js {
+  .syntax--template {
+    .syntax--element {
+      .syntax--quasi.syntax--begin, .syntax--quasi.syntax--end, .syntax--language {
+        color: @pink;
+      }
+
+      .syntax--variable, .syntax--brace, .syntax--comma {
+        color: @syntax-text-color;
+      }
+
+      .syntax--constant {
+        color: @purple;
+      }
+    }
+  }
+}

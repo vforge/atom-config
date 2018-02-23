@@ -28,10 +28,12 @@
   "atom-material-ui":
     colors:
       abaseColor: "#7e7e7e"
+      paintCursor: true
       predefinedColor: "Grey"
     tabs:
       compactTabs: true
       noTabMinWidth: true
+      stretchedTabs: true
       tintedTabBar: true
     treeView:
       compactList: true
@@ -97,10 +99,15 @@
       "activate-power-mode"
       "java-importer"
       "symbols-list"
+      "title-bar-replacer"
     ]
     packagesWithKeymapsDisabled: []
     restorePreviousWindowsOnStart: "always"
     telemetryConsent: "no"
+    themes: [
+      "even-darker-flat-ui"
+      "even-darker-flat-syntax"
+    ]
     titleBar: "custom"
     warnOnLargeFileLimit: 10
   "ctags-status":
@@ -144,7 +151,7 @@
   "isotope-light-ui": {}
   "isotope-ui":
     backgroundGradient: true
-    matchEditorFont: true
+    fontWeight: "Extra light / Thin"
   "language-babel":
     autoIndentJSX: true
   "line-count-status": {}
@@ -217,7 +224,7 @@
       phpCommand: "/usr/local/bin/php"
   "php-integrator-base:confirmed-upgrade-message": true
   "pristine-ui":
-    tabSizing: "Minimum"
+    tabSizing: "Maximum"
   "project-manager":
     prettifyTitle: false
     showPath: false
@@ -248,6 +255,10 @@
   "terminal-plus":
     core: {}
     style: {}
+  "title-bar-replacer":
+    general:
+      autoHide: true
+      displayTitleBar: false
   "tool-bar":
     position: "Left"
   "tool-bar-almighty": {}

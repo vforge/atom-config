@@ -1,0 +1,29 @@
+@import "ui-variables";
+@import "ui-mixins";
+@import "syntax-variables";
+
+atom-text-editor.editor {
+  ::-webkit-scrollbar-thumb {
+    background-color: @syntax-selection-color;
+  }
+
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background-color: @syntax-background-color;
+  }
+}
+
+atom-text-editor[mini].editor.editor {
+  color: @text-color-highlight;
+  padding-left: @component-padding / 2;
+  background-color: @dark-flat-ui-dark-gray;
+  max-height: @component-line-height;
+
+  &.is-focused {
+    background-color: @dark-flat-ui-super-duper-dark-gray;
+  }
+
+  &.is-focused .selection .region {
+    background-color: @dark-flat-ui-light-gray!important;
+  }
+}

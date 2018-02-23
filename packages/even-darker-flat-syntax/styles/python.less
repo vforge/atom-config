@@ -1,0 +1,41 @@
+@import 'syntax-variables';
+
+.syntax--python {
+
+  &.syntax--class {
+    color: @pink;
+    
+  }
+
+  &.syntax--inherited-class {
+    color: @green !important;
+  }
+
+  &.syntax--function {
+    color: @blue !important;
+    .syntax--storage {
+      color: @pink !important;
+    }
+  }
+
+  &.syntax--function-call {
+    color: @blue;
+  }
+
+  &.syntax--begin,
+  &.syntax--end {
+    color: @ghost-white;
+  }
+
+  &.syntax--block {
+    color: @brown;
+    .syntax--begin, .syntax--end {
+      color: @brown;
+    }
+  }
+
+  &.syntax--variable {
+    color: @ghost-white !important;
+    font-style: normal;
+  }
+}
