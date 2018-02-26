@@ -91,7 +91,7 @@ atom-text-editor {
 }
 
 .syntax--comment {
-  color: @brown;
+  color: @syntax-comment;
 }
 
 .syntax--constant {
@@ -99,35 +99,33 @@ atom-text-editor {
   &.syntax--language,
   &.syntax--numeric,
   &.syntax--other {
-    color: @purple;
+    color: @syntax-constant;
   }
 }
 
 .syntax--entity {
   &.syntax--name.syntax--class {
-    text-decoration: none;
-    color: @green;
+    color: @syntax-class;
   }
 
   &.syntax--name.syntax--function {
-    color: @green;
+    color: @syntax-function;
   }
 
   &.syntax--name.syntax--instance {
-    color: @blue;
+    color: @syntax-base;
   }
 
   &.syntax--name.syntax--tag {
-    color: @pink;
+    color: @syntax-keyword;
   }
 
   &.syntax--other.syntax--attribute-name {
-    color: @green;
+    color: @syntax-base;
   }
 
   &.syntax--other.syntax--inherited-class {
-    text-decoration: none;
-    color: @green;
+    color: @syntax-base;
   }
 }
 
@@ -141,7 +139,7 @@ atom-text-editor {
 }
 
 .syntax--keyword {
-  color: @pink !important;
+  color: @syntax-keyword !important;
 }
 
 .syntax--meta.syntax--tag {
@@ -149,48 +147,59 @@ atom-text-editor {
 }
 
 .syntax--storage {
-  color: @pink;
-
-  &.syntax--type {
-    color: @blue;
-  }
-
+  color: @syntax-keyword;
   &.syntax--todo {
-    color: @light-gray;
+    color: @syntax-todo;
   }
+}
+
+&.syntax--type {
+  color: @syntax-class;
+}
+
+.syntax--annotation {
+  color: @syntax-annotation !important;
 }
 
 .syntax--punctuation {
+  color: @syntax-base;
   &.syntax--separator {
     color: @pink;
   }
+
+  &.syntax--comment {
+    color: @syntax-comment;
+  }
 }
 .syntax--string {
-  color: @yellow;
+  color: @syntax-string;
+}
+
+.syntax--import {
+  color: @syntax-base;
 }
 
 .syntax--support {
   &.syntax--constant,
   &.syntax--function {
-    color: @blue;
+    color: @syntax-function;
   }
 
   &.syntax--class,
   &.syntax--type {
-    font-style: italic;
-    color: @blue;
+    color: @syntax-class;
   }
 }
 
 .syntax--variable {
+  color: @syntax-base !important;
   &.syntax--parameter {
-    font-style: italic;
-    color: @orange;
+    color: @syntax-base;
   }
 
   // 'this' Javascript
   &.syntax--language.syntax--js {
-    color: @pink;
+    color: @syntax-special-keyword;
   }
 }
 

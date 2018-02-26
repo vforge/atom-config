@@ -16,4 +16,18 @@
   &.syntax--important {
     color: @very-pink !important;
   }
+
+  &.syntax--id {
+    color: @pink !important;
+  }
+
+  &.syntax--unit {
+    color: darken(@syntax-constant, 15%) !important;
+  }
+
+  &.syntax--comment {
+    &.syntax--begin, &.syntax--end {
+      color: @brown;
+    }
+  }
 }
