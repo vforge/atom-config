@@ -1,11 +1,13 @@
 
 [![apm](https://img.shields.io/apm/v/imdone-atom.svg)]()
-[![apm](https://img.shields.io/apm/dm/imdone-atom.svg)](https://atom.io/packages/imdone-atom)
+[![apm](https://img.shields.io/apm/dm/imdone-atom.svg)](https://atom.io/packages/imdone-atom) 
+![made](https://octicons.glitch.me/svg/pencil.svg?size=16) with ![love](https://octicons.glitch.me/svg/heart.svg?size=16) by
+<a href="https://imdone.io/"><img src="https://imdone.io/images/logos/imdone-logo.svg" width=16> imdone.io</a>
 
-**A kanban board with cards and lists that are made from TODOs in your code, markdown and text files.**
+**A kanban board with an invisible user interface. It's cards and lists are made from TODOs in your code, markdown and text files.**
 Use `alt(⌥)+t` to open your project's board.
 
-Identify, organize and address technical debt so it can be integrated into the product backlog with **[imdone.io](https://imdone.io)**.
+The best issue tracker is one that's invisible.  Integrate your TODO comments into the product backlog with **[imdone.io](https://imdone.io)**.
 
 ![screen shot 2018-01-20 at 5 24 12 pm](https://user-images.githubusercontent.com/233505/35189496-c05ed71e-fe08-11e7-9390-6e8fb999d1f7.png)
 
