@@ -2,41 +2,42 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117102-53978-1q7ztkt.pezjv2t9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11821-59855-1nm50kx.vdw572pgb9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117102-53978-1q7ztkt.pezjv2t9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117102-53978-1q7ztkt.pezjv2t9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11821-59855-1nm50kx.vdw572pgb9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11821-59855-1nm50kx.vdw572pgb9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117102-53978-1y5lz5r.7mv0z1if6r"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11821-59855-l7wmxl.qxny6qolxr"
     ]
   ],
-  "_from": "../d-117102-53978-1q7ztkt.pezjv2t9/package.tgz",
-  "_id": "ide-html@0.4.1",
+  "_from": "../d-11821-59855-1nm50kx.vdw572pgb9/package.tgz",
+  "_id": "ide-html@0.4.2",
   "_inCache": true,
   "_location": "/ide-html",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117102-53978-1q7ztkt.pezjv2t9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11821-59855-1nm50kx.vdw572pgb9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117102-53978-1q7ztkt.pezjv2t9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117102-53978-1q7ztkt.pezjv2t9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11821-59855-1nm50kx.vdw572pgb9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11821-59855-1nm50kx.vdw572pgb9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117102-53978-1q7ztkt.pezjv2t9/package.tgz",
-  "_shasum": "8ec20f5f3539ef7c1f33b3a39c0ebc4ae939a7ab",
+  "_resolved": "file:../d-11821-59855-1nm50kx.vdw572pgb9/package.tgz",
+  "_shasum": "f473efde527c0454c05b54492cdd9b1e48793b04",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117102-53978-1q7ztkt.pezjv2t9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117102-53978-1y5lz5r.7mv0z1if6r",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11821-59855-1nm50kx.vdw572pgb9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11821-59855-l7wmxl.qxny6qolxr",
   "atomCommands": {
-    "ide-html:help": "Provides help information and descriptions of commands."
+    "ide-html:help": "Provides help information and descriptions of commands.",
+    "ide-html:open-settings": "Open settings page."
   },
   "author": {
     "name": "Te-Chi Liu"
@@ -77,8 +78,7 @@
     }
   },
   "dependencies": {
-    "atom-languageclient": "^0.6.7",
-    "fuzzaldrin-plus": "^0.5.0",
+    "atom-languageclient": "^0.9.1",
     "vscode-html-languageserver-bin": "^1.0.0"
   },
   "description": "Atom-IDE for HTML, Go Template, Mustache and other Templates",
@@ -138,7 +138,7 @@
       }
     }
   },
-  "readme": "# ide-html\n\n[![apm-download-count][apm-download-count]][apm-download-link]\n[![travis-status][travis-status]][travis-project]\n[![dependency-status][david-status]][david-project]\n\n[Atom-IDE][atom-ide] for HTML, Go Template, Mustache and other Templates.\n\n![demo-outline-1][demo-outline-1]\n\n![demo-outline-2][demo-outline-2]\n\n## Features\n\n  - HTML Outline in *Outline View*\n      - Quick navigation by clicking\n      - Quick tag selection by double clicking\n      - Searching by entering tag name or class name\n\n\n## Requirements\n\nPlease install following requirements before installing [`ide-html`][apm-download-link]:\n\n  - [Latest Atom editor][atom] or version higher than *1.21.0-beta0*.\n  - Atom package [`atom-ide-ui`][atom-ide-ui]\n\n\n## FAQ\n\n> Why I could not download this Atom package?\n\nPlease make sure you have installed all softwares in [*Requirements*](#requirements) section.\n\n---\n\n> I've installed ide-html. Why there is still nothing shown in Outline View when html opened?\n\nPlease check the file exists in the *Project Tree View* so that it can be handled by [`ide-html`][apm-download-link].\n\nIn addition, to show outline view, use Atom command `Outline View: Toggle`.\n\n---\n\n> How can I customize this package?\n\nPlease read [CONTRIBUTING.md][CONTRIBUTING.md] for more details.\n\n---\n\n  - :confused: Still feeling confused? Please [provide feedbacks via issues][create-issue] to make ide-html better. :pray:\n\n\n## Notes and References\n  - [`ide-html`][apm-download-link] acts as a *client* of language server basing on [`atom-languageclient`][atom-languageclient]\n  - [`vscode-html-languageserver-bin`][vscode-html-languageserver-bin] acts as a *language server* and analyze your HTML in separate process\n  - language servers and clients are talking with [Language Server Protocol (LSP)][lsp]\n\n\n## License\n\n[MIT License][mit-license]\n\n\n[apm-download-count]: https://img.shields.io/apm/dm/ide-html.svg \"apm-download-count\"\n[apm-download-link]: https://atom.io/packages/ide-html \"apm-download-link\"\n[travis-status]: https://travis-ci.org/liuderchi/ide-html.svg?branch=master \"travis-status\"\n[travis-project]: https://travis-ci.org/liuderchi/ide-html \"travis-project\"\n[david-status]: https://david-dm.org/liuderchi/ide-html.svg \"david-status\"\n[david-project]: https://david-dm.org/liuderchi/ide-html \"david-project\"\n[atom-ide]: https://ide.atom.io/ \"atom-ide\"\n[demo-outline-1]: https://user-images.githubusercontent.com/4994705/30626662-eb286e4e-9dfd-11e7-9bf6-24d4f5816e79.png \"demo-outline-1\"\n[demo-outline-2]: https://user-images.githubusercontent.com/4994705/30628148-1475ae8e-9e07-11e7-90f3-32231efb93b4.png \"demo-outline-2\"\n\n[atom]: https://atom.io/ \"atom\"\n[atom-ide-ui]: https://atom.io/packages/atom-ide-ui \"atom-ide-ui\"\n[CONTRIBUTING.md]: https://github.com/liuderchi/ide-html/blob/master/CONTRIBUTING.md \"CONTRIBUTING.md\"\n[create-issue]: https://github.com/liuderchi/ide-html/issues/new \"create-issue\"\n\n[atom-languageclient]: https://github.com/atom/atom-languageclient \"atom-languageclient\"\n[vscode-html-languageserver-bin]: https://github.com/vscode-langservers/vscode-html-languageserver-bin \"vscode-html-languageserver-bin\"\n[lsp]: http://langserver.org/ \"lsp\"\n\n[mit-license]: https://liuderchi.mit-license.org/ \"mit-license\"\n",
+  "readme": "# ide-html\n\n[![apm-download-count][apm-download-count]][apm-download-link]\n[![travis-status][travis-status]][travis-project]\n[![dependency-status][david-status]][david-project]\n[![Greenkeeper badge](https://badges.greenkeeper.io/liuderchi/ide-html.svg)](https://greenkeeper.io/)\n\n[Atom-IDE][atom-ide] for HTML, Go Template, Mustache and other Templates.\n\n![demo-outline-1][demo-outline-1]\n\n![demo-outline-2][demo-outline-2]\n\n## Features\n\n  - HTML Outline in *Outline View*\n      - Quick navigation by clicking\n      - Quick tag selection by double clicking\n      - Searching by entering tag name or class name\n\n\n## Requirements\n\nPlease install following requirements before installing [`ide-html`][apm-download-link]:\n\n  - [Latest Atom editor][atom] or version higher than *1.21.0-beta0*.\n  - Atom package [`atom-ide-ui`][atom-ide-ui]\n\n\n## FAQ\n\n> Why I could not download this Atom package?\n\nPlease make sure you have installed all softwares in [*Requirements*](#requirements) section.\n\n---\n\n> I've installed ide-html. Why there is still nothing shown in Outline View when html opened?\n\nPlease check the file exists in the *Project Tree View* so that it can be handled by [`ide-html`][apm-download-link].\n\nIn addition, to show outline view, use Atom command `Outline View: Toggle`.\n\n---\n\n> How can I customize this package?\n\nPlease read [CONTRIBUTING.md][CONTRIBUTING.md] for more details.\n\n---\n\n  - :confused: Still feeling confused? Please [provide feedbacks via issues][create-issue] to make ide-html better. :pray:\n\n\n## Notes and References\n  - [`ide-html`][apm-download-link] acts as a *client* of language server basing on [`atom-languageclient`][atom-languageclient]\n  - [`vscode-html-languageserver-bin`][vscode-html-languageserver-bin] acts as a *language server* and analyze your HTML in separate process\n  - language servers and clients are talking with [Language Server Protocol (LSP)][lsp]\n\n\n## License\n\n[MIT License][mit-license]\n\n\n[apm-download-count]: https://img.shields.io/apm/dm/ide-html.svg \"apm-download-count\"\n[apm-download-link]: https://atom.io/packages/ide-html \"apm-download-link\"\n[travis-status]: https://travis-ci.org/liuderchi/ide-html.svg?branch=master \"travis-status\"\n[travis-project]: https://travis-ci.org/liuderchi/ide-html \"travis-project\"\n[david-status]: https://david-dm.org/liuderchi/ide-html.svg \"david-status\"\n[david-project]: https://david-dm.org/liuderchi/ide-html \"david-project\"\n[atom-ide]: https://ide.atom.io/ \"atom-ide\"\n[demo-outline-1]: https://user-images.githubusercontent.com/4994705/30626662-eb286e4e-9dfd-11e7-9bf6-24d4f5816e79.png \"demo-outline-1\"\n[demo-outline-2]: https://user-images.githubusercontent.com/4994705/30628148-1475ae8e-9e07-11e7-90f3-32231efb93b4.png \"demo-outline-2\"\n\n[atom]: https://atom.io/ \"atom\"\n[atom-ide-ui]: https://atom.io/packages/atom-ide-ui \"atom-ide-ui\"\n[CONTRIBUTING.md]: https://github.com/liuderchi/ide-html/blob/master/CONTRIBUTING.md \"CONTRIBUTING.md\"\n[create-issue]: https://github.com/liuderchi/ide-html/issues/new \"create-issue\"\n\n[atom-languageclient]: https://github.com/atom/atom-languageclient \"atom-languageclient\"\n[vscode-html-languageserver-bin]: https://github.com/vscode-langservers/vscode-html-languageserver-bin \"vscode-html-languageserver-bin\"\n[lsp]: http://langserver.org/ \"lsp\"\n\n[mit-license]: https://liuderchi.mit-license.org/ \"mit-license\"\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
@@ -148,5 +148,5 @@
     "eslint": "eslint ./src",
     "test": "npm run eslint"
   },
-  "version": "0.4.1"
+  "version": "0.4.2"
 }
