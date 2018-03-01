@@ -11,25 +11,30 @@ function _load_goToLocation() {
   return _goToLocation = require('nuclide-commons-atom/go-to-location');
 }
 
+var _paneItem;
+
+function _load_paneItem() {
+  return _paneItem = require('nuclide-commons-atom/pane-item');
+}
+
 var _promise2;
 
 function _load_promise() {
   return _promise2 = require('nuclide-commons/promise');
 }
 
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- * @format
- */
+let preview; /**
+              * Copyright (c) 2017-present, Facebook, Inc.
+              * All rights reserved.
+              *
+              * This source code is licensed under the BSD-style license found in the
+              * LICENSE file in the root directory of this source tree. An additional grant
+              * of patent rights can be found in the PATENTS file in the same directory.
+              *
+              * 
+              * @format
+              */
 
-let preview;
 let marker;
 let originalPoint;
 let lastOpenablePreview;
@@ -55,7 +60,7 @@ options = {}, openDelay = 0) {
     lastOpenablePreview.cancel();
   }
 
-  let cancelled;
+  let canceled;
   let confirmed;
 
   const activeItem = atom.workspace.getActivePaneItem();
@@ -79,7 +84,7 @@ options = {}, openDelay = 0) {
       // a common case is scrolling through many results, cancelling one after
       // the other. give things a chance to cancel before going throught the work
       // of rendering a preview
-      if (cancelled) {
+      if (canceled) {
         return Promise.resolve();
       } else {
         return (0, (_goToLocation || _load_goToLocation()).goToLocation)(uri, {
@@ -91,7 +96,7 @@ options = {}, openDelay = 0) {
           pending: true,
           moveCursor: false
         }).then(newPreview => {
-          if (cancelled && isPending(newPreview) &&
+          if (canceled && (0, (_paneItem || _load_paneItem()).isPending)(newPreview) &&
           // don't destroy the pane if it's not new (e.g. within the same file --
           // like a symbol within the originating file)
           originalPoint != null && newPreview !== originalPoint.item) {
@@ -102,7 +107,7 @@ options = {}, openDelay = 0) {
           // the pane may have been reused: e.g. previewing a line in the same file
           // so make sure it wasn't. Then destroy the old preview if it's not the
           // original pane.
-          if (preview != null && isPending(preview) && preview !== newPreview) {
+          if (preview != null && (0, (_paneItem || _load_paneItem()).isPending)(preview) && preview !== newPreview) {
             preview.destroy();
           }
 
@@ -136,7 +141,7 @@ options = {}, openDelay = 0) {
 
   const openablePreview = {
     cancel() {
-      cancelled = true;
+      canceled = true;
 
       if (activeOpenableId !== thisOpenableId) {
         // the next preview has cleaned up our markers for us
@@ -163,7 +168,7 @@ options = {}, openDelay = 0) {
         throw new Error('Another preview has become active after this one was shown. Cannot confirm.');
       }
 
-      if (cancelled) {
+      if (canceled) {
         throw new Error('A preview cannot be confirmed after it has been cancelled');
       }
 
@@ -193,9 +198,4 @@ options = {}, openDelay = 0) {
 
   lastOpenablePreview = openablePreview;
   return openablePreview;
-}
-
-function isPending(paneItem) {
-  const pane = atom.workspace.paneForItem(paneItem);
-  return pane && pane.getPendingItem() === paneItem;
 }

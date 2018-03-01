@@ -5,6 +5,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.OutlineView = undefined;
 
+var _Atomicon;
+
+function _load_Atomicon() {
+  return _Atomicon = _interopRequireDefault(require('nuclide-commons-ui/Atomicon'));
+}
+
 var _HighlightedText;
 
 function _load_HighlightedText() {
@@ -15,6 +21,12 @@ var _collection;
 
 function _load_collection() {
   return _collection = require('nuclide-commons/collection');
+}
+
+var _memoizeUntilChanged;
+
+function _load_memoizeUntilChanged() {
+  return _memoizeUntilChanged = _interopRequireDefault(require('nuclide-commons/memoizeUntilChanged'));
 }
 
 var _UniversalDisposable;
@@ -326,7 +338,9 @@ class OutlineViewCore extends _react.PureComponent {
       // cursor to the start of the symbol. Let's activate the pane now.
       pane.activate();
       pane.activateItem(editor);
-    }, this._outlineTreeToNode = outlineTree => {
+    }, this._getNodes = (0, (_memoizeUntilChanged || _load_memoizeUntilChanged()).default)(outlineTrees => {
+      return outlineTrees.map(this._outlineTreeToNode);
+    }), this._outlineTreeToNode = outlineTree => {
       const searchResult = this.state.searchResults.get(outlineTree);
 
       if (outlineTree.children.length === 0) {
@@ -387,7 +401,7 @@ class OutlineViewCore extends _react.PureComponent {
           className: 'outline-view-trees atom-ide-filterable',
           collapsedPaths: this.state.collapsedPaths,
           itemClassName: 'outline-view-item',
-          items: outline.outlineTrees.map(this._outlineTreeToNode),
+          items: this._getNodes(outline.outlineTrees),
           onCollapse: this._handleCollapse,
           onConfirm: this._handleConfirm,
           onExpand: this._handleExpand,
@@ -402,12 +416,9 @@ class OutlineViewCore extends _react.PureComponent {
 
 function renderItem(outline, searchResult) {
   const r = [];
-  const icon =
-  // flowlint-next-line sketchy-null-string:off
-  outline.icon || outline.kind && OUTLINE_KIND_TO_ICON[outline.kind];
 
-  if (icon != null) {
-    r.push(_react.createElement('span', { key: `icon-${icon}`, className: `icon icon-${icon}` }));
+  if (outline.kind != null) {
+    r.push(_react.createElement((_Atomicon || _load_Atomicon()).default, { key: 'type-icon', type: outline.kind }));
     // Note: icons here are fixed-width, so the text lines up.
   }
 
@@ -458,24 +469,3 @@ function selectNodeFromPath(outline, path) {
   }
   return node;
 }
-
-const OUTLINE_KIND_TO_ICON = {
-  array: 'type-array',
-  boolean: 'type-boolean',
-  class: 'type-class',
-  constant: 'type-constant',
-  constructor: 'type-constructor',
-  enum: 'type-enum',
-  field: 'type-field',
-  file: 'type-file',
-  function: 'type-function',
-  interface: 'type-interface',
-  method: 'type-method',
-  module: 'type-module',
-  namespace: 'type-namespace',
-  number: 'type-number',
-  package: 'type-package',
-  property: 'type-property',
-  string: 'type-string',
-  variable: 'type-variable'
-};

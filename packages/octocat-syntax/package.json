@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118127-89532-1p5ep8j.ws0za1yvi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118127-89532-1p5ep8j.ws0za1yvi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118127-89532-1p5ep8j.ws0za1yvi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118127-89532-ia45xh.406dy4x6r"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118128-2661-l6726b.2my2satt9"
     ]
   ],
-  "_from": "../d-118127-89532-1p5ep8j.ws0za1yvi/package.tgz",
-  "_id": "octocat-syntax@2.2.0",
+  "_from": "../d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
+  "_id": "octocat-syntax@2.2.1",
   "_inCache": true,
   "_location": "/octocat-syntax",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118127-89532-1p5ep8j.ws0za1yvi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118127-89532-1p5ep8j.ws0za1yvi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118127-89532-1p5ep8j.ws0za1yvi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118127-89532-1p5ep8j.ws0za1yvi/package.tgz",
-  "_shasum": "956da54c195fc3dacba338eb80a8b4ff5ba2a021",
+  "_resolved": "file:../d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
+  "_shasum": "872da3463b79d077804f863ce21b11d71e2d0074",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118127-89532-1p5ep8j.ws0za1yvi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118127-89532-ia45xh.406dy4x6r",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118128-2661-l6726b.2my2satt9",
   "author": {
     "name": "Vincent Klaiber",
     "email": "hello@vinkla.com",
@@ -69,5 +69,5 @@
     "url": "git+https://github.com/vinkla/atom-octocat-syntax.git"
   },
   "theme": "syntax",
-  "version": "2.2.0"
+  "version": "2.2.1"
 }
