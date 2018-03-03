@@ -2,6 +2,7 @@
 {CompositeDisposable, TextBuffer, Point} = require 'atom'
 
 LogFilter = require './log-filter'
+{formatTimestamp} = require './util'
 
 deprecatedTextEditor = (params) ->
   if atom.workspace.buildTextEditor?
@@ -23,8 +24,19 @@ class LogView extends View
     )
 
     @div tabIndex: -1, class: 'log-view', =>
+      @section outlet: 'timestamps', =>
+        @div class: 'input-block log-timestamps', =>
+          @code outlet: 'timestampStart'
+          @div class: 'input-block-item input-block-item--flex', =>
+            @i class: 'icon icon-chevron-left'
+            @div class: 'log-timestamps-line'
+            @i class: 'icon icon-chevron-right'
+          @code outlet: 'timestampEnd'
+
       @header class: 'header', =>
         @span 'Log Filter'
+        @span outlet: 'closeButton', class: 'pull-right close-button', =>
+          @i class: 'icon icon-x'
         @span class: 'pull-right', 'Level Filters'
         @span outlet: 'descriptionLabel', class: 'description'
         @span outlet: 'descriptionWarningLabel', class: 'description warning'
@@ -53,6 +65,8 @@ class LogView extends View
 
   initialize: ->
     @disposables = new CompositeDisposable
+
+    @timestamps.hide()
 
     @logFilter = new LogFilter(@textEditor)
     @tailing = false
@@ -84,13 +98,17 @@ class LogView extends View
       title: "Toggle Warning Level"
     @disposables.add atom.tooltips.add @levelErrorButton,
       title: "Toggle Error Level"
+    @disposables.add atom.tooltips.add @closeButton,
+      title: "Close Panel <span class=\"keystroke\">Esc</span>"
+      html: true
 
   handleEvents: ->
     @disposables.add atom.commands.add @filterEditorView.element,
       'core:confirm': => @confirm()
 
     @disposables.add atom.commands.add @element,
-      'core:cancel': => @focusTextEditor()
+      'core:cancel': => @destroyPanel()
+      'core:close': => @destroyPanel()
 
     @disposables.add @logFilter.onDidFinishFilter =>
       @updateDescription()
@@ -103,6 +121,7 @@ class LogView extends View
     @levelDebugButton.on 'click', => @toggleButton('debug')
     @levelWarningButton.on 'click', => @toggleButton('warning')
     @levelErrorButton.on 'click', => @toggleButton('error')
+    @closeButton.on 'click', => @destroyPanel()
 
     @filterEditorView.getModel().onDidStopChanging =>
       @liveFilter()
@@ -110,6 +129,12 @@ class LogView extends View
     @textEditor.onDidStopChanging =>
       @tail()
       @updateDescription()
+
+    if @textEditor.tokenizedBuffer?.fullyTokenized
+      @updateTimestamps()
+    else
+      @textEditor.onDidTokenize =>
+        @updateTimestamps()
 
     @on 'focus', => @filterEditorView.focus()
 
@@ -120,6 +145,13 @@ class LogView extends View
   destroy: ->
     @disposables.dispose()
     @detach()
+
+  destroyPanel: ->
+    panel = atom.workspace.panelForItem(this)
+    panel?.destroy()
+    panel = null
+    @textEditor = null
+    @destroy()
 
   toggleTail: ->
     atom.config.set('language-log.tail', !atom.config.get('language-log.tail'))
@@ -184,6 +216,16 @@ class LogView extends View
     else
       ""
     )
+
+  updateTimestamps: ->
+    timestampStart = @logFilter.getFirstTimestamp()
+    timestampEnd = @logFilter.getLastTimestamp()
+
+    return @timestamps.hide() unless timestampStart and timestampEnd
+
+    @timestampStart.text formatTimestamp(timestampStart)
+    @timestampEnd.text formatTimestamp(timestampEnd)
+    @timestamps.show()
 
   tail: ->
     return unless atom.config.get('language-log.tail') and @textEditor

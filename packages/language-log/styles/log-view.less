@@ -1,10 +1,13 @@
 @import 'ui-variables';
 
 .log-view {
-  padding: @component-padding/2;
+  @item-width: 300px;
+  @item-color: #31363f;
+
+  padding: @component-padding / 2;
 
   .header {
-    padding: @component-padding/2;
+    padding: @component-padding / 2;
 
     .description {
       display: inline-block;
@@ -17,6 +20,34 @@
     }
   }
 
+  .input-block.log-timestamps {
+    padding: @component-padding / 2;
+
+    .log-timestamps-line {
+      border-bottom: 2px solid @item-color;
+      width: 100%;
+      margin-bottom: 9px;
+    }
+
+    .input-block-item {
+      flex: 1 1;
+    }
+
+    .input-block-item--flex {
+      padding: 0;
+      flex: 100 1;
+    }
+
+    .icon {
+      color: @item-color;
+
+      &:before {
+        width: 10px;
+        margin-right: 0;
+      }
+    }
+  }
+
   .btn-icon {
     line-height: 0;
     overflow: hidden;
@@ -25,6 +56,19 @@
       line-height: 0.5;
       font-size: 32px;
       width: 32px;
+    }
+  }
+
+  .close-button {
+    margin-left: @component-padding * 2;
+    cursor: pointer;
+    color: @text-color-subtle;
+    &:hover {
+      color: @text-color-highlight;
+    }
+    .icon::before {
+      margin-right: 0;
+      text-align: center;
     }
   }
 
@@ -42,8 +86,6 @@
   }
 
   .input-block {
-    @item-width: 300px;
-
     display: flex;
     flex-wrap: wrap;
     width: 100%;

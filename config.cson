@@ -100,6 +100,7 @@
       "java-importer"
       "symbols-list"
       "title-bar-replacer"
+      "minimap-autohider"
     ]
     packagesWithKeymapsDisabled: []
     restorePreviousWindowsOnStart: "always"
@@ -141,6 +142,7 @@
     ebmedded: "Full"
   "fuzzy-finder":
     preserveLastSearch: true
+  "git-diff": {}
   "git-plus": {}
   "git-projects":
     rootPath: "/Users/v/Git;/Users/v/Dropbox/Development/vforge"
@@ -182,11 +184,11 @@
       codeglanceDecorationsZIndex: 0
       cursorline: true
       cursorlineDecorationsZIndex: 0
-      "find-and-replace": false
+      "find-and-replace": true
       "find-and-replaceDecorationsZIndex": 0
       "git-diff": true
       "git-diffDecorationsZIndex": 0
-      "highlight-selected": false
+      "highlight-selected": true
       "highlight-selectedDecorationsZIndex": 0
       linter: true
       linterDecorationsZIndex: 0
