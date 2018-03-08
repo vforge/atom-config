@@ -431,7 +431,8 @@ class Table extends _react.Component {
           datum
         );
       });
-      const rowProps = selectable ? {
+      const selectableRow = typeof selectable === 'function' ? selectable(row.data) : selectable;
+      const rowProps = selectableRow ? {
         onClick: event => {
           switch (event.detail) {
             // This (`event.detail === 0`) shouldn't happen normally but does when the click is
@@ -457,7 +458,8 @@ class Table extends _react.Component {
         Object.assign({
           className: (0, (_classnames || _load_classnames()).default)(rowClassName, {
             'nuclide-ui-table-row': true,
-            'nuclide-ui-table-row-selectable': selectable,
+            'nuclide-ui-table-row-selectable': selectableRow,
+            'nuclide-ui-table-row-disabled': typeof selectable === 'function' && !selectableRow,
             'nuclide-ui-table-row-using-keyboard-nav': this.state.usingKeyboard,
             'nuclide-ui-table-row-selected': isSelectedRow,
             'nuclide-ui-table-row-alternate': alternateBackground !== false && i % 2 === 1,

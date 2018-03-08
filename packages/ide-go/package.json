@@ -2,39 +2,50 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11825-12078-1jxv8ir.xvwbyjsjor/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11825-12078-1jxv8ir.xvwbyjsjor/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11825-12078-1jxv8ir.xvwbyjsjor/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11813-45888-1855r4z.khs81fko6r"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11825-12078-lmkjh7.nl8u5zh0k9"
     ]
   ],
-  "_from": "../d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
-  "_id": "ide-go@0.6.1",
+  "_from": "../d-11825-12078-1jxv8ir.xvwbyjsjor/package.tgz",
+  "_id": "ide-go@0.7.0",
   "_inCache": true,
   "_location": "/ide-go",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11825-12078-1jxv8ir.xvwbyjsjor/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11825-12078-1jxv8ir.xvwbyjsjor/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11825-12078-1jxv8ir.xvwbyjsjor/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
-  "_shasum": "047fecb470fec6d3d607c7bf4f8f7707769d53ba",
+  "_resolved": "file:../d-11825-12078-1jxv8ir.xvwbyjsjor/package.tgz",
+  "_shasum": "46f63f33a4dd100d9be2ca2af72dee03b765a2ec",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11813-45888-aipxay.o2m5yfzuxr/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11813-45888-1855r4z.khs81fko6r",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11825-12078-1jxv8ir.xvwbyjsjor/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11825-12078-lmkjh7.nl8u5zh0k9",
+  "atomTranspilers": [
+    {
+      "transpiler": "atom-ts-transpiler",
+      "glob": "{!(node_modules)/**/,}*.ts?(x)",
+      "options": {
+        "compilerOptions": {},
+        "cacheKeyFiles": [],
+        "verbose": false
+      }
+    }
+  ],
   "author": {
     "name": "Clifton Kaznocha",
     "email": "clifton@kaznocha.com",
@@ -54,6 +65,11 @@
         "0.1.0": "consumeDatatip"
       }
     },
+    "signature-help": {
+      "versions": {
+        "0.1.0": "consumeSignatureHelp"
+      }
+    },
     "go-config": {
       "versions": {
         "1.0.0": "consumeGoConfig"
@@ -66,8 +82,13 @@
     }
   },
   "dependencies": {
-    "atom-languageclient": "^0.8.1",
-    "atom-package-deps": "^4.6.0"
+    "@types/atom": "^1.24.1",
+    "@types/electron": "^1.6.10",
+    "@types/node": "^9.4.0",
+    "atom-languageclient": "^0.9.1",
+    "atom-package-deps": "^4.6.0",
+    "atom-ts-transpiler": "^1.4.2",
+    "typescript": "^2.7.1"
   },
   "description": "Go language support for Atom-IDE.",
   "devDependencies": {},
@@ -126,5 +147,5 @@
     "type": "git",
     "url": "git+https://github.com/ckaznocha/ide-go.git"
   },
-  "version": "0.6.1"
+  "version": "0.7.0"
 }

@@ -11,6 +11,12 @@ function _load_Atomicon() {
   return _Atomicon = _interopRequireDefault(require('nuclide-commons-ui/Atomicon'));
 }
 
+var _Atomicon2;
+
+function _load_Atomicon2() {
+  return _Atomicon2 = require('nuclide-commons-ui/Atomicon');
+}
+
 var _HighlightedText;
 
 function _load_HighlightedText() {
@@ -36,6 +42,12 @@ function _load_UniversalDisposable() {
 }
 
 var _react = _interopRequireWildcard(require('react'));
+
+var _classnames;
+
+function _load_classnames() {
+  return _classnames = _interopRequireDefault(require('classnames'));
+}
 
 var _nullthrows;
 
@@ -89,6 +101,18 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
+
 const TOKEN_KIND_TO_CLASS_NAME_MAP = {
   keyword: 'syntax--keyword',
   'class-name': 'syntax--entity syntax--name syntax--class',
@@ -99,57 +123,22 @@ const TOKEN_KIND_TO_CLASS_NAME_MAP = {
   whitespace: '',
   plain: '',
   type: 'syntax--support syntax--type'
-}; /**
-    * Copyright (c) 2017-present, Facebook, Inc.
-    * All rights reserved.
-    *
-    * This source code is licensed under the BSD-style license found in the
-    * LICENSE file in the root directory of this source tree. An additional grant
-    * of patent rights can be found in the PATENTS file in the same directory.
-    *
-    * 
-    * @format
-    */
+};
 
 class OutlineView extends _react.PureComponent {
   constructor(...args) {
     var _temp;
 
-    return _temp = super(...args), this.state = {
-      fontFamily: atom.config.get('editor.fontFamily'),
-      fontSize: atom.config.get('editor.fontSize'),
-      lineHeight: atom.config.get('editor.lineHeight')
-    }, this._setOutlineViewRef = element => {
+    return _temp = super(...args), this._setOutlineViewRef = element => {
       this._outlineViewRef = element;
     }, _temp;
   }
 
   componentDidMount() {
-    if (!(this.subscription == null)) {
-      throw new Error('Invariant violation: "this.subscription == null"');
-    }
-
-    this.subscription = new (_UniversalDisposable || _load_UniversalDisposable()).default(atom.config.observe('editor.fontSize', size => {
-      this.setState({ fontSize: size });
-    }), atom.config.observe('editor.fontFamily', font => {
-      this.setState({ fontFamily: font });
-    }), atom.config.observe('editor.lineHeight', size => {
-      this.setState({ lineHeight: size });
-    }));
-
     // Ensure that focus() gets called during the initial mount.
     if (this.props.visible) {
       this.focus();
     }
-  }
-
-  componentWillUnmount() {
-    if (!(this.subscription != null)) {
-      throw new Error('Invariant violation: "this.subscription != null"');
-    }
-
-    this.subscription.unsubscribe();
-    this.subscription = null;
   }
 
   componentDidUpdate(prevProps) {
@@ -168,17 +157,6 @@ class OutlineView extends _react.PureComponent {
     return _react.createElement(
       'div',
       { className: 'outline-view' },
-      _react.createElement('style', {
-        dangerouslySetInnerHTML: {
-          __html: `
-              .outline-view-core {
-                line-height: ${this.state.lineHeight};
-                font-size: ${this.state.fontSize}px;
-                font-family: ${this.state.fontFamily};
-              }
-          `
-        }
-      }),
       _react.createElement(OutlineViewComponent, {
         outline: this.props.outline,
         ref: this._setOutlineViewRef
@@ -338,9 +316,11 @@ class OutlineViewCore extends _react.PureComponent {
       // cursor to the start of the symbol. Let's activate the pane now.
       pane.activate();
       pane.activateItem(editor);
-    }, this._getNodes = (0, (_memoizeUntilChanged || _load_memoizeUntilChanged()).default)(outlineTrees => {
-      return outlineTrees.map(this._outlineTreeToNode);
-    }), this._outlineTreeToNode = outlineTree => {
+    }, this._getNodes = (0, (_memoizeUntilChanged || _load_memoizeUntilChanged()).default)(outlineTrees => outlineTrees.map(this._outlineTreeToNode),
+    // searchResults is passed here as a cache key for the memoization.
+    // Since tree nodes contain `hidden` within them, we need to rerender
+    // whenever searchResults changes to reflect that.
+    outlineTrees => [outlineTrees, this.state.searchResults]), this._outlineTreeToNode = outlineTree => {
       const searchResult = this.state.searchResults.get(outlineTree);
 
       if (outlineTree.children.length === 0) {
@@ -417,9 +397,21 @@ class OutlineViewCore extends _react.PureComponent {
 function renderItem(outline, searchResult) {
   const r = [];
 
-  if (outline.kind != null) {
+  const iconName = outline.icon;
+  if (iconName != null) {
+    const correspondingAtomicon = (0, (_Atomicon2 || _load_Atomicon2()).getTypeFromIconName)(iconName);
+    if (correspondingAtomicon == null) {
+      r.push(_react.createElement('span', {
+        key: 'type-icon',
+        className: (0, (_classnames || _load_classnames()).default)('icon', `icon-${iconName}`)
+      }));
+    } else {
+      // If we're passed an icon name rather than a type, and it maps directly
+      // to an atomicon, use that.
+      r.push(_react.createElement((_Atomicon || _load_Atomicon()).default, { key: 'type-icon', type: correspondingAtomicon }));
+    }
+  } else if (outline.kind != null) {
     r.push(_react.createElement((_Atomicon || _load_Atomicon()).default, { key: 'type-icon', type: outline.kind }));
-    // Note: icons here are fixed-width, so the text lines up.
   }
 
   if (outline.tokenizedText != null) {
