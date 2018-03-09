@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118115-23054-ms7ddp.10fqv0lik9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11828-50254-1fqfyog.tgsree9udi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118115-23054-ms7ddp.10fqv0lik9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118115-23054-ms7ddp.10fqv0lik9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11828-50254-1fqfyog.tgsree9udi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11828-50254-1fqfyog.tgsree9udi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118115-23054-1y8nw8j.n10q7aatt9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11828-50254-dkyd8z.di1ov9rudi"
     ]
   ],
-  "_from": "../d-118115-23054-ms7ddp.10fqv0lik9/package.tgz",
-  "_id": "autocomplete-modules@1.11.0",
+  "_from": "../d-11828-50254-1fqfyog.tgsree9udi/package.tgz",
+  "_id": "autocomplete-modules@1.12.0",
   "_inCache": true,
   "_location": "/autocomplete-modules",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118115-23054-ms7ddp.10fqv0lik9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11828-50254-1fqfyog.tgsree9udi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118115-23054-ms7ddp.10fqv0lik9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118115-23054-ms7ddp.10fqv0lik9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11828-50254-1fqfyog.tgsree9udi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11828-50254-1fqfyog.tgsree9udi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118115-23054-ms7ddp.10fqv0lik9/package.tgz",
-  "_shasum": "4af5f9b64452208ee57df2e61f5a2f203b8838d3",
+  "_resolved": "file:../d-11828-50254-1fqfyog.tgsree9udi/package.tgz",
+  "_shasum": "37a7dcbe1aed466d69f8888e973dd07093d2e08a",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118115-23054-ms7ddp.10fqv0lik9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118115-23054-1y8nw8j.n10q7aatt9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11828-50254-1fqfyog.tgsree9udi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11828-50254-dkyd8z.di1ov9rudi",
   "activationHooks": [
     "language-javascript:grammar-used",
     "language-babel:grammar-used",
@@ -80,7 +80,7 @@
   "providedServices": {
     "autocomplete.provider": {
       "versions": {
-        "2.0.0": "getCompletionProvider"
+        "4.0.0": "getCompletionProvider"
       }
     }
   },
@@ -94,5 +94,5 @@
     "pretest": "eslint src/",
     "test": "exit 0"
   },
-  "version": "1.11.0"
+  "version": "1.12.0"
 }
