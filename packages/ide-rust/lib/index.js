@@ -173,6 +173,22 @@ async function installRlsComponents(toolchain) {
   }
 }
 
+/**
+ * Adds a listener on stdout to warn of non-LSP looking lines (potentially from wayward
+ * server-side printing). Non-LSP stdout usage will break vscode-jsonrpc.
+ * @param {ChildProcess} process Rls
+ * @return {ChildProcess}
+ */
+function logSuspiciousStdout(process) {
+  process.stdout.on('data', chunk => {
+    chunk.toString('utf8')
+      .split('\n')
+      .filter(l => l.trim() && !l.startsWith("Content-Length:") && !l.includes('"jsonrpc":"2.0"'))
+      .forEach(line => console.error("Rust (RLS) suspicious stdout:", line))
+  })
+  return process
+}
+
 // ongoing promise
 let _checkingRls
 
@@ -227,12 +243,30 @@ class RustLanguageClient extends AutoLanguageClient {
         description: 'Sets the toolchain installed using rustup and used to run the Rls.' +
           ' For example ***beta*** or ***nightly-yyyy-mm-dd***.',
         type: 'string',
-        default: 'nightly'
+        default: 'nightly',
+        order: 1
       },
       checkForToolchainUpdates: {
-        description: 'Check on startup for toolchain updates, prompting to install if available',
+        description: 'Check on startup & periodically for toolchain updates, prompting to install if available',
         type: 'boolean',
-        default: true
+        default: true,
+        order: 2
+      },
+      rlsDefaultConfig: {
+        title: "Rls Configuration",
+        description: 'Configuration default sent to all Rls instances, overridden by project rls.toml configuration',
+        type: 'object',
+        collapsed: false,
+        properties: {
+          allTargets: {
+            title: "Check All Targets",
+            description: 'Checks tests, examples & benches. Equivalent to `cargo check --all-targets`',
+            type: 'string',
+            default: "Rls Default",
+            order: 1,
+            enum: ["On", "Off", "Rls Default"]
+          }
+        }
       }
     }
   }
@@ -456,16 +490,10 @@ class RustLanguageClient extends AutoLanguageClient {
       }
     ))
 
-    // check for updates (if enabled) every so often
-    let periodicUpdateTimeoutId
-    const periodicUpdate = async () => {
-      await this._promptToUpdateToolchain().catch(logErr)
-      periodicUpdateTimeoutId = setTimeout(periodicUpdate, PERIODIC_UPDATE_CHECK_MILLIS)
-    }
-    this.disposables.add(new Disposable(() => {
-      clearTimeout(periodicUpdateTimeoutId)
-    }))
-    periodicUpdate()
+    // restart running servers if default config changes
+    this.disposables.add(atom.config.onDidChange('ide-rust.rlsDefaultConfig',
+      () => this._restartLanguageServers().catch(logErr)
+    ))
 
     this.disposables.add(atom.commands.add(
       'atom-workspace',
@@ -521,6 +549,21 @@ class RustLanguageClient extends AutoLanguageClient {
   }
 
   async startServerProcess(projectPath) {
+    if (!this._periodicUpdateChecking) {
+      // if haven't started periodic checks for updates yet start now
+      let periodicUpdateTimeoutId
+      const periodicUpdate = async () => {
+        await this._promptToUpdateToolchain().catch(logErr)
+        periodicUpdateTimeoutId = setTimeout(periodicUpdate, PERIODIC_UPDATE_CHECK_MILLIS)
+      }
+      this.disposables.add(new Disposable(() => {
+        clearTimeout(periodicUpdateTimeoutId)
+        delete this._periodicUpdateChecking
+      }))
+      this._periodicUpdateChecking = true
+      periodicUpdate().catch(logErr)
+    }
+
     let cmdOverride = rlsCommandOverride()
     if (cmdOverride) {
       if (!this._warnedAboutRlsCommandOverride) {
@@ -528,25 +571,42 @@ class RustLanguageClient extends AutoLanguageClient {
         atom.notifications.addInfo(`Using rls command \`${cmdOverride}\``)
         this._warnedAboutRlsCommandOverride = true
       }
-      return cp.spawn(cmdOverride, {
+      return logSuspiciousStdout(cp.spawn(cmdOverride, {
         env: await serverEnv(configToolchain()),
         shell: true,
         cwd: projectPath
-      })
+      }))
     }
 
     try {
       await this._checkToolchain()
       await checkRls(this.busySignalService)
       let toolchain = configToolchain()
-      return cp.spawn("rustup", ["run", toolchain, "rls"], {
+      return logSuspiciousStdout(cp.spawn("rustup", ["run", toolchain, "rls"], {
         env: await serverEnv(toolchain),
         cwd: projectPath
-      })
+      }))
     }
     catch (e) {
       throw new Error("failed to start server: " + e)
     }
+  }
+
+  // Extends the outline provider by filtering the type variable, which is s
+  // only used for local variables by RLS. This makes the outline view
+  // cleaner and more useful.
+  provideOutlines() {
+    let provide = super.provideOutlines()
+    let superOutline = provide.getOutline
+
+    provide.getOutline = async (...args) => {
+      let outline = await superOutline.apply(this, args)
+      outline.outlineTrees = outline.outlineTrees
+        .filter(o => o.icon !== "type-variable")
+      return outline
+    }
+
+    return provide
   }
 }
 
