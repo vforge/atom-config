@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117921-65384-73mow4.zklrw9udi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54625-o87qiv.8lv7ca0pb9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117921-65384-73mow4.zklrw9udi/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117921-65384-73mow4.zklrw9udi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54625-o87qiv.8lv7ca0pb9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54625-o87qiv.8lv7ca0pb9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117921-65384-wgc2xs.g0adkro1or"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118212-54625-8i2kzj.6qbm7k3xr"
     ]
   ],
-  "_from": "../d-117921-65384-73mow4.zklrw9udi/package.tgz",
-  "_id": "chester-atom-syntax@0.3.0",
+  "_from": "../d-118212-54625-o87qiv.8lv7ca0pb9/package.tgz",
+  "_id": "chester-atom-syntax@0.3.2",
   "_inCache": true,
   "_location": "/chester-atom-syntax",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117921-65384-73mow4.zklrw9udi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54625-o87qiv.8lv7ca0pb9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117921-65384-73mow4.zklrw9udi/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117921-65384-73mow4.zklrw9udi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54625-o87qiv.8lv7ca0pb9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54625-o87qiv.8lv7ca0pb9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117921-65384-73mow4.zklrw9udi/package.tgz",
-  "_shasum": "abbe1e4e0e8626c2cb4836e347c79b05e7c144e9",
+  "_resolved": "file:../d-118212-54625-o87qiv.8lv7ca0pb9/package.tgz",
+  "_shasum": "9bf0009e431063c271bf32ea4269b99e57f512a6",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117921-65384-73mow4.zklrw9udi/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117921-65384-wgc2xs.g0adkro1or",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54625-o87qiv.8lv7ca0pb9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118212-54625-8i2kzj.6qbm7k3xr",
   "bugs": {
     "url": "https://github.com/csutter/chester-atom-syntax/issues"
   },
@@ -49,7 +49,9 @@
     "chester",
     "syntax",
     "theme",
-    "atom"
+    "atom",
+    "clean",
+    "sexy"
   ],
   "license": "MIT",
   "name": "chester-atom-syntax",
@@ -61,5 +63,5 @@
     "url": "git+https://github.com/csutter/chester-atom-syntax.git"
   },
   "theme": "syntax",
-  "version": "0.3.0"
+  "version": "0.3.2"
 }

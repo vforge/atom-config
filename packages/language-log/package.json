@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11822-57849-j9x3pf.fjmofde7b9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54633-2jlldx.uyjsda38fr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11822-57849-j9x3pf.fjmofde7b9/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11822-57849-j9x3pf.fjmofde7b9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54633-2jlldx.uyjsda38fr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54633-2jlldx.uyjsda38fr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11822-57849-1gnnbxk.46rt6s9k9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118212-54633-6mvyqv.i8plj714i"
     ]
   ],
-  "_from": "../d-11822-57849-j9x3pf.fjmofde7b9/package.tgz",
-  "_id": "language-log@1.10.0",
+  "_from": "../d-118212-54633-2jlldx.uyjsda38fr/package.tgz",
+  "_id": "language-log@1.10.1",
   "_inCache": true,
   "_location": "/language-log",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11822-57849-j9x3pf.fjmofde7b9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54633-2jlldx.uyjsda38fr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11822-57849-j9x3pf.fjmofde7b9/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11822-57849-j9x3pf.fjmofde7b9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54633-2jlldx.uyjsda38fr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54633-2jlldx.uyjsda38fr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11822-57849-j9x3pf.fjmofde7b9/package.tgz",
-  "_shasum": "5ab906b17c968ba8a2afa34c621d3973713eb377",
+  "_resolved": "file:../d-118212-54633-2jlldx.uyjsda38fr/package.tgz",
+  "_shasum": "edebb028c973f515ec336a07534c90975e826640",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11822-57849-j9x3pf.fjmofde7b9/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11822-57849-1gnnbxk.46rt6s9k9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118212-54633-2jlldx.uyjsda38fr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118212-54633-6mvyqv.i8plj714i",
   "bugs": {
     "url": "https://github.com/MRodalgaard/language-log/issues"
   },
@@ -64,5 +64,5 @@
     "type": "git",
     "url": "git+https://github.com/MRodalgaard/language-log.git"
   },
-  "version": "1.10.0"
+  "version": "1.10.1"
 }
