@@ -1,21 +1,19 @@
-"use babel";
-/* globals atom */
+/** @babel */
 
 const shell = require("shell");
-const {
-	CompositeDisposable
-} = require("atom");
+const {CompositeDisposable} = require("atom");
 
 function escapeRegExp(str) {
 	return str.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
 }
 
-function isHyperlink(link, protocols) {
+function matchHyperlink(link, protocols) {
 	const protocolsEscaped = protocols.map((val) => {
 		return escapeRegExp(val);
 	});
-	const protocolRegexp = new RegExp("^(" + protocolsEscaped.join("|") + ")://\\S+");
-	return protocolRegexp.test(link);
+	const protocolRegexp = new RegExp(`\\b(?:${protocolsEscaped.join("|")})://\\S+`);
+	const match = link.match(protocolRegexp);
+	return match ? match[0] : null;
 }
 
 function getHyperlink(textEditor, range, protocols) {
@@ -23,18 +21,18 @@ function getHyperlink(textEditor, range, protocols) {
 
 	if (token && token.value) {
 		const linkText = token.value.trim();
-		if (isHyperlink(linkText, protocols)) {
+		const matched = matchHyperlink(linkText, protocols);
+		if (matched) {
 			return {
-				link: linkText,
-				linkText,
+				link: matched,
+				linkText: matched,
 			};
 		} else if (textEditor.getGrammar().scopeName === "source.gfm") {
 			let link = null;
-			const mdLinkRegexp = new RegExp("^\\s*\\[" + escapeRegExp(linkText) + "\\]\\s*:\\s*(\\S+)\\s*$", "ig");
+			const mdLinkRegexp = new RegExp(`^\\s*\\[${escapeRegExp(linkText)}\\]\\s*:\\s*(\\S+)\\s*$`, "ig");
 			textEditor.getBuffer().backwardsScan(mdLinkRegexp, (found) => {
-				const matchedLink = found.match[1];
-				if (isHyperlink(matchedLink, protocols)) {
-					link = matchedLink;
+				link = matchHyperlink(found.match[1], protocols);
+				if (link) {
 					found.stop();
 				}
 			});
@@ -72,7 +70,7 @@ module.exports = {
 		protocols: {
 			description: "Comma separated list of protocols to open when ctrl+clicked",
 			type: "array",
-			default: ["http", "https", "mailto"],
+			default: ["http", "https", "mailto", "atom"],
 			items: {
 				type: "string",
 			},
@@ -96,22 +94,22 @@ module.exports = {
 	},
 	getProvider() {
 		return {
-			providerName: "hyperlink-hyperclick",
 			priority: atom.config.get("hyperlink-hyperclick.priority"),
 			getSuggestionForWord: (textEditor, text, range) => {
-				const {
-					link,
-					linkText
-				} = getHyperlink(textEditor, range, this.protocols);
-				if (link) {
-					const linkRange = getRange(textEditor, range, linkText);
-					return {
-						range: linkRange,
-						callback() {
-							shell.openExternal(link);
-						},
-					};
+				const {link, linkText} = getHyperlink(textEditor, range, this.protocols);
+				if (!link) {
+					return null;
 				}
+				const linkRange = getRange(textEditor, range, linkText);
+				if (!linkRange) {
+					return null;
+				}
+				return {
+					range: linkRange,
+					callback() {
+						shell.openExternal(link);
+					},
+				};
 			},
 		};
 	},

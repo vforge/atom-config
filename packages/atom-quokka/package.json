@@ -1,0 +1,77 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118213-17686-kfyqnc.r9nlba9k9/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118213-17686-kfyqnc.r9nlba9k9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118213-17686-kfyqnc.r9nlba9k9/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118213-17686-f17mwg.7x56ei2j4i"
+    ]
+  ],
+  "_from": "../d-118213-17686-kfyqnc.r9nlba9k9/package.tgz",
+  "_id": "atom-quokka@1.0.64",
+  "_inCache": true,
+  "_location": "/atom-quokka",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118213-17686-kfyqnc.r9nlba9k9/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118213-17686-kfyqnc.r9nlba9k9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118213-17686-kfyqnc.r9nlba9k9/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-118213-17686-kfyqnc.r9nlba9k9/package.tgz",
+  "_shasum": "369ded54f72e9a8def85af3e786780b0430d77a2",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118213-17686-kfyqnc.r9nlba9k9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118213-17686-f17mwg.7x56ei2j4i",
+  "bugs": {
+    "url": "https://github.com/wallabyjs/atom-quokka/issues"
+  },
+  "consumedServices": {
+    "status-bar": {
+      "versions": {
+        "^1.0.0": "statusBar"
+      }
+    }
+  },
+  "dependencies": {
+    "atom-space-pen-views": "^2.0.5",
+    "quokka-atom": "^1.0.0"
+  },
+  "description": "Live Scratchpad for JavaScript",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/wallabyjs/atom-quokka#readme",
+  "keywords": [
+    "wallaby.js",
+    "code coverage",
+    "ES6",
+    "ES7",
+    "JavaScript",
+    "TypeScript"
+  ],
+  "license": "MIT",
+  "main": "./lib/quokka",
+  "name": "atom-quokka",
+  "optionalDependencies": {},
+  "readme": "# [Quokka.js](https://quokkajs.com) Atom Package\n\n## Quick links\n\n- [Docs](https://quokkajs.com/docs/?editor=atom)\n- [Issues/questions](https://github.com/wallabyjs/quokka)\n\n## The Awesomeness!\n![Quokka.js in Atom](https://quokkajs.com/assets/img/atom1.gif)",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wallabyjs/atom-quokka.git"
+  },
+  "version": "1.0.64"
+}
