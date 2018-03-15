@@ -399,7 +399,7 @@ class Table extends _react.Component {
       );
     });
     let body = rows.map((row, i) => {
-      const { className: rowClassName, data } = row;
+      const { className: rowClassName, data, rowAttributes } = row;
       const renderedRow = columns.map((column, j) => {
         const {
           key,
@@ -420,14 +420,15 @@ class Table extends _react.Component {
         }
         return _react.createElement(
           'div',
-          {
+          Object.assign({
             className: (0, (_classnames || _load_classnames()).default)(cellClassName, {
               'nuclide-ui-table-body-cell': true,
               'nuclide-ui-table-cell-text-align-right': shouldRightAlign
             }),
             key: j,
             style: cellStyle,
-            title: typeof datum !== 'object' ? String(datum) : null },
+            title: typeof datum !== 'object' ? String(datum) : null
+          }, rowAttributes),
           datum
         );
       });

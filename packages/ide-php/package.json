@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-84317-1jxrj2o.6x93jfko6r/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-84317-1jxrj2o.6x93jfko6r/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-84317-1jxrj2o.6x93jfko6r/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11826-84317-x7kbf7.7498z7iudi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118215-63480-6hqqvk.qhmxyiizfr"
     ]
   ],
-  "_from": "../d-11826-84317-1jxrj2o.6x93jfko6r/package.tgz",
-  "_id": "ide-php@0.7.9",
+  "_from": "../d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
+  "_id": "ide-php@0.7.13",
   "_inCache": true,
   "_location": "/ide-php",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-84317-1jxrj2o.6x93jfko6r/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-84317-1jxrj2o.6x93jfko6r/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-84317-1jxrj2o.6x93jfko6r/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11826-84317-1jxrj2o.6x93jfko6r/package.tgz",
-  "_shasum": "6f1b584d9df0298ae6af26721fbb1d26bcc748fa",
+  "_resolved": "file:../d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
+  "_shasum": "f71eefe567a572dcc2498dc33619ad0a43dc8e89",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-84317-1jxrj2o.6x93jfko6r/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11826-84317-x7kbf7.7498z7iudi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118215-63480-6hqqvk.qhmxyiizfr",
   "atomTestRunner": "./test/runner",
   "bugs": {
     "url": "https://github.com/atom/ide-php/issues"
@@ -62,6 +62,16 @@
       ],
       "default": "auto",
       "description": "The connection type for communicating with the local PHP language server. 'auto' will use 'socket' on Windows, 'stdio' on other platforms."
+    },
+    "autocompletePriority": {
+      "title": "AutoComplete suggestion pritority",
+      "type": "string",
+      "enum": [
+        "default",
+        "lower"
+      ],
+      "default": "default",
+      "description": "Set 'lower' if you want to see LSP suggestions under the suggestions from the Autocomplete package. Restart required."
     }
   },
   "consumedServices": {
@@ -87,7 +97,7 @@
     }
   },
   "dependencies": {
-    "atom-languageclient": "0.9.2",
+    "atom-languageclient": "0.9.4",
     "decompress": "^4.2.0"
   },
   "description": "PHP language support for Atom-IDE",
@@ -145,5 +155,5 @@
     "server-install": "rm -rf vendor && rm -rf composer.lock && composer install --prefer-dist --no-dev && composer dump-autoload --optimize",
     "server-package": "7z a temp.tar ./vendor/* && 7z a php-ls-x.y.z.tar.gz temp.tar && rm -f temp.tar"
   },
-  "version": "0.7.9"
+  "version": "0.7.13"
 }

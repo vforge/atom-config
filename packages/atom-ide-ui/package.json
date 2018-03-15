@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-42162-6y3iqi.6399all3di/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-40025-1o4tzke.15dy3hxgvi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-42162-6y3iqi.6399all3di/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-42162-6y3iqi.6399all3di/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-40025-1o4tzke.15dy3hxgvi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-40025-1o4tzke.15dy3hxgvi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11826-42162-1yomgpd.ip66e6ogvi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118215-40025-dg560b.p7f401kyb9"
     ]
   ],
-  "_from": "../d-11826-42162-6y3iqi.6399all3di/package.tgz",
-  "_id": "atom-ide-ui@0.9.3",
+  "_from": "../d-118215-40025-1o4tzke.15dy3hxgvi/package.tgz",
+  "_id": "atom-ide-ui@0.9.4",
   "_inCache": true,
   "_location": "/atom-ide-ui",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-42162-6y3iqi.6399all3di/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-40025-1o4tzke.15dy3hxgvi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-42162-6y3iqi.6399all3di/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-42162-6y3iqi.6399all3di/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-40025-1o4tzke.15dy3hxgvi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-40025-1o4tzke.15dy3hxgvi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11826-42162-6y3iqi.6399all3di/package.tgz",
-  "_shasum": "6f188f2e31434d3efbf6b5afe9702aece9db83fa",
+  "_resolved": "file:../d-118215-40025-1o4tzke.15dy3hxgvi/package.tgz",
+  "_shasum": "72a5d9311e6b16db6f29dcb612cced16f201d461",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11826-42162-6y3iqi.6399all3di/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11826-42162-1yomgpd.ip66e6ogvi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-40025-1o4tzke.15dy3hxgvi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118215-40025-dg560b.p7f401kyb9",
   "bugs": {
     "url": "https://github.com/facebook-atom/atom-ide-ui/issues"
   },
@@ -86,6 +86,7 @@
     "babel-plugin-lodash": "3.2.11",
     "babel-plugin-relay": "1.4.1",
     "babel-plugin-syntax-flow": "6.18.0",
+    "babel-plugin-transform-async-super": "1.0.0",
     "babel-plugin-transform-async-to-module-method": "6.24.1",
     "babel-plugin-transform-class-properties": "6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.0",
@@ -105,7 +106,7 @@
     "eslint-plugin-prettier": "2.3.1",
     "eslint-plugin-react": "7.4.0",
     "eslint-plugin-rulesdir": "0.1.0",
-    "flow-bin": "0.66.0",
+    "flow-bin": "0.67.1",
     "jasmine-node": "1.14.5",
     "nyc": "11.2.1",
     "prettier": "1.9.1",
@@ -135,5 +136,5 @@
     "release-transpile": "./modules/nuclide-node-transpiler/bin/release-transpile.js",
     "test": "npm run flow && npm run lint-all && ./scripts/test.js"
   },
-  "version": "0.9.3"
+  "version": "0.9.4"
 }
