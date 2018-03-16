@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2652-gt88ey.grlxiggb9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118216-83198-voyxy7.gjapd2huxr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2652-gt88ey.grlxiggb9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2652-gt88ey.grlxiggb9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118216-83198-voyxy7.gjapd2huxr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118216-83198-voyxy7.gjapd2huxr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118128-2652-1y2yt1.546gf4j9k9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118216-83198-1825mvg.g4jcl680k9"
     ]
   ],
-  "_from": "../d-118128-2652-gt88ey.grlxiggb9/package.tgz",
-  "_id": "ide-python@0.8.1",
+  "_from": "../d-118216-83198-voyxy7.gjapd2huxr/package.tgz",
+  "_id": "ide-python@0.8.2",
   "_inCache": true,
   "_location": "/ide-python",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2652-gt88ey.grlxiggb9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118216-83198-voyxy7.gjapd2huxr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2652-gt88ey.grlxiggb9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2652-gt88ey.grlxiggb9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118216-83198-voyxy7.gjapd2huxr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118216-83198-voyxy7.gjapd2huxr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118128-2652-gt88ey.grlxiggb9/package.tgz",
-  "_shasum": "cf6540da9c8913e36791cb6a648d94bc3821bdb5",
+  "_resolved": "file:../d-118216-83198-voyxy7.gjapd2huxr/package.tgz",
+  "_shasum": "d72df32e5c3b894ec71643d6334349d2112744b7",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2652-gt88ey.grlxiggb9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118128-2652-1y2yt1.546gf4j9k9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118216-83198-voyxy7.gjapd2huxr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118216-83198-1825mvg.g4jcl680k9",
   "bugs": {
     "url": "https://github.com/lgeiger/ide-python/issues"
   },
@@ -344,5 +344,5 @@
     "type": "git",
     "url": "git+https://github.com/lgeiger/ide-python.git"
   },
-  "version": "0.8.1"
+  "version": "0.8.2"
 }
