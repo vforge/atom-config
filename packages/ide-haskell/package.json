@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118124-22115-1irig7a.40rit138fr/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118219-25081-1au1zqk.ryj4viy66r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118124-22115-1irig7a.40rit138fr/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118124-22115-1irig7a.40rit138fr/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118219-25081-1au1zqk.ryj4viy66r/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118219-25081-1au1zqk.ryj4viy66r/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118124-22115-1pf2ezg.w48zq1714i"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118219-25081-12732ip.dmtj1nhfr"
     ]
   ],
-  "_from": "../d-118124-22115-1irig7a.40rit138fr/package.tgz",
-  "_id": "ide-haskell@2.3.0",
+  "_from": "../d-118219-25081-1au1zqk.ryj4viy66r/package.tgz",
+  "_id": "ide-haskell@2.3.1",
   "_inCache": true,
   "_location": "/ide-haskell",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118124-22115-1irig7a.40rit138fr/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118219-25081-1au1zqk.ryj4viy66r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118124-22115-1irig7a.40rit138fr/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118124-22115-1irig7a.40rit138fr/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118219-25081-1au1zqk.ryj4viy66r/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118219-25081-1au1zqk.ryj4viy66r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118124-22115-1irig7a.40rit138fr/package.tgz",
-  "_shasum": "a57e6d313cdde0827349d4de52da780ba93b28ad",
+  "_resolved": "file:../d-118219-25081-1au1zqk.ryj4viy66r/package.tgz",
+  "_shasum": "2d4e3f6ef489a1d742529fe6f0a6c7622c8cc12b",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118124-22115-1irig7a.40rit138fr/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118124-22115-1pf2ezg.w48zq1714i",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118219-25081-1au1zqk.ryj4viy66r/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118219-25081-12732ip.dmtj1nhfr",
   "activationHooks": [
     "language-haskell:grammar-used"
   ],
@@ -238,7 +238,7 @@
     "atom-mocha-test-runner": "^1.2.0",
     "chai": "^4.1.2",
     "mocha": "^5.0.1",
-    "prettier": "git+https://git@github.com/prettier/prettier.git",
+    "prettier": "^1.11.1",
     "ts-node": "^5.0.0",
     "tslint": "^5.9.1",
     "typedoc": "^0.10.0",
@@ -279,5 +279,5 @@
     "test": "npm run typecheck && npm run lint && npm run prettier-check",
     "typecheck": "tsc --noEmit -p . && tsc --noEmit -p spec"
   },
-  "version": "2.3.0"
+  "version": "2.3.1"
 }
