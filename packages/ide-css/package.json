@@ -2,39 +2,42 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21708-1xd7a01.8g6vuf2yb9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-34174-1gfdtsx.gm0gj5rk9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21708-1xd7a01.8g6vuf2yb9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21708-1xd7a01.8g6vuf2yb9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-34174-1gfdtsx.gm0gj5rk9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-34174-1gfdtsx.gm0gj5rk9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117918-21708-1tb1poi.mfsj68ncdi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118220-34174-12uvpmb.ss2k1yk3xr"
     ]
   ],
-  "_from": "../d-117918-21708-1xd7a01.8g6vuf2yb9/package.tgz",
-  "_id": "ide-css@0.2.0",
+  "_from": "../d-118220-34174-1gfdtsx.gm0gj5rk9/package.tgz",
+  "_id": "ide-css@0.3.0",
   "_inCache": true,
   "_location": "/ide-css",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21708-1xd7a01.8g6vuf2yb9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-34174-1gfdtsx.gm0gj5rk9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21708-1xd7a01.8g6vuf2yb9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21708-1xd7a01.8g6vuf2yb9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-34174-1gfdtsx.gm0gj5rk9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-34174-1gfdtsx.gm0gj5rk9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117918-21708-1xd7a01.8g6vuf2yb9/package.tgz",
-  "_shasum": "c6f54c5039248ce887aa54fa332074e18856fba7",
+  "_resolved": "file:../d-118220-34174-1gfdtsx.gm0gj5rk9/package.tgz",
+  "_shasum": "cc2a857d6e984b6cab91b6d6bc7ed08358b18184",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117918-21708-1xd7a01.8g6vuf2yb9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117918-21708-1tb1poi.mfsj68ncdi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-34174-1gfdtsx.gm0gj5rk9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118220-34174-12uvpmb.ss2k1yk3xr",
+  "atomCommands": {
+    "ide-css:help": "Provides help information and descriptions of commands."
+  },
   "author": {
     "name": "Te-Chi Liu"
   },
@@ -74,8 +77,8 @@
     }
   },
   "dependencies": {
-    "atom-languageclient": "^0.6.4",
-    "vscode-css-languageserver-bin": "^1.0.1"
+    "atom-languageclient": "^0.9.4",
+    "vscode-css-languageserver-bin": "^1.3.0"
   },
   "description": "Atom-IDE for CSS, LESS and SCSS language",
   "devDependencies": {
@@ -141,5 +144,5 @@
     "lint": "eslint ./src",
     "test": "npm run lint"
   },
-  "version": "0.2.0"
+  "version": "0.3.0"
 }

@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-77957-10oxb4f.jcjcjqyqfr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-77957-10oxb4f.jcjcjqyqfr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-77957-10oxb4f.jcjcjqyqfr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118215-63480-6hqqvk.qhmxyiizfr"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118220-77957-14mp0tq.rzkn75jyvi"
     ]
   ],
-  "_from": "../d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
-  "_id": "ide-php@0.7.13",
+  "_from": "../d-118220-77957-10oxb4f.jcjcjqyqfr/package.tgz",
+  "_id": "ide-php@0.7.14",
   "_inCache": true,
   "_location": "/ide-php",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-77957-10oxb4f.jcjcjqyqfr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-77957-10oxb4f.jcjcjqyqfr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-77957-10oxb4f.jcjcjqyqfr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
-  "_shasum": "f71eefe567a572dcc2498dc33619ad0a43dc8e89",
+  "_resolved": "file:../d-118220-77957-10oxb4f.jcjcjqyqfr/package.tgz",
+  "_shasum": "5a9e3d1e78ffebb2f9d744c10ffb88aafcf954ea",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118215-63480-13h8zw5.d9csypsyvi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118215-63480-6hqqvk.qhmxyiizfr",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118220-77957-10oxb4f.jcjcjqyqfr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118220-77957-14mp0tq.rzkn75jyvi",
   "atomTestRunner": "./test/runner",
   "bugs": {
     "url": "https://github.com/atom/ide-php/issues"
@@ -116,7 +116,7 @@
   "providedServices": {
     "autocomplete.provider": {
       "versions": {
-        "2.0.0": "provideAutocomplete"
+        "4.0.0": "provideAutocomplete"
       }
     },
     "code-format.range": {
@@ -155,5 +155,5 @@
     "server-install": "rm -rf vendor && rm -rf composer.lock && composer install --prefer-dist --no-dev && composer dump-autoload --optimize",
     "server-package": "7z a temp.tar ./vendor/* && 7z a php-ls-x.y.z.tar.gz temp.tar && rm -f temp.tar"
   },
-  "version": "0.7.13"
+  "version": "0.7.14"
 }

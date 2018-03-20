@@ -1,5 +1,6 @@
 {$, $$, $$$, ScrollView} = require 'atom-space-pen-views'
 $el = require 'laconic'
+moment = require 'moment'
 {Emitter} = require 'atom'
 fs = require 'fs'
 MenuView = null
@@ -20,7 +21,7 @@ class ImdoneAtomView extends ScrollView
   class PluginViewInterface extends Emitter
     constructor: (@imdoneView)->
       super()
-    emitter: -> @ # CHANGED: deprecated gh:245 id:74
+    emitter: -> @ # CHANGED: deprecated! gh:245 id:74
     selectTask: (id) ->
       @imdoneView.selectTask id
     showPlugin: (plugin) ->
@@ -150,7 +151,7 @@ class ImdoneAtomView extends ScrollView
 
     @emitter.on 'unavailable', =>
       @hideMask()
-      atom.notifications.addInfo "#{envConfig.name} is unavailable", detail: "Click login to retry", dismissable: true, icon: 'alert'
+      atom.notifications.addInfo "#{envConfig.name} is unavailable", detail: "Click login in an imdone tab to try again.", dismissable: true, icon: 'alert'
 
 
     # @emitter.on 'tasks.syncing', => @showMask "Syncing with #{envConfig.name}..."
@@ -182,8 +183,6 @@ class ImdoneAtomView extends ScrollView
     @emitter.on 'error', (mdMsg) => atom.notifications.addWarning "OOPS!", description: mdMsg, dismissable: true, icon: 'alert'
 
     @emitter.on 'task.modified', (task) => @onRepoUpdate()
-      #console.log "Task modified.  Syncing with imdone.io"
-      # @imdoneRepo.syncTasks [task], (err) => @onRepoUpdate()
 
     @emitter.on 'menu.toggle', =>
       @boardWrapper.toggleClass 'shift'
@@ -422,12 +421,14 @@ class ImdoneAtomView extends ScrollView
 
   onRepoUpdate: (tasks) ->
     # BACKLOG: This should be queued so two updates don't colide gh:241 id:90
-    @updateBoard(tasks)
-    @boardWrapper.css 'bottom', 0
-    @bottomView.attr 'style', ''
-    @loading.hide()
-    @mainContainer.show()
-    @hideMask()
+    @imdoneRepo.transformTasks tasks, (err, tasks) =>
+      @imdoneRepo.reminders.schedule()
+      @updateBoard(tasks)
+      @boardWrapper.css 'bottom', 0
+      @bottomView.attr 'style', ''
+      @loading.hide()
+      @mainContainer.show()
+      @hideMask()
 
   showMask: (msg)->
     @spinnerMessage.html msg if msg
@@ -441,7 +442,7 @@ class ImdoneAtomView extends ScrollView
       $el.span class: opts.linkClass, "#{linkPrefix}#{opts.linkText}"
     $link.dataset.filter = opts.linkPrefix.replace( "+", "\\+" )+opts.linkText
     $link
-  # TODO: Use web components to make the UI more testable and portable. +enhancement gh:297 id:75
+  # TODO: Use web components or vuejs to make the UI more testable and portable. +enhancement gh:297 id:75 ic:gh
   # - Create a task component
   # - Write task component tests
   # - Use the new component in the UI
@@ -450,14 +451,11 @@ class ImdoneAtomView extends ScrollView
     repo = @imdoneRepo
     contexts = task.getContext()
     tags = task.getTags()
-    dateDue = task.getDateDue()
-    dateCreated = task.getDateCreated()
-    dateCompleted = task.getDateCompleted()
     $taskText = $el.div class: 'task-text native-key-bindings'
     $filters = $el.div class: 'task-filters'
     $taskMetaTable = $el.table()
     $taskMeta = $el.div class: 'task-meta', $taskMetaTable
-    opts = $.extend {}, {stripMeta: true, stripDates: true, sanitize: true}, repo.getConfig().marked
+    opts = $.extend {}, {stripMeta: true, sanitize: true}, repo.getConfig().marked
     taskHtml = task.getHtml(opts)
     showTagsInline = config.getSettings().showTagsInline
     if showTagsInline
@@ -491,25 +489,9 @@ class ImdoneAtomView extends ScrollView
 
     $taskText.innerHTML = taskHtml
 
-    if dateCreated
-      $tr = $el.tr class:'meta-data-row',
-        $el.td "created"
-        $el.td dateCreated
-        $el.td class: 'meta-filter',
-          $el.a href:"#", title: "filter by created on #{dateCreated}", class: "filter-link", "data-filter": "(x\\s\\d{4}-\\d{2}-\\d{2}\\s)?#{dateCreated}",
-            $el.span class:"icon icon-light-bulb"
-      $taskMetaTable.appendChild $tr
-    if dateCompleted
-      $tr = $el.tr class:'meta-data-row',
-        $el.td "completed"
-        $el.td dateCompleted
-        $el.td class: 'meta-filter',
-          $el.a href:"#", title: "filter by completed on #{dateCompleted}", class: "filter-link", "data-filter": "x #{dateCompleted}",
-            $el.span class:"icon icon-light-bulb"
-      $taskMetaTable.appendChild $tr
-
     for data in task.getMetaDataWithLinks(repo.getConfig())
       do (data) =>
+        data.value = moment(data.value).format('llll') if data.key in ['due', 'remind', 'created', 'completed']
         $icons = $el.td()
         if data.link
           $link = $el.a href: data.link.url, title: data.link.title,

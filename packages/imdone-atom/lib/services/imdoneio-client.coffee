@@ -9,6 +9,8 @@ _ = require 'lodash'
 Task = require 'imdone-core/lib/task'
 config = require '../../config'
 helper = require './imdone-helper'
+parseRegex = require "regex-parser"
+moment = require 'moment'
 debug = require('debug')
 log = debug 'imdone-atom:client'
 # localStorage.debug = 'imdone-atom:client'
@@ -122,17 +124,17 @@ class ImdoneioClient extends Emitter
 
   onAuthSuccess: (user, cb) ->
     return cb null, user if @authenticated
-    @authenticated = true
-    @authRetryCount = 0
-    @emit 'authenticated'
-    @saveCredentials (err) =>
-      @storageAuthFailed = false
-      cb(null, user)
-      log 'onAuthSuccess'
-      @handlePushEvents()
+    @getPlan (err, @plan) =>
+      @authenticated = true
+      @authRetryCount = 0
+      @emit 'authenticated'
+      @saveCredentials (err) =>
+        @storageAuthFailed = false
+        cb(null, user)
+        log 'onAuthSuccess'
+        @handlePushEvents()
 
   onAuthFailure: (err, res, cb) ->
-
     status = err.imdone_status = if err && (err.code == 'ECONNREFUSED' || _.get(err, 'response.err.status') == 404) then 'unavailable' else 'failed'
     @connectionAccepted = true unless status == "unavailable"
     @authenticated = false
@@ -190,7 +192,6 @@ class ImdoneioClient extends Emitter
     @doPost("/projects/")
 
   getProducts: (projectId, cb) ->
-
     @doGet("/projects/#{projectId}/products").end (err, res) =>
       return cb(err, res) if err || !res.ok
       cb(null, res.body)
@@ -203,7 +204,6 @@ class ImdoneioClient extends Emitter
       cb(null, res.body)
 
   getProject: (projectId, cb) ->
-
     @doGet("/projects/#{projectId}").end (err, res) =>
       return cb(NO_RESPONSE_ERR) unless res
       return cb(PROJECT_ID_NOT_VALID_ERR) if err && err.status == 404
@@ -286,51 +286,62 @@ class ImdoneioClient extends Emitter
   getProjectName: (repo) -> _.get repo, 'config.sync.name'
   setProjectName: (repo, name) -> _.set repo, 'config.sync.name', name
 
+  getPlan: (cb) ->
+    @doGet("/plan").end (err, res) =>
+      return cb(err, res) if err || !res.ok
+      cb(null, res.body)
 
-  syncTasks: (repo, tasks, cb) ->
-    gitRepo = helper.repoForPath repo.getPath()
-    projectId = @getProjectId repo
-    chunks = _.chunk tasks, 20
-    modifiedTasks = []
-    total = 0
-    log "Sending #{tasks.length} tasks to imdone.io"
-    repo.emit 'sync.percent', 0
-    async.eachOfLimit chunks, 2, (chunk, i, cb) =>
-      log "Sending chunk #{i}:#{chunks.length} of #{chunk.length} tasks to imdone.io"
-      data =
-        tasks: chunk
-        branch: gitRepo && gitRepo.branch
-      setTimeout () => # Not sure why, but this sometimes hangs without using setTimeout
-        @doPost("/projects/#{projectId}/tasks").send(data).end (err, res) =>
-          #console.log "Received Sync Response #{i} err:#{err}"
-          if err && err.code == 'ECONNREFUSED' && @authenticated
-            #console.log "Error on syncing tasks with imdone.io", err
-            @emit 'unavailable'
-            delete @authenticated
-            delete @user
-          return cb err if err
-          data = res.body
-          modifiedTasks.push data
-          total += data.length
-          repo.emit 'sync.percent', Math.ceil(total/tasks.length*100)
-          log "Received #{i}:#{chunks.length} #{total} tasks from imdone.io"
-          cb()
-        log "Chunk #{i}:#{chunks.length} of #{chunk.length} tasks sent to imdone.io"
-      ,10
-    , (err) ->
-      return cb err if err
-      cb err, _.flatten modifiedTasks
+  getTransformableTasks: (tasks) ->
+    tasks.filter (task) =>
+      transformable = false
+      @transformers.forEach (transformer) =>
+        return if transformable
+        if transformer.pattern
+          regex = parseRegex transformer.pattern
+          transformable = regex.test task.text
+        transformable = ((task.list == transformer.list) && transformable) if transformer.list
+      transformable
 
-  syncTasksForDelete: (repo, tasks, cb) ->
-    projectId = @getProjectId repo
-    taskIds = _.map tasks, (task) -> task.meta.id[0]
-    @doPost("/projects/#{projectId}/taskIds").send(taskIds: taskIds).end (err, res) =>
-      if err && err.code == 'ECONNREFUSED' && @authenticated
-        @emit 'unavailable'
-        delete @authenticated
-        delete @user
-      return cb err if err
-      cb err, res.body
+  transformTasks: (config, tasks, cb) ->
+    return cb() unless @authenticated
+    async.series([
+      (next) =>
+        return next(null, @transformers) if @transformers
+        @doPost("/transform/transformers").send(config).end (err, res) =>
+          return next(err, res) if err || !res.ok
+          @transformers = res.body
+          next()
+      (next) =>
+        tasks = @getTransformableTasks tasks
+        chunks = _.chunk tasks, 20
+        modifiedTasks = []
+        total = 0
+        log "Sending #{tasks.length} tasks to imdone.io"
+        async.eachOfLimit chunks, 2, (chunk, i, cb) =>
+          log "Sending chunk #{i}:#{chunks.length} of #{chunk.length} tasks to imdone.io"
+          setTimeout () => # Not sure why, but this sometimes hangs without using setTimeout
+            @doPost("/transform").send({config, tasks: chunk, utcOffset: moment().format()}).end (err, res) =>
+              #console.log "Received Sync Response #{i} err:#{err}"
+              if err && err.code == 'ECONNREFUSED' && @authenticated
+                #console.log "Error on syncing tasks with imdone.io", err
+                @emit 'unavailable'
+                delete @authenticated
+                delete @user
+              return cb err if err
+              data = res.body
+              modifiedTasks.push data
+              total += data.length
+              log "Received #{i}:#{chunks.length} #{total} tasks from imdone.io"
+              cb()
+            log "Chunk #{i}:#{chunks.length} of #{chunk.length} tasks sent to imdone.io"
+          ,10
+        , (err) ->
+          return next err if err
+          next err, _.flatten modifiedTasks
+      ], (err, result) =>
+        return cb err if err
+        cb(null, result[1].map (task) => new Task(task))
+      )
 
   db: (collection) ->
     path = require 'path'

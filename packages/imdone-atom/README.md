@@ -1,7 +1,8 @@
 
 [![apm](https://img.shields.io/apm/v/imdone-atom.svg)]()
-[![apm](https://img.shields.io/apm/dm/imdone-atom.svg)](https://atom.io/packages/imdone-atom) 
-![made](https://octicons.glitch.me/svg/pencil.svg?size=16) with ![love](https://octicons.glitch.me/svg/heart.svg?size=16) by
+[![apm](https://img.shields.io/apm/dm/imdone-atom.svg)](https://atom.io/packages/imdone-atom)  
+
+![made](https://octicons.glitch.me/svg/code.svg?size=16&color=000000) with ![love](https://octicons.glitch.me/svg/heart.svg?size=16&color=ff0000) by
 <a href="https://imdone.io/"><img src="https://imdone.io/images/logos/imdone-logo.svg" width=16> imdone.io</a>
 
 **A kanban board with an invisible user interface. It's cards and lists are made from TODOs in your code, markdown and text files.**
@@ -16,7 +17,11 @@ The best issue tracker is one that's invisible.  Integrate your TODO comments in
 ### **Table of Contents**
 
 - [Track your TODO comments in a kanban board](#track-your-todo-comments-in-a-kanban-board)
-- [NEW! Task descriptions with live, github flavored checklists!](#new-task-descriptions-with-live-github-flavored-checklists)
+- [NEW for imdone.io subscribers!!!](#new-for-imdoneio-subscribers)
+  - [$now and $today variable replacement](#now-and-today-variable-replacement)
+  - [Plain text remind: and due: timestamps](#plain-text-remind-and-due-timestamps)
+  - [OS notifications for remind:[timestamp] metadata](#os-notifications-for-remindtimestamp-metadata)
+  - [Auto completed:[timestamp]](#auto-completedtimestamp)
 - [Task Board Features](#task-board-features)
   - [Filtering your board](#filtering-your-board)
   - [Delete all visible tasks](#delete-all-visible-tasks)
@@ -53,23 +58,49 @@ imdone-atom recognizes the common TODO style comments we're all used to, with th
 #TODO: As a user I would like to ... so that ...
 ```
 
-**Comming soon in markdown! GFM style tasks. (Help us prioritize. [Give this feature a thumbs up.](https://github.com/imdone/imdone-core/issues/90#issue-276668120))**
-``` markdown
-- [ ] As a user I would like to ... so that ... +TODO
-```
-
-NEW! Task descriptions with live, github flavored checklists!
-----
-``` javascript
-// TODO: Refactor and DRY up
-// - [ ] Replace all duplicate code with this method
-// - [ ] Make sure all tests are up to date
-```
 In code files, imdone recognizes any comment line after a TODO as a description and adds it to the card.  imdone stops looking for description lines if it encounters a new TODO or a line of code.
 
 In non code files, imdone recognizes any line after a TODO as a description and adds it to the card.  imdone stops looking for description lines if it encounters a new TODO or a blank line.
 
 Checklists in your descriptions will render in your cards and will live update your file as they're checked.
+``` javascript
+// TODO: Refactor and DRY up
+// - [x] Replace all duplicate code with this method
+// - [ ] Make sure all tests are up to date
+```
+
+NEW for [imdone.io](https://imdone.io) subscribers!!!
+----
+### $now and $today variable replacement
+- replace `$now` with with the current timestamp (ex. `2018-03-18T09:37:49-06:00`)
+- replace `$today` with the current date (ex. `2018-03-18`)
+
+### Plain text remind: and due: timestamps
+Use plain text to set reminders and due dates for your tasks. Uses [date.js](https://www.npmjs.com/package/date.js#examples).
+- replace `due tomorrow at noon.`
+  - with **due:[timestamp of tomorrow at noon]**
+  - (ex. `due:2018-03-19T10:00:00-06:00`)
+- replace `remind me in 2 hours.`
+  - with **due:[timestamp in 2 hours]**
+  - (ex. `remind:2018-03-18T11:45:06-06:00`)
+- replace `due tomorrow at noon. remind me 30 min before.`
+  - with **due:[timestamp of tomorrow at noon] remind:[timestamp for 30 minutes before due]**
+  - (ex. `due:2018-03-19T10:00:00-06:00  remind:2018-03-19T11:30:00-04:00`)
+
+### OS notifications for remind:[timestamp] metadata
+If you set a reminder for your task, you'll receive an OS notification with a show button that will take you back to task in the file.  
+<img width="356" alt="imdone reminder notification" src="https://user-images.githubusercontent.com/233505/37665556-240e081e-2c23-11e8-9504-27a0207c6bca.png">
+
+### Auto completed:[timestamp]
+Adding this section to your `.imdone/config.json` will cause all tasks in `DONE` to have a `completed:[timestamp]` added to the task text.  
+```json
+"transformers": {
+  "autocomplete": {
+    "list": "DONE"
+  }
+}
+```
+Set `list` to whatever list you use for done.
 
 Task Board Features
 ----
