@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11815-60543-fa1spp.faem56ogvi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11815-60543-fa1spp.faem56ogvi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11815-60543-fa1spp.faem56ogvi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11815-60543-dib5v8.g78u59udi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118221-85902-nmrn98.ddrh08uxr"
     ]
   ],
-  "_from": "../d-11815-60543-fa1spp.faem56ogvi/package.tgz",
-  "_id": "ide-ruby@0.1.9",
+  "_from": "../d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
+  "_id": "ide-ruby@0.1.10",
   "_inCache": true,
   "_location": "/ide-ruby",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11815-60543-fa1spp.faem56ogvi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11815-60543-fa1spp.faem56ogvi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11815-60543-fa1spp.faem56ogvi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11815-60543-fa1spp.faem56ogvi/package.tgz",
-  "_shasum": "95b9c7fd6eea91bbfe107ec06b09b9e5912502e4",
+  "_resolved": "file:../d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
+  "_shasum": "be927b58ca37e9a89ad5e32983c34a8839258a91",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11815-60543-fa1spp.faem56ogvi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11815-60543-dib5v8.g78u59udi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118221-85902-nmrn98.ddrh08uxr",
   "atomCommands": {
     "ide-ruby:help": "Provides help information and descriptions of commands."
   },
@@ -164,5 +164,5 @@
     "lint": "eslint src/",
     "test": "npm run lint"
   },
-  "version": "0.1.9"
+  "version": "0.1.10"
 }

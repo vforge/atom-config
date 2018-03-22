@@ -32,17 +32,21 @@ class Reminders {
     const repo = this.repo
     repo.getTasks().forEach(task => {
       if (!task.meta.remind) return
+      if (task.meta.completed) return
       const reminder = moment(task.meta.remind[0])
       if (reminder.diff(moment()) < 0) return
-      const job = schedule.scheduleJob({start: reminder.toDate(), rule: '*/5 * * * *'}, () => {
+      const job = schedule.scheduleJob(reminder.toDate(), () => {
         this.notify(task, job)
+        task.meta.remind[0] = reminder.add(5, 'minutes').format()
+        task.updateMetaData()
+        repo.modifyTask(task, (err) => repo.emit('tasks.updated', [task]))
       });
       this.jobs.push(job)
     })
+    console.log(`reminders: ${this.jobs.length}`)
   }
 
   notify(task, job) {
-    task = new Task(task)
     let remindDate = moment(task.meta.remind[0]).format('llll')
     notifier.notify(
       {
@@ -52,6 +56,7 @@ class Reminders {
         sound: 'Funk',
         actions: 'Show'
       },(err, response, metadata) => {
+        job.cancel()
         remote.getCurrentWindow().show()
         const filePath = this.repo.getFullPath(task.source.path)
         atom.workspace.open(filePath, {split: 'left'}).then( () => {
