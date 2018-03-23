@@ -11,6 +11,7 @@ module.exports =  (repo) ->
   transform = require('./transform')
   Task = require 'imdone-core/lib/task'
   Reminders = require './reminders'
+  waitUntil = require 'wait-until'
   fs = require 'fs'
   _ = require 'lodash'
   async = require 'async'
@@ -37,7 +38,7 @@ module.exports =  (repo) ->
   repo.getProjectName = () -> _.get repo, 'config.sync.name'
   repo.setProjectName = (name) -> _.set repo, 'config.sync.name', name
 
-  # TODO: Handle the case when imdone.io is offline!  Keep a message saying offline! and auto reconnect when it's back. gh:239 id:95
+  # TODO: Handle the case when imdone.io is offline! Keep a message saying offline! and auto reconnect when it's back. gh:239 id:95
   repo.isImdoneIOProject = () -> client.isAuthenticated() && repo.project && !repo.project.disabled
 
   repo.disableProject = (cb) ->
@@ -89,21 +90,25 @@ module.exports =  (repo) ->
   repo.transformTasks = (tasks, cb) =>
     return cb(null, repo.getTasks()) unless client.isAuthenticated()
     return cb(null, repo.getTasks()) if !client.plan || client.plan.free
-    repo.pause()
-    transformed = transform.transformTasks repo.config, tasks
-    async.mapSeries transformed, (task, cb) =>
-      repo.modifyTask task, false, (err, updatedTask) =>
-        return cb(null, updatedTask) unless err
-        cb err
-    , (err, results) ->
-      if err
-        repo.resume()
-        return cb err
-      repo.saveModifiedFiles (err) =>
-        repo.resume()
-        repo.reminders.schedule()
-        return cb err if err
-        cb(null, repo.getTasks())
+    waitUntil 200, 10, () =>
+      !repo.savingFiles
+    , (result) =>
+      return cb(null, repo.getTasks()) unless result
+      repo.pause()
+      transformed = transform.transformTasks repo.config, tasks
+      async.mapSeries transformed, (task, cb) =>
+        repo.modifyTask task, false, (err, updatedTask) =>
+          return cb(null, updatedTask) unless err
+          cb err
+      , (err, results) ->
+        if err
+          repo.resume()
+          return cb err
+        repo.saveModifiedFiles (err) =>
+          repo.resume()
+          repo.reminders.schedule()
+          return cb err if err
+          cb(null, repo.getTasks())
 
   syncDone = (tasks) ->
     return (err) ->
@@ -244,7 +249,7 @@ module.exports =  (repo) ->
           return cb err if err
           cb null, files
 
-  # BACKLOG: Provide a way to delete tasks after they integrate,  maybe a delete\:true on the returning task. gh:244 id:73
+  # BACKLOG: Provide a way to delete tasks after they integrate, maybe a delete\:true on the returning task. gh:244 id:73
   repo.initProducts = (cb) ->
     cb ?= ()->
     connectorManager.getProducts (err, products) =>

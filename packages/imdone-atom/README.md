@@ -10,6 +10,7 @@ Use `alt(⌥)+t` to open your project's board.
 
 The best issue tracker is one that's invisible.  Integrate your TODO comments into the product backlog with **[imdone.io](https://imdone.io)**.
 
+Vote on new features! [![vote on features](https://img.shields.io/github/issues/imdone/imdone-atom/feature.svg)](https://github.com/imdone/imdone-atom/issues?q=is%3Aissue+is%3Aopen+label%3Afeature+sort%3Acreated-desc)
 ![screen shot 2018-01-20 at 5 24 12 pm](https://user-images.githubusercontent.com/233505/35189496-c05ed71e-fe08-11e7-9390-6e8fb999d1f7.png)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -88,8 +89,9 @@ Use plain text to set reminders and due dates for your tasks. Uses [date.js](htt
   - (ex. `due:2018-03-19T10:00:00-06:00  remind:2018-03-19T11:30:00-04:00`)
 
 ### OS notifications for remind:[timestamp] metadata
-If you set a reminder for your task, you'll receive an OS notification with a show button that will take you back to task in the file.  
-<img width="356" alt="imdone reminder notification" src="https://user-images.githubusercontent.com/233505/37665556-240e081e-2c23-11e8-9504-27a0207c6bca.png">
+If you set a reminder for your task, you'll receive an OS notification that when clicked, will taske you to the task in the file containing it.  
+ 
+<img width="353" alt="screen shot 2018-03-23 at 9 09 05 am" src="https://user-images.githubusercontent.com/233505/37837111-01cee9e0-2e7a-11e8-8aab-6eb9115b5dea.png">
 
 ### Auto completed:[timestamp]
 Adding this section to your `.imdone/config.json` will cause all tasks in `DONE` to have a `completed:[timestamp]` added to the task text.  
@@ -179,6 +181,7 @@ Commands
 | `Imdone Atom: Todays Project Journal` | Alt (⌥ Option)+P | Open todays project journal file |
 | `Imdone Atom: Board Zoom In`          | Alt (⌥ Option)+. | Zoom in board                    |
 | `Imdone Atom: Board Zoom Out`         | Alt (⌥ Option)+, | Zoom out board                   |
+| `Imdone Atom: Export`                 | Alt (⌥ Option)+X | Create `imdone-export.json`      |
 
 Settings
 ----
