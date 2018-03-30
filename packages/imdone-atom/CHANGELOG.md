@@ -1,3 +1,10 @@
+## 2.4.4
+- Fix bug where project journal is created in the wrong project
+
+## 2.4.3
+- Fix issue with chokidar.  Upgrade to 2.x
+- Add file and directory context menus
+
 ## 2.4.2
 - Wait until imdone is done saving modified files to transform tasks
 - Use HTML5 notifications
