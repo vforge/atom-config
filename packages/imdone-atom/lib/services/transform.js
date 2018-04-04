@@ -86,8 +86,11 @@ const getTransformers = function (config) {
 }
 
 const transformTask = function (task, transformers) {
+  const text = task.text
   transformers.forEach(transformer => {
     task.text = transformer.exec(task)
+    if (text === task.text) return
+    task.modified = true
     task.parseTodoTxt()
   })
   return task
@@ -95,7 +98,8 @@ const transformTask = function (task, transformers) {
 
 const transformTasks = function (config, tasks) {
   const transformers = getTransformers(config)
-  return tasks.map(task => transformTask(task, transformers))
+  tasks = tasks.map(task => transformTask(task, transformers))
+  return tasks.filter(task => task.modified)
 }
 
 module.exports = {

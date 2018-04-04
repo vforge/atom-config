@@ -3,6 +3,8 @@
 import LinterEsprimaProvider from './linter-annotations-provider'
 import { install } from 'atom-package-deps'
 
+const { atom } = global
+
 module.exports = {
 
   config: {

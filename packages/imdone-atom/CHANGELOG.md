@@ -1,3 +1,16 @@
+## 2.4.11
+- Fix issue with project path when opening board
+- ignore tasks found in list if list has property `ignore: true` in config.lists
+
+## 2.4.10
+- Use [persvr/rql: Resource Query Language](https://github.com/persvr/rql) for querying
+
+## 2.4.9
+- Fix issue with transform
+
+## 2.4.6
+- Only return modified tasks from transform
+
 ## 2.4.4
 - Fix bug where project journal is created in the wrong project
 

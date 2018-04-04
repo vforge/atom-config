@@ -1,5 +1,7 @@
 'use babel'
 
+const { atom } = global
+
 export default {
 
   name: 'Annotations',
@@ -28,7 +30,7 @@ export default {
   getConfig () {
     return ['error', 'warning', 'info'].reduce((config, key) => {
       config[key] = (atom.config.get(`linter-annotations.${key}`) || [])
-        .map(exp => new RegExp(`(${exp})(\\s*:\\s+)?(.*)`))
+        .map(exp => new RegExp(`(${exp})($|\\s+:?\\s*|\\s*:\\s*|\\s*:?\\s+)(.*)`))
       return config
     }, {})
   },
@@ -79,9 +81,11 @@ export default {
   },
 
   trimCommentEnd (str) {
-    return this.trim(str)
-      .replace(/\s*\*\/$/g, '')
-      .replace(/\s*%>$/g, '')
+    return str
+      .replace(/\s*$/g, '')
+      .replace(/\*\/$/g, '')
+      .replace(/%>$/g, '')
+      .replace(/\s*$/g, '')
       .replace(/\s*-->.*$/g, '')
   },
 

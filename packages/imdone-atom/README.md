@@ -8,7 +8,7 @@
 **A kanban board with an invisible user interface. It's cards and lists are made from TODOs in your code, markdown and text files.**
 Use `alt(⌥)+t` to open your project's board.
 
-The best issue tracker is one that's invisible.  Integrate your TODO comments into the product backlog with **[imdone.io](https://imdone.io)**.
+Integrate your TODO comments into your team's issue tracker or backlog with **[imdone.io](https://imdone.io)**.
 
 Vote on new features! [![vote on features](https://img.shields.io/github/issues/imdone/imdone-atom/feature.svg)](https://github.com/imdone/imdone-atom/issues?q=is%3Aissue+is%3Aopen+label%3Afeature+sort%3Acreated-desc)
 ![screen shot 2018-01-20 at 5 24 12 pm](https://user-images.githubusercontent.com/233505/35189496-c05ed71e-fe08-11e7-9390-6e8fb999d1f7.png)
@@ -25,6 +25,7 @@ Vote on new features! [![vote on features](https://img.shields.io/github/issues/
   - [Auto completed:[timestamp]](#auto-completedtimestamp)
 - [Task Board Features](#task-board-features)
   - [Filtering your board](#filtering-your-board)
+  - [Ignoring all tasks in a list](#ignoring-all-tasks-in-a-list)
   - [Delete all visible tasks](#delete-all-visible-tasks)
   - [Open all files for visible tasks](#open-all-files-for-visible-tasks)
   - [Using tags in your TODO comments](#using-tags-in-your-todo-comments)
@@ -90,7 +91,7 @@ Use plain text to set reminders and due dates for your tasks. Uses [date.js](htt
 
 ### OS notifications for remind:[timestamp] metadata
 If you set a reminder for your task, you'll receive an OS notification that when clicked, will taske you to the task in the file containing it.  
- 
+
 <img width="353" alt="screen shot 2018-03-23 at 9 09 05 am" src="https://user-images.githubusercontent.com/233505/37837111-01cee9e0-2e7a-11e8-8aab-6eb9115b5dea.png">
 
 ### Auto completed:[timestamp]
@@ -107,8 +108,64 @@ Set `list` to whatever list you use for done.
 Task Board Features
 ----
 ### Filtering your board
-imdone uses regular expression matching to filter your cards on your board.  The content and the path of the file are searched, but the Token (e.g. TODO) is not searched.
-![filter-tasks](https://cloud.githubusercontent.com/assets/233505/21971105/fc44f31c-db72-11e6-857a-17fa92082a46.gif)
+imdone uses [rql](https://github.com/persvr/rql) to filter your board. Click on the tags, contexts or the lightbulb icon next to metadata or the filename to see some examples.
+You can query for any property of a task.
+```json
+{
+   "text": "Remember to update changelog before +publishing +package @piascikj gh:237 id:66",
+   "list": "TODO",
+   "order": "",
+   "hasColon": true,
+   "line": 568,
+   "id": "74a2ceff5d820f71574fbc2c8f7a6fff10fddcc9",
+   "repoId": "/Users/jesse/projects/imdone-atom",
+   "source": {
+      "path": "CHANGELOG.md",
+      "id": "CHANGELOG.md",
+      "repoId": "/Users/jesse/projects/imdone-atom",
+      "type": "File",
+      "ext": "md",
+      "lang": "markdown",
+      "modified": false,
+      "modifiedTime": "2018-04-03T17:58:15.523Z"
+   },
+   "type": "HASHTAG",
+   "tags": [
+      "publishing",
+      "package"
+   ],
+   "context": [
+      "piascikj"
+   ],
+   "meta": {
+      "gh": [
+         "237"
+      ],
+      "id": [
+         "66"
+      ]
+   },
+   "description": [],
+   "rawTask": "#TODO: Remember to update changelog before +publishing +package @piascikj gh:237 id:66"
+}
+```
+
+### Ignoring all tasks in a list
+Add an `ignore: true` property to the list in `.imdone/config.js` to keep tasks in the given list off the board and ignored by imdone.io integrations.
+If you add the `ignore: true` property to a list in `.imdone/config.json` like this...
+```json
+"lists": [
+  {
+    "name": "ARCHIVE",
+    "hidden": false,
+    "ignore": true
+  }
+]
+```
+
+The list will look like this...
+
+![screen shot 2018-04-04 at 12 26 46 pm](https://user-images.githubusercontent.com/233505/38326640-83770a08-3803-11e8-9dbb-d58a388f2454.png)
 
 ### Delete all visible tasks
 Just click on the trash can icon and all the visible tasks will be deleted.  imdone will also get rid of any blank lines left behind!  Great for cleaning up!

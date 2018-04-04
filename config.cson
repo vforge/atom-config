@@ -128,7 +128,7 @@
     return_description: false
     return_tag: "@returns"
   editor:
-    fontFamily: "Operator Mono"
+    fontFamily: "IBM Plex Mono"
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true
@@ -151,7 +151,7 @@
     rootPath: "/Users/v/Git;/Users/v/Dropbox/Development/vforge"
   "git-status": {}
   "ide-php":
-    phpPath: "/usr/local/bin/php"
+    phpPath: "/usr/bin/php"
   "ide-python": {}
   "isotope-light-ui": {}
   "isotope-ui":
