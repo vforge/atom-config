@@ -192,6 +192,7 @@ class ImdoneAtomView extends ScrollView
       @filter text
 
     @emitter.on 'filter.clear', =>
+      @board.find('.task a[href^="#filter/"]').removeClass('inline-block highlight-info')
       @board.find('.task').show()
 
     @emitter.on 'visible.open', =>
@@ -262,11 +263,6 @@ class ImdoneAtomView extends ScrollView
       target = e.target
       name = target.dataset.list || target.parentElement.dataset.list
       repo.removeList(name)
-
-    @on 'click', '.filter-link', (e) =>
-      target = e.target
-      filter = target.dataset.filter || target.parentElement.dataset.filter
-      @setFilter filter
 
     @on 'click', '[href^="#filter/"]', (e) =>
       target = e.target
@@ -381,18 +377,30 @@ class ImdoneAtomView extends ScrollView
 
   getFilter: -> @menuView.getFilter()
 
+  showTasks: (tasks) ->
+    @board.find("##{task.id}").show() for task in tasks
+    @emitter.emit 'board.update'
+
   filter: (text) ->
     text = @getFilter() unless text
     @lastFilter = text
     if text == ''
       @board.find('.task').show()
+      @emitter.emit 'board.update'
     else
       @board.find('.task').hide()
+      @board.find('.task a[href^="#filter/"]').removeClass('inline-block highlight-info')
+      @board.find(".task a[href='#filter/#{text}']").addClass('inline-block highlight-info')
       tasks = @imdoneRepo.query text
-      @board.find("##{task.id}").show() for task in tasks
-      # @filterByPath text
-      # @filterByContent text
-    @emitter.emit 'board.update'
+      lists = _.uniq(tasks.map (task) -> task.list).sort()
+      if JSON.stringify(@shownLists) is JSON.stringify(lists)
+        @showTasks(tasks)
+      else
+        @shownLists = lists
+        @board.find('.list').hide()
+        for list in @imdoneRepo.getLists()
+          list.hidden = !lists.includes(list.name) && !list.ignore
+        @imdoneRepo.saveConfig()
 
   filterByPath: (text) -> @board.find(util.format('.task:attrContainsRegex(data-path,%s)', text)).each -> $(this).show().attr('id')
 
@@ -439,9 +447,9 @@ class ImdoneAtomView extends ScrollView
   hideMask: -> @mask.hide() if @mask
 
   genFilterLink: (opts) ->
-    $link = $el.a href:"#", title: "just show me tasks with #{opts.linkText}", class: "filter-link",
+    $link = $el.a href:"#filter/#{opts.filter}", title: "just show me tasks with #{opts.linkText}",
       $el.span class: opts.linkClass, opts.linkText
-    $link.dataset.filter = opts.filter
+    # $link.dataset.filter = opts.filter
     $link
   # DOING: Use web components or vuejs to make the UI more testable and portable. +enhancement gh:297 id:75 ic:gh
   # - Create a task component
@@ -470,7 +478,6 @@ class ImdoneAtomView extends ScrollView
         for tag, i in tags
           do (tag, i) =>
             $link = @genFilterLink linkText: tag, filter:"contains(tags,#{tag})", linkClass: "task-tags"
-            $link = "contains(tags,#{tag})"
             taskHtml = taskHtml.replace( "+#{tag}", $el.div($link).innerHTML )
     else
       taskHtml = task.getHtml $.extend({stripTags: true, stripContext: true}, opts)
@@ -500,18 +507,22 @@ class ImdoneAtomView extends ScrollView
           $link = $el.a href: data.link.url, title: data.link.title,
             $el.span class:"icon #{data.link.icon || 'icon-link-external'}"
           $icons.appendChild $link
-        $filterLink = $el.a href:"#", title: "just show me tasks with #{data.key}:#{data.value}", class: "filter-link", "data-filter": "contains(meta.#{data.key},string:#{encodeURIComponent(data.value)})",
+        filter = "contains(meta.#{data.key},string:#{encodeURIComponent(data.value)})"
+        $filterLink = $el.a href:"#filter/#{filter}", title: "just show me tasks with #{data.key}:#{data.value}",
           $el.span class:"icon icon-light-bulb"
         $icons.appendChild $filterLink
 
-        $tr = $el.tr class:'meta-data-row',
+        $tr = $el.tr class:'meta-data-row', 'data-key': data.key, 'data-value': data.value,
           $el.td data.key
           $el.td value
           $icons
         $taskMetaTable.appendChild $tr
 
+    filter = "source.path=#{encodeURIComponent(task.source.path)}"
     $el.li class: 'task well native-key-bindings', id: "#{task.id}", tabindex: -1, "data-path": task.source.path, "data-line": task.line,
-      $el.div class: 'imdone-task-plugins'
+      $el.div class: 'imdone-task-plugins-wrapper',
+        $el.span class:"icon icon-three-bars drag-handle pull-left"
+        $el.span class: 'imdone-task-plugins'
       $el.div class: 'task-full-text hidden', task.getTextAndDescription()
       $taskText
       $filters
@@ -519,7 +530,7 @@ class ImdoneAtomView extends ScrollView
       $el.div class: 'task-source',
         $el.a href: '#', class: 'source-link', title: 'take me to the source', 'data-uri': "#{repo.getFullPath(task.source.path)}", 'data-line': task.line, "#{task.source.path + ':' + task.line}"
         $el.span ' | '
-        $el.a href:"#", title: "just show me tasks in #{task.source.path}", class: "filter-link", "data-filter": "source.path=#{encodeURIComponent(task.source.path)}",
+        $el.a href:"#filter/#{filter}", title: "just show me tasks in #{task.source.path}",
           $el.span class:"icon icon-light-bulb"
 
   getList: (list) =>
@@ -534,10 +545,10 @@ class ImdoneAtomView extends ScrollView
             if (tasks.length < 1)
               @a href: '#', title: "delete #{list.name}", class: 'delete-list', "data-list": list.name, =>
                 @span class:'icon icon-trashcan'
-        @ol class: 'tasks', "data-list":"#{list.name}"
         if (list.ignore)
           @div class:'ignored-list-message text-center', =>
             @raw "Cards dropped here will be ignored by imdone."
+        @ol class: 'tasks', "data-list":"#{list.name}"
     $tasks = $list.find('.tasks')
     $tasks.append(self.getTask task) for task in tasks
     $list
@@ -622,6 +633,7 @@ class ImdoneAtomView extends ScrollView
       sort: true
       ghostClass: 'imdone-ghost'
       scroll: @boardWrapper[0]
+      handle: '.drag-handle'
       onEnd: (evt) =>
         id = evt.item.id
         pos = evt.newIndex

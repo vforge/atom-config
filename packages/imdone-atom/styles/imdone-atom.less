@@ -441,7 +441,8 @@
     bottom: 0;
     left: 32px;
     right: 0;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     &.shift {
       left: @menu-width;
     }
@@ -455,9 +456,10 @@
       .list {
         float: left;
         width: @board-list-width;
-        padding: 10px;
+        padding: 10px 5px 50px 10px;
         background-color: @panel-heading-background-color;
         margin-right: 10px;
+        height: 100%;
         .list-name-wrapper {
           background-color: @task-background-color;
           font-size: 1.5em;
@@ -480,7 +482,9 @@
         .tasks {
           min-height: 50px;
           list-style: none;
-          padding-left: 0;
+          padding: 0 10px 0 0;
+          height: 100%;
+          overflow-y: auto;
         }
         .task {
           background-color: @task-background-color;
@@ -488,13 +492,20 @@
           white-space: normal;
           word-wrap: break-word;
           position: relative;
-          cursor: move;
           border: 2px solid @task-background-color;
+          a.highlight-info, .highlight-info span {
+            color: #fff;
+          }
           .task-text {
             margin-right: 1em;
             p {
               margin: 0 0 5px;
             }
+          }
+          .drag-handle {
+            cursor: move;
+            display: inline-block;
+            width: 3em;
           }
           .task-description {
             img {
@@ -540,10 +551,10 @@
               color: @text-color-info;
             }
           }
-          .imdone-task-plugins {
+          .imdone-task-plugins, .imdone-task-plugins-wrapper {
             text-align: right;
             min-height: 20px;
-            margin-right: .3em;
+            margin-left: -1.6em;
           }
           &.selected {
             border-color: @text-color-info;

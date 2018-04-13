@@ -28,31 +28,24 @@
   "lists": [
     {
       "name": "BACKLOG",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "TODO",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "DOING",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "CHANGED",
       "hidden": true
     },
     {
-      "name": "NOTE",
-      "hidden": false
-    },
-    {
       "name": "DONE",
-      "hidden": false
-    },
-    {
-      "name": "QUESTION",
-      "hidden": false
+      "hidden": false,
+      "ignore": true
     }
   ],
   "marked": {

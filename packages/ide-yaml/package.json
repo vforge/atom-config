@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-10t4qec.7punqrrudi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118310-3019-12rj6if.nuj2xrbe29/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-10t4qec.7punqrrudi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-10t4qec.7punqrrudi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118310-3019-12rj6if.nuj2xrbe29/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118310-3019-12rj6if.nuj2xrbe29/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171021-35714-zw76g9.i5bbro1or"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118310-3019-pr4sgp.pwnihhbyb9"
     ]
   ],
-  "_from": "../d-1171021-35714-10t4qec.7punqrrudi/package.tgz",
-  "_id": "ide-yaml@0.4.2",
+  "_from": "../d-118310-3019-12rj6if.nuj2xrbe29/package.tgz",
+  "_id": "ide-yaml@0.4.3",
   "_inCache": true,
   "_location": "/ide-yaml",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-10t4qec.7punqrrudi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118310-3019-12rj6if.nuj2xrbe29/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-10t4qec.7punqrrudi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-10t4qec.7punqrrudi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118310-3019-12rj6if.nuj2xrbe29/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118310-3019-12rj6if.nuj2xrbe29/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1171021-35714-10t4qec.7punqrrudi/package.tgz",
-  "_shasum": "9cf146e19130b414c0a1eccc08364ce4aba23144",
+  "_resolved": "file:../d-118310-3019-12rj6if.nuj2xrbe29/package.tgz",
+  "_shasum": "0be16e7b47c3407bb2273831f333d7524a4a41c3",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171021-35714-10t4qec.7punqrrudi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171021-35714-zw76g9.i5bbro1or",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118310-3019-12rj6if.nuj2xrbe29/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118310-3019-pr4sgp.pwnihhbyb9",
   "atomCommands": {
     "ide-yaml:help": "Provides help information and descriptions of commands."
   },
@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "atom-languageclient": "^0.6.7",
-    "yaml-language-server": "^0.0.6"
+    "yaml-language-server": "^0.0.11"
   },
   "description": "Atom-IDE support for YAML language",
   "devDependencies": {
@@ -123,5 +123,5 @@
     "lint": "eslint src/",
     "test": "npm run lint"
   },
-  "version": "0.4.2"
+  "version": "0.4.3"
 }

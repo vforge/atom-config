@@ -1,4 +1,21 @@
 ## dev
+* Nothing ATM! Come back later :)
+
+## 2.5.1 - No more warnings and exceptions
+* Fixed deprecation warnings.
+* Fixed uncaught exception errors (method call on undefined).
+
+## 2.5.0 - Cascade of fixes
+* Fixed: [HTML artefact in symbol list](https://github.com/7ute/symbols-list/issues/57)
+* Added support for es7 decorators, courtesy of @guiguan
+* Fixed: [Different color for public, private and protected methods (visibility)](https://github.com/7ute/symbols-list/issues/54), courtesy of @monsieurluge
+* Fixed: [Hiding (toggling) symbol list does not persist when switching tabs](https://github.com/7ute/symbols-list/issues/51), courtesy of @JK-TC
+* Fixed: [Javascript Es6Methods with spaces before parenthesis are not recognized](https://github.com/7ute/symbols-list/issues/58), courtesy of @FelixBrendel
+* Fixed: [Configurable width setting](https://github.com/7ute/symbols-list/issues/46), courtesy of @DjLeChuck
+* Fixed: [support cache for huge files](https://github.com/7ute/symbols-list/issues/47)
+* Moved configuration to separate file symbols-list-config
+* Added positioning feature and configs to either center the view after jump to line, scroll from top or from bottom for configured amount of lines.
+* Added md5 hash checks to reload symbols just on real changes.
 
 ## 2.4.1 - Odin and ES2017 tweaks
 * Added Odin regex, courtesy of @FelixBrendel

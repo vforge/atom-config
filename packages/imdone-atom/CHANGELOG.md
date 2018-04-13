@@ -1,3 +1,18 @@
+## 2.4.16
+- Provide data-key and data-value in metadata rows for plugins or custom css. e.g. `tr.meta-data-row[data-key=gh]`
+- When filtering only show lists with tasks and ignored lists
+- Highlight the current filter link in tasks
+
+## 2.4.15
+- Allow user to select text in cards by adding a drag handle
+
+## 2.4.13
+- Fix in-line tags
+
+## 2.4.12
+- Independent list scrolling
+- Find TODOs in .vue files
+
 ## 2.4.11
 - Fix issue with project path when opening board
 - ignore tasks found in list if list has property `ignore: true` in config.lists
@@ -541,7 +556,7 @@
 * Remove clunky transition on list rename
 
 ## 1.1.3
-* Add list rename supprt
+* Add list rename support
 
 ## 1.1.2
 * Add filter link support #filter/*filter*

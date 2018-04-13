@@ -41,10 +41,22 @@ module.exports =
             @filterEditorView.getModel().placeholderText = 'Start typing to filter...'
             @handleEvents()
 
+
+
+        escapeHtml: (unsafe) ->
+            if (! unsafe)
+                return ''
+            return unsafe
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+
         viewForItem: (item) ->
             "<li class='full-menu list-tree'>" +
                 "<span class='pastille list-item-#{item.type}'></span>" +
-                "<span class='list-item'>#{item.label}</span>" +
+                "<span class='list-item'>" + @escapeHtml(item.label) + "</span>" +
             "</li>"
 
         confirmed: (item) ->
@@ -72,6 +84,12 @@ module.exports =
                 @items.sort (a, b) ->
                     a.range?.start.row - b.range?.start.row
             @setItems(@items)
+
+        getItemList: ->
+            return @items
+
+        setItemList: (itemlist) ->
+            @setItems(itemlist)
 
         serialize: ->
 

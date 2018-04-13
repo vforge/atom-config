@@ -1,27 +1,19 @@
+{CompositeDisposable} = require 'atom'
+Configuration = require './symbols-list-config'
 SymbolsListView = require './symbols-list-view'
 RegexList = require './symbols-list-regex'
-{CompositeDisposable} = require 'atom'
+Crypto = require 'crypto'
 
 module.exports =
-    config:
-        startUp:
-            type: 'boolean'
-            default: true
-            description: 'Set panel visibility at startup.'
-        alphabeticalSorting:
-            type: 'boolean'
-            default: false
-            description: 'Sort the list alphabetically'
-        hideOnEmptyList:
-            type: 'boolean'
-            default: false
-            description: 'Hide the list if empty'
-
+    config: Configuration,
     SymbolsListView: null,
     panel: null,
     subscriptions: null,
     editor: null,
-    code: null
+    code: null,
+    isVisible: null,
+    FileHashes: []
+    FileItemList: []
 
     init: (service) ->
 
@@ -31,6 +23,9 @@ module.exports =
         @SymbolsListView = new SymbolsListView(state.SymbolsListViewState)
         @SymbolsListView.callOnConfirm = @moveToRange;
         SymbolsList = this
+
+        # set initial visiblilty state
+        @isVisible = atom.config.get('symbols-list.basic.startUp')
 
         # add event handlers
         @subscriptions = new CompositeDisposable
@@ -43,21 +38,26 @@ module.exports =
                 SymbolsList.updateActiveItem(e)
 
         # setup symbols list on right panel
-        @panel = atom.workspace.addRightPanel(item: @SymbolsListView.element, visible: atom.config.get('symbols-list.startUp'), priority: 0)
+        @panel = atom.workspace.addRightPanel(item: @SymbolsListView.element, visible: @isVisible, priority: 0)
 
         # reload symbols for the very first time
         SymbolsList.reloadSymbols()
 
+        # set width of panel
+        if atom.config.get('symbols-list.basic.panelWidth')
+            newWidth = parseInt( atom.config.get('symbols-list.basic.panelWidth') )
+            @SymbolsListView.element.style.width = newWidth + 'px'
+
     reloadSymbols: ->
 
-        # prepare symbols list view for reload
-        @SymbolsListView.cleanItems()
-        @SymbolsListView.setError()
-
-        # check if we face a text editor to reload the list for
-        @editor = atom.workspace.getActiveTextEditor()
-
         SymbolsList = this
+
+        #only show panel if toggled to visible
+        if @isVisible is no
+            SymbolsList.panel.hide()
+            return
+
+        @editor = atom.workspace.getActiveTextEditor()
 
         # hide the list without an available text editor (i.e. in settings view)
         if not @editor? || not @editor.getGrammar()?
@@ -70,14 +70,32 @@ module.exports =
             SymbolsList.panel.hide()
             return
 
-        scopeArray = scopeName.split('.');
+        # check if we really need to reload the symbols list
+        CurrentFileHash = Crypto.createHash('md5').update(@editor.getText()).digest('hex')
+        CurrentFilePath = @editor.getPath()
 
-        # asynchronous loading
-        @SymbolsListView.setLoading('Loading…')
+        if not @FileHashes[CurrentFilePath]? || @FileHashes[CurrentFilePath] != CurrentFileHash
+
+            # prepare symbols list view for reload
+            @SymbolsListView.cleanItems()
+            @SymbolsListView.setError()
+
+            # asynchronous loading
+            @SymbolsListView.setLoading('Loading…')
 
         setTimeout(->
-            SymbolsList.SymbolsListView.cleanItems()
-            SymbolsList.recursiveScanRegex(scopeArray, RegexList, window.performance.now() )
+
+            if not SymbolsList.FileHashes[CurrentFilePath]? || SymbolsList.FileHashes[CurrentFilePath] != CurrentFileHash
+
+                scopeArray = scopeName.split('.')
+
+                SymbolsList.SymbolsListView.cleanItems()
+                SymbolsList.recursiveScanRegex(scopeArray, RegexList, window.performance.now() )
+
+                SymbolsList.FileHashes[CurrentFilePath] = CurrentFileHash
+                SymbolsList.FileItemList[CurrentFilePath] = SymbolsList.SymbolsListView.getItemList()
+            else
+                SymbolsList.SymbolsListView.setItemList(SymbolsList.FileItemList[CurrentFilePath])
 
             # check list for item count and hide it if needed
             if SymbolsList.SymbolsListView.items.length
@@ -88,10 +106,11 @@ module.exports =
                 SymbolsList.SymbolsListView.loadingArea.hide()
 
                 # determine currently active line and update active item
-                CursorBufferPosition = SymbolsList.editor.getCursorBufferPosition()
-                SymbolsList.updateActiveItem(CursorBufferPosition)
+                if SymbolsList.editor?
+                    CursorBufferPosition = SymbolsList.editor.getCursorBufferPosition()
+                    SymbolsList.updateActiveItem(CursorBufferPosition)
             else
-                if atom.config.get('symbols-list.hideOnEmptyList')
+                if atom.config.get('symbols-list.basic.hideOnEmptyList')
                     SymbolsList.panel.hide()
                 else
                     SymbolsList.panel.show()
@@ -102,7 +121,7 @@ module.exports =
     updateActiveItem: (e) ->
 
         # TODO: currently no active item updates on alphabetical sorting
-        if atom.config.get('symbols-list.alphabeticalSorting')
+        if atom.config.get('symbols-list.basic.alphabeticalSorting')
             return
 
         if e.row?
@@ -122,6 +141,7 @@ module.exports =
             @SymbolsListView.selectItemView( @SymbolsListView.list.find('li').eq( key ) )
 
     recursiveScanRegex: ( scopeArray, regexGroup, start ) ->
+
             current = window.performance.now()
             recursive_time_limit = 500.0
             for key,val of regexGroup
@@ -136,9 +156,28 @@ module.exports =
                     @recursiveScanRegex( scopeArray.slice(1), val, start )
 
     moveToRange: (range) ->
-        @editor = atom.workspace.getActiveTextEditor()
-        @editor.setCursorBufferPosition(range.start)
-        @editor.scrollToCursorPosition({center: false})
+
+        PositionAfterJump = atom.config.get('symbols-list.positioning.positionAfterJump')
+
+        Editor = atom.workspace.getActiveTextEditor()
+        Editor.setCursorBufferPosition(range.start)
+
+        Cursor = Editor.getCursorScreenPosition()
+        View = atom.views.getView(Editor);
+        PixelPosition = View.pixelPositionForScreenPosition(Cursor).top
+
+        if PositionAfterJump == 'Center'
+            PixelPosition -= (View.getHeight() / 2);
+            View.setScrollTop PixelPosition
+        else
+            PositionScroll = atom.config.get('symbols-list.positioning.positionScroll')
+            LineHeight = Editor.getLineHeightInPixels()
+            if PositionAfterJump == 'ScrollFromTop'
+                PixelPosition -= (LineHeight * PositionScroll);
+                View.setScrollTop PixelPosition
+            else
+                PixelPosition += (LineHeight * PositionScroll);
+                View.setScrollBottom PixelPosition
 
     deactivate: ->
         @panel.destroy()
@@ -149,8 +188,10 @@ module.exports =
         SymbolsListViewState: @SymbolsListView.serialize()
 
     toggle: ->
-        if @panel.isVisible()
+        if @isVisible
             @panel.hide()
+            @isVisible = false
         else
             @panel.show()
+            @isVisible = true
             @reloadSymbols()
