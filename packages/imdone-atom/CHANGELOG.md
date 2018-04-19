@@ -1,3 +1,15 @@
+## 2.4.20
+- Allow filtering of task properties "created", "completed", "due" and "remind" as dates (e.g. "gt(due,date:2018-04-20)")
+
+## 2.4.19
+- Move tasks to bottom and top with one click
+
+## 2.4.18
+- Use filter by string.search on rawTask as fallback to rql
+
+## 2.4.17
+- Fix filter syntax error
+
 ## 2.4.16
 - Provide data-key and data-value in metadata rows for plugins or custom css. e.g. `tr.meta-data-row[data-key=gh]`
 - When filtering only show lists with tasks and ignored lists
