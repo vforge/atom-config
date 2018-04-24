@@ -1,6 +1,7 @@
 const moment = require('moment')
 const chrono = require('chrono-node')
 const Task = require('imdone-core/lib/task')
+const Repository = require('imdone-core/lib/repository')
 const _ = require('lodash')
 
 class Transformer {
@@ -68,19 +69,35 @@ const getTransformers = function (config) {
       }
     }),
     new Transformer({
-      config,
+      config: _.get(config, 'transformers.autocreate'),
+      name: "autocreate",
+      exec: function (task) {
+        if (!this.config || task.meta.created || task.meta.completed) return task.text
+        const excludeLists = this.config.exclude
+        const filter = this.config.filter
+        if (!excludeLists && !filter) return task.text
+        if (excludeLists && excludeLists.includes(task.list)) return task.text
+        if (filter && Repository.query([task], filter).length == 0 ) return task.text
+        task.addMetaData("created", this.parseDate('now').format())
+        return task.text
+      },
+      pattern: /^((?!\screated:).)*$/
+    }),
+    new Transformer({
+      config: _.get(config, 'transformers.autocomplete'),
       name: "autocomplete",
       exec: function (task) {
-        const list = _.get(this.config, 'transformers.autocomplete.list')
-        if (!list) return task.text
-        if (task.meta.completed) return task.text
-        if (task.list !== list) return task.text
+        if (!this.config || task.meta.completed) return task.text
+        const list = this.config.list
+        const filter = this.config.filter
+        if (!list && !filter) return task.text
+        if (list && (task.list !== list)) return task.text
+        if (filter && Repository.query([task], filter).length == 0 ) return task.text
         task.addMetaData("completed", this.parseDate('now').format())
         task.removeMetaData('remind')
         return task.text
       },
-      pattern: /^((?!\scompleted:).)*$/,
-      list: _.get(config, 'transformers.autocomplete.list')
+      pattern: /^((?!\scompleted:).)*$/
     })
   ]
 }
