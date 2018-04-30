@@ -6,7 +6,7 @@ import { it, fit, wait, beforeEach, afterEach } from 'jasmine-fix';
 import linterCsslint from '../lib/main';
 
 const linterProvider = linterCsslint.provideLinter();
-const lint = linterProvider.lint;
+const { lint } = linterProvider;
 
 const badPath = path.join(__dirname, 'fixtures', 'bad.css');
 const goodPath = path.join(__dirname, 'fixtures', 'good.css');
@@ -112,6 +112,37 @@ describe('The CSSLint provider for Linter', () => {
     it('trusts what the user tells it', async () => {
       const foundPath = linterCsslint.determineExecPath('foobar', '');
       expect(foundPath).toBe('foobar');
+    });
+  });
+
+  describe('handles invalid CSSLint paths', () => {
+    let editor;
+    const message = 'linter-csslint:: Error while running CSSLint!';
+    const detail = 'Failed to spawn command `foo`. Make sure `foo` is installed and on your PATH';
+
+    beforeEach(async () => {
+      atom.config.set('linter-csslint.executablePath', 'foo');
+
+      editor = await atom.workspace.open(goodPath);
+      await lint(editor);
+    });
+
+    it('tells the user when they specify an invalid CSSLint path', async () => {
+      const currentNotifications = atom.notifications.getNotifications();
+
+      expect(currentNotifications.length).toBe(1);
+      expect(currentNotifications[0].getMessage()).toBe(message);
+      expect(currentNotifications[0].getOptions().detail).toBe(detail);
+    });
+
+    it('only notifies for invalid paths once', async () => {
+      // Run the lint again to check the path twice
+      await lint(editor);
+      const currentNotifications = atom.notifications.getNotifications();
+
+      expect(currentNotifications.length).toBe(1);
+      expect(currentNotifications[0].getMessage()).toBe(message);
+      expect(currentNotifications[0].getOptions().detail).toBe(detail);
     });
   });
 });

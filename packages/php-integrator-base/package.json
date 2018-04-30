@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-23nu80.qrlm4e7b9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29070-1ner0vu.rcbnm3rf6r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-23nu80.qrlm4e7b9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-23nu80.qrlm4e7b9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29070-1ner0vu.rcbnm3rf6r/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29070-1ner0vu.rcbnm3rf6r/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11839-18904-qgqkm8.t0n9e019k9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118330-29070-1pcfk8e.8g5ddt2o6r"
     ]
   ],
-  "_from": "../d-11839-18904-23nu80.qrlm4e7b9/package.tgz",
-  "_id": "php-integrator-base@3.3.0",
+  "_from": "../d-118330-29070-1ner0vu.rcbnm3rf6r/package.tgz",
+  "_id": "php-integrator-base@3.4.0",
   "_inCache": true,
   "_location": "/php-integrator-base",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-23nu80.qrlm4e7b9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29070-1ner0vu.rcbnm3rf6r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-23nu80.qrlm4e7b9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-23nu80.qrlm4e7b9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29070-1ner0vu.rcbnm3rf6r/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29070-1ner0vu.rcbnm3rf6r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11839-18904-23nu80.qrlm4e7b9/package.tgz",
-  "_shasum": "d23d1042a08170f7321e420ed7454a7c44f65aad",
+  "_resolved": "file:../d-118330-29070-1ner0vu.rcbnm3rf6r/package.tgz",
+  "_shasum": "3cd92ce1adad9a329e29605ea371ba05cc0e75e6",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-23nu80.qrlm4e7b9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11839-18904-qgqkm8.t0n9e019k9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29070-1ner0vu.rcbnm3rf6r/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118330-29070-1pcfk8e.8g5ddt2o6r",
   "bugs": {
     "url": "https://github.com/php-integrator/atom-base/issues"
   },
@@ -117,5 +117,5 @@
     "type": "git",
     "url": "git+https://github.com/php-integrator/atom-base.git"
   },
-  "version": "3.3.0"
+  "version": "3.4.0"
 }
