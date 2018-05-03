@@ -20,6 +20,11 @@ class Proxy
     config: null
 
     ###*
+     * @var {Object}
+    ###
+    phpInvoker: null
+
+    ###*
      * The name (without path or extension) of the database file to use.
      *
      * @var {Object}
@@ -79,9 +84,10 @@ class Proxy
     ###*
      * Constructor.
      *
-     * @param {Config} config
+     * @param {Config}     config
+     * @param {PhpInvoker} phpInvoker
     ###
-    constructor: (@config) ->
+    constructor: (@config, @phpInvoker) ->
         @requestQueue = {}
         @port = @getRandomServerPort()
 
@@ -95,9 +101,8 @@ class Proxy
      * @return {Promise}
     ###
     spawnPhpServer: (port) ->
-        php = @config.get('core.phpCommand')
-        socketHost = @config.get('core.socketHost')
         memoryLimit = @config.get('core.memoryLimit')
+        socketHost = if @config.get('core.phpExecutionType') == 'host' then '127.0.0.1' else '0.0.0.0'
 
         parameters = [
              # Enable these to profile (requires xdebug be installed).
@@ -110,7 +115,11 @@ class Proxy
              '--uri=tcp://' + socketHost + ':' + port
         ]
 
-        process = child_process.spawn(php, parameters)
+        additionalDockerRunParameters = [
+            '-p', '127.0.0.1:' + port + ':' + port
+        ]
+
+        process = @phpInvoker.invoke(parameters, additionalDockerRunParameters)
 
         return new Promise (resolve, reject) =>
             process.stdout.on 'data', (data) =>
