@@ -1,0 +1,132 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11847-7436-url8uj.gcy6hfflxr"
+    ]
+  ],
+  "_from": "../d-11847-7436-wgfl2d.jeylow29/package.tgz",
+  "_id": "php-ide-serenata@4.1.1",
+  "_inCache": true,
+  "_location": "/php-ide-serenata",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-11847-7436-wgfl2d.jeylow29/package.tgz",
+  "_shasum": "4d4160a7120223ca630bb6d64cd021fb5afd1b95",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11847-7436-url8uj.gcy6hfflxr",
+  "bugs": {
+    "url": "https://github.com/Gert-dev/php-ide-serenata/issues"
+  },
+  "consumedServices": {
+    "linter-indie": {
+      "versions": {
+        "2.0.0": "setLinterIndieService"
+      }
+    },
+    "project-manager": {
+      "versions": {
+        "^3.1.0": "setProjectManagerService"
+      }
+    },
+    "atom-ide-busy-signal": {
+      "versions": {
+        "0.1.0": "consumeBusySignalService"
+      }
+    },
+    "datatip": {
+      "versions": {
+        "0.1.0": "consumeDatatipService"
+      }
+    },
+    "signature-help": {
+      "versions": {
+        "0.1.0": "consumeSignatureHelpService"
+      }
+    },
+    "snippets": {
+      "versions": {
+        "0.1.0": "setSnippetManager"
+      }
+    }
+  },
+  "dependencies": {
+    "atom-languageclient": "^0.8",
+    "atom-package-deps": "^4.6",
+    "atom-space-pen-views": "^2.2",
+    "download": "^7.0",
+    "event-kit": "^2.4",
+    "md5": "^2.2",
+    "mkdirp": "^0.5",
+    "rimraf": "^2.6",
+    "sanitize-filename": "^1.6"
+  },
+  "description": "PHP language support for Atom-IDE via the Serenata server",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.26.0 <2.0.0"
+  },
+  "homepage": "https://serenata.gitlab.io/",
+  "keywords": [
+    "serenata",
+    "php",
+    "ide",
+    "integration",
+    "autocompletion",
+    "refactoring",
+    "docblock",
+    "generator"
+  ],
+  "license": "GPL-3.0-or-later",
+  "main": "./lib/Main",
+  "name": "php-ide-serenata",
+  "optionalDependencies": {},
+  "package-deps": [
+    "project-manager",
+    "atom-ide-ui",
+    "intentions"
+  ],
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "3.0.0": "getAutocompletionProviderServices"
+      }
+    },
+    "hyperclick.provider": {
+      "versions": {
+        "0.0.0": "getHyperclickProvider"
+      }
+    },
+    "intentions:list": {
+      "versions": {
+        "1.0.0": "provideIntentions"
+      }
+    }
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gert-dev/php-ide-serenata.git"
+  },
+  "version": "4.1.1"
+}
