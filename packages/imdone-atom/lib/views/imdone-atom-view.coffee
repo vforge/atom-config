@@ -16,6 +16,7 @@ _ = null
 config = require '../services/imdone-config'
 envConfig = require '../../config'
 # #BACKLOG: Add keen stats for features gh:240 id:89
+
 module.exports =
 class ImdoneAtomView extends ScrollView
 
@@ -177,8 +178,17 @@ class ImdoneAtomView extends ScrollView
       @onRepoUpdate(file.getTasks()) if file.getPath()
 
     @emitter.on 'tasks.moved', (tasks) =>
-      #console.log 'tasks.moved', tasks
-      @onRepoUpdate(tasks) # TODO: For performance maybe only update the lists that have changed gh:259 id:98
+      console.log 'tasks.moved', tasks
+      @destroySortables()
+      for task in tasks
+        do (task) =>
+          taskEl = @board.find(".task##{task.id}")
+          return taskEl.remove() if @imdoneRepo.config.ignoreList(task.list)
+          @replaceTasksInList(task.list)
+          @replaceTasksInList(task.oldList)
+      @makeTasksSortable()
+      @hideMask()
+      # @onRepoUpdate(tasks) # TODO: For performance maybe only update the lists that have changed gh:259 id:98
 
     @emitter.on 'config.update', =>
       #console.log 'config.update'
@@ -246,6 +256,8 @@ class ImdoneAtomView extends ScrollView
       task = @imdoneRepo.getTask id
       list = task.list
       pos = 0
+      taskEl = $(e.target).closest('.task')
+      taskEl.closest('.tasks').prepend(taskEl)
       @showMask "Moving Tasks"
       track.send 'move', {task,list,pos}
       @imdoneRepo.moveTasks [task], list, pos
@@ -255,6 +267,8 @@ class ImdoneAtomView extends ScrollView
       task = @imdoneRepo.getTask id
       list = task.list
       pos = @imdoneRepo.getTasksInList(list).length
+      taskEl = $(e.target).closest('.task')
+      taskEl.closest('.tasks').append(taskEl)
       @showMask "Moving Tasks"
       track.send 'move', {task,list,pos}
       @imdoneRepo.moveTasks [task], list, pos
@@ -471,7 +485,6 @@ class ImdoneAtomView extends ScrollView
   genFilterLink: (opts) ->
     $link = $el.a href:"#filter/#{opts.filter}", title: "just show me tasks with #{opts.linkText}",
       $el.span class: opts.linkClass, opts.linkText
-    # $link.dataset.filter = opts.filter
     $link
   # DOING: Use web components or vuejs to make the UI more testable and portable. +enhancement gh:297 id:75 ic:gh
   # - Create a task component
@@ -582,6 +595,15 @@ class ImdoneAtomView extends ScrollView
     $tasks.append(self.getTask task) for task in tasks
     $list
 
+  replaceTasksInList: (list) ->
+    imdoneRepo = @imdoneRepo
+    getTask = @getTask
+    listEl = @board.find(".list[data-name='#{list}'] .tasks")
+    listEl.find('.task:visible').each () ->
+      taskEl = $(this)
+      task = imdoneRepo.getTask(taskEl[0].id)
+      taskEl.replaceWith(getTask(task))
+
   listOnBoard: (name) -> @board.find ".list[data-name='#{name}'] ol.tasks"
 
   addListToBoard: (name) ->
@@ -632,8 +654,6 @@ class ImdoneAtomView extends ScrollView
 
   # BACKLOG: Split this apart into it's own class to simplify. Call it BoardView +refactor gh:246 id:84
   updateBoard: (tasks) ->
-    # TODO: Only update board with changed tasks +master gh:205 id:99
-    # return if @updateTasksOnBoard tasks
     self = @
     @destroySortables()
     @board.empty().hide()
@@ -667,7 +687,6 @@ class ImdoneAtomView extends ScrollView
         id = evt.item.id
         pos = evt.newIndex
         list = evt.item.parentNode.dataset.list
-        filePath = @imdoneRepo.getFullPath evt.item.dataset.path
         task = @imdoneRepo.getTask id
         @showMask "Moving Tasks"
         track.send 'move', {task,list,pos}
