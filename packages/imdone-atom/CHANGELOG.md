@@ -1,5 +1,11 @@
+## 2.4.26
+- Fix regex dependency in imdone-core
+
+## 2.4.25
+- Only replace visible tasks on move
+
 ## 2.4.24
-- Maintain board view after moving a task to improve performance and usability. 
+- Maintain board view after moving a task to improve performance and usability.
 
 ## 2.4.22
 - fix hide mask when showing tasks after filter

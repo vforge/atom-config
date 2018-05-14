@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118414-62242-d2ma7c.ymv46de7b9/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118414-62242-d2ma7c.ymv46de7b9/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118414-62242-d2ma7c.ymv46de7b9/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11847-7436-url8uj.gcy6hfflxr"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118414-62242-xzfml8.b7pq4cxr"
     ]
   ],
-  "_from": "../d-11847-7436-wgfl2d.jeylow29/package.tgz",
-  "_id": "php-ide-serenata@4.1.1",
+  "_from": "../d-118414-62242-d2ma7c.ymv46de7b9/package.tgz",
+  "_id": "php-ide-serenata@4.1.2",
   "_inCache": true,
   "_location": "/php-ide-serenata",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118414-62242-d2ma7c.ymv46de7b9/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118414-62242-d2ma7c.ymv46de7b9/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118414-62242-d2ma7c.ymv46de7b9/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11847-7436-wgfl2d.jeylow29/package.tgz",
-  "_shasum": "4d4160a7120223ca630bb6d64cd021fb5afd1b95",
+  "_resolved": "file:../d-118414-62242-d2ma7c.ymv46de7b9/package.tgz",
+  "_shasum": "e78f6d87de59537b33ebbb59ef487a871ca953a2",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11847-7436-wgfl2d.jeylow29/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11847-7436-url8uj.gcy6hfflxr",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118414-62242-d2ma7c.ymv46de7b9/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118414-62242-xzfml8.b7pq4cxr",
   "bugs": {
     "url": "https://github.com/Gert-dev/php-ide-serenata/issues"
   },
@@ -128,5 +128,5 @@
     "type": "git",
     "url": "git+https://github.com/Gert-dev/php-ide-serenata.git"
   },
-  "version": "4.1.1"
+  "version": "4.1.2"
 }
