@@ -104,6 +104,7 @@
       "regex-railroad-diagram"
       "php-integrator-annotations"
       "php-integrator-refactoring"
+      "markdown-scroll-sync"
     ]
     packagesWithKeymapsDisabled: []
     restorePreviousWindowsOnStart: "always"
