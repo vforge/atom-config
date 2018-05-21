@@ -1,9 +1,8 @@
 
 [![apm](https://img.shields.io/apm/v/imdone-atom.svg)]()
-[![apm](https://img.shields.io/apm/dm/imdone-atom.svg)](https://atom.io/packages/imdone-atom)  
-
-![made](https://octicons.glitch.me/svg/code.svg?size=16&color=000000) with ![love](https://octicons.glitch.me/svg/heart.svg?size=16&color=ff0000) by
-<a href="https://imdone.io/"><img src="https://imdone.io/images/logos/imdone-logo.svg" width=16> imdone.io</a>
+[![apm](https://img.shields.io/apm/dm/imdone-atom.svg)](https://atom.io/packages/imdone-atom)
+</> with ![love](https://octicons.glitch.me/svg/heart.svg?size=16&color=ff0000) by
+<a href="https://imdone.io/"><img src="https://imdone.io/logo/success.svg" width=16> imdone.io</a>
 
 **A kanban board with an invisible user interface. It's cards and lists are made from TODOs in your code, markdown and text files.**
 Use `alt(⌥)+t` to open your project's board.
@@ -22,7 +21,7 @@ Vote on new features! [![vote on features](https://img.shields.io/github/issues/
   - [$now and $today variable replacement](#now-and-today-variable-replacement)
   - [Plain text remind: and due: timestamps](#plain-text-remind-and-due-timestamps)
   - [OS notifications for remind:[timestamp] metadata](#os-notifications-for-remindtimestamp-metadata)
-  - [Auto completed:[timestamp]](#auto-completedtimestamp)
+  - [Auto completed:[timestamp] and Auto created:[timestamp]](#auto-completedtimestamp-and-auto-createdtimestamp)
 - [Task Board Features](#task-board-features)
   - [Filtering your board](#filtering-your-board)
   - [Ignoring all tasks in a list](#ignoring-all-tasks-in-a-list)
@@ -34,6 +33,7 @@ Vote on new features! [![vote on features](https://img.shields.io/github/issues/
   - [Adding and removing TODO tokens](#adding-and-removing-todo-tokens)
   - [Global journal](#global-journal)
   - [Project journal](#project-journal)
+  - [Front matter](#front-matter)
   - [Ignoring files](#ignoring-files)
 - [Install](#install)
 - [Commands](#commands)
@@ -71,7 +71,7 @@ Checklists in your descriptions will render in your cards and will live update y
 // - [ ] Make sure all tests are up to date
 ```
 
-NEW for [imdone.io](https://imdone.io) subscribers!!!
+For [imdone.io](https://imdone.io) subscribers!!!
 ----
 ### $now and $today variable replacement
 - replace `$now` with with the current timestamp (ex. `2018-03-18T09:37:49-06:00`)
@@ -114,48 +114,58 @@ Task Board Features
 imdone uses [rql](https://github.com/persvr/rql) to filter your board. Click on the tags, contexts or the lightbulb icon next to metadata or the filename to see some examples.
 You can query for any property of a task. If the rql query doesn't return a result the filter will be treated as a regular expression and matched agains task.rawTask.
 
-Metadata fields with the keys "created", "completed", "due" and "remind" will be added as date fields to the task so you can filter with lt() and gt() (e.g. "gt(due,date:2018-04-20)")
+Metadata fields with the keys "created", "completed", "due" and "remind" are added as date fields to the task so you can filter them with lt() and gt() (e.g. `gt(due,date:2018-04-20)`)
 ```json
 {
-   "text": "Remember to update changelog before +publishing +package @piascikj gh:237 id:66",
-   "list": "TODO",
-   "order": "",
-   "hasColon": true,
-   "line": 568,
-   "id": "74a2ceff5d820f71574fbc2c8f7a6fff10fddcc9",
-   "repoId": "/Users/jesse/projects/imdone-atom",
-   "source": {
-      "path": "CHANGELOG.md",
-      "id": "CHANGELOG.md",
-      "repoId": "/Users/jesse/projects/imdone-atom",
-      "type": "File",
-      "ext": "md",
-      "lang": "markdown",
-      "modified": false,
-      "modifiedTime": "2018-04-03T17:58:15.523Z"
-   },
-   "type": "HASHTAG",
-   "tags": [
-      "publishing",
-      "package"
-   ],
-   "context": [
-      "piascikj"
-   ],
-   "meta": {
-      "gh": [
-         "237"
-      ],
-      "id": [
-         "66"
-      ],
-      "due": [
-        "2018-4-21"
-      ]
-   },
-   "description": [],
-   "due": "2018-04-21T06:00:00.000Z",
-   "rawTask": "#TODO: Remember to update changelog before +publishing +package @piascikj gh:237 id:66"
+  "frontMatter": {
+    "tags": [
+      "epic"
+    ],
+    "context": [],
+    "meta": {}
+  },
+  "rawTask": "#DOING: As a user I would like to add new files from a template with front matter to be applied to all tasks in the file. id:40",
+  "text": "As a user I would like to add new files from a template with front matter to be applied to all tasks in the file. id:40",
+  "list": "DOING",
+  "order": "",
+  "hasColon": true,
+  "line": 5,
+  "id": "671df79dc689d6a16f8d6000e9ff55c0886805a4",
+  "repoId": "/Users/jesse/projects/imdone-core",
+  "source": {
+    "path": "docs/backlog/templates/readme.md",
+    "id": "docs/backlog/templates/readme.md",
+    "repoId": "/Users/jesse/projects/imdone-core",
+    "type": "File",
+    "ext": "md",
+    "lang": "markdown",
+    "modified": false,
+    "modifiedTime": "2018-05-19T15:45:19.843Z"
+  },
+  "type": "HASHTAG",
+  "tags": [],
+  "context": [],
+  "meta": {
+    "id": [
+      "40"
+    ]
+  },
+  "description": [
+    "Acceptance Criteria",
+    "----",
+    "- User can select from all templates stored in .imdone/templates",
+    "- User will be asked to provide information based on 'model' param",
+    "- template files should have a .yml or .yaml extension"
+  ],
+  "allTags": [
+    "epic"
+  ],
+  "allContext": [],
+  "allMeta": {
+    "id": [
+      "40"
+    ]
+  }
 }
 ```
 
@@ -213,6 +223,26 @@ Use your project journal for anything, even planning your next set of features l
   - [ ] Read templates from `.imdone/templates.md`
   - [ ] Replace description lines with @<template-name>
 ```
+
+### Front matter
+You can add tags, context and metadata to all tasks in a markdown file with [YAML front matter](https://github.com/jxson/front-matter) like this...
+```markdown
+---
+tags:
+  - story
+  - enhancement
+context:
+  - github
+meta:
+  sprint:
+   - 1
+---
+```
+These attributes will be available to use in filters like this...
+- `contains(frontMatter.tags,story)`
+
+If you also want to capture tasks with an inline **story** tag try this...
+- `contains(allTags,story)`
 
 <!-- ### Using markdown -->
 ### Open files in [intellij and webstorm](https://www.jetbrains.com/products.html)
