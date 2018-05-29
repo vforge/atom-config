@@ -21,9 +21,9 @@ export default class ProjectsListView extends SelectListView {
     super.initialize();
     this.addClass('project-manager');
 
-    let infoText = 'shift+enter will open project in the current window';
+    let infoText = 'shift+click or shift+enter will open project in the current window';
     if (ProjectsListView.reversedConfirm) {
-      infoText = 'shift+enter will open project in a new window';
+      infoText = 'shift+click or shift+enter will open project in a new window';
     }
     const infoElement = document.createElement('div');
     infoElement.className = 'text-smaller';
@@ -113,7 +113,8 @@ export default class ProjectsListView extends SelectListView {
 
   confirmed(project) {
     if (project) {
-      Manager.open(project, ProjectsListView.reversedConfirm);
+      Manager.open(project, this.isShiftPressed ?
+        !ProjectsListView.reversedConfirm : ProjectsListView.reversedConfirm);
       this.hide();
     }
   }
@@ -141,20 +142,21 @@ export default class ProjectsListView extends SelectListView {
   }
 
   viewForItem(project) {
-    const { title, group, icon, devMode, paths } = project.props;
+    const { title, group, icon, color, devMode, paths } = project.props;
     const showPath = ProjectsListView.showPath;
     const projectMissing = !project.stats;
 
-    return $$(function itemView() {
+    const border = color ? `border-left: 4px inset ${color}` : 'border-left: 4px inset transparent';
+    const itemView = $$(function itemView() {
       this.li({ class: 'two-lines' },
-      { 'data-path-missing': projectMissing }, () => {
+      { 'data-path-missing': projectMissing, style: border }, () => {
         this.div({ class: 'primary-line' }, () => {
           if (devMode) {
             this.span({ class: 'project-manager-devmode' });
           }
 
-          this.div({ class: `icon ${icon}` }, () => {
-            this.span(title);
+          this.div({ class: `icon ${icon}`, style: `color: ${color}` }, () => {
+            this.span({ class: 'project-manager-title' }, title);
             if (group) {
               this.span({ class: 'project-manager-list-group' }, group);
             }
@@ -171,6 +173,12 @@ export default class ProjectsListView extends SelectListView {
         });
       });
     });
+
+    itemView.on('mouseup', (e) => {
+      this.isShiftPressed = e.shiftKey;
+    });
+
+    return itemView;
   }
 
   static sortItems(items) {

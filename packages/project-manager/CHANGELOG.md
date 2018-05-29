@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.6
+
+Merge a bunch of PR. [#334](https://github.com/danielbrodin/atom-project-manager/pull/334), [#377](https://github.com/danielbrodin/atom-project-manager/pull/377), [#377](https://github.com/danielbrodin/atom-project-manager/pull/382)
+
 ## 3.3.5
 
 Fixes issues with the tree-view since atom 1.17.0.
