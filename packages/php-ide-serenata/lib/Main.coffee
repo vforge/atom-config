@@ -685,10 +685,17 @@ module.exports =
                                 return promise.then () =>
                                     resolve()
 
-                            @busySignalService.reportBusyWhile('Installing the core...', callback, {
-                                waitingFor    : 'computer',
-                                revealTooltip : false
-                            });
+                            if @busySignalService
+                                @busySignalService.reportBusyWhile('Installing the core...', callback, {
+                                    waitingFor    : 'computer',
+                                    revealTooltip : false
+                                })
+
+                            else
+                                console.warn(
+                                    'Busy signal service not loaded yet whilst installing core, not showing ' +
+                                    'loading spinner'
+                                )
                     },
 
                     {
@@ -1350,7 +1357,7 @@ module.exports =
     ###
     getGotoDefinitionProvider: () ->
         if not @gotoDefinitionProvider?
-            @gotoDefinitionProvider = new GotoDefinitionProvider()
+            @gotoDefinitionProvider = new GotoDefinitionProvider(@getPhpInvoker())
 
         return @gotoDefinitionProvider
 

@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118410-54831-7ik019.3ijw6ogvi/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11857-66888-1ne3guz.9e24jthuxr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118410-54831-7ik019.3ijw6ogvi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118410-54831-7ik019.3ijw6ogvi/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11857-66888-1ne3guz.9e24jthuxr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11857-66888-1ne3guz.9e24jthuxr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118410-54831-1aa6nx.jxh1jug14i"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11857-66888-7w3i8r.r0zgn1att9"
     ]
   ],
-  "_from": "../d-118410-54831-7ik019.3ijw6ogvi/package.tgz",
-  "_id": "ide-rust@0.16.2",
+  "_from": "../d-11857-66888-1ne3guz.9e24jthuxr/package.tgz",
+  "_id": "ide-rust@0.17.0",
   "_inCache": true,
   "_location": "/ide-rust",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118410-54831-7ik019.3ijw6ogvi/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11857-66888-1ne3guz.9e24jthuxr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118410-54831-7ik019.3ijw6ogvi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118410-54831-7ik019.3ijw6ogvi/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11857-66888-1ne3guz.9e24jthuxr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11857-66888-1ne3guz.9e24jthuxr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118410-54831-7ik019.3ijw6ogvi/package.tgz",
-  "_shasum": "4568a7918bdca65014a9153856d7ea83039d1ecf",
+  "_resolved": "file:../d-11857-66888-1ne3guz.9e24jthuxr/package.tgz",
+  "_shasum": "faae9670d739c9b308ff00ef0ec223b41fb77b59",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118410-54831-7ik019.3ijw6ogvi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118410-54831-1aa6nx.jxh1jug14i",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11857-66888-1ne3guz.9e24jthuxr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11857-66888-7w3i8r.r0zgn1att9",
   "bugs": {
     "url": "https://github.com/mehcode/atom-ide-rust/issues"
   },
@@ -59,7 +59,7 @@
     "atom-languageclient": "^0.9.5",
     "atom-package-deps": "^4.6.2",
     "toml": "^2.3.3",
-    "underscore-plus": "^1.6.6"
+    "underscore-plus": "^1.6.8"
   },
   "description": "Rust language support for Atom-IDE",
   "devDependencies": {
@@ -131,5 +131,5 @@
   "scripts": {
     "test": "eslint lib test --max-warnings 0"
   },
-  "version": "0.16.2"
+  "version": "0.17.0"
 }

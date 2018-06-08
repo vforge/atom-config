@@ -113,7 +113,7 @@ class Proxy
              #'-d xdebug.profiler_output_dir=/tmp',
 
              '-d memory_limit=' + memoryLimit + 'M',
-             @corePath + "/src/Main.php",
+             @phpInvoker.normalizePlatformAndRuntimePath(@corePath) + "/src/Main.php",
              '--uri=tcp://' + socketHost + ':' + port
         ]
 
@@ -501,13 +501,33 @@ class Proxy
     ###
     showFatalServerError: (error) ->
         detail =
-            "You've likely hit a bug. Feel free to report it on the bug tracker. If you do, please include the " +
-            "information printed below.\n \nThe server will attempt to restart itself.\n \n" +
+            "You've likely hit a snag in the Serenata server. Feel free to report it on its bug tracker. " +
+            "If you do, please include the information printed below.\n \n" +
+
+            "Please do *not* report this to the issue tracker of this package on GitHub as it is not a bug here.\n \n" +
+
+            "The server will attempt to restart itself.\n \n" +
+
             error.data.backtrace
 
-        atom.notifications.addError('Serenata - Darn, we\'ve crashed!', {
+        notification = atom.notifications.addError('Serenata - Darn, we\'ve crashed!', {
             dismissable : true
             detail      : detail
+
+            buttons: [
+                {
+                    text: 'Open issue tracker'
+                    onDidClick: () ->
+                        {shell} = require 'electron'
+                        shell.openExternal('https://gitlab.com/Serenata/Serenata/issues')
+                },
+
+                {
+                    text: 'Dismiss'
+                    onDidClick: () ->
+                        notification.dismiss()
+                }
+            ]
         })
 
     ###*
@@ -561,7 +581,7 @@ class Proxy
 
         parameters = {
             database : @getIndexDatabasePath()
-            file     : file
+            file     : @phpInvoker.normalizePlatformAndRuntimePath(file)
         }
 
         return @performRequest('classList', parameters)
@@ -600,7 +620,7 @@ class Proxy
 
         parameters = {
             database : @getIndexDatabasePath()
-            file     : file
+            file     : @phpInvoker.normalizePlatformAndRuntimePath(file)
         }
 
         return @performRequest('namespaceList', parameters)
@@ -693,7 +713,7 @@ class Proxy
 
         parameters = {
             database : @getIndexDatabasePath()
-            file     : file
+            file     : @phpInvoker.normalizePlatformAndRuntimePath(file)
             line     : line
             type     : type
             kind     : kind
@@ -735,7 +755,7 @@ class Proxy
 
         parameters = {
             database : @getIndexDatabasePath()
-            file     : file
+            file     : @phpInvoker.normalizePlatformAndRuntimePath(file)
             line     : line
             type     : type
             kind     : kind
@@ -765,7 +785,7 @@ class Proxy
 
         parameters = {
             database : @getIndexDatabasePath()
-            file     : file
+            file     : @phpInvoker.normalizePlatformAndRuntimePath(file)
             stdin    : true
         }
 
@@ -814,7 +834,7 @@ class Proxy
             database   : @getIndexDatabasePath()
             offset     : offset
             charoffset : true
-            file       : file
+            file       : @phpInvoker.normalizePlatformAndRuntimePath(file)
         }
 
         return @performRequest('availableVariables', parameters, null, source)
@@ -841,7 +861,7 @@ class Proxy
             database   : @getIndexDatabasePath()
             offset     : offset
             charoffset : true
-            file       : file
+            file       : @phpInvoker.normalizePlatformAndRuntimePath(file)
         }
 
         return @performRequest('tooltip', parameters, null, source)
@@ -868,7 +888,7 @@ class Proxy
             database   : @getIndexDatabasePath()
             offset     : offset
             charoffset : true
-            file       : file
+            file       : @phpInvoker.normalizePlatformAndRuntimePath(file)
         }
 
         return @performRequest('signatureHelp', parameters, null, source)
@@ -895,7 +915,7 @@ class Proxy
             database   : @getIndexDatabasePath()
             offset     : offset
             charoffset : true
-            file       : file
+            file       : @phpInvoker.normalizePlatformAndRuntimePath(file)
         }
 
         return @performRequest('gotoDefinition', parameters, null, source)
@@ -932,7 +952,7 @@ class Proxy
         }
 
         if file?
-            parameters.file = file
+            parameters.file = @phpInvoker.normalizePlatformAndRuntimePath(file)
 
         if ignoreLastElement
             parameters['ignore-last-element'] = true
@@ -967,7 +987,7 @@ class Proxy
         }
 
         if file?
-            parameters.file = file
+            parameters.file = @phpInvoker.normalizePlatformAndRuntimePath(file)
 
         return @performRequest('autocomplete', parameters, null, source)
 
@@ -1070,6 +1090,9 @@ class Proxy
         if progressStreamCallback?
             progressStreamCallbackWrapper = progressStreamCallback
 
+        pathsToIndex = pathsToIndex.map (path) =>
+            return @phpInvoker.normalizePlatformAndRuntimePath(path)
+
         parameters.source = pathsToIndex
         parameters.exclude = excludedPaths
         parameters.extension = fileExtensionsToIndex
@@ -1097,7 +1120,7 @@ class Proxy
 
         mkdirp.sync(folder)
 
-        return folder + path.sep + @indexDatabaseName + '.sqlite'
+        return @phpInvoker.normalizePlatformAndRuntimePath(folder + path.sep + @indexDatabaseName + '.sqlite')
 
     ###*
      * @param {String} corePath

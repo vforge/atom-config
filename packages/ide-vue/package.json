@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-72602-1y3wwba.esuu3anhfr/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11854-11757-9y09k6.vu342f0f6r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-72602-1y3wwba.esuu3anhfr/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-72602-1y3wwba.esuu3anhfr/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11854-11757-9y09k6.vu342f0f6r/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11854-11757-9y09k6.vu342f0f6r/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171015-72602-1x9c5xc.2kvrroogvi"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11854-11757-1ezoxu5.y7wn42huxr"
     ]
   ],
-  "_from": "../d-1171015-72602-1y3wwba.esuu3anhfr/package.tgz",
-  "_id": "ide-vue@0.1.8",
+  "_from": "../d-11854-11757-9y09k6.vu342f0f6r/package.tgz",
+  "_id": "ide-vue@0.1.9",
   "_inCache": true,
   "_location": "/ide-vue",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-72602-1y3wwba.esuu3anhfr/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11854-11757-9y09k6.vu342f0f6r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-72602-1y3wwba.esuu3anhfr/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-72602-1y3wwba.esuu3anhfr/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11854-11757-9y09k6.vu342f0f6r/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11854-11757-9y09k6.vu342f0f6r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1171015-72602-1y3wwba.esuu3anhfr/package.tgz",
-  "_shasum": "cf51f87b3890f5d86c11373d51bd02c24cb5b7ca",
+  "_resolved": "file:../d-11854-11757-9y09k6.vu342f0f6r/package.tgz",
+  "_shasum": "f58f663c6b646f1ca54bdd28428985085c403c4b",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-1171015-72602-1y3wwba.esuu3anhfr/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-1171015-72602-1x9c5xc.2kvrroogvi",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11854-11757-9y09k6.vu342f0f6r/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11854-11757-1ezoxu5.y7wn42huxr",
   "author": {
     "name": "Ryan Watts",
     "email": "ryandwatts@gmail.com",
@@ -64,13 +64,13 @@
     }
   },
   "dependencies": {
-    "atom-languageclient": "^0.6.7",
-    "vue-language-server": "^0.0.25"
+    "atom-languageclient": "^0.9.5",
+    "vue-language-server": "^0.0.31"
   },
   "description": "Vue language support for Atom-IDE.",
   "devDependencies": {
-    "@types/atom": "0.0.39",
-    "@types/node": "^8.0.28"
+    "@types/atom": "1.27.0",
+    "@types/node": "^10.3.0"
   },
   "engines": {
     "atom": ">=1.19.0"
@@ -118,5 +118,5 @@
     "url": "git+https://github.com/rwatts3/atom-ide-vue.git"
   },
   "scripts": {},
-  "version": "0.1.8"
+  "version": "0.1.9"
 }
