@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118511-92014-guuh94.jrbok9y66r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118511-92014-guuh94.jrbok9y66r/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118511-92014-guuh94.jrbok9y66r/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118128-2661-l6726b.2my2satt9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118511-92014-2r670l.ytmq2gldi"
     ]
   ],
-  "_from": "../d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
-  "_id": "octocat-syntax@2.2.1",
+  "_from": "../d-118511-92014-guuh94.jrbok9y66r/package.tgz",
+  "_id": "octocat-syntax@2.2.2",
   "_inCache": true,
   "_location": "/octocat-syntax",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118511-92014-guuh94.jrbok9y66r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118511-92014-guuh94.jrbok9y66r/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118511-92014-guuh94.jrbok9y66r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
-  "_shasum": "872da3463b79d077804f863ce21b11d71e2d0074",
+  "_resolved": "file:../d-118511-92014-guuh94.jrbok9y66r/package.tgz",
+  "_shasum": "40f5c79d6a1923b462048bf87239ae30058e5d69",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118128-2661-yo3y4t.80ks7zaor/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118128-2661-l6726b.2my2satt9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118511-92014-guuh94.jrbok9y66r/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118511-92014-2r670l.ytmq2gldi",
   "author": {
     "name": "Vincent Klaiber",
     "email": "hello@vinkla.com",
@@ -62,12 +62,12 @@
   "license": "MIT",
   "name": "octocat-syntax",
   "optionalDependencies": {},
-  "readme": "# Octocat Syntax\n\n![octocat](https://user-images.githubusercontent.com/499192/31310597-38164b40-ab9b-11e7-8e3a-29991c555665.png)\n\nOctocat syntax theme for Atom with GitHub flavored highlighting.\n\n```sh\n$ apm install octocat-syntax\n```\n\n## License\n\n[MIT](LICENSE) © [Vincent Klaiber](https://vinkla.com)\n",
+  "readme": "# Octocat Syntax\n\n![octocat](https://user-images.githubusercontent.com/499192/31310597-38164b40-ab9b-11e7-8e3a-29991c555665.png)\n\nOctocat syntax theme for Atom with GitHub flavored highlighting.\n\n```sh\n$ apm install octocat-syntax\n```\n\nIf you want the full GitHub experience you can [download and install the SF Mono font](https://simonfredsted.com/1438) on your system.\n\n## License\n\n[MIT](LICENSE) © [Vincent Klaiber](https://vinkla.com)\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vinkla/atom-octocat-syntax.git"
   },
   "theme": "syntax",
-  "version": "2.2.1"
+  "version": "2.2.2"
 }
