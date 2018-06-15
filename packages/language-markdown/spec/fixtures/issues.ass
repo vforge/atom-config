@@ -11,7 +11,7 @@
         }
         "(": punctuation.md
         destination.link.md {
-          "http://www.statamic.com": uri.underline.link.md
+          "http://www.statamic.com": markup.underline.link
         }
         ")": punctuation.md
       }
@@ -173,7 +173,7 @@
       }
       "(": punctuation.md
       destination.link.md {
-        "https://uccu.cool3c.com/": uri.underline.link.md
+        "https://uccu.cool3c.com/": markup.underline.link
       }
       ")": punctuation.md
     }
@@ -186,7 +186,7 @@
       }
       "(": punctuation.md
       destination.link.md {
-        "https://uccu.cool3c.com/": uri.underline.link.md
+        "https://uccu.cool3c.com/": markup.underline.link
       }
       ")": punctuation.md
     }
@@ -413,6 +413,75 @@
       ">": punctuation.md
       " "
       "This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters. This is a quote with more than 500 characters."
+    }
+  }
+}
+
+@210
+"[foo](bar){:target="_blank"} hello world [foo](bar){:target="_blank"}" {
+  text.md {
+    "[foo](bar){:target="blank"}" {
+      link.markup.md {
+        "[foo]" {
+          text.link.string.md {
+            "[": punctuation.md
+            "foo"
+            "]": punctuation.md
+          }
+        }
+        "(bar)" {
+          "(": punctuation.md
+          destination.link.md {
+            "bar": markup.underline.link
+          }
+          ")": punctuation.md
+        }
+        "{:target="blank"}" {
+          special-attributes.raw.markup.md {
+            "{": punctuation.md
+            ":target="blank"" {
+              other.special.attribute.meta.md {
+                ":target": key.keyword.md
+                "=": punctuation.md
+                ""_blank"": value.string.md
+              }
+            }
+            "}": punctuation.md
+          }
+        }
+      }
+    }
+    " hello world "
+    "[foo](bar){:target="blank"}" {
+      link.markup.md {
+        "[foo]" {
+          text.link.string.md {
+            "[": punctuation.md
+            "foo"
+            "]": punctuation.md
+          }
+        }
+        "(bar)" {
+          "(": punctuation.md
+          destination.link.md {
+            "bar": markup.underline.link
+          }
+          ")": punctuation.md
+        }
+        "{:target="blank"}" {
+          special-attributes.raw.markup.md {
+            "{": punctuation.md
+            ":target="blank"" {
+              other.special.attribute.meta.md {
+                ":target": key.keyword.md
+                "=": punctuation.md
+                ""_blank"": value.string.md
+              }
+            }
+            "}": punctuation.md
+          }
+        }
+      }
     }
   }
 }
