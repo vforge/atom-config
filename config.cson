@@ -62,6 +62,17 @@
   core:
     closeEmptyWindows: false
     customFileTypes:
+      "source.ini": [
+        ".hgrc"
+        ".buckconfig"
+        ".flowconfig"
+      ]
+      "source.json": [
+        "BUCK.autodeps"
+      ]
+      "source.python": [
+        "BUCK"
+      ]
       "source.shell": [
         "symlink"
       ]
@@ -105,6 +116,7 @@
       "php-integrator-annotations"
       "php-integrator-refactoring"
       "markdown-scroll-sync"
+      "nuclide"
     ]
     packagesWithKeymapsDisabled: []
     restorePreviousWindowsOnStart: "always"

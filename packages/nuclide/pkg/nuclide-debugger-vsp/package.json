@@ -1,0 +1,21 @@
+{
+  "name": "nuclide-debugger-vsp",
+  "main": "./lib/main.js",
+  "version": "0.0.0",
+  "description": "Atom package for enabling VSCode debuggers to work with Nuclide debugger",
+  "author": "Nuclide : Debugging",
+  "atomTestRunner": "../../lib/test-runner-entry.js",
+  "nuclide": {
+    "packageType": "Atom",
+    "testRunner": "apm"
+  },
+  "providedServices": {
+    "debugger.configurator": {
+      "description": "Provides debugger configuration resolution at runtime.",
+      "versions": {
+        "0.0.0": "createDebuggerConfigurator"
+      }
+    }
+  },
+  "private": true
+}
