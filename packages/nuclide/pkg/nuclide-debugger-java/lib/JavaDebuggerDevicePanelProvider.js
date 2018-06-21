@@ -42,14 +42,9 @@ async function _createAndroidDebugAttachConfig(targetUri, device, pid) {
     targetUri,
     debugMode: 'attach',
     adapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.JAVA_ANDROID,
-    adapterExecutable: null,
     config,
-    capabilities: { threads: true },
-    properties: {
-      customControlButtons: [],
-      threadsComponentTitle: 'Threads'
-    },
-    customDisposable: new (_UniversalDisposable || _load_UniversalDisposable()).default()
+    customDisposable: new (_UniversalDisposable || _load_UniversalDisposable()).default(),
+    processName: 'Process ' + pid + ' (Android Java ' + device.name + ')'
   };
 } /**
    * Copyright (c) 2015-present, Facebook, Inc.

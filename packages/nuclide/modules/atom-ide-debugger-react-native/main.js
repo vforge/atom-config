@@ -29,10 +29,10 @@ function _load_AutoGenLaunchAttachProvider() {
   return _AutoGenLaunchAttachProvider = require('../nuclide-debugger-common/AutoGenLaunchAttachProvider');
 }
 
-var _constants;
+var _nuclideDebuggerCommon;
 
-function _load_constants() {
-  return _constants = require('../nuclide-debugger-common/constants');
+function _load_nuclideDebuggerCommon() {
+  return _nuclideDebuggerCommon = require('../nuclide-debugger-common');
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -47,9 +47,9 @@ class Activation {
 
   createDebuggerProvider() {
     return {
-      type: (_constants || _load_constants()).VsAdapterTypes.REACT_NATIVE,
+      type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.REACT_NATIVE,
       getLaunchAttachProvider: connection => {
-        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider('React Native', connection, getReactNativeConfig(), async () => {
+        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.REACT_NATIVE, connection, getReactNativeConfig(), async () => {
           // This debugger is enabled for non-Facebook users, and Facebook
           // users inside the Gatekeeper nuclide_debugger_reactnative
           return this._gkService == null ? Promise.resolve(true) : this._gkService.passesGK('nuclide_debugger_reactnative');
@@ -66,7 +66,7 @@ class Activation {
   createDebuggerConfigurator() {
     return {
       resolveConfiguration,
-      adapterType: (_constants || _load_constants()).VsAdapterTypes.REACT_NATIVE
+      adapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.REACT_NATIVE
     };
   }
 } /**
@@ -155,22 +155,28 @@ function getReactNativeConfig() {
   return {
     launch: {
       launch: true,
-      vsAdapterType: (_constants || _load_constants()).VsAdapterTypes.REACT_NATIVE,
+      vsAdapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.REACT_NATIVE,
       threads: false,
       properties: launchProperties,
       scriptPropertyName: null,
       cwdPropertyName: 'workspace',
       scriptExtension: '.js',
-      header: null
+      header: null,
+      getProcessName(values) {
+        return 'Port: ' + values.port + ' (React Native)';
+      }
     },
     attach: {
       launch: false,
-      vsAdapterType: (_constants || _load_constants()).VsAdapterTypes.REACT_NATIVE,
+      vsAdapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.REACT_NATIVE,
       threads: false,
       properties: attachProperties,
       cwdPropertyName: 'workspace',
       scriptExtension: '.js',
-      header: null
+      header: null,
+      getProcessName(values) {
+        return 'Port: ' + values.port + ' (React Native)';
+      }
     }
   };
 }

@@ -16,7 +16,13 @@ function _load_UniversalDisposable() {
 var _FileTreeStore;
 
 function _load_FileTreeStore() {
-  return _FileTreeStore = require('../lib/FileTreeStore');
+  return _FileTreeStore = _interopRequireDefault(require('../lib/FileTreeStore'));
+}
+
+var _FileTreeSelectors;
+
+function _load_FileTreeSelectors() {
+  return _FileTreeSelectors = _interopRequireWildcard(require('../lib/FileTreeSelectors'));
 }
 
 var _TruncatedButton;
@@ -29,22 +35,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
-
 class ProjectSelection extends _react.Component {
 
   constructor(props) {
     super(props);
-    this._store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
     this.state = {
       extraContent: this.calculateExtraContent()
@@ -54,7 +48,7 @@ class ProjectSelection extends _react.Component {
   componentDidMount() {
     this._processExternalUpdate();
 
-    this._disposables.add(this._store.subscribe(this._processExternalUpdate.bind(this)));
+    this._disposables.add(this.props.store.subscribe(this._processExternalUpdate.bind(this)));
   }
 
   componentWillUnmount() {
@@ -81,7 +75,7 @@ class ProjectSelection extends _react.Component {
   }
 
   calculateExtraContent() {
-    const list = this._store.getExtraProjectSelectionContent();
+    const list = (_FileTreeSelectors || _load_FileTreeSelectors()).getExtraProjectSelectionContent(this.props.store);
     if (list.isEmpty()) {
       return null;
     }
@@ -110,4 +104,13 @@ class ProjectSelection extends _react.Component {
     atom.commands.dispatch(atom.views.getView(atom.workspace), command);
   }
 }
-exports.ProjectSelection = ProjectSelection;
+exports.ProjectSelection = ProjectSelection; /**
+                                              * Copyright (c) 2015-present, Facebook, Inc.
+                                              * All rights reserved.
+                                              *
+                                              * This source code is licensed under the license found in the LICENSE file in
+                                              * the root directory of this source tree.
+                                              *
+                                              * 
+                                              * @format
+                                              */

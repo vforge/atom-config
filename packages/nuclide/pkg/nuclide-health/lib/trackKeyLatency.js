@@ -63,8 +63,9 @@ function trackKeyLatency() {
       const unshift = true;
       // We need to access the (private) emitter to use `unshift`.
       // This ensures that we include other will-insert-text handlers.
+      disposables.addUntilDestroyed(editor,
       // $FlowIgnore
-      const disposable = editor.emitter.on('will-insert-text', ({ text }) => {
+      editor.emitter.on('will-insert-text', ({ text }) => {
         if (keystroke++ % SAMPLE_RATE === 0 && text.length === 1) {
           const startTime = performance.now();
           setImmediate(() => {
@@ -74,12 +75,7 @@ function trackKeyLatency() {
             });
           });
         }
-      }, unshift);
-      const destroyDisposable = new (_UniversalDisposable || _load_UniversalDisposable()).default(disposable, editor.onDidDestroy(() => {
-        destroyDisposable.dispose();
-        disposables.remove(destroyDisposable);
-      }));
-      disposables.add(destroyDisposable);
+      }, unshift));
     }, 100);
   }));
   return disposables;

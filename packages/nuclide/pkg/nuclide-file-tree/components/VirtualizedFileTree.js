@@ -30,7 +30,7 @@ function _load_UniversalDisposable() {
 var _FileTreeStore;
 
 function _load_FileTreeStore() {
-  return _FileTreeStore = require('../lib/FileTreeStore');
+  return _FileTreeStore = _interopRequireDefault(require('../lib/FileTreeStore'));
 }
 
 var _FileTreeActions;
@@ -51,22 +51,29 @@ function _load_ProjectSelection() {
   return _ProjectSelection = require('./ProjectSelection');
 }
 
+var _FileTreeSelectors;
+
+function _load_FileTreeSelectors() {
+  return _FileTreeSelectors = _interopRequireWildcard(require('../lib/FileTreeSelectors'));
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-const BUFFER_ELEMENTS = 10; /**
-                             * Copyright (c) 2015-present, Facebook, Inc.
-                             * All rights reserved.
-                             *
-                             * This source code is licensed under the license found in the LICENSE file in
-                             * the root directory of this source tree.
-                             *
-                             * 
-                             * @format
-                             */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
 /* global HTMLElement */
 
+const BUFFER_ELEMENTS = 10;
 const DEFAULT_ROOT_HEIGHT = 30;
 const DEFAULT_NODE_HEIGHT = 24;
 const DEFAULT_FOOTER_HEIGHT = 74;
@@ -109,7 +116,7 @@ class VirtualizedFileTree extends _react.Component {
     this._handleScroll = args => {
       const { scrollTop } = args;
       if (!this._nextScrollingIsProgrammatic && this.state.trackedIndex != null) {
-        this._actions.clearTrackedNode();
+        this.props.actions.clearTrackedNode();
       }
       this._nextScrollingIsProgrammatic = false;
       this.props.onScroll(scrollTop);
@@ -125,6 +132,7 @@ class VirtualizedFileTree extends _react.Component {
           { key: key, style: style },
           _react.createElement((_ProjectSelection || _load_ProjectSelection()).ProjectSelection, {
             ref: this._setFooterRef,
+            store: this.props.store,
             remeasureHeight: this._clearFooterHeight
           })
         );
@@ -142,7 +150,9 @@ class VirtualizedFileTree extends _react.Component {
           , { ref: node.isRoot ? this._setRootRef : this._setNodeRef,
             node: node,
             selectedNodes: this.state.selectedNodes,
-            focusedNodes: this.state.focusedNodes
+            focusedNodes: this.state.focusedNodes,
+            store: this.props.store,
+            actions: this.props.actions
           })
         );
       }
@@ -154,7 +164,7 @@ class VirtualizedFileTree extends _react.Component {
       this._indexOfLastRowInView = stopIndex;
 
       if (this.state.trackedIndex != null && this.state.trackedIndex >= startIndex && this.state.trackedIndex <= stopIndex) {
-        this._actions.clearTrackedNodeIfNotLoading();
+        this.props.actions.clearTrackedNodeIfNotLoading();
       }
     };
 
@@ -162,18 +172,16 @@ class VirtualizedFileTree extends _react.Component {
       this.setState({ footerHeight: null });
     };
 
-    this._store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
-    this._actions = (_FileTreeActions || _load_FileTreeActions()).default.getInstance();
-    this._getNodeByIndex = this._buildGetNodeByIndex(this._store.roots);
+    this._getNodeByIndex = this._buildGetNodeByIndex((_FileTreeSelectors || _load_FileTreeSelectors()).getRoots(this.props.store));
 
-    const shownNodes = countShownNodes(this._store.roots);
+    const shownNodes = countShownNodes((_FileTreeSelectors || _load_FileTreeSelectors()).getRoots(this.props.store));
     this.state = {
-      trackedIndex: findIndexOfTheTrackedNode(this._store, shownNodes),
-      isEditingWorkingSet: this._store.isEditingWorkingSet(),
-      roots: this._store.roots,
+      trackedIndex: findIndexOfTheTrackedNode(this.props.store, shownNodes),
+      isEditingWorkingSet: (_FileTreeSelectors || _load_FileTreeSelectors()).isEditingWorkingSet(this.props.store),
+      roots: (_FileTreeSelectors || _load_FileTreeSelectors()).getRoots(this.props.store),
       shownNodes,
-      selectedNodes: this._store.selectionManager.selectedNodes(),
-      focusedNodes: this._store.selectionManager.focusedNodes(),
+      selectedNodes: (_FileTreeSelectors || _load_FileTreeSelectors()).getSelectedNodes(this.props.store).toSet(),
+      focusedNodes: (_FileTreeSelectors || _load_FileTreeSelectors()).getFocusedNodes(this.props.store).toSet(),
       rootHeight: null,
       nodeHeight: null,
       footerHeight: null
@@ -188,7 +196,7 @@ class VirtualizedFileTree extends _react.Component {
 
   componentDidMount() {
     this._processStoreUpdate();
-    this._disposables.add(this._store.subscribe(() => this._processStoreUpdate()));
+    this._disposables.add(this.props.store.subscribe(() => this._processStoreUpdate()));
 
     this._remeasureHeights();
   }
@@ -268,12 +276,12 @@ class VirtualizedFileTree extends _react.Component {
   }
 
   _processStoreUpdate() {
-    const isEditingWorkingSet = this._store.isEditingWorkingSet();
-    const roots = this._store.roots;
+    const isEditingWorkingSet = (_FileTreeSelectors || _load_FileTreeSelectors()).isEditingWorkingSet(this.props.store);
+    const roots = (_FileTreeSelectors || _load_FileTreeSelectors()).getRoots(this.props.store);
     const shownNodes = countShownNodes(roots);
-    const trackedIndex = findIndexOfTheTrackedNode(this._store, shownNodes);
-    const selectedNodes = this._store.selectionManager.selectedNodes();
-    const focusedNodes = this._store.selectionManager.focusedNodes();
+    const trackedIndex = findIndexOfTheTrackedNode(this.props.store, shownNodes);
+    const selectedNodes = (_FileTreeSelectors || _load_FileTreeSelectors()).getSelectedNodes(this.props.store).toSet();
+    const focusedNodes = (_FileTreeSelectors || _load_FileTreeSelectors()).getFocusedNodes(this.props.store).toSet();
 
     this.setState({
       trackedIndex,
@@ -370,7 +378,7 @@ class VirtualizedFileTree extends _react.Component {
     const fallbackGetByIndex = index => {
       prevRoots = this.state.roots;
       prevIndexQuery = index;
-      prevNode = this._store.getNodeByIndex(index + 1);
+      prevNode = (_FileTreeSelectors || _load_FileTreeSelectors()).getNodeByIndex(this.props.store)(index + 1);
       return prevNode;
     };
 
@@ -418,7 +426,7 @@ class VirtualizedFileTree extends _react.Component {
 
 exports.VirtualizedFileTree = VirtualizedFileTree;
 function findIndexOfTheTrackedNode(store, shownNodes) {
-  const trackedNode = store.getTrackedNode();
+  const trackedNode = (_FileTreeSelectors || _load_FileTreeSelectors()).getTrackedNode(store);
   if (trackedNode == null) {
     return null;
   }

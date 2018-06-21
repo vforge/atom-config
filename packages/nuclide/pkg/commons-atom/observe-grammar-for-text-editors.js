@@ -37,14 +37,9 @@ class GrammarForTextEditorsListener {
     this._emitter = new _atom.Emitter();
     this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
     this._subscriptions.add(this._emitter, atom.workspace.observeTextEditors(textEditor => {
-      const grammarSubscription = textEditor.observeGrammar(grammar => {
+      this._subscriptions.addUntilDestroyed(textEditor, textEditor.observeGrammar(grammar => {
         this._emitter.emit(GRAMMAR_CHANGE_EVENT, textEditor);
-      });
-      const destroySubscription = textEditor.onDidDestroy(() => {
-        grammarSubscription.dispose();
-        destroySubscription.dispose();
-      });
-      this._subscriptions.add(grammarSubscription, destroySubscription);
+      }));
     }));
   }
 

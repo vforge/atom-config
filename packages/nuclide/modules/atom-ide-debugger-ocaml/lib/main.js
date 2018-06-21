@@ -6,16 +6,16 @@ function _load_createPackage() {
   return _createPackage = _interopRequireDefault(require('../../nuclide-commons-atom/createPackage'));
 }
 
-var _constants;
-
-function _load_constants() {
-  return _constants = require('../../nuclide-debugger-common/constants');
-}
-
 var _AutoGenLaunchAttachProvider;
 
 function _load_AutoGenLaunchAttachProvider() {
   return _AutoGenLaunchAttachProvider = require('../../nuclide-debugger-common/AutoGenLaunchAttachProvider');
+}
+
+var _nuclideDebuggerCommon;
+
+function _load_nuclideDebuggerCommon() {
+  return _nuclideDebuggerCommon = require('../../nuclide-debugger-common');
 }
 
 var _vscodeDebugadapter;
@@ -32,9 +32,9 @@ class Activation {
 
   createDebuggerProvider() {
     return {
-      type: (_constants || _load_constants()).VsAdapterTypes.OCAML,
+      type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.OCAML,
       getLaunchAttachProvider: connection => {
-        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider('OCaml', connection, getOCamlAutoGenConfig());
+        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.OCAML, connection, getOCamlAutoGenConfig());
       }
     };
   }
@@ -118,12 +118,15 @@ function getOCamlAutoGenConfig() {
 
   const autoGenLaunchConfig = {
     launch: true,
-    vsAdapterType: (_constants || _load_constants()).VsAdapterTypes.OCAML,
+    vsAdapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.OCAML,
     threads: false,
     properties: [debugExecutable, executablePath, argumentsProperty, environmentVariables, workingDirectory, additionalIncludeDirectories, breakAfterStart, logLevel],
     scriptPropertyName: 'executable',
     cwdPropertyName: 'working directory',
-    header: null
+    header: null,
+    getProcessName(values) {
+      return values.debugExecutable + ' (OCaml)';
+    }
   };
   return {
     launch: autoGenLaunchConfig,

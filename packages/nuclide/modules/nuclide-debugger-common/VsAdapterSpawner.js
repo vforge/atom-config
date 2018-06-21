@@ -27,7 +27,8 @@ class VsAdapterSpawner {
         'pipe'],
         env: Object.assign({}, env, { ELECTRON_RUN_AS_NODE: 1 }),
         input: _rxjsBundlesRxMinJs.Observable.from(stdinBuffer).concat(this._stdin),
-        killTreeWhenDone: true
+        killTreeWhenDone: true,
+        killTreeSignal: 'SIGKILL'
       };
       if (adapter.command === 'node') {
         adapter.command = process.execPath;

@@ -69,7 +69,8 @@ const IMPORT_STATEMENT_REGEXES = {
 
 class Completions {
 
-  constructor(documents, autoImportsManager, importsFormatter) {
+  constructor(definitionManager, documents, autoImportsManager, importsFormatter) {
+    this.definitionManager = definitionManager;
     this.documents = documents;
     this.autoImportsManager = autoImportsManager;
     this.importsFormatter = importsFormatter;
@@ -79,7 +80,8 @@ class Completions {
     const { position, textDocument } = textDocumentPosition;
 
     // TODO(seansegal): Handle imports broken up on multiple lines.
-    const line = this.documents.get(textDocument.uri).buffer.lineForRow(position.line);
+    const document = this.documents.get(textDocument.uri);
+    const line = document.buffer.lineForRow(position.line);
 
     if (positionIsAtLineEnd(line, position) &&
     // Check if line starts with "import" (or "const") before matching all regexes.
@@ -89,6 +91,8 @@ class Completions {
       if (importInformation) {
         return importInformation.isComplete ? provideImportFileCompletions(importInformation, this.importsFormatter, this.autoImportsManager, nuclideFormattedUri, line, position.line) : provideFullImportCompletions(importInformation, this.importsFormatter, this.autoImportsManager, nuclideFormattedUri, line, position.line);
       }
+    } else {
+      return this.definitionManager.getCompletions(document, textDocumentPosition);
     }
     return [];
   }

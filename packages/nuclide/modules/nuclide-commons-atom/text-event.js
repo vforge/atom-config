@@ -240,9 +240,7 @@ class TextEventDispatcher {
           this._dispatchEvents(editor, event);
         };
       };
-      this._getEditorListenerDisposable().add(buffer.onDidStopChanging(makeDispatch('did-change')));
-      this._getEditorListenerDisposable().add(buffer.onDidSave(makeDispatch('did-save')));
-      this._getEditorListenerDisposable().add(buffer.onDidReload(makeDispatch('did-reload')));
+      this._getEditorListenerDisposable().addUntilDestroyed(editor, buffer.onDidStopChanging(makeDispatch('did-change')), buffer.onDidSave(makeDispatch('did-save')), buffer.onDidReload(makeDispatch('did-reload')));
       // During reload, many text editors are opened simultaneously.
       // Due to the debounce on the event callback, this means that many editors never receive
       // a 'did-open' event. To work around this, defer editor open events so that simultaneous

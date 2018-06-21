@@ -36,13 +36,19 @@ function _load_WorkingSetNameAndSaveComponent() {
 var _FileTreeStore;
 
 function _load_FileTreeStore() {
-  return _FileTreeStore = require('../lib/FileTreeStore');
+  return _FileTreeStore = _interopRequireDefault(require('../lib/FileTreeStore'));
 }
 
 var _FileTreeActions;
 
 function _load_FileTreeActions() {
   return _FileTreeActions = _interopRequireDefault(require('../lib/FileTreeActions'));
+}
+
+var _FileTreeSelectors;
+
+function _load_FileTreeSelectors() {
+  return _FileTreeSelectors = _interopRequireWildcard(require('../lib/FileTreeSelectors'));
 }
 
 var _nuclideWorkingSetsCommon;
@@ -67,6 +73,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
 class FileTreeToolbarComponent extends _react.Component {
 
   constructor(props) {
@@ -86,7 +103,7 @@ class FileTreeToolbarComponent extends _react.Component {
     };
 
     this._toggleWorkingSetEditMode = () => {
-      if (this._store.isEditingWorkingSet()) {
+      if ((_FileTreeSelectors || _load_FileTreeSelectors()).isEditingWorkingSet(this.props.store)) {
         this._finishEditingWorkingSet();
       } else {
         this._startEditingWorkingSet(new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet());
@@ -94,26 +111,26 @@ class FileTreeToolbarComponent extends _react.Component {
     };
 
     this._saveWorkingSet = name => {
-      const workingSetsStore = this._store.getWorkingSetsStore();
+      const workingSetsStore = (_FileTreeSelectors || _load_FileTreeSelectors()).getWorkingSetsStore(this.props.store);
 
       if (!workingSetsStore) {
         throw new Error('Invariant violation: "workingSetsStore"');
       }
 
-      const editedWorkingSet = this._store.getEditedWorkingSet();
+      const editedWorkingSet = (_FileTreeSelectors || _load_FileTreeSelectors()).getEditedWorkingSet(this.props.store);
       this._finishEditingWorkingSet();
       workingSetsStore.saveWorkingSet(name, editedWorkingSet);
       workingSetsStore.activate(name);
     };
 
     this._updateWorkingSet = (prevName, name) => {
-      const workingSetsStore = this._store.getWorkingSetsStore();
+      const workingSetsStore = (_FileTreeSelectors || _load_FileTreeSelectors()).getWorkingSetsStore(this.props.store);
 
       if (!workingSetsStore) {
         throw new Error('Invariant violation: "workingSetsStore"');
       }
 
-      const editedWorkingSet = this._store.getEditedWorkingSet();
+      const editedWorkingSet = (_FileTreeSelectors || _load_FileTreeSelectors()).getEditedWorkingSet(this.props.store);
       this._finishEditingWorkingSet();
 
       workingSetsStore.update(prevName, name, editedWorkingSet);
@@ -135,7 +152,6 @@ class FileTreeToolbarComponent extends _react.Component {
       this._startEditingWorkingSet(new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet(uris));
     };
 
-    this._store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
     this.state = {
       selectionIsActive: false,
       definitionsAreEmpty: props.workingSetsStore.getDefinitions().length === 0,
@@ -144,7 +160,6 @@ class FileTreeToolbarComponent extends _react.Component {
     };
 
     this._inProcessOfClosingSelection = false;
-    this._actions = (_FileTreeActions || _load_FileTreeActions()).default.getInstance();
 
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default(props.workingSetsStore.subscribeToDefinitions(definitions => {
       const empty = definitions.applicable.length + definitions.notApplicable.length === 0;
@@ -176,14 +191,14 @@ class FileTreeToolbarComponent extends _react.Component {
   }
 
   render() {
-    const workingSetsStore = this._store.getWorkingSetsStore();
+    const workingSetsStore = (_FileTreeSelectors || _load_FileTreeSelectors()).getWorkingSetsStore(this.props.store);
     let shouldShowButtonLabel;
     if (workingSetsStore != null) {
       shouldShowButtonLabel = workingSetsStore.getDefinitions().length === 0;
     }
-    const workingSet = this._store.getWorkingSet();
-    const editedWorkingSetIsEmpty = this._store.isEditedWorkingSetEmpty();
-    const isEditingWorkingSet = this._store.isEditingWorkingSet();
+    const workingSet = (_FileTreeSelectors || _load_FileTreeSelectors()).getWorkingSet(this.props.store);
+    const editedWorkingSetIsEmpty = (_FileTreeSelectors || _load_FileTreeSelectors()).isEditedWorkingSetEmpty(this.props.store);
+    const isEditingWorkingSet = (_FileTreeSelectors || _load_FileTreeSelectors()).isEditingWorkingSet(this.props.store);
 
     let selectWorkingSetButton;
     if (!this.state.definitionsAreEmpty && !isEditingWorkingSet) {
@@ -210,7 +225,7 @@ class FileTreeToolbarComponent extends _react.Component {
       {
         className: (0, (_classnames || _load_classnames()).default)({
           'nuclide-file-tree-toolbar': true,
-          'nuclide-file-tree-toolbar-fader': workingSet.isEmpty() && !this.state.selectionIsActive && !this._store.isEditingWorkingSet()
+          'nuclide-file-tree-toolbar-fader': workingSet.isEmpty() && !this.state.selectionIsActive && !(_FileTreeSelectors || _load_FileTreeSelectors()).isEditingWorkingSet(this.props.store)
         }) },
       _react.createElement(
         (_ButtonGroup || _load_ButtonGroup()).ButtonGroup,
@@ -254,7 +269,7 @@ class FileTreeToolbarComponent extends _react.Component {
   }
 
   _startEditingWorkingSet(workingSet) {
-    this._actions.startEditingWorkingSet(workingSet);
+    this.props.actions.startEditingWorkingSet(workingSet);
   }
 
   _finishEditingWorkingSet() {
@@ -262,21 +277,11 @@ class FileTreeToolbarComponent extends _react.Component {
       isUpdatingExistingWorkingSet: false,
       updatedWorkingSetName: ''
     });
-    this._actions.finishEditingWorkingSet();
+    this.props.actions.finishEditingWorkingSet();
   }
 }
 
-exports.FileTreeToolbarComponent = FileTreeToolbarComponent; /**
-                                                              * Copyright (c) 2015-present, Facebook, Inc.
-                                                              * All rights reserved.
-                                                              *
-                                                              * This source code is licensed under the license found in the LICENSE file in
-                                                              * the root directory of this source tree.
-                                                              *
-                                                              * 
-                                                              * @format
-                                                              */
-
+exports.FileTreeToolbarComponent = FileTreeToolbarComponent;
 class SelectWorkingSetButton extends _react.Component {
   render() {
     const { isWorkingSetEmpty, onClick, onFocus } = this.props;

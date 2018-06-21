@@ -37,7 +37,7 @@ function _load_FileTreeConstants() {
 var _FileTreeStore;
 
 function _load_FileTreeStore() {
-  return _FileTreeStore = require('./FileTreeStore');
+  return _FileTreeStore = _interopRequireDefault(require('./FileTreeStore'));
 }
 
 var _FileTreeHelpers;
@@ -46,28 +46,35 @@ function _load_FileTreeHelpers() {
   return _FileTreeHelpers = _interopRequireDefault(require('../../nuclide-file-tree/lib/FileTreeHelpers'));
 }
 
+var _FileTreeSelectors;
+
+function _load_FileTreeSelectors() {
+  return _FileTreeSelectors = _interopRequireWildcard(require('./FileTreeSelectors'));
+}
+
 var _nuclideUri;
 
 function _load_nuclideUri() {
   return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
 }
 
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // It's just atom$ContextMenuItem with an optional `callback` property added.
 // I wish flow would let add it in a more elegant way.
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
+const PRIORITY_GROUP_SIZE = 1000; /**
+                                   * Copyright (c) 2015-present, Facebook, Inc.
+                                   * All rights reserved.
+                                   *
+                                   * This source code is licensed under the license found in the LICENSE file in
+                                   * the root directory of this source tree.
+                                   *
+                                   * 
+                                   * @format
+                                   */
 
-const PRIORITY_GROUP_SIZE = 1000;
 const PRIORITY_GROUP_SEPARATOR_OFFSET = PRIORITY_GROUP_SIZE - 1;
 
 const WORKING_ROOT_PRIORITY = 0;
@@ -154,18 +161,18 @@ const SHOW_IN_MENU_PRIORITY = 7000;
  */
 class FileTreeContextMenu {
 
-  constructor() {
+  constructor(store) {
     this._contextMenu = new (_ContextMenu || _load_ContextMenu()).default({
       type: 'root',
       cssSelector: (_FileTreeConstants || _load_FileTreeConstants()).EVENT_HANDLER_SELECTOR
     });
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-    this._store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
+    this._store = store;
     this._disposables.add(this._contextMenu);
 
     const shouldDisplaySetToCurrentWorkingRootOption = () => {
-      const node = this._store.getSingleSelectedNode();
-      return node != null && node.isContainer && this._store.hasCwd() && !node.isCwd;
+      const node = (_FileTreeSelectors || _load_FileTreeSelectors()).getSingleSelectedNode(this._store);
+      return node != null && node.isContainer && (_FileTreeSelectors || _load_FileTreeSelectors()).hasCwd(this._store) && !node.isCwd;
     };
 
     this._addContextMenuItemGroup([{
@@ -185,7 +192,7 @@ class FileTreeContextMenu {
       label: 'New',
       parent: this._contextMenu,
       shouldDisplay: e => {
-        return this._store.getSingleSelectedNode() != null;
+        return (_FileTreeSelectors || _load_FileTreeSelectors()).getSingleSelectedNode(this._store) != null;
       }
     });
     this._newMenu.addItem({ label: 'File', command: 'tree-view:add-file' }, 0);
@@ -214,7 +221,7 @@ class FileTreeContextMenu {
       label: 'Source Control',
       parent: this._contextMenu,
       shouldDisplay: e => {
-        return !this._sourceControlMenu.isEmpty() && !this._store.getSelectedNodes().isEmpty();
+        return !this._sourceControlMenu.isEmpty() && !(_FileTreeSelectors || _load_FileTreeSelectors()).getSelectedNodes(this._store).isEmpty();
       }
     });
     this._contextMenu.addSubmenu(this._sourceControlMenu, SOURCE_CONTROL_MENU_PRIORITY);
@@ -233,7 +240,7 @@ class FileTreeContextMenu {
       label: 'Rename',
       command: 'tree-view:rename-selection',
       shouldDisplay: () => {
-        const node = this._store.getSingleSelectedNode();
+        const node = (_FileTreeSelectors || _load_FileTreeSelectors()).getSingleSelectedNode(this._store);
         // For now, rename does not apply to root nodes.
         return node != null && !node.isRoot;
       }
@@ -405,11 +412,11 @@ class FileTreeContextMenu {
   }
 
   getSelectedNodes() {
-    return this._store.getTargetNodes();
+    return (_FileTreeSelectors || _load_FileTreeSelectors()).getTargetNodes(this._store);
   }
 
   getSingleSelectedNode() {
-    return this._store.getSingleTargetNode();
+    return (_FileTreeSelectors || _load_FileTreeSelectors()).getSingleTargetNode(this._store);
   }
 
   dispose() {

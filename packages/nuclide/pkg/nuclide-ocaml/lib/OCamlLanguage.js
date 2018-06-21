@@ -54,7 +54,7 @@ async function createOCamlLanguageService(connection) {
     ocpindent = null;
   }
 
-  const lspService = await service.createMultiLspLanguageService('ocaml', 'ocaml-language-server', ['--stdio'], {
+  const lspService = await service.createMultiLspLanguageService('ocaml', ['ocaml-language-server'], ['--stdio'], {
     logCategory: 'OcamlService',
     logLevel,
     fileNotifier,

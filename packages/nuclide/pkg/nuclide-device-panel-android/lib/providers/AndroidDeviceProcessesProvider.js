@@ -31,7 +31,7 @@ class AndroidDeviceProcessesProvider {
 
   observe(host, device) {
     const intervalTime = 3000;
-    return _rxjsBundlesRxMinJs.Observable.interval(intervalTime).startWith(0).switchMap(() => (0, (_utils || _load_utils()).getAdbServiceByNuclideUri)(host).getProcesses(device, intervalTime).refCount().catch(() => _rxjsBundlesRxMinJs.Observable.of([])));
+    return _rxjsBundlesRxMinJs.Observable.interval(intervalTime).startWith(0).switchMap(() => (0, (_utils || _load_utils()).getAdbServiceByNuclideUri)(host).getProcesses(device.name, intervalTime).refCount().catch(() => _rxjsBundlesRxMinJs.Observable.of([])));
   }
 }
 exports.AndroidDeviceProcessesProvider = AndroidDeviceProcessesProvider;

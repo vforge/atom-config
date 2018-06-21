@@ -62,16 +62,20 @@ describe('UniversalDisposable', () => {
   it('supports adding mixed teardowns', () => {
     const dispose = jest.fn();
     const unsubscribe = jest.fn();
+    const destroy = jest.fn();
+    const destroyable = { destroy, onDidDestroy: jest.fn() };
     const foo = jest.fn();
     const universal = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-    universal.add({ dispose }, { unsubscribe }, foo);
+    universal.add({ dispose }, { unsubscribe }, destroyable, foo);
 
     expect(dispose.mock.calls.length > 0).toBe(false);
     expect(unsubscribe.mock.calls.length > 0).toBe(false);
+    expect(destroy.mock.calls.length > 0).toBe(false);
     expect(foo.mock.calls.length > 0).toBe(false);
     universal.dispose();
     expect(dispose.mock.calls.length).toBe(1);
     expect(unsubscribe.mock.calls.length).toBe(1);
+    expect(destroy.mock.calls.length).toBe(1);
     expect(foo.mock.calls.length).toBe(1);
   });
 
@@ -191,6 +195,52 @@ describe('UniversalDisposable', () => {
       universal.dispose();
 
       expect(foo.mock.calls.length > 0).toBe(true);
+    });
+  });
+
+  describe('addUntilDestroyed', () => {
+    class MockDestructible {
+      constructor() {
+        this.destroyCallbacks = new Set();
+      }
+
+      destroy() {
+        this.destroyCallbacks.forEach(x => x());
+      }
+      onDidDestroy(callback) {
+        this.destroyCallbacks.add(callback);
+        return new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {
+          this.destroyCallbacks.delete(callback);
+        });
+      }
+    }
+
+    it('cleans everything up on destroy', () => {
+      const universal = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+      const mockDestructible = new MockDestructible();
+      const disposable1 = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+      const disposable2 = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+
+      universal.addUntilDestroyed(mockDestructible, disposable1, disposable2);
+      expect(universal.teardowns.size).toBe(1);
+      mockDestructible.destroy();
+
+      expect(universal.teardowns.size).toBe(0);
+      expect(disposable1.disposed).toBe(true);
+      expect(disposable2.disposed).toBe(true);
+    });
+
+    it('cleans up destroy handlers on dispose', () => {
+      const universal = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+      const mockDestructible = new MockDestructible();
+      const disposable1 = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+
+      universal.addUntilDestroyed(mockDestructible, disposable1);
+      expect(universal.teardowns.size).toBe(1);
+      universal.dispose();
+
+      expect(disposable1.disposed).toBe(true);
+      expect(mockDestructible.destroyCallbacks.size).toBe(0);
     });
   });
 }); /**

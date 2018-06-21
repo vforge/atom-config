@@ -6,6 +6,12 @@ function _load_FileTreeActions() {
   return _FileTreeActions = _interopRequireDefault(require('../lib/FileTreeActions'));
 }
 
+var _FileTreeStore;
+
+function _load_FileTreeStore() {
+  return _FileTreeStore = _interopRequireDefault(require('../lib/FileTreeStore'));
+}
+
 var _FileTreeNode;
 
 function _load_FileTreeNode() {
@@ -50,7 +56,20 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function renderEntryComponentIntoDocument(componentKlass, props = {}, conf = {}) {
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
+/* global Element */
+
+function renderEntryComponentIntoDocument(componentKlass, store, actions, props = {}, conf = {}) {
   const selectionManager = new (_FileTreeSelectionManager || _load_FileTreeSelectionManager()).FileTreeSelectionManager(() => {});
   const nodeProps = Object.assign({
     isExpanded: false,
@@ -77,25 +96,17 @@ function renderEntryComponentIntoDocument(componentKlass, props = {}, conf = {})
 
   const node = new (_FileTreeNode || _load_FileTreeNode()).FileTreeNode(nodeProps, nodeConf);
   return (_testUtils || _load_testUtils()).default.renderIntoDocument(_react.createElement(componentKlass, {
+    store,
+    actions,
     node,
     selectedNodes: selectionManager.selectedNodes(),
     focusedNodes: selectionManager.focusedNodes()
   }));
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   * @format
-   */
-
-/* global Element */
+}
 
 describe('Directory FileTreeEntryComponent', () => {
-  const actions = (_FileTreeActions || _load_FileTreeActions()).default.getInstance();
+  const store = new (_FileTreeStore || _load_FileTreeStore()).default();
+  const actions = new (_FileTreeActions || _load_FileTreeActions()).default(store);
 
   describe('when expanding/collapsing dir component', () => {
     beforeEach(() => {
@@ -103,7 +114,7 @@ describe('Directory FileTreeEntryComponent', () => {
     });
 
     it('expands on click when node is selected', () => {
-      const nodeComponent = renderEntryComponentIntoDocument((_FileTreeEntryComponent || _load_FileTreeEntryComponent()).FileTreeEntryComponent, {
+      const nodeComponent = renderEntryComponentIntoDocument((_FileTreeEntryComponent || _load_FileTreeEntryComponent()).FileTreeEntryComponent, store, actions, {
         rootUri: '/a/',
         uri: '/a/b/',
         isSelected: true,
@@ -120,7 +131,8 @@ describe('Directory FileTreeEntryComponent', () => {
 });
 
 describe('File FileTreeEntryComponent', () => {
-  const actions = (_FileTreeActions || _load_FileTreeActions()).default.getInstance();
+  const store = new (_FileTreeStore || _load_FileTreeStore()).default();
+  const actions = new (_FileTreeActions || _load_FileTreeActions()).default(store);
 
   describe('when expanding/collapsing file component', () => {
     beforeEach(() => {
@@ -128,7 +140,7 @@ describe('File FileTreeEntryComponent', () => {
     });
 
     it('does not expand on click when node is selected', () => {
-      const nodeComponent = renderEntryComponentIntoDocument((_FileTreeEntryComponent || _load_FileTreeEntryComponent()).FileTreeEntryComponent, {
+      const nodeComponent = renderEntryComponentIntoDocument((_FileTreeEntryComponent || _load_FileTreeEntryComponent()).FileTreeEntryComponent, store, actions, {
         rootUri: '/a/',
         uri: '/a/b',
         isSelected: true,
@@ -151,7 +163,7 @@ describe('File FileTreeEntryComponent', () => {
     });
 
     it('opens a file if a selected node is clicked', () => {
-      const nodeComponent = renderEntryComponentIntoDocument((_FileTreeEntryComponent || _load_FileTreeEntryComponent()).FileTreeEntryComponent, {
+      const nodeComponent = renderEntryComponentIntoDocument((_FileTreeEntryComponent || _load_FileTreeEntryComponent()).FileTreeEntryComponent, store, actions, {
         rootUri: '/a/',
         uri: '/a/b',
         isSelected: true,

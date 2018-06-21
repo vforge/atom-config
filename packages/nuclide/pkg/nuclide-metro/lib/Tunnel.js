@@ -37,7 +37,7 @@ function openTunnel(serviceUri, behavior, port) {
       const { from, to } = tunnel;
       if (from.port === desired.from.port && from.host === desired.from.host) {
         if ((_nuclideUri || _load_nuclideUri()).default.getHostname(to.host) !== (_nuclideUri || _load_nuclideUri()).default.getHostname(desired.to.host)) {
-          throw new Error(`You have a tunnel open from \`localhost:${port}\` to a different host than your ` + 'Current Working Root. Close the tunnel in the SSH tunnels panel and try again.');
+          throw new Error(`You have a tunnel open from \`localhost:${port}\` to a different host than your ` + 'Current Working Root. Close the tunnel in the Nuclide tunnels panel and try again.');
         }
       }
     }

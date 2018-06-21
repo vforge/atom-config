@@ -118,7 +118,7 @@ async function initializeLsp(command, args, projectFileNames, fileExtensions, lo
     return null;
   }
 
-  return (0, (_nuclideVscodeLanguageServiceRpc || _load_nuclideVscodeLanguageServiceRpc()).createMultiLspLanguageService)('hack', cmd, args, {
+  return (0, (_nuclideVscodeLanguageServiceRpc || _load_nuclideVscodeLanguageServiceRpc()).createMultiLspLanguageService)('hack', [cmd], args, {
     logCategory: (_hackConfig || _load_hackConfig()).HACK_LOGGER_CATEGORY,
     logLevel,
     fileNotifier,
@@ -292,6 +292,10 @@ class HackSingleFileLanguageService {
     const projectRoot = result.hackRoot;
 
     return (0, (_FindReferences || _load_FindReferences()).convertReferences)(result, projectRoot);
+  }
+
+  rename(filePath, buffer, position, newName) {
+    throw new Error('Not implemented');
   }
 
   async getCoverage(filePath) {

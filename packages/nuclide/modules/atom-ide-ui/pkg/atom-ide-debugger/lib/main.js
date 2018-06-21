@@ -1,5 +1,11 @@
 'use strict';
 
+var _idx;
+
+function _load_idx() {
+  return _idx = _interopRequireDefault(require('idx'));
+}
+
 var _projects;
 
 function _load_projects() {
@@ -148,17 +154,19 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const DATATIP_PACKAGE_NAME = 'debugger-datatip'; /**
-                                                  * Copyright (c) 2017-present, Facebook, Inc.
-                                                  * All rights reserved.
-                                                  *
-                                                  * This source code is licensed under the BSD-style license found in the
-                                                  * LICENSE file in the root directory of this source tree. An additional grant
-                                                  * of patent rights can be found in the PATENTS file in the same directory.
-                                                  *
-                                                  * 
-                                                  * @format
-                                                  */
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
+
+const DATATIP_PACKAGE_NAME = 'debugger-datatip';
 
 class Activation {
 
@@ -206,10 +214,6 @@ class Activation {
       const addedConnections = newConnections.filter(connection => keys.find(item => item === connection) == null);
 
       for (const key of removedConnections) {
-        for (const provider of this._connectionProviders.get(key) || []) {
-          provider.dispose();
-        }
-
         this._connectionProviders.delete(key);
       }
 
@@ -224,14 +228,20 @@ class Activation {
     }),
     // Commands.
     atom.commands.add('atom-workspace', {
-      'debugger:show-attach-dialog': () => {
-        const boundFn = this._showLaunchAttachDialog.bind(this);
-        boundFn('attach');
+      'debugger:show-attach-dialog': event => {
+        var _ref, _ref2, _ref3, _ref4;
+
+        const selectedTabName = (_ref = event) != null ? (_ref2 = _ref.detail) != null ? _ref2.selectedTabName : _ref2 : _ref;
+        const config = (_ref3 = event) != null ? (_ref4 = _ref3.detail) != null ? _ref4.config : _ref4 : _ref3;
+        this._showLaunchAttachDialog({
+          dialogMode: 'attach',
+          selectedTabName,
+          config
+        });
       }
     }), atom.commands.add('atom-workspace', {
       'debugger:show-launch-dialog': () => {
-        const boundFn = this._showLaunchAttachDialog.bind(this);
-        boundFn('launch');
+        this._showLaunchAttachDialog({ dialogMode: 'launch' });
       }
     }), atom.commands.add('atom-workspace', {
       'debugger:continue-debugging': this._continue.bind(this)
@@ -594,7 +604,7 @@ class Activation {
     this._service.enableOrDisableBreakpoints(false);
   }
 
-  _renderConfigDialog(panel, dialogMode, dialogCloser) {
+  _renderConfigDialog(panel, args, dialogCloser) {
     if (this._selectedDebugConnection == null) {
       // If no connection is selected yet, default to the local connection.
       this._selectedDebugConnection = 'local';
@@ -616,10 +626,12 @@ class Activation {
     const connection = this._selectedDebugConnection || 'local';
 
     _reactDom.default.render(_react.createElement((_DebuggerLaunchAttachUI || _load_DebuggerLaunchAttachUI()).default, {
-      dialogMode: dialogMode,
+      dialogMode: args.dialogMode,
+      initialSelectedTabName: args.selectedTabName,
+      initialProviderConfig: args.config,
       connectionChanged: newValue => {
         this._selectedDebugConnection = newValue;
-        this._renderConfigDialog(panel, dialogMode, dialogCloser);
+        this._renderConfigDialog(panel, { dialogMode: args.dialogMode }, dialogCloser);
       },
       connection: connection,
       connectionOptions: options,
@@ -628,7 +640,8 @@ class Activation {
     }), panel.getItem());
   }
 
-  _showLaunchAttachDialog(dialogMode) {
+  _showLaunchAttachDialog(args) {
+    const { dialogMode } = args;
     if (this._visibleLaunchAttachDialogMode != null && this._visibleLaunchAttachDialogMode !== dialogMode) {
       // If the dialog is already visible, but isn't the correct mode, close it before
       // re-opening the correct mode.
@@ -650,7 +663,7 @@ class Activation {
     parentEl.style.maxWidth = '100em';
 
     // Function callback that closes the dialog and frees all of its resources.
-    this._renderConfigDialog(pane, dialogMode, () => disposables.dispose());
+    this._renderConfigDialog(pane, args, () => disposables.dispose());
     this._lauchAttachDialogCloser = () => disposables.dispose();
     disposables.add(pane.onDidChangeVisible(visible => {
       if (!visible) {
@@ -732,8 +745,7 @@ class Activation {
         }
       }
     };
-    const boundUpdateSelectedColumn = updateSelectedConnection.bind(this);
-    const disposable = cwdApi.observeCwd(directory => boundUpdateSelectedColumn(directory));
+    const disposable = cwdApi.observeCwd(updateSelectedConnection);
     this._disposables.add(disposable);
     return new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {
       disposable.dispose();

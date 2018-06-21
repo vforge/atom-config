@@ -6,30 +6,44 @@ function _load_analytics() {
   return _analytics = require('../../../modules/nuclide-commons/analytics');
 }
 
-var _;
-
-function _load_() {
-  return _ = require('..');
-}
-
 var _track;
 
 function _load_track() {
-  return _track = _interopRequireWildcard(require('../lib/track'));
+  return _track = _interopRequireDefault(require('../lib/track'));
 }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _waits_for;
 
-const sleep = n => new Promise(r => setTimeout(r, n)); /**
-                                                        * Copyright (c) 2015-present, Facebook, Inc.
-                                                        * All rights reserved.
-                                                        *
-                                                        * This source code is licensed under the license found in the LICENSE file in
-                                                        * the root directory of this source tree.
-                                                        *
-                                                        * 
-                                                        * @format
-                                                        */
+function _load_waits_for() {
+  return _waits_for = _interopRequireDefault(require('../../../jest/waits_for'));
+}
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
+jest.unmock('../../../modules/nuclide-commons/analytics');
+jest.mock('../lib/track', () => {
+  return {
+    track: jest.fn(() => Promise.resolve(1))
+  };
+});
+
+const sleep = n => new Promise(r => setTimeout(r, n));
+
+beforeEach(() => {
+  jest.restoreAllMocks();
+  (0, (_analytics || _load_analytics()).setRawAnalyticsService)((_track || _load_track()).default);
+});
 
 describe('startTracking', () => {
   let trackKey;
@@ -37,7 +51,6 @@ describe('startTracking', () => {
   let startTime;
 
   beforeEach(() => {
-    (0, (_analytics || _load_analytics()).setRawAnalyticsService)(_track || _load_track());
     jest.spyOn(process, 'hrtime').mockImplementation(() => {
       if (startTime == null) {
         startTime = Date.now();
@@ -52,18 +65,18 @@ describe('startTracking', () => {
     trackKey = null;
     trackValues = null;
 
-    jest.spyOn(_track || _load_track(), 'track').mockImplementation((key, values) => {
+    (_track || _load_track()).default.track.mockImplementation((key, values) => {
       trackKey = key;
       trackValues = values;
-      return Promise.resolve();
+      return Promise.resolve(1);
     });
   });
 
   it('startTracking - success', async () => {
-    const timer = (0, (_ || _load_()).startTracking)('st-success');
+    const timer = (0, (_analytics || _load_analytics()).startTracking)('st-success');
     await sleep(10);
     timer.onSuccess();
-    expect((_track || _load_track()).track).toHaveBeenCalled();
+    expect((_track || _load_track()).default.track).toHaveBeenCalled();
     expect(trackKey).toBe('performance');
 
     if (!(trackValues != null)) {
@@ -77,10 +90,10 @@ describe('startTracking', () => {
   });
 
   it('startTracking - success with values', async () => {
-    const timer = (0, (_ || _load_()).startTracking)('st-success', { newValue: 'value' });
+    const timer = (0, (_analytics || _load_analytics()).startTracking)('st-success', { newValue: 'value' });
     await sleep(10);
     timer.onSuccess();
-    expect((_track || _load_track()).track).toHaveBeenCalled();
+    expect((_track || _load_track()).default.track).toHaveBeenCalled();
     expect(trackKey).toBe('performance');
 
     if (!(trackValues != null)) {
@@ -95,10 +108,10 @@ describe('startTracking', () => {
   });
 
   it('startTracking - error', async () => {
-    const timer = (0, (_ || _load_()).startTracking)('st-error');
+    const timer = (0, (_analytics || _load_analytics()).startTracking)('st-error');
     await sleep(11);
     timer.onError(new Error());
-    expect((_track || _load_track()).track).toHaveBeenCalled();
+    expect((_track || _load_track()).default.track).toHaveBeenCalled();
     expect(trackKey).toBe('performance');
 
     if (!(trackValues != null)) {
@@ -112,10 +125,10 @@ describe('startTracking', () => {
   });
 
   it('startTracking - error with values', async () => {
-    const timer = (0, (_ || _load_()).startTracking)('st-error', { newValue: 'value' });
+    const timer = (0, (_analytics || _load_analytics()).startTracking)('st-error', { newValue: 'value' });
     await sleep(11);
     timer.onError(new Error());
-    expect((_track || _load_track()).track).toHaveBeenCalled();
+    expect((_track || _load_track()).default.track).toHaveBeenCalled();
     expect(trackKey).toBe('performance');
 
     if (!(trackValues != null)) {
@@ -131,18 +144,9 @@ describe('startTracking', () => {
 });
 
 describe('trackImmediate', () => {
-  let spy;
-  beforeEach(() => {
-    spy = jest.spyOn(_track || _load_track(), 'track').mockImplementation((key, values) => {
-      return Promise.resolve(1);
-    });
-  });
-
-  it('should call track with immediate = true', async () => {
-    await (async () => {
-      const result = await (0, (_ || _load_()).trackImmediate)('test', {});
-      expect(result).toBe(1);
-      expect(spy).toHaveBeenCalledWith('test', {}, true);
-    })();
+  it('calls track with immediate = true', async () => {
+    const result = await (0, (_analytics || _load_analytics()).trackImmediate)('test', {});
+    expect(result).toBe(1);
+    expect((_track || _load_track()).default.track).toHaveBeenCalledWith('test', {}, true);
   });
 });

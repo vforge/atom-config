@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.resolveConfiguration = resolveConfiguration;
+exports.setSourcePathsService = setSourcePathsService;
 
 var _nuclideDebuggerCommon;
 
@@ -23,6 +24,8 @@ function _load_nuclideDebuggerCommon() {
  * @format
  */
 
+let _sourcePathsService;
+
 async function resolveConfiguration(configuration) {
   let sourcePath = configuration.config.sourcePath;
 
@@ -36,15 +39,25 @@ async function resolveConfiguration(configuration) {
     }
   }
 
-  if (!(sourcePath != null)) {
-    throw new Error('Invariant violation: "sourcePath != null"');
+  const config = configuration.config;
+  if (sourcePath != null && sourcePath.trim() !== '') {
+    const canonicalSourcePath = await debuggerService.realpath(sourcePath);
+    const sourcePaths = [];
+
+    if (_sourcePathsService != null) {
+      _sourcePathsService.addKnownNativeSubdirectoryPaths(canonicalSourcePath, sourcePaths);
+    } else {
+      sourcePaths.push(sourcePath);
+    }
+
+    config.sourcePaths = sourcePaths;
   }
 
-  sourcePath = await debuggerService.realpath(sourcePath);
-
   return Object.assign({}, configuration, {
-    config: Object.assign({}, configuration.config, {
-      sourcePath
-    })
+    config
   });
+}
+
+function setSourcePathsService(service) {
+  _sourcePathsService = service;
 }

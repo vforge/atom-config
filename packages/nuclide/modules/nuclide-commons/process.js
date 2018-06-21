@@ -411,8 +411,8 @@ function scriptifyCommand(command, args = [], options) {
 /**
  * Kills a process and, optionally, its descendants.
  */
-function killProcess(proc, killTree) {
-  _killProcess(proc, killTree).then(() => {}, error => {
+function killProcess(proc, killTree, killTreeSignal) {
+  _killProcess(proc, killTree, killTreeSignal).then(() => {}, error => {
     logger.error(`Killing process ${proc.pid} failed`, error);
   });
 }
@@ -551,7 +551,7 @@ function parsePsOutput(psOutput, argsOutput) {
   });
 }
 
-// Use `ps` to get memory usage for an array of process id's as a map.
+// Use `ps` to get memory usage in kb for an array of process id's as a map.
 async function memoryUsagePerPid(pids) {
   const usage = new Map();
   if (pids.length >= 1) {
@@ -784,7 +784,12 @@ function createProcessStream(type = 'spawn', commandOrModulePath, args = [], opt
   }
 
   return (0, (_event || _load_event()).observableFromSubscribeFunction)(whenShellEnvironmentLoaded).take(1).switchMap(() => {
-    const { dontLogInNuclide, killTreeWhenDone, timeout } = options;
+    const {
+      dontLogInNuclide,
+      killTreeWhenDone,
+      killTreeSignal,
+      timeout
+    } = options;
     // flowlint-next-line sketchy-null-number:off
     const enforceTimeout = timeout ? x => x.timeoutWith(timeout, _rxjsBundlesRxMinJs.Observable.throw(new ProcessTimeoutError(timeout, proc))) : x => x;
     const proc = _child_process.default[type]((_nuclideUri || _load_nuclideUri()).default.expandHomeDir(commandOrModulePath), args,
@@ -859,7 +864,7 @@ function createProcessStream(type = 'spawn', commandOrModulePath, args = [], opt
     }).finally(() => {
       // $FlowFixMe(>=0.68.0) Flow suppress (T27187857)
       if (!proc.wasKilled && !finished) {
-        killProcess(proc, Boolean(killTreeWhenDone));
+        killProcess(proc, Boolean(killTreeWhenDone), killTreeSignal);
       }
     });
   });
@@ -870,10 +875,14 @@ function isRealExit(event) {
   return event.signal !== 'SIGUSR1';
 }
 
-async function _killProcess(proc, killTree) {
+async function _killProcess(proc, killTree, killTreeSignal) {
   proc.wasKilled = true;
   if (!killTree) {
-    proc.kill();
+    if (killTreeSignal != null && killTreeSignal !== '') {
+      proc.kill(killTreeSignal);
+    } else {
+      proc.kill();
+    }
     return;
   }
   if (/^win/.test(process.platform)) {

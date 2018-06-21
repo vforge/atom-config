@@ -21,7 +21,13 @@ function _load_FileTreeActions() {
 var _FileTreeStore;
 
 function _load_FileTreeStore() {
-  return _FileTreeStore = require('../lib/FileTreeStore');
+  return _FileTreeStore = _interopRequireDefault(require('../lib/FileTreeStore'));
+}
+
+var _FileTreeStore2;
+
+function _load_FileTreeStore2() {
+  return _FileTreeStore2 = require('../lib/FileTreeStore');
 }
 
 var _FileTreeSelectionManager;
@@ -48,31 +54,38 @@ function _load_BuildTempDirTree() {
   return _BuildTempDirTree = require('../__mocks__/helpers/BuildTempDirTree');
 }
 
+var _FileTreeSelectors;
+
+function _load_FileTreeSelectors() {
+  return _FileTreeSelectors = _interopRequireWildcard(require('../lib/FileTreeSelectors'));
+}
+
 var _temp;
 
 function _load_temp() {
   return _temp = _interopRequireDefault(require('temp'));
 }
 
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
+(_temp || _load_temp()).default.track(); /**
+                                          * Copyright (c) 2015-present, Facebook, Inc.
+                                          * All rights reserved.
+                                          *
+                                          * This source code is licensed under the license found in the LICENSE file in
+                                          * the root directory of this source tree.
+                                          *
+                                          * 
+                                          * @format
+                                          */
 
-(_temp || _load_temp()).default.track();
 const tempCleanup = (0, (_promise || _load_promise()).denodeify)((_temp || _load_temp()).default.cleanup);
 
 describe('FileTreeSelectionRange', () => {
   function createNode(rootUri, uri) {
-    return new (_FileTreeNode || _load_FileTreeNode()).FileTreeNode({ rootUri, uri }, Object.assign({}, (_FileTreeStore || _load_FileTreeStore()).DEFAULT_CONF, {
+    return new (_FileTreeNode || _load_FileTreeNode()).FileTreeNode({ rootUri, uri }, Object.assign({}, (_FileTreeStore2 || _load_FileTreeStore2()).DEFAULT_CONF, {
       selectionManager: new (_FileTreeSelectionManager || _load_FileTreeSelectionManager()).FileTreeSelectionManager(() => {})
     }));
   }
@@ -134,8 +147,8 @@ describe('FileTreeSelectionRange', () => {
   });
 
   describe('RangeUtil', () => {
-    const actions = (_FileTreeActions || _load_FileTreeActions()).default.getInstance();
-    const store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
+    const store = new (_FileTreeStore || _load_FileTreeStore()).default();
+    const actions = new (_FileTreeActions || _load_FileTreeActions()).default(store);
 
     async function prepareFileTree() {
       const map = await (0, (_BuildTempDirTree || _load_BuildTempDirTree()).buildTempDirTree)('dir/foo/foo1', 'dir/foo/foo2', 'dir/bar/bar1', 'dir/bar/bar2', 'dir/bar/bar3');
@@ -172,7 +185,7 @@ describe('FileTreeSelectionRange', () => {
     afterEach(async () => {
       await (async () => {
         actions.updateWorkingSet(new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet([]));
-        store.reset();
+        actions.reset();
         await tempCleanup();
       })();
     });
@@ -194,7 +207,7 @@ describe('FileTreeSelectionRange', () => {
         }
 
         actions.setSelectedNode(dir, bar1);
-        const node = store.getNode(dir, bar1);
+        const node = (_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir, bar1);
 
         if (!node) {
           throw new Error('Invariant violation: "node"');
@@ -226,13 +239,13 @@ describe('FileTreeSelectionRange', () => {
         }
 
         actions.setSelectedNode(dir, bar3);
-        const node = store.getNode(dir, bar1);
+        const node = (_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir, bar1);
 
         if (!node) {
           throw new Error('Invariant violation: "node"');
         }
 
-        expect((_FileTreeSelectionRange || _load_FileTreeSelectionRange()).RangeUtil.findSelectedNode(node)).toBe(store.getNode(dir, bar3));
+        expect((_FileTreeSelectionRange || _load_FileTreeSelectionRange()).RangeUtil.findSelectedNode(node)).toBe((_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir, bar3));
       });
 
       it('searches the prev selected node if nothing else is selected', () => {
@@ -258,13 +271,13 @@ describe('FileTreeSelectionRange', () => {
         }
 
         actions.setSelectedNode(dir, bar1);
-        const node = store.getNode(dir, bar3);
+        const node = (_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir, bar3);
 
         if (!node) {
           throw new Error('Invariant violation: "node"');
         }
 
-        expect((_FileTreeSelectionRange || _load_FileTreeSelectionRange()).RangeUtil.findSelectedNode(node)).toBe(store.getNode(dir, bar1));
+        expect((_FileTreeSelectionRange || _load_FileTreeSelectionRange()).RangeUtil.findSelectedNode(node)).toBe((_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir, bar1));
       });
 
       it('returns null if nothing is selected', () => {
@@ -282,7 +295,7 @@ describe('FileTreeSelectionRange', () => {
           throw new Error('Invariant violation: "bar1"');
         }
 
-        const node = store.getNode(dir, bar1);
+        const node = (_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir, bar1);
 
         if (!node) {
           throw new Error('Invariant violation: "node"');
@@ -322,13 +335,13 @@ describe('FileTreeSelectionRange', () => {
 
         actions.collapseNode(dir, foo);
         actions.setSelectedNode(dir, bar1);
-        const node = store.getNode(dir, foo1);
+        const node = (_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir, foo1);
 
         if (!node) {
           throw new Error('Invariant violation: "node"');
         }
 
-        expect((_FileTreeSelectionRange || _load_FileTreeSelectionRange()).RangeUtil.findSelectedNode(node)).toBe(store.getNode(dir, bar1));
+        expect((_FileTreeSelectionRange || _load_FileTreeSelectionRange()).RangeUtil.findSelectedNode(node)).toBe((_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir, bar1));
       });
 
       it('only searches the selected node within the working set', () => {
@@ -355,13 +368,13 @@ describe('FileTreeSelectionRange', () => {
 
         actions.updateWorkingSet(new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet([foo1, bar1]));
         actions.setSelectedNode(dir, bar1);
-        const node = store.getNode(dir, foo1);
+        const node = (_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir, foo1);
 
         if (!node) {
           throw new Error('Invariant violation: "node"');
         }
 
-        expect((_FileTreeSelectionRange || _load_FileTreeSelectionRange()).RangeUtil.findSelectedNode(node)).toBe(store.getNode(dir, bar1));
+        expect((_FileTreeSelectionRange || _load_FileTreeSelectionRange()).RangeUtil.findSelectedNode(node)).toBe((_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir, bar1));
       });
     });
   });

@@ -8,16 +8,16 @@ function _load_createPackage() {
   return _createPackage = _interopRequireDefault(require('../nuclide-commons-atom/createPackage'));
 }
 
-var _constants;
-
-function _load_constants() {
-  return _constants = require('../nuclide-debugger-common/constants');
-}
-
 var _AutoGenLaunchAttachProvider;
 
 function _load_AutoGenLaunchAttachProvider() {
   return _AutoGenLaunchAttachProvider = require('../nuclide-debugger-common/AutoGenLaunchAttachProvider');
+}
+
+var _nuclideDebuggerCommon;
+
+function _load_nuclideDebuggerCommon() {
+  return _nuclideDebuggerCommon = require('../nuclide-debugger-common');
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -30,9 +30,9 @@ class Activation {
 
   createDebuggerProvider() {
     return {
-      type: (_constants || _load_constants()).VsAdapterTypes.NODE,
+      type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NODE,
       getLaunchAttachProvider: connection => {
-        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider('Node', connection, getNodeConfig());
+        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.NODE, connection, getNodeConfig());
       }
     };
   }
@@ -125,7 +125,7 @@ function getNodeConfig() {
   return {
     launch: {
       launch: true,
-      vsAdapterType: (_constants || _load_constants()).VsAdapterTypes.NODE,
+      vsAdapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NODE,
       threads: false,
       properties: [program, cwd, stopOnEntry, args, runtimeExecutable, env, outFiles, protocol],
       scriptPropertyName: 'program',
@@ -135,11 +135,19 @@ function getNodeConfig() {
         'p',
         null,
         'This is intended to debug node.js files (for node version 6.3+).'
-      )
+      ),
+      getProcessName(values) {
+        let processName = values.program;
+        const lastSlash = processName.lastIndexOf('/');
+        if (lastSlash >= 0) {
+          processName = processName.substring(lastSlash + 1, processName.length);
+        }
+        return processName + ' (Node)';
+      }
     },
     attach: {
       launch: false,
-      vsAdapterType: (_constants || _load_constants()).VsAdapterTypes.NODE,
+      vsAdapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NODE,
       threads: false,
       properties: [port],
       scriptExtension: '.js',
@@ -147,7 +155,10 @@ function getNodeConfig() {
         'p',
         null,
         'Attach to a running node.js process'
-      )
+      ),
+      getProcessName(values) {
+        return 'Port: ' + values.port + ' (Node attach)';
+      }
     }
   };
 }

@@ -416,9 +416,7 @@ class DebugService {
       onDismiss: textEditorBanner.dispose.bind(textEditorBanner)
     }));
 
-    const disposable = new (_UniversalDisposable || _load_UniversalDisposable()).default(textEditorBanner, editor.onDidDestroy(() => disposable.dispose()), () => editor.destroy());
-
-    this._sessionEndDisposables.add(disposable);
+    this._sessionEndDisposables.addUntilDestroyed(editor, editor, textEditorBanner);
 
     return editor;
   }

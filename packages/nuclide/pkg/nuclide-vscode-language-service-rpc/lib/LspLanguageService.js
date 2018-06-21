@@ -570,7 +570,9 @@ class LspLanguageService {
           completion: {
             dynamicRegistration: false,
             completionItem: {
-              snippetSupport: true
+              // True if LspPreferences.snippetSupport is not defined or
+              // it's set to true.
+              snippetSupport: this._lspPreferences.snippetSupport == null || this._lspPreferences.snippetSupport
             }
           },
           hover: {
@@ -1080,12 +1082,20 @@ class LspLanguageService {
       case (_protocol || _load_protocol()).MessageType.Error:
         status = {
           kind: 'red',
-          message: params.message,
+          message: params.message == null ? '' : params.message,
           buttons: actions.map(action => action.title)
         };
         break;
       case (_protocol || _load_protocol()).MessageType.Warning:
-        status = { kind: 'yellow', message: params.message };
+        status = {
+          kind: 'yellow',
+          message: params.message == null ? '' : params.message,
+          shortMessage: params.shortMessage,
+          progress: params.progress == null ? undefined : {
+            numerator: params.progress.numerator,
+            denominator: params.progress.denominator
+          }
+        };
         break;
       case (_protocol || _load_protocol()).MessageType.Info:
         status = { kind: 'green', message: params.message };
@@ -1416,7 +1426,7 @@ class LspLanguageService {
     // Note: this function can (and should!) be called even before
     // we reach state 'Running'.
 
-    return this._diagnosticUpdates.switchMap(perConnectionUpdates => (0, (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).ensureInvalidations)(this._underlyingLogger, perConnectionUpdates.map((_convert || _load_convert()).lspDiagnostics_atomDiagnostics))).publish();
+    return this._diagnosticUpdates.switchMap(perConnectionUpdates => (0, (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).ensureInvalidations)(this._underlyingLogger, perConnectionUpdates.map(diagnostics => (_convert || _load_convert()).lspDiagnostics_atomDiagnostics(diagnostics, this._languageServerName)))).publish();
   }
 
   async getAutocompleteSuggestions(fileVersion, position, request) {
@@ -1610,6 +1620,10 @@ class LspLanguageService {
       referencedSymbolName,
       references
     };
+  }
+
+  rename(fileVersion, position, newName) {
+    return Promise.resolve(null);
   }
 
   async getCoverage(filePath) {

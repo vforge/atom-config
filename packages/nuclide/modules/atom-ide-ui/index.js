@@ -4,17 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _RemoteControlService;
+var _types;
 
-function _load_RemoteControlService() {
-  return _RemoteControlService = require('./pkg/atom-ide-debugger/lib/RemoteControlService');
+function _load_types() {
+  return _types = require('./pkg/atom-ide-debugger/lib/types');
 }
 
 Object.defineProperty(exports, 'DebuggerService', {
   enumerable: true,
   get: function () {
-    return _interopRequireDefault(_RemoteControlService || _load_RemoteControlService()).default;
+    return (_types || _load_types()).RemoteDebuggerService;
   }
 });
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

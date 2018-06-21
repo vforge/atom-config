@@ -18,24 +18,19 @@ function _load_waits_for() {
   return _waits_for = _interopRequireDefault(require('../../../jest/waits_for'));
 }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _FileTreeStore;
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- *  strict-local
- * @format
- */
+function _load_FileTreeStore() {
+  return _FileTreeStore = _interopRequireDefault(require('../lib/FileTreeStore'));
+}
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 describe('FileTreeContextMenu', () => {
   let menu;
 
   beforeEach(async () => {
-    menu = new (_FileTreeContextMenu || _load_FileTreeContextMenu()).default();
+    menu = new (_FileTreeContextMenu || _load_FileTreeContextMenu()).default(new (_FileTreeStore || _load_FileTreeStore()).default());
     await (0, (_waits_for || _load_waits_for()).default)(() => fileTreeItemsOrNull() != null);
   });
 
@@ -87,7 +82,16 @@ describe('FileTreeContextMenu', () => {
     const groups = itemGroups(fileTreeItems());
     expect(getNonNull(groups, label)).toBe(getNonNull(groups, 'Copy Full Path'));
   });
-});
+}); /**
+     * Copyright (c) 2015-present, Facebook, Inc.
+     * All rights reserved.
+     *
+     * This source code is licensed under the license found in the LICENSE file in
+     * the root directory of this source tree.
+     *
+     *  strict-local
+     * @format
+     */
 
 function testItem() {
   return {

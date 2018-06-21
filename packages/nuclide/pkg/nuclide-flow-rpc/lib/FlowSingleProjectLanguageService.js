@@ -512,6 +512,10 @@ class FlowSingleProjectLanguageService {
     return _rxjsBundlesRxMinJs.Observable.fromPromise(this.customFindReferences(filePath, buffer, position, true, false));
   }
 
+  rename(filePath, buffer, position, newName) {
+    throw new Error('Not implemented');
+  }
+
   isFileInProject(fileUri) {
     throw new Error('Not Yet Implemented');
   }

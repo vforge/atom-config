@@ -13,18 +13,6 @@ function _load_Dispatcher() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
-
-// $FlowFixMe(>=0.53.0) Flow suppress
 const ActionTypes = exports.ActionTypes = Object.freeze({
   COLLAPSE_NODE: 'COLLAPSE_NODE',
   COLLAPSE_NODE_DEEP: 'COLLAPSE_NODE_DEEP',
@@ -33,6 +21,7 @@ const ActionTypes = exports.ActionTypes = Object.freeze({
   SET_EXCLUDE_VCS_IGNORED_PATHS: 'SET_EXCLUDE_VCS_IGNORED_PATHS',
   EXPAND_NODE_DEEP: 'EXPAND_NODE_DEEP',
   SET_CWD: 'SET_CWD',
+  SET_CWD_API: 'SET_CWD_API',
   SET_HIDE_IGNORED_NAMES: 'SET_HIDE_IGNORED_NAMES',
   SET_HIDE_VCS_IGNORED_PATHS: 'SET_HIDE_VCS_IGNORED_PATHS',
   SET_IS_CALCULATING_CHANGES: 'SET_IS_CALCULATING_CHANGES',
@@ -46,7 +35,6 @@ const ActionTypes = exports.ActionTypes = Object.freeze({
   REORDER_DRAG_INTO: 'REORDER_DRAG_INTO',
   REORDER_ROOTS: 'REORDER_ROOTS',
   MOVE_TO_NODE: 'MOVE_TO_NODE',
-  SET_DROP_TARGET_NODE: 'SET_DROP_TARGET_NODE',
   SET_USE_PREVIEW_TABS: 'SET_USE_PREVIEW_TABS',
   SET_USE_PREFIX_NAV: 'SET_USE_PREFIX_NAV',
   SET_AUTO_EXPAND_SINGLE_CHILD: 'SET_AUTO_EXPAND_SINGLE_CHILD',
@@ -82,11 +70,27 @@ const ActionTypes = exports.ActionTypes = Object.freeze({
   SET_FOLDERS_EXPANDED: 'SET_FOLDERS_EXPANDED',
   INVALIDATE_REMOVED_FOLDER: 'INVALIDATE_REMOVED_FOLDER',
   SET_TARGET_NODE: 'SET_TARGET_NODE',
-  UPDATE_GENERATED_STATUS: 'UPDATE_GENERATED_STATUS'
+  UPDATE_GENERATED_STATUS: 'UPDATE_GENERATED_STATUS',
+  ADD_FILTER_LETTER: 'ADD_FILTER_LETTER',
+  REMOVE_FILTER_LETTER: 'REMOVE_FILTER_LETTER',
+  RESET: 'RESET',
+  UPDATE_MAX_COMPONENT_WIDTH: 'UPDATE_MAX_COMPONENT_WIDTH'
 });
 
 // Flow hack: Every FileTreeAction actionType must be in ActionTypes.
 // $FlowFixMe(>=0.68.0) Flow suppress (T27187857)
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
+// $FlowFixMe(>=0.53.0) Flow suppress
 '';
 
 let instance;

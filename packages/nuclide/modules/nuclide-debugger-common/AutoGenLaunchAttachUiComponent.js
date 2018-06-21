@@ -132,7 +132,7 @@ class AutoGenLaunchAttachUiComponent extends _react.Component {
         deviceAndProcessValues,
         selectSourcesValues
       } = this.state;
-      const { launch, vsAdapterType, threads } = config;
+      const { launch, vsAdapterType, threads, getProcessName } = config;
 
       const stringValues = new Map();
       const stringArrayValues = new Map();
@@ -206,18 +206,17 @@ class AutoGenLaunchAttachUiComponent extends _react.Component {
       });
 
       const debuggerService = await (0, (_debugger || _load_debugger()).getDebuggerService)();
+
       debuggerService.startVspDebugging({
         targetUri,
         debugMode: launch ? 'launch' : 'attach',
         adapterType: vsAdapterType,
-        adapterExecutable: null,
         config: values,
-        capabilities: { threads },
-        properties: {
-          customControlButtons: [],
-          threadsComponentTitle: 'Threads'
-        },
-        customDisposable: new (_UniversalDisposable || _load_UniversalDisposable()).default()
+        showThreads: threads,
+        customControlButtons: [],
+        threadsComponentTitle: 'Threads',
+        customDisposable: new (_UniversalDisposable || _load_UniversalDisposable()).default(),
+        processName: getProcessName(values)
       });
 
       (0, (_DebuggerConfigSerializer || _load_DebuggerConfigSerializer()).serializeDebuggerConfig)(...this._getSerializationArgs(this.props), {

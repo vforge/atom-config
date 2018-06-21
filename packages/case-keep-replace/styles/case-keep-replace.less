@@ -1,0 +1,39 @@
+// The ui-variables file is provided by base themes provided by Atom.
+//
+// See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
+// for a full listing of what's available.
+@import "ui-variables";
+
+.case-keep-replace {
+  display: flex;
+  flex-direction: column;
+
+  .form {
+    display: flex;
+    margin-bottom: 0;
+  }
+
+  .input-text {
+    flex-grow: 1;
+    color: @text-color-error;
+
+    &:first-child {
+      margin-right: 5px;
+    }
+
+    &:last-child {
+      margin-left: 5px;
+    }
+  }
+
+  .preview {
+    display: flex;
+    flex-direction: column;
+
+    .btn {
+      outline: none;
+      cursor: auto;
+      flex-frow: 1;
+    }
+  }
+}

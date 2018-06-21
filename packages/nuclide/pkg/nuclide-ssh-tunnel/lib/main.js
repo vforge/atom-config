@@ -99,7 +99,7 @@ class Activation {
       if (uri === (_TunnelsPanel || _load_TunnelsPanel()).WORKSPACE_VIEW_URI) {
         return new (_TunnelsPanel || _load_TunnelsPanel()).TunnelsPanel(this._store);
       }
-    }), () => (0, (_destroyItemWhere || _load_destroyItemWhere()).destroyItemWhere)(item => item instanceof (_TunnelsPanel || _load_TunnelsPanel()).TunnelsPanel), atom.commands.add('atom-workspace', 'nuclide-ssh-tunnels-panel:toggle', () => {
+    }), () => (0, (_destroyItemWhere || _load_destroyItemWhere()).destroyItemWhere)(item => item instanceof (_TunnelsPanel || _load_TunnelsPanel()).TunnelsPanel), atom.commands.add('atom-workspace', 'nuclide-tunnels-panel:toggle', () => {
       atom.workspace.toggle((_TunnelsPanel || _load_TunnelsPanel()).WORKSPACE_VIEW_URI);
     }));
   }
@@ -129,7 +129,7 @@ class Activation {
 
   consumeOutputService(api) {
     this._disposables.add(api.registerOutputProvider({
-      id: 'SSH tunnels',
+      id: 'Nuclide tunnels',
       messages: this._store.getState().consoleOutput
     }));
   }

@@ -19,6 +19,8 @@ function _load_Encoder() {
   return _Encoder = _interopRequireDefault(require('./Encoder'));
 }
 
+var _events = _interopRequireDefault(require('events'));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const logger = (0, (_log4js || _load_log4js()).getLogger)('tunnel-socket-manager'); /**
@@ -33,9 +35,10 @@ const logger = (0, (_log4js || _load_log4js()).getLogger)('tunnel-socket-manager
                                                                                      * @format
                                                                                      */
 
-class SocketManager {
+class SocketManager extends _events.default {
 
   constructor(tunnelId, port, useIPv4, transport) {
+    super();
     this._tunnelId = tunnelId;
     this._port = port;
     this._transport = transport;
@@ -56,6 +59,8 @@ class SocketManager {
       this._createConnection(message);
     } else if (message.event === 'data') {
       this._forwardData(message);
+    } else if (message.event === 'error') {
+      this._handleError(message);
     }
   }
 
@@ -68,8 +73,10 @@ class SocketManager {
     logger.info(`creating socket with ${JSON.stringify(connectOptions)}`);
     const socket = _net.default.createConnection(connectOptions);
 
-    socket.on('error', err => {
-      logger.error(err);
+    socket.on('error', error => {
+      this.emit('error', error);
+      logger.error(error);
+      socket.end();
     });
 
     socket.on('data', data => {
@@ -93,14 +100,15 @@ class SocketManager {
     }
   }
 
+  _handleError(message) {
+    this.emit('error', message.arg);
+  }
+
   _sendMessage(msg) {
     this._transport.send((_Encoder || _load_Encoder()).default.encode(msg));
   }
 
   close() {
-    if (this._subscription != null) {
-      this._subscription.unsubscribe();
-    }
     this._socketByClientId.forEach(socket => {
       socket.end();
     });

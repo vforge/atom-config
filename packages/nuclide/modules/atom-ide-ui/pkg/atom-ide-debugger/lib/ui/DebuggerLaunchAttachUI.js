@@ -124,6 +124,10 @@ class DebuggerLaunchAttachUI extends _react.Component {
   componentWillMount() {
     const host = (_nuclideUri || _load_nuclideUri()).default.isRemote(this.props.connection) ? (_nuclideUri || _load_nuclideUri()).default.getHostname(this.props.connection) : 'local';
 
+    const selectedProvider = (this.props.providers.get(host) || []).find(p => p.getTabName() === this.props.initialSelectedTabName);
+    if (selectedProvider != null) {
+      setLastUsedDebugger(host, this.props.dialogMode, selectedProvider.getTabName());
+    }
     this._filterProviders(host);
     this.setState({
       selectedProviderTab: getLastUsedDebugger(host, this.props.dialogMode)
@@ -158,12 +162,11 @@ class DebuggerLaunchAttachUI extends _react.Component {
         throw new Error('Invariant violation: "provider != null"');
       }
 
-      return provider.getCallbacksForAction(this.props.dialogMode).getDebuggerTypeNames().map(debuggerName => {
-        return {
-          provider,
-          debuggerName
-        };
-      });
+      const tabName = provider.getTabName();
+      return {
+        provider,
+        tabName
+      };
     }).scan((arr, provider) => arr.concat(provider), []).subscribe(enabledProviders => {
       this.setState({ enabledProviders });
     });
@@ -171,13 +174,11 @@ class DebuggerLaunchAttachUI extends _react.Component {
 
   _getTabsFromEnabledProviders(enabledProviders) {
     const tabs = this.state.enabledProviders.map(debuggerType => ({
-      name: debuggerType.debuggerName,
+      name: debuggerType.tabName,
       tabContent: _react.createElement(
         'span',
-        {
-          title: debuggerType.debuggerName,
-          className: 'debugger-provider-tab' },
-        debuggerType.debuggerName
+        { title: debuggerType.tabName, className: 'debugger-provider-tab' },
+        debuggerType.tabName
       )
     })).sort((a, b) => a.name.localeCompare(b.name));
     return tabs;
@@ -203,14 +204,16 @@ class DebuggerLaunchAttachUI extends _react.Component {
     const tabs = this._getTabsFromEnabledProviders(this.state.enabledProviders);
     let providerContent = null;
     if (tabs.length > 0) {
-      let selectedTab = this.state.selectedProviderTab != null ? this.state.selectedProviderTab : this.state.enabledProviders[0].debuggerName;
-      let provider = this.state.enabledProviders.find(p => p.debuggerName === selectedTab);
+      let selectedTab = this.state.selectedProviderTab != null ? this.state.selectedProviderTab : this.state.enabledProviders[0].tabName;
+      let provider = this.state.enabledProviders.find(p => p.tabName === selectedTab);
       if (provider == null) {
         provider = this.state.enabledProviders[0];
-        selectedTab = provider.debuggerName;
+        selectedTab = provider.tabName;
       }
 
-      const debuggerConfigPage = provider.provider.getCallbacksForAction(this.props.dialogMode).getComponent(selectedTab, valid => this._setConfigValid(valid));
+      const defaultConfig = selectedTab != null && selectedTab === this.props.initialSelectedTabName ? this.props.initialProviderConfig : null;
+
+      const debuggerConfigPage = provider.provider.getCallbacksForAction(this.props.dialogMode).getComponent(selectedTab, valid => this._setConfigValid(valid), defaultConfig);
 
       providerContent = _react.createElement(
         'div',

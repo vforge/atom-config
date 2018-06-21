@@ -6,8 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.getPrepackAutoGenConfig = getPrepackAutoGenConfig;
 exports.resolveConfiguration = resolveConfiguration;
 exports.getNativeAutoGenConfig = getNativeAutoGenConfig;
-exports.getNativeVSPLaunchProcessInfo = getNativeVSPLaunchProcessInfo;
-exports.getNativeVSPAttachProcessInfo = getNativeVSPAttachProcessInfo;
+exports.getNativeVSPLaunchProcessConfig = getNativeVSPLaunchProcessConfig;
+exports.getNativeVSPAttachProcessConfig = getNativeVSPAttachProcessConfig;
+exports.setSourcePathsService = setSourcePathsService;
 
 var _nuclideUri;
 
@@ -37,6 +38,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
+
+let _sourcePathsService;
 
 function getPrepackAutoGenConfig() {
   const fileToPrepack = {
@@ -71,7 +74,10 @@ function getPrepackAutoGenConfig() {
     scriptPropertyName: 'fileToPrepack',
     scriptExtension: '.js',
     cwdPropertyName: null,
-    header: null
+    header: null,
+    getProcessName(values) {
+      return values.fileToPrepack + ' (Prepack)';
+    }
   };
   return {
     launch: autoGenLaunchConfig,
@@ -107,15 +113,26 @@ async function resolveConfiguration(configuration) {
 
   const config = configuration.config;
   if (sourcePath != null && sourcePath.trim() !== '') {
-    config.sourcePath = await debuggerService.realpath(sourcePath);
+    const canonicalSourcePath = await debuggerService.realpath(sourcePath);
+    const sourcePaths = [];
+
+    if (_sourcePathsService != null) {
+      _sourcePathsService.addKnownNativeSubdirectoryPaths(canonicalSourcePath, sourcePaths);
+    } else {
+      sourcePaths.push(sourcePath);
+    }
+
+    config.sourceMap = sourcePaths.map(path => ['.', path]);
   }
 
   adapterExecutable.command = await lldbVspAdapterWrapperPath(targetUri);
 
-  return Object.assign({}, configuration, {
+  const newConfig = Object.assign({}, configuration, {
     config,
     adapterExecutable
   });
+
+  return newConfig;
 }
 
 function getNativeAutoGenConfig(vsAdapterType) {
@@ -175,7 +192,16 @@ function getNativeAutoGenConfig(vsAdapterType) {
       'Debug native programs ',
       debugTypeMessage,
       '.'
-    )
+    ),
+    getProcessName(values) {
+      let processName = values.program;
+      const lastSlash = processName.lastIndexOf('/');
+      if (lastSlash >= 0) {
+        processName = processName.substring(lastSlash + 1, processName.length);
+      }
+      processName += ' (' + debugTypeMessage + ')';
+      return processName;
+    }
   };
 
   const pid = {
@@ -195,7 +221,10 @@ function getNativeAutoGenConfig(vsAdapterType) {
       null,
       'Attach to a running native process ',
       debugTypeMessage
-    )
+    ),
+    getProcessName(values) {
+      return 'Pid: ' + pid.name + ' (' + debugTypeMessage + ')';
+    }
   };
   return {
     launch: autoGenLaunchConfig,
@@ -203,14 +232,26 @@ function getNativeAutoGenConfig(vsAdapterType) {
   };
 }
 
-async function getNativeVSPLaunchProcessInfo(adapter, program, args) {
-  return new (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VspProcessInfo(program, 'launch', adapter, null, Object.assign({
-    program: (_nuclideUri || _load_nuclideUri()).default.getPath(program)
-  }, args), { threads: true });
+function getNativeVSPLaunchProcessConfig(adapterType, program, config) {
+  return {
+    targetUri: program,
+    debugMode: 'launch',
+    adapterType,
+    config: Object.assign({
+      program: (_nuclideUri || _load_nuclideUri()).default.getPath(program)
+    }, config)
+  };
 }
 
-async function getNativeVSPAttachProcessInfo(adapter, targetUri, args) {
-  return new (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VspProcessInfo(targetUri, 'attach', adapter, null, args, {
-    threads: true
-  });
+function getNativeVSPAttachProcessConfig(adapterType, targetUri, config) {
+  return {
+    targetUri,
+    debugMode: 'attach',
+    adapterType,
+    config
+  };
+}
+
+function setSourcePathsService(sourcePathsService) {
+  _sourcePathsService = sourcePathsService;
 }

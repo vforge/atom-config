@@ -6,16 +6,16 @@ function _load_createPackage() {
   return _createPackage = _interopRequireDefault(require('../nuclide-commons-atom/createPackage'));
 }
 
+var _nuclideDebuggerCommon;
+
+function _load_nuclideDebuggerCommon() {
+  return _nuclideDebuggerCommon = require('../nuclide-debugger-common');
+}
+
 var _autogenUtils;
 
 function _load_autogenUtils() {
   return _autogenUtils = require('../nuclide-debugger-common/autogen-utils');
-}
-
-var _constants;
-
-function _load_constants() {
-  return _constants = require('../nuclide-debugger-common/constants');
 }
 
 var _AutoGenLaunchAttachProvider;
@@ -32,27 +32,15 @@ function _load_utils() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- * @format
- */
-
 class Activation {
   constructor() {}
   dispose() {}
 
   createDebuggerProvider() {
     return {
-      type: (_constants || _load_constants()).VsAdapterTypes.NATIVE_GDB,
+      type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NATIVE_GDB,
       getLaunchAttachProvider: connection => {
-        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider('Native - GDB (C/C++)', connection, (0, (_autogenUtils || _load_autogenUtils()).getNativeAutoGenConfig)((_constants || _load_constants()).VsAdapterTypes.NATIVE_GDB), async () => {
+        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.NATIVE_GDB, connection, (0, (_autogenUtils || _load_autogenUtils()).getNativeAutoGenConfig)((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NATIVE_GDB), async () => {
           // GDB not available on Win32.
           return Promise.resolve(process.platform !== 'win32');
         });
@@ -63,9 +51,23 @@ class Activation {
   createDebuggerConfigurator() {
     return {
       resolveConfiguration: (_utils || _load_utils()).resolveConfiguration,
-      adapterType: (_constants || _load_constants()).VsAdapterTypes.NATIVE_GDB
+      adapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NATIVE_GDB
     };
   }
-}
+
+  consumeDebuggerSourcePaths(sourcePathService) {
+    (0, (_utils || _load_utils()).setSourcePathsService)(sourcePathService);
+  }
+} /**
+   * Copyright (c) 2017-present, Facebook, Inc.
+   * All rights reserved.
+   *
+   * This source code is licensed under the BSD-style license found in the
+   * LICENSE file in the root directory of this source tree. An additional grant
+   * of patent rights can be found in the PATENTS file in the same directory.
+   *
+   * 
+   * @format
+   */
 
 (0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);

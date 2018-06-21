@@ -204,7 +204,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "process.js",
-        line: 665
+        line: 666
       },
       name: "ProcessExitMessage",
       definition: {
@@ -242,7 +242,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "process.js",
-        line: 671
+        line: 672
       },
       name: "ProcessMessage",
       definition: {
@@ -316,7 +316,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "types.js",
-        line: 38
+        line: 39
       },
       name: "VSAdapterExecutableInfo",
       definition: {
@@ -438,7 +438,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "process.js",
-        line: 688
+        line: 689
       },
       name: "ProcessInfo",
       definition: {
@@ -596,7 +596,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "types.js",
-        line: 45
+        line: 46
       },
       name: "VsAdapterType",
       definition: {

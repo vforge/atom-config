@@ -34,7 +34,7 @@ class Activation {
     return {
       type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.JAVA_ANDROID,
       getLaunchAttachProvider: connection => {
-        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider('Java - Android', connection, (0, (_utils || _load_utils()).getJavaAndroidConfig)());
+        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.JAVA_ANDROID, connection, (0, (_utils || _load_utils()).getJavaAndroidConfig)());
       }
     };
   }

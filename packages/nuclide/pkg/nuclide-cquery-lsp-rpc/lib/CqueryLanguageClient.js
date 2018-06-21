@@ -5,25 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CqueryLanguageClient = undefined;
 
-var _fsPromise;
-
-function _load_fsPromise() {
-  return _fsPromise = _interopRequireDefault(require('../../../modules/nuclide-commons/fsPromise'));
-}
-
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
-
-var _nuclideAnalytics;
-
-function _load_nuclideAnalytics() {
-  return _nuclideAnalytics = require('../../nuclide-analytics');
-}
-
-var _utils;
-
-function _load_utils() {
-  return _utils = require('../../nuclide-clang-rpc/lib/utils');
-}
 
 var _convert;
 
@@ -37,34 +19,14 @@ function _load_LspLanguageService() {
   return _LspLanguageService = require('../../nuclide-vscode-language-service-rpc/lib/LspLanguageService');
 }
 
-var _CqueryProjectManager;
-
-function _load_CqueryProjectManager() {
-  return _CqueryProjectManager = require('./CqueryProjectManager');
-}
-
 var _CqueryOutlineParser;
 
 function _load_CqueryOutlineParser() {
   return _CqueryOutlineParser = require('./outline/CqueryOutlineParser');
 }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 // FIXME pelmers: tracking cquery/issues/30
 // https://github.com/jacobdufault/cquery/issues/30#issuecomment-345536318
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
-
-// Provides some extra commands on top of base Lsp.
 function shortenByOneCharacter({ newText, range }) {
   return {
     newText,
@@ -73,8 +35,18 @@ function shortenByOneCharacter({ newText, range }) {
       end: { line: range.end.line, character: range.end.character - 1 }
     }
   };
-}
+} /**
+   * Copyright (c) 2015-present, Facebook, Inc.
+   * All rights reserved.
+   *
+   * This source code is licensed under the license found in the LICENSE file in
+   * the root directory of this source tree.
+   *
+   * 
+   * @format
+   */
 
+// Provides some extra commands on top of base Lsp.
 class CqueryLanguageClient extends (_LspLanguageService || _load_LspLanguageService()).LspLanguageService {
 
   start() {
@@ -82,13 +54,12 @@ class CqueryLanguageClient extends (_LspLanguageService || _load_LspLanguageServ
     return super.start().then(() => this.startCquery());
   }
 
-  constructor(logger, fileCache, host, languageServerName, command, args, spawnOptions = {}, projectRoot, fileExtensions, initializationOptions, additionalLogFilesRetentionPeriod, logFile, progressInfo, projectKey, projectManager, useOriginalEnvironment = false) {
+  constructor(logger, fileCache, host, languageServerName, command, args, spawnOptions = {}, projectRoot, fileExtensions, initializationOptions, additionalLogFilesRetentionPeriod, logFile, cacheDirectory, progressInfo, useOriginalEnvironment = false) {
     super(logger, fileCache, host, languageServerName, command, args, spawnOptions,
     /* fork */false, projectRoot, fileExtensions, initializationOptions, additionalLogFilesRetentionPeriod, useOriginalEnvironment);
     this._logFile = logFile;
+    this._cacheDirectory = cacheDirectory;
     this._progressInfo = progressInfo;
-    this._projectKey = projectKey;
-    this._projectManager = projectManager;
   }
 
   async startCquery() {
@@ -139,6 +110,10 @@ class CqueryLanguageClient extends (_LspLanguageService || _load_LspLanguageServ
     super.dispose();
   }
 
+  getCacheDirectory() {
+    return this._cacheDirectory;
+  }
+
   _createOutlineTreeHierarchy(list) {
     return (0, (_CqueryOutlineParser || _load_CqueryOutlineParser()).parseOutlineTree)(list);
   }
@@ -185,56 +160,6 @@ class CqueryLanguageClient extends (_LspLanguageService || _load_LspLanguageServ
       }
     }
     return super._convertCommands_CodeActions(outputCommands);
-  }
-
-  _isFileInProject(file) {
-    const project = this._projectManager.getProjectForFile(file);
-    const checkProject = project != null ? (_CqueryProjectManager || _load_CqueryProjectManager()).CqueryProjectManager.getProjectKey(project) === this._projectKey : // TODO pelmers: header files aren't in the map because they do not
-    // appear in compile_commands.json, but they should be cached!
-    (0, (_utils || _load_utils()).isHeaderFile)(file);
-
-    return checkProject && super._isFileInProject(file);
-  }
-
-  observeDiagnostics() {
-    // Only emit diagnostics for files in the project.
-    return super.observeDiagnostics().refCount().do(diagnosticMap => {
-      for (const [file] of diagnosticMap) {
-        if (!this._isFileInProject(file)) {
-          diagnosticMap.delete(file);
-        }
-      }
-    }).publish();
-  }
-
-  _handleClose() {
-    (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('lsp-handle-close', {
-      name: this._languageServerName,
-      projectKey: this._projectKey,
-      fileList: this._projectManager.getFilesInProject(this._projectKey)
-    });
-    this._logger.error('Lsp.Close - will auto-restart');
-    this._host.consoleNotification(this._languageServerName, 'warning', `Automatically restarting ${this._languageServerName} for ${this._projectKey} after a crash`);
-    (_fsPromise || _load_fsPromise()).default.readFile(this._logFile).then(contents => {
-      const lines = contents.toString('utf8').split('\n');
-      // Find a line with 'stack trace' and take the rest (or up to 40 lines.)
-      let foundStackTrace = false;
-      const stackTraceLines = lines.filter(line => {
-        // the string 'Stack trace:' matches loguru.hpp:
-        // https://github.com/emilk/loguru/blob/master/loguru.hpp#L2424
-        foundStackTrace = foundStackTrace || line.startsWith('Stack trace:');
-        return foundStackTrace;
-      });
-      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('cquery-crash-trace', {
-        projectKey: this._projectKey,
-        trace: stackTraceLines.slice(0, 40).join('\n')
-      });
-      // Restart now because otherwise the restart would overwrite the log file.
-      this._setState('Initial');
-      this.start();
-    }).catch(err => {
-      this._host.consoleNotification(this._languageServerName, 'error', `Unable to restart ${this._languageServerName} because of ${err}`);
-    });
   }
 
   async _notifyOnFail(success, falseMessage) {

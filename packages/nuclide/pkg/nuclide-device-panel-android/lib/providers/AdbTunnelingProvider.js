@@ -26,7 +26,7 @@ function _load_UniversalDisposable() {
 var _Tunneling;
 
 function _load_Tunneling() {
-  return _Tunneling = require('../../../nuclide-adb-sdb-base/lib/Tunneling');
+  return _Tunneling = require('../../../../modules/nuclide-adb/lib/Tunneling');
 }
 
 var _AdbTunnelButton;
@@ -57,7 +57,7 @@ try {
   const {
     fbStartTunnelingAdb
     // $eslint-disable-next-line $FlowFB
-  } = require('../../../nuclide-adb-sdb-base/lib/fb-Tunneling');
+  } = require('../../../../modules/nuclide-adb/lib/fb-Tunneling');
   startTunnelingAdb = fbStartTunnelingAdb;
 } catch (e) {}
 

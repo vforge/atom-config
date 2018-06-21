@@ -66,19 +66,6 @@ module.exports = _client => {
     });
   };
 
-  remoteModule.getAndroidSDKVersionFromApk = function (arg0) {
-    return _client.callRemoteFunction("JavaDebuggerHelpersService/getAndroidSDKVersionFromApk", "promise", _client.marshalArguments(Array.from(arguments), [{
-      name: "apkPath",
-      type: {
-        kind: "string"
-      }
-    }])).then(value => {
-      return _client.unmarshal(value, {
-        kind: "string"
-      });
-    });
-  };
-
   remoteModule.getSdkVersionSourcePath = function (arg0) {
     return _client.callRemoteFunction("JavaDebuggerHelpersService/getSdkVersionSourcePath", "promise", _client.marshalArguments(Array.from(arguments), [{
       name: "sdkVersion",
@@ -386,7 +373,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "types.js",
-        line: 38
+        line: 39
       },
       name: "VSAdapterExecutableInfo",
       definition: {
@@ -528,48 +515,19 @@ Object.defineProperty(module.exports, "defs", {
         }
       }
     },
-    getAndroidSDKVersionFromApk: {
-      kind: "function",
-      name: "getAndroidSDKVersionFromApk",
-      location: {
-        type: "source",
-        fileName: "JavaDebuggerHelpersService.js",
-        line: 231
-      },
-      type: {
-        location: {
-          type: "source",
-          fileName: "JavaDebuggerHelpersService.js",
-          line: 231
-        },
-        kind: "function",
-        argumentTypes: [{
-          name: "apkPath",
-          type: {
-            kind: "string"
-          }
-        }],
-        returnType: {
-          kind: "promise",
-          type: {
-            kind: "string"
-          }
-        }
-      }
-    },
     getSdkVersionSourcePath: {
       kind: "function",
       name: "getSdkVersionSourcePath",
       location: {
         type: "source",
         fileName: "JavaDebuggerHelpersService.js",
-        line: 273
+        line: 226
       },
       type: {
         location: {
           type: "source",
           fileName: "JavaDebuggerHelpersService.js",
-          line: 273
+          line: 226
         },
         kind: "function",
         argumentTypes: [{

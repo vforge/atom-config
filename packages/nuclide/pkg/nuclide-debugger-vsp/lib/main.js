@@ -80,7 +80,7 @@ class Activation {
       this._registerDebugProvider({
         type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.PREPACK,
         getLaunchAttachProvider: connection => {
-          return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider('Prepack', connection, (0, (_utils || _load_utils()).getPrepackAutoGenConfig)());
+          return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.PREPACK, connection, (0, (_utils || _load_utils()).getPrepackAutoGenConfig)());
         }
       });
     }
@@ -90,7 +90,7 @@ class Activation {
     this._registerDebugProvider({
       type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NATIVE_LLDB,
       getLaunchAttachProvider: connection => {
-        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider('Native - LLDB (C/C++)', connection, (0, (_autogenUtils || _load_autogenUtils()).getNativeAutoGenConfig)((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NATIVE_LLDB));
+        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.NATIVE_LLDB, connection, (0, (_autogenUtils || _load_autogenUtils()).getNativeAutoGenConfig)((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NATIVE_LLDB));
       }
     });
   }
@@ -99,7 +99,7 @@ class Activation {
     this._registerDebugProvider({
       type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.HHVM,
       getLaunchAttachProvider: connection => {
-        return new (_HhvmLaunchAttachProvider || _load_HhvmLaunchAttachProvider()).default('Hack / PHP', connection);
+        return new (_HhvmLaunchAttachProvider || _load_HhvmLaunchAttachProvider()).default((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.HHVM, connection);
       }
     });
   }
@@ -109,6 +109,10 @@ class Activation {
       resolveConfiguration: (_utils || _load_utils()).resolveConfiguration,
       adapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NATIVE_LLDB
     };
+  }
+
+  consumeDebuggerSourcePaths(sourcePathService) {
+    (0, (_utils || _load_utils()).setSourcePathsService)(sourcePathService);
   }
 
   dispose() {

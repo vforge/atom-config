@@ -11,6 +11,14 @@ module.exports = _client => {
     });
   };
 
+  remoteModule.getServerPlatform = function () {
+    return _client.callRemoteFunction("InfoService/getServerPlatform", "promise", _client.marshalArguments(Array.from(arguments), [])).then(value => {
+      return _client.unmarshal(value, {
+        kind: "string"
+      });
+    });
+  };
+
   remoteModule.closeConnection = function (arg0) {
     return _client.callRemoteFunction("InfoService/closeConnection", "promise", _client.marshalArguments(Array.from(arguments), [{
       name: "shutdownServer",
@@ -109,19 +117,43 @@ Object.defineProperty(module.exports, "defs", {
         }
       }
     },
+    getServerPlatform: {
+      kind: "function",
+      name: "getServerPlatform",
+      location: {
+        type: "source",
+        fileName: "InfoService.js",
+        line: 22
+      },
+      type: {
+        location: {
+          type: "source",
+          fileName: "InfoService.js",
+          line: 22
+        },
+        kind: "function",
+        argumentTypes: [],
+        returnType: {
+          kind: "promise",
+          type: {
+            kind: "string"
+          }
+        }
+      }
+    },
     closeConnection: {
       kind: "function",
       name: "closeConnection",
       location: {
         type: "source",
         fileName: "InfoService.js",
-        line: 25
+        line: 29
       },
       type: {
         location: {
           type: "source",
           fileName: "InfoService.js",
-          line: 25
+          line: 29
         },
         kind: "function",
         argumentTypes: [{

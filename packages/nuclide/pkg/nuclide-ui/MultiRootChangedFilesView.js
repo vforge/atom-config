@@ -11,12 +11,6 @@ function _load_nuclideVcsBase() {
   return _nuclideVcsBase = require('../nuclide-vcs-base');
 }
 
-var _goToLocation;
-
-function _load_goToLocation() {
-  return _goToLocation = require('../../modules/nuclide-commons-atom/go-to-location');
-}
-
 var _openInDiffView;
 
 function _load_openInDiffView() {
@@ -29,19 +23,7 @@ function _load_nuclideAnalytics() {
   return _nuclideAnalytics = require('../nuclide-analytics');
 }
 
-var _nuclideUri;
-
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../modules/nuclide-commons/nuclideUri'));
-}
-
 var _react = _interopRequireWildcard(require('react'));
-
-var _UniversalDisposable;
-
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../modules/nuclide-commons/UniversalDisposable'));
-}
 
 var _ChangedFilesList;
 
@@ -67,22 +49,21 @@ function _load_classnames() {
   return _classnames = _interopRequireDefault(require('classnames'));
 }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-const ANALYTICS_PREFIX = 'changed-files-view';
+const ANALYTICS_PREFIX = 'changed-files-view'; /**
+                                                * Copyright (c) 2015-present, Facebook, Inc.
+                                                * All rights reserved.
+                                                *
+                                                * This source code is licensed under the license found in the LICENSE file in
+                                                * the root directory of this source tree.
+                                                *
+                                                * 
+                                                * @format
+                                                */
+
 const DEFAULT_ANALYTICS_SOURCE_KEY = 'command';
 
 class MultiRootChangedFilesView extends _react.PureComponent {
@@ -138,130 +119,6 @@ class MultiRootChangedFilesView extends _react.PureComponent {
     this._itemSelector = `.${props.commandPrefix}.nuclide-ui-multi-root-file-tree-container .nuclide-changed-file`;
   }
 
-  componentDidMount() {
-    this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-    const { commandPrefix, openInDiffViewOption } = this.props;
-    this._subscriptions.add(atom.contextMenu.add({
-      [this._itemSelector]: [{ type: 'separator' }, {
-        label: 'Add file to Mercurial',
-        command: `${commandPrefix}:add`,
-        shouldDisplay: event => {
-          return this._getStatusCodeForFile(event) === (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.UNTRACKED;
-        }
-      }, {
-        label: 'Open file in Diff View',
-        command: `${commandPrefix}:open-in-diff-view`,
-        shouldDisplay: event => {
-          return atom.packages.isPackageLoaded('fb-diff-view') && openInDiffViewOption;
-        }
-      }, {
-        label: 'Revert File',
-        command: `${commandPrefix}:revert`,
-        shouldDisplay: event => {
-          const statusCode = this._getStatusCodeForFile(event);
-          if (statusCode == null) {
-            return false;
-          }
-          return (_nuclideVcsBase || _load_nuclideVcsBase()).RevertibleStatusCodes.includes(statusCode);
-        }
-      }, {
-        label: 'Delete File',
-        command: `${commandPrefix}:delete-file`,
-        shouldDisplay: event => {
-          const statusCode = this._getStatusCodeForFile(event);
-          return statusCode !== (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.REMOVED;
-        }
-      }, {
-        label: 'Goto File',
-        command: `${commandPrefix}:goto-file`
-      }, {
-        label: 'Copy File Name',
-        command: `${commandPrefix}:copy-file-name`
-      }, {
-        label: 'Copy Full Path',
-        command: `${commandPrefix}:copy-full-path`
-      }, {
-        label: 'Forget file',
-        command: `${commandPrefix}:forget-file`,
-        shouldDisplay: event => {
-          const statusCode = this._getStatusCodeForFile(event);
-          return statusCode !== (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.REMOVED && statusCode !== (_nuclideVcsBase || _load_nuclideVcsBase()).FileChangeStatus.UNTRACKED;
-        }
-      }, { type: 'separator' }]
-    }));
-
-    this._subscriptions.add(atom.commands.add(this._itemSelector, `${commandPrefix}:goto-file`, event => {
-      const filePath = this._getFilePathFromEvent(event);
-      if (filePath != null && filePath.length) {
-        (0, (_goToLocation || _load_goToLocation()).goToLocation)(filePath);
-      }
-    }));
-
-    this._subscriptions.add(atom.commands.add(this._itemSelector, `${commandPrefix}:copy-full-path`, event => {
-      atom.clipboard.write((_nuclideUri || _load_nuclideUri()).default.getPath(this._getFilePathFromEvent(event) || ''));
-    }));
-    this._subscriptions.add(atom.commands.add(this._itemSelector, `${commandPrefix}:delete-file`, event => {
-      const nuclideFilePath = this._getFilePathFromEvent(event);
-      this._handleDeleteFile(nuclideFilePath);
-    }));
-    this._subscriptions.add(atom.commands.add(this._itemSelector, `${commandPrefix}:copy-file-name`, event => {
-      atom.clipboard.write((_nuclideUri || _load_nuclideUri()).default.basename(this._getFilePathFromEvent(event) || ''));
-    }));
-    this._subscriptions.add(atom.commands.add(this._itemSelector, `${commandPrefix}:add`, event => {
-      const filePath = this._getFilePathFromEvent(event);
-      if (filePath != null && filePath.length) {
-        this._handleAddFile(filePath);
-      }
-    }));
-    this._subscriptions.add(atom.commands.add(this._itemSelector, `${commandPrefix}:revert`, event => {
-      const filePath = this._getFilePathFromEvent(event);
-      if (filePath != null && filePath.length) {
-        this._handleRevertFile(filePath);
-      }
-    }));
-    this._subscriptions.add(atom.commands.add(this._itemSelector, `${commandPrefix}:open-in-diff-view`, event => {
-      const filePath = this._getFilePathFromEvent(event);
-      if (filePath != null && filePath.length) {
-        this._handleOpenFileInDiffView(filePath);
-      }
-    }));
-    this._subscriptions.add(atom.commands.add(this._itemSelector, `${commandPrefix}:forget-file`, event => {
-      const filePath = this._getFilePathFromEvent(event);
-      if (filePath != null && filePath.length) {
-        this._handleForgetFile(filePath);
-      }
-    }));
-  }
-
-  _getStatusCodeForFile(event) {
-    // Walk up the DOM tree to the element containing the relevant data- attributes.
-    const target = event.target.closest('.nuclide-changed-file');
-
-    if (!target) {
-      throw new Error('Invariant violation: "target"');
-    }
-
-    const filePath = target.getAttribute('data-path');
-    const rootPath = target.getAttribute('data-root');
-    // $FlowFixMe
-    const fileStatusesForRoot = this.props.fileStatuses.get(rootPath);
-
-    if (!fileStatusesForRoot) {
-      throw new Error('Invalid rootpath');
-    }
-    // $FlowFixMe
-
-
-    const statusCode = fileStatusesForRoot.get(filePath);
-    return statusCode;
-  }
-
-  _getFilePathFromEvent(event) {
-    const eventTarget = event.currentTarget;
-    // $FlowFixMe
-    return eventTarget.getAttribute('data-path');
-  }
-
   _getAnalyticsSurface() {
     const { analyticsSurface } = this.props;
     return analyticsSurface == null ? 'n/a' : analyticsSurface;
@@ -271,7 +128,6 @@ class MultiRootChangedFilesView extends _react.PureComponent {
     const {
       checkedFiles: checkedFilesByRoot,
       commandPrefix,
-      enableInlineActions,
       fileStatuses: fileStatusesByRoot,
       hideEmptyFolders,
       onFileChecked,
@@ -307,7 +163,6 @@ class MultiRootChangedFilesView extends _react.PureComponent {
           // $FlowFixMe(>=0.53.0) Flow suppress
           _react.createElement((_ChangedFilesList || _load_ChangedFilesList()).default, {
             checkedFiles: checkedFiles,
-            enableInlineActions: enableInlineActions === true,
             fileStatuses: fileStatuses,
             generatedTypes: this.props.generatedTypes,
             key: root,
@@ -327,10 +182,6 @@ class MultiRootChangedFilesView extends _react.PureComponent {
         );
       })
     );
-  }
-
-  componentWillUnmount() {
-    this._subscriptions.dispose();
   }
 }
 exports.MultiRootChangedFilesView = MultiRootChangedFilesView;

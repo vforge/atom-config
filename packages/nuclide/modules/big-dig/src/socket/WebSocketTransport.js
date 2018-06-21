@@ -37,7 +37,7 @@ function _load_compression() {
  * @format
  */
 
-const logger = (0, (_log4js || _load_log4js()).getLogger)('nuclide-server');
+const logger = (0, (_log4js || _load_log4js()).getLogger)('reliable-socket');
 // Do not synchronously compress large payloads (risks blocking the event loop)
 const MAX_SYNC_COMPRESS_LENGTH = 100000;
 
@@ -64,7 +64,7 @@ class WebSocketTransport {
       if (typeof data !== 'string') {
         message = (0, (_compression || _load_compression()).decompress)(data);
       }
-      this._onSocketMessage(message);
+      this._messages.next(message);
     });
 
     socket.on('close', () => {
@@ -85,10 +85,6 @@ class WebSocketTransport {
       // data may be a Uint8Array
       this._emitter.emit('pong', data != null ? String(data) : data);
     });
-  }
-
-  _onSocketMessage(message) {
-    this._messages.next(message);
   }
 
   onMessage() {

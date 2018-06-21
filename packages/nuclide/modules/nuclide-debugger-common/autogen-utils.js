@@ -120,7 +120,15 @@ function getNativeAutoGenConfig(vsAdapterType) {
       'Debug native programs ',
       debugTypeMessage,
       '.'
-    )
+    ),
+    getProcessName(values) {
+      let processName = values.program;
+      const lastSlash = processName.lastIndexOf('/');
+      if (lastSlash >= 0) {
+        processName = processName.substring(lastSlash + 1, processName.length);
+      }
+      return processName;
+    }
   };
 
   const pid = {
@@ -140,7 +148,10 @@ function getNativeAutoGenConfig(vsAdapterType) {
       null,
       'Attach to a running native process ',
       debugTypeMessage
-    )
+    ),
+    getProcessName(values) {
+      return 'Pid: ' + values.pid + ' (' + debugTypeMessage + ')';
+    }
   };
   return {
     launch: autoGenLaunchConfig,

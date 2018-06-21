@@ -7,10 +7,22 @@ exports.setup = undefined;
 
 var _path = _interopRequireDefault(require('path'));
 
-var _FileTreeController;
+var _FileTreeActions;
 
-function _load_FileTreeController() {
-  return _FileTreeController = _interopRequireDefault(require('../lib/FileTreeController'));
+function _load_FileTreeActions() {
+  return _FileTreeActions = _interopRequireDefault(require('../lib/FileTreeActions'));
+}
+
+var _registerCommands;
+
+function _load_registerCommands() {
+  return _registerCommands = _interopRequireDefault(require('../lib/registerCommands'));
+}
+
+var _FileTreeStore;
+
+function _load_FileTreeStore() {
+  return _FileTreeStore = _interopRequireDefault(require('../lib/FileTreeStore'));
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28,9 +40,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* eslint-disable nuclide-internal/prefer-nuclide-uri */
 
-const setup = exports.setup = () => {
+const setup = exports.setup = (store, actions) => {
   const fixturesPath = _path.default.resolve(__dirname, './fixtures');
   atom.project.setPaths([fixturesPath]);
+  actions.updateRootDirectories();
   const workspaceElement = atom.views.getView(atom.workspace);
   // Attach the workspace to the DOM so focus can be determined in tests below.
   const testContainer = document.createElement('div');
@@ -42,6 +55,5 @@ const setup = exports.setup = () => {
   document.body.appendChild(testContainer);
   testContainer.appendChild(workspaceElement);
   // console.log(document.body.innerHTML);
-  const controller = new (_FileTreeController || _load_FileTreeController()).default(null);
-  return { controller };
+  (0, (_registerCommands || _load_registerCommands()).default)(store, actions);
 };

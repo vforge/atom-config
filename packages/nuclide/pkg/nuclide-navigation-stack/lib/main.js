@@ -61,14 +61,11 @@ class Activation {
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
 
     const subscribeEditor = editor => {
-      const subscription = new (_UniversalDisposable || _load_UniversalDisposable()).default(editor.onDidDestroy(() => {
+      this._disposables.addUntilDestroyed(editor, editor.onDidDestroy(() => {
         controller.onDestroy(editor);
-        subscription.dispose();
-        this._disposables.remove(subscription);
       }), editor.onDidChangeCursorPosition(event => {
         controller.updatePosition(editor, event.newBufferPosition);
       }));
-      this._disposables.add(subscription);
     };
 
     const addEditor = addEvent => {

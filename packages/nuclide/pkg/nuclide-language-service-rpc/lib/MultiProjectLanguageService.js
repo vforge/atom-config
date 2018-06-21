@@ -234,6 +234,10 @@ class MultiProjectLanguageService {
     return _rxjsBundlesRxMinJs.Observable.fromPromise(this._getLanguageServiceForFile(fileVersion.filePath)).concatMap(ls => ls.findReferences(fileVersion, position).refCount()).publish();
   }
 
+  async rename(fileVersion, position, newName) {
+    return (await this._getLanguageServiceForFile(fileVersion.filePath)).rename(fileVersion, position, newName);
+  }
+
   async getCoverage(filePath) {
     return (await this._getLanguageServiceForFile(filePath)).getCoverage(filePath);
   }

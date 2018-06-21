@@ -126,14 +126,20 @@ function getJavaConfig() {
       threads: true,
       properties: [entryPointClass, classPath],
       cwdPropertyName: 'cwd',
-      header: null
+      header: null,
+      getProcessName(values) {
+        return values.entryPointClass + ' (Java)';
+      }
     },
     attach: {
       launch: false,
       vsAdapterType: (_constants || _load_constants()).VsAdapterTypes.JAVA,
       threads: true,
       properties: [javaJdwpPort],
-      header: null
+      header: null,
+      getProcessName(values) {
+        return 'Port: ' + values.javaJdwpPort + ' (Java)';
+      }
     }
   };
 }
@@ -159,7 +165,7 @@ function getDefaultSourceSearchPaths(targetUri) {
       searchPaths.push(translatedPath);
 
       if (_sourcePathsService != null) {
-        _sourcePathsService.addKnownSubdirectoryPaths(remote, translatedPath, searchPaths);
+        _sourcePathsService.addKnownJavaSubdirectoryPaths(remote, translatedPath, searchPaths);
       }
     }
   });
@@ -239,9 +245,7 @@ async function resolveConfiguration(configuration) {
 
   const javaAdapterExecutable = await getJavaDebuggerHelpersServiceByNuclideUri(targetUri).getJavaVSAdapterExecutableInfo(false);
   return Object.assign({}, configuration, {
-    properties: Object.assign({}, configuration.properties, {
-      customControlButtons: getCustomControlButtonsForJavaSourcePaths(clickEvents)
-    }),
+    customControlButtons: getCustomControlButtonsForJavaSourcePaths(clickEvents),
     adapterExecutable: javaAdapterExecutable,
     customDisposable,
     onInitializeCallback: async session => {

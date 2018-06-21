@@ -30,9 +30,8 @@ class Activation {
 
     this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default(this._metroAtomService, atom.commands.add('atom-workspace', {
       // Ideally based on CWD, the commands can be disabled and the UI would explain why.
-      'nuclide-metro:start': ({
-        detail
-      }) => {
+      'nuclide-metro:start': event => {
+        const detail = event.detail || {};
         this._metroAtomService.start(detail.tunnelBehavior || 'ask_about_tunnel', detail.port, detail.extraArgs);
       },
       'nuclide-metro:stop': () => this._metroAtomService.stop(),

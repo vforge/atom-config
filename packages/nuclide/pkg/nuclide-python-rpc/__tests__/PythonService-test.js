@@ -46,10 +46,9 @@ function _load_simpleTextBuffer2() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// make sure we don't save absolute paths in snapshots
-const replacePath = str => str.replace(/.*__mocks__/, '<REPLACED>/__mocks__');
+jest.setTimeout(20000);
 
-// Test python file located at fixtures/serverdummy.py
+// make sure we don't save absolute paths in snapshots
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -61,6 +60,9 @@ const replacePath = str => str.replace(/.*__mocks__/, '<REPLACED>/__mocks__');
  * @format
  */
 
+const replacePath = str => str.replace(/.*__mocks__/, '<REPLACED>/__mocks__');
+
+// Test python file located at fixtures/serverdummy.py
 const TEST_FILE = (_nuclideUri || _load_nuclideUri()).default.join(__dirname, '../__mocks__/fixtures', 'serverdummy.py');
 const FILE_CONTENTS = _fs.default.readFileSync(TEST_FILE).toString('utf8');
 
@@ -89,224 +91,200 @@ describe('PythonService', () => {
 
   describe('Completions', () => {
     it('gives a rejected promise when an invalid request is given', async () => {
-      await (async () => {
-        // Basically everything is wrong here, but politely reject the promise.
-        try {
-          await (0, (_AutocompleteHelpers || _load_AutocompleteHelpers()).getCompletions)(serverManager, 'potato', 'tomato', 6, 15);
-          // Fail - this line should not be reachable.
+      // Basically everything is wrong here, but politely reject the promise.
+      try {
+        await (0, (_AutocompleteHelpers || _load_AutocompleteHelpers()).getCompletions)(serverManager, 'potato', 'tomato', 6, 15);
+        // Fail - this line should not be reachable.
 
-          if (!false) {
-            throw new Error('Invariant violation: "false"');
-          }
-        } catch (e) {
-          // Python process should respond with a Traceback for what went wrong while
-          // processing the request.
-          expect(e.startsWith('Traceback')).toBeTruthy();
+        if (!false) {
+          throw new Error('Invariant violation: "false"');
         }
-      })();
+      } catch (e) {
+        // Python process should respond with a Traceback for what went wrong while
+        // processing the request.
+        expect(e.startsWith('Traceback')).toBeTruthy();
+      }
     });
 
     it('can make completion suggestions for imported module member functions', async () => {
-      await (async () => {
-        // line 12: def hello = os.path.isab
-        const response = await (0, (_AutocompleteHelpers || _load_AutocompleteHelpers()).getCompletions)(serverManager, TEST_FILE, FILE_CONTENTS, 11, 20);
+      // line 12: def hello = os.path.isab
+      const response = await (0, (_AutocompleteHelpers || _load_AutocompleteHelpers()).getCompletions)(serverManager, TEST_FILE, FILE_CONTENTS, 11, 20);
 
-        if (!response) {
-          throw new Error('Invariant violation: "response"');
-        }
+      if (!response) {
+        throw new Error('Invariant violation: "response"');
+      }
 
-        expect(response.length).toBeGreaterThan(0);
+      expect(response.length).toBeGreaterThan(0);
 
-        const completion = response[0];
-        expect(completion.text).toEqual('isabs');
-        expect(completion.type).toEqual('function');
-        // Check that description exists.
-        expect(completion.description).toBeTruthy();
-      })();
+      const completion = response[0];
+      expect(completion.text).toEqual('isabs');
+      expect(completion.type).toEqual('function');
+      // Check that description exists.
+      expect(completion.description).toBeTruthy();
     });
 
     it('can make completion suggestions for locally defined variables', async () => {
-      await (async () => {
-        // line 14: potato2 = po
-        const response = await (0, (_AutocompleteHelpers || _load_AutocompleteHelpers()).getCompletions)(serverManager, TEST_FILE, FILE_CONTENTS, 13, 12);
+      // line 14: potato2 = po
+      const response = await (0, (_AutocompleteHelpers || _load_AutocompleteHelpers()).getCompletions)(serverManager, TEST_FILE, FILE_CONTENTS, 13, 12);
 
-        if (!response) {
-          throw new Error('Invariant violation: "response"');
-        }
+      if (!response) {
+        throw new Error('Invariant violation: "response"');
+      }
 
-        expect(response.length).toBeGreaterThan(0);
+      expect(response.length).toBeGreaterThan(0);
 
-        const completion = response[0];
-        expect(completion.text).toEqual('potato');
-        expect(completion.type).toEqual('statement');
-      })();
+      const completion = response[0];
+      expect(completion.text).toEqual('potato');
+      expect(completion.type).toEqual('statement');
     });
 
     it('does not return params for @property methods', async () => {
-      await (async () => {
-        // line 18: a.t
-        const response = await (0, (_AutocompleteHelpers || _load_AutocompleteHelpers()).getCompletions)(serverManager, TEST_FILE, FILE_CONTENTS, 17, 3);
+      // line 18: a.t
+      const response = await (0, (_AutocompleteHelpers || _load_AutocompleteHelpers()).getCompletions)(serverManager, TEST_FILE, FILE_CONTENTS, 17, 3);
 
-        if (!response) {
-          throw new Error('Invariant violation: "response"');
-        }
+      if (!response) {
+        throw new Error('Invariant violation: "response"');
+      }
 
-        expect(response.length).toBeGreaterThan(0);
+      expect(response.length).toBeGreaterThan(0);
 
-        const completion = response[0];
-        expect(completion.text).toEqual('test');
-        expect(completion.type).toEqual('function');
-        expect(completion.params).toBeFalsy();
-      })();
+      const completion = response[0];
+      expect(completion.text).toEqual('test');
+      expect(completion.type).toEqual('function');
+      expect(completion.params).toBeFalsy();
     });
 
     it('includes parameters for assignment completions', async () => {
-      await (async () => {
-        // line 26: a = Tes
-        const response = await (0, (_AutocompleteHelpers || _load_AutocompleteHelpers()).getCompletions)(serverManager, TEST_FILE, FILE_CONTENTS, 25, 7);
+      // line 26: a = Tes
+      const response = await (0, (_AutocompleteHelpers || _load_AutocompleteHelpers()).getCompletions)(serverManager, TEST_FILE, FILE_CONTENTS, 25, 7);
 
-        if (!response) {
-          throw new Error('Invariant violation: "response"');
-        }
+      if (!response) {
+        throw new Error('Invariant violation: "response"');
+      }
 
-        expect(response.length).toBeGreaterThan(0);
+      expect(response.length).toBeGreaterThan(0);
 
-        const completion = response[0];
-        expect(completion.text).toEqual('Test');
-        expect(completion.type).toEqual('class');
-        expect(completion.params).toEqual([]);
-      })();
+      const completion = response[0];
+      expect(completion.text).toEqual('Test');
+      expect(completion.type).toEqual('class');
+      expect(completion.params).toEqual([]);
     });
 
     it('does not include parameters for import statement completions', async () => {
-      await (async () => {
-        // line 9: from decorated import Test
-        const response = await (0, (_AutocompleteHelpers || _load_AutocompleteHelpers()).getCompletions)(serverManager, TEST_FILE, FILE_CONTENTS, 8, 26);
+      // line 9: from decorated import Test
+      const response = await (0, (_AutocompleteHelpers || _load_AutocompleteHelpers()).getCompletions)(serverManager, TEST_FILE, FILE_CONTENTS, 8, 26);
 
-        if (!response) {
-          throw new Error('Invariant violation: "response"');
-        }
+      if (!response) {
+        throw new Error('Invariant violation: "response"');
+      }
 
-        expect(response.length).toBeGreaterThan(0);
+      expect(response.length).toBeGreaterThan(0);
 
-        const completion = response[0];
-        expect(completion.text).toEqual('Test');
-        expect(completion.type).toEqual('class');
-        expect(completion.params).toBeFalsy();
-      })();
+      const completion = response[0];
+      expect(completion.text).toEqual('Test');
+      expect(completion.type).toEqual('class');
+      expect(completion.params).toBeFalsy();
     });
   });
 
   describe('Definitions', () => {
     it('gives a rejected promise when an invalid request is given', async () => {
-      await (async () => {
-        // Basically everything is wrong here, but politely reject the promise.
-        try {
-          const service = await serverManager.getJediService();
-          await service.get_definitions('potato', 'tomato', [], 6, 15);
-          // Fail - this line should not be reachable.
+      // Basically everything is wrong here, but politely reject the promise.
+      try {
+        const service = await serverManager.getJediService();
+        await service.get_definitions('potato', 'tomato', [], 6, 15);
+        // Fail - this line should not be reachable.
 
-          if (!false) {
-            throw new Error('Invariant violation: "false"');
-          }
-        } catch (e) {
-          // Python process should respond with a Traceback for what went wrong while
-          // processing the request.
-          expect(e.startsWith('Traceback')).toBeTruthy();
+        if (!false) {
+          throw new Error('Invariant violation: "false"');
         }
-      })();
+      } catch (e) {
+        // Python process should respond with a Traceback for what went wrong while
+        // processing the request.
+        expect(e.startsWith('Traceback')).toBeTruthy();
+      }
     });
 
     it('can find definitions for imported modules', async () => {
-      await (async () => {
-        // line 9: import os
-        const response = await (0, (_DefinitionHelpers || _load_DefinitionHelpers()).getDefinition)(serverManager, TEST_FILE, bufferOfContents(FILE_CONTENTS), new (_simpleTextBuffer2 || _load_simpleTextBuffer2()).Point(7, 8));
+      // line 9: import os
+      const response = await (0, (_DefinitionHelpers || _load_DefinitionHelpers()).getDefinition)(serverManager, TEST_FILE, bufferOfContents(FILE_CONTENTS), new (_simpleTextBuffer2 || _load_simpleTextBuffer2()).Point(7, 8));
 
-        if (!(response != null)) {
-          throw new Error('Invariant violation: "response != null"');
-        }
+      if (!(response != null)) {
+        throw new Error('Invariant violation: "response != null"');
+      }
 
-        expect(response.definitions.length).toBeGreaterThan(0);
+      expect(response.definitions.length).toBeGreaterThan(0);
 
-        const definition = response.definitions[0];
-        expect(definition.name).toEqual('os');
-        // Path is machine dependent, so just check that it exists and isn't empty.
-        expect(definition.path.length).toBeGreaterThan(0);
-      })();
+      const definition = response.definitions[0];
+      expect(definition.name).toEqual('os');
+      // Path is machine dependent, so just check that it exists and isn't empty.
+      expect(definition.path.length).toBeGreaterThan(0);
     });
 
     it('follows imports until a non-import definition when possible', async () => {
-      await (async () => {
-        // line 17: a = Test()
-        const response = await (0, (_DefinitionHelpers || _load_DefinitionHelpers()).getDefinition)(serverManager, TEST_FILE, bufferOfContents(FILE_CONTENTS), new (_simpleTextBuffer2 || _load_simpleTextBuffer2()).Point(16, 7));
+      // line 17: a = Test()
+      const response = await (0, (_DefinitionHelpers || _load_DefinitionHelpers()).getDefinition)(serverManager, TEST_FILE, bufferOfContents(FILE_CONTENTS), new (_simpleTextBuffer2 || _load_simpleTextBuffer2()).Point(16, 7));
 
-        if (!(response != null)) {
-          throw new Error('Invariant violation: "response != null"');
-        }
+      if (!(response != null)) {
+        throw new Error('Invariant violation: "response != null"');
+      }
 
-        expect(response.definitions.length).toBeGreaterThan(0);
+      expect(response.definitions.length).toBeGreaterThan(0);
 
-        const definition = response.definitions[0];
-        expect(definition.name).toEqual('Test');
-        // Result should be the class definition itself, not the import statement.
-        expect(definition.path).toContain('decorated.py');
-        expect(definition.position.row).toEqual(9);
-        expect(definition.position.column).toEqual(6);
-      })();
+      const definition = response.definitions[0];
+      expect(definition.name).toEqual('Test');
+      // Result should be the class definition itself, not the import statement.
+      expect(definition.path).toContain('decorated.py');
+      expect(definition.position.row).toEqual(9);
+      expect(definition.position.column).toEqual(6);
     });
 
     it('does not follow unresolvable imports', async () => {
-      await (async () => {
-        // line 27: b = Test2()
-        const response = await (0, (_DefinitionHelpers || _load_DefinitionHelpers()).getDefinition)(serverManager, TEST_FILE, bufferOfContents(FILE_CONTENTS), new (_simpleTextBuffer2 || _load_simpleTextBuffer2()).Point(26, 7));
-        expect(response).toBe(null);
-      })();
+      // line 27: b = Test2()
+      const response = await (0, (_DefinitionHelpers || _load_DefinitionHelpers()).getDefinition)(serverManager, TEST_FILE, bufferOfContents(FILE_CONTENTS), new (_simpleTextBuffer2 || _load_simpleTextBuffer2()).Point(26, 7));
+      expect(response).toBe(null);
     });
 
     it('can find the definitions of locally defined variables', async () => {
-      await (async () => {
-        // line 15: potato3 = potato
-        const response = await (0, (_DefinitionHelpers || _load_DefinitionHelpers()).getDefinition)(serverManager, TEST_FILE, bufferOfContents(FILE_CONTENTS), new (_simpleTextBuffer2 || _load_simpleTextBuffer2()).Point(14, 12));
+      // line 15: potato3 = potato
+      const response = await (0, (_DefinitionHelpers || _load_DefinitionHelpers()).getDefinition)(serverManager, TEST_FILE, bufferOfContents(FILE_CONTENTS), new (_simpleTextBuffer2 || _load_simpleTextBuffer2()).Point(14, 12));
 
-        if (!(response != null)) {
-          throw new Error('Invariant violation: "response != null"');
-        }
+      if (!(response != null)) {
+        throw new Error('Invariant violation: "response != null"');
+      }
 
-        expect(response.definitions.length).toBeGreaterThan(0);
+      expect(response.definitions.length).toBeGreaterThan(0);
 
-        const definition = response.definitions[0];
-        expect(definition.name).toEqual('potato');
-        expect(definition.position.row).toEqual(12);
-        // Local variable definition should be within the same file.
-        expect(definition.path).toEqual(TEST_FILE);
-      })();
+      const definition = response.definitions[0];
+      expect(definition.name).toEqual('potato');
+      expect(definition.position.row).toEqual(12);
+      // Local variable definition should be within the same file.
+      expect(definition.path).toEqual(TEST_FILE);
     });
   });
 
   describe('References', () => {
     it('can find the references of locally defined variables', async () => {
-      await (async () => {
-        // line 13: potato = 5
-        const response = await (0, (_PythonService || _load_PythonService())._getReferences)(serverManager, TEST_FILE, FILE_CONTENTS, 12, 2);
+      // line 13: potato = 5
+      const response = await (0, (_PythonService || _load_PythonService())._getReferences)(serverManager, TEST_FILE, FILE_CONTENTS, 12, 2);
 
-        if (!response) {
-          throw new Error('Invariant violation: "response"');
-        }
+      if (!response) {
+        throw new Error('Invariant violation: "response"');
+      }
 
-        expect(response).toEqual([{
-          type: 'statement',
-          text: 'potato',
-          file: TEST_FILE,
-          line: 12,
-          column: 0
-        }, {
-          type: 'statement',
-          text: 'potato',
-          file: TEST_FILE,
-          line: 14,
-          column: 10
-        }]);
-      })();
+      expect(response).toEqual([{
+        type: 'statement',
+        text: 'potato',
+        file: TEST_FILE,
+        line: 12,
+        column: 0
+      }, {
+        type: 'statement',
+        text: 'potato',
+        file: TEST_FILE,
+        line: 14,
+        column: 10
+      }]);
     });
 
     it('can find the references of imported modules', async () => {
@@ -402,16 +380,14 @@ describe('PythonService', () => {
 
   describe('Hover', () => {
     it('displays the docblock for a definition', async () => {
-      await (async () => {
-        const service = await serverManager.getJediService();
-        const response = await service.get_hover(TEST_FILE, FILE_CONTENTS, [], 'Test', 30, 16);
+      const service = await serverManager.getJediService();
+      const response = await service.get_hover(TEST_FILE, FILE_CONTENTS, [], 'Test', 30, 16);
 
-        if (!(response != null)) {
-          throw new Error('Invariant violation: "response != null"');
-        }
+      if (!(response != null)) {
+        throw new Error('Invariant violation: "response != null"');
+      }
 
-        expect(response).toBe('This is a \\*test class.');
-      })();
+      expect(response).toBe('This is a \\*test class.');
     });
   });
 });

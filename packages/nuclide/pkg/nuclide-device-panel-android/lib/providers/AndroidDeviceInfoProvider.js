@@ -30,7 +30,7 @@ class AndroidDeviceInfoProvider {
   }
 
   fetch(host, device) {
-    return (0, (_utils || _load_utils()).getAdbServiceByNuclideUri)(host).getDeviceInfo(device).refCount().map(props => {
+    return (0, (_utils || _load_utils()).getAdbServiceByNuclideUri)(host).getDeviceInfo(device.name).refCount().map(props => {
       const infoMap = new Map();
       for (const [key, value] of props) {
         const beautifulKey = key.toLowerCase().replace('_', ' ');

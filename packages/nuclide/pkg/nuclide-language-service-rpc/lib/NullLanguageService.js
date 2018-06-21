@@ -38,6 +38,10 @@ class NullLanguageService {
     return _rxjsBundlesRxMinJs.Observable.of(null).publish();
   }
 
+  rename(fileVersion, position, newName) {
+    return Promise.resolve(null);
+  }
+
   getCoverage(filePath) {
     return Promise.resolve(null);
   }

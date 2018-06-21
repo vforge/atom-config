@@ -32,6 +32,7 @@ exports.writeFile = writeFile;
 exports.writeFileBuffer = writeFileBuffer;
 exports.getFreeSpace = getFreeSpace;
 exports.tempdir = tempdir;
+exports.getNuclideDir = getNuclideDir;
 
 var _fs = _interopRequireDefault(require('fs'));
 
@@ -61,6 +62,12 @@ function _load_stream() {
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
+var _systemInfo;
+
+function _load_systemInfo() {
+  return _systemInfo = require('../../../commons-node/system-info');
+}
+
 var _nuclideFs;
 
 function _load_nuclideFs() {
@@ -75,6 +82,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * Checks a certain path for existence and returns 'true'/'false' accordingly
+ */
+function exists(path) {
+  return (_nuclideFs || _load_nuclideFs()).ROOT_FS.exists(path);
+}
+
+/**
+ * Starting in the directory `pathToDirectory`, checks if it contains a file named `fileName`.
+ * If so, it returns the path to the file. If not, it successively looks for `fileName` in the
+ * parent directory. If it gets all the way to the root and still does not find the file, then it
+ * returns `null`.
  */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -93,16 +110,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * readFile, writeFile, etc.
  */
 
-function exists(path) {
-  return (_nuclideFs || _load_nuclideFs()).ROOT_FS.exists(path);
-}
-
-/**
- * Starting in the directory `pathToDirectory`, checks if it contains a file named `fileName`.
- * If so, it returns the path to the file. If not, it successively looks for `fileName` in the
- * parent directory. If it gets all the way to the root and still does not find the file, then it
- * returns `null`.
- */
 async function findNearestAncestorNamed(fileName, pathToDirectory) {
   const directory = await (_nuclideFs || _load_nuclideFs()).ROOT_FS.findNearestFile(fileName, pathToDirectory);
   if (directory != null) {
@@ -387,4 +394,8 @@ async function getFreeSpace(path) {
 // Wrapper around fsPromise.tempdir()
 async function tempdir(prefix = '') {
   return (_fsPromise || _load_fsPromise()).default.tempdir(prefix);
+}
+
+async function getNuclideDir() {
+  return (0, (_systemInfo || _load_systemInfo()).getNuclideRealDir)();
 }

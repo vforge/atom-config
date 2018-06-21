@@ -46,7 +46,7 @@ class AndroidDeviceStopProcessProvider {
   }
 
   async run(host, device, proc) {
-    return (0, (_utils || _load_utils()).getAdbServiceByNuclideUri)(host).stopProcess(device, proc.name, proc.pid);
+    return (0, (_utils || _load_utils()).getAdbServiceByNuclideUri)(host).stopProcess(device.name, proc.name, proc.pid);
   }
 }
 exports.AndroidDeviceStopProcessProvider = AndroidDeviceStopProcessProvider;

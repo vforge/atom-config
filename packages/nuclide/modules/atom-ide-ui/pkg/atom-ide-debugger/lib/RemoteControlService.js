@@ -49,28 +49,12 @@ class RemoteControlService {
     this._disposables.dispose();
   }
 
-  onSessionEnd(focusedProcess, disposables) {
+  _onSessionEnd(focusedProcess, disposables) {
     disposables.add(this._service.viewModel.onDidFocusProcess(() => {
       if (!this._service.getModel().getProcesses().includes(focusedProcess)) {
         disposables.dispose();
       }
     }));
-  }
-
-  async startDebugging(processInfo) {
-    const instance = await this.startVspDebugging(processInfo.getProcessConfig());
-
-    processInfo.setVspDebuggerInstance(instance);
-
-    const { focusedProcess } = this._service.viewModel;
-
-    if (!(focusedProcess != null)) {
-      throw new Error('Invariant violation: "focusedProcess != null"');
-    }
-
-    const disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-    disposables.add(processInfo);
-    this.onSessionEnd(focusedProcess, disposables);
   }
 
   async startVspDebugging(config) {
@@ -106,7 +90,7 @@ class RemoteControlService {
       disposables.add(disposable);
     };
 
-    this.onSessionEnd(focusedProcess, disposables);
+    this._onSessionEnd(focusedProcess, disposables);
 
     return Object.freeze({
       customRequest,

@@ -73,20 +73,20 @@ class AutoGenLaunchAttachProvider extends (_DebuggerLaunchAttachProvider || _loa
       },
 
       /**
-       * Returns a list of supported debugger types + environments for the specified action.
-       */
-      getDebuggerTypeNames: super.getCallbacksForAction(action).getDebuggerTypeNames,
-
-      /**
        * Returns the UI component for configuring the specified debugger type and action.
        */
-      getComponent: (debuggerTypeName, configIsValidChanged) => {
+      getComponent: (debuggerTypeName, configIsValidChanged, defaultConfig) => {
         const launchOrAttachConfig = this._config[action];
 
         if (!(launchOrAttachConfig != null)) {
           throw new Error('Invariant violation: "launchOrAttachConfig != null"');
         }
 
+        if (defaultConfig != null) {
+          launchOrAttachConfig.properties = launchOrAttachConfig.properties.map(p => Object.assign({}, p, {
+            defaultValue: defaultConfig[p.name] == null ? p.defaultValue : defaultConfig[p.name]
+          }));
+        }
         return _react.createElement((_AutoGenLaunchAttachUiComponent || _load_AutoGenLaunchAttachUiComponent()).default, {
           targetUri: this.getTargetUri(),
           configIsValidChanged: configIsValidChanged,
@@ -97,7 +97,5 @@ class AutoGenLaunchAttachProvider extends (_DebuggerLaunchAttachProvider || _loa
       }
     };
   }
-
-  dispose() {}
 }
 exports.AutoGenLaunchAttachProvider = AutoGenLaunchAttachProvider;

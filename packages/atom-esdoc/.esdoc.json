@@ -1,0 +1,24 @@
+{
+  "source": "./test",
+  "destination": "./docs",
+  "plugins": [{
+      "name": "esdoc-standard-plugin",
+      "option": {
+        "lint": { "enable": true },
+        "coverage": { "enable": true },
+        "undocumentIdentifier": { "enable": true },
+        "unexportedIdentifier": { "enable": true },
+        "typeInference": { "enable": true },
+        "brand": {
+          "title": "atom-esdoc example"
+        }
+      }
+    },
+    {
+      "name": "esdoc-ecmascript-proposal-plugin",
+      "option": {
+        "all": true
+      }
+    }
+  ]
+}

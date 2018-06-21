@@ -39,6 +39,13 @@ class Tunnel extends _events.default {
     this._transport = transport;
     this._isClosed = false;
     this._logger = (0, (_log4js || _load_log4js()).getLogger)('tunnel');
+    this._refCount = 1;
+
+    if (this._proxy != null) {
+      this._proxy.once('error', error => {
+        this.emit('error', error);
+      });
+    }
   }
 
   static async createTunnel(localPort, remotePort, useIPv4, transport) {
@@ -65,6 +72,14 @@ class Tunnel extends _events.default {
     return new ReverseTunnel(tunnelId, socketManager, localPort, remotePort, useIPv4, transport);
   }
 
+  incrementRefCount() {
+    this._refCount++;
+  }
+
+  hasReferences() {
+    return this._refCount > 0;
+  }
+
   receive(msg) {
     if (this._proxy != null) {
       this._proxy.receive(msg);
@@ -75,15 +90,39 @@ class Tunnel extends _events.default {
     return this._id;
   }
 
+  getLocalPort() {
+    return this._localPort;
+  }
+
+  getRemotePort() {
+    return this._remotePort;
+  }
+
+  getUseIPv4() {
+    return this._useIPv4;
+  }
+
+  getRefCount() {
+    return this._refCount;
+  }
+
+  forceClose() {
+    this._refCount = 0;
+    this.close();
+  }
+
   close() {
-    this._isClosed = true;
-    this.emit('close');
+    this._refCount--;
+    if (!this.hasReferences()) {
+      this._isClosed = true;
+      this.emit('close');
 
-    if (!this._proxy) {
-      throw new Error('Invariant violation: "this._proxy"');
+      if (!this._proxy) {
+        throw new Error('Invariant violation: "this._proxy"');
+      }
+
+      this._proxy.close();
     }
-
-    this._proxy.close();
   }
 }
 
@@ -104,6 +143,10 @@ class ReverseTunnel extends Tunnel {
   constructor(id, socketManager, localPort, remotePort, useIPv4, transport) {
     super(id, null, localPort, remotePort, useIPv4, transport);
     this._socketManager = socketManager;
+
+    this._socketManager.on('error', error => {
+      this.emit('error', error);
+    });
   }
 
   receive(msg) {
@@ -113,18 +156,21 @@ class ReverseTunnel extends Tunnel {
   }
 
   close() {
-    this._isClosed = true;
-    this.emit('close');
+    this._refCount--;
+    if (!this.hasReferences()) {
+      this._isClosed = true;
+      this.emit('close');
 
-    if (!this._socketManager) {
-      throw new Error('Invariant violation: "this._socketManager"');
+      if (!this._socketManager) {
+        throw new Error('Invariant violation: "this._socketManager"');
+      }
+
+      this._socketManager.close();
+      this._transport.send(JSON.stringify({
+        event: 'closeProxy',
+        tunnelId: this._id
+      }));
     }
-
-    this._socketManager.close();
-    this._transport.send(JSON.stringify({
-      event: 'closeProxy',
-      tunnelId: this._id
-    }));
   }
 }
 

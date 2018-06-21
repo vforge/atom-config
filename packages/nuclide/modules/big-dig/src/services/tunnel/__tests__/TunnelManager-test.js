@@ -26,6 +26,8 @@ function _load_util() {
 
 const TEST_PORT_1 = 8091;
 const TEST_PORT_2 = 8092;
+const TEST_PORT_3 = 8093;
+const TEST_PORT_4 = 8094;
 
 describe('TunnelManager', () => {
   let tunnelManager;
@@ -36,6 +38,10 @@ describe('TunnelManager', () => {
     tunnelManager = new (_TunnelManager || _load_TunnelManager()).TunnelManager(testTransport);
   });
 
+  afterEach(() => {
+    tunnelManager.close();
+  });
+
   it('should allow for multiple tunnels to be created', async () => {
     await tunnelManager.createTunnel(TEST_PORT_1, TEST_PORT_1);
     await tunnelManager.createTunnel(TEST_PORT_2, TEST_PORT_2);
@@ -43,6 +49,50 @@ describe('TunnelManager', () => {
     expect(testTransport.send.mock.calls.length).toBe(2);
     const messages = testTransport.send.mock.calls.map(msg => JSON.parse(msg));
     expect(messages[0].tunnelId).not.toEqual(messages[1].tunnelId);
+    tunnelManager.close();
+  });
+
+  it('should throw an error if either port is already bound', async () => {
+    const tunnel = await tunnelManager.createTunnel(TEST_PORT_1, TEST_PORT_2);
+    await expect(tunnelManager.createTunnel(TEST_PORT_1, TEST_PORT_3)).rejects.toThrowErrorMatchingSnapshot();
+
+    await expect(tunnelManager.createTunnel(TEST_PORT_3, TEST_PORT_2)).rejects.toThrowErrorMatchingSnapshot();
+
+    await expect(tunnelManager.createReverseTunnel(TEST_PORT_1, TEST_PORT_2)).rejects.toThrowErrorMatchingSnapshot();
+
+    await expect(tunnelManager.createReverseTunnel(TEST_PORT_1, TEST_PORT_3)).rejects.toThrowErrorMatchingSnapshot();
+
+    tunnel.close();
+    tunnelManager.close();
+  });
+
+  it('should return an the existing tunnel if it already exists', async () => {
+    const tunnelA = await tunnelManager.createTunnel(TEST_PORT_1, TEST_PORT_2);
+    const tunnelB = await tunnelManager.createReverseTunnel(TEST_PORT_3, TEST_PORT_4);
+    const tunnelC = await tunnelManager.createTunnel(TEST_PORT_1, TEST_PORT_2);
+    const tunnelD = await tunnelManager.createReverseTunnel(TEST_PORT_3, TEST_PORT_4);
+
+    expect(tunnelA).toBe(tunnelC);
+    expect(tunnelB).toBe(tunnelD);
+
+    tunnelManager.close();
+  });
+
+  it('should not close a tunnel until all references are removed', async () => {
+    const tunnelA = await tunnelManager.createTunnel(TEST_PORT_1, TEST_PORT_2);
+    const tunnelB = await tunnelManager.createReverseTunnel(TEST_PORT_3, TEST_PORT_4);
+    const tunnelC = await tunnelManager.createTunnel(TEST_PORT_1, TEST_PORT_2);
+    const tunnelD = await tunnelManager.createReverseTunnel(TEST_PORT_3, TEST_PORT_4);
+
+    expect(tunnelManager.tunnels.length).toBe(2);
+    tunnelA.close();
+    expect(tunnelManager.tunnels.length).toBe(2);
+    tunnelC.close();
+    expect(tunnelManager.tunnels.length).toBe(1);
+    tunnelB.close();
+    expect(tunnelManager.tunnels.length).toBe(1);
+    tunnelD.close();
+    expect(tunnelManager.tunnels.length).toBe(0);
     tunnelManager.close();
   });
 
@@ -64,12 +114,13 @@ describe('TunnelManager', () => {
   });
 
   it('should have the correct localPort in the createProxy message when creating a reverse tunnel', async () => {
-    await tunnelManager.createReverseTunnel(TEST_PORT_1, TEST_PORT_2);
+    const tunnel = await tunnelManager.createReverseTunnel(TEST_PORT_1, TEST_PORT_2);
     expect(testTransport.send.mock.calls.length).toBe(1);
     const messages = testTransport.send.mock.calls.map(msg => JSON.parse(msg)).filter(msg => msg.event === 'createProxy');
 
     expect(messages.length).toBe(1);
     expect(messages[0].localPort).toBe(TEST_PORT_2);
+    tunnel.close();
   });
 
   it('should send a closeProxy message when closing a reverse tunnel', async () => {
@@ -78,6 +129,7 @@ describe('TunnelManager', () => {
     expect(testTransport.send.mock.calls.length).toBe(2);
     const messages = testTransport.send.mock.calls.map(msg => JSON.parse(msg));
     expect(messages.filter(msg => msg.event === 'closeProxy').length).toBe(1);
+    tunnel.close();
   });
 
   it('should correctly close tunnels when the tunnel manager is closed', async () => {

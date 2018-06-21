@@ -53,7 +53,7 @@ describe('which', () => {
     it('calls where on Windows', () => {
       const param = '';
       (0, (_which || _load_which()).default)(param);
-      expect(runCommand).toHaveBeenCalledWith('where', ['']);
+      expect(runCommand).toHaveBeenCalledWith('where', [''], {});
     });
 
     it('returns the first match', async () => {
@@ -82,7 +82,7 @@ describe('which', () => {
     it('calls which', () => {
       const param = '';
       (0, (_which || _load_which()).default)(param);
-      expect(runCommand).toHaveBeenCalledWith('which', [param]);
+      expect(runCommand).toHaveBeenCalledWith('which', [param], {});
     });
 
     it('returns the first match', async () => {

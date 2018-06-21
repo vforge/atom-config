@@ -138,21 +138,20 @@ const shouldProvideFlags = {
 
 let autoImportsManager = new (_AutoImportsManager || _load_AutoImportsManager()).AutoImportsManager([]);
 let importFormatter = new (_ImportFormatter || _load_ImportFormatter()).ImportFormatter([], false);
-let completion = new (_Completions || _load_Completions()).Completions(documents, autoImportsManager, importFormatter);
+let completion = new (_Completions || _load_Completions()).Completions(autoImportsManager.getDefinitionManager(), documents, autoImportsManager, importFormatter);
 let diagnostics = new (_Diagnostics || _load_Diagnostics()).Diagnostics(autoImportsManager, importFormatter);
 let codeActions = new (_CodeActions || _load_CodeActions()).CodeActions(autoImportsManager, importFormatter);
 let commandExecuter = new (_CommandExecutor || _load_CommandExecutor()).CommandExecutor(connection, autoImportsManager, importFormatter, documents);
 
 connection.onInitialize(params => {
   const root = params.rootPath || process.cwd();
-  logger.debug('Server initialized.');
   const eslintGlobals = (0, (_Config || _load_Config()).getEslintGlobals)(root);
   const flowConfig = (0, (_Config || _load_Config()).getConfigFromFlow)(root);
   shouldProvideFlags.diagnostics = shouldProvideDiagnostics(params, root);
   importFormatter = new (_ImportFormatter || _load_ImportFormatter()).ImportFormatter(flowConfig.moduleDirs, shouldUseRequires(params, root));
-  autoImportsManager = new (_AutoImportsManager || _load_AutoImportsManager()).AutoImportsManager(eslintGlobals);
+  autoImportsManager = new (_AutoImportsManager || _load_AutoImportsManager()).AutoImportsManager(eslintGlobals, params.initializationOptions.componentModulePathFilter);
   autoImportsManager.indexAndWatchDirectory(root);
-  completion = new (_Completions || _load_Completions()).Completions(documents, autoImportsManager, importFormatter);
+  completion = new (_Completions || _load_Completions()).Completions(autoImportsManager.getDefinitionManager(), documents, autoImportsManager, importFormatter);
   diagnostics = new (_Diagnostics || _load_Diagnostics()).Diagnostics(autoImportsManager, importFormatter);
   codeActions = new (_CodeActions || _load_CodeActions()).CodeActions(autoImportsManager, importFormatter);
   commandExecuter = new (_CommandExecutor || _load_CommandExecutor()).CommandExecutor(connection, autoImportsManager, importFormatter, documents);

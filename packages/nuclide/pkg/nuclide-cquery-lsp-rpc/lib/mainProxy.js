@@ -112,10 +112,32 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "freshenIndexForFile", "promise", _client.marshalArguments(Array.from(arguments), [{
+        name: "file",
+        type: {
+          kind: "named",
+          name: "NuclideUri"
+        }
+      }])).then(value => {
+        return _client.unmarshal(value, {
+          kind: "void"
+        });
+      });
+    }
+
+    restartProcessForFile(arg0) {
+      return _client.callRemoteMethod(_client.marshal(this, {
+        kind: "named",
+        location: {
+          type: "source",
+          fileName: "main.js",
+          line: 60
+        },
+        name: "CqueryLanguageService"
+      }), "restartProcessForFile", "promise", _client.marshalArguments(Array.from(arguments), [{
         name: "file",
         type: {
           kind: "named",
@@ -134,7 +156,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "requestLocationsCommand", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -162,63 +184,13 @@ module.exports = _client => {
       });
     }
 
-    associateFileWithProject(arg0, arg1) {
-      return _client.callRemoteMethod(_client.marshal(this, {
-        kind: "named",
-        location: {
-          type: "source",
-          fileName: "main.js",
-          line: 52
-        },
-        name: "CqueryLanguageService"
-      }), "associateFileWithProject", "promise", _client.marshalArguments(Array.from(arguments), [{
-        name: "file",
-        type: {
-          kind: "named",
-          name: "NuclideUri"
-        }
-      }, {
-        name: "project",
-        type: {
-          kind: "named",
-          name: "CqueryProject"
-        }
-      }])).then(value => {
-        return _client.unmarshal(value, {
-          kind: "void"
-        });
-      });
-    }
-
-    deleteProject(arg0) {
-      return _client.callRemoteMethod(_client.marshal(this, {
-        kind: "named",
-        location: {
-          type: "source",
-          fileName: "main.js",
-          line: 52
-        },
-        name: "CqueryLanguageService"
-      }), "deleteProject", "promise", _client.marshalArguments(Array.from(arguments), [{
-        name: "project",
-        type: {
-          kind: "named",
-          name: "CqueryProject"
-        }
-      }])).then(value => {
-        return _client.unmarshal(value, {
-          kind: "void"
-        });
-      });
-    }
-
     getDiagnostics(arg0) {
       return _client.callRemoteMethod(_client.marshal(this, {
         kind: "named",
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "getDiagnostics", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -244,7 +216,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "observeDiagnostics", "observable", _client.marshalArguments(Array.from(arguments), [])).map(value => {
@@ -261,7 +233,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "getAutocompleteSuggestions", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -299,7 +271,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "getDefinition", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -331,7 +303,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "findReferences", "observable", _client.marshalArguments(Array.from(arguments), [{
@@ -357,13 +329,60 @@ module.exports = _client => {
       }).publish();
     }
 
+    rename(arg0, arg1, arg2) {
+      return _client.callRemoteMethod(_client.marshal(this, {
+        kind: "named",
+        location: {
+          type: "source",
+          fileName: "main.js",
+          line: 60
+        },
+        name: "CqueryLanguageService"
+      }), "rename", "promise", _client.marshalArguments(Array.from(arguments), [{
+        name: "fileVersion",
+        type: {
+          kind: "named",
+          name: "FileVersion"
+        }
+      }, {
+        name: "position",
+        type: {
+          kind: "named",
+          name: "atom$Point"
+        }
+      }, {
+        name: "newName",
+        type: {
+          kind: "string"
+        }
+      }])).then(value => {
+        return _client.unmarshal(value, {
+          kind: "nullable",
+          type: {
+            kind: "map",
+            keyType: {
+              kind: "named",
+              name: "NuclideUri"
+            },
+            valueType: {
+              kind: "array",
+              type: {
+                kind: "named",
+                name: "TextEdit"
+              }
+            }
+          }
+        });
+      });
+    }
+
     getCoverage(arg0) {
       return _client.callRemoteMethod(_client.marshal(this, {
         kind: "named",
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "getCoverage", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -389,7 +408,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "onToggleCoverage", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -410,7 +429,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "getOutline", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -436,7 +455,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "getCodeActions", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -477,7 +496,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "typeHint", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -509,7 +528,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "signatureHelp", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -541,7 +560,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "highlight", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -576,7 +595,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "formatSource", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -617,7 +636,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "formatEntireFile", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -667,7 +686,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "formatAtPosition", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -713,7 +732,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "getAdditionalLogFiles", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -739,7 +758,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "supportsSymbolSearch", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -764,7 +783,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "symbolSearch", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -801,7 +820,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "getProjectRoot", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -827,7 +846,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "isFileInProject", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -849,7 +868,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "getExpandedSelectionRange", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -881,7 +900,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 52
+          line: 60
         },
         name: "CqueryLanguageService"
       }), "getCollapsedSelectionRange", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -1236,6 +1255,15 @@ module.exports = _client => {
             kind: "boolean"
           },
           optional: false
+        }, {
+          name: "defaultFlags",
+          type: {
+            kind: "array",
+            type: {
+              kind: "string"
+            }
+          },
+          optional: false
         }]
       }
     }])).then(value => {
@@ -1338,160 +1366,6 @@ Object.defineProperty(module.exports, "defs", {
             optional: false
           }]
         }
-      }
-    },
-    CqueryProjectWithCompilationDb: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
-        line: 20
-      },
-      name: "CqueryProjectWithCompilationDb",
-      definition: {
-        kind: "object",
-        fields: [{
-          name: "hasCompilationDb",
-          type: {
-            kind: "boolean-literal",
-            value: true
-          },
-          optional: false
-        }, {
-          name: "compilationDbDir",
-          type: {
-            kind: "named",
-            name: "NuclideUri"
-          },
-          optional: false
-        }, {
-          name: "flagsFile",
-          type: {
-            kind: "named",
-            name: "NuclideUri"
-          },
-          optional: false
-        }, {
-          name: "projectRoot",
-          type: {
-            kind: "named",
-            name: "NuclideUri"
-          },
-          optional: false
-        }]
-      }
-    },
-    CqueryProjectWithoutCompilationDb: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
-        line: 26
-      },
-      name: "CqueryProjectWithoutCompilationDb",
-      definition: {
-        kind: "object",
-        fields: [{
-          name: "hasCompilationDb",
-          type: {
-            kind: "boolean-literal",
-            value: false
-          },
-          optional: false
-        }, {
-          name: "defaultFlags",
-          type: {
-            kind: "nullable",
-            type: {
-              kind: "array",
-              type: {
-                kind: "string"
-              }
-            }
-          },
-          optional: false
-        }, {
-          name: "projectRoot",
-          type: {
-            kind: "named",
-            name: "NuclideUri"
-          },
-          optional: false
-        }]
-      }
-    },
-    CqueryProject: {
-      kind: "alias",
-      location: {
-        type: "source",
-        fileName: "types.js",
-        line: 32
-      },
-      name: "CqueryProject",
-      definition: {
-        kind: "union",
-        types: [{
-          kind: "object",
-          fields: [{
-            name: "hasCompilationDb",
-            type: {
-              kind: "boolean-literal",
-              value: true
-            },
-            optional: false
-          }, {
-            name: "compilationDbDir",
-            type: {
-              kind: "named",
-              name: "NuclideUri"
-            },
-            optional: false
-          }, {
-            name: "flagsFile",
-            type: {
-              kind: "named",
-              name: "NuclideUri"
-            },
-            optional: false
-          }, {
-            name: "projectRoot",
-            type: {
-              kind: "named",
-              name: "NuclideUri"
-            },
-            optional: false
-          }]
-        }, {
-          kind: "object",
-          fields: [{
-            name: "hasCompilationDb",
-            type: {
-              kind: "boolean-literal",
-              value: false
-            },
-            optional: false
-          }, {
-            name: "defaultFlags",
-            type: {
-              kind: "nullable",
-              type: {
-                kind: "array",
-                type: {
-                  kind: "string"
-                }
-              }
-            },
-            optional: false
-          }, {
-            name: "projectRoot",
-            type: {
-              kind: "named",
-              name: "NuclideUri"
-            },
-            optional: false
-          }]
-        }],
-        discriminantField: "hasCompilationDb"
       }
     },
     DiagnosticMessageKind: {
@@ -3367,7 +3241,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "main.js",
-        line: 52
+        line: 60
       },
       staticMethods: {},
       instanceMethods: {
@@ -3375,7 +3249,28 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 53
+            line: 61
+          },
+          kind: "function",
+          argumentTypes: [{
+            name: "file",
+            type: {
+              kind: "named",
+              name: "NuclideUri"
+            }
+          }],
+          returnType: {
+            kind: "promise",
+            type: {
+              kind: "void"
+            }
+          }
+        },
+        restartProcessForFile: {
+          location: {
+            type: "source",
+            fileName: "main.js",
+            line: 62
           },
           kind: "function",
           argumentTypes: [{
@@ -3396,7 +3291,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 54
+            line: 63
           },
           kind: "function",
           argumentTypes: [{
@@ -3425,59 +3320,11 @@ Object.defineProperty(module.exports, "defs", {
             }
           }
         },
-        associateFileWithProject: {
-          location: {
-            type: "source",
-            fileName: "main.js",
-            line: 59
-          },
-          kind: "function",
-          argumentTypes: [{
-            name: "file",
-            type: {
-              kind: "named",
-              name: "NuclideUri"
-            }
-          }, {
-            name: "project",
-            type: {
-              kind: "named",
-              name: "CqueryProject"
-            }
-          }],
-          returnType: {
-            kind: "promise",
-            type: {
-              kind: "void"
-            }
-          }
-        },
-        deleteProject: {
-          location: {
-            type: "source",
-            fileName: "main.js",
-            line: 63
-          },
-          kind: "function",
-          argumentTypes: [{
-            name: "project",
-            type: {
-              kind: "named",
-              name: "CqueryProject"
-            }
-          }],
-          returnType: {
-            kind: "promise",
-            type: {
-              kind: "void"
-            }
-          }
-        },
         getDiagnostics: {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 66
+            line: 70
           },
           kind: "function",
           argumentTypes: [{
@@ -3502,7 +3349,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 68
+            line: 72
           },
           kind: "function",
           argumentTypes: [],
@@ -3518,7 +3365,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 70
+            line: 74
           },
           kind: "function",
           argumentTypes: [{
@@ -3555,7 +3402,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 76
+            line: 80
           },
           kind: "function",
           argumentTypes: [{
@@ -3586,7 +3433,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 81
+            line: 85
           },
           kind: "function",
           argumentTypes: [{
@@ -3613,11 +3460,57 @@ Object.defineProperty(module.exports, "defs", {
             }
           }
         },
+        rename: {
+          location: {
+            type: "source",
+            fileName: "main.js",
+            line: 90
+          },
+          kind: "function",
+          argumentTypes: [{
+            name: "fileVersion",
+            type: {
+              kind: "named",
+              name: "FileVersion"
+            }
+          }, {
+            name: "position",
+            type: {
+              kind: "named",
+              name: "atom$Point"
+            }
+          }, {
+            name: "newName",
+            type: {
+              kind: "string"
+            }
+          }],
+          returnType: {
+            kind: "promise",
+            type: {
+              kind: "nullable",
+              type: {
+                kind: "map",
+                keyType: {
+                  kind: "named",
+                  name: "NuclideUri"
+                },
+                valueType: {
+                  kind: "array",
+                  type: {
+                    kind: "named",
+                    name: "TextEdit"
+                  }
+                }
+              }
+            }
+          }
+        },
         getCoverage: {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 86
+            line: 96
           },
           kind: "function",
           argumentTypes: [{
@@ -3642,7 +3535,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 88
+            line: 98
           },
           kind: "function",
           argumentTypes: [{
@@ -3662,7 +3555,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 90
+            line: 100
           },
           kind: "function",
           argumentTypes: [{
@@ -3687,7 +3580,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 92
+            line: 102
           },
           kind: "function",
           argumentTypes: [{
@@ -3727,7 +3620,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 98
+            line: 108
           },
           kind: "function",
           argumentTypes: [{
@@ -3758,7 +3651,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 100
+            line: 110
           },
           kind: "function",
           argumentTypes: [{
@@ -3789,7 +3682,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 105
+            line: 115
           },
           kind: "function",
           argumentTypes: [{
@@ -3823,7 +3716,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 110
+            line: 120
           },
           kind: "function",
           argumentTypes: [{
@@ -3863,7 +3756,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 116
+            line: 126
           },
           kind: "function",
           argumentTypes: [{
@@ -3912,7 +3805,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 125
+            line: 135
           },
           kind: "function",
           argumentTypes: [{
@@ -3957,7 +3850,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 132
+            line: 142
           },
           kind: "function",
           argumentTypes: [{
@@ -3982,7 +3875,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 136
+            line: 146
           },
           kind: "function",
           argumentTypes: [{
@@ -4006,7 +3899,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 138
+            line: 148
           },
           kind: "function",
           argumentTypes: [{
@@ -4042,7 +3935,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 143
+            line: 153
           },
           kind: "function",
           argumentTypes: [{
@@ -4067,7 +3960,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 145
+            line: 155
           },
           kind: "function",
           argumentTypes: [{
@@ -4088,7 +3981,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 147
+            line: 157
           },
           kind: "function",
           argumentTypes: [{
@@ -4119,7 +4012,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 152
+            line: 162
           },
           kind: "function",
           argumentTypes: [{
@@ -4156,7 +4049,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 158
+            line: 168
           },
           kind: "function",
           argumentTypes: [],
@@ -4172,13 +4065,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "main.js",
-        line: 161
+        line: 171
       },
       type: {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 161
+          line: 171
         },
         kind: "function",
         argumentTypes: [{
@@ -4550,13 +4443,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "main.js",
-        line: 192
+        line: 202
       },
       type: {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 192
+          line: 202
         },
         kind: "function",
         argumentTypes: [{
@@ -4594,6 +4487,15 @@ Object.defineProperty(module.exports, "defs", {
               name: "enableLibclangLogs",
               type: {
                 kind: "boolean"
+              },
+              optional: false
+            }, {
+              name: "defaultFlags",
+              type: {
+                kind: "array",
+                type: {
+                  kind: "string"
+                }
               },
               optional: false
             }]

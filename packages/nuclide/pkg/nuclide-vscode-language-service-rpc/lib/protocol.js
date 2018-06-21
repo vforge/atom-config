@@ -234,6 +234,10 @@ const MessageType = exports.MessageType = {
   Log: 4
 };
 
+// window/showStatus is a Nuclide-specific extension to LSP
+// for reporting whether the LSP server is ready to handle requests
+
+
 // Workspace
 
 // An event describing a change to a text document. If range and rangeLength are omitted

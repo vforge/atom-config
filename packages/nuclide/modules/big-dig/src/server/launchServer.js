@@ -28,10 +28,10 @@ function _load_fs() {
   return _fs2 = _interopRequireDefault(require('../common/fs'));
 }
 
-var _NuclideServer;
+var _ServerLauncher;
 
-function _load_NuclideServer() {
-  return _NuclideServer = require('./NuclideServer');
+function _load_ServerLauncher() {
+  return _ServerLauncher = require('./ServerLauncher');
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -69,7 +69,7 @@ async function handleLaunchParams(params) {
     await enforceExclusive(params.exclusive);
   }
 
-  const port = await (0, (_NuclideServer || _load_NuclideServer()).launchServer)({
+  const port = await (0, (_ServerLauncher || _load_ServerLauncher()).launchServer)({
     ports: params.ports,
     webServer: {
       key: params.key,

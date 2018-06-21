@@ -102,7 +102,7 @@ class BreakpointDisplayController {
     });
     const debuggerModel = this._service.getModel();
     this._gutter = gutter;
-    this._disposables.add(gutter.onDidDestroy(this._handleGutterDestroyed.bind(this)), editor.observeGutters(this._registerGutterMouseHandlers.bind(this)), (0, (_event || _load_event()).observableFromSubscribeFunction)(debuggerModel.onDidChangeBreakpoints.bind(debuggerModel))
+    this._disposables.addUntilDestroyed(editor, gutter.onDidDestroy(this._handleGutterDestroyed.bind(this)), editor.observeGutters(this._registerGutterMouseHandlers.bind(this)), (0, (_event || _load_event()).observableFromSubscribeFunction)(debuggerModel.onDidChangeBreakpoints.bind(debuggerModel))
     // Debounce to account for bulk updates and not block the UI
     .let((0, (_observable || _load_observable()).fastDebounce)(10)).startWith(null).subscribe(this._update.bind(this)), this._editor.onDidDestroy(this._handleTextEditorDestroyed.bind(this)), this._registerEditorContextMenuHandler());
   }

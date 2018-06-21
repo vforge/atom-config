@@ -18,6 +18,12 @@ function _load_textEdit() {
   return _textEdit = require('../../../modules/nuclide-commons-atom/text-edit');
 }
 
+var _nuclideAnalytics;
+
+function _load_nuclideAnalytics() {
+  return _nuclideAnalytics = require('../../nuclide-analytics');
+}
+
 var _constantsForClient;
 
 function _load_constantsForClient() {
@@ -90,7 +96,7 @@ async function connectToJSImportsService(connection) {
   const [fileNotifier, host] = await Promise.all([(0, (_nuclideOpenFiles || _load_nuclideOpenFiles()).getNotifierByConnection)(connection), (0, (_nuclideLanguageService || _load_nuclideLanguageService()).getHostServices)()]);
 
   const service = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getVSCodeLanguageServiceByConnection)(connection);
-  const lspService = await service.createMultiLspLanguageService('jsimports', './pkg/nuclide-js-imports-server/src/index-entry.js', [], {
+  const lspService = await service.createMultiLspLanguageService('jsimports', ['./pkg/nuclide-js-imports-server/src/index-entry.js'], [], {
     fileNotifier,
     host,
     logCategory: 'jsimports',
@@ -115,7 +121,7 @@ function createLanguageService() {
     excludeLowerPriority: false,
     analytics: {
       eventName: 'nuclide-js-imports',
-      shouldLogInsertedSuggestion: false
+      shouldLogInsertedSuggestion: true
     },
     disableForSelector: null,
     autocompleteCacherConfig: null,
@@ -136,7 +142,34 @@ function createLanguageService() {
     autocomplete: autocompleteConfig,
     codeAction: codeActionConfig
   };
-  return new (_nuclideLanguageService || _load_nuclideLanguageService()).AtomLanguageService(connectToJSImportsService, atomConfig);
+  return new (_nuclideLanguageService || _load_nuclideLanguageService()).AtomLanguageService(connectToJSImportsService, atomConfig, onDidInsertSuggestion);
+}
+
+function onDidInsertSuggestion({
+  suggestion
+}) {
+  const {
+    description,
+    displayText,
+    extraData,
+    remoteUri,
+    replacementPrefix,
+    snippet,
+    text,
+    type
+  } = suggestion;
+  (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('nuclide-js-imports:insert-suggestion', {
+    suggestion: {
+      description,
+      displayText,
+      extraData,
+      remoteUri,
+      replacementPrefix,
+      snippet,
+      text,
+      type
+    }
+  });
 }
 
 function getAutoImportSettings() {
@@ -146,6 +179,7 @@ function getAutoImportSettings() {
   // their settings and send DidChangeConfiguration requests to the server.
   // TODO: Observe settings changes + send to the server.
   return {
+    componentModulePathFilter: (_featureConfig || _load_featureConfig()).default.get('nuclide-js-imports-client.componentModulePathFilter'),
     diagnosticsWhitelist: (_featureConfig || _load_featureConfig()).default.get('nuclide-js-imports-client.diagnosticsWhitelist'),
     requiresWhitelist: (_featureConfig || _load_featureConfig()).default.get('nuclide-js-imports-client.requiresWhitelist')
   };

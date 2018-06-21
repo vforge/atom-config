@@ -8,6 +8,12 @@ exports.parseFile = parseFile;
 
 var _child_process = _interopRequireDefault(require('child_process'));
 
+var _definitionManager;
+
+function _load_definitionManager() {
+  return _definitionManager = _interopRequireDefault(require('../../../nuclide-ui-component-tools-common/lib/definitionManager'));
+}
+
 var _ExportManager;
 
 function _load_ExportManager() {
@@ -66,21 +72,19 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
-
 const babylonOptions = exports.babylonOptions = {
   sourceType: 'module',
   plugins: ['jsx', 'flow', 'exportExtensions', 'objectRestSpread', 'classProperties', 'optionalChaining']
-};
+}; /**
+    * Copyright (c) 2015-present, Facebook, Inc.
+    * All rights reserved.
+    *
+    * This source code is licensed under the license found in the LICENSE file in
+    * the root directory of this source tree.
+    *
+    * 
+    * @format
+    */
 
 const logger = (0, (_log4js || _load_log4js()).getLogger)();
 
@@ -94,11 +98,17 @@ const MAX_CRASHES = 3;
 
 class AutoImportsManager {
 
-  constructor(globals) {
+  constructor(globals, componentModulePathFilter) {
+    this.componentModulePathFilter = componentModulePathFilter;
+    this.definitionManager = new (_definitionManager || _load_definitionManager()).default();
     this.suggestedImports = new Map();
     this.exportsManager = new (_ExportManager || _load_ExportManager()).ExportManager();
     this.undefinedSymbolsManager = new (_UndefinedSymbolManager || _load_UndefinedSymbolManager()).UndefinedSymbolManager(globals);
     this.crashes = 0;
+  }
+
+  getDefinitionManager() {
+    return this.definitionManager;
   }
 
   // Only indexes the file (used for testing purposes)
@@ -113,7 +123,9 @@ class AutoImportsManager {
   // and listens for messages from this process to index a file.
   indexAndWatchDirectory(root) {
     logger.debug('Indexing the directory', root, 'recursively');
-    const worker = _child_process.default.fork((_nuclideUri || _load_nuclideUri()).default.join(__dirname, 'AutoImportsWorker-entry.js'), [root]);
+    const worker = _child_process.default.fork((_nuclideUri || _load_nuclideUri()).default.join(__dirname, 'AutoImportsWorker-entry.js'), [root], {
+      env: { componentModulePathFilter: this.componentModulePathFilter }
+    });
     worker.on('message', updateForFile => {
       updateForFile.forEach(this.handleUpdateForFile.bind(this));
     });
@@ -157,9 +169,12 @@ class AutoImportsManager {
   }
 
   handleUpdateForFile(update) {
-    const { updateType, file, exports } = update;
+    const { componentDefinition, updateType, file, exports } = update;
     switch (updateType) {
       case 'setExports':
+        if (componentDefinition != null) {
+          this.definitionManager.addDefinition(componentDefinition);
+        }
         this.exportsManager.setExportsForFile(file, exports);
         break;
       case 'deleteExports':

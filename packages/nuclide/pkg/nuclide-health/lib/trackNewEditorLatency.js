@@ -54,8 +54,9 @@ function trackNewEditorLatency() {
       });
     }
   }, unshift), atom.workspace.getCenter().observePanes(pane => {
+    disposables.addUntilDestroyed(pane,
     // $FlowIgnore: emitter is private
-    const paneDisposable = pane.emitter.on('did-change-active-item', item => {
+    pane.emitter.on('did-change-active-item', item => {
       // Adding a new pane item also triggers 'did-change-active-item'.
       if (pendingEditors === 0 && item instanceof _atom.TextEditor) {
         const startTime = performance.now();
@@ -63,12 +64,7 @@ function trackNewEditorLatency() {
           switchEditorTracking.track(performance.now() - startTime);
         });
       }
-    }, unshift);
-    const destroyDisposable = new (_UniversalDisposable || _load_UniversalDisposable()).default(paneDisposable, pane.onDidDestroy(() => {
-      destroyDisposable.dispose();
-      disposables.remove(destroyDisposable);
-    }));
-    disposables.add(destroyDisposable);
+    }, unshift));
   }));
   return disposables;
 }

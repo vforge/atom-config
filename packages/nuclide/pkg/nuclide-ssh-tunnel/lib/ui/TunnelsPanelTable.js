@@ -76,7 +76,7 @@ class TunnelsPanelTable extends _react.Component {
       emptyComponent: () => _react.createElement(
         'div',
         { className: 'nuclide-ssh-tunnels-table-empty-message' },
-        'No SSH tunnels are open.'
+        'No tunnels are open.'
       ),
       rows: rows,
       columns: columns,

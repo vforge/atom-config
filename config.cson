@@ -60,6 +60,7 @@
   "command-palette":
     preserveLastSearch: true
   core:
+    closeDeletedFileTabs: true
     closeEmptyWindows: false
     customFileTypes:
       "source.ini": [

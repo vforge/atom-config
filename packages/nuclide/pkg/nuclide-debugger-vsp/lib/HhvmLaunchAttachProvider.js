@@ -3,8 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getLaunchProcessInfo = getLaunchProcessInfo;
-exports.startAttachProcessInfo = startAttachProcessInfo;
+exports.getLaunchProcessConfig = getLaunchProcessConfig;
+exports.startAttachProcessConfig = startAttachProcessConfig;
 
 var _debugger;
 
@@ -71,19 +71,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @format
  */
 
-const CUSTOM_CPABILITIES = {
-  completionsRequest: true,
-  conditionalBreakpoints: true,
-  continueToLocation: true,
-  setVariable: true,
-  threads: true
-};
-
-const CUSTOM_ATTACH_PROPERTIES = {
-  customControlButtons: getCustomControlButtons(),
-  threadsComponentTitle: 'Requests'
-};
-
 function getCustomControlButtons() {
   const customControlButtons = [{
     icon: 'link-external',
@@ -115,11 +102,6 @@ class HhvmLaunchAttachProvider extends (_nuclideDebuggerCommon || _load_nuclideD
       },
 
       /**
-       * Returns a list of supported debugger types + environments for the specified action.
-       */
-      getDebuggerTypeNames: super.getCallbacksForAction(action).getDebuggerTypeNames,
-
-      /**
        * Returns the UI component for configuring the specified debugger type and action.
        */
       getComponent: (debuggerTypeName, configIsValidChanged) => {
@@ -127,13 +109,13 @@ class HhvmLaunchAttachProvider extends (_nuclideDebuggerCommon || _load_nuclideD
           return _react.createElement((_HhvmLaunchUiComponent || _load_HhvmLaunchUiComponent()).LaunchUiComponent, {
             targetUri: this.getTargetUri(),
             configIsValidChanged: configIsValidChanged,
-            getLaunchProcessInfo: getLaunchProcessInfo
+            getLaunchProcessConfig: getLaunchProcessConfig
           });
         } else if (action === 'attach') {
           return _react.createElement((_HhvmAttachUiComponent || _load_HhvmAttachUiComponent()).AttachUiComponent, {
             targetUri: this.getTargetUri(),
             configIsValidChanged: configIsValidChanged,
-            startAttachProcessInfo: startAttachProcessInfo
+            startAttachProcessConfig: startAttachProcessConfig
           });
         } else {
           if (!false) {
@@ -143,8 +125,6 @@ class HhvmLaunchAttachProvider extends (_nuclideDebuggerCommon || _load_nuclideD
       }
     };
   }
-
-  dispose() {}
 }
 
 exports.default = HhvmLaunchAttachProvider;
@@ -185,10 +165,14 @@ function _getHHVMLaunchConfig(targetUri, scriptPath, scriptArgs, scriptWrapperCo
   return config;
 }
 
-async function getLaunchProcessInfo(targetUri, scriptPath, scriptArgs, scriptWrapperCommand, runInTerminal, cwdPath) {
+function getLaunchProcessConfig(targetUri, scriptPath, scriptArgs, scriptWrapperCommand, runInTerminal, cwdPath) {
   const config = _getHHVMLaunchConfig(targetUri, scriptPath, scriptArgs, scriptWrapperCommand, runInTerminal, cwdPath);
-  const adapterType = (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.HHVM;
-  return new (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VspProcessInfo(targetUri, 'launch', adapterType, null, config, CUSTOM_CPABILITIES);
+  return {
+    targetUri,
+    debugMode: 'launch',
+    adapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.HHVM,
+    config
+  };
 }
 
 function _getHHVMAttachConfig(targetUri, attachPort) {
@@ -216,29 +200,35 @@ function _getHHVMAttachConfig(targetUri, attachPort) {
   return config;
 }
 
-async function startAttachProcessInfo(targetUri, attachPort, serverAttach) {
+async function startAttachProcessConfig(targetUri, attachPort, serverAttach) {
   const config = _getHHVMAttachConfig(targetUri, attachPort);
-  const processInfo = new (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VspProcessInfo(targetUri, 'attach', (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.HHVM, null, config, CUSTOM_CPABILITIES, CUSTOM_ATTACH_PROPERTIES);
+  const processConfig = {
+    targetUri,
+    debugMode: 'attach',
+    adapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.HHVM,
+    config,
+    customControlButtons: getCustomControlButtons(),
+    threadsComponentTitle: 'Requests',
+    customDisposable: new (_UniversalDisposable || _load_UniversalDisposable()).default()
+  };
 
   const debugService = await (0, (_debugger || _load_debugger()).getDebuggerService)();
-  const startDebuggingPromise = debugService.startDebugging(processInfo);
+  const startDebuggingPromise = debugService.startVspDebugging(processConfig);
   try {
     // $FlowFB
     const services = require('./fb-HhvmServices');
     services.startSlog();
 
-    processInfo.addCustomDisposable(new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {
+    processConfig.customDisposable.add(() => {
       services.stopSlog();
-
       if (serverAttach) {
-        services.stopCrashHandler(processInfo);
+        services.stopCrashHandler(processConfig);
       }
-    }));
+    });
 
     if (serverAttach) {
-      await startDebuggingPromise;
-      services.startCrashHandler(targetUri, processInfo, startAttachProcessInfo);
+      const instance = await startDebuggingPromise;
+      services.startCrashHandler(targetUri, processConfig, startAttachProcessConfig, instance);
     }
   } catch (_) {}
-  return processInfo;
 }

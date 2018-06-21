@@ -81,6 +81,7 @@ class VsDebugSession extends (_V8Protocol || _load_V8Protocol()).default {
       // $FlowFixMe flow doesn't consider uuid callable, but it is
       debuggerSessionId: (0, (_uuid || _load_uuid()).default)()
     });
+    this._adapterErrorOutput = '';
 
     this._onDidInitialize = new _rxjsBundlesRxMinJs.Subject();
     this._onDidStop = new _rxjsBundlesRxMinJs.Subject();
@@ -489,6 +490,7 @@ class VsDebugSession extends (_V8Protocol || _load_V8Protocol()).default {
         this._onDidOutput.next(event);
         this._onDidEvent.next(event);
         this._logger.error(`adapter stderr: ${message.data}`);
+        this._adapterErrorOutput = this._adapterErrorOutput + message.data;
       } else {
         if (!(message.kind === 'exit')) {
           throw new Error('Invariant violation: "message.kind === \'exit\'"');
@@ -555,6 +557,11 @@ class VsDebugSession extends (_V8Protocol || _load_V8Protocol()).default {
   }
 
   dispose() {
+    if (this._adapterErrorOutput) {
+      (0, (_analytics || _load_analytics()).track)('vs-debug-session:transaction', Object.assign({}, this._adapterAnalyticsExtras, {
+        response: this._adapterErrorOutput
+      }));
+    }
     this.disconnect();
   }
 }

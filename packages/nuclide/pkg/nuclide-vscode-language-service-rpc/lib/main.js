@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.createMultiLspLanguageService = createMultiLspLanguageService;
+exports.processPlatform = processPlatform;
 
 var _log4js;
 
@@ -15,6 +16,12 @@ var _fsPromise;
 
 function _load_fsPromise() {
   return _fsPromise = _interopRequireDefault(require('../../../modules/nuclide-commons/fsPromise'));
+}
+
+var _promise;
+
+function _load_promise() {
+  return _promise = require('../../../modules/nuclide-commons/promise');
 }
 
 var _which;
@@ -56,17 +63,53 @@ function _load_nuclideLanguageServiceRpc() {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
+function pickCommand(candidates, useFork, cwd) {
+  const options = cwd == null ? {} : { cwd };
+
+  return (0, (_promise || _load_promise()).asyncFind)(candidates, async candidate => {
+    const command = useFork ? (0, (_resolveFrom || _load_resolveFrom()).default)((0, (_systemInfo || _load_systemInfo()).getNuclideRealDir)(), candidate) : candidate;
+    const exists = useFork ? await (_fsPromise || _load_fsPromise()).default.exists(command) : (await (0, (_which || _load_which()).default)(command, options)) != null;
+    return exists ? command : null;
+  });
+}
+
+/**
  * Creates a language service capable of connecting to an LSP server.
  * Note that spawnOptions and initializationOptions must both be RPC-able.
+ *
+ * The 'command_' parameter is a list of candidate filepaths for the LSP
+ * server binary; the first one to be found will be used. They can be relative
+ * to the project directory so long as params.fork isn't used. If none are
+ * relative and none can be found then this function will return null immediately.
+ * If some are relative, then we can only determine whether one can be found at
+ * the moment we're asked to spin up each individual language service, and so
+ * LspLanguageService will necessarily be spun up. Therefore it's recommended
+ * only to use relative paths if your language configuration uses StatusConfig,
+ * so as not to spam the user with red error boxes in case of missing binary.
  */
 async function createMultiLspLanguageService(languageServerName, command_, args, params) {
   const logger = (0, (_log4js || _load_log4js()).getLogger)(params.logCategory);
   logger.setLevel(params.logLevel);
 
-  const command = params.fork ? (0, (_resolveFrom || _load_resolveFrom()).default)((0, (_systemInfo || _load_systemInfo()).getNuclideRealDir)(), command_) : command_;
-  const exists = params.fork ? await (_fsPromise || _load_fsPromise()).default.exists(command) : (await (0, (_which || _load_which()).default)(command)) != null;
-  if (!exists) {
-    const message = `Command "${command}" could not be found: ${languageServerName} language features will be disabled.`;
+  if (command_.length === 0) {
+    throw new Error('Expected a command to launch LSP server');
+  }
+  const lastCandidate = command_.slice(-1)[0];
+  const isProjectRelative = command_.some(c => c.startsWith('./'));
+  let command = isProjectRelative ? null : await pickCommand(command_, params.fork, null);
+
+  if (!isProjectRelative && command == null) {
+    const message = `Command "${lastCandidate}" could not be found: ${languageServerName} language features will be disabled.`;
     logger.warn(message);
     params.host.consoleNotification(languageServerName, 'warning', message);
     return null;
@@ -102,6 +145,13 @@ async function createMultiLspLanguageService(languageServerName, command_, args,
     // We're awaiting until AtomLanguageService has observed diagnostics (to
     // prevent race condition: see below).
 
+    if (isProjectRelative) {
+      command = await pickCommand(command_, params.fork, projectDir);
+    }
+    if (command == null) {
+      command = lastCandidate;
+    }
+
     const lsp = new (_LspLanguageService || _load_LspLanguageService()).LspLanguageService(logger, fileCache, (await (0, (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).forkHostServices)(params.host, logger)), languageServerName, command, args, params.spawnOptions, params.fork, projectDir, params.fileExtensions, params.initializationOptions || {}, Number(params.additionalLogFilesRetentionPeriod), params.useOriginalEnvironment || false, params.lspPreferences);
 
     lsp.start(); // Kick off 'Initializing'...
@@ -117,13 +167,8 @@ async function createMultiLspLanguageService(languageServerName, command_, args,
 
   result.initialize(logger, fileCache, params.host, params.projectFileNames, params.projectFileSearchStrategy, params.fileExtensions, languageServiceFactory);
   return result;
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   * @format
-   */
+}
+
+function processPlatform() {
+  return Promise.resolve(process.platform);
+}

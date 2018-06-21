@@ -17,39 +17,37 @@ var _os = _interopRequireDefault(require('os'));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- * @format
- */
-
-const VALID_PROCESS_REGEX = new RegExp(/\d+\s()/);
+const VALID_PROCESS_REGEX = new RegExp(/\d+\s()/); /**
+                                                    * Copyright (c) 2017-present, Facebook, Inc.
+                                                    * All rights reserved.
+                                                    *
+                                                    * This source code is licensed under the BSD-style license found in the
+                                                    * LICENSE file in the root directory of this source tree. An additional grant
+                                                    * of patent rights can be found in the PATENTS file in the same directory.
+                                                    *
+                                                    * 
+                                                    * @format
+                                                    */
 
 class Processes {
 
-  constructor(db) {
-    this._db = db;
+  constructor(adb) {
+    this._adb = adb;
   }
 
   _getGlobalProcessStat() {
-    return this._db.runShortCommand('shell', 'cat', '/proc/stat').map(stdout => stdout.split(/\n/)[0].trim());
+    return this._adb.runShortCommand('shell', 'cat', '/proc/stat').map(stdout => stdout.split(/\n/)[0].trim());
   }
 
   _getProcStats() {
-    return this._db.runShortCommand('shell', 'for file in /proc/[0-9]*/stat; do cat "$file" 2>/dev/null || true; done').map(stdout => {
+    return this._adb.runShortCommand('shell', 'for file in /proc/[0-9]*/stat; do cat "$file" 2>/dev/null || true; done').map(stdout => {
       return stdout.split(/\n/).filter(line => VALID_PROCESS_REGEX.test(line));
     });
   }
 
   fetch(timeout) {
     const internalTimeout = timeout * 2 / 3;
-    return _rxjsBundlesRxMinJs.Observable.forkJoin(this._db.getProcesses().timeout(internalTimeout).catch(() => _rxjsBundlesRxMinJs.Observable.of([])), this._db.getDebuggableProcesses().timeout(internalTimeout).catch(() => _rxjsBundlesRxMinJs.Observable.of([])), this._getProcessAndMemoryUsage().timeout(internalTimeout).catch(() => _rxjsBundlesRxMinJs.Observable.of(new Map()))).map(([processes, javaProcesses, cpuAndMemUsage]) => {
+    return _rxjsBundlesRxMinJs.Observable.forkJoin(this._adb.getProcesses().timeout(internalTimeout).catch(() => _rxjsBundlesRxMinJs.Observable.of([])), this._adb.getDebuggableProcesses().timeout(internalTimeout).catch(() => _rxjsBundlesRxMinJs.Observable.of([])), this._getProcessAndMemoryUsage().timeout(internalTimeout).catch(() => _rxjsBundlesRxMinJs.Observable.of(new Map()))).map(([processes, javaProcesses, cpuAndMemUsage]) => {
       const javaPids = new Set(javaProcesses.map(javaProc => Number(javaProc.pid)));
       return (0, (_collection || _load_collection()).arrayCompact)(processes.map(simpleProcess => {
         const pid = parseInt(simpleProcess.pid, 10);
@@ -127,7 +125,7 @@ class Processes {
   async getPidFromPackageName(packageName) {
     let pidLines;
     try {
-      pidLines = await this._db.runShortCommand('shell', 'ps', '|', 'grep', '-i', packageName).toPromise();
+      pidLines = await this._adb.runShortCommand('shell', 'ps', '|', 'grep', '-i', packageName).toPromise();
     } catch (e) {
       pidLines = '';
     }

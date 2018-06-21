@@ -27,6 +27,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * remember) so we can use this for now.
  */
 
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ *  strict-local
+ * @format
+ */
+
 function sanitizePathForWindows(path) {
   if ((_nuclideUri || _load_nuclideUri()).default.basename(path) === path) {
     // simple binary in $PATH like `flow`
@@ -34,24 +46,14 @@ function sanitizePathForWindows(path) {
   } else {
     return `${(_nuclideUri || _load_nuclideUri()).default.dirname(path)}:${(_nuclideUri || _load_nuclideUri()).default.basename(path)}`;
   }
-} /**
-   * Copyright (c) 2017-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the BSD-style license found in the
-   * LICENSE file in the root directory of this source tree. An additional grant
-   * of patent rights can be found in the PATENTS file in the same directory.
-   *
-   *  strict-local
-   * @format
-   */
+}
 
-exports.default = async function which(path) {
+exports.default = async function which(path, options = {}) {
   const isWindows = process.platform === 'win32';
   const whichCommand = isWindows ? 'where' : 'which';
   const searchPath = isWindows ? sanitizePathForWindows(path) : path;
   try {
-    const result = await (0, (_process || _load_process()).runCommand)(whichCommand, [searchPath]).toPromise();
+    const result = await (0, (_process || _load_process()).runCommand)(whichCommand, [searchPath], options).toPromise();
     return result.split(_os.default.EOL)[0];
   } catch (e) {
     return null;

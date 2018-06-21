@@ -93,7 +93,7 @@ function isWindowBlank(lastDeepLinkUptime) {
   // 2) it has no visible modal panels
   // 3) no deep link was opened recently
   const BLANK_DEEP_LINK_EXPIRY = 3;
-  return atom.project.getPaths().length === 0 && !atom.workspace.getModalPanels().some(x => x.isVisible()) && (lastDeepLinkUptime == null || process.uptime() - lastDeepLinkUptime < BLANK_DEEP_LINK_EXPIRY);
+  return atom.project.getPaths().length === 0 && !atom.workspace.getModalPanels().some(x => x.isVisible()) && (lastDeepLinkUptime == null || process.uptime() - lastDeepLinkUptime > BLANK_DEEP_LINK_EXPIRY);
 }
 
 class DeepLinkService {

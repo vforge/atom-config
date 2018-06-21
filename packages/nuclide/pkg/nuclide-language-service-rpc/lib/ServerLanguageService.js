@@ -90,6 +90,15 @@ class ServerLanguageService {
     }).publish();
   }
 
+  async rename(fileVersion, position, newName) {
+    const filePath = fileVersion.filePath;
+    const buffer = await (0, (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).getBufferAtVersion)(fileVersion);
+    if (buffer == null) {
+      return null;
+    }
+    return this._service.rename(filePath, buffer, position, newName);
+  }
+
   getCoverage(filePath) {
     return this._service.getCoverage(filePath);
   }

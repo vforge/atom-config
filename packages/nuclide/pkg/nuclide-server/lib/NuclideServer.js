@@ -243,7 +243,6 @@ class NuclideServer {
   _closeConnection(client) {
     if (this._clients.get(client.getTransport().id) === client) {
       this._clients.delete(client.getTransport().id);
-      client.dispose();
     }
   }
 
@@ -325,15 +324,19 @@ class NuclideServer {
   }
 
   close() {
-    if (!(NuclideServer._theServer === this)) {
-      throw new Error('Invariant violation: "NuclideServer._theServer === this"');
-    }
+    return new Promise(resolve => {
+      if (!(NuclideServer._theServer === this)) {
+        throw new Error('Invariant violation: "NuclideServer._theServer === this"');
+      }
 
-    NuclideServer._theServer = null;
+      NuclideServer._theServer = null;
 
-    this._disposables.dispose();
-    this._webSocketServer.close();
-    this._webServer.close();
+      this._disposables.dispose();
+      this._webSocketServer.close();
+      this._webServer.close(() => {
+        resolve();
+      });
+    });
   }
 }
 exports.default = NuclideServer;

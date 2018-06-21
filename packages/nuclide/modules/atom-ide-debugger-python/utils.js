@@ -73,22 +73,25 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- * @format
- */
+let _rpcService = null; /**
+                         * Copyright (c) 2017-present, Facebook, Inc.
+                         * All rights reserved.
+                         *
+                         * This source code is licensed under the BSD-style license found in the
+                         * LICENSE file in the root directory of this source tree. An additional grant
+                         * of patent rights can be found in the PATENTS file in the same directory.
+                         *
+                         * 
+                         * @format
+                         */
 
-let _rpcService = null;
-
-async function getPythonAttachTargetProcessInfo(targetRootUri, target) {
-  return new (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VspProcessInfo(targetRootUri, 'attach', (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.PYTHON, null, getPythonAttachTargetConfig(target), { threads: true });
+function getPythonAttachTargetProcessConfig(targetRootUri, target) {
+  return {
+    targetUri: targetRootUri,
+    debugMode: 'attach',
+    adapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.PYTHON,
+    config: getPythonAttachTargetConfig(target)
+  };
 }
 
 function getPythonAttachTargetConfig(target) {
@@ -130,10 +133,10 @@ function listenToRemoteDebugCommands() {
       return _rxjsBundlesRxMinJs.Observable.empty();
     }).map(command => ({ rootUri, command }));
   }).let((0, (_observable || _load_observable()).fastDebounce)(500)).subscribe(async ({ rootUri, command }) => {
-    const attachProcessInfo = await getPythonAttachTargetProcessInfo(rootUri, command.target);
+    const attachProcessConfig = getPythonAttachTargetProcessConfig(rootUri, command.target);
     const debuggerService = await (0, (_debugger || _load_debugger()).getDebuggerService)();
     (0, (_analytics || _load_analytics()).track)('fb-python-debugger-auto-attach');
-    debuggerService.startDebugging(attachProcessInfo);
+    debuggerService.startVspDebugging(attachProcessConfig);
     // Otherwise, we're already debugging that target.
   }));
 }

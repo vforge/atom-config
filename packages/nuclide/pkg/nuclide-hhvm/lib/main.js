@@ -172,7 +172,7 @@ class Activation {
         // TODO debuggerService.addBreakpoint(navUri, lineNumber - 1);
       }
 
-      await (0, (_HhvmLaunchAttachProvider || _load_HhvmLaunchAttachProvider()).startAttachProcessInfo)(hackRootUri, null /* attachPort */
+      await (0, (_HhvmLaunchAttachProvider || _load_HhvmLaunchAttachProvider()).startAttachProcessConfig)(hackRootUri, null /* attachPort */
       , true /* serverAttach */
       );
     }

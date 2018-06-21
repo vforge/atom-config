@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getServerVersion = getServerVersion;
+exports.getServerPlatform = getServerPlatform;
 exports.closeConnection = closeConnection;
 
 var _nuclideVersion;
@@ -35,13 +36,19 @@ function getServerVersion() {
   return Promise.resolve((0, (_nuclideVersion || _load_nuclideVersion()).getVersion)());
 }
 
+async function getServerPlatform() {
+  return process.platform;
+}
+
 // Mark this as async so the client can wait for an acknowledgement.
 // However, we can't close the connection right away, as otherwise the response never gets sent!
 // Add a small delay to allow the return message to go through.
 function closeConnection(shutdownServer) {
   const client = this;
   setTimeout(() => {
+    // TODO(T29368542): Remove references to NuclideServer here.
     (_NuclideServer || _load_NuclideServer()).default.closeConnection(client);
+    client.dispose();
     if (shutdownServer) {
       (_NuclideServer || _load_NuclideServer()).default.shutdown();
     }

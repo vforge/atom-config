@@ -38,18 +38,20 @@ function _load_nuclideOpenFiles() {
 
 class StatusProvider {
 
-  constructor(name, grammars, priority, observeEventName, clickEventName, connectionToLanguageService, icon) {
+  constructor(name, grammars, connectionToLanguageService, config) {
     this.name = name;
-    this.priority = priority;
     this.grammarScopes = grammars;
-    this.icon = icon;
-    this._observeEventName = observeEventName;
-    this._clickEventName = clickEventName;
     this._connectionToLanguageService = connectionToLanguageService;
+    this.priority = config.priority;
+    this.description = config.description;
+    this.icon = config.icon;
+    this.iconMarkdown = config.iconMarkdown;
+    this._observeEventName = config.observeEventName;
+    this._clickEventName = config.clickEventName;
   }
 
   static register(name, grammars, config, connectionToLanguageService) {
-    return atom.packages.serviceHub.provide('nuclide-language-status', config.version, new StatusProvider(name, grammars, config.priority, config.observeEventName, config.clickEventName, connectionToLanguageService));
+    return atom.packages.serviceHub.provide('nuclide-language-status', config.version, new StatusProvider(name, grammars, connectionToLanguageService, config));
   }
 
   observeStatus(editor) {

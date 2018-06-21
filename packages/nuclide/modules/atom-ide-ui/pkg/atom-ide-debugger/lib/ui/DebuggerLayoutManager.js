@@ -60,10 +60,10 @@ function _load_ThreadsView() {
   return _ThreadsView = _interopRequireDefault(require('./ThreadsView'));
 }
 
-var _MultiTargettedDebuggerView;
+var _DebuggerProcessTreeView;
 
-function _load_MultiTargettedDebuggerView() {
-  return _MultiTargettedDebuggerView = _interopRequireDefault(require('./MultiTargettedDebuggerView'));
+function _load_DebuggerProcessTreeView() {
+  return _DebuggerProcessTreeView = _interopRequireDefault(require('./DebuggerProcessTreeView'));
 }
 
 var _DebuggerCallstackComponent;
@@ -259,8 +259,8 @@ class DebuggerLayoutManager {
       uri: DEBUGGER_URI_BASE + 'threads',
       isLifetimeView: false,
       defaultLocation: (_constants || _load_constants()).DEBUGGER_PANELS_DEFAULT_LOCATION,
-      title: () => getFocusedProcess() == null ? 'Threads' : (0, (_nullthrows || _load_nullthrows()).default)(getFocusedProcess()).configuration.properties.threadsComponentTitle,
-      isEnabled: () => getFocusedProcess() == null ? false : (0, (_nullthrows || _load_nullthrows()).default)(getFocusedProcess()).configuration.capabilities.threads,
+      title: () => getFocusedProcess() == null ? 'Threads' : (0, (_nullthrows || _load_nullthrows()).default)(getFocusedProcess()).configuration.threadsComponentTitle || 'Threads',
+      isEnabled: () => getFocusedProcess() == null ? false : (0, (_nullthrows || _load_nullthrows()).default)(getFocusedProcess()).configuration.showThreads == null ? true : Boolean((0, (_nullthrows || _load_nullthrows()).default)(getFocusedProcess()).configuration.showThreads),
       createView: () => _react.createElement((_ThreadsView || _load_ThreadsView()).default, { service: this._service }),
       debuggerModeFilter: mode => mode !== (_constants || _load_constants()).DebuggerMode.STOPPED
     }];
@@ -368,12 +368,12 @@ class DebuggerLayoutManager {
       _gkService.passesGK('nuclide_multitarget_debugging').then(passes => {
         if (passes) {
           this._debuggerPanes.splice(1, 0, {
-            uri: DEBUGGER_URI_BASE + 'multitargetteddebugging',
+            uri: DEBUGGER_URI_BASE + 'multitargetteddebugger',
             isLifetimeView: false,
             defaultLocation: (_constants || _load_constants()).DEBUGGER_PANELS_DEFAULT_LOCATION,
-            title: () => 'Multi targetted debugging',
+            title: () => 'Multi-Targetted Debugger',
             isEnabled: () => true,
-            createView: () => _react.createElement((_MultiTargettedDebuggerView || _load_MultiTargettedDebuggerView()).default, null)
+            createView: () => _react.createElement((_DebuggerProcessTreeView || _load_DebuggerProcessTreeView()).default, { service: this._service })
           });
           if (this._debuggerVisible) {
             this.showDebuggerViews();

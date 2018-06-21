@@ -157,7 +157,7 @@ class Activation {
       // up textEditor paths as they become visible, and then running them
       // through `hg cat` to get content at head
       const fetchFileContentsAtHead = observeTextEditorsInRepo(repository).flatMap(textEditor => {
-        return (0, (_observePaneItemVisibility || _load_observePaneItemVisibility()).default)(textEditor).filter(isVisible => isVisible).first().flatMap(() => {
+        return (0, (_observePaneItemVisibility || _load_observePaneItemVisibility()).default)(textEditor).takeUntil((0, (_event || _load_event()).observableFromSubscribeFunction)(textEditor.onDidDestroy.bind(textEditor))).filter(isVisible => isVisible).first().flatMap(() => {
           const bufferPath = (0, (_nullthrows || _load_nullthrows()).default)(textEditor.getPath());
           // TODO (tjfryan): do something to handle generated files
           if (fileContentsAtHead.has(bufferPath)) {

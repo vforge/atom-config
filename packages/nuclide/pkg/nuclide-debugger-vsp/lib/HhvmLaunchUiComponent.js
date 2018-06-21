@@ -281,10 +281,10 @@ class LaunchUiComponent extends _react.Component {
 
     this._setRecentlyLaunchedScript(scriptPath, this.state.recentlyLaunchedScripts, cwdPath);
 
-    const processInfo = await this.props.getLaunchProcessInfo(this.props.targetUri, scriptPath, scriptArgs, null, this.state.runInTerminal, cwdPath);
+    const processConfig = this.props.getLaunchProcessConfig(this.props.targetUri, scriptPath, scriptArgs, null, this.state.runInTerminal, cwdPath);
 
     const debuggerService = await (0, (_debugger || _load_debugger()).getDebuggerService)();
-    debuggerService.startDebugging(processInfo);
+    debuggerService.startVspDebugging(processConfig);
 
     (0, (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).serializeDebuggerConfig)(...this._getSerializationArgs(), {
       scriptPath,

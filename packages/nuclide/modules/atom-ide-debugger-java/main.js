@@ -46,7 +46,7 @@ class Activation {
     return {
       type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.JAVA,
       getLaunchAttachProvider: connection => {
-        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider('Java - Desktop', connection, (0, (_utils || _load_utils()).getJavaConfig)());
+        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.JAVA, connection, (0, (_utils || _load_utils()).getJavaConfig)());
       }
     };
   }

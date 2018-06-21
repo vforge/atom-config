@@ -37,8 +37,6 @@ function _load_observable() {
   return _observable = require('../../../modules/nuclide-commons/observable');
 }
 
-var _atom = require('atom');
-
 var _nuclideRemoteConnection;
 
 function _load_nuclideRemoteConnection() {
@@ -73,18 +71,17 @@ function _load_nuclideAnalytics() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
+const { StatusCodeNumber: HgStatusCodeNumber, MergeConflictStatus } = (_nuclideHgRpc || _load_nuclideHgRpc()).hgConstants; /**
+                                                                                                                            * Copyright (c) 2015-present, Facebook, Inc.
+                                                                                                                            * All rights reserved.
+                                                                                                                            *
+                                                                                                                            * This source code is licensed under the license found in the LICENSE file in
+                                                                                                                            * the root directory of this source tree.
+                                                                                                                            *
+                                                                                                                            * 
+                                                                                                                            * @format
+                                                                                                                            */
 
-const { StatusCodeNumber: HgStatusCodeNumber, MergeConflictStatus } = (_nuclideHgRpc || _load_nuclideHgRpc()).hgConstants;
 const vcsInfoCache = {};
 
 async function findVcsHelper(dir) {
@@ -316,30 +313,7 @@ function repositoryForPath(aPath) {
  *   (aka root directory) of the repository, or is the working directory.
  */
 function repositoryContainsPath(repository, filePath) {
-  const workingDirectoryPath = repository.getWorkingDirectory();
-  if (pathsAreEqual(workingDirectoryPath, filePath)) {
-    return true;
-  }
-
-  if (repository.getType() === 'git') {
-    const rootGitProjectDirectory = new _atom.Directory(workingDirectoryPath);
-    return rootGitProjectDirectory.contains(filePath);
-  } else if (repository.getType() === 'hg') {
-    const hgRepository = repository;
-    return hgRepository._sharedMembers.workingDirectory.contains(filePath);
-  }
-  throw new Error('repositoryContainsPath: Received an unrecognized repository type. Expected git or hg.');
-}
-
-/**
- * @param filePath1 An absolute file path.
- * @param filePath2 An absolute file path.
- * @return Whether the file paths are equal, accounting for trailing slashes.
- */
-function pathsAreEqual(filePath1, filePath2) {
-  const realPath1 = (_nuclideUri || _load_nuclideUri()).default.resolve(filePath1);
-  const realPath2 = (_nuclideUri || _load_nuclideUri()).default.resolve(filePath2);
-  return realPath1 === realPath2;
+  return (_nuclideUri || _load_nuclideUri()).default.contains(repository.getWorkingDirectory(), filePath);
 }
 
 function getMultiRootFileChanges(fileChanges, rootPaths) {

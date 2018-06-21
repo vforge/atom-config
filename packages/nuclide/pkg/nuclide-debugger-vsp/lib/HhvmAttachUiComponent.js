@@ -55,17 +55,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
-
 function getColumns() {
   return [{
     title: 'PID',
@@ -76,7 +65,16 @@ function getColumns() {
     key: 'command',
     width: 0.9
   }];
-}
+} /**
+   * Copyright (c) 2015-present, Facebook, Inc.
+   * All rights reserved.
+   *
+   * This source code is licensed under the license found in the LICENSE file in
+   * the root directory of this source tree.
+   *
+   * 
+   * @format
+   */
 
 class AttachUiComponent extends _react.Component {
 
@@ -315,7 +313,7 @@ class AttachUiComponent extends _react.Component {
     const { hostname } = (_nuclideUri || _load_nuclideUri()).default.parseRemoteUri(this.props.targetUri);
     const selectedPath = this.state.attachType === 'webserver' ? this.state.pathMenuItems[this.state.selectedPathIndex].label : '/';
 
-    await this.props.startAttachProcessInfo((_nuclideUri || _load_nuclideUri()).default.createRemoteUri(hostname, selectedPath), this.state.attachPort, this.state.attachType === 'webserver');
+    await this.props.startAttachProcessConfig((_nuclideUri || _load_nuclideUri()).default.createRemoteUri(hostname, selectedPath), this.state.attachPort, this.state.attachType === 'webserver');
 
     (0, (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).serializeDebuggerConfig)(...this._getSerializationArgs(), {
       selectedPath,

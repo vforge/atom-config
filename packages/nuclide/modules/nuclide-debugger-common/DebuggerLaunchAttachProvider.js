@@ -32,6 +32,10 @@ class DebuggerLaunchAttachProvider {
     this._uniqueKey = uniqueKeySeed++;
   }
 
+  getTabName() {
+    return this._debuggingTypeName;
+  }
+
   getCallbacksForAction(action) {
     return {
       /**
@@ -39,13 +43,6 @@ class DebuggerLaunchAttachProvider {
        */
       isEnabled: () => {
         return Promise.resolve(true);
-      },
-
-      /**
-       * Returns a list of supported debugger types + environments for the specified action.
-       */
-      getDebuggerTypeNames: () => {
-        return [this._debuggingTypeName];
       },
 
       /**
@@ -58,24 +55,10 @@ class DebuggerLaunchAttachProvider {
   }
 
   /**
-   * Returns a unique key which can be associated with the component.
-   */
-  getUniqueKey() {
-    return this._uniqueKey;
-  }
-
-  /**
    * Returns target uri for this provider.
    */
   getTargetUri() {
     return this._targetUri;
-  }
-
-  /**
-   * Dispose any resource held by this provider.
-   */
-  dispose() {
-    throw new Error('abstract method');
   }
 }
 exports.default = DebuggerLaunchAttachProvider;

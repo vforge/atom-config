@@ -60,12 +60,12 @@ exports.getHackLanguageForUri = getHackLanguageForUri;
 exports.getHgServiceByNuclideUri = getHgServiceByNuclideUri;
 exports.getHhvmDebuggerServiceByNuclideUri = getHhvmDebuggerServiceByNuclideUri;
 exports.getInfoServiceByNuclideUri = getInfoServiceByNuclideUri;
+exports.getInfoServiceByConnection = getInfoServiceByConnection;
 exports.getMetroServiceByNuclideUri = getMetroServiceByNuclideUri;
 exports.getOpenFilesServiceByNuclideUri = getOpenFilesServiceByNuclideUri;
 exports.getPythonServiceByNuclideUri = getPythonServiceByNuclideUri;
 exports.getPythonServiceByConnection = getPythonServiceByConnection;
 exports.getRemoteCommandServiceByNuclideUri = getRemoteCommandServiceByNuclideUri;
-exports.getSdbServiceByNuclideUri = getSdbServiceByNuclideUri;
 exports.getSocketServiceByNuclideUri = getSocketServiceByNuclideUri;
 exports.getSourceControlServiceByNuclideUri = getSourceControlServiceByNuclideUri;
 exports.getVSCodeLanguageServiceByConnection = getVSCodeLanguageServiceByConnection;
@@ -222,6 +222,10 @@ function getInfoServiceByNuclideUri(uri) {
   return (0, (_nullthrows || _load_nullthrows()).default)((0, (_serviceManager || _load_serviceManager()).getServiceByNuclideUri)('InfoService', uri));
 }
 
+function getInfoServiceByConnection(connection) {
+  return (0, (_serviceManager || _load_serviceManager()).getServiceByConnection)('InfoService', connection);
+}
+
 function getMetroServiceByNuclideUri(uri) {
   return (0, (_nullthrows || _load_nullthrows()).default)((0, (_serviceManager || _load_serviceManager()).getServiceByNuclideUri)('MetroService', uri));
 }
@@ -240,10 +244,6 @@ function getPythonServiceByConnection(connection) {
 
 function getRemoteCommandServiceByNuclideUri(uri) {
   return (0, (_nullthrows || _load_nullthrows()).default)((0, (_serviceManager || _load_serviceManager()).getServiceByNuclideUri)('RemoteCommandService', uri));
-}
-
-function getSdbServiceByNuclideUri(uri) {
-  return (0, (_nullthrows || _load_nullthrows()).default)((0, (_serviceManager || _load_serviceManager()).getServiceByNuclideUri)('SdbService', uri));
 }
 
 function getSocketServiceByNuclideUri(uri) {

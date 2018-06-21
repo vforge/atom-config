@@ -28,20 +28,24 @@ function _load_log4js() {
   return _log4js = require('log4js');
 }
 
+var _promise;
+
+function _load_promise() {
+  return _promise = require('../../../modules/nuclide-commons/promise');
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
-
-const logger = (0, (_log4js || _load_log4js()).getLogger)('nuclide-type-hint');
+const logger = (0, (_log4js || _load_log4js()).getLogger)('nuclide-type-hint'); /**
+                                                                                 * Copyright (c) 2015-present, Facebook, Inc.
+                                                                                 * All rights reserved.
+                                                                                 *
+                                                                                 * This source code is licensed under the license found in the LICENSE file in
+                                                                                 * the root directory of this source tree.
+                                                                                 *
+                                                                                 * 
+                                                                                 * @format
+                                                                                 */
 
 class TypeHintManager {
 
@@ -58,7 +62,12 @@ class TypeHintManager {
   async datatip(editor, position) {
     const grammar = editor.getGrammar();
     const { scopeName } = grammar;
-    const [provider] = this._getMatchingProvidersForScopeName(scopeName);
+    const matchingProviders = this._getMatchingProvidersForScopeName(scopeName);
+
+    return (0, (_promise || _load_promise()).asyncFind)(matchingProviders.map(provider => this._getDatatipFromProvider(editor, position, grammar, provider)), x => x);
+  }
+
+  async _getDatatipFromProvider(editor, position, grammar, provider) {
     if (provider == null) {
       return null;
     }
@@ -75,13 +84,17 @@ class TypeHintManager {
       return;
     }
     const { hint, range } = typeHint;
+    const { scopeName } = grammar;
     // We track the timing above, but we still want to know the number of popups that are shown.
     (_analytics || _load_analytics()).default.track('type-hint-popup', {
       scope: scopeName,
       message: hint
     });
 
-    const markedStrings = hint.map(h => {
+    const markedStrings = hint.filter(h => {
+      // Ignore all results of length 0. Maybe the next provider will do better?
+      return h.value.length > 0;
+    }).map(h => {
       // Flow doesn't like it when I don't specify these as literals.
       if (h.type === 'snippet') {
         return {

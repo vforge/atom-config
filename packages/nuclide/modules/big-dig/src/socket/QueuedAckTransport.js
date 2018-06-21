@@ -30,17 +30,17 @@ function _load_eventKit() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const logger = (0, (_log4js || _load_log4js()).getLogger)('nuclide-server'); /**
-                                                                              * Copyright (c) 2017-present, Facebook, Inc.
-                                                                              * All rights reserved.
-                                                                              *
-                                                                              * This source code is licensed under the BSD-style license found in the
-                                                                              * LICENSE file in the root directory of this source tree. An additional grant
-                                                                              * of patent rights can be found in the PATENTS file in the same directory.
-                                                                              *
-                                                                              * 
-                                                                              * @format
-                                                                              */
+const logger = (0, (_log4js || _load_log4js()).getLogger)('reliable-socket'); /**
+                                                                               * Copyright (c) 2017-present, Facebook, Inc.
+                                                                               * All rights reserved.
+                                                                               *
+                                                                               * This source code is licensed under the BSD-style license found in the
+                                                                               * LICENSE file in the root directory of this source tree. An additional grant
+                                                                               * of patent rights can be found in the PATENTS file in the same directory.
+                                                                               *
+                                                                               * 
+                                                                               * @format
+                                                                               */
 
 const ACK_BUFFER_TIME = exports.ACK_BUFFER_TIME = 100;
 const PENDING_MESSAGE_TIMEOUT = exports.PENDING_MESSAGE_TIMEOUT = 30 * 1000;

@@ -40,7 +40,7 @@ function _load_FileTreeHelpers() {
 var _FileTreeStore;
 
 function _load_FileTreeStore() {
-  return _FileTreeStore = require('../lib/FileTreeStore');
+  return _FileTreeStore = _interopRequireDefault(require('../lib/FileTreeStore'));
 }
 
 var _PathWithFileIcon;
@@ -79,6 +79,12 @@ function _load_ChangedFilesList() {
   return _ChangedFilesList = require('../../nuclide-ui/ChangedFilesList');
 }
 
+var _FileTreeSelectors;
+
+function _load_FileTreeSelectors() {
+  return _FileTreeSelectors = _interopRequireWildcard(require('../lib/FileTreeSelectors'));
+}
+
 var _reselect;
 
 function _load_reselect() {
@@ -95,18 +101,16 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const getActions = (_FileTreeActions || _load_FileTreeActions()).default.getInstance; /**
-                                                                                       * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                       * All rights reserved.
-                                                                                       *
-                                                                                       * This source code is licensed under the license found in the LICENSE file in
-                                                                                       * the root directory of this source tree.
-                                                                                       *
-                                                                                       *  strict-local
-                                                                                       * @format
-                                                                                       */
-
-const store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ *  strict-local
+ * @format
+ */
 
 class OpenFilesListComponent extends _react.PureComponent {
 
@@ -133,9 +137,9 @@ class OpenFilesListComponent extends _react.PureComponent {
 
   _onMouseDown(entry, event) {
     event.stopPropagation();
-    const rootNode = store.getRootForPath(entry.uri);
+    const rootNode = (_FileTreeSelectors || _load_FileTreeSelectors()).getRootForPath(this.props.store, entry.uri);
     if ((_FileTreeHelpers || _load_FileTreeHelpers()).default.getSelectionMode(event) === 'single-select' && !entry.isSelected && rootNode != null) {
-      getActions().setTargetNode(rootNode.rootUri, entry.uri);
+      this.props.actions.setTargetNode(rootNode.rootUri, entry.uri);
       this.setState({ selectedUri: entry.uri });
     }
   }

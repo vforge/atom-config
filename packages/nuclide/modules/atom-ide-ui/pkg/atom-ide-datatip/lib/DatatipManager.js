@@ -649,19 +649,14 @@ class DatatipManager {
 
   constructor() {
     this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-    this._editorManagers = new Map();
+    this._editorManagers = new WeakMap();
     this._datatipProviders = new (_ProviderRegistry || _load_ProviderRegistry()).default();
     this._modifierDatatipProviders = new (_ProviderRegistry || _load_ProviderRegistry()).default();
 
     this._subscriptions.add(atom.workspace.observeTextEditors(editor => {
       const manager = new DatatipManagerForEditor(editor, this._datatipProviders, this._modifierDatatipProviders);
       this._editorManagers.set(editor, manager);
-      const disposable = new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {
-        manager.dispose();
-        this._editorManagers.delete(editor);
-      });
-      this._subscriptions.add(disposable);
-      editor.onDidDestroy(() => disposable.dispose());
+      this._subscriptions.addUntilDestroyed(editor, manager);
     }));
   }
 
@@ -683,10 +678,6 @@ class DatatipManager {
 
   dispose() {
     this._subscriptions.dispose();
-    this._editorManagers.forEach(manager => {
-      manager.dispose();
-    });
-    this._editorManagers = new Map();
   }
 }
 exports.DatatipManager = DatatipManager;

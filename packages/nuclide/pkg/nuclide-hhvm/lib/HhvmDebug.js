@@ -18,7 +18,7 @@ function _load_HhvmLaunchAttachProvider() {
 }
 
 async function debug(debugMode, activeProjectRoot, target, useTerminal, scriptArguments) {
-  let processInfo = null;
+  let processConfig = null;
 
   if (!(activeProjectRoot != null)) {
     throw new Error('Active project is null');
@@ -30,28 +30,28 @@ async function debug(debugMode, activeProjectRoot, target, useTerminal, scriptAr
   try {
     // $FlowFB
     const helper = require('./fb-hhvm');
-    processInfo = await helper.getCustomLaunchInfo(debugMode, activeProjectRoot, target, scriptArguments);
+    processConfig = await helper.getCustomLaunchInfo(debugMode, activeProjectRoot, target, scriptArguments);
   } catch (e) {}
 
-  if (processInfo == null) {
+  if (processConfig == null) {
     if (debugMode === 'script') {
-      processInfo = await (0, (_HhvmLaunchAttachProvider || _load_HhvmLaunchAttachProvider()).getLaunchProcessInfo)(activeProjectRoot, target, scriptArguments, null /* script wrapper */
+      processConfig = (0, (_HhvmLaunchAttachProvider || _load_HhvmLaunchAttachProvider()).getLaunchProcessConfig)(activeProjectRoot, target, scriptArguments, null /* script wrapper */
       , useTerminal, '' /* cwdPath */
       );
     } else {
-      await (0, (_HhvmLaunchAttachProvider || _load_HhvmLaunchAttachProvider()).startAttachProcessInfo)(activeProjectRoot, null /* attachPort */
+      await (0, (_HhvmLaunchAttachProvider || _load_HhvmLaunchAttachProvider()).startAttachProcessConfig)(activeProjectRoot, null /* attachPort */
       , true /* serverAttach */
       );
       return;
     }
   }
 
-  if (!(processInfo != null)) {
-    throw new Error('Invariant violation: "processInfo != null"');
+  if (!(processConfig != null)) {
+    throw new Error('Invariant violation: "processConfig != null"');
   }
 
   const debuggerService = await (0, (_debugger || _load_debugger()).getDebuggerService)();
-  await debuggerService.startDebugging(processInfo);
+  await debuggerService.startVspDebugging(processConfig);
 }
 // eslint-disable-next-line nuclide-internal/no-cross-atom-imports
 

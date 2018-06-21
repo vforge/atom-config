@@ -114,7 +114,7 @@ function lspLocationWithTitle_atomDefinition(location, projectRoot) {
     position: lspPosition_atomPoint(location.range.start),
     language: 'lsp', // pointless; only ever used to judge equality of two defs
     projectRoot, // used to relativize paths when showing multiple targets
-    name: location.title // (Nuclide-only)
+    name: location.title == null ? undefined : location.title // nuclide-only
   };
 }
 
@@ -511,8 +511,9 @@ function atomTrace_lspRelatedLocation(trace) {
   return null;
 }
 
-function lspDiagnostic_atomDiagnostic(diagnostic, filePath) {
-  let providerName = diagnostic.source != null ? diagnostic.source : 'LSP';
+function lspDiagnostic_atomDiagnostic(diagnostic, filePath, // has already been converted for us
+defaultSource) {
+  let providerName = diagnostic.source != null ? diagnostic.source : defaultSource;
   if (diagnostic.code != null) {
     providerName = providerName + ': ' + String(diagnostic.code);
   }
@@ -554,9 +555,9 @@ function atomDiagnostic_lspDiagnostic(diagnostic) {
   return null;
 }
 
-function lspDiagnostics_atomDiagnostics(params) {
+function lspDiagnostics_atomDiagnostics(params, defaultSource) {
   const filePath = lspUri_localPath(params.uri);
-  return new Map([[filePath, params.diagnostics.map(d => lspDiagnostic_atomDiagnostic(d, filePath))]]);
+  return new Map([[filePath, params.diagnostics.map(d => lspDiagnostic_atomDiagnostic(d, filePath, defaultSource))]]);
 }
 
 function codeLensData_lspCodeLens(codeLensData) {

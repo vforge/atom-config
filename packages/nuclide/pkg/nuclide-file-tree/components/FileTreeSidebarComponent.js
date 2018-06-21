@@ -99,7 +99,7 @@ function _load_FileTreeActions() {
 var _FileTreeStore;
 
 function _load_FileTreeStore() {
-  return _FileTreeStore = require('../lib/FileTreeStore');
+  return _FileTreeStore = _interopRequireDefault(require('../lib/FileTreeStore'));
 }
 
 var _MultiRootChangedFilesView;
@@ -188,14 +188,32 @@ function _load_reselect() {
   return _reselect = require('reselect');
 }
 
+var _FileTreeSelectors;
+
+function _load_FileTreeSelectors() {
+  return _FileTreeSelectors = _interopRequireWildcard(require('../lib/FileTreeSelectors'));
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+/* global HTMLElement */
+
 class FileTreeSidebarComponent extends _react.Component {
   // $FlowFixMe flow does not recognize VirtualizedFileTree as React component
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this._setScrollerRef = node => {
       this._scrollerRef = node;
@@ -232,19 +250,19 @@ class FileTreeSidebarComponent extends _react.Component {
     };
 
     this._processExternalUpdate = () => {
-      const shouldRenderToolbar = !this._store.roots.isEmpty();
-      const openFilesUris = this._store.getOpenFilesWorkingSet().getAbsoluteUris();
-      const uncommittedFileChanges = this._store.getFileChanges();
-      const generatedOpenChangedFiles = this._store.getGeneratedOpenChangedFiles();
-      const isCalculatingChanges = this._store.getIsCalculatingChanges();
+      const shouldRenderToolbar = !(_FileTreeSelectors || _load_FileTreeSelectors()).isEmpty(this.props.store);
+      const openFilesUris = (_FileTreeSelectors || _load_FileTreeSelectors()).getOpenFilesWorkingSet(this.props.store).getAbsoluteUris();
+      const uncommittedFileChanges = (_FileTreeSelectors || _load_FileTreeSelectors()).getFileChanges(this.props.store);
+      const generatedOpenChangedFiles = (_FileTreeSelectors || _load_FileTreeSelectors()).getGeneratedOpenChangedFiles(this.props.store);
+      const isCalculatingChanges = (_FileTreeSelectors || _load_FileTreeSelectors()).getIsCalculatingChanges(this.props.store);
       const title = this.getTitle();
       const path = this.getPath();
-      const workingSetsStore = this._store.getWorkingSetsStore();
-      const filter = this._store.getFilter();
-      const filterFound = this._store.getFilterFound();
-      const foldersExpanded = this._store.foldersExpanded;
-      const uncommittedChangesExpanded = this._store.uncommittedChangesExpanded;
-      const openFilesExpanded = this._store.openFilesExpanded;
+      const workingSetsStore = (_FileTreeSelectors || _load_FileTreeSelectors()).getWorkingSetsStore(this.props.store);
+      const filter = (_FileTreeSelectors || _load_FileTreeSelectors()).getFilter(this.props.store);
+      const filterFound = (_FileTreeSelectors || _load_FileTreeSelectors()).getFilterFound(this.props.store);
+      const foldersExpanded = (_FileTreeSelectors || _load_FileTreeSelectors()).getFoldersExpanded(this.props.store);
+      const uncommittedChangesExpanded = (_FileTreeSelectors || _load_FileTreeSelectors()).getUncommittedChangesExpanded(this.props.store);
+      const openFilesExpanded = (_FileTreeSelectors || _load_FileTreeSelectors()).getOpenFilesExpanded(this.props.store);
 
       this.setState({
         shouldRenderToolbar,
@@ -272,16 +290,16 @@ class FileTreeSidebarComponent extends _react.Component {
       if (isCollapsed) {
         this.setState({ isFileTreeHovered: false });
       }
-      this._actions.setFoldersExpanded(!isCollapsed);
+      this.props.actions.setFoldersExpanded(!isCollapsed);
     };
 
     this._handleOpenFilesExpandedChange = isCollapsed => {
-      this._actions.setOpenFilesExpanded(!isCollapsed);
+      this.props.actions.setOpenFilesExpanded(!isCollapsed);
     };
 
     this._handleUncommittedFilesExpandedChange = isCollapsed => {
       (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('filetree-uncommitted-file-changes-toggle');
-      this._actions.setUncommittedChangesExpanded(!isCollapsed);
+      this.props.actions.setUncommittedChangesExpanded(!isCollapsed);
     };
 
     this._handleUncommittedChangesKindDownArrow = event => {
@@ -313,8 +331,6 @@ class FileTreeSidebarComponent extends _react.Component {
     };
 
     this._getFilteredUncommittedFileChanges = (0, (_reselect || _load_reselect()).createSelector)([state => state.uncommittedFileChanges], filterMultiRootFileChanges);
-    this._actions = (_FileTreeActions || _load_FileTreeActions()).default.getInstance();
-    this._store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
     this._emitter = new _atom.Emitter();
     this.state = {
       hidden: false,
@@ -333,12 +349,12 @@ class FileTreeSidebarComponent extends _react.Component {
       path: 'No Current Working Directory',
       title: 'File Tree',
       isFileTreeHovered: false,
-      workingSetsStore: this._store.getWorkingSetsStore(),
-      filter: this._store.getFilter(),
-      filterFound: this._store.getFilterFound(),
-      foldersExpanded: this._store.foldersExpanded,
-      uncommittedChangesExpanded: this._store.uncommittedChangesExpanded,
-      openFilesExpanded: this._store.openFilesExpanded
+      workingSetsStore: (_FileTreeSelectors || _load_FileTreeSelectors()).getWorkingSetsStore(this.props.store),
+      filter: (_FileTreeSelectors || _load_FileTreeSelectors()).getFilter(this.props.store),
+      filterFound: (_FileTreeSelectors || _load_FileTreeSelectors()).getFilterFound(this.props.store),
+      foldersExpanded: (_FileTreeSelectors || _load_FileTreeSelectors()).getFoldersExpanded(this.props.store),
+      uncommittedChangesExpanded: (_FileTreeSelectors || _load_FileTreeSelectors()).getUncommittedChangesExpanded(this.props.store),
+      openFilesExpanded: (_FileTreeSelectors || _load_FileTreeSelectors()).getOpenFilesExpanded(this.props.store)
     };
     this._showOpenConfigValues = (0, (_observable || _load_observable()).cacheWhileSubscribed)((_featureConfig || _load_featureConfig()).default.observeAsStream((_Constants || _load_Constants()).SHOW_OPEN_FILE_CONFIG_KEY));
     this._showUncommittedConfigValue = (0, (_observable || _load_observable()).cacheWhileSubscribed)((_featureConfig || _load_featureConfig()).default.observeAsStream((_Constants || _load_Constants()).SHOW_UNCOMMITTED_CHANGES_CONFIG_KEY));
@@ -359,7 +375,7 @@ class FileTreeSidebarComponent extends _react.Component {
 
     this._processExternalUpdate();
 
-    this._disposables.add(this._store.subscribe(this._processExternalUpdate), observeAllModifiedStatusChanges().let((0, (_observable || _load_observable()).toggle)(this._showOpenConfigValues)).subscribe(() => this._setModifiedUris()), this._monitorActiveUri(), this._showOpenConfigValues.subscribe(showOpenFiles => this.setState({ showOpenFiles })), this._showUncommittedConfigValue.subscribe(showUncommittedChanges => this.setState({ showUncommittedChanges })), this._showUncommittedKindConfigValue.subscribe(showUncommittedChangesKind => this.setState({ showUncommittedChangesKind })),
+    this._disposables.add(this.props.store.subscribe(this._processExternalUpdate), observeAllModifiedStatusChanges().let((0, (_observable || _load_observable()).toggle)(this._showOpenConfigValues)).subscribe(() => this._setModifiedUris()), this._monitorActiveUri(), this._showOpenConfigValues.subscribe(showOpenFiles => this.setState({ showOpenFiles })), this._showUncommittedConfigValue.subscribe(showUncommittedChanges => this.setState({ showUncommittedChanges })), this._showUncommittedKindConfigValue.subscribe(showUncommittedChangesKind => this.setState({ showUncommittedChangesKind })),
     // Customize the context menu to remove items that match the 'atom-pane' selector.
     _rxjsBundlesRxMinJs.Observable.fromEvent(componentDOMNode, 'contextmenu').switchMap(event => {
       if (event.button !== 2) {
@@ -402,7 +418,7 @@ class FileTreeSidebarComponent extends _react.Component {
       if ((_featureConfig || _load_featureConfig()).default.get((_Constants || _load_Constants()).REVEAL_FILE_ON_SWITCH_SETTING)) {
         atom.commands.dispatch(atom.views.getView(atom.workspace), 'tree-view:reveal-active-file');
       }
-      this._actions.clearFilter();
+      this.props.actions.clearFilter();
     }
   }
 
@@ -435,7 +451,9 @@ class FileTreeSidebarComponent extends _react.Component {
       }),
       this.state.foldersExpanded && _react.createElement((_FileTreeToolbarComponent || _load_FileTreeToolbarComponent()).FileTreeToolbarComponent, {
         key: 'toolbar',
-        workingSetsStore: workingSetsStore
+        workingSetsStore: workingSetsStore,
+        store: this.props.store,
+        actions: this.props.actions
       })
     );
   }
@@ -537,7 +555,9 @@ All the changes across your entire stacked diff.
       uris: this.state.openFilesUris,
       modifiedUris: this.state.modifiedUris,
       generatedTypes: this.state.generatedOpenChangedFiles,
-      activeUri: this.state.activeUri
+      activeUri: this.state.activeUri,
+      store: this.props.store,
+      actions: this.props.actions
     }) : null;
     return _react.createElement(
       (_LockableHeightComponent || _load_LockableHeightComponent()).LockableHeight,
@@ -592,7 +612,9 @@ All the changes across your entire stacked diff.
         onScroll: this._handleScroll,
         height: this.state.scrollerHeight,
         width: this.state.scrollerWidth,
-        initialScrollTop: this._scrollerScrollTop
+        initialScrollTop: this._scrollerScrollTop,
+        store: this.props.store,
+        actions: this.props.actions
       })
     );
   }
@@ -665,7 +687,7 @@ All the changes across your entire stacked diff.
   }
 
   getTitle() {
-    const cwdKey = this._store.getCwdKey();
+    const cwdKey = (_FileTreeSelectors || _load_FileTreeSelectors()).getCwdKey(this.props.store);
     if (cwdKey == null) {
       return 'File Tree';
     }
@@ -676,7 +698,7 @@ All the changes across your entire stacked diff.
   // This is unfortunate, but Atom uses getTitle() to get the text in the tab and getPath() to get
   // the text in the tool-tip.
   getPath() {
-    const cwdKey = this._store.getCwdKey();
+    const cwdKey = (_FileTreeSelectors || _load_FileTreeSelectors()).getCwdKey(this.props.store);
     if (cwdKey == null) {
       return 'No Current Working Directory';
     }
@@ -739,18 +761,7 @@ All the changes across your entire stacked diff.
   }
 }
 
-exports.default = FileTreeSidebarComponent; /**
-                                             * Copyright (c) 2015-present, Facebook, Inc.
-                                             * All rights reserved.
-                                             *
-                                             * This source code is licensed under the license found in the LICENSE file in
-                                             * the root directory of this source tree.
-                                             *
-                                             * 
-                                             * @format
-                                             */
-/* global HTMLElement */
-
+exports.default = FileTreeSidebarComponent;
 function observeAllModifiedStatusChanges() {
   const paneItemChangeEvents = _rxjsBundlesRxMinJs.Observable.merge((0, (_event || _load_event()).observableFromSubscribeFunction)(atom.workspace.onDidAddPaneItem.bind(atom.workspace)), (0, (_event || _load_event()).observableFromSubscribeFunction)(atom.workspace.onDidDestroyPaneItem.bind(atom.workspace))).startWith(undefined);
 

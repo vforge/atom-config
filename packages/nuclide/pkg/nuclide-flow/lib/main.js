@@ -152,6 +152,13 @@ class Activation {
  */
 
 async function activateLsp() {
+  let aboutUrl = 'https://flow.org';
+  try {
+    // $FlowFB
+    const strings = require('./fb-strings');
+    aboutUrl = strings.abourUrl;
+  } catch (_) {}
+
   const atomConfig = {
     name: 'Flow',
     grammars: (_constants || _load_constants()).JS_GRAMMARS,
@@ -211,8 +218,8 @@ async function activateLsp() {
       priority: 1,
       observeEventName: 'flow.status.observe',
       clickEventName: 'flow.status.click',
-      icon: 'nuclicon-flow'
-      // TODO(hchau): bannerMarkdown: The flow language service provides autocomplete, hover, hyperclick for Flow.',
+      icon: 'nuclicon-flow',
+      description: `__Flow__ provides provides autocomplete, hyperclick, hover, errors and outline. [more...](${aboutUrl})`
     }
   };
 
@@ -220,12 +227,26 @@ async function activateLsp() {
     const [fileNotifier, host] = await Promise.all([(0, (_nuclideOpenFiles || _load_nuclideOpenFiles()).getNotifierByConnection)(connection), (0, (_nuclideLanguageService || _load_nuclideLanguageService()).getHostServices)()]);
     const service = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getVSCodeLanguageServiceByConnection)(connection);
     const pathToFlow = String((_featureConfig || _load_featureConfig()).default.get('nuclide-flow.pathToFlow'));
-    // TODO(ljw) - Boolean(featureConfig.get('nuclide-flow.canUseFlowBin'))
-    // - that feature needs changes to the way LSP is initialized
+    const canUseFlowBin = Boolean((_featureConfig || _load_featureConfig()).default.get('nuclide-flow.canUseFlowBin'));
+    const win32 = (await service.processPlatform()) === 'win32';
+
+    const commands = [];
+    if (canUseFlowBin && win32) {
+      commands.push('./node_modules/.bin/flow.cmd');
+    }
+    if (canUseFlowBin) {
+      commands.push('./node_modules/.bin/flow');
+    }
+    if (win32) {
+      commands.push(`${pathToFlow}.cmd`);
+    }
+    commands.push(pathToFlow);
+
     const lazy = (0, (_passesGK2 || _load_passesGK2()).isGkEnabled)('nuclide_flow_lazy_mode_ide') ? ['--lazy-mode', 'ide'] : [];
     const autostop = Boolean((_featureConfig || _load_featureConfig()).default.get('nuclide-flow.stopFlowOnExit')) ? ['--autostop'] : [];
+    const liveSyntaxErrors = Boolean((_featureConfig || _load_featureConfig()).default.get('nuclide-flow.liveSyntaxErrors'));
 
-    const lspService = await service.createMultiLspLanguageService('flow', pathToFlow, ['lsp', '--from', 'nuclide', ...lazy, ...autostop], {
+    const lspService = await service.createMultiLspLanguageService('flow', commands, ['lsp', '--from', 'nuclide', ...lazy, ...autostop], {
       fileNotifier,
       host,
       projectFileNames: ['.flowconfig'],
@@ -234,7 +255,10 @@ async function activateLsp() {
       logLevel: 'ALL',
       additionalLogFilesRetentionPeriod: 5 * 60 * 1000, // 5 minutes
       waitForDiagnostics: true,
-      waitForStatus: true
+      waitForStatus: true,
+      initializationOptions: {
+        liveSyntaxErrors
+      }
     });
     return lspService || new (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).NullLanguageService();
   };

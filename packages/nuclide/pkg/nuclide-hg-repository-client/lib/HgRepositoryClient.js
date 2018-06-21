@@ -151,15 +151,14 @@ class HgRepositoryClient {
 
     this._sharedMembers.rootRepo = this;
     this._sharedMembers.path = repoPath;
-    this._sharedMembers.workingDirectory = options.workingDirectory;
-    this._sharedMembers.workingDirectoryPath = options.workingDirectory.getPath();
-    this._sharedMembers.projectDirectory = options.projectRootDirectory;
+    this._sharedMembers.workingDirectoryPath = options.workingDirectoryPath;
+    this._sharedMembers.projectDirectoryPath = options.projectDirectoryPath;
     this._sharedMembers.originURL = options.originURL;
     this._sharedMembers.service = hgService;
     this._sharedMembers.isInConflict = false;
     this._sharedMembers.isDestroyed = false;
     this._sharedMembers.revisionsCache = new (_RevisionsCache || _load_RevisionsCache()).default(this._sharedMembers.workingDirectoryPath, hgService);
-    this._sharedMembers.revisionStatusCache = getRevisionStatusCache(this._sharedMembers.revisionsCache, this._sharedMembers.workingDirectory.getPath());
+    this._sharedMembers.revisionStatusCache = getRevisionStatusCache(this._sharedMembers.revisionsCache, this._sharedMembers.workingDirectoryPath);
     this._sharedMembers.revisionIdToFileChanges = new (_lruCache || _load_lruCache()).default({ max: 100 });
     this._sharedMembers.fileContentsAtRevisionIds = new (_lruCache || _load_lruCache()).default({ max: 20 });
 
@@ -244,7 +243,7 @@ class HgRepositoryClient {
   }
 
   async getAdditionalLogFiles(deadline) {
-    const path = this._sharedMembers.workingDirectory.getPath();
+    const path = this._sharedMembers.workingDirectoryPath;
     const prefix = (_nuclideUri || _load_nuclideUri()).default.isRemote(path) ? `${(_nuclideUri || _load_nuclideUri()).default.getHostname(path)}:` : '';
     const results = await (0, (_promise || _load_promise()).timeoutAfterDeadline)(deadline, this._sharedMembers.service.getAdditionalLogFiles(this._sharedMembers.workingDirectoryPath, deadline - 1000)).catch(e => [{ title: `${path}:hg`, data: (0, (_string || _load_string()).stringifyError)(e) }]);
     return results.map(log => Object.assign({}, log, { title: prefix + log.title }));
@@ -382,18 +381,13 @@ class HgRepositoryClient {
   }
 
   getWorkingDirectory() {
-    return this._sharedMembers.workingDirectory.getPath();
+    return this._sharedMembers.workingDirectoryPath;
   }
 
   // @return The path of the root project folder in Atom that this
   // HgRepositoryClient provides information about.
   getProjectDirectory() {
-    return this.getInternalProjectDirectory().getPath();
-  }
-
-  // This function exists to be shadowed
-  getInternalProjectDirectory() {
-    return (0, (_nullthrows || _load_nullthrows()).default)(this._sharedMembers.projectDirectory);
+    return (0, (_nullthrows || _load_nullthrows()).default)(this._sharedMembers.projectDirectoryPath);
   }
 
   // TODO This is a stub.
@@ -402,7 +396,7 @@ class HgRepositoryClient {
   }
 
   relativize(filePath) {
-    return this._sharedMembers.workingDirectory.relativize(filePath);
+    return (_nuclideUri || _load_nuclideUri()).default.relative(this._sharedMembers.workingDirectoryPath, filePath);
   }
 
   // TODO This is a stub.
@@ -562,11 +556,11 @@ class HgRepositoryClient {
    * defined as 'relevant' if it is within the project directory opened within the repo.
    */
   isPathRelevant(filePath) {
-    return this.getInternalProjectDirectory().contains(filePath) || this.getInternalProjectDirectory().getPath() === filePath;
+    return (_nuclideUri || _load_nuclideUri()).default.contains(this.getProjectDirectory(), filePath);
   }
 
   isPathRelevantToRepository(filePath) {
-    return this._sharedMembers.workingDirectory.contains(filePath) || this._sharedMembers.workingDirectory.getPath() === filePath;
+    return (_nuclideUri || _load_nuclideUri()).default.contains(this._sharedMembers.workingDirectoryPath, filePath);
   }
 
   // non-used stub.

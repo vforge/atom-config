@@ -8,7 +8,6 @@ exports.getJavaVSAdapterExecutableInfo = getJavaVSAdapterExecutableInfo;
 exports.prepareForTerminalLaunch = prepareForTerminalLaunch;
 exports.javaDebugWaitForJdwpProcessStart = javaDebugWaitForJdwpProcessStart;
 exports.javaDebugWaitForJdwpProcessExit = javaDebugWaitForJdwpProcessExit;
-exports.getAndroidSDKVersionFromApk = getAndroidSDKVersionFromApk;
 exports.getSdkVersionSourcePath = getSdkVersionSourcePath;
 
 var _fsPromise;
@@ -179,39 +178,6 @@ async function _findJdwpProcess(jvmSuspendArgs) {
   const procs = commands.toString().split('\n').filter(line => line.includes(jvmSuspendArgs));
   const line = procs.length === 1 ? procs[0] : null;
   return line;
-}
-
-// If you run aapt list with the apk for fb4a, the output is larger than
-//   100 * 1024 * 1024 characters so we have increased the buffer size to this
-//   somewhat arbitrarily chosen value.
-const MAX_BUFFER_FOR_AAPT_CALL = 512 * 1024 * 1024;
-
-async function getAndroidSDKVersionFromApk(apkPath) {
-  const androidHome = _getAndroidHomeDir();
-  const buildToolsDir = (_nuclideUri || _load_nuclideUri()).default.join(androidHome, 'build-tools');
-  if (await (_fsPromise || _load_fsPromise()).default.exists(buildToolsDir)) {
-    const subDirs = await (_fsPromise || _load_fsPromise()).default.readdir(buildToolsDir);
-    if (subDirs.length !== 0) {
-      const aaptPath = (_nuclideUri || _load_nuclideUri()).default.join(buildToolsDir, subDirs[0], 'aapt');
-      if ((await (_fsPromise || _load_fsPromise()).default.exists(aaptPath)) && (await (_fsPromise || _load_fsPromise()).default.exists(apkPath))) {
-        const aaptListForApk = await (0, (_process || _load_process()).runCommand)(aaptPath, ['list', '-a', apkPath], { maxBuffer: MAX_BUFFER_FOR_AAPT_CALL }).toPromise();
-        const lines = aaptListForApk.split('\n');
-        const targetSdkVersionLines = lines.filter(line => line.includes('targetSdkVersion'));
-        if (targetSdkVersionLines.length === 1) {
-          const targetSdkVersionLine = targetSdkVersionLines[0];
-          // targetSdkVersionLine is of the format:
-          // <WHITESPACE>A: android:targetSdkVersion(0x<NUMBER>)=(type 0x<NUMBER>)0x<NUMBER WE WANT>
-          // so we split by 'x' and take the 4th element
-          const decimalNumber = parseInt(targetSdkVersionLine.split('x')[3], 16);
-          if (Number.isInteger(decimalNumber)) {
-            return String(decimalNumber);
-          }
-        }
-      }
-    }
-  }
-
-  return '';
 }
 
 async function getSdkVersionSourcePath(sdkVersion) {

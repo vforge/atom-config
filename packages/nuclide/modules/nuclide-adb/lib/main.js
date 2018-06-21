@@ -4,19 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _DevicePoller;
-
-function _load_DevicePoller() {
-  return _DevicePoller = require('./DevicePoller');
-}
-
-Object.defineProperty(exports, 'DevicePoller', {
-  enumerable: true,
-  get: function () {
-    return (_DevicePoller || _load_DevicePoller()).DevicePoller;
-  }
-});
-
 var _utils;
 
 function _load_utils() {

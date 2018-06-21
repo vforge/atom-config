@@ -12,18 +12,18 @@ function _load_UniversalDisposable() {
   return _UniversalDisposable = _interopRequireDefault(require('../nuclide-commons/UniversalDisposable'));
 }
 
+var _nuclideDebuggerCommon;
+
+function _load_nuclideDebuggerCommon() {
+  return _nuclideDebuggerCommon = require('../nuclide-debugger-common');
+}
+
 var _react = _interopRequireWildcard(require('react'));
 
 var _createPackage;
 
 function _load_createPackage() {
   return _createPackage = _interopRequireDefault(require('../nuclide-commons-atom/createPackage'));
-}
-
-var _constants;
-
-function _load_constants() {
-  return _constants = require('../nuclide-debugger-common/constants');
 }
 
 var _AutoGenLaunchAttachProvider;
@@ -70,9 +70,9 @@ class Activation {
 
   createDebuggerProvider() {
     return {
-      type: (_constants || _load_constants()).VsAdapterTypes.PYTHON,
+      type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.PYTHON,
       getLaunchAttachProvider: connection => {
-        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider('Python', connection, getPythonAutoGenConfig());
+        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.PYTHON, connection, getPythonAutoGenConfig());
       }
     };
   }
@@ -138,7 +138,7 @@ function getPythonAutoGenConfig() {
   return {
     launch: {
       launch: true,
-      vsAdapterType: (_constants || _load_constants()).VsAdapterTypes.PYTHON,
+      vsAdapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.PYTHON,
       threads: true,
       properties: [program, pythonPath, cwd, args, stopOnEntry, debugOptions, env],
       scriptPropertyName: 'program',
@@ -157,7 +157,16 @@ function getPythonAutoGenConfig() {
           'use the buck toolbar instead'
         ),
         '.'
-      ) : null
+      ) : null,
+      getProcessName(values) {
+        let processName = values.program;
+        const lastSlash = processName.lastIndexOf('/');
+        if (lastSlash >= 0) {
+          processName = processName.substring(lastSlash + 1, processName.length);
+        }
+        processName += ' (Python)';
+        return processName;
+      }
     },
     attach: null
   };

@@ -324,6 +324,53 @@ module.exports = _client => {
       }).publish();
     }
 
+    rename(arg0, arg1, arg2) {
+      return _client.callRemoteMethod(_client.marshal(this, {
+        kind: "named",
+        location: {
+          type: "source",
+          fileName: "FlowService.js",
+          line: 214
+        },
+        name: "FlowLanguageServiceType"
+      }), "rename", "promise", _client.marshalArguments(Array.from(arguments), [{
+        name: "fileVersion",
+        type: {
+          kind: "named",
+          name: "FileVersion"
+        }
+      }, {
+        name: "position",
+        type: {
+          kind: "named",
+          name: "atom$Point"
+        }
+      }, {
+        name: "newName",
+        type: {
+          kind: "string"
+        }
+      }])).then(value => {
+        return _client.unmarshal(value, {
+          kind: "nullable",
+          type: {
+            kind: "map",
+            keyType: {
+              kind: "named",
+              name: "NuclideUri"
+            },
+            valueType: {
+              kind: "array",
+              type: {
+                kind: "named",
+                name: "TextEdit"
+              }
+            }
+          }
+        });
+      });
+    }
+
     getCoverage(arg0) {
       return _client.callRemoteMethod(_client.marshal(this, {
         kind: "named",
@@ -3567,7 +3614,7 @@ Object.defineProperty(module.exports, "defs", {
             type: {
               kind: "string"
             },
-            optional: false
+            optional: true
           }]
         }, {
           kind: "object",
@@ -3585,9 +3632,28 @@ Object.defineProperty(module.exports, "defs", {
             },
             optional: false
           }, {
-            name: "fraction",
+            name: "shortMessage",
             type: {
-              kind: "number"
+              kind: "string"
+            },
+            optional: true
+          }, {
+            name: "progress",
+            type: {
+              kind: "object",
+              fields: [{
+                name: "numerator",
+                type: {
+                  kind: "number"
+                },
+                optional: false
+              }, {
+                name: "denominator",
+                type: {
+                  kind: "number"
+                },
+                optional: true
+              }]
             },
             optional: true
           }]
@@ -3842,11 +3908,57 @@ Object.defineProperty(module.exports, "defs", {
             }
           }
         },
-        getCoverage: {
+        rename: {
           location: {
             type: "source",
             fileName: "FlowService.js",
             line: 244
+          },
+          kind: "function",
+          argumentTypes: [{
+            name: "fileVersion",
+            type: {
+              kind: "named",
+              name: "FileVersion"
+            }
+          }, {
+            name: "position",
+            type: {
+              kind: "named",
+              name: "atom$Point"
+            }
+          }, {
+            name: "newName",
+            type: {
+              kind: "string"
+            }
+          }],
+          returnType: {
+            kind: "promise",
+            type: {
+              kind: "nullable",
+              type: {
+                kind: "map",
+                keyType: {
+                  kind: "named",
+                  name: "NuclideUri"
+                },
+                valueType: {
+                  kind: "array",
+                  type: {
+                    kind: "named",
+                    name: "TextEdit"
+                  }
+                }
+              }
+            }
+          }
+        },
+        getCoverage: {
+          location: {
+            type: "source",
+            fileName: "FlowService.js",
+            line: 250
           },
           kind: "function",
           argumentTypes: [{
@@ -3871,7 +3983,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 246
+            line: 252
           },
           kind: "function",
           argumentTypes: [{
@@ -3896,7 +4008,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 248
+            line: 254
           },
           kind: "function",
           argumentTypes: [{
@@ -3916,7 +4028,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 250
+            line: 256
           },
           kind: "function",
           argumentTypes: [{
@@ -3944,7 +4056,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 251
+            line: 257
           },
           kind: "function",
           argumentTypes: [{
@@ -3975,7 +4087,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 256
+            line: 262
           },
           kind: "function",
           argumentTypes: [{
@@ -4015,7 +4127,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 262
+            line: 268
           },
           kind: "function",
           argumentTypes: [{
@@ -4040,7 +4152,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 266
+            line: 272
           },
           kind: "function",
           argumentTypes: [{
@@ -4071,7 +4183,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 268
+            line: 274
           },
           kind: "function",
           argumentTypes: [{
@@ -4105,7 +4217,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 273
+            line: 279
           },
           kind: "function",
           argumentTypes: [{
@@ -4145,7 +4257,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 279
+            line: 285
           },
           kind: "function",
           argumentTypes: [{
@@ -4194,7 +4306,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 288
+            line: 294
           },
           kind: "function",
           argumentTypes: [{
@@ -4239,7 +4351,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 295
+            line: 301
           },
           kind: "function",
           argumentTypes: [{
@@ -4270,7 +4382,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 300
+            line: 306
           },
           kind: "function",
           argumentTypes: [{
@@ -4294,7 +4406,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 302
+            line: 308
           },
           kind: "function",
           argumentTypes: [{
@@ -4330,7 +4442,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 307
+            line: 313
           },
           kind: "function",
           argumentTypes: [{
@@ -4355,7 +4467,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 309
+            line: 315
           },
           kind: "function",
           argumentTypes: [{
@@ -4376,7 +4488,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 311
+            line: 317
           },
           kind: "function",
           argumentTypes: [],
@@ -4392,7 +4504,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 313
+            line: 319
           },
           kind: "function",
           argumentTypes: [],
@@ -4407,7 +4519,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 315
+            line: 321
           },
           kind: "function",
           argumentTypes: [{
@@ -4438,7 +4550,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 320
+            line: 326
           },
           kind: "function",
           argumentTypes: [{
@@ -4475,7 +4587,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 326
+            line: 332
           },
           kind: "function",
           argumentTypes: [{
@@ -4497,7 +4609,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 328
+            line: 334
           },
           kind: "function",
           argumentTypes: [{
@@ -4528,7 +4640,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "FlowService.js",
-            line: 334
+            line: 340
           },
           kind: "function",
           argumentTypes: [],
@@ -4894,13 +5006,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "FlowService.js",
-        line: 337
+        line: 343
       },
       type: {
         location: {
           type: "source",
           fileName: "FlowService.js",
-          line: 337
+          line: 343
         },
         kind: "function",
         argumentTypes: [{

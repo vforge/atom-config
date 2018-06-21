@@ -1,0 +1,90 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5270-1jxx3ao.266bvdvx6r/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5270-1jxx3ao.266bvdvx6r/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5270-1jxx3ao.266bvdvx6r/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118520-5270-1mbzn62.0marsmunmi"
+    ]
+  ],
+  "_from": "../d-118520-5270-1jxx3ao.266bvdvx6r/package.tgz",
+  "_id": "atom-esdoc@0.4.0",
+  "_inCache": true,
+  "_location": "/atom-esdoc",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5270-1jxx3ao.266bvdvx6r/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5270-1jxx3ao.266bvdvx6r/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5270-1jxx3ao.266bvdvx6r/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-118520-5270-1jxx3ao.266bvdvx6r/package.tgz",
+  "_shasum": "4c6d4a605304f5bb0c0660ece731461fb3eaf7ae",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5270-1jxx3ao.266bvdvx6r/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118520-5270-1mbzn62.0marsmunmi",
+  "activationCommands": {
+    "atom-workspace": [
+      "esdoc:generate"
+    ],
+    "atom-text-editor": [
+      "esdoc:parse-enter",
+      "esdoc:parse-tab"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/iocast/atom-esdoc/issues"
+  },
+  "dependencies": {
+    "babel-traverse": "^6.25.0",
+    "babylon": "^6.17.3"
+  },
+  "description": "Atom package for quick esdoc comment generation.",
+  "devDependencies": {
+    "esdoc": "^1.0.4",
+    "esdoc-ecmascript-proposal-plugin": "^1.0.0",
+    "esdoc-standard-plugin": "^1.0.0"
+  },
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/iocast/atom-esdoc#readme",
+  "keywords": [
+    "esdoc",
+    "api",
+    "doc"
+  ],
+  "license": "MIT",
+  "main": "./lib/esdoc",
+  "name": "atom-esdoc",
+  "optionalDependencies": {},
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "2.0.0": "provideAutocomplete"
+      }
+    }
+  },
+  "readme": "# Atom ESDoc package\n\n![dependency status](https://david-dm.org/iocast/atom-esdoc.svg)\n![GitHub version](https://badge.fury.io/gh/iocast%2Fatom-esdoc.svg)\n\n\nAtom package for quick esdoc comment generation.\nForked from [Atom easy JSDoc by Tom Andrews](https://github.com/tgandrews/atom-easy-jsdoc)\n\n## Install\n\n```bash\napm install esdoc\n```\n\n## Usage\n\nControl-Shift-d or Control-Shift-j to add comment templates.\n\nTo add comments for any piece of code, position the cursor anywhere on the line preceding the line you wish to comment on.\n```javascript\n/**\n * functionComment - description\n *\n * @param  {type} argA description\n * @param  {type} argB description\n * @param  {type} argC description\n * @return {type}      description\n */\nfunction functionComment (argA, argB, argC) {\n    return 'esdoc';\n}\n```\n\n```javascript\n/**\n * This is an empty comment\n */\nvar a = 'A';\n```\n\n## Autocontinue\n\nComments now are automatically continued if the user hits enter (new line event) while inside of a block (`/**...`, `//` etc.).\n\n## Autocompletion\n\nPressing **enter** or **tab** after `/**` will yield a new line and will close the comment, if the following line is a valid JavaScript code.\n\n\n## Contribute\nI'll be adding features periodically, however bug fixes, feature requests, and pull requests are all welcome.\n\n\n## Release\n\n* Add info to `CHANGELOG.md`.\n* Push everything\n\nUpdate registry:\n\n```\n/Applications/Atom.app/Contents/Resources/app/apm/bin/apm publish vX.X.X\n```\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iocast/atom-esdoc.git"
+  },
+  "scripts": {
+    "build-doc": "esdoc"
+  },
+  "version": "0.4.0"
+}

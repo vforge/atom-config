@@ -31,3 +31,17 @@ const VsAdapterTypes = exports.VsAdapterTypes = Object.freeze({
  */
 
 VsAdapterTypes;
+
+const VsAdapterNames = exports.VsAdapterNames = Object.freeze({
+  HHVM: 'Hack / PHP',
+  PYTHON: 'Python',
+  REACT_NATIVE: 'React Native',
+  NODE: 'Node',
+  JAVA: 'Java - Desktop',
+  JAVA_ANDROID: 'Java - Android',
+  PREPACK: 'Prepack',
+  OCAML: 'OCaml',
+  MOBILEJS: 'Mobile JS',
+  NATIVE_GDB: 'Native - GDB (C/C++)',
+  NATIVE_LLDB: 'Native - LLDB (C/C++)'
+});

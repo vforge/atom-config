@@ -32,11 +32,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 let subscriptions = null;
-let watchers = null;
 
 function activate(state) {
   const _subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-  const _watchers = new Map();
+  const _watchers = new WeakSet();
 
   _subscriptions.add(atom.workspace.observeTextEditors(editor => {
     if (_watchers.has(editor)) {
@@ -44,24 +43,16 @@ function activate(state) {
     }
 
     const fileWatcher = new (_FileWatcher || _load_FileWatcher()).default(editor);
-    _watchers.set(editor, fileWatcher);
-
-    _subscriptions.add(editor.onDidDestroy(() => {
-      fileWatcher.destroy();
-      _watchers.delete(editor);
-    }));
+    _watchers.add(editor);
+    _subscriptions.addUntilDestroyed(editor, () => fileWatcher.destroy());
   }));
 
-  watchers = _watchers;
   subscriptions = _subscriptions;
 }
 
 function deactivate() {
-  if (subscriptions == null || watchers == null) {
+  if (subscriptions == null) {
     return;
-  }
-  for (const fileWatcher of watchers.values()) {
-    fileWatcher.destroy();
   }
   subscriptions.dispose();
   subscriptions = null;

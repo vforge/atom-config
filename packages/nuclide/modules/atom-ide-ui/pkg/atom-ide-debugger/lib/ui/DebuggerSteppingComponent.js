@@ -160,7 +160,7 @@ class DebuggerSteppingComponent extends _react.Component {
 
       this.setState({
         debuggerMode,
-        customControlButtons: focusedProcess == null ? [] : focusedProcess.configuration.properties.customControlButtons
+        customControlButtons: focusedProcess == null ? [] : focusedProcess.configuration.customControlButtons || []
       });
       if (this.state.waitingForPause && debuggerMode !== (_constants || _load_constants()).DebuggerMode.RUNNING) {
         this._setWaitingForPause(false);

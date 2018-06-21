@@ -60,10 +60,22 @@ function _load_FileTreeSidebarComponent() {
   return _FileTreeSidebarComponent = _interopRequireDefault(require('../components/FileTreeSidebarComponent'));
 }
 
-var _FileTreeController;
+var _FileTreeActions;
 
-function _load_FileTreeController() {
-  return _FileTreeController = _interopRequireDefault(require('./FileTreeController'));
+function _load_FileTreeActions() {
+  return _FileTreeActions = _interopRequireDefault(require('./FileTreeActions'));
+}
+
+var _FileTreeContextMenu;
+
+function _load_FileTreeContextMenu() {
+  return _FileTreeContextMenu = _interopRequireDefault(require('./FileTreeContextMenu'));
+}
+
+var _FileTreeSelectors;
+
+function _load_FileTreeSelectors() {
+  return _FileTreeSelectors = _interopRequireWildcard(require('./FileTreeSelectors'));
 }
 
 var _nuclideWorkingSetsCommon;
@@ -94,6 +106,24 @@ function _load_passesGK() {
   return _passesGK = _interopRequireDefault(require('../../commons-node/passesGK'));
 }
 
+var _registerCommands;
+
+function _load_registerCommands() {
+  return _registerCommands = _interopRequireDefault(require('./registerCommands'));
+}
+
+var _FileTreeStore;
+
+function _load_FileTreeStore() {
+  return _FileTreeStore = _interopRequireDefault(require('./FileTreeStore'));
+}
+
+var _ProjectSelectionManager;
+
+function _load_ProjectSelectionManager() {
+  return _ProjectSelectionManager = _interopRequireDefault(require('./ProjectSelectionManager'));
+}
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -102,25 +132,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Minimum interval (in ms) between onChangeActivePaneItem events before revealing the active pane
  * item in the file tree.
  */
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
-
-const OPEN_FILES_UPDATE_DEBOUNCE_INTERVAL_MS = 150;
+const OPEN_FILES_UPDATE_DEBOUNCE_INTERVAL_MS = 150; /**
+                                                     * Copyright (c) 2015-present, Facebook, Inc.
+                                                     * All rights reserved.
+                                                     *
+                                                     * This source code is licensed under the license found in the LICENSE file in
+                                                     * the root directory of this source tree.
+                                                     *
+                                                     * 
+                                                     * @format
+                                                     */
 
 const TERMINAL_CONTEXT_MENU_PRIORITY = 100;
 
 const DESERIALIZER_VERSION = atom.workspace.getLeftDock == null ? 1 : 2;
 
 class Activation {
-
+  // Has the package state been restored from a previous session?
   constructor(rawState) {
     let state = rawState || {};
     const serializedVersionMatches =
@@ -142,10 +170,18 @@ class Activation {
         item.destroy();
       }
     }), () => {
-      this._fileTreeController.destroy();
+      this._actions.dispose();
     });
 
-    this._fileTreeController = new (_FileTreeController || _load_FileTreeController()).default(state == null ? null : state.tree);
+    this._store = new (_FileTreeStore || _load_FileTreeStore()).default();
+    this._actions = new (_FileTreeActions || _load_FileTreeActions()).default(this._store);
+    const initialState = state == null ? null : state.tree;
+    if (initialState != null) {
+      this._store.loadData(initialState);
+    }
+    this._disposables.add((0, (_registerCommands || _load_registerCommands()).default)(this._store, this._actions));
+    this._actions.updateRootDirectories();
+    this._contextMenu = new (_FileTreeContextMenu || _load_FileTreeContextMenu()).default(this._store);
     this._restored = state.restored === true;
 
     const excludeVcsIgnoredPathsSetting = 'core.excludeVcsIgnoredPaths';
@@ -157,10 +193,41 @@ class Activation {
     const autoExpandSingleChild = 'nuclide-file-tree.autoExpandSingleChild';
     const focusEditorOnFileSelection = 'nuclide-file-tree.focusEditorOnFileSelection';
 
-    this._disposables.add(this._fixContextMenuHighlight(), (_featureConfig || _load_featureConfig()).default.observe(prefixKeyNavSetting, x => this._setPrefixKeyNavSetting(x)), (_featureConfig || _load_featureConfig()).default.observeAsStream((_Constants || _load_Constants()).REVEAL_FILE_ON_SWITCH_SETTING).switchMap(shouldReveal => {
+    this._disposables.add(this._fixContextMenuHighlight(), (_featureConfig || _load_featureConfig()).default.observe(prefixKeyNavSetting, usePrefixNav => {
+      // config is void during startup, signifying no config yet
+      if (usePrefixNav == null) {
+        return;
+      }
+      this._actions.setUsePrefixNav(usePrefixNav);
+    }), (_featureConfig || _load_featureConfig()).default.observeAsStream((_Constants || _load_Constants()).REVEAL_FILE_ON_SWITCH_SETTING).switchMap(shouldReveal => {
       return shouldReveal ? this._currentActiveFilePath() : _rxjsBundlesRxMinJs.Observable.empty();
-    }).subscribe(filePath => this._fileTreeController.revealFilePath(filePath,
-    /* showIfHidden */false)), atom.config.observe(ignoredNamesSetting, x => this._setIgnoredNames(x)), (_featureConfig || _load_featureConfig()).default.observe(hideIgnoredNamesSetting, x => this._setHideIgnoredNames(x)), (_featureConfig || _load_featureConfig()).default.observe(hideVcsIgnoredPathsSetting, x => this._setHideVcsIgnoredPaths(x)), atom.config.observe(excludeVcsIgnoredPathsSetting, this._setExcludeVcsIgnoredPaths.bind(this)), atom.config.observe(allowPendingPaneItems, this._setUsePreviewTabs.bind(this)), (_featureConfig || _load_featureConfig()).default.observe(autoExpandSingleChild, this._setAutoExpandSingleChild.bind(this)), (_featureConfig || _load_featureConfig()).default.observe(focusEditorOnFileSelection, this._setFocusEditorOnFileSelection.bind(this)), atom.commands.add('atom-workspace', 'tree-view:toggle-focus', () => {
+    }).subscribe(filePath => this._actions.revealFilePath(filePath, /* showIfHidden */false)), atom.config.observe(ignoredNamesSetting, ignoredNames => {
+      let normalizedIgnoredNames;
+      if (ignoredNames === '') {
+        normalizedIgnoredNames = [];
+      } else if (typeof ignoredNames === 'string') {
+        normalizedIgnoredNames = [ignoredNames];
+      } else {
+        normalizedIgnoredNames = ignoredNames;
+      }
+      this._actions.setIgnoredNames(normalizedIgnoredNames);
+    }), (_featureConfig || _load_featureConfig()).default.observe(hideIgnoredNamesSetting, hideIgnoredNames => {
+      this._actions.setHideIgnoredNames(hideIgnoredNames);
+    }), (_featureConfig || _load_featureConfig()).default.observe(hideVcsIgnoredPathsSetting, hideVcsIgnoredPaths => {
+      this._actions.setHideVcsIgnoredPaths(hideVcsIgnoredPaths);
+    }), atom.config.observe(excludeVcsIgnoredPathsSetting, excludeVcsIgnoredPaths => {
+      this._actions.setExcludeVcsIgnoredPaths(excludeVcsIgnoredPaths);
+    }), atom.config.observe(allowPendingPaneItems, usePreviewTabs => {
+      // config is void during startup, signifying no config yet
+      if (usePreviewTabs == null) {
+        return;
+      }
+      this._actions.setUsePreviewTabs(usePreviewTabs);
+    }), (_featureConfig || _load_featureConfig()).default.observe(autoExpandSingleChild, value => {
+      this._actions.setAutoExpandSingleChild(value === true);
+    }), (_featureConfig || _load_featureConfig()).default.observe(focusEditorOnFileSelection, value => {
+      this._actions.setFocusEditorOnFileSelection(value);
+    }), atom.commands.add('atom-workspace', 'tree-view:toggle-focus', () => {
       const component = this._fileTreeComponent;
       if (component == null) {
         return;
@@ -174,8 +241,7 @@ class Activation {
         component.focus();
       }
     }), this._registerCommandAndOpener());
-  } // Has the package state been restored from a previous session?
-
+  }
 
   _fixContextMenuHighlight() {
     // Giant hack to fix the context menu highlight
@@ -198,7 +264,7 @@ class Activation {
   }
 
   consumeTerminal(terminal) {
-    const contextMenu = this.getContextMenuForFileTree();
+    const contextMenu = this._contextMenu;
     const terminalMenuSubscription = new (_UniversalDisposable || _load_UniversalDisposable()).default(contextMenu.addItemToShowInSection({
       label: 'New Terminal Here',
       callback() {
@@ -222,24 +288,18 @@ class Activation {
   }
 
   consumeCwdApi(cwdApi) {
-    if (!this._fileTreeController) {
-      throw new Error('Invariant violation: "this._fileTreeController"');
-    }
-
     if (this._cwdApiSubscription != null) {
       this._cwdApiSubscription.dispose();
     }
-    const controller = this._fileTreeController;
-    controller.setCwdApi(cwdApi);
-    this._cwdApiSubscription = new (_UniversalDisposable || _load_UniversalDisposable()).default(() => controller.setCwdApi(null));
+    this._actions.setCwdApi(cwdApi);
+    this._cwdApiSubscription = new (_UniversalDisposable || _load_UniversalDisposable()).default(() => this._actions.setCwdApi(null));
     return this._cwdApiSubscription;
   }
 
   consumeRemoteProjectsService(service) {
-    const controller = this._fileTreeController;
-    controller.setRemoteProjectsService(service);
+    this._actions.setRemoteProjectsService(service);
     return new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {
-      controller.setRemoteProjectsService(null);
+      this._actions.setRemoteProjectsService(null);
     });
   }
 
@@ -249,7 +309,7 @@ class Activation {
 
   serialize() {
     return {
-      tree: this._fileTreeController.serialize(),
+      tree: (_FileTreeSelectors || _load_FileTreeSelectors()).serialize(this._store),
       restored: true,
       // Scrap our serialization when docks become available. Technically, we only need to scrap
       // the "restored" value, but this is simpler.
@@ -260,11 +320,11 @@ class Activation {
   }
 
   consumeWorkingSetsStore(workingSetsStore) {
-    this._fileTreeController.updateWorkingSetsStore(workingSetsStore);
-    this._fileTreeController.updateWorkingSet(workingSetsStore.getCurrent());
+    this._actions.updateWorkingSetsStore(workingSetsStore);
+    this._actions.updateWorkingSet(workingSetsStore.getCurrent());
 
     const currentSubscription = workingSetsStore.subscribeToCurrent(currentWorkingSet => {
-      this._fileTreeController.updateWorkingSet(currentWorkingSet);
+      this._actions.updateWorkingSet(currentWorkingSet);
     });
     this._disposables.add(currentSubscription);
 
@@ -276,40 +336,16 @@ class Activation {
     this._disposables.add(rebuildSignals.subscribe(() => {
       const openUris = atom.workspace.getTextEditors().filter(te => te.getPath() != null && te.getPath() !== '').map(te => te.getPath());
       const openFilesWorkingSet = new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet(openUris);
-      this._fileTreeController.updateOpenFilesWorkingSet(openFilesWorkingSet);
+      this._actions.updateOpenFilesWorkingSet(openFilesWorkingSet);
     }));
 
     return new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {
-      this._fileTreeController.updateWorkingSetsStore(null);
-      this._fileTreeController.updateWorkingSet(new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet());
-      this._fileTreeController.updateOpenFilesWorkingSet(new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet());
+      this._actions.updateWorkingSetsStore(null);
+      this._actions.updateWorkingSet(new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet());
+      this._actions.updateOpenFilesWorkingSet(new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet());
       this._disposables.remove(currentSubscription);
       currentSubscription.dispose();
     });
-  }
-
-  _setExcludeVcsIgnoredPaths(excludeVcsIgnoredPaths) {
-    this._fileTreeController.setExcludeVcsIgnoredPaths(excludeVcsIgnoredPaths);
-  }
-
-  _setHideVcsIgnoredPaths(hideVcsIgnoredPaths) {
-    this._fileTreeController.setHideVcsIgnoredPaths(hideVcsIgnoredPaths);
-  }
-
-  _setHideIgnoredNames(hideIgnoredNames) {
-    this._fileTreeController.setHideIgnoredNames(hideIgnoredNames);
-  }
-
-  _setIgnoredNames(ignoredNames) {
-    let normalizedIgnoredNames;
-    if (ignoredNames === '') {
-      normalizedIgnoredNames = [];
-    } else if (typeof ignoredNames === 'string') {
-      normalizedIgnoredNames = [ignoredNames];
-    } else {
-      normalizedIgnoredNames = ignoredNames;
-    }
-    this._fileTreeController.setIgnoredNames(normalizedIgnoredNames);
   }
 
   _currentActiveFilePath() {
@@ -325,51 +361,19 @@ class Activation {
     return (0, (_observable || _load_observable()).compact)(rawPathStream).distinctUntilChanged();
   }
 
-  _setPrefixKeyNavSetting(usePrefixNav) {
-    // config is void during startup, signifying no config yet
-    if (usePrefixNav == null || !this._fileTreeController) {
-      return;
-    }
-    this._fileTreeController.setUsePrefixNav(usePrefixNav);
+  provideContextMenuForFileTree() {
+    return this._contextMenu;
   }
 
-  _setUsePreviewTabs(usePreviewTabs) {
-    // config is void during startup, signifying no config yet
-    if (usePreviewTabs == null) {
-      return;
-    }
-    this._fileTreeController.setUsePreviewTabs(usePreviewTabs);
+  provideProjectSelectionManagerForFileTree() {
+    return new (_ProjectSelectionManager || _load_ProjectSelectionManager()).default(this._store, this._actions);
   }
 
-  _setAutoExpandSingleChild(autoExpandSingleChild) {
-    this._fileTreeController.setAutoExpandSingleChild(autoExpandSingleChild === true);
-  }
-
-  _setFocusEditorOnFileSelection(focusEditorOnFileSelection) {
-    this._fileTreeController.setFocusEditorOnFileSelection(focusEditorOnFileSelection);
-  }
-
-  getContextMenuForFileTree() {
-    if (!this._fileTreeController) {
-      throw new Error('Invariant violation: "this._fileTreeController"');
-    }
-
-    return this._fileTreeController.getContextMenu();
-  }
-
-  getProjectSelectionManagerForFileTree() {
-    if (!this._fileTreeController) {
-      throw new Error('Invariant violation: "this._fileTreeController"');
-    }
-
-    return this._fileTreeController.getProjectSelectionManager();
-  }
-
-  getFileTreeAdditionalLogFilesProvider() {
+  provideFileTreeAdditionalLogFilesProvider() {
     return {
       id: 'nuclide-file-tree',
       getAdditionalLogFiles: expire => {
-        const fileTreeState = this._fileTreeController.collectDebugState();
+        const fileTreeState = (_FileTreeSelectors || _load_FileTreeSelectors()).collectDebugState(this._store);
         try {
           return Promise.resolve([{
             title: 'FileTreeState.json',
@@ -387,7 +391,7 @@ class Activation {
 
   _createView() {
     // Currently, we assume that only one will be created.
-    this._fileTreeComponent = (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.createElement((_FileTreeSidebarComponent || _load_FileTreeSidebarComponent()).default, null));
+    this._fileTreeComponent = (0, (_viewableFromReactElement || _load_viewableFromReactElement()).viewableFromReactElement)(_react.createElement((_FileTreeSidebarComponent || _load_FileTreeSidebarComponent()).default, { store: this._store, actions: this._actions }));
     return this._fileTreeComponent;
   }
 

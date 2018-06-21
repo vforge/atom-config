@@ -1,0 +1,8 @@
+{
+  "atom-workspace atom-text-editor:not([mini])": {
+    "ctrl-alt-d": "esdoc:generate",
+    "ctrl-shift-d": "esdoc:generate",
+    "tab": "esdoc:parse-tab",
+    "enter": "esdoc:parse-enter"
+  }
+}

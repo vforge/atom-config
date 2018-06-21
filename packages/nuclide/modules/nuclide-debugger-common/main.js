@@ -43,19 +43,6 @@ Object.defineProperty(exports, 'VsDebugSession', {
   }
 });
 
-var _VspProcessInfo;
-
-function _load_VspProcessInfo() {
-  return _VspProcessInfo = require('./VspProcessInfo');
-}
-
-Object.defineProperty(exports, 'VspProcessInfo', {
-  enumerable: true,
-  get: function () {
-    return _interopRequireDefault(_VspProcessInfo || _load_VspProcessInfo()).default;
-  }
-});
-
 var _constants;
 
 function _load_constants() {
@@ -66,6 +53,12 @@ Object.defineProperty(exports, 'VsAdapterTypes', {
   enumerable: true,
   get: function () {
     return (_constants || _load_constants()).VsAdapterTypes;
+  }
+});
+Object.defineProperty(exports, 'VsAdapterNames', {
+  enumerable: true,
+  get: function () {
+    return (_constants || _load_constants()).VsAdapterNames;
   }
 });
 

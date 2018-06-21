@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _atom = require('atom');
-
 var _UniversalDisposable;
 
 function _load_UniversalDisposable() {
@@ -75,15 +73,13 @@ function getRepositoryDescription(directory) {
     }
     const serverConnection = directory._server;
     const { repoPath, originURL, workingDirectoryPath } = repositoryDescription;
-    const workingDirectoryLocalPath = workingDirectoryPath;
     // These paths are all relative to the remote fs. We need to turn these into URIs.
     const repoUri = serverConnection.getUriOfRemotePath(repoPath);
     const workingDirectoryUri = serverConnection.getUriOfRemotePath(workingDirectoryPath);
     return {
       originURL,
       repoPath: repoUri,
-      workingDirectory: serverConnection.createDirectory(workingDirectoryUri),
-      workingDirectoryLocalPath
+      workingDirectoryPath: workingDirectoryUri
     };
   } else {
     const repositoryDescription = (0, (_nuclideSourceControlHelpers || _load_nuclideSourceControlHelpers()).findHgRepository)(directory.getPath());
@@ -94,7 +90,7 @@ function getRepositoryDescription(directory) {
     return {
       originURL,
       repoPath,
-      workingDirectory: new _atom.Directory(workingDirectoryPath)
+      workingDirectoryPath
     };
   }
 }
@@ -119,7 +115,11 @@ class HgRepositoryProvider {
           return null;
         }
 
-        const { originURL, repoPath, workingDirectory } = repositoryDescription;
+        const {
+          originURL,
+          repoPath,
+          workingDirectoryPath
+        } = repositoryDescription;
 
         // extend the underlying instance of HgRepositoryClient to prevent
         // having multiple clients for multiple project roots inside the same
@@ -130,9 +130,9 @@ class HgRepositoryProvider {
         if (activeRepoClientInfo != null) {
           activeRepoClientInfo.refCount++;
         } else {
-          const hgService = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getHgServiceByNuclideUri)(directory.getPath());
+          const hgService = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getHgServiceByNuclideUri)(workingDirectoryPath);
           const activeRepoClient = new (_nuclideHgRepositoryClient || _load_nuclideHgRepositoryClient()).HgRepositoryClient(repoPath, hgService, {
-            workingDirectory,
+            workingDirectoryPath,
             originURL
           });
 
@@ -149,8 +149,8 @@ class HgRepositoryProvider {
 
         /* eslint-disable no-inner-declarations */
         function ProjectHgRepositoryClient() {
-          this.getInternalProjectDirectory = function () {
-            return directory;
+          this.getProjectDirectory = function () {
+            return directory.getPath();
           };
 
           this.destroy = function () {

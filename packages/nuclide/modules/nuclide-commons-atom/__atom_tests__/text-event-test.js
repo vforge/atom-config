@@ -123,6 +123,10 @@ describe('TextEventDispatcher', () => {
       // getPath is nice for debugging tests
       getPath() {
         return path;
+      },
+      destroy() {},
+      onDidDestroy(callback) {
+        return new (_UniversalDisposable || _load_UniversalDisposable()).default();
       }
     };
     return editor;

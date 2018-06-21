@@ -12,16 +12,10 @@ function _load_FileTreeActions() {
   return _FileTreeActions = _interopRequireDefault(require('../lib/FileTreeActions'));
 }
 
-var _FileTreeController;
-
-function _load_FileTreeController() {
-  return _FileTreeController = _interopRequireDefault(require('../lib/FileTreeController'));
-}
-
 var _FileTreeStore;
 
 function _load_FileTreeStore() {
-  return _FileTreeStore = require('../lib/FileTreeStore');
+  return _FileTreeStore = _interopRequireDefault(require('../lib/FileTreeStore'));
 }
 
 var _nuclideWorkingSetsCommon;
@@ -38,17 +32,24 @@ function _load_nuclideUri() {
   return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
 }
 
+var _FileTreeSelectors;
+
+function _load_FileTreeSelectors() {
+  return _FileTreeSelectors = _interopRequireWildcard(require('../lib/FileTreeSelectors'));
+}
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 describe('FileTreeController', () => {
-  const actions = (_FileTreeActions || _load_FileTreeActions()).default.getInstance();
-  const store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
+  const store = new (_FileTreeStore || _load_FileTreeStore()).default();
+  const actions = new (_FileTreeActions || _load_FileTreeActions()).default(store);
 
-  let controller = null;
   let workspaceElement;
 
   function getNode(rootKey, nodeKey) {
-    const node = store.getNode(rootKey, nodeKey);
+    const node = (_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, rootKey, nodeKey);
 
     if (!node) {
       throw new Error('Invariant violation: "node"');
@@ -66,11 +67,11 @@ describe('FileTreeController', () => {
   }
 
   function numSelected() {
-    return store.getSelectedNodes().size;
+    return (_FileTreeSelectors || _load_FileTreeSelectors()).getSelectedNodes(store).size;
   }
 
   beforeEach(() => {
-    ({ controller } = (0, (_file_tree_setup || _load_file_tree_setup()).setup)());
+    (0, (_file_tree_setup || _load_file_tree_setup()).setup)(store, actions);
 
     // The controller uses the currently active file to decide when and what to reveal in the file
     // tree when revealActiveFile is called. Importantly, it also short-circuits in some cases if
@@ -84,9 +85,8 @@ describe('FileTreeController', () => {
   });
 
   afterEach(() => {
-    controller.destroy();
     actions.updateWorkingSet(new (_nuclideWorkingSetsCommon || _load_nuclideWorkingSetsCommon()).WorkingSet([]));
-    store.reset();
+    actions.reset();
   });
 
   describe('navigating with the keyboard', () => {
@@ -106,7 +106,7 @@ describe('FileTreeController', () => {
         it('does not modify the selection if the root is selected', () => {
           actions.setSelectedNode(rootKey, rootKey);
           expect(isSelected(rootKey, rootKey)).toEqual(true);
-          controller._collapseSelection();
+          actions.collapseSelection();
 
           // root was expanded, selection shouldn't change
           expect(isSelected(rootKey, rootKey)).toEqual(true);
@@ -133,7 +133,7 @@ describe('FileTreeController', () => {
         it('selects the parent if the selected node is a collapsed directory', () => {
           actions.setSelectedNode(rootKey, dir2Key);
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
-          controller._collapseSelection();
+          actions.collapseSelection();
 
           // the root is dir2's parent
           expect(isSelected(rootKey, rootKey)).toEqual(true);
@@ -142,7 +142,7 @@ describe('FileTreeController', () => {
         it('does not modify the selection if selected node is an expanded directory', () => {
           actions.setSelectedNode(rootKey, rootKey);
           expect(isSelected(rootKey, rootKey)).toEqual(true);
-          controller._collapseSelection();
+          actions.collapseSelection();
 
           // root was expanded, selection shouldn't change
           expect(isSelected(rootKey, rootKey)).toEqual(true);
@@ -151,22 +151,22 @@ describe('FileTreeController', () => {
 
       describe('via _moveDown', () => {
         it('selects the first root if there is no selection', () => {
-          expect(store.getSingleSelectedNode()).toBeNull();
-          controller._moveDown();
+          expect((_FileTreeSelectors || _load_FileTreeSelectors()).getSingleSelectedNode(store)).toBeNull();
+          actions.moveSelectionDown();
           expect(isSelected(rootKey, rootKey)).toEqual(true);
         });
 
         it('does nothing if the bottommost node is selected', () => {
           actions.setSelectedNode(rootKey, dir2Key);
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
-          controller._moveDown();
+          actions.moveSelectionDown();
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
         });
 
         it('selects first child if parent is selected', () => {
           actions.setSelectedNode(rootKey, rootKey);
           expect(isSelected(rootKey, rootKey)).toEqual(true);
-          controller._moveDown();
+          actions.moveSelectionDown();
 
           // dir1 is the first child, should get selected
           expect(isSelected(rootKey, dir0key)).toEqual(true);
@@ -175,7 +175,7 @@ describe('FileTreeController', () => {
         it('selects the next sibling when one exists', () => {
           actions.setSelectedNode(rootKey, dir1Key);
           expect(isSelected(rootKey, dir1Key)).toEqual(true);
-          controller._moveDown();
+          actions.moveSelectionDown();
 
           // dir2 is the next sibling, should get selected
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
@@ -184,22 +184,22 @@ describe('FileTreeController', () => {
 
       describe('via _moveUp', () => {
         it('selects the lowermost descendant if there is no selection', () => {
-          expect(store.getSingleSelectedNode()).toBeNull();
-          controller._moveUp();
+          expect((_FileTreeSelectors || _load_FileTreeSelectors()).getSingleSelectedNode(store)).toBeNull();
+          actions.moveSelectionUp();
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
         });
 
         it('does nothing if the topmost root node is selected', () => {
           actions.setSelectedNode(rootKey, rootKey);
           expect(isSelected(rootKey, rootKey)).toEqual(true);
-          controller._moveUp();
+          actions.moveSelectionUp();
           expect(isSelected(rootKey, rootKey)).toEqual(true);
         });
 
         it('selects parent if first child is selected', () => {
           actions.setSelectedNode(rootKey, dir0key);
           expect(isSelected(rootKey, dir0key)).toEqual(true);
-          controller._moveUp();
+          actions.moveSelectionUp();
 
           // dir1 is the first child, parent (root) should get selected
           expect(isSelected(rootKey, rootKey)).toEqual(true);
@@ -208,7 +208,7 @@ describe('FileTreeController', () => {
         it('selects the previous sibling if one exists', () => {
           actions.setSelectedNode(rootKey, dir2Key);
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
-          controller._moveUp();
+          actions.moveSelectionUp();
 
           // dir2 is the second child, previous sibling (dir1) should be selected
           expect(isSelected(rootKey, dir1Key)).toEqual(true);
@@ -219,7 +219,7 @@ describe('FileTreeController', () => {
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
           actions.collapseNode(rootKey, rootKey);
           expect(isSelected(rootKey, dir2Key)).toEqual(false);
-          controller._moveUp();
+          actions.moveSelectionUp();
 
           expect(isSelected(rootKey, rootKey)).toEqual(true);
         });
@@ -245,7 +245,7 @@ describe('FileTreeController', () => {
 
       describe('via _collapseAll ( cmd+{ )', () => {
         it('collapses all visible nodes', () => {
-          controller._collapseAll();
+          actions.collapseAll();
           expect(isExpanded(rootKey, rootKey)).toBe(false);
           expect(isExpanded(rootKey, dir1Key)).toBe(false);
         });
@@ -255,7 +255,7 @@ describe('FileTreeController', () => {
         it('selects the parent if the selected node is a file', () => {
           actions.setSelectedNode(rootKey, fooTxtKey);
           expect(isSelected(rootKey, fooTxtKey)).toEqual(true);
-          controller._collapseSelection();
+          actions.collapseSelection();
 
           // dir1 is foo.txt's parent
           expect(isSelected(rootKey, dir1Key)).toEqual(true);
@@ -266,7 +266,7 @@ describe('FileTreeController', () => {
         it('selects the previous nested descendant when one exists', () => {
           actions.setSelectedNode(rootKey, fooTxtKey);
           expect(isSelected(rootKey, fooTxtKey)).toEqual(true);
-          controller._moveDown();
+          actions.moveSelectionDown();
 
           // foo.txt is the previous visible descendant to dir2
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
@@ -277,7 +277,7 @@ describe('FileTreeController', () => {
         it('selects the previous nested descendant when one exists', () => {
           actions.setSelectedNode(rootKey, dir2Key);
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
-          controller._moveUp();
+          actions.moveSelectionUp();
 
           // foo.txt is the previous visible descendant to dir2
           expect(isSelected(rootKey, fooTxtKey)).toEqual(true);
@@ -288,7 +288,7 @@ describe('FileTreeController', () => {
         it('selects the root', () => {
           actions.setSelectedNode(rootKey, dir2Key);
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
-          controller._moveToTop();
+          actions.moveSelectionToTop();
 
           // the root is the topmost node
           expect(isSelected(rootKey, rootKey)).toEqual(true);
@@ -299,7 +299,7 @@ describe('FileTreeController', () => {
         it('selects the bottommost node', () => {
           actions.setSelectedNode(rootKey, rootKey);
           expect(isSelected(rootKey, rootKey)).toEqual(true);
-          controller._moveToBottom();
+          actions.moveSelectionToBottom();
 
           // dir2 is the bottommost node
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
@@ -328,7 +328,7 @@ describe('FileTreeController', () => {
         it('selects the next sibling', () => {
           actions.setSelectedNode(rootKey, dir1Key);
           expect(isSelected(rootKey, dir1Key)).toEqual(true);
-          controller._moveDown();
+          actions.moveSelectionDown();
           // dir2 is dir1's next sibling
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
         });
@@ -338,7 +338,7 @@ describe('FileTreeController', () => {
         it('selects the previous sibling', () => {
           actions.setSelectedNode(rootKey, dir2Key);
           expect(isSelected(rootKey, dir2Key)).toEqual(true);
-          controller._moveUp();
+          actions.moveSelectionUp();
 
           // dir1 is dir2's previous sibling
           expect(isSelected(rootKey, dir1Key)).toEqual(true);
@@ -439,18 +439,18 @@ describe('FileTreeController', () => {
 
     it('support shift up and shift down', () => {
       actions.setSelectedNode(rootKey, foo1);
-      controller._rangeSelectUp();
+      actions.rangeSelectUp();
       expect(isSelected(rootKey, foo)).toBe(true);
       expect(isSelected(rootKey, foo1)).toBe(true);
       expect(numSelected()).toBe(2);
-      controller._rangeSelectDown();
+      actions.rangeSelectDown();
       expect(isSelected(rootKey, foo1)).toBe(true);
       expect(numSelected()).toBe(1);
-      controller._rangeSelectDown();
+      actions.rangeSelectDown();
       expect(isSelected(rootKey, foo1)).toBe(true);
       expect(isSelected(rootKey, foo2)).toBe(true);
       expect(numSelected()).toBe(2);
-      controller._rangeSelectDown();
+      actions.rangeSelectDown();
       expect(isSelected(rootKey, foo1)).toBe(true);
       expect(isSelected(rootKey, foo2)).toBe(true);
       expect(isSelected(rootKey, foo3)).toBe(true);
@@ -461,8 +461,8 @@ describe('FileTreeController', () => {
       actions.setSelectedNode(rootKey, bar2);
       actions.rangeSelectToNode(rootKey, bar3);
       actions.addSelectedNode(rootKey, foo1);
-      controller._rangeSelectUp();
-      controller._rangeSelectUp();
+      actions.rangeSelectUp();
+      actions.rangeSelectUp();
       expect(isSelected(rootKey, bar1)).toBe(true);
       expect(isSelected(rootKey, bar2)).toBe(true);
       expect(isSelected(rootKey, bar3)).toBe(true);
@@ -549,7 +549,7 @@ describe('FileTreeController', () => {
       expect(isSelected(rootKey, foo3)).toBe(true);
       expect(isSelected(rootKey, zfile)).toBe(true);
       expect(numSelected()).toBe(2);
-      controller._rangeSelectUp();
+      actions.rangeSelectUp();
       expect(isSelected(rootKey, foo3)).toBe(true);
       expect(numSelected()).toBe(1);
     });

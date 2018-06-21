@@ -137,7 +137,7 @@ class Activation {
   consumeToolBar(getToolBar) {
     const toolBar = getToolBar('nuclide-console');
     toolBar.addButton((0, (_ToolbarUtils || _load_ToolbarUtils()).makeToolbarButtonSpec)({
-      icon: 'terminal',
+      icon: 'nuclicon-console',
       callback: 'console:toggle',
       tooltip: 'Toggle Console',
       priority: 700

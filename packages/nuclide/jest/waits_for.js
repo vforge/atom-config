@@ -18,7 +18,7 @@ Object.defineProperty(exports, "__esModule", {
 /*
  * Async implementation of Jasmine's waitsFor()
  */
-exports.default = async function waitsFor(fn, message, timeout = 1000) {
+exports.default = async function waitsFor(fn, message, timeout = 4500) {
   const error = new Error(message != null ? message : 'Expected the function to start returning "true" but it never did');
   const startTime = Date.now();
   while (!Boolean(fn())) {

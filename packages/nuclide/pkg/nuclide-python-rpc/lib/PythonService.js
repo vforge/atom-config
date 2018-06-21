@@ -195,6 +195,10 @@ class PythonSingleFileLanguageService {
     };
   }
 
+  rename(filePath, buffer, position, newName) {
+    throw new Error('Not Yet Implemented');
+  }
+
   getCoverage(filePath) {
     throw new Error('Not Yet Implemented');
   }

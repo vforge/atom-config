@@ -17,7 +17,13 @@ function _load_FileTreeHelpers() {
 var _FileTreeStore;
 
 function _load_FileTreeStore() {
-  return _FileTreeStore = require('../lib/FileTreeStore');
+  return _FileTreeStore = _interopRequireDefault(require('../lib/FileTreeStore'));
+}
+
+var _FileTreeSelectors;
+
+function _load_FileTreeSelectors() {
+  return _FileTreeSelectors = _interopRequireWildcard(require('../lib/FileTreeSelectors'));
 }
 
 var _nuclideTestHelpers;
@@ -60,20 +66,21 @@ function _load_temp() {
   return _temp = _interopRequireDefault(require('temp'));
 }
 
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
+(_temp || _load_temp()).default.track(); /**
+                                          * Copyright (c) 2015-present, Facebook, Inc.
+                                          * All rights reserved.
+                                          *
+                                          * This source code is licensed under the license found in the LICENSE file in
+                                          * the root directory of this source tree.
+                                          *
+                                          * 
+                                          * @format
+                                          */
 
-(_temp || _load_temp()).default.track();
 const tempCleanup = (0, (_promise || _load_promise()).denodeify)((_temp || _load_temp()).default.cleanup);
 
 class MockRepository {
@@ -91,8 +98,8 @@ describe('FileTreeStore', () => {
   let fooTxt = '';
   let dir2 = '';
 
-  const actions = (_FileTreeActions || _load_FileTreeActions()).default.getInstance();
-  let store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
+  const store = new (_FileTreeStore || _load_FileTreeStore()).default();
+  const actions = new (_FileTreeActions || _load_FileTreeActions()).default(store);
 
   /*
    * Trigger the fetch through the **internal-only** API. Enables the
@@ -103,7 +110,7 @@ describe('FileTreeStore', () => {
   }
 
   function getNode(rootKey, nodeKey) {
-    const node = store.getNode(rootKey, nodeKey);
+    const node = (_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, rootKey, nodeKey);
 
     if (!node) {
       throw new Error('Invariant violation: "node"');
@@ -122,8 +129,7 @@ describe('FileTreeStore', () => {
   }
 
   beforeEach(async () => {
-    store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
-    store.reset();
+    actions.reset();
     await tempCleanup();
     jest.clearAllMocks();
     jest.resetAllMocks();
@@ -134,25 +140,25 @@ describe('FileTreeStore', () => {
   });
 
   it('should be initialized with no root keys', () => {
-    const rootKeys = store.getRootKeys();
+    const rootKeys = (_FileTreeSelectors || _load_FileTreeSelectors()).getRootKeys(store);
     expect(Array.isArray(rootKeys)).toBe(true);
     expect(rootKeys.length).toBe(0);
   });
 
   describe('isEmpty', () => {
     it('returns true when the store is empty, has no roots', () => {
-      expect(store.isEmpty()).toBe(true);
+      expect((_FileTreeSelectors || _load_FileTreeSelectors()).isEmpty(store)).toBe(true);
     });
 
     it('returns false when the store has data, has roots', () => {
       actions.setRootKeys([dir1]);
-      expect(store.isEmpty()).toBe(false);
+      expect((_FileTreeSelectors || _load_FileTreeSelectors()).isEmpty(store)).toBe(false);
     });
   });
 
   it('should update root keys via actions', () => {
     actions.setRootKeys([dir1, dir2]);
-    const rootKeys = store.getRootKeys();
+    const rootKeys = (_FileTreeSelectors || _load_FileTreeSelectors()).getRootKeys(store);
     expect(Array.isArray(rootKeys)).toBe(true);
     expect(rootKeys.join('|')).toBe(`${dir1}|${dir2}`);
   });
@@ -199,12 +205,12 @@ describe('FileTreeStore', () => {
       actions.addSelectedNode(dir2, dir2);
 
       // Convert the `Immutable.Set` to a native `Array` for simpler use w/ Jasmine.
-      const selectedNodes = store.getSelectedNodes().map(node => node.uri).toArray();
+      const selectedNodes = (_FileTreeSelectors || _load_FileTreeSelectors()).getSelectedNodes(store).map(node => node.uri).toArray();
       expect(selectedNodes).toEqual([dir1, dir2]);
     });
 
     it('returns an empty Set when no nodes are selected', () => {
-      const selectedNodes = store.getSelectedNodes().map(node => node.uri).toArray();
+      const selectedNodes = (_FileTreeSelectors || _load_FileTreeSelectors()).getSelectedNodes(store).map(node => node.uri).toArray();
       expect(selectedNodes).toEqual([]);
     });
   });
@@ -221,18 +227,18 @@ describe('FileTreeStore', () => {
     });
 
     it('returns null when no nodes are selected', () => {
-      expect(store.getSingleSelectedNode()).toBeNull();
+      expect((_FileTreeSelectors || _load_FileTreeSelectors()).getSingleSelectedNode(store)).toBeNull();
     });
 
     it('returns null when more than 1 node is selected', () => {
       actions.addSelectedNode(dir1, dir1);
       actions.addSelectedNode(dir2, dir2);
-      expect(store.getSingleSelectedNode()).toBeNull();
+      expect((_FileTreeSelectors || _load_FileTreeSelectors()).getSingleSelectedNode(store)).toBeNull();
     });
 
     it('returns a node when only 1 is selected', () => {
       actions.setSelectedNode(dir2, dir2);
-      const singleSelectedNode = store.getSingleSelectedNode();
+      const singleSelectedNode = (_FileTreeSelectors || _load_FileTreeSelectors()).getSingleSelectedNode(store);
       expect(singleSelectedNode).not.toBeNull();
 
       if (!singleSelectedNode) {
@@ -251,11 +257,11 @@ describe('FileTreeStore', () => {
     });
 
     it('returns null if path does not belong to any root', () => {
-      expect(store.getRootForPath('random/path/file.txt')).toBeNull();
+      expect((_FileTreeSelectors || _load_FileTreeSelectors()).getRootForPath(store, 'random/path/file.txt')).toBeNull();
     });
 
     it('returns a root node if path exists in a root', () => {
-      const node = store.getRootForPath(fooTxt);
+      const node = (_FileTreeSelectors || _load_FileTreeSelectors()).getRootForPath(store, fooTxt);
       expect(node).not.toBeNull();
 
       if (!node) {
@@ -272,13 +278,13 @@ describe('FileTreeStore', () => {
       actions.setTrackedNode(dir1, dir1);
 
       // Root is tracked after setting it.
-      const trackedNode = store.getTrackedNode();
+      const trackedNode = (_FileTreeSelectors || _load_FileTreeSelectors()).getTrackedNode(store);
       expect(trackedNode && trackedNode.uri).toBe(dir1);
       actions.setSelectedNode(dir1, dir1);
 
       // New selection, which happens on user interaction via select and collapse, resets the
       // tracked node.
-      expect(store.getTrackedNode()).toBe(getNode(dir1, dir1));
+      expect((_FileTreeSelectors || _load_FileTreeSelectors()).getTrackedNode(store)).toBe(getNode(dir1, dir1));
     });
   });
 
@@ -325,37 +331,37 @@ describe('FileTreeStore', () => {
     }
 
     function updateFilter() {
-      expect(store.getFilter()).toEqual('');
+      expect((_FileTreeSelectors || _load_FileTreeSelectors()).getFilter(store)).toEqual('');
       actions.setRootKeys([dir1]);
       checkNode('', true);
-      store.addFilterLetter(node.name);
-      expect(store.getFilter()).toEqual(node.name);
+      actions.addFilterLetter(node.name);
+      expect((_FileTreeSelectors || _load_FileTreeSelectors()).getFilter(store)).toEqual(node.name);
       checkNode(node.name, true);
     }
 
     function doubleFilter() {
       updateFilter();
-      store.addFilterLetter(node.name);
-      expect(store.getFilter()).toEqual(node.name + node.name);
+      actions.addFilterLetter(node.name);
+      expect((_FileTreeSelectors || _load_FileTreeSelectors()).getFilter(store)).toEqual(node.name + node.name);
       checkNode('', false);
     }
 
     function clearFilter() {
       updateFilter();
-      store.addFilterLetter('t');
+      actions.addFilterLetter('t');
       checkNode('', false);
-      store.clearFilter();
+      actions.clearFilter();
       checkNode('', true);
     }
 
     it('should update when a letter is added', () => {
       updateFilter();
-      store.clearFilter();
+      actions.clearFilter();
     });
 
     it('should not match when filter does not equal name', () => {
       doubleFilter();
-      store.clearFilter();
+      actions.clearFilter();
     });
 
     it('should clear the filter, and return matching to normal', () => {
@@ -365,9 +371,9 @@ describe('FileTreeStore', () => {
 
     it('should remove filter letter', () => {
       updateFilter();
-      store.removeFilterLetter();
+      actions.removeFilterLetter();
       checkNode(node.name.substr(0, node.name.length - 1), true);
-      store.clearFilter();
+      actions.clearFilter();
     });
   });
 
@@ -575,7 +581,7 @@ describe('FileTreeStore', () => {
     _fs.default.writeFileSync(foo2Txt, '');
 
     // Wait for the new file to be loaded.
-    await (0, (_waits_for || _load_waits_for()).default)(() => Boolean(store.getNode(dir1, foo2Txt)));
+    await (0, (_waits_for || _load_waits_for()).default)(() => Boolean((_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir1, foo2Txt)));
 
     // Ensure the child did not inherit the parent subscription.
     const child = getNode(dir1, foo2Txt);
@@ -583,12 +589,12 @@ describe('FileTreeStore', () => {
     _fs.default.unlinkSync(foo2Txt);
 
     // Ensure that file disappears from the tree.
-    await (0, (_waits_for || _load_waits_for()).default)(() => store.getNode(dir1, foo2Txt) == null);
+    await (0, (_waits_for || _load_waits_for()).default)(() => (_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir1, foo2Txt) == null);
 
     // Add the file back.
     _fs.default.writeFileSync(foo2Txt, '');
 
     // Wait for the new file to be loaded.
-    await (0, (_waits_for || _load_waits_for()).default)(() => Boolean(store.getNode(dir1, foo2Txt)));
+    await (0, (_waits_for || _load_waits_for()).default)(() => Boolean((_FileTreeSelectors || _load_FileTreeSelectors()).getNode(store, dir1, foo2Txt)));
   });
 });

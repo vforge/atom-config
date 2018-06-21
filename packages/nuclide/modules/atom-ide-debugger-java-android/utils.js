@@ -14,6 +14,12 @@ function _load_idx() {
   return _idx = _interopRequireDefault(require('idx'));
 }
 
+var _nuclideAdb;
+
+function _load_nuclideAdb() {
+  return _nuclideAdb = require('../nuclide-adb');
+}
+
 var _nuclideUri;
 
 function _load_nuclideUri() {
@@ -54,17 +60,19 @@ function _load_AndroidJavaDebuggerHelpers() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const NUCLIDE_DEBUGGER_DEV_GK = exports.NUCLIDE_DEBUGGER_DEV_GK = 'nuclide_debugger_dev'; /**
-                                                                                           * Copyright (c) 2017-present, Facebook, Inc.
-                                                                                           * All rights reserved.
-                                                                                           *
-                                                                                           * This source code is licensed under the BSD-style license found in the
-                                                                                           * LICENSE file in the root directory of this source tree. An additional grant
-                                                                                           * of patent rights can be found in the PATENTS file in the same directory.
-                                                                                           *
-                                                                                           *  strict-local
-                                                                                           * @format
-                                                                                           */
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
+
+const NUCLIDE_DEBUGGER_DEV_GK = exports.NUCLIDE_DEBUGGER_DEV_GK = 'nuclide_debugger_dev';
 
 function getJavaAndroidConfig() {
   const deviceAndPackage = {
@@ -118,14 +126,22 @@ function getJavaAndroidConfig() {
       threads: true,
       properties: [deviceAndPackage, activity, service, intent, selectSources],
       cwdPropertyName: 'cwd',
-      header: null
+      header: null,
+      // Value will be replaced in the return value of resolveConfiguration().
+      getProcessName(values) {
+        return 'Android';
+      }
     },
     attach: {
       launch: false,
       vsAdapterType: (_constants || _load_constants()).VsAdapterTypes.JAVA_ANDROID,
       threads: true,
       properties: [deviceAndProcess, selectSources],
-      header: null
+      header: null,
+      // Value will be replaced in the return value of resolveConfiguration().
+      getProcessName(values) {
+        return 'Android';
+      }
     }
   };
 }
@@ -176,6 +192,13 @@ function _getAdbServiceUri(unresolvedTargetUri, config) {
   return adbServiceUri != null ? adbServiceUri : unresolvedTargetUri;
 }
 
+async function _getAndroidSdkSourcePaths(targetUri, adbServiceUri, device) {
+  const sdkVersion = await (0, (_nuclideAdb || _load_nuclideAdb()).getAdbServiceByNuclideUri)(adbServiceUri).getAPIVersion(device.name);
+  const sdkSourcePath = sdkVersion !== '' ? await (0, (_utils || _load_utils()).getJavaDebuggerHelpersServiceByNuclideUri)(targetUri).getSdkVersionSourcePath(sdkVersion) : null;
+  const sdkSourcePathResolved = sdkSourcePath != null ? (_nuclideUri || _load_nuclideUri()).default.getPath(sdkSourcePath) : null;
+  return sdkSourcePathResolved != null ? [sdkSourcePathResolved] : [];
+}
+
 async function resolveConfiguration(configuration) {
   // adapterType === VsAdapterTypes.JAVA_ANDROID
   const { config, debugMode, targetUri } = configuration;
@@ -197,24 +220,32 @@ async function resolveConfiguration(configuration) {
   const customDisposable = configuration.customDisposable || new (_UniversalDisposable || _load_UniversalDisposable()).default();
   customDisposable.add(subscriptions);
 
-  const sdkSourcePath = config.sdkVersion != null ? await (0, (_utils || _load_utils()).getJavaDebuggerHelpersServiceByNuclideUri)(resolvedTargetUri).getSdkVersionSourcePath(config.sdkVersion) : null;
-  const sdkSourcePathResolved = sdkSourcePath != null ? (_nuclideUri || _load_nuclideUri()).default.getPath(sdkSourcePath) : sdkSourcePath;
-  const additionalSourcePaths = sdkSourcePathResolved != null ? [sdkSourcePathResolved] : [];
+  const androidSdkSourcePaths = await _getAndroidSdkSourcePaths(resolvedTargetUri, adbServiceUri, device);
 
   const clickEvents = new _rxjsBundlesRxMinJs.Subject();
   const onInitializeCallback = async session => {
-    customDisposable.add(...(0, (_utils || _load_utils()).getSourcePathClickSubscriptions)(resolvedTargetUri, session, clickEvents, additionalSourcePaths));
+    customDisposable.add(...(0, (_utils || _load_utils()).getSourcePathClickSubscriptions)(resolvedTargetUri, session, clickEvents, androidSdkSourcePaths));
   };
+
+  const adapterExecutable = await (0, (_utils || _load_utils()).getJavaDebuggerHelpersServiceByNuclideUri)(resolvedTargetUri).getJavaVSAdapterExecutableInfo(false);
+
+  let processName = _getPackageName(debugMode, config);
+
+  // Gets rid of path to package.
+  const lastPeriod = processName.lastIndexOf('.');
+  if (lastPeriod >= 0) {
+    processName = processName.substring(lastPeriod + 1, processName.length);
+  }
+  processName += ' (Android)';
 
   return Object.assign({}, configuration, {
     targetUri: resolvedTargetUri,
-    debugMode: attachPortTargetConfig.debugMode,
-    adapterExecutable: await (0, (_utils || _load_utils()).getJavaDebuggerHelpersServiceByNuclideUri)(resolvedTargetUri).getJavaVSAdapterExecutableInfo(false),
-    properties: Object.assign({}, configuration.properties, {
-      customControlButtons: getCustomControlButtonsForJavaSourcePaths(clickEvents)
-    }),
+    debugMode: 'attach',
+    adapterExecutable,
+    customControlButtons: getCustomControlButtonsForJavaSourcePaths(clickEvents),
     config: attachPortTargetConfig,
     customDisposable,
-    onInitializeCallback
+    onInitializeCallback,
+    processName
   });
 }

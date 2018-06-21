@@ -11,6 +11,7 @@
  * @format
  */
 
+jest.mock('../modules/nuclide-commons/analytics');
 jest.mock('log4js');
 
 global.NUCLIDE_DO_NOT_LOG = true;

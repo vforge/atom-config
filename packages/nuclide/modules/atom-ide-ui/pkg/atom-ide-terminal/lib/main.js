@@ -6,6 +6,18 @@ function _load_destroyItemWhere() {
   return _destroyItemWhere = require('../../../../nuclide-commons-atom/destroyItemWhere');
 }
 
+var _PulseButtonWithTooltip;
+
+function _load_PulseButtonWithTooltip() {
+  return _PulseButtonWithTooltip = _interopRequireDefault(require('../../../../nuclide-commons-ui/PulseButtonWithTooltip'));
+}
+
+var _ToolbarUtils;
+
+function _load_ToolbarUtils() {
+  return _ToolbarUtils = require('../../../../nuclide-commons-ui/ToolbarUtils');
+}
+
 var _os = _interopRequireDefault(require('os'));
 
 var _nullthrows;
@@ -13,6 +25,10 @@ var _nullthrows;
 function _load_nullthrows() {
   return _nullthrows = _interopRequireDefault(require('nullthrows'));
 }
+
+var _react = _interopRequireDefault(require('react'));
+
+var _reactDom = _interopRequireDefault(require('react-dom'));
 
 var _createPackage;
 
@@ -43,6 +59,14 @@ var _UniversalDisposable;
 function _load_UniversalDisposable() {
   return _UniversalDisposable = _interopRequireDefault(require('../../../../nuclide-commons/UniversalDisposable'));
 }
+
+var _idbKeyval;
+
+function _load_idbKeyval() {
+  return _idbKeyval = _interopRequireDefault(require('idb-keyval'));
+}
+
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
 var _AtomServiceContainer;
 
@@ -81,6 +105,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
+
+const NUX_SEEN_KEY = 'atom_ide_terminal_nux_seen';
+// for homedir
+
 
 class Activation {
 
@@ -126,6 +154,40 @@ class Activation {
 
   dispose() {
     this._subscriptions.dispose();
+  }
+
+  consumeToolBar(getToolBar) {
+    const toolBar = getToolBar('nuclide-terminal');
+    const buttonView = toolBar.addButton((0, (_ToolbarUtils || _load_ToolbarUtils()).makeToolbarButtonSpec)({
+      icon: 'terminal',
+      callback: 'atom-ide-terminal:new-terminal',
+      tooltip: 'New Terminal',
+      priority: 700
+    }));
+
+    const disposable = new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {
+      toolBar.removeItems();
+    }, _rxjsBundlesRxMinJs.Observable.defer(() => (_idbKeyval || _load_idbKeyval()).default.get(NUX_SEEN_KEY)).filter(seen => !seen).switchMap(() => _rxjsBundlesRxMinJs.Observable.create(() => {
+      const rect = buttonView.element.getBoundingClientRect();
+      const nuxRoot = document.createElement('div');
+      nuxRoot.style.position = 'absolute';
+      // attach a pulse button, offset so not to obscure the icon
+      nuxRoot.style.top = rect.top + 15 + 'px';
+      nuxRoot.style.left = rect.left + 18 + 'px';
+      _reactDom.default.render(_react.default.createElement((_PulseButtonWithTooltip || _load_PulseButtonWithTooltip()).default, {
+        ariaLabel: 'Try the Terminal',
+        tooltipText: 'There\'s now a new built-in terminal. Click here to launch one!',
+        onDismiss: () => (_idbKeyval || _load_idbKeyval()).default.set(NUX_SEEN_KEY, true)
+      }), nuxRoot);
+      (0, (_nullthrows || _load_nullthrows()).default)(document.body).appendChild(nuxRoot);
+
+      return () => {
+        _reactDom.default.unmountComponentAtNode(nuxRoot);
+        nuxRoot.remove();
+      };
+    })).subscribe());
+    this._subscriptions.add(disposable);
+    return disposable;
   }
 
   consumePasteProvider(provider) {
@@ -189,8 +251,6 @@ class Activation {
 }
 
 // eslint-disable-next-line nuclide-internal/no-commonjs
-
-// for homedir
 module.exports = {
   // exported for package.json entry
   deserializeTerminalView: (_terminalView || _load_terminalView()).deserializeTerminalView

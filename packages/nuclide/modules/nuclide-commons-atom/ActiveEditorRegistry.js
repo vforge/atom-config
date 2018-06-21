@@ -36,6 +36,12 @@ function _load_log4js() {
   return _log4js = require('log4js');
 }
 
+var _paneItem;
+
+function _load_paneItem() {
+  return _paneItem = require('./pane-item');
+}
+
 var _ProviderRegistry;
 
 function _load_ProviderRegistry() {
@@ -44,24 +50,26 @@ function _load_ProviderRegistry() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const DEFAULT_CONFIG = {
-  updateOnEdit: true
-}; /**
-    * Copyright (c) 2017-present, Facebook, Inc.
-    * All rights reserved.
-    *
-    * This source code is licensed under the BSD-style license found in the
-    * LICENSE file in the root directory of this source tree. An additional grant
-    * of patent rights can be found in the PATENTS file in the same directory.
-    *
-    *  strict-local
-    * @format
-    */
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ *  strict-local
+ * @format
+ */
 
 /**
  * ActiveEditorRegistry provides abstractions for creating services that operate
  * on text editor contents.
  */
+
+const DEFAULT_CONFIG = {
+  updateOnEdit: true
+};
 
 function getConcreteConfig(config) {
   return Object.assign({}, DEFAULT_CONFIG, config);
@@ -115,7 +123,10 @@ class ActiveEditorRegistry {
       _rxjsBundlesRxMinJs.Observable.of({
         kind: 'pane-change',
         editor
-      }), _rxjsBundlesRxMinJs.Observable.fromPromise(this._getResultForEditor(this._getProviderForEditor(editor), editor)), this._resultsForEditor(editor, eventSources));
+      }),
+      // wait for pending panes to no longer be pending, or if they're not,
+      // get the result right away.
+      ((0, (_paneItem || _load_paneItem()).isPending)(editor) ? (0, (_paneItem || _load_paneItem()).observePendingStateEnd)(editor).take(1) : _rxjsBundlesRxMinJs.Observable.of(null)).ignoreElements(), _rxjsBundlesRxMinJs.Observable.fromPromise(this._getResultForEditor(this._getProviderForEditor(editor), editor)), this._resultsForEditor(editor, eventSources));
     });
     return (0, (_observable || _load_observable()).cacheWhileSubscribed)(results);
   }

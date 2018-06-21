@@ -3668,7 +3668,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "process.js",
-        line: 665
+        line: 666
       },
       name: "ProcessExitMessage",
       definition: {
@@ -3706,7 +3706,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "process.js",
-        line: 671
+        line: 672
       },
       name: "ProcessMessage",
       definition: {
@@ -3780,7 +3780,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "process.js",
-        line: 684
+        line: 685
       },
       name: "LegacyProcessMessage",
       definition: {

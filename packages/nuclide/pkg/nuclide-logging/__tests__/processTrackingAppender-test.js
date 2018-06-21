@@ -32,6 +32,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 jest.unmock('log4js');
+jest.unmock('../../../modules/nuclide-commons/analytics');
+jest.unmock('../../nuclide-analytics');
+
 global.NUCLIDE_DO_NOT_LOG = false;
 
 describe('processTrackingAppender', () => {

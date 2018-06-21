@@ -1,0 +1,26 @@
+{
+  "context-menu": {
+    "atom-text-editor": [
+       {
+        "label": "Generate Block Documentation",
+        "command": "esdoc:generate"
+      }
+    ]
+  },
+  "menu": [
+    {
+      "label": "Packages",
+      "submenu": [
+        {
+          "label": "ESDoc",
+          "submenu": [
+            {
+              "label": "Generate Block Documentation",
+              "command": "esdoc:generate"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

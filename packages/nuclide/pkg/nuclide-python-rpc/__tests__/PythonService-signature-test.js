@@ -20,16 +20,18 @@ function _load_JediServerManager() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const FIXTURE = (_nuclideUri || _load_nuclideUri()).default.join(__dirname, '../__mocks__/fixtures/signature_help.py'); /**
-                                                                                                                         * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                         * All rights reserved.
-                                                                                                                         *
-                                                                                                                         * This source code is licensed under the license found in the LICENSE file in
-                                                                                                                         * the root directory of this source tree.
-                                                                                                                         *
-                                                                                                                         * 
-                                                                                                                         * @format
-                                                                                                                         */
+jest.setTimeout(20000); /**
+                         * Copyright (c) 2015-present, Facebook, Inc.
+                         * All rights reserved.
+                         *
+                         * This source code is licensed under the license found in the LICENSE file in
+                         * the root directory of this source tree.
+                         *
+                         * 
+                         * @format
+                         */
+
+const FIXTURE = (_nuclideUri || _load_nuclideUri()).default.join(__dirname, '../__mocks__/fixtures/signature_help.py');
 
 describe('PythonService', () => {
   let serverManager = null;

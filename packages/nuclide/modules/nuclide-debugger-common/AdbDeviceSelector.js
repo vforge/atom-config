@@ -11,12 +11,6 @@ function _load_AdbDevicePoller() {
   return _AdbDevicePoller = require('../nuclide-adb/lib/AdbDevicePoller');
 }
 
-var _DebugBridge;
-
-function _load_DebugBridge() {
-  return _DebugBridge = require('../nuclide-adb/lib/common/DebugBridge');
-}
-
 var _react = _interopRequireWildcard(require('react'));
 
 var _Dropdown;
@@ -53,19 +47,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- * @format
- */
-
-const NO_DEVICES_MSG = 'No adb devices attached!';
+const NO_DEVICES_MSG = 'No adb devices attached!'; /**
+                                                    * Copyright (c) 2017-present, Facebook, Inc.
+                                                    * All rights reserved.
+                                                    *
+                                                    * This source code is licensed under the BSD-style license found in the
+                                                    * LICENSE file in the root directory of this source tree. An additional grant
+                                                    * of patent rights can be found in the PATENTS file in the same directory.
+                                                    *
+                                                    * 
+                                                    * @format
+                                                    */
 
 class AdbDeviceSelector extends _react.Component {
 
@@ -97,7 +89,7 @@ class AdbDeviceSelector extends _react.Component {
       }
 
       return (0, (_collection || _load_collection()).arrayEqual)(a.value != null ? a.value : [], b.value != null ? b.value : [], (x, y) => {
-        return x.name === y.name && x.port === y.port;
+        return x.name === y.name;
       });
     }).subscribe(deviceList => this._handleDeviceListChange(deviceList)));
   }
@@ -132,7 +124,7 @@ class AdbDeviceSelector extends _react.Component {
 
     return this.state.deviceList.value.map(device => ({
       value: device,
-      label: device.port === (_DebugBridge || _load_DebugBridge()).DEFAULT_ADB_PORT ? device.displayName : `${device.displayName} on ADB port ${device.port}`
+      label: device.displayName
     }));
   }
 

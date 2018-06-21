@@ -17,6 +17,12 @@ function _load_FileTreeHelpers() {
   return _FileTreeHelpers = _interopRequireDefault(require('../lib/FileTreeHelpers'));
 }
 
+var _FileTreeSelectors;
+
+function _load_FileTreeSelectors() {
+  return _FileTreeSelectors = _interopRequireWildcard(require('../lib/FileTreeSelectors'));
+}
+
 var _react = _interopRequireWildcard(require('react'));
 
 var _reactDom = _interopRequireDefault(require('react-dom'));
@@ -66,7 +72,7 @@ function _load_hgConstants() {
 var _FileTreeStore;
 
 function _load_FileTreeStore() {
-  return _FileTreeStore = require('../lib/FileTreeStore');
+  return _FileTreeStore = _interopRequireDefault(require('../lib/FileTreeStore'));
 }
 
 var _FileTreeHgHelpers;
@@ -93,21 +99,17 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
+const SUBSEQUENT_FETCH_SPINNER_DELAY = 500; /**
+                                             * Copyright (c) 2015-present, Facebook, Inc.
+                                             * All rights reserved.
+                                             *
+                                             * This source code is licensed under the license found in the LICENSE file in
+                                             * the root directory of this source tree.
+                                             *
+                                             * 
+                                             * @format
+                                             */
 
-const store = (_FileTreeStore || _load_FileTreeStore()).FileTreeStore.getInstance();
-const getActions = (_FileTreeActions || _load_FileTreeActions()).default.getInstance;
-
-const SUBSEQUENT_FETCH_SPINNER_DELAY = 500;
 const INITIAL_FETCH_SPINNER_DELAY = 25;
 const INDENT_LEVEL = 17;
 const CHAR_EM_SCALE_FACTOR = 0.9;
@@ -128,11 +130,11 @@ class FileTreeEntryComponent extends _react.Component {
 
       const selectionMode = (_FileTreeHelpers || _load_FileTreeHelpers()).default.getSelectionMode(event);
       if (selectionMode === 'multi-select' && !isSelected) {
-        getActions().addSelectedNode(node.rootUri, node.uri);
+        this.props.actions.addSelectedNode(node.rootUri, node.uri);
       } else if (selectionMode === 'range-select') {
-        getActions().rangeSelectToNode(node.rootUri, node.uri);
+        this.props.actions.rangeSelectToNode(node.rootUri, node.uri);
       } else if (selectionMode === 'single-select' && !isSelected) {
-        getActions().setSelectedNode(node.rootUri, node.uri);
+        this.props.actions.setSelectedNode(node.rootUri, node.uri);
       }
     };
 
@@ -156,7 +158,7 @@ class FileTreeEntryComponent extends _react.Component {
 
       if (selectionMode === 'multi-select') {
         if (isFocused) {
-          getActions().unselectNode(node.rootUri, node.uri);
+          this.props.actions.unselectNode(node.rootUri, node.uri);
           // If this node was just unselected, immediately return and skip
           // the statement below that sets this node to focused.
           return;
@@ -168,17 +170,17 @@ class FileTreeEntryComponent extends _react.Component {
           }
         } else {
           if (node.conf.usePreviewTabs) {
-            getActions().confirmNode(node.rootUri, node.uri, true // pending
+            this.props.actions.confirmNode(node.rootUri, node.uri, true // pending
             );
           }
         }
         // Set selected node to clear any other selected nodes (i.e. in the case of
         // previously having multiple selections).
-        getActions().setSelectedNode(node.rootUri, node.uri);
+        this.props.actions.setSelectedNode(node.rootUri, node.uri);
       }
 
       if (isSelected) {
-        getActions().setFocusedNode(node.rootUri, node.uri);
+        this.props.actions.setFocusedNode(node.rootUri, node.uri);
       }
     };
 
@@ -189,15 +191,15 @@ class FileTreeEntryComponent extends _react.Component {
         return;
       }
 
-      getActions().confirmNode(this.props.node.rootUri, this.props.node.uri);
+      this.props.actions.confirmNode(this.props.node.rootUri, this.props.node.uri);
     };
 
     this._onDragEnter = event => {
       event.stopPropagation();
 
-      const nodes = store.getSelectedNodes();
+      const nodes = (_FileTreeSelectors || _load_FileTreeSelectors()).getSelectedNodes(this.props.store);
       if (!this.props.isPreview && nodes.size === 1 && (0, (_nullthrows || _load_nullthrows()).default)(nodes.first()).isRoot) {
-        getActions().reorderDragInto(this.props.node.rootUri);
+        this.props.actions.reorderDragInto(this.props.node.rootUri);
         return;
       }
       const movableNodes = nodes.filter(node => (_FileTreeHgHelpers || _load_FileTreeHgHelpers()).default.isValidRename(node, this.props.node.uri));
@@ -208,7 +210,7 @@ class FileTreeEntryComponent extends _react.Component {
       }
       if (this.dragEventCount <= 0) {
         this.dragEventCount = 0;
-        getActions().setDragHoveredNode(this.props.node.rootUri, this.props.node.uri);
+        this.props.actions.setDragHoveredNode(this.props.node.rootUri, this.props.node.uri);
       }
       this.dragEventCount++;
     };
@@ -222,7 +224,7 @@ class FileTreeEntryComponent extends _react.Component {
       this.dragEventCount--;
       if (this.dragEventCount <= 0) {
         this.dragEventCount = 0;
-        getActions().unhoverNode(this.props.node.rootUri, this.props.node.uri);
+        this.props.actions.unhoverNode(this.props.node.rootUri, this.props.node.uri);
       }
     };
 
@@ -263,7 +265,7 @@ class FileTreeEntryComponent extends _react.Component {
       });
 
       if (this.props.node.isRoot) {
-        getActions().startReorderDrag(this.props.node.uri);
+        this.props.actions.startReorderDrag(this.props.node.uri);
       }
     };
 
@@ -274,7 +276,7 @@ class FileTreeEntryComponent extends _react.Component {
 
     this._onDragEnd = event => {
       if (this.props.node.isRoot) {
-        getActions().endReorderDrag();
+        this.props.actions.endReorderDrag();
       }
     };
 
@@ -282,21 +284,21 @@ class FileTreeEntryComponent extends _react.Component {
       event.preventDefault();
       event.stopPropagation();
 
-      const dragNode = store.getSingleSelectedNode();
+      const dragNode = (_FileTreeSelectors || _load_FileTreeSelectors()).getSingleSelectedNode(this.props.store);
       if (dragNode != null && dragNode.isRoot) {
-        getActions().reorderRoots();
+        this.props.actions.reorderRoots();
       } else {
         // Reset the dragEventCount for the currently dragged node upon dropping.
         this.dragEventCount = 0;
-        getActions().moveToNode(this.props.node.rootUri, this.props.node.uri);
+        this.props.actions.moveToNode(this.props.node.rootUri, this.props.node.uri);
       }
     };
 
     this._checkboxOnChange = isChecked => {
       if (isChecked) {
-        getActions().checkNode(this.props.node.rootUri, this.props.node.uri);
+        this.props.actions.checkNode(this.props.node.rootUri, this.props.node.uri);
       } else {
-        getActions().uncheckNode(this.props.node.rootUri, this.props.node.uri);
+        this.props.actions.uncheckNode(this.props.node.rootUri, this.props.node.uri);
       }
     };
 
@@ -431,8 +433,8 @@ class FileTreeEntryComponent extends _react.Component {
     }
 
     let min_width = 'max-content';
-    if (store != null) {
-      const size = store.getMaxComponentWidth();
+    if (this.props.store != null) {
+      const size = (_FileTreeSelectors || _load_FileTreeSelectors()).getMaxComponentWidth(this.props.store);
       if (size != null && typeof size === 'number' && size > 0) {
         min_width = size * CHAR_EM_SCALE_FACTOR + 'em';
       }
@@ -467,7 +469,7 @@ class FileTreeEntryComponent extends _react.Component {
           // eslint-disable-next-line nuclide-internal/jsx-simple-callback-refs
           , ref: el => {
             this._arrowContainer = el;
-            store.updateMaxComponentWidth(this.props.node.name.length);
+            this.props.actions.updateMaxComponentWidth(this.props.node.name.length);
           } },
         _react.createElement(
           (_PathWithFileIcon || _load_PathWithFileIcon()).default,
@@ -536,7 +538,7 @@ class FileTreeEntryComponent extends _react.Component {
     // $FlowFixMe
     _reactDom.default.findDOMNode(this._pathContainer).getBoundingClientRect().left;
     if (shouldToggleExpand) {
-      getActions().clearTrackedNode();
+      this.props.actions.clearTrackedNode();
     }
 
     return shouldToggleExpand;
@@ -545,15 +547,15 @@ class FileTreeEntryComponent extends _react.Component {
   _toggleNodeExpanded(deep) {
     if (this.props.node.isExpanded) {
       if (deep) {
-        getActions().collapseNodeDeep(this.props.node.rootUri, this.props.node.uri);
+        this.props.actions.collapseNodeDeep(this.props.node.rootUri, this.props.node.uri);
       } else {
-        getActions().collapseNode(this.props.node.rootUri, this.props.node.uri);
+        this.props.actions.collapseNode(this.props.node.rootUri, this.props.node.uri);
       }
     } else {
       if (deep) {
-        getActions().expandNodeDeep(this.props.node.rootUri, this.props.node.uri);
+        this.props.actions.expandNodeDeep(this.props.node.rootUri, this.props.node.uri);
       } else {
-        getActions().expandNode(this.props.node.rootUri, this.props.node.uri);
+        this.props.actions.expandNode(this.props.node.rootUri, this.props.node.uri);
       }
     }
   }

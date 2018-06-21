@@ -11,6 +11,7 @@ function _load_memoize() {
 }
 
 exports.indexDirectory = indexDirectory;
+exports.getExportsForFile = getExportsForFile;
 exports.indexNodeModules = indexNodeModules;
 
 var _crypto = _interopRequireDefault(require('crypto'));
@@ -91,6 +92,18 @@ function _load_fileIndex() {
   return _fileIndex = require('./file-index');
 }
 
+var _nuclideUiComponentToolsCommon;
+
+function _load_nuclideUiComponentToolsCommon() {
+  return _nuclideUiComponentToolsCommon = require('../../../nuclide-ui-component-tools-common');
+}
+
+var _passesGK;
+
+function _load_passesGK() {
+  return _passesGK = _interopRequireDefault(require('../../../commons-node/passesGK'));
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, (_initializeLogging || _load_initializeLogging()).initializeLoggerForWorker)(); /**
@@ -144,7 +157,15 @@ async function main() {
     sendUpdatesBatched(message);
     message.forEach(update => {
       if (update.sha1 != null) {
-        newCache.set({ filePath: update.file, sha1: update.sha1 }, update.exports);
+        const key = { filePath: update.file, sha1: update.sha1 };
+        const value = { exports: update.exports };
+        if (update.componentDefinition != null) {
+          newCache.set(key, Object.assign({}, value, {
+            componentDefinition: update.componentDefinition
+          }));
+        } else {
+          newCache.set(key, value);
+        }
       }
     });
   }, error => {
@@ -208,7 +229,8 @@ function indexDirectory({ root, exportCache, jsFiles, mainFiles }, hasteSettings
           updateType: 'setExports',
           file: filePath,
           sha1,
-          exports: cached
+          exports: cached.exports,
+          componentDefinition: cached.componentDefinition
         });
         return;
       }
@@ -324,7 +346,17 @@ async function getExportsForFile(file, hasteSettings, fileContents_) {
         jsExport.hasteName = hasteName;
       });
     }
-    return Object.assign({}, update, { exports });
+
+    const updateObj = Object.assign({}, update, { exports });
+    const componentModulePathFilter = process.env.componentModulePathFilter;
+
+    if ((await (0, (_passesGK || _load_passesGK()).default)((_nuclideUiComponentToolsCommon || _load_nuclideUiComponentToolsCommon()).UI_COMPONENT_TOOLS_INDEXING_GK)) && (componentModulePathFilter == null || file.includes(componentModulePathFilter))) {
+      const definition = (0, (_nuclideUiComponentToolsCommon || _load_nuclideUiComponentToolsCommon()).getComponentDefinitionFromAst)(file, ast);
+      if (definition != null) {
+        updateObj.componentDefinition = definition;
+      }
+    }
+    return updateObj;
   } catch (err) {
     logger.error(`Unexpected error indexing ${file}`, err);
     return null;
@@ -398,7 +430,8 @@ async function handleNodeModule(root, packageJsonFile, exportCache) {
         updateType: 'setExports',
         file: entryPoint,
         sha1,
-        exports: cachedUpdate
+        exports: cachedUpdate.exports,
+        componentDefinition: cachedUpdate.componentDefinition
       };
     }
     // TODO(hansonw): How do we handle haste modules inside Node modules?

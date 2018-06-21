@@ -274,11 +274,6 @@ class RemoteConnection {
         warningMessageToUser += `This project directory: \`${rootDirectoryPath}\` is on <b>\`NFS\`</b> filesystem. ` + 'Nuclide works best with local (non-NFS) root directory.' + 'e.g. `/data/users/$USER`' + 'features such as synced remote file editing, file search, ' + 'and Mercurial-related updates will not work.<br/>';
       } else {
         warningMessageToUser += 'You just connected to a remote project ' + `\`${rootDirectoryPath}\` without Watchman support, which means that ` + 'crucial features such as synced remote file editing, file search, ' + 'and Mercurial-related updates will not work.';
-
-        const watchmanConfig = await fileSystemService.findNearestAncestorNamed('.watchmanconfig', rootDirectoryUri).catch(() => null);
-        if (watchmanConfig == null) {
-          warningMessageToUser += '<br/><br/>A possible workaround is to create an empty `.watchmanconfig` file ' + 'in the remote folder, which will enable Watchman if you have it installed.';
-        }
         detail = error.message || error;
         logger.error('Watchman failed to start - watcher features disabled!', error);
       }
@@ -353,7 +348,7 @@ class RemoteConnection {
    */
   static getByHostnameAndPath(hostname, path) {
     return RemoteConnection.getByHostname(hostname).filter(connection => {
-      return path.startsWith(connection.getPath());
+      return (_nuclideUri || _load_nuclideUri()).default.contains(connection.getPath(), path);
     })[0];
   }
 

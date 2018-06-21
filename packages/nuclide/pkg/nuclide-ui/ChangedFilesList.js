@@ -5,12 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.computeDisplayPaths = computeDisplayPaths;
 
-var _nuclideVcsBase;
-
-function _load_nuclideVcsBase() {
-  return _nuclideVcsBase = require('../nuclide-vcs-base');
-}
-
 var _addTooltip;
 
 function _load_addTooltip() {
@@ -46,22 +40,6 @@ function _load_ChangedFile() {
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- *  strict-local
- * @format
- */
-
-function isHgPath(path) {
-  const repo = (0, (_nuclideVcsBase || _load_nuclideVcsBase()).repositoryForPath)(path);
-  return repo != null && repo.getType() === 'hg';
-}
 
 // Computes the minimally differentiable display path for each file.
 // The algorithm is O(n*m^2) where n = filePaths.length and m = maximum number
@@ -115,7 +93,16 @@ function computeDisplayPaths(filePaths, maxDepth = 5) {
   }
 
   return displayPaths.map(({ separator, pathParts, depth }) => pathParts.slice(0, depth).reverse().join(separator));
-}
+} /**
+   * Copyright (c) 2015-present, Facebook, Inc.
+   * All rights reserved.
+   *
+   * This source code is licensed under the license found in the LICENSE file in
+   * the root directory of this source tree.
+   *
+   *  strict-local
+   * @format
+   */
 
 const FILE_CHANGES_INITIAL_PAGE_SIZE = 100;
 
@@ -131,7 +118,6 @@ class ChangedFilesList extends _react.Component {
   render() {
     const {
       checkedFiles,
-      enableInlineActions,
       fileStatuses,
       generatedTypes,
       onAddFile,
@@ -141,7 +127,6 @@ class ChangedFilesList extends _react.Component {
       onForgetFile,
       onMarkFileResolved,
       onOpenFileInDiffView,
-      openInDiffViewOption,
       onRevertFile,
       rootPath,
       selectedFile
@@ -177,7 +162,6 @@ class ChangedFilesList extends _react.Component {
       })
     }) : null;
 
-    const isHgRoot = isHgPath(rootPath);
     return _react.createElement(
       'ul',
       { className: 'list-tree has-collapsable-children nuclide-changed-files-list' },
@@ -204,12 +188,10 @@ class ChangedFilesList extends _react.Component {
           sizeLimitedFileChanges.map(({ displayPath, filePath, fileStatus, generatedType }) => {
             return _react.createElement((_ChangedFile || _load_ChangedFile()).default, {
               displayPath: displayPath,
-              enableInlineActions: enableInlineActions,
               filePath: filePath,
               fileStatus: fileStatus,
               generatedType: generatedType,
               isChecked: checkedFiles == null ? null : checkedFiles.has(filePath),
-              isHgPath: isHgRoot,
               isSelected: selectedFile === filePath,
               key: filePath,
               onAddFile: onAddFile,
@@ -219,7 +201,6 @@ class ChangedFilesList extends _react.Component {
               onForgetFile: onForgetFile,
               onMarkFileResolved: onMarkFileResolved,
               onOpenFileInDiffView: onOpenFileInDiffView,
-              openInDiffViewOption: openInDiffViewOption,
               onRevertFile: onRevertFile,
               rootPath: rootPath
             });

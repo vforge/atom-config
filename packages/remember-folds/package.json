@@ -1,0 +1,64 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5461-1lf3s9k.7361sb57b9/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5461-1lf3s9k.7361sb57b9/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5461-1lf3s9k.7361sb57b9/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118520-5461-132x3uz.r00j7zaor"
+    ]
+  ],
+  "_from": "../d-118520-5461-1lf3s9k.7361sb57b9/package.tgz",
+  "_id": "remember-folds@0.3.0",
+  "_inCache": true,
+  "_location": "/remember-folds",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5461-1lf3s9k.7361sb57b9/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5461-1lf3s9k.7361sb57b9/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5461-1lf3s9k.7361sb57b9/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-118520-5461-1lf3s9k.7361sb57b9/package.tgz",
+  "_shasum": "81185d5c99505148219efb195446b9e6f831caf6",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-5461-1lf3s9k.7361sb57b9/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118520-5461-132x3uz.r00j7zaor",
+  "bugs": {
+    "url": "https://github.com/forivall/atom-remember-folds/issues"
+  },
+  "dependencies": {
+    "debug": "^2.3.2"
+  },
+  "description": "Remembers and automatically re-folds folds in your text editors",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "homepage": "https://github.com/forivall/atom-remember-folds#readme",
+  "keywords": [
+    "fold"
+  ],
+  "license": "MIT",
+  "main": "./lib/remember-folds",
+  "name": "remember-folds",
+  "optionalDependencies": {},
+  "readme": "# remember-folds package\n\nRemembers and automatically re-folds folds in your text editors\n\n![A screenshot of your package](http://i.imgur.com/WZCBjsZ.gif)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forivall/atom-remember-folds.git"
+  },
+  "version": "0.3.0"
+}

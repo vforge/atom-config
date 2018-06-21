@@ -133,7 +133,11 @@ function globListFiles(root, pattern, ignore) {
 }
 
 function watchmanListFiles(client, root, pattern) {
-  return client.listFiles(root, getWatchmanExpression(root, pattern)).then(files => files.map(data => ({ name: data.name, sha1: data['content.sha1hex'] })));
+  return client.listFiles(root, getWatchmanExpression(root, pattern)).then(files => files.map(data => {
+    // content.sha1hex may be an object with an "error" property
+    const sha1 = data['content.sha1hex'];
+    return { name: data.name, sha1: typeof sha1 === 'string' ? sha1 : null };
+  }));
 }
 
 async function getMainFiles(root, packageJsons) {

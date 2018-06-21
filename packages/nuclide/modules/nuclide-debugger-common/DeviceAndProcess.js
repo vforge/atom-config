@@ -17,12 +17,6 @@ function _load_nuclideAdb() {
   return _nuclideAdb = require('../nuclide-adb');
 }
 
-var _AtomInput;
-
-function _load_AtomInput() {
-  return _AtomInput = require('../nuclide-commons-ui/AtomInput');
-}
-
 var _LoadingSpinner;
 
 function _load_LoadingSpinner() {
@@ -39,12 +33,6 @@ var _collection;
 
 function _load_collection() {
   return _collection = require('../nuclide-commons/collection');
-}
-
-var _debounce;
-
-function _load_debounce() {
-  return _debounce = _interopRequireDefault(require('../nuclide-commons/debounce'));
 }
 
 var _expected;
@@ -69,15 +57,21 @@ function _load_AdbDeviceSelector() {
   return _AdbDeviceSelector = require('./AdbDeviceSelector');
 }
 
-var _EmulatorUtils;
-
-function _load_EmulatorUtils() {
-  return _EmulatorUtils = require('./EmulatorUtils');
-}
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
 
 class DeviceAndProcess extends _react.Component {
 
@@ -86,7 +80,7 @@ class DeviceAndProcess extends _react.Component {
 
     this._handleDeviceChange = device => {
       const oldDevice = this.state.selectedDevice;
-      if (oldDevice != null && device != null && oldDevice.name === device.name && oldDevice.port === device.port) {
+      if (oldDevice != null && device != null && oldDevice.name === device.name) {
         // Same device selected.
         return;
       }
@@ -106,7 +100,7 @@ class DeviceAndProcess extends _react.Component {
       if (device != null) {
         // If a device is selected, observe the Java processes on the device.
         const adbService = (0, (_nuclideAdb || _load_nuclideAdb()).getAdbServiceByNuclideUri)(this.props.targetUri);
-        this._javaProcessSubscription = _rxjsBundlesRxMinJs.Observable.interval(2000).startWith(0).switchMap(() => adbService.getJavaProcesses(device).refCount()).distinctUntilChanged((a, b) => (0, (_collection || _load_collection()).arrayEqual)(a, b, (x, y) => {
+        this._javaProcessSubscription = _rxjsBundlesRxMinJs.Observable.interval(2000).startWith(0).switchMap(() => adbService.getJavaProcesses(device.name).refCount()).distinctUntilChanged((a, b) => (0, (_collection || _load_collection()).arrayEqual)(a, b, (x, y) => {
           return x.user === y.user && x.pid === y.pid && x.name === y.name;
         })).subscribe(javaProcesses => {
           this._javaProcessListChanged((_expected || _load_expected()).Expect.value(javaProcesses));
@@ -154,7 +148,6 @@ class DeviceAndProcess extends _react.Component {
         this._javaProcessSubscription.unsubscribe();
       }
     });
-    this._setAdbPorts = (0, (_debounce || _load_debounce()).default)(this._setAdbPorts.bind(this), 1000);
 
     this.state = {
       selectedDevice: null,
@@ -162,22 +155,12 @@ class DeviceAndProcess extends _react.Component {
       selectedProcess: null,
       selectedProcessName: null,
       sortedColumn: 'name',
-      sortDescending: false,
-      adbPorts: ''
+      sortDescending: false
     };
   }
 
   componentWillUnmount() {
     this._disposables.dispose();
-  }
-
-  async _setAdbPorts(value) {
-    (0, (_EmulatorUtils || _load_EmulatorUtils()).setAdbPath)(this.props.targetUri, (await (0, (_EmulatorUtils || _load_EmulatorUtils()).getAdbPath)()));
-
-    const parsedPorts = value.split(/,\s*/).map(port => parseInt(port.trim(), 10)).filter(port => !Number.isNaN(port));
-
-    (0, (_EmulatorUtils || _load_EmulatorUtils()).addAdbPorts)(this.props.targetUri, parsedPorts);
-    this.setState({ adbPorts: value, selectedDevice: null });
   }
 
   setState(partialState, callback) {
@@ -220,8 +203,6 @@ class DeviceAndProcess extends _react.Component {
   }
 
   render() {
-    const devicesLabel = this.state.adbPorts === '' ? '' : '(ADB port ' + this.state.adbPorts + ')';
-
     const emptyMessage = this.state.selectedDevice == null ? 'No device selected' : 'No debuggable Java processes found!';
     const emptyComponent = () => _react.createElement(
       'div',
@@ -247,19 +228,7 @@ class DeviceAndProcess extends _react.Component {
       _react.createElement(
         'label',
         null,
-        'ADB Server Port: '
-      ),
-      _react.createElement((_AtomInput || _load_AtomInput()).AtomInput, {
-        placeholderText: 'Optional. (For One World devices, specify ANDROID_ADB_SERVER_PORT from one_world_adb)',
-        title: 'Optional. (For One World devices, specify ANDROID_ADB_SERVER_PORT from one_world_adb)',
-        value: this.state.adbPorts,
-        onDidChange: value => this._setAdbPorts(value)
-      }),
-      _react.createElement(
-        'label',
-        null,
-        'Device: ',
-        devicesLabel
+        'Device:'
       ),
       _react.createElement((_AdbDeviceSelector || _load_AdbDeviceSelector()).AdbDeviceSelector, {
         onChange: this._handleDeviceChange,
@@ -289,14 +258,4 @@ class DeviceAndProcess extends _react.Component {
     );
   }
 }
-exports.DeviceAndProcess = DeviceAndProcess; /**
-                                              * Copyright (c) 2017-present, Facebook, Inc.
-                                              * All rights reserved.
-                                              *
-                                              * This source code is licensed under the BSD-style license found in the
-                                              * LICENSE file in the root directory of this source tree. An additional grant
-                                              * of patent rights can be found in the PATENTS file in the same directory.
-                                              *
-                                              * 
-                                              * @format
-                                              */
+exports.DeviceAndProcess = DeviceAndProcess;
