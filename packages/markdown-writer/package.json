@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70266-1lvyqt.66ejhsemi/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-1v3gkp4.ri381if6r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70266-1lvyqt.66ejhsemi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70266-1lvyqt.66ejhsemi/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-1v3gkp4.ri381if6r/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-1v3gkp4.ri381if6r/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117917-70266-itp4mj.kl8movquxr"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118524-48648-17hhtah.0lp3prdx6r"
     ]
   ],
-  "_from": "../d-117917-70266-1lvyqt.66ejhsemi/package.tgz",
-  "_id": "markdown-writer@2.7.3",
+  "_from": "../d-118524-48648-1v3gkp4.ri381if6r/package.tgz",
+  "_id": "markdown-writer@2.7.4",
   "_inCache": true,
   "_location": "/markdown-writer",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70266-1lvyqt.66ejhsemi/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-1v3gkp4.ri381if6r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70266-1lvyqt.66ejhsemi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70266-1lvyqt.66ejhsemi/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-1v3gkp4.ri381if6r/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-1v3gkp4.ri381if6r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117917-70266-1lvyqt.66ejhsemi/package.tgz",
-  "_shasum": "1a319cbdfa3106a4f49bc6a7df7e17113e9a3127",
+  "_resolved": "file:../d-118524-48648-1v3gkp4.ri381if6r/package.tgz",
+  "_shasum": "89026b754a04753636ed98eca9ef0bb139bf9674",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-117917-70266-1lvyqt.66ejhsemi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-117917-70266-itp4mj.kl8movquxr",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-1v3gkp4.ri381if6r/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118524-48648-17hhtah.0lp3prdx6r",
   "activationCommands": {
     "atom-workspace": [
       "markdown-writer:new-post",
@@ -58,6 +58,11 @@
       "markdown-writer:toggle-italic-text",
       "markdown-writer:toggle-keystroke-text",
       "markdown-writer:toggle-strikethrough-text",
+      "markdown-writer:toggle-deletion-text",
+      "markdown-writer:toggle-addition-text",
+      "markdown-writer:toggle-substitution-text",
+      "markdown-writer:toggle-comment-text",
+      "markdown-writer:toggle-highlight-text",
       "markdown-writer:toggle-h1",
       "markdown-writer:toggle-h2",
       "markdown-writer:toggle-h3",
@@ -77,7 +82,8 @@
       "markdown-writer:format-table",
       "markdown-writer:correct-order-list-numbers",
       "markdown-writer:insert-new-line",
-      "markdown-writer:indent-list-line"
+      "markdown-writer:indent-list-line",
+      "markdown-writer:undent-list-line"
     ]
   },
   "author": {
@@ -124,5 +130,5 @@
     "type": "git",
     "url": "git+https://github.com/zhuochun/md-writer.git"
   },
-  "version": "2.7.3"
+  "version": "2.7.4"
 }

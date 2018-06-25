@@ -2,40 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117429-2404-r4dlvl.kavhxv42t9/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-zjvxr2.xbadu0udi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117429-2404-r4dlvl.kavhxv42t9/package.tgz",
-        "spec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117429-2404-r4dlvl.kavhxv42t9/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-zjvxr2.xbadu0udi/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-zjvxr2.xbadu0udi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/apm-install-dir-117429-2404-16nbyjs.kx3v8l4n29"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118524-48648-1astk06.6vibe29"
     ]
   ],
-  "_from": "../d-117429-2404-r4dlvl.kavhxv42t9/package.tgz",
-  "_id": "aligner-ruby@1.6.1",
+  "_from": "../d-118524-48648-zjvxr2.xbadu0udi/package.tgz",
+  "_id": "aligner-ruby@1.7.0",
   "_inCache": true,
-  "_installable": true,
   "_location": "/aligner-ruby",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117429-2404-r4dlvl.kavhxv42t9/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-zjvxr2.xbadu0udi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117429-2404-r4dlvl.kavhxv42t9/package.tgz",
-    "spec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117429-2404-r4dlvl.kavhxv42t9/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-zjvxr2.xbadu0udi/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-zjvxr2.xbadu0udi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117429-2404-r4dlvl.kavhxv42t9/package.tgz",
-  "_shasum": "f4d8494743f245aa57d63d642788dd99d4ac75f7",
+  "_resolved": "file:../d-118524-48648-zjvxr2.xbadu0udi/package.tgz",
+  "_shasum": "4a2512d39097ebc25611ff463760e79e1dc9ee6e",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/d-117429-2404-r4dlvl.kavhxv42t9/package.tgz",
-  "_where": "/private/var/folders/fm/qn1vhql10s93d0b4np8pvbw40000gn/T/apm-install-dir-117429-2404-16nbyjs.kx3v8l4n29",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118524-48648-zjvxr2.xbadu0udi/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118524-48648-1astk06.6vibe29",
   "bugs": {
     "url": "https://github.com/adrianlee44/atom-aligner-ruby/issues"
   },
@@ -63,25 +62,11 @@
       }
     }
   },
-  "readme": "# aligner-ruby\n\n[Aligner](https://github.com/adrianlee44/atom-aligner) add-on to support Ruby and Ruby on Rails.\n\n## Installation\nAligner must be installed along with this package. For more information, please check out [Aligner](https://github.com/adrianlee44/atom-aligner)\n\n## Changelog\n- 2017-05-26   v1.6.1   Fix typo in title for = config\n- 2017-05-18   v1.6.0   Add support for `eq` in Rspec\n- 2016-08-01   v1.5.0   Add prefix support to `=` operator\n- 2015-05-09   v1.4.0   Add Rspec support\n- 2015-04-24   v1.3.0   Add `=` support (#2)\n- 2015-04-09   v1.2.1   Reverted Atom requirement back to v0.174.0\n- 2015-04-07   v1.2.0   Add `:` support for 1.9 syntax\n- 2015-04-07   v1.1.0   Add Ruby on Rails support\n- 2015-03-23   v1.0.0   Initial release\n",
+  "readme": "# aligner-ruby\n\n[Aligner](https://github.com/adrianlee44/atom-aligner) add-on to support Ruby and Ruby on Rails.\n\n## Installation\nAligner must be installed along with this package. For more information, please check out [Aligner](https://github.com/adrianlee44/atom-aligner)\n\n## Changelog\n- 2018-06-24   v1.7.0   Add support for `,`\n- 2017-05-26   v1.6.1   Fix typo in title for = config\n- 2017-05-18   v1.6.0   Add support for `eq` in Rspec\n- 2016-08-01   v1.5.0   Add prefix support to `=` operator\n- 2015-05-09   v1.4.0   Add Rspec support\n- 2015-04-24   v1.3.0   Add `=` support (#2)\n- 2015-04-09   v1.2.1   Reverted Atom requirement back to v0.174.0\n- 2015-04-07   v1.2.0   Add `:` support for 1.9 syntax\n- 2015-04-07   v1.1.0   Add Ruby on Rails support\n- 2015-03-23   v1.0.0   Initial release\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adrianlee44/atom-aligner-ruby.git"
+    "url": "git+ssh://git@github.com/adrianlee44/atom-aligner-ruby.git"
   },
-  "version": "1.6.1",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [],
-    "extensions": {
-      ".js": [
-        "lib/main.js",
-        "lib/provider.js"
-      ],
-      ".json": [
-        "package.json"
-      ]
-    },
-    "folders": []
-  }
+  "version": "1.7.0"
 }

@@ -118,6 +118,7 @@
       "php-integrator-refactoring"
       "markdown-scroll-sync"
       "nuclide"
+      "atom-esdoc"
     ]
     packagesWithKeymapsDisabled: []
     restorePreviousWindowsOnStart: "always"
