@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _child_process = _interopRequireWildcard(require('child_process'));
 
-var _MIDebugSession;
+var _Logger;
 
-function _load_MIDebugSession() {
-  return _MIDebugSession = require('./MIDebugSession');
+function _load_Logger() {
+  return _Logger = require('./Logger');
 }
 
 var _MILineParser;
@@ -102,8 +102,24 @@ class MIProxy extends _events.default {
       pendingCommand.resolve = resolve;
       this._pendingCommands.set(token, pendingCommand);
       const tokenizedCommand = `${token}-${command}\n`;
-      (0, (_MIDebugSession || _load_MIDebugSession()).logVerbose)(`MIProxy sending command '${tokenizedCommand}' to server`);
+      (0, (_Logger || _load_Logger()).logVerbose)(`MIProxy sending command '${tokenizedCommand}' to server`);
       dbg.stdin.write(tokenizedCommand);
+    });
+  }
+
+  async sendRawCommand(command) {
+    return new Promise((resolve, reject) => {
+      const dbg = this._miServer;
+      if (dbg == null) {
+        reject(new Error('Attempt to send a command when no MI server connected'));
+        return;
+      }
+
+      // We're making the assumption here that if we've stopped gdb at the prompt
+      // and sent a real gdb (not MI) command, that it will execute synchronously
+      // with no intermixed MI traffic.
+      this._pendingRawCommandResolve = resolve;
+      dbg.stdin.write(`${command}\n`);
     });
   }
 
@@ -126,7 +142,7 @@ class MIProxy extends _events.default {
       return;
     }
 
-    (0, (_MIDebugSession || _load_MIDebugSession()).logVerbose)(`proxy received line ${line}`);
+    (0, (_Logger || _load_Logger()).logVerbose)(`proxy received line ${line}`);
     const parsed = this._parser.parseMILine(line);
     this._emitRecord(parsed, line);
   }
@@ -134,6 +150,13 @@ class MIProxy extends _events.default {
   _emitRecord(record, line) {
     if (record instanceof (_MIRecord || _load_MIRecord()).MIResultRecord) {
       const token = record.token;
+      // if we have a raw gdb command, it won't have an associated token
+      const rawResolve = this._pendingRawCommandResolve;
+      if (token == null && rawResolve != null) {
+        rawResolve();
+        this._pendingRawCommandResolve = null;
+        return;
+      }
 
       if (!(token != null)) {
         throw new Error('token should always exist in a result record');
@@ -145,7 +168,7 @@ class MIProxy extends _events.default {
         this._pendingCommands.delete(token);
         return;
       }
-      (0, (_MIDebugSession || _load_MIDebugSession()).logVerbose)(`Received response with token ${token} which matches no pending command`);
+      (0, (_Logger || _load_Logger()).logVerbose)(`Received response with token ${token} which matches no pending command`);
     }
 
     if (record instanceof (_MIRecord || _load_MIRecord()).MIAsyncRecord) {

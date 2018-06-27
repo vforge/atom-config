@@ -36,6 +36,17 @@ function _load_constants() {
   return _constants = require('./constants');
 }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ *  strict-local
+ * @format
+ */
+
 function getSnippetFromDefinition(definition) {
   let snippet = definition.name;
   if (definition.requiredProps.length === 0) {
@@ -71,17 +82,6 @@ function getSnippetFromDefinition(definition) {
 // like a createElement call with a JSX snippet. Note: this is not the most
 // robust regex to match React identifiers and some false negatives are
 // possible.
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- *  strict-local
- * @format
- */
-
 const componentNameRegexp = new RegExp('<[a-zA-Z_]+');
 
 function getComponentNameFromPositionParams(document, positionParams) {
@@ -120,6 +120,24 @@ function getDocumentationObject(definition) {
   return { documentation: candidate.substr(0, (_constants || _load_constants()).LEADING_COMMENT_LIMIT) + '…' };
 }
 
+const matcherOptions = {
+  // We want "fds" to match "FDSButton".
+  caseSensitive: false,
+  // We're dealing with component names which are fairly short.
+  maxGap: 20,
+  // There can be thousands of component definitions in a large codebase. The
+  // results should be limited so that we don't provide thousands of completion
+  // suggestions and perform wasted map calls.
+  maxResults: 50,
+  // Explicit default.
+  numThreads: 1,
+  // Explicit default.
+  recordMatchIndexes: false,
+  // Prefer case-sensitive matches if the user signals casing, e.g., "Component"
+  // would prefer "ComponentGroup" over "componentWrapper".
+  smartCase: true
+};
+
 class DefinitionManager {
 
   constructor() {
@@ -139,7 +157,7 @@ class DefinitionManager {
       return [];
     }
 
-    return this.matcher.match(componentName.substring(1)).map(({ value }) => this.definitionForComponentName.get(value)).filter(Boolean).map(definition => {
+    return this.matcher.match(componentName.substring(1), matcherOptions).map(({ value }) => this.definitionForComponentName.get(value)).filter(Boolean).map(definition => {
       return Object.assign({
         insertText: getSnippetFromDefinition(definition),
         insertTextFormat: (_protocol || _load_protocol()).InsertTextFormat.Snippet,

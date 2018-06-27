@@ -1622,8 +1622,30 @@ class LspLanguageService {
     };
   }
 
-  rename(fileVersion, position, newName) {
-    return Promise.resolve(null);
+  async rename(fileVersion, position, newName) {
+    if (this._state !== 'Running' || !this._serverCapabilities.renameProvider || !(await this._lspFileVersionNotifier.waitForBufferAtVersion(fileVersion))) {
+      return null;
+    }
+
+    const params = {
+      textDocument: (_convert || _load_convert()).localPath_lspTextDocumentIdentifier(fileVersion.filePath),
+      position: (_convert || _load_convert()).atomPoint_lspPosition(position),
+      newName
+    };
+
+    let response;
+    try {
+      response = await this._lspConnection.rename(params);
+
+      if (!(response != null)) {
+        throw new Error('null textDocument/rename');
+      }
+    } catch (e) {
+      this._logLspException(e);
+      return null;
+    }
+
+    return (_convert || _load_convert()).lspWorkspaceEdit_atomWorkspaceEdit(response);
   }
 
   async getCoverage(filePath) {

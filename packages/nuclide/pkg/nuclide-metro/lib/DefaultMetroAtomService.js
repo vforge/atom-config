@@ -114,11 +114,6 @@ var _initialiseProps = function () {
                 dismissable: true,
                 description: 'Make sure that your current working root (or its ancestor) contains a' + ' `node_modules` directory with react-native installed, or a .buckconfig file' + ' with a `[react-native]` section that has a `server` key.'
               });
-              // $FlowFixMe(>=0.68.0) Flow suppress (T27187857)
-            } else if (error.code === (_types2 || _load_types2()).METRO_PORT_BUSY_ERROR) {
-              atom.notifications.addWarning('Metro failed to start. This is expected if you are ' + 'intentionally running Metro in a separate terminal. If not, ' + `\`lsof -i tcp:${port}\` might help you find the process using the default port.`, {
-                dismissable: true
-              });
             }
             reject(error);
           } else {
@@ -225,6 +220,11 @@ var _initialiseProps = function () {
       messages,
       ready,
       handleError(error) {
+        if (error.message != null && error.message.includes('EADDRINUSE')) {
+          atom.notifications.addInfo(`Port ${port.getValue()} is busy. Most likely it's another metro instance and you don't need to do anything`);
+          return;
+        }
+
         atom.notifications.addError(`Unexpected error while running Metro.\n\n${error.message}`, {
           dismissable: true
         });

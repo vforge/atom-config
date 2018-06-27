@@ -71,32 +71,37 @@ class TreeItem extends _react.Component {
       onMouseEnter,
       onMouseLeave,
       path,
-      name
+      name,
+      title
     } = this.props;
 
     return _react.createElement(
-      'li',
-      {
-        'aria-selected': selected,
-        className: (0, (_classnames || _load_classnames()).default)(className, {
-          selected
-        }, 'list-item'),
-        onMouseDown: onMouseDown,
-        onMouseEnter: onMouseEnter,
-        onMouseLeave: onMouseLeave,
-        'data-path': path,
-        'data-name': name,
-        onClick: this._handleClick,
-        ref: liNode => this._liNode = liNode,
-        role: 'treeitem',
-        tabIndex: selected ? '0' : '-1' },
-      selected && typeof children === 'string' ?
-      // String children must be wrapped to receive correct styles when selected.
+      'div',
+      { title: title },
       _react.createElement(
-        'span',
-        null,
-        children
-      ) : children
+        'li',
+        {
+          'aria-selected': selected,
+          className: (0, (_classnames || _load_classnames()).default)(className, {
+            selected
+          }, 'list-item'),
+          onMouseDown: onMouseDown,
+          onMouseEnter: onMouseEnter,
+          onMouseLeave: onMouseLeave,
+          'data-path': path,
+          'data-name': name,
+          onClick: this._handleClick,
+          ref: liNode => this._liNode = liNode,
+          role: 'treeitem',
+          tabIndex: selected ? '0' : '-1' },
+        selected && typeof children === 'string' ?
+        // String children must be wrapped to receive correct styles when selected.
+        _react.createElement(
+          'span',
+          null,
+          children
+        ) : children
+      )
     );
   }
 }

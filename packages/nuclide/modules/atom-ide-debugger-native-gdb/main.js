@@ -24,12 +24,6 @@ function _load_AutoGenLaunchAttachProvider() {
   return _AutoGenLaunchAttachProvider = require('../nuclide-debugger-common/AutoGenLaunchAttachProvider');
 }
 
-var _utils;
-
-function _load_utils() {
-  return _utils = require('./utils');
-}
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class Activation {
@@ -46,17 +40,6 @@ class Activation {
         });
       }
     };
-  }
-
-  createDebuggerConfigurator() {
-    return {
-      resolveConfiguration: (_utils || _load_utils()).resolveConfiguration,
-      adapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NATIVE_GDB
-    };
-  }
-
-  consumeDebuggerSourcePaths(sourcePathService) {
-    (0, (_utils || _load_utils()).setSourcePathsService)(sourcePathService);
   }
 } /**
    * Copyright (c) 2017-present, Facebook, Inc.

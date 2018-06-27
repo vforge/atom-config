@@ -52,10 +52,10 @@ class Activation {
   }
 
   createDebuggerConfigurator() {
-    return {
+    return [{
       resolveConfiguration: (_utils || _load_utils()).resolveConfiguration,
       adapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.JAVA
-    };
+    }];
   }
 
   consumeRpcService(rpcService) {

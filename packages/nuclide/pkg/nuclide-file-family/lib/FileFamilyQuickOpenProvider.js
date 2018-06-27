@@ -83,7 +83,10 @@ function groupFilesByLabel(files) {
 
   const groupedFiles = [];
   labelGroups.forEach((labelledFiles, label) => {
-    groupedFiles.push(...labelledFiles.map((file, i) => {
+    groupedFiles.push(...labelledFiles
+    // Have existing files come before non-existing files with Create File
+    // options.
+    .sort((a, b) => !a.exists && b.exists ? 1 : a.exists && !b.exists ? -1 : 0).map((file, i) => {
       // Add header for the first file in the label group
       if (i === 0) {
         file.labelHeader = label;
@@ -148,7 +151,7 @@ class FileFamilyQuickOpenProvider {
 
         return Object.assign({
           resultType: 'FILE',
-          score: result.score,
+          score: file && file.exists ? result.score * 10 : result.score,
           matchIndexes: result.matchIndexes
         }, file);
       }));

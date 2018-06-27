@@ -116,7 +116,7 @@ class Activation {
         const result = await provider.getDefinition(editor, position);
         if (result != null) {
           if (result.queryRange == null) {
-            const match = (0, (_range || _load_range()).wordAtPosition)(editor, position, {
+            const match = (0, (_range || _load_range()).wordAtPosition)(editor, position, provider.wordRegExp != null ? provider.wordRegExp : {
               includeNonWordCharacters: false
             });
             result.queryRange = [match != null ? match.range : new _atom.Range(position, position)];

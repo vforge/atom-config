@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _MIDebugSession;
+var _Logger;
 
-function _load_MIDebugSession() {
-  return _MIDebugSession = require('./MIDebugSession');
+function _load_Logger() {
+  return _Logger = require('./Logger');
 }
 
 var _MIProxy;
@@ -51,7 +51,7 @@ class ExpressionVariableReference extends (_VariableReference || _load_VariableR
 
     const resolvedType = await this.getType();
 
-    (0, (_MIDebugSession || _load_MIDebugSession()).logVerbose)(`eval name ${this._expression} type ${resolvedType} value ${value} typeClass ${typeClass}`);
+    (0, (_Logger || _load_Logger()).logVerbose)(`eval name ${this._expression} type ${resolvedType} value ${value} typeClass ${typeClass}`);
 
     let variable = {
       name: this._expression,

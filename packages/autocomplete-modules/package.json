@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-cxh0b9.72bxd2t9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12221-w6hmgi.ylbpxecdi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-cxh0b9.72bxd2t9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-cxh0b9.72bxd2t9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12221-w6hmgi.ylbpxecdi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12221-w6hmgi.ylbpxecdi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11839-18904-1aliadj.a181lzbyb9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118525-12221-ex48y0.yy5b2ihpvi"
     ]
   ],
-  "_from": "../d-11839-18904-cxh0b9.72bxd2t9/package.tgz",
-  "_id": "autocomplete-modules@2.0.0",
+  "_from": "../d-118525-12221-w6hmgi.ylbpxecdi/package.tgz",
+  "_id": "autocomplete-modules@2.1.0",
   "_inCache": true,
   "_location": "/autocomplete-modules",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-cxh0b9.72bxd2t9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12221-w6hmgi.ylbpxecdi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-cxh0b9.72bxd2t9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-cxh0b9.72bxd2t9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12221-w6hmgi.ylbpxecdi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12221-w6hmgi.ylbpxecdi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-11839-18904-cxh0b9.72bxd2t9/package.tgz",
-  "_shasum": "8ac47963ab8954d0e5bc06e3f6ff9de9fff0ae22",
+  "_resolved": "file:../d-118525-12221-w6hmgi.ylbpxecdi/package.tgz",
+  "_shasum": "243225d4a9da2c991e2de08fd9176a9c5f75b938",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-11839-18904-cxh0b9.72bxd2t9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-11839-18904-1aliadj.a181lzbyb9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12221-w6hmgi.ylbpxecdi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118525-12221-ex48y0.yy5b2ihpvi",
   "activationHooks": [
     "language-javascript:grammar-used",
     "language-babel:grammar-used",
@@ -90,5 +90,5 @@
     "pretest": "eslint src/",
     "test": "exit 0"
   },
-  "version": "2.0.0"
+  "version": "2.1.0"
 }

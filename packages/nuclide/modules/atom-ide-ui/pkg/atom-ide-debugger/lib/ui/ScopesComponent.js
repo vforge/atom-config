@@ -189,6 +189,7 @@ class ScopesComponent extends _react.Component {
 
   render() {
     const { scopes } = this.state;
+    const { service } = this.props;
     if (scopes.isError) {
       return _react.createElement(
         'span',
@@ -206,10 +207,20 @@ class ScopesComponent extends _react.Component {
       );
     }
     const scopeSections = scopes.value.map(scope => this._renderScopeSection(scope));
+    const processName = (service.viewModel.focusedProcess == null || service.viewModel.focusedProcess.configuration.processName == null ? 'Unknown Process' : service.viewModel.focusedProcess.configuration.processName) + (service.viewModel.focusedStackFrame == null ? ' (Unknown Frame)' : ' (' + service.viewModel.focusedStackFrame.name + ')');
     return _react.createElement(
       'div',
-      { className: 'debugger-expression-value-list' },
-      scopeSections
+      null,
+      _react.createElement(
+        'span',
+        null,
+        processName
+      ),
+      _react.createElement(
+        'div',
+        { className: 'debugger-expression-value-list' },
+        scopeSections
+      )
     );
   }
 }

@@ -105,14 +105,14 @@ class DebuggerProcessComponent extends _react.PureComponent {
       const threadElements = process.getAllThreads().map((thread, threadIndex) => {
         const stackFrameElements = thread.getCallStack().map((frame, frameIndex) => {
           return _react.createElement((_FrameTreeNode || _load_FrameTreeNode()).default, {
-            text: 'Frame ID: ' + frame.frameId + ', Name: ' + frame.name,
+            text: frame.name,
             frame: frame,
             key: frameIndex,
             service: service
           });
         });
         return _react.createElement((_ThreadTreeNode || _load_ThreadTreeNode()).default, {
-          title: 'Thread ID: ' + thread.threadId + ', Name: ' + thread.name,
+          title: thread.name + (thread.stopped ? ' (Paused)' : ' (Running)'),
           key: threadIndex,
           childItems: stackFrameElements,
           thread: thread,

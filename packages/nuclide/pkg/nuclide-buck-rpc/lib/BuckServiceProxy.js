@@ -652,6 +652,25 @@ module.exports = _client => {
     }).publish();
   };
 
+  remoteModule.isNativeExoPackage = function (arg0, arg1) {
+    return _client.callRemoteFunction("BuckService/isNativeExoPackage", "observable", _client.marshalArguments(Array.from(arguments), [{
+      name: "rootPath",
+      type: {
+        kind: "named",
+        name: "NuclideUri"
+      }
+    }, {
+      name: "target",
+      type: {
+        kind: "string"
+      }
+    }])).map(value => {
+      return _client.unmarshal(value, {
+        kind: "boolean"
+      });
+    }).publish();
+  };
+
   return remoteModule;
 };
 
@@ -2512,6 +2531,41 @@ Object.defineProperty(module.exports, "defs", {
               kind: "named",
               name: "BuckClangCompilationDatabase"
             }
+          }
+        }
+      }
+    },
+    isNativeExoPackage: {
+      kind: "function",
+      name: "isNativeExoPackage",
+      location: {
+        type: "source",
+        fileName: "BuckService.js",
+        line: 660
+      },
+      type: {
+        location: {
+          type: "source",
+          fileName: "BuckService.js",
+          line: 660
+        },
+        kind: "function",
+        argumentTypes: [{
+          name: "rootPath",
+          type: {
+            kind: "named",
+            name: "NuclideUri"
+          }
+        }, {
+          name: "target",
+          type: {
+            kind: "string"
+          }
+        }],
+        returnType: {
+          kind: "observable",
+          type: {
+            kind: "boolean"
           }
         }
       }

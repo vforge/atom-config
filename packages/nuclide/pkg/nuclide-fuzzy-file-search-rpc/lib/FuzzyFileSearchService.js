@@ -14,6 +14,12 @@ function _load_lruCache() {
   return _lruCache = _interopRequireDefault(require('lru-cache'));
 }
 
+var _nuclideAnalytics;
+
+function _load_nuclideAnalytics() {
+  return _nuclideAnalytics = require('../../nuclide-analytics');
+}
+
 var _FileSearchProcess;
 
 function _load_FileSearchProcess() {
@@ -34,18 +40,20 @@ function _load_log4js() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+
 function createCacheKey(directory, preferCustomSearch) {
   return `${directory}:${String(preferCustomSearch)}`;
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   * @format
-   */
+}
 
 const searchConfigCache = (0, (_lruCache || _load_lruCache()).default)({
   // In practice, we expect this cache to have one entry for each item in
@@ -86,15 +94,20 @@ async function queryFuzzyFile(config) {
   }
 
   const searchConfig = await searchConfigPromise;
-  if (searchConfig.useCustomSearch) {
-    return searchConfig.search(config.queryString, rootDirectory);
-  } else {
-    const search = await (0, (_FileSearchProcess || _load_FileSearchProcess()).fileSearchForDirectory)(rootDirectory, config.ignoredNames);
-    return search.query(config.queryString, {
-      queryRoot: config.queryRoot,
-      smartCase: config.smartCase
-    });
-  }
+  return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)('fuzzy-file-search', async () => {
+    if (searchConfig.useCustomSearch) {
+      return searchConfig.search(config.queryString, rootDirectory);
+    } else {
+      const search = await (0, (_FileSearchProcess || _load_FileSearchProcess()).fileSearchForDirectory)(rootDirectory, config.ignoredNames);
+      return search.query(config.queryString, {
+        queryRoot: config.queryRoot,
+        smartCase: config.smartCase
+      });
+    }
+  }, {
+    path: rootDirectory,
+    useCustomSearch: searchConfig.useCustomSearch
+  });
 }
 
 async function queryAllExistingFuzzyFile(queryString, ignoredNames, preferCustomSearch) {

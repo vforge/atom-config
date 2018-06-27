@@ -138,8 +138,8 @@ async function createCqueryService(params) {
       env: Object.assign({}, (await (0, (_process || _load_process()).getOriginalEnvironment)()))
     };
 
-    const lsp = new (_CqueryLanguageClient || _load_CqueryLanguageClient()).CqueryLanguageClient(logger, fileCache, host, command, process.execPath, [require.resolve('./child/main-entry'), logFile, recordFile, String(params.enableLibclangLogs)], spawnOptions, projectRoot, EXTENSIONS, initializationOptions, 5 * 60 * 1000, // 5 minutes
-    logFile, cacheDirectory, { id: projectRoot, label: projectRoot });
+    const lsp = new (_CqueryLanguageClient || _load_CqueryLanguageClient()).CqueryLanguageClient(logger, fileCache, host, command, process.execPath, [require.resolve('./child/main-entry'), (_nuclideUri || _load_nuclideUri()).default.ensureTrailingSeparator(projectRoot), logFile, recordFile, String(params.enableLibclangLogs)], spawnOptions, projectRoot, EXTENSIONS, initializationOptions, 5 * 60 * 1000, // 5 minutes
+    logFile, cacheDirectory);
     lsp.start(); // Kick off 'Initializing'...
     return lsp;
   };

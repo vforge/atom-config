@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CqueryLanguageClient = undefined;
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
-
 var _convert;
 
 function _load_convert() {
@@ -49,65 +47,11 @@ function shortenByOneCharacter({ newText, range }) {
 // Provides some extra commands on top of base Lsp.
 class CqueryLanguageClient extends (_LspLanguageService || _load_LspLanguageService()).LspLanguageService {
 
-  start() {
-    // Workaround for https://github.com/babel/babel/issues/3930
-    return super.start().then(() => this.startCquery());
-  }
-
-  constructor(logger, fileCache, host, languageServerName, command, args, spawnOptions = {}, projectRoot, fileExtensions, initializationOptions, additionalLogFilesRetentionPeriod, logFile, cacheDirectory, progressInfo, useOriginalEnvironment = false) {
+  constructor(logger, fileCache, host, languageServerName, command, args, spawnOptions = {}, projectRoot, fileExtensions, initializationOptions, additionalLogFilesRetentionPeriod, logFile, cacheDirectory, useOriginalEnvironment = false) {
     super(logger, fileCache, host, languageServerName, command, args, spawnOptions,
     /* fork */false, projectRoot, fileExtensions, initializationOptions, additionalLogFilesRetentionPeriod, useOriginalEnvironment);
     this._logFile = logFile;
     this._cacheDirectory = cacheDirectory;
-    this._progressInfo = progressInfo;
-  }
-
-  async startCquery() {
-    const progressObservable = _rxjsBundlesRxMinJs.Observable.create(subscriber => {
-      this._lspConnection._jsonRpcConnection.onNotification({ method: '$cquery/progress' }, args => {
-        const {
-          indexRequestCount,
-          doIdMapCount,
-          loadPreviousIndexCount,
-          onIdMappedCount,
-          onIndexedCount
-        } = args;
-        const total = indexRequestCount + doIdMapCount + loadPreviousIndexCount + onIdMappedCount + onIndexedCount;
-        subscriber.next(total);
-      });
-    }).distinctUntilChanged();
-    if (this._progressInfo != null) {
-      const { id, label } = this._progressInfo;
-      // Because of the 'freshen' command, cquery may finish
-      // (i.e. progress reaches 0) then start emitting progress events again.
-      // So each time it reaches 0 create a new id by adding a monotonic number.
-      let progressId = 0;
-      this._progressSubscription = progressObservable.subscribe(totalJobs => {
-        const taggedId = id + progressId;
-        if (totalJobs === 0) {
-          // label null clears the indicator.
-          this._handleProgressNotification({
-            id: taggedId,
-            label: null
-          });
-          progressId++;
-        } else {
-          this._handleProgressNotification({
-            id: taggedId,
-            label: `cquery ${label}: ${totalJobs} jobs`
-          });
-        }
-      });
-    }
-    // TODO pelmers Register handlers for other custom cquery messages.
-    // TODO pelmers hook into refactorizer for renaming?
-  }
-
-  dispose() {
-    if (this._progressSubscription != null) {
-      this._progressSubscription.unsubscribe();
-    }
-    super.dispose();
   }
 
   getCacheDirectory() {

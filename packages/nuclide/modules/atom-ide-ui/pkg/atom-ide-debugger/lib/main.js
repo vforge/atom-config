@@ -429,7 +429,9 @@ class Activation {
   }
 
   consumeGatekeeperService(service) {
-    return this._layoutManager.consumeGatekeeperService(service);
+    const disposable = this._layoutManager.consumeGatekeeperService(service);
+    disposable.add(this._service.consumeGatekeeperService(service));
+    return disposable;
   }
 
   _registerCommandsContextMenuAndOpener() {
@@ -785,8 +787,14 @@ class Activation {
     });
   }
 
-  consumeDebuggerConfigurationProvider(provider) {
-    return (0, (_AtomServiceContainer || _load_AtomServiceContainer()).addDebugConfigurationProvider)(provider);
+  consumeDebuggerConfigurationProviders(providers) {
+    if (!Array.isArray(providers)) {
+      throw new Error('Invariant violation: "Array.isArray(providers)"');
+    }
+
+    const disposable = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    providers.forEach(provider => disposable.add((0, (_AtomServiceContainer || _load_AtomServiceContainer()).addDebugConfigurationProvider)(provider)));
+    return disposable;
   }
 
   consumeToolBar(getToolBar) {

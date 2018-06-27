@@ -45,10 +45,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 (0, (_nuclideLogging || _load_nuclideLogging()).initializeLogging)();
 
-function launch(launcherParams) {
+function launch(server) {
   const rpcServiceRegistry = new (_nuclideRpc || _load_nuclideRpc()).ServiceRegistry((_nuclideMarshalersCommon || _load_nuclideMarshalersCommon()).getServerSideMarshalers, (_servicesConfig || _load_servicesConfig()).default);
 
-  const { server } = launcherParams;
   server.addSubscriber((_constants || _load_constants()).NUCLIDE_RPC_TAG, {
     onConnection(transport) {
       const rpcTransport = {

@@ -13,6 +13,12 @@ function _load_mouseToPosition() {
 
 var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 
+var _nuclideAnalytics;
+
+function _load_nuclideAnalytics() {
+  return _nuclideAnalytics = require('../../nuclide-analytics');
+}
+
 var _createPackage;
 
 function _load_createPackage() {
@@ -111,17 +117,6 @@ function _load_constants() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
-
 class Activation {
 
   constructor() {
@@ -142,7 +137,16 @@ class Activation {
     }
     this._activationPromise = null;
   }
-}
+} /**
+   * Copyright (c) 2015-present, Facebook, Inc.
+   * All rights reserved.
+   *
+   * This source code is licensed under the license found in the LICENSE file in
+   * the root directory of this source tree.
+   *
+   * 
+   * @format
+   */
 
 (0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);
 
@@ -394,42 +398,44 @@ async function registerMultiHopFindReferencesCommand(service) {
     if (editor == null) {
       return;
     }
-    const path = editor.getPath();
-    if (path == null) {
-      return;
-    }
-    const cursors = editor.getCursors();
-    if (cursors.length !== 1) {
-      return;
-    }
-    const cursor = cursors[0];
-    const position = lastMouseEvent != null ? (0, (_mouseToPosition || _load_mouseToPosition()).bufferPositionForMouseEvent)(lastMouseEvent, editor) : cursor.getBufferPosition();
-    lastMouseEvent = null;
-    const fileVersion = await (0, (_nuclideOpenFiles || _load_nuclideOpenFiles()).getFileVersionOfEditor)(editor);
-    const flowLS = await getConnectionCache().getForUri(path);
-    if (flowLS == null) {
-      return;
-    }
-    if (fileVersion == null) {
-      return;
-    }
-    const getReferences = () => flowLS.customFindReferences(fileVersion, position, true, true).refCount().toPromise();
-    let result;
-    if (busySignalService == null) {
-      result = await getReferences();
-    } else {
-      result = await busySignalService.reportBusyWhile('Running Flow find-indirect-references (this may take a while)', getReferences, {
-        revealTooltip: true,
-        waitingFor: 'computer'
-      });
-    }
-    if (result == null) {
-      atom.notifications.addInfo('No find references results available');
-    } else if (result.type === 'data') {
-      service.viewResults(result);
-    } else {
-      atom.notifications.addWarning(`Flow find-indirect-references issued an error: "${result.message}"`);
-    }
+    return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)('flow.find-indirect-references', async () => {
+      const path = editor.getPath();
+      if (path == null) {
+        return;
+      }
+      const cursors = editor.getCursors();
+      if (cursors.length !== 1) {
+        return;
+      }
+      const cursor = cursors[0];
+      const position = lastMouseEvent != null ? (0, (_mouseToPosition || _load_mouseToPosition()).bufferPositionForMouseEvent)(lastMouseEvent, editor) : cursor.getBufferPosition();
+      lastMouseEvent = null;
+      const fileVersion = await (0, (_nuclideOpenFiles || _load_nuclideOpenFiles()).getFileVersionOfEditor)(editor);
+      const flowLS = await getConnectionCache().getForUri(path);
+      if (flowLS == null) {
+        return;
+      }
+      if (fileVersion == null) {
+        return;
+      }
+      const getReferences = () => flowLS.customFindReferences(fileVersion, position, true, true).refCount().toPromise();
+      let result;
+      if (busySignalService == null) {
+        result = await getReferences();
+      } else {
+        result = await busySignalService.reportBusyWhile('Running Flow find-indirect-references (this may take a while)', getReferences, {
+          revealTooltip: true,
+          waitingFor: 'computer'
+        });
+      }
+      if (result == null) {
+        atom.notifications.addInfo('No find references results available');
+      } else if (result.type === 'data') {
+        service.viewResults(result);
+      } else {
+        atom.notifications.addWarning(`Flow find-indirect-references issued an error: "${result.message}"`);
+      }
+    });
   });
 }
 

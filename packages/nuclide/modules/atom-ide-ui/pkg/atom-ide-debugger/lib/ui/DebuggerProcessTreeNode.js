@@ -43,19 +43,15 @@ class DebuggerProcessTreeNode extends _react.Component {
   }
 
   render() {
-    const { title, isFocused } = this.props;
-    const formattedTitle = _react.createElement(
-      'span',
-      { className: isFocused ? 'debugger-tree-frame-selected' : '' },
-      title
-    );
+    const { formattedTitle, childItems } = this.props;
+
     return _react.createElement(
       (_Tree || _load_Tree()).NestedTreeItem,
       {
         title: formattedTitle,
         collapsed: this.state.isCollapsed,
         onSelect: this.handleSelect },
-      this.props.childItems
+      childItems
     );
   }
 }

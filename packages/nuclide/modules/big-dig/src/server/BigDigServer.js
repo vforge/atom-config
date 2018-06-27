@@ -3,7 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CLOSE_TAG = exports.HEARTBEAT_CHANNEL = undefined;
+exports.BigDigServer = exports.CLOSE_TAG = exports.HEARTBEAT_CHANNEL = undefined;
+
+var _ws;
+
+function _load_ws() {
+  return _ws = _interopRequireDefault(require('ws'));
+}
+
+var _https = _interopRequireDefault(require('https'));
 
 var _log4js;
 
@@ -33,20 +41,28 @@ function _load_QueuedAckTransport() {
   return _QueuedAckTransport = require('../socket/QueuedAckTransport');
 }
 
+var _ports;
+
+function _load_ports() {
+  return _ports = require('../common/ports');
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const HEARTBEAT_CHANNEL = exports.HEARTBEAT_CHANNEL = 'big-dig-heartbeat'; /**
-                                                                            * Copyright (c) 2017-present, Facebook, Inc.
-                                                                            * All rights reserved.
-                                                                            *
-                                                                            * This source code is licensed under the BSD-style license found in the
-                                                                            * LICENSE file in the root directory of this source tree. An additional grant
-                                                                            * of patent rights can be found in the PATENTS file in the same directory.
-                                                                            *
-                                                                            *  strict-local
-                                                                            * @format
-                                                                            */
+// The absolutePathToServerMain must export a single function of this type.
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ *  strict-local
+ * @format
+ */
 
+const HEARTBEAT_CHANNEL = exports.HEARTBEAT_CHANNEL = 'big-dig-heartbeat';
 const CLOSE_TAG = exports.CLOSE_TAG = 'big-dig-close-connection';
 
 class BigDigServer {
@@ -65,6 +81,32 @@ class BigDigServer {
     this._webSocketServer.on('connection', this._onWebSocketConnection.bind(this));
   }
 
+  static async createServer(options) {
+    const webServer = _https.default.createServer(options.webServer);
+
+    if (!(await (0, (_ports || _load_ports()).scanPortsToListen)(webServer, options.ports))) {
+      throw new Error(`All ports in range "${options.ports}" are already in use`);
+    }
+
+    const webSocketServer = new (_ws || _load_ws()).default.Server({
+      server: webServer,
+      perMessageDeflate: true
+    });
+
+    // Let unhandled WS server errors go through to the global exception handler.
+
+    // $FlowIgnore
+    const launcher = require(options.absolutePathToServerMain);
+    const tunnelLauncher = require('../services/tunnel/launcher');
+
+    const bigDigServer = new BigDigServer(webServer, webSocketServer);
+
+    await launcher(bigDigServer);
+    await tunnelLauncher(bigDigServer);
+
+    return bigDigServer;
+  }
+
   addSubscriber(tag, subscriber) {
     if (tag === CLOSE_TAG) {
       throw new Error(`Tag ${CLOSE_TAG} is reserved; cannot subscribe.`);
@@ -80,6 +122,10 @@ class BigDigServer {
     } else {
       throw new Error(`subscriber is already registered for ${tag}`);
     }
+  }
+
+  getPort() {
+    return this._httpsServer.address().port;
   }
 
   _onHttpsRequest(request, response) {
@@ -165,12 +211,12 @@ class BigDigServer {
   }
 }
 
-exports.default = BigDigServer; /**
-                                 * Note that an InternalTransport maintains a reference to a WS connection.
-                                 * It is imperative that it does not leak this reference such that a client
-                                 * holds onto it and prevents it from being garbage-collected after the
-                                 * connection is terminated.
-                                 */
+exports.BigDigServer = BigDigServer; /**
+                                      * Note that an InternalTransport maintains a reference to a WS connection.
+                                      * It is imperative that it does not leak this reference such that a client
+                                      * holds onto it and prevents it from being garbage-collected after the
+                                      * connection is terminated.
+                                      */
 
 class InternalTransport {
 

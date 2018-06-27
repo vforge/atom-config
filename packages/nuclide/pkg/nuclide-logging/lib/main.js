@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.initializeLogging = exports.getPathToLogFile = exports.getDefaultConfig = undefined;
+exports.initializeLogging = exports.getPathToLogFile = exports.getPathToLogDir = exports.getDefaultConfig = undefined;
 exports.flushLogsAndExit = flushLogsAndExit;
 exports.flushLogsAndAbort = flushLogsAndAbort;
 exports.setupLoggingService = setupLoggingService;
@@ -43,6 +43,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.getDefaultConfig = (_config || _load_config()).getDefaultConfig;
+exports.getPathToLogDir = (_config || _load_config()).getPathToLogDir;
 exports.getPathToLogFile = (_config || _load_config()).getPathToLogFile; /**
                                                                           * Copyright (c) 2015-present, Facebook, Inc.
                                                                           * All rights reserved.

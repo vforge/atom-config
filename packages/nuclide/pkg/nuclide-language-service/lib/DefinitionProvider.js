@@ -25,16 +25,17 @@ function _load_nuclideOpenFiles() {
 
 class DefinitionProvider {
 
-  constructor(name, grammars, priority, definitionEventName, connectionToLanguageService) {
+  constructor(name, grammars, priority, definitionEventName, wordRegExp, connectionToLanguageService) {
     this.name = name;
     this.priority = priority;
     this.grammarScopes = grammars;
+    this.wordRegExp = wordRegExp;
     this._definitionEventName = definitionEventName;
     this._connectionToLanguageService = connectionToLanguageService;
   }
 
   static register(name, grammars, config, connectionToLanguageService) {
-    return atom.packages.serviceHub.provide('definitions', config.version, new DefinitionProvider(name, grammars, config.priority, config.definitionEventName, connectionToLanguageService));
+    return atom.packages.serviceHub.provide('definitions', config.version, new DefinitionProvider(name, grammars, config.priority, config.definitionEventName, config.wordRegExp, connectionToLanguageService));
   }
 
   async getDefinition(editor, position) {

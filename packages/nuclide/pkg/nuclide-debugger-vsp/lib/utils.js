@@ -4,11 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getPrepackAutoGenConfig = getPrepackAutoGenConfig;
-exports.resolveConfiguration = resolveConfiguration;
 exports.getNativeAutoGenConfig = getNativeAutoGenConfig;
 exports.getNativeVSPLaunchProcessConfig = getNativeVSPLaunchProcessConfig;
 exports.getNativeVSPAttachProcessConfig = getNativeVSPAttachProcessConfig;
-exports.setSourcePathsService = setSourcePathsService;
 
 var _nuclideUri;
 
@@ -38,8 +36,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
-
-let _sourcePathsService;
 
 function getPrepackAutoGenConfig() {
   const fileToPrepack = {
@@ -83,56 +79,6 @@ function getPrepackAutoGenConfig() {
     launch: autoGenLaunchConfig,
     attach: null
   };
-}
-
-async function lldbVspAdapterWrapperPath(program) {
-  try {
-    // $FlowFB
-    return require('./fb-LldbVspAdapterPath').getLldbVspAdapterPath(program);
-  } catch (ex) {
-    return 'lldb-vscode';
-  }
-}
-
-async function resolveConfiguration(configuration) {
-  const { adapterExecutable, targetUri } = configuration;
-  if (adapterExecutable == null) {
-    throw new Error('Cannot resolve configuration for unset adapterExecutable');
-  }
-
-  const debuggerService = (0, (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).getVSCodeDebuggerAdapterServiceByNuclideUri)(configuration.targetUri);
-  let sourcePath = configuration.config.sourcePath;
-
-  if (sourcePath == null || sourcePath.trim() === '') {
-    if (configuration.debugMode === 'launch') {
-      sourcePath = await debuggerService.getBuckRootFromUri(configuration.config.program);
-    } else if (configuration.config.pid != null) {
-      sourcePath = await debuggerService.getBuckRootFromPid(configuration.config.pid);
-    }
-  }
-
-  const config = configuration.config;
-  if (sourcePath != null && sourcePath.trim() !== '') {
-    const canonicalSourcePath = await debuggerService.realpath(sourcePath);
-    const sourcePaths = [];
-
-    if (_sourcePathsService != null) {
-      _sourcePathsService.addKnownNativeSubdirectoryPaths(canonicalSourcePath, sourcePaths);
-    } else {
-      sourcePaths.push(sourcePath);
-    }
-
-    config.sourceMap = sourcePaths.map(path => ['.', path]);
-  }
-
-  adapterExecutable.command = await lldbVspAdapterWrapperPath(targetUri);
-
-  const newConfig = Object.assign({}, configuration, {
-    config,
-    adapterExecutable
-  });
-
-  return newConfig;
 }
 
 function getNativeAutoGenConfig(vsAdapterType) {
@@ -223,7 +169,7 @@ function getNativeAutoGenConfig(vsAdapterType) {
       debugTypeMessage
     ),
     getProcessName(values) {
-      return 'Pid: ' + pid.name + ' (' + debugTypeMessage + ')';
+      return 'Pid: ' + values.pid + ' (' + debugTypeMessage + ')';
     }
   };
   return {
@@ -250,8 +196,4 @@ function getNativeVSPAttachProcessConfig(adapterType, targetUri, config) {
     adapterType,
     config
   };
-}
-
-function setSourcePathsService(sourcePathsService) {
-  _sourcePathsService = sourcePathsService;
 }

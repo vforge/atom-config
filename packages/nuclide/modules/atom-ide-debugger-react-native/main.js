@@ -64,10 +64,10 @@ class Activation {
   }
 
   createDebuggerConfigurator() {
-    return {
+    return [{
       resolveConfiguration,
       adapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.REACT_NATIVE
-    };
+    }];
   }
 } /**
    * Copyright (c) 2017-present, Facebook, Inc.

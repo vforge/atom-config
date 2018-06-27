@@ -75,7 +75,7 @@ class FileFamilyDashProvider {
     const results = _rxjsBundlesRxMinJs.Observable.defer(() => aggregator.getRelatedFiles(activeUri)).map(graph => {
       const cwd = this._cwds.getValue();
       const projectUri = cwd && cwd.getCwd();
-      return (0, (_FileFamilyUtils || _load_FileFamilyUtils()).getAlternatesFromGraph)(graph, activeUri).filter(uri => query === '' || (_fuzzaldrinPlus || _load_fuzzaldrinPlus()).default.score(uri, query) > 0).sort((a, b) => (_fuzzaldrinPlus || _load_fuzzaldrinPlus()).default.score(a, query) - (_fuzzaldrinPlus || _load_fuzzaldrinPlus()).default.score(b, query)).map(alternateUri => ({
+      return (0, (_FileFamilyUtils || _load_FileFamilyUtils()).getAlternatesFromGraph)(graph, activeUri).filter(uri => query === '' || (_fuzzaldrinPlus || _load_fuzzaldrinPlus()).default.score(uri, query) > 0).sort((a, b) => query === '' ? 0 : (_fuzzaldrinPlus || _load_fuzzaldrinPlus()).default.score(a, query) - (_fuzzaldrinPlus || _load_fuzzaldrinPlus()).default.score(b, query)).map(alternateUri => ({
         type: 'openable',
         uri: alternateUri,
         uriMatchRanges: (0, (_matchIndexesToRanges || _load_matchIndexesToRanges()).default)((_fuzzaldrinPlus || _load_fuzzaldrinPlus()).default.match(alternateUri, query)),

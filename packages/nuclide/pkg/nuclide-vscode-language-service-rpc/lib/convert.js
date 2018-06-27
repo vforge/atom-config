@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.localPath_lspUri = localPath_lspUri;
 exports.lspUri_localPath = lspUri_localPath;
 exports.lspTextEdits_atomTextEdits = lspTextEdits_atomTextEdits;
+exports.lspWorkspaceEdit_atomWorkspaceEdit = lspWorkspaceEdit_atomWorkspaceEdit;
 exports.lspLocation_atomFoundReference = lspLocation_atomFoundReference;
 exports.lspLocationWithTitle_atomDefinition = lspLocationWithTitle_atomDefinition;
 exports.localPath_lspTextDocumentIdentifier = localPath_lspTextDocumentIdentifier;
@@ -97,6 +98,40 @@ function lspTextEdits_atomTextEdits(edits) {
       newText: lspTextEdit.newText
     };
   });
+}
+
+//    WorkspaceEdits can either provide `changes` (a mapping of document URIs to their TextEdits)
+//        or `documentChanges` (an array of TextDocumentEdits where
+//        each text document edit addresses a specific version of a text document).
+//
+//    TODO: Compare the versions of the documents being edited with
+//            the version numbers contained within `documentChanges`.
+//          Right now, we use `documentChanges` while ignoring version numbers.
+function lspWorkspaceEdit_atomWorkspaceEdit(lspWorkspaceEdit) {
+  const workspaceEdit = new Map();
+  const lspChanges = lspWorkspaceEdit.changes;
+  const lspDocChanges = lspWorkspaceEdit.documentChanges;
+
+  if (lspChanges != null) {
+    Object.keys(lspChanges).forEach(lspUri => {
+      const path = lspUri_localPath(lspUri);
+      const textEdits = lspTextEdits_atomTextEdits(lspChanges[lspUri]);
+
+      workspaceEdit.set(path, textEdits);
+    });
+  } else if (lspDocChanges != null) {
+    lspDocChanges.forEach(textDocumentEdit => {
+      const lspUri = textDocumentEdit.textDocument.uri;
+      const lspTextEdits = textDocumentEdit.edits;
+
+      const path = lspUri_localPath(lspUri);
+      const textEdits = lspTextEdits_atomTextEdits(lspTextEdits);
+
+      workspaceEdit.set(path, textEdits);
+    });
+  }
+
+  return workspaceEdit;
 }
 
 function lspLocation_atomFoundReference(location) {

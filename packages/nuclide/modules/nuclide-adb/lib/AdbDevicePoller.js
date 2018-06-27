@@ -120,7 +120,6 @@ function parseRawDevice(device) {
   return {
     name: device.serial,
     displayName,
-    architecture: '',
-    rawArchitecture: ''
+    architecture: ''
   };
 }

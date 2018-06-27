@@ -193,7 +193,7 @@ class StatusComponent extends _react.Component {
       this._providersCache = newCache;
     }
 
-    return _react.createElement(
+    return this.props.serverStatuses.length === 0 ? null : _react.createElement(
       'div',
       {
         className: 'nuclide-language-status-provider nuclide-language-status-provider-settings',
@@ -220,6 +220,7 @@ class StatusComponent extends _react.Component {
     }
     if (iconMarkdown != null) {
       return _react.createElement('div', {
+        className: 'nuclide-language-status-icon',
         dangerouslySetInnerHTML: {
           __html: (0, (_marked || _load_marked()).default)(iconMarkdown)
         }

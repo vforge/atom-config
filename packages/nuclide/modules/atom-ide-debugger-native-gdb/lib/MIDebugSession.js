@@ -1,10 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.logVerbose = logVerbose;
-
 var _vscodeDebugadapter;
 
 function _load_vscodeDebugadapter() {
@@ -97,12 +92,30 @@ function _load_DebugSymbolsSize() {
   return _DebugSymbolsSize = require('./DebugSymbolsSize');
 }
 
+var _Logger;
+
+function _load_Logger() {
+  return _Logger = require('./Logger');
+}
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // NB that trace is not actually exposed in package.json as it's only used for
 // debugging the adapter itself
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
+
 class MIDebugSession extends (_vscodeDebugadapter || _load_vscodeDebugadapter()).LoggingDebugSession {
 
   constructor() {
@@ -126,18 +139,19 @@ class MIDebugSession extends (_vscodeDebugadapter || _load_vscodeDebugadapter())
     this._continueOnAttach = false;
 
     client.on('error', err => {
-      logVerbose(`proxy has exited with error ${err}`);
+      (0, (_Logger || _load_Logger()).logVerbose)(`proxy has exited with error ${err}`);
       this._hasTarget = false;
       this._configurationDone = false;
     });
 
     client.on('exit', () => {
-      logVerbose('proxy has exited cleanly');
+      (0, (_Logger || _load_Logger()).logVerbose)('proxy has exited cleanly');
       this._hasTarget = false;
       this._configurationDone = false;
     });
 
     client.on('async', record => this._asyncRecord(record));
+    client.on('stream', record => this._streamRecord(record));
 
     this._asyncHandlers = new Map([['stopped', record => {
       this._onAsyncStopped(record);
@@ -153,9 +167,26 @@ class MIDebugSession extends (_vscodeDebugadapter || _load_vscodeDebugadapter())
     }
   }
 
+  _streamRecord(record) {
+    // NB we never get target output here, that's handled by the pty. The
+    // output here is mainly from raw pass-through gdb commands.
+    if (record.streamTarget === 'console' || record.streamTarget === 'log') {
+      const event = new (_vscodeDebugadapter || _load_vscodeDebugadapter()).OutputEvent();
+      event.body = {
+        category: 'log',
+        data: {
+          type: record.streamTarget === 'console' ? 'success' : 'log'
+        },
+        output: record.text
+      };
+
+      return this.sendEvent(event);
+    }
+  }
+
   start(inStream, outStream) {
     super.start(inStream, outStream);
-    logVerbose(`using node ${process.version} at ${process.execPath}`);
+    (0, (_Logger || _load_Logger()).logVerbose)(`using node ${process.version} at ${process.execPath}`);
   }
 
   initializeRequest(response, args) {
@@ -391,7 +422,7 @@ class MIDebugSession extends (_vscodeDebugadapter || _load_vscodeDebugadapter())
   }
 
   async _sendCachedBreakpoints() {
-    logVerbose('_sendCachedBreakpoints');
+    (0, (_Logger || _load_Logger()).logVerbose)('_sendCachedBreakpoints');
     const changedBreakpoints = [...(await this._sourceBreakpoints.setCachedBreakpoints()), ...(await this._functionBreakpoints.setCachedBreakpoints())];
 
     changedBreakpoints.forEach(breakpoint => {
@@ -583,6 +614,11 @@ class MIDebugSession extends (_vscodeDebugadapter || _load_vscodeDebugadapter())
   }
 
   async evaluateRequest(response, args) {
+    // Hack to allow raw gdb commands from the console.
+    if (args.expression.startsWith('`')) {
+      return this._escapedCommandRequest(response, args.expression.substr(1));
+    }
+
     await this._setOutputFormat(args.format != null && args.format.hex != null && args.format.hex);
 
     try {
@@ -615,6 +651,28 @@ class MIDebugSession extends (_vscodeDebugadapter || _load_vscodeDebugadapter())
         variablesReference: variable.variablesReference,
         namedVariables: variable.namedVariables,
         indexedVariables: variable.indexedVariables
+      };
+
+      this.sendResponse(response);
+    } catch (err) {
+      this._sendFailureResponse(response, err.message);
+    }
+  }
+
+  async _escapedCommandRequest(response, command) {
+    try {
+      if (this._running) {
+        this._logToConsole('gdb commands may only be issued when the target is stopped.\n');
+        this._sendFailureResponse(response, 'failed');
+        return;
+      }
+
+      await this._client.sendRawCommand(command);
+
+      response.body = {
+        result: '',
+        type: 'void',
+        variablesReference: 0
       };
 
       this.sendResponse(response);
@@ -870,45 +928,6 @@ class MIDebugSession extends (_vscodeDebugadapter || _load_vscodeDebugadapter())
     response.message = message;
     this.sendResponse(response);
   }
-} /**
-   * Copyright (c) 2017-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the BSD-style license found in the
-   * LICENSE file in the root directory of this source tree. An additional grant
-   * of patent rights can be found in the PATENTS file in the same directory.
-   *
-   * 
-   * @format
-   */
-
-function timestamp() {
-  let ts = `${new Date().getTime()}`;
-
-  // This code put seperators in the timestamp in groups of thousands
-  // to make it easier to read, i.e.
-  // 123456789 => 123_456_789
-  let fmt = '';
-  while (ts.length >= 3) {
-    if (fmt !== '') {
-      fmt = '_' + fmt;
-    }
-    fmt = ts.substring(ts.length - 3) + fmt;
-    ts = ts.substring(0, ts.length - 3);
-  }
-
-  if (ts !== '') {
-    if (fmt !== '') {
-      fmt = '_' + fmt;
-    }
-    fmt = ts + fmt;
-  }
-
-  return fmt;
-}
-
-function logVerbose(line) {
-  (_vscodeDebugadapter || _load_vscodeDebugadapter()).logger.verbose(`${timestamp()} ${line}`);
 }
 
 (_vscodeDebugadapter || _load_vscodeDebugadapter()).LoggingDebugSession.run(MIDebugSession);

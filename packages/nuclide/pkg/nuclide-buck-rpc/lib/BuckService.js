@@ -29,6 +29,7 @@ exports.getWebSocketStream = getWebSocketStream;
 exports.resetCompilationDatabaseForSource = resetCompilationDatabaseForSource;
 exports.resetCompilationDatabase = resetCompilationDatabase;
 exports.getCompilationDatabase = getCompilationDatabase;
+exports.isNativeExoPackage = isNativeExoPackage;
 
 var _log4js;
 
@@ -481,4 +482,15 @@ async function resetCompilationDatabase(params) {
 
 function getCompilationDatabase(src, params) {
   return _rxjsBundlesRxMinJs.Observable.fromPromise((0, (_BuckClangCompilationDatabase || _load_BuckClangCompilationDatabase()).getCompilationDatabaseHandler)(params).getCompilationDatabase(src)).publish();
+}
+
+function isNativeExoPackage(rootPath, target) {
+  return _rxjsBundlesRxMinJs.Observable.defer(async () => {
+    const attributes = await queryWithAttributes(rootPath, target, ['exopackage_modes']);
+    if (attributes[target] != null && typeof attributes[target].exopackage_modes === 'string') {
+      return attributes[target].exopackage_modes.indexOf('native_library') >= 0;
+    } else {
+      return false;
+    }
+  }).publish();
 }

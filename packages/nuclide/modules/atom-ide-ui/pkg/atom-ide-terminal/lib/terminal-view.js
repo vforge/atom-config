@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TerminalView = exports.URI_PREFIX = exports.COLOR_CONFIGS = undefined;
+exports.TerminalView = exports.URI_PREFIX = undefined;
 exports.deserializeTerminalView = deserializeTerminalView;
 exports.getSafeInitialInput = getSafeInitialInput;
 
@@ -93,6 +93,12 @@ function _load_goToLocation() {
   return _goToLocation = require('../../../../nuclide-commons-atom/go-to-location');
 }
 
+var _config;
+
+function _load_config() {
+  return _config = require('./config');
+}
+
 var _sink;
 
 function _load_sink() {
@@ -101,48 +107,20 @@ function _load_sink() {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const COLOR_CONFIGS = exports.COLOR_CONFIGS = Object.freeze({
-  // dark
-  black: 'atom-ide-terminal.black',
-  red: 'atom-ide-terminal.red',
-  green: 'atom-ide-terminal.green',
-  blue: 'atom-ide-terminal.blue',
-  yellow: 'atom-ide-terminal.yellow',
-  cyan: 'atom-ide-terminal.cyan',
-  magenta: 'atom-ide-terminal.magenta',
-  white: 'atom-ide-terminal.white',
-  // bright
-  brightBlack: 'atom-ide-terminal.brightBlack',
-  brightRed: 'atom-ide-terminal.brightRed',
-  brightGreen: 'atom-ide-terminal.brightGreen',
-  brightBlue: 'atom-ide-terminal.brightBlue',
-  brightYellow: 'atom-ide-terminal.brightYellow',
-  brightCyan: 'atom-ide-terminal.brightCyan',
-  brightMagenta: 'atom-ide-terminal.brightMagenta',
-  brightWhite: 'atom-ide-terminal.brightWhite'
-}); /**
-     * Copyright (c) 2017-present, Facebook, Inc.
-     * All rights reserved.
-     *
-     * This source code is licensed under the BSD-style license found in the
-     * LICENSE file in the root directory of this source tree. An additional grant
-     * of patent rights can be found in the PATENTS file in the same directory.
-     *
-     * 
-     * @format
-     */
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
 
 /* eslint-env browser */
 
-const PRESERVED_COMMANDS_CONFIG = 'atom-ide-terminal.preservedCommands';
-const SCROLLBACK_CONFIG = 'atom-ide-terminal.scrollback';
-const CURSOR_STYLE_CONFIG = 'atom-ide-terminal.cursorStyle';
-const CURSOR_BLINK_CONFIG = 'atom-ide-terminal.cursorBlink';
-const FONT_FAMILY_CONFIG = 'atom-ide-terminal.fontFamily';
-const FONT_SCALE_CONFIG = 'atom-ide-terminal.fontScale';
-const LINE_HEIGHT_CONFIG = 'atom-ide-terminal.lineHeight';
-const DOCUMENTATION_MESSAGE_CONFIG = 'atom-ide-terminal.documentationMessage';
-const ADD_ESCAPE_COMMAND = 'atom-ide-terminal:add-escape-prefix';
 const TMUX_CONTROLCONTROL_PREFIX = '\x1BP1000p';
 const URI_PREFIX = exports.URI_PREFIX = 'atom://nuclide-terminal-view';
 
@@ -150,10 +128,9 @@ class TerminalView {
 
   constructor(paneUri) {
     this._syncFontAndFit = () => {
-      const scaledFont = parseFloat((_featureConfig || _load_featureConfig()).default.get(FONT_SCALE_CONFIG)) * parseFloat(atom.config.get('editor.fontSize'));
-      this._terminal.setOption('fontSize', scaledFont);
-      this._terminal.setOption('lineHeight', (_featureConfig || _load_featureConfig()).default.get(LINE_HEIGHT_CONFIG));
-      this._terminal.setOption('fontFamily', (_featureConfig || _load_featureConfig()).default.get(FONT_FAMILY_CONFIG));
+      this._setTerminalOption('fontSize', (0, (_config || _load_config()).getFontSize)());
+      this._setTerminalOption('lineHeight', (_featureConfig || _load_featureConfig()).default.get((_config || _load_config()).LINE_HEIGHT_CONFIG));
+      this._setTerminalOption('fontFamily', (_featureConfig || _load_featureConfig()).default.get((_config || _load_config()).FONT_FAMILY_CONFIG));
       this._fitAndResize();
     };
 
@@ -181,14 +158,14 @@ class TerminalView {
     this._emitter = new _atom.Emitter();
     subscriptions.add(this._emitter);
 
-    subscriptions.add((_featureConfig || _load_featureConfig()).default.observeAsStream(PRESERVED_COMMANDS_CONFIG).subscribe(preserved => {
+    subscriptions.add((_featureConfig || _load_featureConfig()).default.observeAsStream((_config || _load_config()).PRESERVED_COMMANDS_CONFIG).subscribe(preserved => {
       this._preservedCommands = new Set([...(preserved || []), ...(info.preservedCommands || [])]);
     }), atom.config.onDidChange('core.themes', this._syncAtomTheme.bind(this)), atom.themes.onDidChangeActiveThemes(this._syncAtomTheme.bind(this)));
 
     subscriptions.add(
     // Skip the first value because the observe callback triggers once when
     // we begin observing, duplicating work in the constructor.
-    ...Object.keys(COLOR_CONFIGS).map(color => (_featureConfig || _load_featureConfig()).default.observeAsStream(COLOR_CONFIGS[color]).skip(1).subscribe(this._syncAtomTheme.bind(this))));
+    ...Object.keys((_config || _load_config()).COLOR_CONFIGS).map(color => (_featureConfig || _load_featureConfig()).default.observeAsStream((_config || _load_config()).COLOR_CONFIGS[color]).skip(1).subscribe(this._syncAtomTheme.bind(this))));
 
     const div = this._div = document.createElement('div');
     div.classList.add('terminal-pane');
@@ -204,7 +181,7 @@ class TerminalView {
       document.execCommand('copy');
     }), atom.commands.add(div, 'core:paste', () => {
       document.execCommand('paste');
-    }), atom.commands.add(div, ADD_ESCAPE_COMMAND, this._addEscapePrefix.bind(this)), atom.commands.add(div, 'atom-ide-terminal:clear', this._clear.bind(this)));
+    }), atom.commands.add(div, (_config || _load_config()).ADD_ESCAPE_COMMAND, this._addEscapePrefix.bind(this)), atom.commands.add(div, 'atom-ide-terminal:clear', this._clear.bind(this)));
 
     if (process.platform === 'win32') {
       // On Windows, add Putty-style highlight and right click to copy, right click to paste.
@@ -241,7 +218,7 @@ class TerminalView {
     this._subscriptions.add((0, (_observePaneItemVisibility || _load_observePaneItemVisibility()).default)(this).filter(Boolean).first().subscribe(() => {
       terminal.open(this._div);
       div.terminal = terminal;
-      if ((_featureConfig || _load_featureConfig()).default.get(DOCUMENTATION_MESSAGE_CONFIG)) {
+      if ((_featureConfig || _load_featureConfig()).default.get((_config || _load_config()).DOCUMENTATION_MESSAGE_CONFIG)) {
         const docsUrl = 'https://nuclide.io/docs/features/terminal';
         terminal.writeln(`For more info check out the docs: ${docsUrl}`);
       }
@@ -252,7 +229,7 @@ class TerminalView {
   }
 
   _subscribeFitEvents() {
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default((_featureConfig || _load_featureConfig()).default.observeAsStream(CURSOR_STYLE_CONFIG).skip(1).subscribe(cursorStyle => this._terminal.setOption('cursorStyle', cursorStyle)), (_featureConfig || _load_featureConfig()).default.observeAsStream(CURSOR_BLINK_CONFIG).skip(1).subscribe(cursorBlink => this._terminal.setOption('cursorBlink', cursorBlink)), (_featureConfig || _load_featureConfig()).default.observeAsStream(SCROLLBACK_CONFIG).skip(1).subscribe(scrollback => this._terminal.setOption('scrollback', scrollback)), _rxjsBundlesRxMinJs.Observable.merge((0, (_event || _load_event()).observableFromSubscribeFunction)(cb => atom.config.onDidChange('editor.fontSize', cb)), (_featureConfig || _load_featureConfig()).default.observeAsStream(FONT_SCALE_CONFIG).skip(1), (_featureConfig || _load_featureConfig()).default.observeAsStream(FONT_FAMILY_CONFIG).skip(1), (_featureConfig || _load_featureConfig()).default.observeAsStream(LINE_HEIGHT_CONFIG).skip(1), _rxjsBundlesRxMinJs.Observable.fromEvent(this._terminal, 'focus'), _rxjsBundlesRxMinJs.Observable.fromEvent(window, 'resize'), new (_observableDom || _load_observableDom()).ResizeObservable(this._div)).subscribe(this._syncFontAndFit));
+    return new (_UniversalDisposable || _load_UniversalDisposable()).default((_featureConfig || _load_featureConfig()).default.observeAsStream((_config || _load_config()).CURSOR_STYLE_CONFIG).skip(1).subscribe(cursorStyle => this._setTerminalOption('cursorStyle', cursorStyle)), (_featureConfig || _load_featureConfig()).default.observeAsStream((_config || _load_config()).CURSOR_BLINK_CONFIG).skip(1).subscribe(cursorBlink => this._setTerminalOption('cursorBlink', cursorBlink)), (_featureConfig || _load_featureConfig()).default.observeAsStream((_config || _load_config()).SCROLLBACK_CONFIG).skip(1).subscribe(scrollback => this._setTerminalOption('scrollback', scrollback)), _rxjsBundlesRxMinJs.Observable.merge((0, (_event || _load_event()).observableFromSubscribeFunction)(cb => atom.config.onDidChange('editor.fontSize', cb)), (_featureConfig || _load_featureConfig()).default.observeAsStream((_config || _load_config()).FONT_SCALE_CONFIG).skip(1), (_featureConfig || _load_featureConfig()).default.observeAsStream((_config || _load_config()).FONT_FAMILY_CONFIG).skip(1), (_featureConfig || _load_featureConfig()).default.observeAsStream((_config || _load_config()).LINE_HEIGHT_CONFIG).skip(1), _rxjsBundlesRxMinJs.Observable.fromEvent(this._terminal, 'focus'), _rxjsBundlesRxMinJs.Observable.fromEvent(window, 'resize'), new (_observableDom || _load_observableDom()).ResizeObservable(this._div)).subscribe(this._syncFontAndFit));
   }
 
   _spawn(cwd) {
@@ -351,6 +328,12 @@ class TerminalView {
   // trigger a re-fit when updating font settings.
 
 
+  _setTerminalOption(optionName, value) {
+    if (this._terminal.getOption(optionName) !== value) {
+      this._terminal.setOption(optionName, value);
+    }
+  }
+
   _fitAndResize() {
     // Force character measure before 'fit' runs.
     this._terminal.resize(this._terminal.cols, this._terminal.rows);
@@ -365,9 +348,8 @@ class TerminalView {
   }
 
   _syncAtomTheme() {
-    const terminal = this._terminal;
     const div = this._div;
-    terminal.setOption('theme', getTerminalTheme(div));
+    this._setTerminalOption('theme', getTerminalTheme(div));
   }
 
   _clear() {
@@ -413,7 +395,7 @@ class TerminalView {
     });
     const preserved = this._preservedCommands;
 
-    if (preserved.has(ADD_ESCAPE_COMMAND) && bindings.some(b => b.command === ADD_ESCAPE_COMMAND)) {
+    if (preserved.has((_config || _load_config()).ADD_ESCAPE_COMMAND) && bindings.some(b => b.command === (_config || _load_config()).ADD_ESCAPE_COMMAND)) {
       // Intercept the add escape binding and send escape directly, then
       // divert to xterm (to handle keys like Backspace).
       this._onInput('\x1B');
@@ -684,8 +666,8 @@ function getSafeInitialInput(initialInput) {
 
 function getTerminalColors() {
   const colorsMap = {};
-  for (const color of Object.keys(COLOR_CONFIGS)) {
-    const configValue = (_featureConfig || _load_featureConfig()).default.get(COLOR_CONFIGS[color]);
+  for (const color of Object.keys((_config || _load_config()).COLOR_CONFIGS)) {
+    const configValue = (_featureConfig || _load_featureConfig()).default.get((_config || _load_config()).COLOR_CONFIGS[color]);
     // config value may be string when Atom deserializes the terminal package
     // on startup, and it may be undefined if this is the first time the package
     // is being deserialized after the config was added.

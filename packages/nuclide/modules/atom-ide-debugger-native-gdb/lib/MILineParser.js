@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _MIDebugSession;
+var _Logger;
 
-function _load_MIDebugSession() {
-  return _MIDebugSession = require('./MIDebugSession');
+function _load_Logger() {
+  return _Logger = require('./Logger');
 }
 
 var _MIRecord;
@@ -49,7 +49,7 @@ class MILineParser {
 
     if (parser == null) {
       const error = `Line is not an MI record at: '${line}'`;
-      (0, (_MIDebugSession || _load_MIDebugSession()).logVerbose)(error);
+      (0, (_Logger || _load_Logger()).logVerbose)(error);
       throw new Error(error);
     }
 

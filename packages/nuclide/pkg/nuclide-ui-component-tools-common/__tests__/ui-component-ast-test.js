@@ -84,6 +84,19 @@ class FDSTest extends React.PureComponent<Props> {
 
     expect(defaultProps).toEqual(['value', 'type']);
   });
+
+  it('parses a component with a blank object', () => {
+    const code = `
+type Props = {};
+type DefaultProps = {};
+
+class FDSTest extends React.PureComponent<Props> {
+  static defaultProps: DefaultProps;
+}`;
+
+    expect((0, (_uiComponentAst || _load_uiComponentAst()).getDefaultPropNames)('FDSTest', (0, (_uiComponentAst || _load_uiComponentAst()).parseCode)(code))).toEqual([]);
+    expect((0, (_uiComponentAst || _load_uiComponentAst()).getRequiredProps)('FDSTest', code)).toEqual([]);
+  });
 });
 
 describe('formatLeadingComment', () => {

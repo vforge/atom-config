@@ -193,6 +193,11 @@ class ConsoleView extends _react.Component {
           this._inputArea.focus();
         }
       }
+    }), atom.commands.add('atom-workspace', {
+      // eslint-disable-next-line nuclide-internal/atom-apis
+      'atom-ide-console:scroll-to-bottom': () => {
+        this._scrollToBottom();
+      }
     }), atom.commands.add((0, (_nullthrows || _load_nullthrows()).default)(this._consoleBodyEl), 'atom-ide:filter', () => this._focusFilter()));
   }
 

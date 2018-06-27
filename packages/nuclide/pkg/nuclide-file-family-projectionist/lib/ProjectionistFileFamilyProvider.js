@@ -70,31 +70,40 @@ class ProjectionistFileFamilyProvider {
   async getRelatedFiles(path) {
     const projectionist = this._projectionist;
     const cwd = this._cwd;
-    if (projectionist == null || cwd == null) {
+
+    if (projectionist == null || cwd == null || !(_nuclideUri || _load_nuclideUri()).default.contains(cwd, path)) {
       return {
         files: new Map(),
         relations: []
       };
     }
 
-    const alternates = projectionist.getAlternates((_nuclideUri || _load_nuclideUri()).default.relative(cwd, path));
+    const alternates = await Promise.all(projectionist.getAlternates((_nuclideUri || _load_nuclideUri()).default.relative(cwd, path)).map(async uri => {
+      const fullUri = (_nuclideUri || _load_nuclideUri()).default.join(cwd, uri);
+      const fsService = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getFileSystemServiceByNuclideUri)(fullUri);
+      return {
+        uri,
+        exists: await fsService.exists(fullUri)
+      };
+    }));
 
-    const files = new Map([[path, { labels: new Set() }], ...alternates.map(alternate => {
-      const type = projectionist.getType(alternate);
-      return [(_nuclideUri || _load_nuclideUri()).default.resolve(cwd, alternate), {
-        labels: type == null ? new Set() : new Set([type])
+    const files = new Map([[path, { labels: new Set() }], ...alternates.map(({ uri, exists }) => {
+      const type = projectionist.getType(uri);
+      return [(_nuclideUri || _load_nuclideUri()).default.resolve(cwd, uri), {
+        labels: type == null ? new Set() : new Set([type]),
+        exists
       }];
     })]);
 
-    const relations = alternates.map(alternate => {
+    const relations = alternates.map(({ uri }) => {
       const labels = new Set(['alternate']);
-      const type = projectionist.getType(alternate);
+      const type = projectionist.getType(uri);
       if (type != null) {
         labels.add(type);
       }
       return {
         from: path,
-        to: (_nuclideUri || _load_nuclideUri()).default.resolve(cwd, alternate),
+        to: (_nuclideUri || _load_nuclideUri()).default.resolve(cwd, uri),
         labels,
         directed: true
       };

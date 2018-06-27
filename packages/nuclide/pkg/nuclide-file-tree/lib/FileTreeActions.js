@@ -4,6 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _passesGK;
+
+function _load_passesGK() {
+  return _passesGK = require('../../commons-node/passesGK');
+}
+
 var _FileTreeDispatcher;
 
 function _load_FileTreeDispatcher() {
@@ -148,18 +154,16 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
-
-const logger = (0, (_log4js || _load_log4js()).getLogger)('nuclide-file-tree');
+const logger = (0, (_log4js || _load_log4js()).getLogger)('nuclide-file-tree'); /**
+                                                                                 * Copyright (c) 2015-present, Facebook, Inc.
+                                                                                 * All rights reserved.
+                                                                                 *
+                                                                                 * This source code is licensed under the license found in the LICENSE file in
+                                                                                 * the root directory of this source tree.
+                                                                                 *
+                                                                                 * 
+                                                                                 * @format
+                                                                                 */
 
 /**
  * Implements the Flux pattern for our file tree. All state for the file tree will be kept in
@@ -487,6 +491,28 @@ class FileTreeActions {
   }
 
   updateWorkingSet(workingSet) {
+    // TODO (T30814717): Make this the default behavior after some research.
+    if ((0, (_passesGK || _load_passesGK()).isGkEnabled)('nuclide_projects') === true) {
+      const prevWorkingSet = (_FileTreeSelectors || _load_FileTreeSelectors()).getWorkingSet(this._store);
+      const prevUris = new Set(prevWorkingSet.getUris());
+      const nextUris = new Set(workingSet.getUris());
+      const addedUris = (0, (_collection || _load_collection()).setDifference)(nextUris, prevUris);
+      // Reveal all of the added paths. This is a little gross. The WorkingSetStore API will return
+      // absolute paths (`/a/b/c`) for remote directories instead of `nuclide://` URIs. In other
+      // words, we don't have enough information to know what paths to reveal. So we'll just try to
+      // reveal the path in every root.
+      addedUris.forEach(uri => {
+        (_FileTreeSelectors || _load_FileTreeSelectors()).getRootKeys(this._store).forEach(rootUri => {
+          const filePath = (_nuclideUri || _load_nuclideUri()).default.resolve(rootUri, uri);
+          const nodeKey = (_FileTreeHelpers || _load_FileTreeHelpers()).default.dirPathToKey(filePath);
+          this.revealFilePath(nodeKey, false);
+          if (nextUris.size === 1) {
+            // There's only a single URI in the working set, expand it.
+            this.expandNode(rootUri, nodeKey);
+          }
+        });
+      });
+    }
     this._store.dispatch({
       actionType: (_FileTreeDispatcher || _load_FileTreeDispatcher()).ActionTypes.SET_WORKING_SET,
       workingSet

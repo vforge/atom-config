@@ -1,15 +1,21 @@
 'use strict';
 
-var _log4js;
-
-function _load_log4js() {
-  return _log4js = _interopRequireDefault(require('log4js'));
-}
-
 var _process;
 
 function _load_process() {
   return _process = require('../../../modules/nuclide-commons/process');
+}
+
+var _analytics;
+
+function _load_analytics() {
+  return _analytics = require('../../../modules/nuclide-commons/analytics');
+}
+
+var _log4js;
+
+function _load_log4js() {
+  return _log4js = _interopRequireDefault(require('log4js'));
 }
 
 var _waits_for;
@@ -32,13 +38,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 
 jest.unmock('log4js');
-jest.unmock('../../../modules/nuclide-commons/analytics');
-jest.unmock('../../nuclide-analytics');
 
 global.NUCLIDE_DO_NOT_LOG = false;
 
 describe('processTrackingAppender', () => {
-  const trackSpy = jest.spyOn(require('../../../modules/nuclide-commons/analytics'), 'trackSampled');
   it('captures process exits', async () => {
     (_log4js || _load_log4js()).default.configure({
       appenders: [{
@@ -49,9 +52,9 @@ describe('processTrackingAppender', () => {
 
     await (0, (_process || _load_process()).runCommand)('true', ['1']).toPromise();
 
-    await (0, (_waits_for || _load_waits_for()).default)(() => trackSpy.mock.calls.length > 0);
+    await (0, (_waits_for || _load_waits_for()).default)(() => (_analytics || _load_analytics()).trackSampled.mock.calls.length > 0);
 
-    expect(trackSpy).toHaveBeenCalledWith('process-exit', 10, {
+    expect((_analytics || _load_analytics()).trackSampled).toHaveBeenCalledWith('process-exit', 10, {
       command: 'true 1',
       duration: jasmine.any(Number)
     });

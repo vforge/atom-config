@@ -35,3 +35,5 @@ const trackImmediate = exports.trackImmediate = jest.fn();
 const setRawAnalyticsService = exports.setRawAnalyticsService = jest.fn();
 
 const trackTimingSampled = exports.trackTimingSampled = jest.fn((event, fn) => fn());
+
+const trackSampled = exports.trackSampled = jest.fn();

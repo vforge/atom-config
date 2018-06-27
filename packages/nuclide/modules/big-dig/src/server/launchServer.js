@@ -28,10 +28,10 @@ function _load_fs() {
   return _fs2 = _interopRequireDefault(require('../common/fs'));
 }
 
-var _ServerLauncher;
+var _BigDigServer;
 
-function _load_ServerLauncher() {
-  return _ServerLauncher = require('./ServerLauncher');
+function _load_BigDigServer() {
+  return _BigDigServer = require('./BigDigServer');
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -69,7 +69,7 @@ async function handleLaunchParams(params) {
     await enforceExclusive(params.exclusive);
   }
 
-  const port = await (0, (_ServerLauncher || _load_ServerLauncher()).launchServer)({
+  const server = await (_BigDigServer || _load_BigDigServer()).BigDigServer.createServer({
     ports: params.ports,
     webServer: {
       key: params.key,
@@ -79,6 +79,8 @@ async function handleLaunchParams(params) {
     absolutePathToServerMain: params.absolutePathToServerMain,
     serverParams: params.serverParams
   });
+
+  const port = server.getPort();
 
   if (!(process.send != null)) {
     throw new Error('Invariant violation: "process.send != null"');
@@ -167,7 +169,7 @@ async function enforceExclusive(exclusive) {
     type: 'file',
     filename: (_nuclideUri || _load_nuclideUri()).default.join(_os.default.tmpdir(), 'big-dig.log')
   }, {
-    type: 'console'
+    type: 'stderr'
   }]
 });
 

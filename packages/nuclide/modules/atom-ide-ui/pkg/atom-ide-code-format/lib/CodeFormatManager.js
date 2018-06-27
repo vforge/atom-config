@@ -65,17 +65,19 @@ var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Save events are critical, so don't allow providers to block them.
-const SAVE_TIMEOUT = 2500; /**
-                            * Copyright (c) 2017-present, Facebook, Inc.
-                            * All rights reserved.
-                            *
-                            * This source code is licensed under the BSD-style license found in the
-                            * LICENSE file in the root directory of this source tree. An additional grant
-                            * of patent rights can be found in the PATENTS file in the same directory.
-                            *
-                            * 
-                            * @format
-                            */
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
+
+const SAVE_TIMEOUT = 2500;
 
 class CodeFormatManager {
 
@@ -277,7 +279,7 @@ class CodeFormatManager {
       // We want to wait until the cursor has actually moved before we issue a
       // format request, so that we format at the right position (and potentially
       // also let any other event handlers have their go).
-      return (_observable || _load_observable()).microtask.switchMap(() => provider.formatAtPosition(editor, editor.getCursorBufferPosition(), character)).map(edits => {
+      return (_observable || _load_observable()).microtask.switchMap(() => provider.formatAtPosition(editor, editor.getCursorBufferPosition(), character)).do(edits => {
         if (edits.length === 0) {
           return;
         }
@@ -289,7 +291,7 @@ class CodeFormatManager {
         if (!(0, (_textEdit || _load_textEdit()).applyTextEditsToBuffer)(editor.getBuffer(), edits)) {
           throw new Error('Could not apply edits to text buffer.');
         }
-      }).finally(() => {
+
         if (provider.keepCursorPosition) {
           editor.setCursorBufferPosition(cursorPosition);
         }

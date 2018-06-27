@@ -112,7 +112,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "freshenIndexForFile", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -134,7 +134,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "restartProcessForFile", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -156,7 +156,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "requestLocationsCommand", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -190,7 +190,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "getDiagnostics", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -216,7 +216,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "observeDiagnostics", "observable", _client.marshalArguments(Array.from(arguments), [])).map(value => {
@@ -227,13 +227,68 @@ module.exports = _client => {
       }).publish();
     }
 
+    observeStatus(arg0) {
+      return _client.callRemoteMethod(_client.marshal(this, {
+        kind: "named",
+        location: {
+          type: "source",
+          fileName: "main.js",
+          line: 61
+        },
+        name: "CqueryLanguageService"
+      }), "observeStatus", "observable", _client.marshalArguments(Array.from(arguments), [{
+        name: "fileVersion",
+        type: {
+          kind: "named",
+          name: "FileVersion"
+        }
+      }])).map(value => {
+        return _client.unmarshal(value, {
+          kind: "named",
+          name: "StatusData"
+        });
+      }).publish();
+    }
+
+    clickStatus(arg0, arg1, arg2) {
+      return _client.callRemoteMethod(_client.marshal(this, {
+        kind: "named",
+        location: {
+          type: "source",
+          fileName: "main.js",
+          line: 61
+        },
+        name: "CqueryLanguageService"
+      }), "clickStatus", "promise", _client.marshalArguments(Array.from(arguments), [{
+        name: "fileVersion",
+        type: {
+          kind: "named",
+          name: "FileVersion"
+        }
+      }, {
+        name: "id",
+        type: {
+          kind: "string"
+        }
+      }, {
+        name: "button",
+        type: {
+          kind: "string"
+        }
+      }])).then(value => {
+        return _client.unmarshal(value, {
+          kind: "void"
+        });
+      });
+    }
+
     getAutocompleteSuggestions(arg0, arg1, arg2) {
       return _client.callRemoteMethod(_client.marshal(this, {
         kind: "named",
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "getAutocompleteSuggestions", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -271,7 +326,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "getDefinition", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -303,7 +358,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "findReferences", "observable", _client.marshalArguments(Array.from(arguments), [{
@@ -335,7 +390,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "rename", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -382,7 +437,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "getCoverage", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -408,7 +463,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "onToggleCoverage", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -429,7 +484,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "getOutline", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -455,7 +510,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "getCodeActions", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -496,7 +551,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "typeHint", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -528,7 +583,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "signatureHelp", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -560,7 +615,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "highlight", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -595,7 +650,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "formatSource", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -636,7 +691,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "formatEntireFile", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -686,7 +741,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "formatAtPosition", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -732,7 +787,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "getAdditionalLogFiles", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -758,7 +813,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "supportsSymbolSearch", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -783,7 +838,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "symbolSearch", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -820,7 +875,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "getProjectRoot", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -846,7 +901,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "isFileInProject", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -868,7 +923,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "getExpandedSelectionRange", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -900,7 +955,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 60
+          line: 61
         },
         name: "CqueryLanguageService"
       }), "getCollapsedSelectionRange", "promise", _client.marshalArguments(Array.from(arguments), [{
@@ -2106,6 +2161,118 @@ Object.defineProperty(module.exports, "defs", {
         }]
       }
     },
+    StatusData: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "LanguageService.js",
+        line: 135
+      },
+      name: "StatusData",
+      definition: {
+        kind: "union",
+        types: [{
+          kind: "object",
+          fields: [{
+            name: "kind",
+            type: {
+              kind: "string-literal",
+              value: "null"
+            },
+            optional: false
+          }]
+        }, {
+          kind: "object",
+          fields: [{
+            name: "kind",
+            type: {
+              kind: "string-literal",
+              value: "green"
+            },
+            optional: false
+          }, {
+            name: "message",
+            type: {
+              kind: "string"
+            },
+            optional: true
+          }]
+        }, {
+          kind: "object",
+          fields: [{
+            name: "kind",
+            type: {
+              kind: "string-literal",
+              value: "yellow"
+            },
+            optional: false
+          }, {
+            name: "message",
+            type: {
+              kind: "string"
+            },
+            optional: false
+          }, {
+            name: "shortMessage",
+            type: {
+              kind: "string"
+            },
+            optional: true
+          }, {
+            name: "progress",
+            type: {
+              kind: "object",
+              fields: [{
+                name: "numerator",
+                type: {
+                  kind: "number"
+                },
+                optional: false
+              }, {
+                name: "denominator",
+                type: {
+                  kind: "number"
+                },
+                optional: true
+              }]
+            },
+            optional: true
+          }]
+        }, {
+          kind: "object",
+          fields: [{
+            name: "kind",
+            type: {
+              kind: "string-literal",
+              value: "red"
+            },
+            optional: false
+          }, {
+            name: "id",
+            type: {
+              kind: "string"
+            },
+            optional: true
+          }, {
+            name: "message",
+            type: {
+              kind: "string"
+            },
+            optional: false
+          }, {
+            name: "buttons",
+            type: {
+              kind: "array",
+              type: {
+                kind: "string"
+              }
+            },
+            optional: false
+          }]
+        }],
+        discriminantField: "kind"
+      }
+    },
     Completion: {
       kind: "alias",
       location: {
@@ -3241,32 +3408,11 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "main.js",
-        line: 60
+        line: 61
       },
       staticMethods: {},
       instanceMethods: {
         freshenIndexForFile: {
-          location: {
-            type: "source",
-            fileName: "main.js",
-            line: 61
-          },
-          kind: "function",
-          argumentTypes: [{
-            name: "file",
-            type: {
-              kind: "named",
-              name: "NuclideUri"
-            }
-          }],
-          returnType: {
-            kind: "promise",
-            type: {
-              kind: "void"
-            }
-          }
-        },
-        restartProcessForFile: {
           location: {
             type: "source",
             fileName: "main.js",
@@ -3287,11 +3433,32 @@ Object.defineProperty(module.exports, "defs", {
             }
           }
         },
-        requestLocationsCommand: {
+        restartProcessForFile: {
           location: {
             type: "source",
             fileName: "main.js",
             line: 63
+          },
+          kind: "function",
+          argumentTypes: [{
+            name: "file",
+            type: {
+              kind: "named",
+              name: "NuclideUri"
+            }
+          }],
+          returnType: {
+            kind: "promise",
+            type: {
+              kind: "void"
+            }
+          }
+        },
+        requestLocationsCommand: {
+          location: {
+            type: "source",
+            fileName: "main.js",
+            line: 64
           },
           kind: "function",
           argumentTypes: [{
@@ -3324,7 +3491,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 70
+            line: 71
           },
           kind: "function",
           argumentTypes: [{
@@ -3349,7 +3516,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 72
+            line: 73
           },
           kind: "function",
           argumentTypes: [],
@@ -3361,11 +3528,64 @@ Object.defineProperty(module.exports, "defs", {
             }
           }
         },
+        observeStatus: {
+          location: {
+            type: "source",
+            fileName: "main.js",
+            line: 75
+          },
+          kind: "function",
+          argumentTypes: [{
+            name: "fileVersion",
+            type: {
+              kind: "named",
+              name: "FileVersion"
+            }
+          }],
+          returnType: {
+            kind: "observable",
+            type: {
+              kind: "named",
+              name: "StatusData"
+            }
+          }
+        },
+        clickStatus: {
+          location: {
+            type: "source",
+            fileName: "main.js",
+            line: 77
+          },
+          kind: "function",
+          argumentTypes: [{
+            name: "fileVersion",
+            type: {
+              kind: "named",
+              name: "FileVersion"
+            }
+          }, {
+            name: "id",
+            type: {
+              kind: "string"
+            }
+          }, {
+            name: "button",
+            type: {
+              kind: "string"
+            }
+          }],
+          returnType: {
+            kind: "promise",
+            type: {
+              kind: "void"
+            }
+          }
+        },
         getAutocompleteSuggestions: {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 74
+            line: 83
           },
           kind: "function",
           argumentTypes: [{
@@ -3402,7 +3622,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 80
+            line: 89
           },
           kind: "function",
           argumentTypes: [{
@@ -3433,7 +3653,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 85
+            line: 94
           },
           kind: "function",
           argumentTypes: [{
@@ -3464,7 +3684,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 90
+            line: 99
           },
           kind: "function",
           argumentTypes: [{
@@ -3510,7 +3730,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 96
+            line: 105
           },
           kind: "function",
           argumentTypes: [{
@@ -3535,7 +3755,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 98
+            line: 107
           },
           kind: "function",
           argumentTypes: [{
@@ -3555,7 +3775,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 100
+            line: 109
           },
           kind: "function",
           argumentTypes: [{
@@ -3580,7 +3800,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 102
+            line: 111
           },
           kind: "function",
           argumentTypes: [{
@@ -3620,7 +3840,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 108
+            line: 117
           },
           kind: "function",
           argumentTypes: [{
@@ -3651,7 +3871,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 110
+            line: 119
           },
           kind: "function",
           argumentTypes: [{
@@ -3682,7 +3902,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 115
+            line: 124
           },
           kind: "function",
           argumentTypes: [{
@@ -3716,7 +3936,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 120
+            line: 129
           },
           kind: "function",
           argumentTypes: [{
@@ -3756,7 +3976,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 126
+            line: 135
           },
           kind: "function",
           argumentTypes: [{
@@ -3805,7 +4025,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 135
+            line: 144
           },
           kind: "function",
           argumentTypes: [{
@@ -3850,7 +4070,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 142
+            line: 151
           },
           kind: "function",
           argumentTypes: [{
@@ -3875,7 +4095,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 146
+            line: 155
           },
           kind: "function",
           argumentTypes: [{
@@ -3899,7 +4119,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 148
+            line: 157
           },
           kind: "function",
           argumentTypes: [{
@@ -3935,7 +4155,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 153
+            line: 162
           },
           kind: "function",
           argumentTypes: [{
@@ -3960,7 +4180,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 155
+            line: 164
           },
           kind: "function",
           argumentTypes: [{
@@ -3981,7 +4201,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 157
+            line: 166
           },
           kind: "function",
           argumentTypes: [{
@@ -4012,7 +4232,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 162
+            line: 171
           },
           kind: "function",
           argumentTypes: [{
@@ -4049,7 +4269,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "main.js",
-            line: 168
+            line: 177
           },
           kind: "function",
           argumentTypes: [],
@@ -4065,13 +4285,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "main.js",
-        line: 171
+        line: 180
       },
       type: {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 171
+          line: 180
         },
         kind: "function",
         argumentTypes: [{
@@ -4443,13 +4663,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "main.js",
-        line: 202
+        line: 211
       },
       type: {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 202
+          line: 211
         },
         kind: "function",
         argumentTypes: [{

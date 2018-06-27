@@ -41,7 +41,7 @@ const trustToken = _crypto.default.randomBytes(256).toString('hex');
  */
 
 const URI_PREFIX = exports.URI_PREFIX = 'atom://nuclide-terminal-view';
-const TERMINAL_DEFAULT_LOCATION = exports.TERMINAL_DEFAULT_LOCATION = 'bottom';
+const TERMINAL_DEFAULT_LOCATION = exports.TERMINAL_DEFAULT_LOCATION = 'pane';
 const TERMINAL_DEFAULT_ICON = exports.TERMINAL_DEFAULT_ICON = 'terminal';
 const TERMINAL_DEFAULT_INFO = exports.TERMINAL_DEFAULT_INFO = {
   remainOnCleanExit: false,

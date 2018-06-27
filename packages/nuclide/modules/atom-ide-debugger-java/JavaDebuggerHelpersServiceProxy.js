@@ -521,13 +521,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JavaDebuggerHelpersService.js",
-        line: 226
+        line: 227
       },
       type: {
         location: {
           type: "source",
           fileName: "JavaDebuggerHelpersService.js",
-          line: 226
+          line: 227
         },
         kind: "function",
         argumentTypes: [{

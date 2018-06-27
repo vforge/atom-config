@@ -9,7 +9,7 @@ module.exports = _client => {
         kind: "array",
         type: {
           kind: "named",
-          name: "Device"
+          name: "FbsimctlDevice"
         }
       });
     });
@@ -177,14 +177,14 @@ Object.defineProperty(module.exports, "defs", {
         }]
       }
     },
-    Device: {
+    FbsimctlDevice: {
       kind: "alias",
       location: {
         type: "source",
         fileName: "types.js",
         line: 21
       },
-      name: "Device",
+      name: "FbsimctlDevice",
       definition: {
         kind: "object",
         fields: [{
@@ -250,7 +250,7 @@ Object.defineProperty(module.exports, "defs", {
             kind: "array",
             type: {
               kind: "named",
-              name: "Device"
+              name: "FbsimctlDevice"
             }
           }
         }

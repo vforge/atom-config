@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.LOG_FILE_PATH = undefined;
+exports.getPathToLogDir = getPathToLogDir;
 exports.getPathToLogFile = getPathToLogFile;
 exports.getDefaultConfig = getDefaultConfig;
 
@@ -45,6 +46,10 @@ const LOG_FILE_PATH = exports.LOG_FILE_PATH = (_nuclideUri || _load_nuclideUri()
 
 const MAX_LOG_SIZE = 1024 * 1024;
 const MAX_LOG_BACKUPS = 10;
+
+function getPathToLogDir() {
+  return LOG_DIRECTORY;
+}
 
 function getPathToLogFile() {
   return LOG_FILE_PATH;

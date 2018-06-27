@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118518-84961-wav9jy.gvsuu9pb9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12216-nkhdw9.hpoc3xflxr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118518-84961-wav9jy.gvsuu9pb9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118518-84961-wav9jy.gvsuu9pb9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12216-nkhdw9.hpoc3xflxr/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12216-nkhdw9.hpoc3xflxr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118518-84961-7w0jyb.xx91xrms4i"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118525-12216-1ft462d.yqvog30udi"
     ]
   ],
-  "_from": "../d-118518-84961-wav9jy.gvsuu9pb9/package.tgz",
-  "_id": "atom-quokka@1.0.76",
+  "_from": "../d-118525-12216-nkhdw9.hpoc3xflxr/package.tgz",
+  "_id": "atom-quokka@1.0.77",
   "_inCache": true,
   "_location": "/atom-quokka",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118518-84961-wav9jy.gvsuu9pb9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12216-nkhdw9.hpoc3xflxr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118518-84961-wav9jy.gvsuu9pb9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118518-84961-wav9jy.gvsuu9pb9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12216-nkhdw9.hpoc3xflxr/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12216-nkhdw9.hpoc3xflxr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118518-84961-wav9jy.gvsuu9pb9/package.tgz",
-  "_shasum": "ba643a4442a9bfa5749fa95769414688c260e845",
+  "_resolved": "file:../d-118525-12216-nkhdw9.hpoc3xflxr/package.tgz",
+  "_shasum": "af612ebb0a9d956a37abbdba323dda3d672a74bf",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118518-84961-wav9jy.gvsuu9pb9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118518-84961-7w0jyb.xx91xrms4i",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118525-12216-nkhdw9.hpoc3xflxr/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118525-12216-1ft462d.yqvog30udi",
   "bugs": {
     "url": "https://github.com/wallabyjs/atom-quokka/issues"
   },
@@ -73,5 +73,5 @@
     "type": "git",
     "url": "git+https://github.com/wallabyjs/atom-quokka.git"
   },
-  "version": "1.0.76"
+  "version": "1.0.77"
 }

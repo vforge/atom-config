@@ -95,14 +95,6 @@ function getNativeAutoGenConfig(vsAdapterType) {
     defaultValue: '',
     visible: true
   };
-  const sourcePath = {
-    name: 'sourcePath',
-    type: 'path',
-    description: '(Optional) base path for sources',
-    required: false,
-    defaultValue: '',
-    visible: true
-  };
 
   const debugTypeMessage = `using ${vsAdapterType === (_constants || _load_constants()).VsAdapterTypes.NATIVE_GDB ? 'gdb' : 'lldb'}`;
 
@@ -110,7 +102,7 @@ function getNativeAutoGenConfig(vsAdapterType) {
     launch: true,
     vsAdapterType,
     threads: true,
-    properties: [program, cwd, args, env, sourcePath],
+    properties: [program, cwd, args, env],
     scriptPropertyName: 'program',
     scriptExtension: '.c',
     cwdPropertyName: 'working directory',
@@ -142,7 +134,7 @@ function getNativeAutoGenConfig(vsAdapterType) {
     launch: false,
     vsAdapterType,
     threads: true,
-    properties: [pid, sourcePath],
+    properties: [pid],
     header: _react.createElement(
       'p',
       null,

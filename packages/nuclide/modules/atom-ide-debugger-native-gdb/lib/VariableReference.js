@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _MIDebugSession;
+var _Logger;
 
-function _load_MIDebugSession() {
-  return _MIDebugSession = require('./MIDebugSession');
+function _load_Logger() {
+  return _Logger = require('./Logger');
 }
 
 var _MITypes;
@@ -187,7 +187,7 @@ class VariableReference {
       const result = await this._client.sendCommand(`var-delete ${this._varName}`);
       if (result.error) {
         // don't throw here, because we can still continue safely, but log the error.
-        (0, (_MIDebugSession || _load_MIDebugSession()).logVerbose)(`Error deleting variable ${(0, (_MITypes || _load_MITypes()).toCommandError)(result).msg}`);
+        (0, (_Logger || _load_Logger()).logVerbose)(`Error deleting variable ${(0, (_MITypes || _load_MITypes()).toCommandError)(result).msg}`);
       }
     }
   }
@@ -220,7 +220,7 @@ class VariableReference {
 
     const resolvedType = type == null ? await varref.getType() : type;
 
-    (0, (_MIDebugSession || _load_MIDebugSession()).logVerbose)(`name ${name} type ${resolvedType} value ${value} typeClass ${typeClass}`);
+    (0, (_Logger || _load_Logger()).logVerbose)(`name ${name} type ${resolvedType} value ${value} typeClass ${typeClass}`);
 
     let variable = {
       name,

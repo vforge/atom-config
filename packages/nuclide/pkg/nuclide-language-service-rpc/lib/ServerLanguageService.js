@@ -247,10 +247,10 @@ function ensureInvalidations(logger, diagnostics) {
   const trackedDiagnostics = diagnostics.do(diagnosticMap => {
     for (const [filePath, messages] of diagnosticMap) {
       if (messages.length === 0) {
-        logger.debug(`Removing ${filePath} from files with errors`);
+        logger.trace(`Removing ${filePath} from files with errors`);
         filesWithErrors.delete(filePath);
       } else {
-        logger.debug(`Adding ${filePath} to files with errors`);
+        logger.trace(`Adding ${filePath} to files with errors`);
         filesWithErrors.add(filePath);
       }
     }

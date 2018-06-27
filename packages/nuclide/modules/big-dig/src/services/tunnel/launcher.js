@@ -27,8 +27,7 @@ function _load_log4js() {
 const logger = (0, (_log4js || _load_log4js()).getLogger)('tunnel-service');
 
 // eslint-disable-next-line nuclide-internal/no-commonjs
-module.exports = function launch(launcherParams) {
-  const { server } = launcherParams;
+module.exports = function launch(server) {
   logger.info('adding tunnel subscriber!');
 
   server.addSubscriber('tunnel', {

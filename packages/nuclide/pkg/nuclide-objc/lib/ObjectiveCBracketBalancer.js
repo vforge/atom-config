@@ -129,6 +129,7 @@ class ObjectiveCBracketBalancer {
       // eslint-disable-next-line eqeqeq
       currentRowPlusOne !== null && currentRowPlusOne !== closeBracketPosition.row) {
         const targetLine = buffer.lineForRow(currentRowPlusOne);
+        // $FlowFixMe (>= v0.75.0)
         const targetMatch = /\S/.exec(targetLine);
 
         if (targetLine[targetMatch.index] === '[') {

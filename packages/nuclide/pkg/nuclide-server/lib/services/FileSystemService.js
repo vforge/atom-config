@@ -33,6 +33,7 @@ exports.writeFileBuffer = writeFileBuffer;
 exports.getFreeSpace = getFreeSpace;
 exports.tempdir = tempdir;
 exports.getNuclideDir = getNuclideDir;
+exports.getNuclideLogDir = getNuclideLogDir;
 
 var _fs = _interopRequireDefault(require('fs'));
 
@@ -74,6 +75,12 @@ function _load_nuclideFs() {
   return _nuclideFs = require('../../../nuclide-fs');
 }
 
+var _nuclideLogging;
+
+function _load_nuclideLogging() {
+  return _nuclideLogging = require('../../../nuclide-logging');
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //------------------------------------------------------------------------------
@@ -82,16 +89,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * Checks a certain path for existence and returns 'true'/'false' accordingly
- */
-function exists(path) {
-  return (_nuclideFs || _load_nuclideFs()).ROOT_FS.exists(path);
-}
-
-/**
- * Starting in the directory `pathToDirectory`, checks if it contains a file named `fileName`.
- * If so, it returns the path to the file. If not, it successively looks for `fileName` in the
- * parent directory. If it gets all the way to the root and still does not find the file, then it
- * returns `null`.
  */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -110,6 +107,16 @@ function exists(path) {
  * readFile, writeFile, etc.
  */
 
+function exists(path) {
+  return (_nuclideFs || _load_nuclideFs()).ROOT_FS.exists(path);
+}
+
+/**
+ * Starting in the directory `pathToDirectory`, checks if it contains a file named `fileName`.
+ * If so, it returns the path to the file. If not, it successively looks for `fileName` in the
+ * parent directory. If it gets all the way to the root and still does not find the file, then it
+ * returns `null`.
+ */
 async function findNearestAncestorNamed(fileName, pathToDirectory) {
   const directory = await (_nuclideFs || _load_nuclideFs()).ROOT_FS.findNearestFile(fileName, pathToDirectory);
   if (directory != null) {
@@ -398,4 +405,8 @@ async function tempdir(prefix = '') {
 
 async function getNuclideDir() {
   return (0, (_systemInfo || _load_systemInfo()).getNuclideRealDir)();
+}
+
+async function getNuclideLogDir() {
+  return (0, (_nuclideLogging || _load_nuclideLogging()).getPathToLogDir)();
 }

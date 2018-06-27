@@ -104,37 +104,38 @@ class DebuggerControlsView extends _react.PureComponent {
           'span',
           null,
           'The debugger is not attached.'
-        ),
-        _react.createElement(
-          'div',
-          { className: 'padded' },
-          _react.createElement((_TruncatedButton || _load_TruncatedButton()).default, {
-            onClick: () => atom.commands.dispatch(atom.views.getView(atom.workspace), 'debugger:show-attach-dialog'),
-            icon: 'nuclicon-debugger',
-            label: 'Attach debugger...'
-          }),
-          _react.createElement((_TruncatedButton || _load_TruncatedButton()).default, {
-            onClick: () => atom.commands.dispatch(atom.views.getView(atom.workspace), 'debugger:show-launch-dialog'),
-            icon: 'nuclicon-debugger',
-            label: 'Launch debugger...'
-          }),
-          this.state.hasDevicePanelService ? _react.createElement((_TruncatedButton || _load_TruncatedButton()).default, {
-            onClick: () => (0, (_goToLocation || _load_goToLocation()).goToLocation)(DEVICE_PANEL_URL),
-            icon: 'device-mobile',
-            label: 'Manage devices...'
-          }) : null
         )
       )
     );
 
-    const debugeeRunningNotice = mode !== (_constants || _load_constants()).DebuggerMode.RUNNING ? null : _react.createElement(
+    const debuggerRunningNotice = mode !== (_constants || _load_constants()).DebuggerMode.RUNNING ? null : _react.createElement(
       'div',
       { className: 'debugger-pane-content' },
       _react.createElement(
         'div',
         { className: 'debugger-state-notice' },
-        'The debug target is currently running.'
+        (service.viewModel.focusedProcess == null || service.viewModel.focusedProcess.configuration.processName == null ? 'The debug target' : service.viewModel.focusedProcess.configuration.processName) + ' is currently running.'
       )
+    );
+
+    const debuggerNotice = _react.createElement(
+      'div',
+      { className: 'padded' },
+      _react.createElement((_TruncatedButton || _load_TruncatedButton()).default, {
+        onClick: () => atom.commands.dispatch(atom.views.getView(atom.workspace), 'debugger:show-attach-dialog'),
+        icon: 'nuclicon-debugger',
+        label: 'Attach debugger...'
+      }),
+      _react.createElement((_TruncatedButton || _load_TruncatedButton()).default, {
+        onClick: () => atom.commands.dispatch(atom.views.getView(atom.workspace), 'debugger:show-launch-dialog'),
+        icon: 'nuclicon-debugger',
+        label: 'Launch debugger...'
+      }),
+      this.state.hasDevicePanelService ? _react.createElement((_TruncatedButton || _load_TruncatedButton()).default, {
+        onClick: () => (0, (_goToLocation || _load_goToLocation()).goToLocation)(DEVICE_PANEL_URL),
+        icon: 'device-mobile',
+        label: 'Manage devices...'
+      }) : null
     );
 
     return _react.createElement(
@@ -150,8 +151,9 @@ class DebuggerControlsView extends _react.PureComponent {
         { className: 'debugger-section-header debugger-controls-section' },
         _react.createElement((_DebuggerSteppingComponent || _load_DebuggerSteppingComponent()).default, { service: service })
       ),
-      debugeeRunningNotice,
-      debuggerStoppedNotice
+      debuggerRunningNotice,
+      debuggerStoppedNotice,
+      debuggerNotice
     );
   }
 }

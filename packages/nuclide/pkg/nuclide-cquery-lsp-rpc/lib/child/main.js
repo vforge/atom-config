@@ -36,6 +36,12 @@ function _load_vscodeJsonrpc() {
   return _vscodeJsonrpc = require('vscode-jsonrpc');
 }
 
+var _vscodeLanguageserver;
+
+function _load_vscodeLanguageserver() {
+  return _vscodeLanguageserver = require('vscode-languageserver');
+}
+
 var _nuclideAnalytics;
 
 function _load_nuclideAnalytics() {
@@ -48,17 +54,15 @@ function _load_MessageHandler() {
   return _MessageHandler = require('./MessageHandler');
 }
 
-var _WindowLogAppender;
+var _messages;
 
-function _load_WindowLogAppender() {
-  return _WindowLogAppender = require('./WindowLogAppender');
+function _load_messages() {
+  return _messages = require('./messages');
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Percentage of total memory cquery may not exceed.
-const DEFAULT_MEMORY_LIMIT = 30;
-// Time between checking cquery memory usage, in millseconds.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -70,44 +74,56 @@ const DEFAULT_MEMORY_LIMIT = 30;
  * @format
  */
 
+const DEFAULT_MEMORY_LIMIT = 30;
+// Time between checking cquery memory usage, in millseconds.
 const MEMORY_CHECK_INTERVAL = 15000;
 
 // Read and store arguments.
-const loggingFile = process.argv[2];
-const recordingFile = process.argv[3];
-const libclangLogging = process.argv[4] === 'true';
+const projectRoot = process.argv[2];
+const loggingFile = process.argv[3];
+const recordingFile = process.argv[4];
+const libclangLogging = process.argv[5] === 'true';
 
-// Log to stderr to avoid polluting the JsonRpc stdout.
-// Also send errors to the client's log.
-(_log4js || _load_log4js()).default.configure({
-  appenders: [{ type: 'stderr' }, { type: require.resolve('./WindowLogAppender'), level: 'error' }]
-});
+// client reader/writer reads/writes to Nuclide.
+const clientReader = new (_SafeStreamMessageReader || _load_SafeStreamMessageReader()).default(process.stdin);
+const clientWriter = new (_vscodeJsonrpc || _load_vscodeJsonrpc()).StreamMessageWriter(process.stdout);
+const clientConnection = (0, (_vscodeLanguageserver || _load_vscodeLanguageserver()).createConnection)(clientReader, clientWriter);
+(0, (_messages || _load_messages()).initializeLogging)(clientConnection);
+
 const logger = (_log4js || _load_log4js()).default.getLogger('nuclide-cquery-wrapper');
 
 function onChildSpawn(childProcess) {
-  // client reader/writer reads/writes to Nuclide.
   // server reader/writer reads/writes to cquery.
-  const clientReader = new (_SafeStreamMessageReader || _load_SafeStreamMessageReader()).default(process.stdin);
+  const serverReader = new (_SafeStreamMessageReader || _load_SafeStreamMessageReader()).default(childProcess.stdout);
   const serverWriter = new (_vscodeJsonrpc || _load_vscodeJsonrpc()).StreamMessageWriter(childProcess.stdin);
-  const clientWriter = new (_vscodeJsonrpc || _load_vscodeJsonrpc()).StreamMessageWriter(process.stdout);
-  (0, (_WindowLogAppender || _load_WindowLogAppender()).setMessageWriter)(clientWriter);
-
   // If child process quits, we also quit.
   childProcess.on('exit', code => process.exit(code));
   childProcess.on('close', code => process.exit(code));
-  const clientMessageHandler = new (_MessageHandler || _load_MessageHandler()).MessageHandler(serverWriter, clientWriter);
+  const messageHandler = new (_MessageHandler || _load_MessageHandler()).MessageHandler(projectRoot, serverWriter, clientWriter);
 
   clientReader.listen(message => {
-    // Message would have a method if it's a request or notification.
-    const method = message.method;
-    if (method != null && clientMessageHandler.canHandle(message)) {
-      try {
-        clientMessageHandler.handle(message);
-      } catch (e) {
-        logger.error(`Uncaught error in ${method} override handler:`, e);
-      }
-    } else {
+    let handled = false;
+    try {
+      handled = messageHandler.handleFromClient(message);
+    } catch (e) {
+      const method = message.method;
+      logger.error(`Uncaught error in ${method} override handler:`, e);
+    }
+    if (!handled) {
       serverWriter.write(message);
+    }
+  });
+
+  serverReader.listen(message => {
+    let handled = false;
+    try {
+      handled = messageHandler.handleFromServer(message);
+    } catch (e) {
+      const method = message.method;
+      logger.error(`Uncaught error in ${method} override handler:`, e);
+    }
+    if (!handled) {
+      clientWriter.write(message);
     }
   });
 
@@ -117,16 +133,14 @@ function onChildSpawn(childProcess) {
   const serializedMemoryCheck = (0, (_promise || _load_promise()).serializeAsyncCall)(async () => (await (0, (_process || _load_process()).memoryUsagePerPid)([childProcess.pid])).get(childProcess.pid));
   _rxjsBundlesRxMinJs.Observable.interval(MEMORY_CHECK_INTERVAL).subscribe(async () => {
     const memoryUsed = await serializedMemoryCheck();
-    if (memoryUsed != null) {
+    if (memoryUsed != null && memoryUsed > memoryLimit) {
       (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('nuclide-cquery-lsp:memory-used', {
-        projects: clientMessageHandler.knownProjects(),
+        projects: messageHandler.knownProjects(),
         memoryUsed,
         memoryLimit
       });
-      if (memoryUsed > memoryLimit) {
-        logger.error(`Memory usage ${memoryUsed} exceeds limit ${memoryLimit}, killing cquery`);
-        childProcess.kill();
-      }
+      logger.error(`Memory usage ${memoryUsed} exceeds limit ${memoryLimit}, killing cquery`);
+      childProcess.kill();
     }
   });
 }
@@ -135,7 +149,7 @@ function spawnChild() {
   onChildSpawn(_child_process.default.spawn('cquery', ['--log-file', loggingFile, '--record', recordingFile], {
     env: libclangLogging ? Object.assign({ LIBCLANG_LOGGING: 1 }, process.env) : process.env,
     // only pipe stdin and stdout, and inherit stderr
-    stdio: ['pipe', 'inherit', 'inherit']
+    stdio: ['pipe', 'pipe', 'inherit']
   }));
 }
 

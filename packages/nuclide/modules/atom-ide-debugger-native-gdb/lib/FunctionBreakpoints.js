@@ -22,10 +22,10 @@ function _load_Breakpoints2() {
   return _Breakpoints2 = require('./Breakpoints');
 }
 
-var _MIDebugSession;
+var _Logger;
 
-function _load_MIDebugSession() {
-  return _MIDebugSession = require('./MIDebugSession');
+function _load_Logger() {
+  return _Logger = require('./Logger');
 }
 
 var _MIProxy;
@@ -104,10 +104,10 @@ class FunctionBreakpoints {
       if (response.done) {
         const result = (0, (_MITypes || _load_MITypes()).breakInsertResult)(response);
         const bkpt = result.bkpt[0];
-        (0, (_MIDebugSession || _load_MIDebugSession()).logVerbose)(`breakpoint ${JSON.stringify(bkpt)}`);
+        (0, (_Logger || _load_Logger()).logVerbose)(`breakpoint ${JSON.stringify(bkpt)}`);
         cachedBreakpoints[index].setId(parseInt(bkpt.number, 10));
         if (bkpt.pending == null) {
-          (0, (_MIDebugSession || _load_MIDebugSession()).logVerbose)(`breakpoint ${index} is now verified`);
+          (0, (_Logger || _load_Logger()).logVerbose)(`breakpoint ${index} is now verified`);
           cachedBreakpoints[index].setVerified();
         }
       }
@@ -189,7 +189,7 @@ class FunctionBreakpoints {
     }
 
     results.forEach(_ => {
-      (0, (_MIDebugSession || _load_MIDebugSession()).logVerbose)(JSON.stringify(_));
+      (0, (_Logger || _load_Logger()).logVerbose)(JSON.stringify(_));
       const result = (0, (_MITypes || _load_MITypes()).breakInsertResult)(_);
 
       // We may get back a list of multiple sub breakpoints, each with a source/line,

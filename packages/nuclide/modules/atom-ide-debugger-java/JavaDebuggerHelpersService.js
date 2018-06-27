@@ -153,6 +153,7 @@ async function _getClassPath() {
         const java = (await (0, (_process || _load_process()).runCommand)('which', ['java']).toPromise()).trim();
         const javaHome = await (_fsPromise || _load_fsPromise()).default.realpath(java);
 
+        // $FlowFixMe (>= v0.75.0)
         const matches = /(.*)\/java/.exec(javaHome);
         toolsJarPath = matches.length > 1 ? matches[1] + '/../lib/tools.jar' : '';
         break;

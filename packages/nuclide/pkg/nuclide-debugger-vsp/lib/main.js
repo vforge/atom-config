@@ -104,17 +104,6 @@ class Activation {
     });
   }
 
-  createDebuggerConfigurator() {
-    return {
-      resolveConfiguration: (_utils || _load_utils()).resolveConfiguration,
-      adapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NATIVE_LLDB
-    };
-  }
-
-  consumeDebuggerSourcePaths(sourcePathService) {
-    (0, (_utils || _load_utils()).setSourcePathsService)(sourcePathService);
-  }
-
   dispose() {
     this._subscriptions.dispose();
   }

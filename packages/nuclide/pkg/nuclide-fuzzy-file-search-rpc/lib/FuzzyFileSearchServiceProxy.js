@@ -222,13 +222,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "FuzzyFileSearchService.js",
-        line: 71
+        line: 72
       },
       type: {
         location: {
           type: "source",
           fileName: "FuzzyFileSearchService.js",
-          line: 71
+          line: 72
         },
         kind: "function",
         argumentTypes: [{
@@ -297,13 +297,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "FuzzyFileSearchService.js",
-        line: 102
+        line: 112
       },
       type: {
         location: {
           type: "source",
           fileName: "FuzzyFileSearchService.js",
-          line: 102
+          line: 112
         },
         kind: "function",
         argumentTypes: [{
@@ -343,13 +343,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "FuzzyFileSearchService.js",
-        line: 130
+        line: 140
       },
       type: {
         location: {
           type: "source",
           fileName: "FuzzyFileSearchService.js",
-          line: 130
+          line: 140
         },
         kind: "function",
         argumentTypes: [{
@@ -373,13 +373,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "FuzzyFileSearchService.js",
-        line: 139
+        line: 149
       },
       type: {
         location: {
           type: "source",
           fileName: "FuzzyFileSearchService.js",
-          line: 139
+          line: 149
         },
         kind: "function",
         argumentTypes: [{

@@ -149,6 +149,7 @@ function provideDefinitions() {
     name: (_constants || _load_constants()).PACKAGE_NAME,
     priority: 20,
     grammarScopes: (_constants || _load_constants()).GRAMMARS,
+    wordRegExp: null,
     getDefinition(editor, position) {
       return (_DefinitionHelpers || _load_DefinitionHelpers()).default.getDefinition(editor, position);
     }

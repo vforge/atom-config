@@ -145,7 +145,8 @@
     return_description: false
     return_tag: "@returns"
   editor:
-    fontFamily: "IBM Plex Mono"
+    fontFamily: "Operator Mono"
+    fontSize: 15
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true

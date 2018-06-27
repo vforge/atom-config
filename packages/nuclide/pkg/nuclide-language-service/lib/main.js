@@ -16,6 +16,12 @@ Object.defineProperty(exports, 'AtomLanguageService', {
     return (_AtomLanguageService || _load_AtomLanguageService()).AtomLanguageService;
   }
 });
+Object.defineProperty(exports, 'AtomLanguageServiceConfig', {
+  enumerable: true,
+  get: function () {
+    return (_AtomLanguageService || _load_AtomLanguageService()).AtomLanguageServiceConfig;
+  }
+});
 
 var _HostServices;
 
@@ -27,6 +33,19 @@ Object.defineProperty(exports, 'getHostServices', {
   enumerable: true,
   get: function () {
     return (_HostServices || _load_HostServices()).getHostServices;
+  }
+});
+
+var _LanguageService;
+
+function _load_LanguageService() {
+  return _LanguageService = require('./LanguageService');
+}
+
+Object.defineProperty(exports, 'LanguageService', {
+  enumerable: true,
+  get: function () {
+    return (_LanguageService || _load_LanguageService()).LanguageService;
   }
 });
 

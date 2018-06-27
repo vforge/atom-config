@@ -10,6 +10,8 @@ function _load_fsPromise() {
   return _fsPromise = _interopRequireDefault(require('../../../modules/nuclide-commons/fsPromise'));
 }
 
+var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+
 var _nuclideLanguageServiceRpc;
 
 function _load_nuclideLanguageServiceRpc() {
@@ -23,6 +25,17 @@ function _load_CqueryLanguageClient() {
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ *  strict-local
+ * @format
+ */
 
 class CqueryLanguageServer extends (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).MultiProjectLanguageService {
 
@@ -62,14 +75,15 @@ class CqueryLanguageServer extends (_nuclideLanguageServiceRpc || _load_nuclideL
       this._host.consoleNotification(this._languageId, 'warning', 'Could not restart: no cquery index found for ' + file);
     }
   }
+
+  observeStatus(fileVersion) {
+    this._observeStatusPromiseResolver();
+    // Concat the observable to itself in case the language service for a file
+    // changes but the version has not (e.g. the underlying service restarts).
+    const factory = () => _rxjsBundlesRxMinJs.Observable.fromPromise(this.getLanguageServiceForFile(fileVersion.filePath)).flatMap(ls =>
+    // If we receive a null language service then don't restart.
+    ls != null ? ls.observeStatus(fileVersion).refCount().concat(_rxjsBundlesRxMinJs.Observable.defer(factory)) : _rxjsBundlesRxMinJs.Observable.empty());
+    return factory().publish();
+  }
 }
-exports.default = CqueryLanguageServer; /**
-                                         * Copyright (c) 2015-present, Facebook, Inc.
-                                         * All rights reserved.
-                                         *
-                                         * This source code is licensed under the license found in the LICENSE file in
-                                         * the root directory of this source tree.
-                                         *
-                                         *  strict-local
-                                         * @format
-                                         */
+exports.default = CqueryLanguageServer;

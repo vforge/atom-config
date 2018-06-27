@@ -104,6 +104,43 @@ describe('Projectionist', () => {
 
       expect(projectionist.getAlternates('bin/scripts/foo.js')).toEqual(['bin/scripts/foo.test.js', 'bin/scripts/__tests__/foo-test.js', 'bin/scripts/__tests__/foo-mocha.js']);
     });
+
+    it('excludes rule if relative path matches specified glob', () => {
+      const projectionist = new (_main || _load_main()).default({
+        '*.js': {
+          alternate: '{dirname}/{basename}.example.js',
+          type: 'source'
+        },
+        '*.react.js': {
+          alternate: '{dirname}/__tests__/{basename}-test.js',
+          type: 'source',
+          exclude: 'project/*'
+        },
+        'project/*.react.js': {
+          alternate: 'project/__tests__/{basename}.test.js',
+          type: 'source'
+        }
+      });
+
+      expect(projectionist.getAlternates('project/Component.react.js')).toEqual(['project/Component.example.js', 'project/__tests__/Component.test.js']);
+    });
+
+    it('excludes rule if relative path matches any specified glob in array', () => {
+      const projectionist = new (_main || _load_main()).default({
+        '*.js': {
+          alternate: '{dirname}/{basename}.test.js',
+          type: 'source'
+        },
+        '*.react.js': {
+          alternate: '{dirname}/__tests__/{basename}-test.js',
+          type: 'source',
+          exclude: ['project/*', 'lib/*']
+        }
+      });
+
+      expect(projectionist.getAlternates('project/Component.react.js')).toEqual(['project/Component.test.js']);
+      expect(projectionist.getAlternates('lib/Component.react.js')).toEqual(['lib/Component.test.js']);
+    });
   });
 
   describe('getType', () => {

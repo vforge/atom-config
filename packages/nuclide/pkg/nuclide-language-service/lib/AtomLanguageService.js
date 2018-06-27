@@ -37,6 +37,12 @@ function _load_OutlineViewProvider() {
   return _OutlineViewProvider = require('./OutlineViewProvider');
 }
 
+var _RenameProvider;
+
+function _load_RenameProvider() {
+  return _RenameProvider = require('./RenameProvider');
+}
+
 var _StatusProvider;
 
 function _load_StatusProvider() {
@@ -181,6 +187,11 @@ class AtomLanguageService {
     const findReferencesConfig = this._config.findReferences;
     if (findReferencesConfig != null) {
       this._subscriptions.add((_FindReferencesProvider || _load_FindReferencesProvider()).FindReferencesProvider.register(this._config.name, this._config.grammars, findReferencesConfig, this._connectionToLanguageService));
+    }
+
+    const renameConfig = this._config.rename;
+    if (renameConfig != null) {
+      this._subscriptions.add((_RenameProvider || _load_RenameProvider()).RenameProvider.register(this._config.name, this._config.grammars, renameConfig, this._connectionToLanguageService));
     }
 
     const autocompleteConfig = this._config.autocomplete;

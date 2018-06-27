@@ -12,10 +12,22 @@ function _load_PulseButtonWithTooltip() {
   return _PulseButtonWithTooltip = _interopRequireDefault(require('../../../../nuclide-commons-ui/PulseButtonWithTooltip'));
 }
 
+var _renderReactRoot;
+
+function _load_renderReactRoot() {
+  return _renderReactRoot = require('../../../../nuclide-commons-ui/renderReactRoot');
+}
+
 var _ToolbarUtils;
 
 function _load_ToolbarUtils() {
   return _ToolbarUtils = require('../../../../nuclide-commons-ui/ToolbarUtils');
+}
+
+var _event;
+
+function _load_event() {
+  return _event = require('../../../../nuclide-commons/event');
 }
 
 var _os = _interopRequireDefault(require('os'));
@@ -167,25 +179,35 @@ class Activation {
 
     const disposable = new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {
       toolBar.removeItems();
-    }, _rxjsBundlesRxMinJs.Observable.defer(() => (_idbKeyval || _load_idbKeyval()).default.get(NUX_SEEN_KEY)).filter(seen => !seen).switchMap(() => _rxjsBundlesRxMinJs.Observable.create(() => {
-      const rect = buttonView.element.getBoundingClientRect();
-      const nuxRoot = document.createElement('div');
-      nuxRoot.style.position = 'absolute';
-      // attach a pulse button, offset so not to obscure the icon
-      nuxRoot.style.top = rect.top + 15 + 'px';
-      nuxRoot.style.left = rect.left + 18 + 'px';
-      _reactDom.default.render(_react.default.createElement((_PulseButtonWithTooltip || _load_PulseButtonWithTooltip()).default, {
-        ariaLabel: 'Try the Terminal',
-        tooltipText: 'There\'s now a new built-in terminal. Click here to launch one!',
-        onDismiss: () => (_idbKeyval || _load_idbKeyval()).default.set(NUX_SEEN_KEY, true)
-      }), nuxRoot);
-      (0, (_nullthrows || _load_nullthrows()).default)(document.body).appendChild(nuxRoot);
+    }, _rxjsBundlesRxMinJs.Observable.defer(() => (_idbKeyval || _load_idbKeyval()).default.get(NUX_SEEN_KEY)).filter(seen => !seen)
+    // monitor changes in the tool-bar's position, size, and visibility
+    // and recreate the PulseButton on every significant change
+    .switchMap(() => _rxjsBundlesRxMinJs.Observable.combineLatest((0, (_event || _load_event()).observableFromSubscribeFunction)(cb => atom.config.observe('tool-bar.visible', cb)), (0, (_event || _load_event()).observableFromSubscribeFunction)(cb => atom.config.observe('tool-bar.position', cb)), (0, (_event || _load_event()).observableFromSubscribeFunction)(cb => atom.config.observe('tool-bar.iconSize', cb)))).map(([visibility]) => visibility)
+    // only show if the tool-bar is open
+    .switchMap(isVisible => {
+      if (!isVisible) {
+        return _rxjsBundlesRxMinJs.Observable.empty();
+      }
 
-      return () => {
-        _reactDom.default.unmountComponentAtNode(nuxRoot);
-        nuxRoot.remove();
-      };
-    })).subscribe());
+      return _rxjsBundlesRxMinJs.Observable.create(() => {
+        const rect = buttonView.element.getBoundingClientRect();
+        const nuxRoot = (0, (_renderReactRoot || _load_renderReactRoot()).renderReactRoot)(_react.default.createElement((_PulseButtonWithTooltip || _load_PulseButtonWithTooltip()).default, {
+          ariaLabel: 'Try the Terminal',
+          tooltipText: 'There\'s now a new built-in terminal. Launch one here!',
+          onDismiss: () => (_idbKeyval || _load_idbKeyval()).default.set(NUX_SEEN_KEY, true)
+        }));
+        nuxRoot.style.position = 'absolute';
+        // attach a pulse button, offset so not to obscure the icon
+        nuxRoot.style.top = rect.top + 15 + 'px';
+        nuxRoot.style.left = rect.left + 18 + 'px';
+        (0, (_nullthrows || _load_nullthrows()).default)(document.body).appendChild(nuxRoot);
+
+        return () => {
+          _reactDom.default.unmountComponentAtNode(nuxRoot);
+          nuxRoot.remove();
+        };
+      });
+    }).subscribe());
     this._subscriptions.add(disposable);
     return disposable;
   }

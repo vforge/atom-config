@@ -22,8 +22,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @format
  */
 
-const json = JSON.parse(_fs.default.readFileSync(require.resolve('./package.json'), 'utf8'));
-const version = /^(\d+)\.(\d+)\.(\d+)(?:-([a-z0-9.-]+))?$/.exec(json.version)[2];
+const version = getVersion();
+
+function getVersion() {
+  const json = JSON.parse(_fs.default.readFileSync(require.resolve('./package.json'), 'utf8'));
+  // $FlowFixMe (>= v0.75.0)
+  const match = /^(\d+)\.(\d+)\.(\d+)(?:-([a-z0-9.-]+))?$/.exec(json.version);
+  return match[2];
+}
 
 function processArgs() {
   const args = process.argv.slice(2);

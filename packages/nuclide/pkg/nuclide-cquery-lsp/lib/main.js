@@ -318,6 +318,14 @@ class Activation {
         priority: 1,
         triggerCharacters: new Set(['(', ',']),
         analyticsEventName: 'cquery.signatureHelp'
+      },
+      status: {
+        version: '0.1.0',
+        priority: 1,
+        observeEventName: 'cquery.statusObserve',
+        clickEventName: 'cquery.statusClick',
+        description: 'cquery provides autocomplete, hover, hyperclick, find-references for C++.',
+        iconMarkdown: 'cquery'
       }
     };
 

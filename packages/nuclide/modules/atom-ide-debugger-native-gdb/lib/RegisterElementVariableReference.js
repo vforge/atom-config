@@ -34,12 +34,6 @@ function _load_VariableReference() {
   return _VariableReference = _interopRequireDefault(require('./VariableReference'));
 }
 
-var _Variables;
-
-function _load_Variables() {
-  return _Variables = _interopRequireDefault(require('./Variables'));
-}
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class RegisterElementVariableReference extends (_VariableReference || _load_VariableReference()).default {

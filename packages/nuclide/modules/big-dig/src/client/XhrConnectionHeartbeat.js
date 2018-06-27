@@ -152,6 +152,9 @@ class XhrConnectionHeartbeat {
         case 'ECONNRESET':
           code = this._checkReconnectErrorType(originalCode);
           break;
+        case 'CERT_SIGNATURE_FAILURE':
+          code = 'INVALID_CERTIFICATE';
+          break;
         default:
           code = originalCode;
           break;

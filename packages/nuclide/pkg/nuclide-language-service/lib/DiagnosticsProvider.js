@@ -284,7 +284,6 @@ class ObservableDiagnosticProvider {
           return _rxjsBundlesRxMinJs.Observable.empty();
         }));
       }).map(updates => {
-        (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)(this._analyticsEventName);
         const filePathToMessages = new Map();
         updates.forEach((messages, filePath) => {
           const fileCache = this._connectionToFiles.get(connection);

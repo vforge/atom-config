@@ -37,20 +37,25 @@ function _load_once() {
   return _once = _interopRequireDefault(require('./once'));
 }
 
+var _passesGK;
+
+function _load_passesGK() {
+  return _passesGK = _interopRequireDefault(require('./passesGK'));
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- *  strict-local
- * @format
- */
+const DEFAULT_JOIN_TIMEOUT = 5000; /**
+                                    * Copyright (c) 2015-present, Facebook, Inc.
+                                    * All rights reserved.
+                                    *
+                                    * This source code is licensed under the license found in the LICENSE file in
+                                    * the root directory of this source tree.
+                                    *
+                                    *  strict-local
+                                    * @format
+                                    */
 
-const DEFAULT_JOIN_TIMEOUT = 5000;
 let SCRIBE_CAT_COMMAND = 'scribe_cat';
 
 // On Mac OS, `scribe_cat` isn't quite the same as the server-side one:
@@ -199,7 +204,10 @@ class ScribeProcess {
 
 exports.default = ScribeProcess;
 ScribeProcess._enabled = true;
-ScribeProcess.isScribeCatOnPath = (0, (_once || _load_once()).default)(() => (0, (_which || _load_which()).default)(SCRIBE_CAT_COMMAND).then(cmd => cmd != null));
+ScribeProcess.isScribeCatOnPath = (0, (_once || _load_once()).default)(async () => {
+  const [whichCmd, gkEnabled] = await Promise.all([(0, (_which || _load_which()).default)(SCRIBE_CAT_COMMAND), process.platform === 'darwin' ? (0, (_passesGK || _load_passesGK()).default)('nuclide_scribe_macos') : Promise.resolve(true)]);
+  return whichCmd != null && gkEnabled;
+});
 const __test__ = exports.__test__ = {
   setScribeCatCommand(newCommand) {
     const originalCommand = SCRIBE_CAT_COMMAND;

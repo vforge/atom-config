@@ -155,6 +155,11 @@ async function createLanguageService() {
       version: '0.1.0',
       analyticsEventName: 'hack:findReferences'
     },
+    rename: {
+      version: '0.1.0',
+      priority: 1,
+      analyticsEventName: 'hack:rename'
+    },
     autocomplete: {
       inclusionPriority: 1,
       // The context-sensitive hack autocompletions are more relevant than snippets.
