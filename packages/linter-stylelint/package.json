@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-49750-1i6x0fm.wya7mhd7vi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-49750-1i6x0fm.wya7mhd7vi/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-49750-1i6x0fm.wya7mhd7vi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118529-36507-lb4ll5.2eyaatt9"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118529-49750-1c6rbyq.0pddvx6r"
     ]
   ],
-  "_from": "../d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
-  "_id": "linter-stylelint@4.3.1",
+  "_from": "../d-118529-49750-1i6x0fm.wya7mhd7vi/package.tgz",
+  "_id": "linter-stylelint@4.3.2",
   "_inCache": true,
   "_location": "/linter-stylelint",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-49750-1i6x0fm.wya7mhd7vi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-49750-1i6x0fm.wya7mhd7vi/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-49750-1i6x0fm.wya7mhd7vi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
-  "_shasum": "6fcf18509fe7793a286ca6298d00706f85289784",
+  "_resolved": "file:../d-118529-49750-1i6x0fm.wya7mhd7vi/package.tgz",
+  "_shasum": "f7f8c68f5d9c3455f0c0b933cd3769163192f8c0",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118529-36507-lb4ll5.2eyaatt9",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-49750-1i6x0fm.wya7mhd7vi/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118529-49750-1c6rbyq.0pddvx6r",
   "author": {
     "name": "1000ch",
     "email": "shogo.sensui@gmail.com",
@@ -68,7 +68,7 @@
     }
   },
   "dependencies": {
-    "assign-deep": "^0.4.5",
+    "assign-deep": "^0.4.7",
     "atom-linter": "^10.0.0",
     "atom-package-deps": "^4.6.0",
     "resolve": "^1.8.1",
@@ -152,5 +152,5 @@
     "lint": "eslint .",
     "test": "atom --test spec"
   },
-  "version": "4.3.1"
+  "version": "4.3.2"
 }
