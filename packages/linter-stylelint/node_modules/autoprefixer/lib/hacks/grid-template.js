@@ -12,7 +12,9 @@ var Declaration = require('../declaration');
 
 var _require = require('./grid-utils'),
     parseTemplate = _require.parseTemplate,
-    insertAreas = _require.insertAreas;
+    insertAreas = _require.insertAreas,
+    getGridGap = _require.getGridGap,
+    warnGridGap = _require.warnGridGap;
 
 var GridTemplate = function (_Declaration) {
     _inherits(GridTemplate, _Declaration);
@@ -35,14 +37,28 @@ var GridTemplate = function (_Declaration) {
             return undefined;
         }
 
-        var _parseTemplate = parseTemplate(decl),
+        var gap = getGridGap(decl);
+
+        var _parseTemplate = parseTemplate({
+            decl: decl,
+            gap: gap
+        }),
             rows = _parseTemplate.rows,
             columns = _parseTemplate.columns,
             areas = _parseTemplate.areas;
 
         var hasAreas = Object.keys(areas).length > 0;
+        var hasRows = Boolean(rows);
+        var hasColumns = Boolean(columns);
 
-        if (rows && columns || hasAreas) {
+        warnGridGap({
+            gap: gap,
+            hasColumns: hasColumns,
+            decl: decl,
+            result: result
+        });
+
+        if (hasRows && hasColumns || hasAreas) {
             decl.cloneBefore({
                 prop: '-ms-grid-rows',
                 value: rows,
@@ -50,7 +66,7 @@ var GridTemplate = function (_Declaration) {
             });
         }
 
-        if (columns) {
+        if (hasColumns) {
             decl.cloneBefore({
                 prop: '-ms-grid-columns',
                 value: columns,

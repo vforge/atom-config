@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29059-1a9457z.a3pe1dobt9/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29059-1a9457z.a3pe1dobt9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29059-1a9457z.a3pe1dobt9/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118330-29059-w02ifx.0mpl73c8fr"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118529-36507-lb4ll5.2eyaatt9"
     ]
   ],
-  "_from": "../d-118330-29059-1a9457z.a3pe1dobt9/package.tgz",
-  "_id": "linter-stylelint@4.3.0",
+  "_from": "../d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
+  "_id": "linter-stylelint@4.3.1",
   "_inCache": true,
   "_location": "/linter-stylelint",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29059-1a9457z.a3pe1dobt9/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29059-1a9457z.a3pe1dobt9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29059-1a9457z.a3pe1dobt9/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118330-29059-1a9457z.a3pe1dobt9/package.tgz",
-  "_shasum": "22d54f4f54f83e58824e647cd003323f3626c2d5",
+  "_resolved": "file:../d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
+  "_shasum": "6fcf18509fe7793a286ca6298d00706f85289784",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118330-29059-1a9457z.a3pe1dobt9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118330-29059-w02ifx.0mpl73c8fr",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118529-36507-l5rgea.zq0kltbj4i/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118529-36507-lb4ll5.2eyaatt9",
   "author": {
     "name": "1000ch",
     "email": "shogo.sensui@gmail.com",
@@ -56,8 +56,8 @@
       "default": false
     },
     "disableWhenNoConfig": {
-      "title": "Disable when no config file is found",
-      "description": "Either .stylelintrc or stylelint.config.js",
+      "title": "Disable when no config is found",
+      "description": "You can find the list of supported formats in the [stylelint docs](https://stylelint.io/user-guide/configuration/#loading-the-configuration-object).",
       "type": "boolean",
       "default": true
     },
@@ -71,22 +71,22 @@
     "assign-deep": "^0.4.5",
     "atom-linter": "^10.0.0",
     "atom-package-deps": "^4.6.0",
-    "resolve": "^1.5.0",
-    "stylelint": "9.2.0",
+    "resolve": "^1.8.1",
+    "stylelint": "9.3.0",
     "stylelint-config-standard": "^18.0.0"
   },
   "description": "A plugin for Atom Linter providing an interface to stylelint.",
   "devDependencies": {
-    "@commitlint/cli": "^6.1.3",
-    "@commitlint/config-conventional": "^6.1.3",
-    "@commitlint/travis-cli": "^6.1.3",
+    "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-conventional": "^7.0.1",
+    "@commitlint/travis-cli": "^7.0.0",
     "@semantic-release/apm-config": "^2.0.1",
-    "eslint": "^4.6.0",
-    "eslint-config-airbnb-base": "^12.0.0",
-    "eslint-plugin-import": "^2.7.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0",
     "husky": "^0.14.3",
     "jasmine-fix": "^1.0.1",
-    "semantic-release": "^15.1.7"
+    "semantic-release": "^15.6.0"
   },
   "engines": {
     "atom": ">=1.7.0 <2.0.0"
@@ -138,7 +138,7 @@
       }
     }
   },
-  "readme": "# linter-stylelint [![Dependency Status](https://david-dm.org/AtomLinter/linter-stylelint.svg)](https://david-dm.org/AtomLinter/linter-stylelint)\n\nA plugin for [Atom Linter](https://github.com/AtomLinter/atom-linter) providing\nan interface to [stylelint](https://github.com/stylelint/stylelint).\n\n![demo](https://raw.githubusercontent.com/AtomLinter/linter-stylelint/master/demo.png)\n\n## Installation\n\n```ShellSession\napm install linter-stylelint\n```\n\nlinter-stylelint runs `stylelint` against your CSS, SCSS, Less, PostCSS,\nand SugarSS files.\n\n## Configuration\n\nYou can pass a configuration to `stylelint` in any of the following ways:\n\n-   Place a configuration file (`.stylelintrc` or `stylelint.config.js`) in your\n    project's root folder or in any parent folder.\n\n-   Add a `stylelint` section in your `package.json`.\n\n-   In the settings, check `Use standard` to automatically use [stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard)\n\n`.stylelintrc` is always prioritized. If you have checked `Use standard` in the\nsettings and also have a `.stylelintrc` file, your `.stylelintrc` configuration\nwill extend the preset, using [stylelint's extend functionality](http://stylelint.io/?/docs/user-guide/configuration.md).\n\n## Notes\n\nAs of `stylelint` v7.0.0 the ability to lint embedded style code has been\nremoved from core, replaced with the ability for generic processors to handle\nany file format. Currently one has yet to be written for pulling style code\nout of HTML, if you are interested in bringing this functionality back to\n`linter-stylelint`, check out [their documentation](https://github.com/stylelint/stylelint/blob/master/docs/developer-guide/processors.md)\non how to write a processor to handle HTML, and any other files that contain\nstyle code!\n\n## License\n\nMIT: <http://1000ch.mit-license.org/>\n",
+  "readme": "# linter-stylelint [![Dependency Status](https://david-dm.org/AtomLinter/linter-stylelint.svg)](https://david-dm.org/AtomLinter/linter-stylelint) [![Greenkeeper badge](https://badges.greenkeeper.io/AtomLinter/linter-stylelint.svg)](https://greenkeeper.io/)\n\nA plugin for [Atom Linter](https://github.com/AtomLinter/atom-linter) providing\nan interface to [stylelint](https://github.com/stylelint/stylelint).\n\n![demo](https://raw.githubusercontent.com/AtomLinter/linter-stylelint/master/demo.png)\n\n## Installation\n\n```ShellSession\napm install linter-stylelint\n```\n\nlinter-stylelint runs `stylelint` against your CSS, SCSS, Less, PostCSS,\nand SugarSS files.\n\n## Configuration\n\nYou can pass a configuration to `stylelint` in any of the following ways:\n\n-   Place a configuration file (`.stylelintrc` or `stylelint.config.js`) in your\n    project's root folder or in any parent folder.\n\n-   Add a `stylelint` section in your `package.json`.\n\n-   In the settings, check `Use standard` to automatically use [stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard)\n\n`.stylelintrc` is always prioritized. If you have checked `Use standard` in the\nsettings and also have a `.stylelintrc` file, your `.stylelintrc` configuration\nwill extend the preset, using [stylelint's extend functionality](http://stylelint.io/?/docs/user-guide/configuration.md).\n\n## Notes\n\nAs of `stylelint` v7.0.0 the ability to lint embedded style code has been\nremoved from core, replaced with the ability for generic processors to handle\nany file format. Currently one has yet to be written for pulling style code\nout of HTML, if you are interested in bringing this functionality back to\n`linter-stylelint`, check out [their documentation](https://github.com/stylelint/stylelint/blob/master/docs/developer-guide/processors.md)\non how to write a processor to handle HTML, and any other files that contain\nstyle code!\n\n## License\n\nMIT: <http://1000ch.mit-license.org/>\n",
   "readmeFilename": "readme.md",
   "release": {
     "extends": "@semantic-release/apm-config"
@@ -152,5 +152,5 @@
     "lint": "eslint .",
     "test": "atom --test spec"
   },
-  "version": "4.3.0"
+  "version": "4.3.1"
 }

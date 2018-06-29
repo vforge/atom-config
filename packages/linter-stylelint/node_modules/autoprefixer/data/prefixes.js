@@ -392,8 +392,18 @@ f(require('caniuse-lite/data/features/css3-tabsize'), function (browsers) {
 });
 
 // Intrinsic & extrinsic sizing
-f(require('caniuse-lite/data/features/intrinsic-width'), function (browsers) {
-    return prefix(['max-content', 'min-content', 'fit-content', 'fill', 'fill-available', 'stretch'], {
+var intrinsic = require('caniuse-lite/data/features/intrinsic-width');
+
+f(intrinsic, function (browsers) {
+    return prefix(['max-content', 'min-content', 'fit-content'], {
+        props: ['width', 'min-width', 'max-width', 'height', 'min-height', 'max-height', 'inline-size', 'min-inline-size', 'max-inline-size', 'block-size', 'min-block-size', 'max-block-size', 'grid', 'grid-template', 'grid-template-rows', 'grid-template-columns', 'grid-auto-columns', 'grid-auto-rows'],
+        feature: 'intrinsic-width',
+        browsers: browsers
+    });
+});
+
+f(intrinsic, { match: /x|\s#4/ }, function (browsers) {
+    return prefix(['fill', 'fill-available', 'stretch'], {
         props: ['width', 'min-width', 'max-width', 'height', 'min-height', 'max-height', 'inline-size', 'min-inline-size', 'max-inline-size', 'block-size', 'min-block-size', 'max-block-size', 'grid', 'grid-template', 'grid-template-rows', 'grid-template-columns', 'grid-auto-columns', 'grid-auto-rows'],
         feature: 'intrinsic-width',
         browsers: browsers

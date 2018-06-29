@@ -96,7 +96,7 @@ a {
 
 Autoprefixer uses [Browserslist], so you can specify the browsers
 you want to target in your project by queries like `> 5%`
-(see [Best Practises]).
+(see [Best Practices]).
 
 The best way to provide browsers is `.browserslistrc` config
 or `package.json` with `browserslist` key. Put it in your project root.
@@ -110,7 +110,7 @@ and default value.
 
 [Browserslist docs]: https://github.com/ai/browserslist#queries
 [babel-preset-env]:  https://github.com/babel/babel-preset-env
-[Best Practises]:    https://github.com/browserslist/browserslist#best-practices
+[Best Practices]:    https://github.com/browserslist/browserslist#best-practices
 [Browserslist]:      https://github.com/ai/browserslist
 [Stylelint]:         http://stylelint.io/
 
@@ -502,7 +502,7 @@ You can use these plugin options to disable some of the Autoprefixer's features.
   versions of specification.
 * `remove: false` will disable cleaning outdated prefixes.
 
-You shoud set them to the plugin:
+You should set them to the plugin:
 
 ```js
 autoprefixer({ grid: true });
@@ -531,7 +531,7 @@ you can use control comments to disable Autoprefixer.
 }
 ```
 
-There is two types of control commens:
+There are two types of control comments:
 
 * `/* autoprefixer: off */` disable the whole block *before* and after comment.
 * `/* autoprefixer: ignore next */` disable only next property
@@ -549,7 +549,7 @@ You can also use comments recursively:
 }
 ```
 
-In Sass/SCSS you can use all the disable options above, add an exclamation mark
+In Sass/SCSS/Less you can use all the disable options above, add an exclamation mark
 in the start of comment:
 
 ```scss
@@ -584,10 +584,12 @@ Available options are:
 * `stats` (object): custom [usage statistics] for `> 10% in my stats`
   browsers query.
 * `browsers` (array): list of queries for target browsers. Try to not use it.
-  The best preactive is to use `.browserslistrc` config
+  The best practice is to use `.browserslistrc` config
   or `browserslist` key in `package.json` to share target browsers
   with Babel, ESLint and Stylelint. See [Browserslist docs]
   for available queries and default value.
+* `ignoreUnknownVersions` (boolean): do not raise error on unknown browser
+  version in Browserslist config or `browsers` option. Default is `false`.
 
 Plugin object has `info()` method for debugging purpose.
 

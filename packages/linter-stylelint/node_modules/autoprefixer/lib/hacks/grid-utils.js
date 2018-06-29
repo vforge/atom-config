@@ -92,36 +92,71 @@ function insertDecl(decl, prop, value) {
     }
 }
 
-// Transform repeat
+// Track transforms
 
-function transformRepeat(_ref2) {
-    var nodes = _ref2.nodes;
+function prefixTrackProp(_ref2) {
+    var prop = _ref2.prop,
+        prefix = _ref2.prefix;
 
-    var repeat = nodes.reduce(function (result, node) {
+    return prefix + prop.replace('template-', '');
+}
+
+function transformRepeat(_ref3, _ref4) {
+    var nodes = _ref3.nodes;
+    var gap = _ref4.gap;
+
+    var _nodes$reduce = nodes.reduce(function (result, node) {
         if (node.type === 'div' && node.value === ',') {
-            result.key = 'function';
+            result.key = 'size';
         } else {
             result[result.key].push(parser.stringify(node));
         }
         return result;
     }, {
         key: 'count',
-        function: [],
+        size: [],
         count: []
-    });
-    return '(' + repeat.function.join('') + ')[' + repeat.count.join('') + ']';
+    }),
+        count = _nodes$reduce.count,
+        size = _nodes$reduce.size;
+
+    if (gap) {
+        var val = [];
+        for (var i = 1; i <= count; i++) {
+            if (gap && i > 1) {
+                val.push(gap);
+            }
+            val.push(size.join());
+        }
+        return val.join(' ');
+    }
+
+    return '(' + size.join('') + ')[' + count.join('') + ']';
 }
 
-function changeRepeat(value) {
-    var result = parser(value).nodes.map(function (i) {
-        if (i.type === 'function' && i.value === 'repeat') {
-            return {
+function prefixTrackValue(_ref5) {
+    var value = _ref5.value,
+        gap = _ref5.gap;
+
+    var result = parser(value).nodes.reduce(function (nodes, node) {
+        if (node.type === 'function' && node.value === 'repeat') {
+            return nodes.concat({
                 type: 'word',
-                value: transformRepeat(i)
-            };
+                value: transformRepeat(node, { gap: gap })
+            });
         }
-        return i;
-    });
+        if (gap && node.type === 'space') {
+            return nodes.concat({
+                type: 'space',
+                value: ' '
+            }, {
+                type: 'word',
+                value: gap
+            }, node);
+        }
+        return nodes.concat(node);
+    }, []);
+
     return parser.stringify(result);
 }
 
@@ -137,12 +172,24 @@ function getColumns(line) {
     return line.trim().split(/\s+/g);
 }
 
-function parseGridAreas(rows) {
+function parseGridAreas(_ref6) {
+    var rows = _ref6.rows,
+        gap = _ref6.gap;
+
     return rows.reduce(function (areas, line, rowIndex) {
+
+        if (gap.row) rowIndex *= 2;
+
         if (line.trim() === '') return areas;
+
         getColumns(line).forEach(function (area, columnIndex) {
+
             if (DOTS.test(area)) return;
+
+            if (gap.column) columnIndex *= 2;
+
             if (typeof areas[area] === 'undefined') {
+
                 areas[area] = {
                     column: track(columnIndex + 1, columnIndex + 2),
                     row: track(rowIndex + 1, rowIndex + 2)
@@ -162,6 +209,7 @@ function parseGridAreas(rows) {
                 row.span = row.end - row.start;
             }
         });
+
         return areas;
     }, {});
 }
@@ -172,7 +220,17 @@ function testTrack(node) {
     return node.type === 'word' && /^\[.+\]$/.test(node.value);
 }
 
-function parseTemplate(decl) {
+function verifyRowSize(result) {
+    if (result.areas.length > result.rows.length) {
+        result.rows.push('auto');
+    }
+    return result;
+}
+
+function parseTemplate(_ref7) {
+    var decl = _ref7.decl,
+        gap = _ref7.gap;
+
     var gridTemplate = parser(decl.value).nodes.reduce(function (result, node) {
         var type = node.type,
             value = node.value;
@@ -182,21 +240,19 @@ function parseTemplate(decl) {
 
         // area
         if (type === 'string') {
+            result = verifyRowSize(result);
             result.areas.push(value);
         }
 
         // values and function
         if (type === 'word' || type === 'function') {
-            if (type === 'function' && value === 'repeat') {
-                result[result.key].push(transformRepeat(node));
-            } else {
-                result[result.key].push(parser.stringify(node));
-            }
+            result[result.key].push(parser.stringify(node));
         }
 
         // devider(/)
         if (type === 'div' && value === '/') {
             result.key = 'columns';
+            result = verifyRowSize(result);
         }
 
         return result;
@@ -206,10 +262,20 @@ function parseTemplate(decl) {
         rows: [],
         areas: []
     });
+
     return {
-        areas: parseGridAreas(gridTemplate.areas),
-        columns: gridTemplate.columns.join(' '),
-        rows: gridTemplate.rows.join(' ')
+        areas: parseGridAreas({
+            rows: gridTemplate.areas,
+            gap: gap
+        }),
+        columns: prefixTrackValue({
+            value: gridTemplate.columns.join(' '),
+            gap: gap.column
+        }),
+        rows: prefixTrackValue({
+            value: gridTemplate.rows.join(' '),
+            gap: gap.row
+        })
     };
 }
 
@@ -244,6 +310,9 @@ function insertAreas(areas, decl, result) {
     var missed = Object.keys(areas);
 
     var parentMedia = getParentMedia(decl.parent);
+    var rules = [];
+    var areasLength = Object.keys(areas).length;
+    var areasCount = 0;
 
     decl.root().walkDecls('grid-area', function (gridArea) {
 
@@ -255,13 +324,6 @@ function insertAreas(areas, decl, result) {
         });
 
         if (area && parentMedia) {
-
-            // skip if grid-template-areas already prefixed in media
-            if (parentMedia.some(function (i) {
-                return i.selector === gridArea.parent.selector;
-            })) {
-                return undefined;
-            }
 
             // create new rule
             var rule = decl.parent.clone({
@@ -278,8 +340,16 @@ function insertAreas(areas, decl, result) {
                 }));
             });
 
-            // insert new rule with prefixed decl to existing media
-            parentMedia.append(rule);
+            rules.push(rule);
+            areasCount++;
+            if (areasCount === areasLength) {
+                var next = gridArea.parent.next();
+
+                if (next && next.type === 'atrule' && next.name === 'media' && next.params === parentMedia.params && next.first.type === 'rule' && next.first.selector && parentMedia.first.selector && /^-ms-/.test(next.first.first.prop)) return undefined;
+
+                var areaMedia = parentMedia.clone().removeAll().append(rules);
+                gridArea.parent.after(areaMedia);
+            }
 
             return undefined;
         }
@@ -303,12 +373,58 @@ function insertAreas(areas, decl, result) {
     }
 }
 
+// Gap utils
+
+function getGridGap(decl) {
+
+    var gap = {};
+
+    // try to find gap
+    var testGap = /^(grid-)?((row|column)-)?gap$/;
+    decl.parent.walkDecls(testGap, function (_ref8) {
+        var prop = _ref8.prop,
+            value = _ref8.value;
+
+        if (/^(grid-)?gap$/.test(prop)) {
+            var _parser$nodes = parser(value).nodes,
+                _parser$nodes$ = _parser$nodes[0],
+                row = _parser$nodes$ === undefined ? {} : _parser$nodes$,
+                _parser$nodes$2 = _parser$nodes[2],
+                column = _parser$nodes$2 === undefined ? {} : _parser$nodes$2;
+
+
+            gap.row = row.value;
+            gap.column = column.value || row.value;
+        }
+        if (/^(grid-)?row-gap$/.test(prop)) gap.row = value;
+        if (/^(grid-)?column-gap$/.test(prop)) gap.column = value;
+    });
+
+    return gap;
+}
+
+function warnGridGap(_ref9) {
+    var gap = _ref9.gap,
+        hasColumns = _ref9.hasColumns,
+        decl = _ref9.decl,
+        result = _ref9.result;
+
+    var hasBothGaps = gap.row && gap.column;
+    if (!hasColumns && (hasBothGaps || gap.column && !gap.row)) {
+        delete gap.column;
+        decl.warn(result, 'Can not impliment grid-gap without grid-tamplate-columns');
+    }
+}
+
 module.exports = {
     parse: parse,
     translate: translate,
-    changeRepeat: changeRepeat,
     parseTemplate: parseTemplate,
     parseGridAreas: parseGridAreas,
     insertAreas: insertAreas,
-    insertDecl: insertDecl
+    insertDecl: insertDecl,
+    prefixTrackProp: prefixTrackProp,
+    prefixTrackValue: prefixTrackValue,
+    getGridGap: getGridGap,
+    warnGridGap: warnGridGap
 };
