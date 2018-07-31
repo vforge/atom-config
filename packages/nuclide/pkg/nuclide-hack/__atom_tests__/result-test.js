@@ -1,18 +1,26 @@
-'use strict';
+"use strict";
 
-var _HackSymbolProvider;
+function _HackSymbolProvider() {
+  const data = require("../lib/HackSymbolProvider");
 
-function _load_HackSymbolProvider() {
-  return _HackSymbolProvider = require('../lib/HackSymbolProvider');
+  _HackSymbolProvider = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _testUtils;
+function _testUtils() {
+  const data = _interopRequireDefault(require("react-dom/test-utils"));
 
-function _load_testUtils() {
-  return _testUtils = _interopRequireDefault(require('react-dom/test-utils'));
+  _testUtils = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _reactDom = _interopRequireDefault(require('react-dom'));
+var _reactDom = _interopRequireDefault(require("react-dom"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25,8 +33,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('Result rendering', () => {
   it('should work', () => {
     const mockResult = {
@@ -40,19 +48,21 @@ describe('Result rendering', () => {
       containerName: 'scope'
     };
 
-    if (!((_HackSymbolProvider || _load_HackSymbolProvider()).HackSymbolProvider.getComponentForItem != null)) {
-      throw new Error('Invariant violation: "HackSymbolProvider.getComponentForItem != null"');
+    if (!(_HackSymbolProvider().HackSymbolProvider.getComponentForItem != null)) {
+      throw new Error("Invariant violation: \"HackSymbolProvider.getComponentForItem != null\"");
     }
 
-    const reactElement = (_HackSymbolProvider || _load_HackSymbolProvider()).HackSymbolProvider.getComponentForItem(mockResult);
+    const reactElement = _HackSymbolProvider().HackSymbolProvider.getComponentForItem(mockResult);
+
     expect(reactElement.props.title).toBe('interface');
-    const renderedComponent = (_testUtils || _load_testUtils()).default.renderIntoDocument(reactElement);
+
+    const renderedComponent = _testUtils().default.renderIntoDocument(reactElement);
+
     const renderedNode = _reactDom.default.findDOMNode(renderedComponent);
 
-    expect(
-    // $FlowFixMe
-    renderedNode.querySelectorAll('.omnisearch-symbol-result-filename').length).toBe(1);
-    // $FlowFixMe
+    expect( // $FlowFixMe
+    renderedNode.querySelectorAll('.omnisearch-symbol-result-filename').length).toBe(1); // $FlowFixMe
+
     expect(renderedNode.querySelectorAll('.icon-puzzle').length).toBe(1);
   });
 });

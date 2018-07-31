@@ -1,21 +1,33 @@
-'use strict';
+"use strict";
 
-var _ServiceTestHelper;
+function _ServiceTestHelper() {
+  const data = _interopRequireDefault(require("../../__mocks__/services/ServiceTestHelper"));
 
-function _load_ServiceTestHelper() {
-  return _ServiceTestHelper = _interopRequireDefault(require('../../__mocks__/services/ServiceTestHelper'));
+  _ServiceTestHelper = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideVersion;
+function _nuclideVersion() {
+  const data = require("../../../nuclide-version");
 
-function _load_nuclideVersion() {
-  return _nuclideVersion = require('../../../nuclide-version');
+  _nuclideVersion = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _servicesConfig;
+function _servicesConfig() {
+  const data = _interopRequireDefault(require("../../lib/servicesConfig"));
 
-function _load_servicesConfig() {
-  return _servicesConfig = _interopRequireDefault(require('../../lib/servicesConfig'));
+  _servicesConfig = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -29,27 +41,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 jest.setTimeout(20000);
-
 describe('InfoService', () => {
   let testHelper;
   beforeEach(async () => {
-    testHelper = new (_ServiceTestHelper || _load_ServiceTestHelper()).default();
-    await (() => testHelper.start((_servicesConfig || _load_servicesConfig()).default))();
+    testHelper = new (_ServiceTestHelper().default)();
+    await (() => testHelper.start(_servicesConfig().default))();
   });
-
   it('Returns the correct version number', async () => {
     if (!testHelper) {
-      throw new Error('Invariant violation: "testHelper"');
+      throw new Error("Invariant violation: \"testHelper\"");
     }
 
     const service = testHelper.getRemoteService('InfoService');
-
     const version = await service.getServerVersion();
-    expect(version).toBe((0, (_nuclideVersion || _load_nuclideVersion()).getVersion)());
+    expect(version).toBe((0, _nuclideVersion().getVersion)());
   });
-
-  afterEach(async () => await testHelper.stop());
+  afterEach(async () => testHelper.stop());
 });

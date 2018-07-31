@@ -1,21 +1,30 @@
-'use strict';
+"use strict";
 
-var _AutocompleteHelpers;
+function _AutocompleteHelpers() {
+  const data = require("../lib/AutocompleteHelpers");
 
-function _load_AutocompleteHelpers() {
-  return _AutocompleteHelpers = require('../lib/AutocompleteHelpers');
+  _AutocompleteHelpers = function () {
+    return data;
+  };
+
+  return data;
 }
 
-const { getCompletionBodyInline, getCompletionBodyMultiLine } = (_AutocompleteHelpers || _load_AutocompleteHelpers()).__test__; /**
-                                                                                                                                 * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                 * All rights reserved.
-                                                                                                                                 *
-                                                                                                                                 * This source code is licensed under the license found in the LICENSE file in
-                                                                                                                                 * the root directory of this source tree.
-                                                                                                                                 *
-                                                                                                                                 *  strict-local
-                                                                                                                                 * @format
-                                                                                                                                 */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ *  strict-local
+ * @format
+ * @emails oncall+nuclide
+ */
+const {
+  getCompletionBodyInline,
+  getCompletionBodyMultiLine
+} = _AutocompleteHelpers().__test__;
 
 describe('AutocompleteHelpers', () => {
   describe('@getCompletionBodyMultiLine', () => {
@@ -52,14 +61,13 @@ describe('AutocompleteHelpers', () => {
         brief_comment: null,
         typed_name: ''
       };
-
       const body = getCompletionBodyMultiLine(completion,
-      /* columnOffset */10,
-      /* indentation */2);
-
+      /* columnOffset */
+      10,
+      /* indentation */
+      2);
       expect(body).toBe('ArgumentOne:${1:arg1}\n' + '             arg2:${2:argTwo}\n' + '        Argument3:${3:argument3}\n');
     });
-
     it('converts method call with third argument being longest', () => {
       const completion = {
         chunks: [{
@@ -102,14 +110,13 @@ describe('AutocompleteHelpers', () => {
         brief_comment: null,
         typed_name: ''
       };
-
       const body = getCompletionBodyMultiLine(completion,
-      /* columnOffset */10,
-      /* indentation */3);
-
+      /* columnOffset */
+      10,
+      /* indentation */
+      3);
       expect(body).toBe('Arg1:${1:argumentOne}\n' + '         arg2:${2:argTwo}\n' + '    Argument3:${3:argument3}\n' + '      test123:${4:this_is_a_test_placeholder}\n');
     });
-
     it('calls getCompletionBodyMultiLine with odd number of non-empty chunks', () => {
       const completion = {
         chunks: [{
@@ -131,14 +138,13 @@ describe('AutocompleteHelpers', () => {
         brief_comment: null,
         typed_name: ''
       };
-
       const body = getCompletionBodyMultiLine(completion,
-      /* columnOffset */10,
-      /* indentation */3);
-
+      /* columnOffset */
+      10,
+      /* indentation */
+      3);
       expect(body).toBe(null);
     });
-
     it('calls getCompletionBodyMultiLine with two non-placeholder chunks in a row', () => {
       const completion = {
         chunks: [{
@@ -163,14 +169,13 @@ describe('AutocompleteHelpers', () => {
         brief_comment: null,
         typed_name: ''
       };
-
       const body = getCompletionBodyMultiLine(completion,
-      /* columnOffset */10,
-      /* indentation */3);
-
+      /* columnOffset */
+      10,
+      /* indentation */
+      3);
       expect(body).toBe(null);
     });
-
     it('calls getCompletionBodyMultiLine with two placeholder chunks in a row', () => {
       const completion = {
         chunks: [{
@@ -195,15 +200,14 @@ describe('AutocompleteHelpers', () => {
         brief_comment: null,
         typed_name: ''
       };
-
       const body = getCompletionBodyMultiLine(completion,
-      /* columnOffset */10,
-      /* indentation */3);
-
+      /* columnOffset */
+      10,
+      /* indentation */
+      3);
       expect(body).toBe(null);
     });
   });
-
   describe('@getCompletionBodyInline', () => {
     it('converts method call with 2 arguments', () => {
       const completion = {
@@ -229,11 +233,9 @@ describe('AutocompleteHelpers', () => {
         brief_comment: null,
         typed_name: ''
       };
-
       const body = getCompletionBodyInline(completion);
       expect(body).toBe('ArgumentOne:${1:arg1} arg2:${2:argTwo}');
     });
-
     it('converts short completion with no placeholders', () => {
       const completion = {
         chunks: [{
@@ -246,11 +248,9 @@ describe('AutocompleteHelpers', () => {
         brief_comment: null,
         typed_name: ''
       };
-
       const body = getCompletionBodyInline(completion);
       expect(body).toBe('self');
     });
-
     it('decorates optional parameters', () => {
       const completion = {
         chunks: [{
@@ -283,10 +283,8 @@ describe('AutocompleteHelpers', () => {
         brief_comment: null,
         typed_name: ''
       };
-
       let body = getCompletionBodyInline(completion);
       expect(body).toBe('f(${1:int x}${2:[, int y, int z]})');
-
       body = getCompletionBodyInline({
         chunks: [{
           spelling: 'f('

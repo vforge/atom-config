@@ -10,10 +10,10 @@
  *  strict-local
  * @format
  */
-
 beforeEach(async () => {
   await global.atom.reset();
-});
+}); // Disable prompt to download react devtools in atom tests
 
-// Disable prompt to download react devtools in atom tests
-window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
+window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = {
+  isDisabled: true
+};

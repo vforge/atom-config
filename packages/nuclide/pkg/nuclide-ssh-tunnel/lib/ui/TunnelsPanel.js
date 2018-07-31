@@ -1,51 +1,75 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TunnelsPanel = exports.WORKSPACE_VIEW_URI = undefined;
+exports.TunnelsPanel = exports.WORKSPACE_VIEW_URI = void 0;
 
-var _bindObservableAsProps;
+function _bindObservableAsProps() {
+  const data = require("../../../../modules/nuclide-commons-ui/bindObservableAsProps");
 
-function _load_bindObservableAsProps() {
-  return _bindObservableAsProps = require('../../../../modules/nuclide-commons-ui/bindObservableAsProps');
+  _bindObservableAsProps = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _CreateObservables;
+function _CreateObservables() {
+  const data = require("../CreateObservables");
 
-function _load_CreateObservables() {
-  return _CreateObservables = require('../CreateObservables');
+  _CreateObservables = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _Actions;
+function Actions() {
+  const data = _interopRequireWildcard(require("../redux/Actions"));
 
-function _load_Actions() {
-  return _Actions = _interopRequireWildcard(require('../redux/Actions'));
+  Actions = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _TunnelsPanelContents;
+function _TunnelsPanelContents() {
+  const data = require("./TunnelsPanelContents");
 
-function _load_TunnelsPanelContents() {
-  return _TunnelsPanelContents = require('./TunnelsPanelContents');
+  _TunnelsPanelContents = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _renderReactRoot;
+function _renderReactRoot() {
+  const data = require("../../../../modules/nuclide-commons-ui/renderReactRoot");
 
-function _load_renderReactRoot() {
-  return _renderReactRoot = require('../../../../modules/nuclide-commons-ui/renderReactRoot');
+  _renderReactRoot = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _react = _interopRequireWildcard(require('react'));
+var React = _interopRequireWildcard(require("react"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -59,11 +83,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
-
-const WORKSPACE_VIEW_URI = exports.WORKSPACE_VIEW_URI = 'atom://nuclide/ssh-tunnels';
+const WORKSPACE_VIEW_URI = 'atom://nuclide/ssh-tunnels';
+exports.WORKSPACE_VIEW_URI = WORKSPACE_VIEW_URI;
 
 class TunnelsPanel {
-
   constructor(store) {
     this._store = store;
   }
@@ -90,25 +113,28 @@ class TunnelsPanel {
 
   getElement() {
     // $FlowFixMe: We need to teach Flow about Symbol.observable
-    const states = _rxjsBundlesRxMinJs.Observable.from(this._store);
+    const states = _RxMin.Observable.from(this._store);
 
     const props = states.map(state => {
       let workingDirectoryHost;
+
       if (state.currentWorkingDirectory == null) {
         workingDirectoryHost = null;
       } else {
         const path = state.currentWorkingDirectory;
-        if ((_nuclideUri || _load_nuclideUri()).default.isLocal(path)) {
+
+        if (_nuclideUri().default.isLocal(path)) {
           workingDirectoryHost = 'localhost';
         } else {
-          workingDirectoryHost = (_nuclideUri || _load_nuclideUri()).default.getHostname(path);
+          workingDirectoryHost = _nuclideUri().default.getHostname(path);
         }
       }
+
       return {
         tunnels: state.tunnels.toList(),
         openTunnel: tunnel => {
           let noMoreNotifications = false;
-          (0, (_CreateObservables || _load_CreateObservables()).createObservableForTunnel)(tunnel, this._store).do(() => noMoreNotifications = true).subscribe({
+          (0, _CreateObservables().createObservableForTunnel)(tunnel, this._store).do(() => noMoreNotifications = true).subscribe({
             error: e => {
               if (!noMoreNotifications) {
                 atom.notifications.addError('Failed to open tunnel', {
@@ -119,13 +145,12 @@ class TunnelsPanel {
             }
           });
         },
-        closeTunnel: tunnel => this._store.dispatch((_Actions || _load_Actions()).closeTunnel(tunnel, new Error('Closed from panel'))),
+        closeTunnel: tunnel => this._store.dispatch(Actions().closeTunnel(tunnel, new Error('Closed from panel'))),
         workingDirectoryHost
       };
     });
-
-    const BoundPanelContents = (0, (_bindObservableAsProps || _load_bindObservableAsProps()).bindObservableAsProps)(props, (_TunnelsPanelContents || _load_TunnelsPanelContents()).TunnelsPanelContents);
-    return (0, (_renderReactRoot || _load_renderReactRoot()).renderReactRoot)(_react.createElement(BoundPanelContents, null));
+    const BoundPanelContents = (0, _bindObservableAsProps().bindObservableAsProps)(props, _TunnelsPanelContents().TunnelsPanelContents);
+    return (0, _renderReactRoot().renderReactRoot)(React.createElement(BoundPanelContents, null));
   }
 
   serialize() {
@@ -133,5 +158,7 @@ class TunnelsPanel {
       deserializer: 'nuclide.SshTunnelsPanel'
     };
   }
+
 }
+
 exports.TunnelsPanel = TunnelsPanel;

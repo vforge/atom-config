@@ -1,52 +1,67 @@
-'use strict';
+"use strict";
 
-var _react = _interopRequireWildcard(require('react'));
+var React = _interopRequireWildcard(require("react"));
 
-var _createPackage;
+function _createPackage() {
+  const data = _interopRequireDefault(require("../nuclide-commons-atom/createPackage"));
 
-function _load_createPackage() {
-  return _createPackage = _interopRequireDefault(require('../nuclide-commons-atom/createPackage'));
+  _createPackage = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _AutoGenLaunchAttachProvider;
+function _AutoGenLaunchAttachProvider() {
+  const data = require("../nuclide-debugger-common/AutoGenLaunchAttachProvider");
 
-function _load_AutoGenLaunchAttachProvider() {
-  return _AutoGenLaunchAttachProvider = require('../nuclide-debugger-common/AutoGenLaunchAttachProvider');
+  _AutoGenLaunchAttachProvider = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideDebuggerCommon;
+function _nuclideDebuggerCommon() {
+  const data = require("../nuclide-debugger-common");
 
-function _load_nuclideDebuggerCommon() {
-  return _nuclideDebuggerCommon = require('../nuclide-debugger-common');
+  _nuclideDebuggerCommon = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
 class Activation {
   constructor() {}
+
   dispose() {}
 
   createDebuggerProvider() {
     return {
-      type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NODE,
+      type: _nuclideDebuggerCommon().VsAdapterTypes.NODE,
       getLaunchAttachProvider: connection => {
-        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.NODE, connection, getNodeConfig());
+        return new (_AutoGenLaunchAttachProvider().AutoGenLaunchAttachProvider)(_nuclideDebuggerCommon().VsAdapterNames.NODE, connection, getNodeConfig());
       }
     };
   }
-} /**
-   * Copyright (c) 2017-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the BSD-style license found in the
-   * LICENSE file in the root directory of this source tree. An additional grant
-   * of patent rights can be found in the PATENTS file in the same directory.
-   *
-   * 
-   * @format
-   */
+
+}
 
 function getNodeConfig() {
   const program = {
@@ -71,7 +86,6 @@ function getNodeConfig() {
     required: false,
     visible: true
   };
-
   const args = {
     name: 'args',
     type: 'array',
@@ -113,7 +127,6 @@ function getNodeConfig() {
     required: false,
     visible: false
   };
-
   const port = {
     name: 'port',
     type: 'number',
@@ -121,46 +134,43 @@ function getNodeConfig() {
     required: true,
     visible: true
   };
-
   return {
     launch: {
       launch: true,
-      vsAdapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NODE,
+      vsAdapterType: _nuclideDebuggerCommon().VsAdapterTypes.NODE,
       threads: false,
       properties: [program, cwd, stopOnEntry, args, runtimeExecutable, env, outFiles, protocol],
       scriptPropertyName: 'program',
       cwdPropertyName: 'cwd',
       scriptExtension: '.js',
-      header: _react.createElement(
-        'p',
-        null,
-        'This is intended to debug node.js files (for node version 6.3+).'
-      ),
+      header: React.createElement("p", null, "This is intended to debug node.js files (for node version 6.3+)."),
+
       getProcessName(values) {
         let processName = values.program;
         const lastSlash = processName.lastIndexOf('/');
+
         if (lastSlash >= 0) {
           processName = processName.substring(lastSlash + 1, processName.length);
         }
+
         return processName + ' (Node)';
       }
+
     },
     attach: {
       launch: false,
-      vsAdapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.NODE,
+      vsAdapterType: _nuclideDebuggerCommon().VsAdapterTypes.NODE,
       threads: false,
       properties: [port],
       scriptExtension: '.js',
-      header: _react.createElement(
-        'p',
-        null,
-        'Attach to a running node.js process'
-      ),
+      header: React.createElement("p", null, "Attach to a running node.js process"),
+
       getProcessName(values) {
         return 'Port: ' + values.port + ' (Node attach)';
       }
+
     }
   };
 }
 
-(0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);
+(0, _createPackage().default)(module.exports, Activation);

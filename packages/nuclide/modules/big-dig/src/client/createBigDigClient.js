@@ -1,30 +1,40 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _BigDigServer;
+function _BigDigServer() {
+  const data = require("../server/BigDigServer");
 
-function _load_BigDigServer() {
-  return _BigDigServer = require('../server/BigDigServer');
+  _BigDigServer = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _BigDigClient;
+function _BigDigClient() {
+  const data = require("./BigDigClient");
 
-function _load_BigDigClient() {
-  return _BigDigClient = require('./BigDigClient');
+  _BigDigClient = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _ReliableSocket;
+function _ReliableSocket() {
+  const data = require("../socket/ReliableSocket");
 
-function _load_ReliableSocket() {
-  return _ReliableSocket = require('../socket/ReliableSocket');
+  _ReliableSocket = function () {
+    return data;
+  };
+
+  return data;
 }
 
-/**
- * Creates a Big Dig client that speaks the v1 protocol.
- */
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  * All rights reserved.
@@ -37,9 +47,13 @@ function _load_ReliableSocket() {
  * @format
  */
 
-exports.default = async function createBigDigClient(config) {
+/**
+ * Creates a Big Dig client that speaks the v1 protocol.
+ */
+var createBigDigClient = async function createBigDigClient(config) {
   const reliableSocket = createReliableSocket(config);
-  const client = new (_BigDigClient || _load_BigDigClient()).BigDigClient(reliableSocket);
+  const client = new (_BigDigClient().BigDigClient)(reliableSocket);
+
   try {
     // Make sure we're able to make the initial connection
     await reliableSocket.testConnection();
@@ -50,6 +64,8 @@ exports.default = async function createBigDigClient(config) {
   }
 };
 
+exports.default = createBigDigClient;
+
 function createReliableSocket(config) {
   const options = {
     ca: config.certificateAuthorityCertificate,
@@ -57,10 +73,8 @@ function createReliableSocket(config) {
     key: config.clientKey,
     family: config.family
   };
-
   const serverUri = `https://${config.host}:${config.port}/v1`;
-
-  const reliableSocket = new (_ReliableSocket || _load_ReliableSocket()).ReliableSocket(serverUri, (_BigDigServer || _load_BigDigServer()).HEARTBEAT_CHANNEL, options, config.protocolLogger);
+  const reliableSocket = new (_ReliableSocket().ReliableSocket)(serverUri, _BigDigServer().HEARTBEAT_CHANNEL, options, config.protocolLogger);
 
   if (!config.ignoreIntransientErrors) {
     reliableSocket.onIntransientError(error => reliableSocket.close());

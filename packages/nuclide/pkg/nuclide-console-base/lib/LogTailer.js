@@ -1,29 +1,41 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.LogTailer = undefined;
+exports.LogTailer = void 0;
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../modules/nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideAnalytics;
+function _nuclideAnalytics() {
+  const data = require("../../nuclide-analytics");
 
-function _load_nuclideAnalytics() {
-  return _nuclideAnalytics = require('../../nuclide-analytics');
+  _nuclideAnalytics = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _log4js;
+function _log4js() {
+  const data = require("log4js");
 
-function _load_log4js() {
-  return _log4js = require('log4js');
+  _log4js = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37,7 +49,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
-
 const CONSOLE_VIEW_URI = 'atom://nuclide/console';
 
 /**
@@ -52,7 +63,6 @@ const CONSOLE_VIEW_URI = 'atom://nuclide/console';
  *      "startup" phase (before the process has signalled that it's ready), and afterwards.
  */
 class LogTailer {
-
   constructor(options) {
     this._name = options.name;
     this._eventNames = options.trackingEvents;
@@ -62,27 +72,28 @@ class LogTailer {
     options.ready.takeUntil(messages.materialize().takeLast(1));
     this._runningCallbacks = [];
     this._startCount = 0;
-    this._statuses = new _rxjsBundlesRxMinJs.BehaviorSubject('stopped');
-
-    this._messages = _rxjsBundlesRxMinJs.Observable.merge(messages, this._ready == null ? _rxjsBundlesRxMinJs.Observable.empty() : this._ready.ignoreElements() // For the errors.
+    this._statuses = new _RxMin.BehaviorSubject('stopped');
+    this._messages = _RxMin.Observable.merge(messages, this._ready == null ? _RxMin.Observable.empty() : this._ready.ignoreElements() // For the errors.
     ).do({
       complete: () => {
         // If the process completed without ever entering the "running" state, invoke the
         // `onRunning` callback with a cancellation error.
         this._invokeRunningCallbacks(new ProcessCanceledError(this._name));
+
         this._stop();
       }
     }).catch(err => {
-      (0, (_log4js || _load_log4js()).getLogger)('nuclide-console').error(`Error with ${this._name} tailer.`, err);
+      (0, _log4js().getLogger)('nuclide-console').error(`Error with ${this._name} tailer.`, err);
       const wasStarting = this._statuses.getValue() === 'starting';
+
       this._stop(false);
 
-      let errorWasHandled = wasStarting && !this._invokeRunningCallbacks(err);
+      let errorWasHandled = wasStarting && !this._invokeRunningCallbacks(err); // Give the LogTailer instance a chance to handle it.
 
-      // Give the LogTailer instance a chance to handle it.
       if (!errorWasHandled && this._errorHandler != null) {
         try {
           this._errorHandler(err);
+
           errorWasHandled = true;
         } catch (errorHandlerError) {
           if (err !== errorHandlerError) {
@@ -109,10 +120,9 @@ class LogTailer {
         });
       }
 
-      return _rxjsBundlesRxMinJs.Observable.empty();
-    }).share().publish();
+      return _RxMin.Observable.empty();
+    }).share().publish(); // Whenever the status becomes "running," invoke all of the registered running callbacks.
 
-    // Whenever the status becomes "running," invoke all of the registered running callbacks.
     this._statuses.distinctUntilChanged().filter(status => status === 'running').subscribe(() => {
       this._invokeRunningCallbacks();
     });
@@ -120,9 +130,11 @@ class LogTailer {
 
   start(options) {
     this._startCount += 1;
+
     if (options != null && options.onRunning != null) {
       this._runningCallbacks.push(options.onRunning);
     }
+
     this._start(true);
   }
 
@@ -130,6 +142,7 @@ class LogTailer {
     // If the process is explicitly stopped, call all of the running callbacks with a cancellation
     // error.
     this._startCount = 0;
+
     this._runningCallbacks.forEach(cb => {
       cb(new ProcessCanceledError(this._name));
     });
@@ -138,22 +151,25 @@ class LogTailer {
   }
 
   restart() {
-    (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)(this._eventNames.restart);
+    (0, _nuclideAnalytics().track)(this._eventNames.restart);
+
     this._stop(false);
+
     this._start(false);
   }
 
   observeStatus(cb) {
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default(this._statuses.subscribe(cb));
+    return new (_UniversalDisposable().default)(this._statuses.subscribe(cb));
   }
 
   getStatus() {
     return this._statuses.getValue();
   }
-
   /**
    * Invoke the running callbacks. Returns true if the error wasn't handled; otherwise false.
    */
+
+
   _invokeRunningCallbacks(err) {
     // Invoke all of the registered running callbacks.
     if (this._runningCallbacks.length > 0) {
@@ -174,37 +190,43 @@ class LogTailer {
 
   _start(trackCall) {
     // eslint-disable-next-line nuclide-internal/atom-apis
-    atom.workspace.open(CONSOLE_VIEW_URI, { searchAllPanes: true });
+    atom.workspace.open(CONSOLE_VIEW_URI, {
+      searchAllPanes: true
+    });
 
     const currentStatus = this._statuses.getValue();
+
     if (currentStatus === 'starting') {
       return;
     } else if (currentStatus === 'running') {
       this._invokeRunningCallbacks();
+
       return;
     }
 
     if (trackCall) {
-      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)(this._eventNames.start);
-    }
-
-    // If the LogTailer was created with a way of detecting when the source was ready, the initial
+      (0, _nuclideAnalytics().track)(this._eventNames.start);
+    } // If the LogTailer was created with a way of detecting when the source was ready, the initial
     // status is "starting." Otherwise, assume that it's started immediately.
+
+
     const initialStatus = this._ready == null ? 'running' : 'starting';
+
     this._statuses.next(initialStatus);
 
     if (this._subscription != null) {
       this._subscription.unsubscribe();
     }
 
-    const sub = new _rxjsBundlesRxMinJs.Subscription();
+    const sub = new _RxMin.Subscription();
+
     if (this._ready != null) {
-      sub.add(this._ready
-      // Ignore errors here. We'll catch them above.
-      .catch(error => _rxjsBundlesRxMinJs.Observable.empty()).takeUntil(this._statuses.filter(status => status !== 'starting')).subscribe(() => {
+      sub.add(this._ready // Ignore errors here. We'll catch them above.
+      .catch(error => _RxMin.Observable.empty()).takeUntil(this._statuses.filter(status => status !== 'starting')).subscribe(() => {
         this._statuses.next('running');
       }));
     }
+
     sub.add(this._messages.connect());
     this._subscription = sub;
   }
@@ -217,8 +239,9 @@ class LogTailer {
     if (this._statuses.getValue() === 'stopped') {
       return;
     }
+
     if (trackCall) {
-      (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)(this._eventNames.stop);
+      (0, _nuclideAnalytics().track)(this._eventNames.stop);
     }
 
     this._statuses.next('stopped');
@@ -227,12 +250,15 @@ class LogTailer {
   getMessages() {
     return this._messages;
   }
+
 }
 
 exports.LogTailer = LogTailer;
+
 class ProcessCanceledError extends Error {
   constructor(logProducerName) {
     super(`${logProducerName} was stopped`);
     this.name = 'ProcessCancelledError';
   }
+
 }

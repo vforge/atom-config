@@ -117,8 +117,9 @@
       "php-integrator-annotations"
       "php-integrator-refactoring"
       "markdown-scroll-sync"
-      "nuclide"
       "atom-esdoc"
+      "react"
+      "nuclide"
     ]
     packagesWithKeymapsDisabled: []
     restorePreviousWindowsOnStart: "always"
@@ -175,8 +176,7 @@
   "isotope-ui":
     backgroundGradient: true
     fontWeight: "Extra light / Thin"
-  "language-babel":
-    autoIndentJSX: true
+  "language-babel": {}
   "line-count-status": {}
   "linter-eslint": {}
   "linter-phpcs":
@@ -233,6 +233,10 @@
   "nord-atom-ui":
     darkerFormFocusEffect: true
     tabSizing: false
+  nuclide:
+    "atom-ide-code-format":
+      formatOnSave: true
+    "atom-ide-outline-view": {}
   "one-dark-ui":
     tabSizing: "Maximum"
   "one-light-ui": {}
@@ -242,6 +246,10 @@
     highlightOnHover: false
     removeOnClose: true
   "package-sync": {}
+  "php-ide-serenata":
+    general:
+      doNotAskForSupport: true
+    storagePath: "/Users/v/Library/Preferences/php-ide-serenata"
   "php-integrator-base":
     core:
       phpCommand: "/usr/local/bin/php"
@@ -308,6 +316,9 @@
   editor:
     commentEnd: " --}}"
     commentStart: "{{-- "
+".coffee.jsx.source":
+  editor:
+    autoIndentOnPaste: true
 ".ini.source":
   editor:
     showIndentGuide: true

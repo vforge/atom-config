@@ -1,27 +1,67 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = ProcessTreeNode;
+exports.default = void 0;
 
-var _Tree;
+function _Tree() {
+  const data = require("../../../../../nuclide-commons-ui/Tree");
 
-function _load_Tree() {
-  return _Tree = require('../../../../../nuclide-commons-ui/Tree');
+  _Tree = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _react = _interopRequireWildcard(require('react'));
+function _event() {
+  const data = require("../../../../../nuclide-commons/event");
 
-var _DebuggerProcessTreeNode;
+  _event = function () {
+    return data;
+  };
 
-function _load_DebuggerProcessTreeNode() {
-  return _DebuggerProcessTreeNode = _interopRequireDefault(require('./DebuggerProcessTreeNode'));
+  return data;
 }
+
+function _observable() {
+  const data = require("../../../../../nuclide-commons/observable");
+
+  _observable = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../../../nuclide-commons/UniversalDisposable"));
+
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
+}
+
+var React = _interopRequireWildcard(require("react"));
+
+var _RxMin = require("rxjs/bundles/Rx.min.js");
+
+function _ThreadTreeNode() {
+  const data = _interopRequireDefault(require("./ThreadTreeNode"));
+
+  _ThreadTreeNode = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
@@ -34,29 +74,108 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * 
  * @format
  */
+class ProcessTreeNode extends React.Component {
+  constructor(props) {
+    super(props);
 
-function ProcessTreeNode(props) {
-  const { process, service, title, childItems } = props;
-  const focusedProcess = service.viewModel.focusedProcess;
+    this._handleThreadsChanged = () => {
+      this.setState(prevState => this._getState(!(this._computeIsFocused() || !prevState.isCollapsed)));
+    };
 
-  const isFocused = process === focusedProcess;
+    this._handleCallStackChanged = () => {
+      const {
+        process
+      } = this.props;
+      this.setState({
+        threads: process.getAllThreads()
+      });
+    };
 
-  const tooltipTitle = service.viewModel.focusedProcess == null || service.viewModel.focusedProcess.configuration.adapterExecutable == null ? 'Unknown Command' : service.viewModel.focusedProcess.configuration.adapterExecutable.command + service.viewModel.focusedProcess.configuration.adapterExecutable.args.join(' ');
+    this.handleSelect = () => {
+      this.setState(prevState => this._getState(!prevState.isCollapsed));
+    };
 
-  const formattedTitle = _react.createElement(
-    'span',
-    {
+    this.state = this._getState();
+    this._disposables = new (_UniversalDisposable().default)();
+    this.handleSelect = this.handleSelect.bind(this);
+  }
+
+  componentDidMount() {
+    const {
+      service
+    } = this.props;
+    const model = service.getModel();
+    const {
+      viewModel
+    } = service;
+
+    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(viewModel.onDidFocusStackFrame.bind(viewModel)), (0, _event().observableFromSubscribeFunction)(service.onDidChangeMode.bind(service))).let((0, _observable().fastDebounce)(15)).subscribe(this._handleThreadsChanged), (0, _event().observableFromSubscribeFunction)(model.onDidChangeCallStack.bind(model)).let((0, _observable().fastDebounce)(15)).subscribe(this._handleCallStackChanged));
+  }
+
+  componentWillUnmount() {
+    this._disposables.dispose();
+  }
+
+  _computeIsFocused() {
+    const {
+      service,
+      process
+    } = this.props;
+    const focusedProcess = service.viewModel.focusedProcess;
+    return process === focusedProcess;
+  }
+
+  _getState(shouldBeCollapsed) {
+    const {
+      process
+    } = this.props;
+
+    const isFocused = this._computeIsFocused();
+
+    const isCollapsed = shouldBeCollapsed != null ? shouldBeCollapsed : !isFocused;
+    return {
+      isFocused,
+      threads: process.getAllThreads(),
+      isCollapsed
+    };
+  }
+
+  render() {
+    const {
+      service,
+      title,
+      process
+    } = this.props;
+    const {
+      threads,
+      isFocused,
+      isCollapsed
+    } = this.state;
+    const tooltipTitle = service.viewModel.focusedProcess == null || service.viewModel.focusedProcess.configuration.adapterExecutable == null ? 'Unknown Command' : service.viewModel.focusedProcess.configuration.adapterExecutable.command + service.viewModel.focusedProcess.configuration.adapterExecutable.args.join(' ');
+
+    const handleTitleClick = event => {
+      service.focusStackFrame(null, null, process, true);
+      event.stopPropagation();
+    };
+
+    const formattedTitle = React.createElement("span", {
+      onClick: handleTitleClick,
       className: isFocused ? 'debugger-tree-process-thread-selected' : '',
-      title: tooltipTitle },
-    title
-  );
+      title: tooltipTitle
+    }, title);
+    return threads.length === 0 ? React.createElement(_Tree().TreeItem, null, formattedTitle) : React.createElement(_Tree().NestedTreeItem, {
+      title: formattedTitle,
+      collapsed: isCollapsed,
+      onSelect: this.handleSelect
+    }, threads.map((thread, threadIndex) => {
+      return React.createElement(_ThreadTreeNode().default, {
+        key: threadIndex,
+        thread: thread,
+        service: service
+      });
+    }));
+  }
 
-  return childItems == null || childItems.length === 0 ? _react.createElement(
-    (_Tree || _load_Tree()).TreeItem,
-    null,
-    formattedTitle
-  ) : _react.createElement((_DebuggerProcessTreeNode || _load_DebuggerProcessTreeNode()).default, {
-    formattedTitle: formattedTitle,
-    childItems: childItems
-  });
 }
+
+exports.default = ProcessTreeNode;

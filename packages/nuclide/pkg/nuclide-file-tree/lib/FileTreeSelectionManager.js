@@ -1,17 +1,21 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.FileTreeSelectionManager = undefined;
+exports.FileTreeSelectionManager = void 0;
 
-var _immutable;
+function Immutable() {
+  const data = _interopRequireWildcard(require("immutable"));
 
-function _load_immutable() {
-  return _immutable = _interopRequireWildcard(require('immutable'));
+  Immutable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -23,13 +27,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * 
  * @format
  */
-
 class FileTreeSelectionManager {
-
   constructor(emitChange) {
     this._emitChange = emitChange;
-    this._selectedNodes = (_immutable || _load_immutable()).Set();
-    this._focusedNodes = (_immutable || _load_immutable()).Set();
+    this._selectedNodes = Immutable().Set();
+    this._focusedNodes = Immutable().Set();
   }
 
   selectedNodes() {
@@ -51,6 +53,7 @@ class FileTreeSelectionManager {
   _checkSelected(newSelected) {
     if (newSelected !== this._selectedNodes) {
       this._selectedNodes = newSelected;
+
       this._emitChange();
     }
   }
@@ -58,6 +61,7 @@ class FileTreeSelectionManager {
   _checkFocused(newFocused) {
     if (newFocused !== this._focusedNodes) {
       this._focusedNodes = newFocused;
+
       this._emitChange();
     }
   }
@@ -92,5 +96,7 @@ class FileTreeSelectionManager {
       _focusedNodes: this._focusedNodes.toArray().map(node => node.uri)
     };
   }
+
 }
+
 exports.FileTreeSelectionManager = FileTreeSelectionManager;

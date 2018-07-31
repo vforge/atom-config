@@ -1,92 +1,124 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _analytics;
+function _analytics() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/analytics"));
 
-function _load_analytics() {
-  return _analytics = _interopRequireDefault(require('../../../modules/nuclide-commons/analytics'));
+  _analytics = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _getFragmentGrammar;
+function _getFragmentGrammar() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/getFragmentGrammar"));
 
-function _load_getFragmentGrammar() {
-  return _getFragmentGrammar = _interopRequireDefault(require('../../../modules/nuclide-commons-atom/getFragmentGrammar'));
+  _getFragmentGrammar = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _collection;
+function _collection() {
+  const data = require("../../../modules/nuclide-commons/collection");
 
-function _load_collection() {
-  return _collection = require('../../../modules/nuclide-commons/collection');
+  _collection = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _log4js;
+function _log4js() {
+  const data = require("log4js");
 
-function _load_log4js() {
-  return _log4js = require('log4js');
+  _log4js = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _promise;
+function _promise() {
+  const data = require("../../../modules/nuclide-commons/promise");
 
-function _load_promise() {
-  return _promise = require('../../../modules/nuclide-commons/promise');
+  _promise = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const logger = (0, (_log4js || _load_log4js()).getLogger)('nuclide-type-hint'); /**
-                                                                                 * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                 * All rights reserved.
-                                                                                 *
-                                                                                 * This source code is licensed under the license found in the LICENSE file in
-                                                                                 * the root directory of this source tree.
-                                                                                 *
-                                                                                 * 
-                                                                                 * @format
-                                                                                 */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+const logger = (0, _log4js().getLogger)('nuclide-type-hint');
 
 class TypeHintManager {
-
-  constructor() {
-    this._typeHintProviders = [];
-  }
   /**
    * This helps determine if we should show the type hint when toggling it via
    * command. The toggle command first negates this, and then if this is true
    * shows a type hint, otherwise it hides the current typehint.
    */
-
+  constructor() {
+    this._typeHintProviders = [];
+  }
 
   async datatip(editor, position) {
     const grammar = editor.getGrammar();
-    const { scopeName } = grammar;
+    const {
+      scopeName
+    } = grammar;
+
     const matchingProviders = this._getMatchingProvidersForScopeName(scopeName);
 
-    return (0, (_promise || _load_promise()).asyncFind)(matchingProviders.map(provider => this._getDatatipFromProvider(editor, position, grammar, provider)), x => x);
+    return (0, _promise().asyncFind)(matchingProviders.map(provider => this._getDatatipFromProvider(editor, position, grammar, provider)), x => x);
   }
 
   async _getDatatipFromProvider(editor, position, grammar, provider) {
     if (provider == null) {
       return null;
     }
+
     let name;
+
     if (provider.providerName != null) {
       name = provider.providerName;
     } else {
       name = 'unknown';
       logger.error('Type hint provider has no name', provider);
     }
-    const typeHint = await (_analytics || _load_analytics()).default.trackTiming(name + '.typeHint', () => provider.typeHint(editor, position));
-    // $FlowFixMe(>=0.68.0) Flow suppress (T27187857)
+
+    const typeHint = await _analytics().default.trackTiming(name + '.typeHint', () => provider.typeHint(editor, position)); // $FlowFixMe(>=0.68.0) Flow suppress (T27187857)
+
     if (!typeHint || this._marker || !typeHint.hint.length === 0) {
       return;
     }
-    const { hint, range } = typeHint;
-    const { scopeName } = grammar;
-    // We track the timing above, but we still want to know the number of popups that are shown.
-    (_analytics || _load_analytics()).default.track('type-hint-popup', {
+
+    const {
+      hint,
+      range
+    } = typeHint;
+    const {
+      scopeName
+    } = grammar; // We track the timing above, but we still want to know the number of popups that are shown.
+
+    _analytics().default.track('type-hint-popup', {
       scope: scopeName,
       message: hint
     });
@@ -100,10 +132,13 @@ class TypeHintManager {
         return {
           type: 'snippet',
           value: h.value,
-          grammar: (0, (_getFragmentGrammar || _load_getFragmentGrammar()).default)(grammar)
+          grammar: (0, _getFragmentGrammar().default)(grammar)
         };
       } else {
-        return { type: 'markdown', value: h.value };
+        return {
+          type: 'markdown',
+          value: h.value
+        };
       }
     });
 
@@ -131,7 +166,9 @@ class TypeHintManager {
   }
 
   removeProvider(provider) {
-    (0, (_collection || _load_collection()).arrayRemove)(this._typeHintProviders, provider);
+    (0, _collection().arrayRemove)(this._typeHintProviders, provider);
   }
+
 }
+
 exports.default = TypeHintManager;

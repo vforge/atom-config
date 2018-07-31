@@ -1,123 +1,201 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.BuckTaskRunner = exports.CONSOLE_VIEW_URI = exports.TASKS = undefined;
 exports.isDebugTask = isDebugTask;
 exports.getBuckSubcommandForTaskType = getBuckSubcommandForTaskType;
+exports.BuckTaskRunner = exports.CONSOLE_VIEW_URI = exports.TASKS = void 0;
 
-var _DeploymentTarget;
+function _DeploymentTarget() {
+  const data = require("./DeploymentTarget");
 
-function _load_DeploymentTarget() {
-  return _DeploymentTarget = require('./DeploymentTarget');
+  _DeploymentTarget = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _PlatformService;
+function _PlatformService() {
+  const data = require("./PlatformService");
 
-function _load_PlatformService() {
-  return _PlatformService = require('./PlatformService');
+  _PlatformService = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _reduxMin;
+function _reduxMin() {
+  const data = require("redux/dist/redux.min.js");
 
-function _load_reduxMin() {
-  return _reduxMin = require('redux/dist/redux.min.js');
+  _reduxMin = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _tasks;
+function _tasks() {
+  const data = require("../../commons-node/tasks");
 
-function _load_tasks() {
-  return _tasks = require('../../commons-node/tasks');
+  _tasks = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideArtillery;
+function _nuclideArtillery() {
+  const data = require("../../nuclide-artillery");
 
-function _load_nuclideArtillery() {
-  return _nuclideArtillery = require('../../nuclide-artillery');
+  _nuclideArtillery = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _BuckBuildSystem;
+function _BuckBuildSystem() {
+  const data = require("./BuckBuildSystem");
 
-function _load_BuckBuildSystem() {
-  return _BuckBuildSystem = require('./BuckBuildSystem');
+  _BuckBuildSystem = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../modules/nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _reduxObservable;
+function _reduxObservable() {
+  const data = require("../../../modules/nuclide-commons/redux-observable");
 
-function _load_reduxObservable() {
-  return _reduxObservable = require('../../../modules/nuclide-commons/redux-observable');
+  _reduxObservable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _bindObservableAsProps;
+function _bindObservableAsProps() {
+  const data = require("../../../modules/nuclide-commons-ui/bindObservableAsProps");
 
-function _load_bindObservableAsProps() {
-  return _bindObservableAsProps = require('../../../modules/nuclide-commons-ui/bindObservableAsProps');
+  _bindObservableAsProps = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _log4js;
+function _log4js() {
+  const data = require("log4js");
 
-function _load_log4js() {
-  return _log4js = require('log4js');
+  _log4js = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _Icon;
+function _Icon() {
+  const data = require("../../../modules/nuclide-commons-ui/Icon");
 
-function _load_Icon() {
-  return _Icon = require('../../../modules/nuclide-commons-ui/Icon');
+  _Icon = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _Actions;
+function Actions() {
+  const data = _interopRequireWildcard(require("./redux/Actions"));
 
-function _load_Actions() {
-  return _Actions = _interopRequireWildcard(require('./redux/Actions'));
+  Actions = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _Epics;
+function Epics() {
+  const data = _interopRequireWildcard(require("./redux/Epics"));
 
-function _load_Epics() {
-  return _Epics = _interopRequireWildcard(require('./redux/Epics'));
+  Epics = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _Reducers;
+function _Reducers() {
+  const data = _interopRequireDefault(require("./redux/Reducers"));
 
-function _load_Reducers() {
-  return _Reducers = _interopRequireDefault(require('./redux/Reducers'));
+  _Reducers = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _BuckToolbar;
+function _BuckToolbar() {
+  const data = _interopRequireDefault(require("./BuckToolbar"));
 
-function _load_BuckToolbar() {
-  return _BuckToolbar = _interopRequireDefault(require('./BuckToolbar'));
+  _BuckToolbar = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _react = _interopRequireWildcard(require('react'));
+var React = _interopRequireWildcard(require("react"));
 
-var _collection;
+function _collection() {
+  const data = require("../../../modules/nuclide-commons/collection");
 
-function _load_collection() {
-  return _collection = require('../../../modules/nuclide-commons/collection');
+  _collection = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _shallowequal;
+function _shallowequal() {
+  const data = _interopRequireDefault(require("shallowequal"));
 
-function _load_shallowequal() {
-  return _shallowequal = _interopRequireDefault(require('shallowequal'));
+  _shallowequal = function () {
+    return data;
+  };
+
+  return data;
 }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const TASKS = exports.TASKS = [{
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+const TASKS = [{
   type: 'build',
   label: 'Build',
   description: 'Build the specified Buck target',
@@ -147,33 +225,26 @@ const TASKS = exports.TASKS = [{
   label: 'Attach Debugger',
   description: 'Attach the debugger to the specified Buck target',
   icon: 'nuclicon-debugger'
-}];
+}]; // This must match URI defined in ../../nuclide-console/lib/ui/ConsoleContainer
 
-// This must match URI defined in ../../nuclide-console/lib/ui/ConsoleContainer
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
-
-const CONSOLE_VIEW_URI = exports.CONSOLE_VIEW_URI = 'atom://nuclide/console';
+exports.TASKS = TASKS;
+const CONSOLE_VIEW_URI = 'atom://nuclide/console';
+exports.CONSOLE_VIEW_URI = CONSOLE_VIEW_URI;
 
 function shouldEnableTask(taskType, ruleType) {
   switch (taskType) {
     case 'build':
     case 'test':
       return true;
+
     case 'run':
       return ruleType.endsWith('binary');
+
     case 'debug':
     case 'debug-attach':
     case 'debug-launch-no-build':
       return ruleType.endsWith('binary') || ruleType.endsWith('test');
+
     default:
       return false;
   }
@@ -185,41 +256,46 @@ function isDebugTask(taskType) {
 
 function getBuckSubcommandForTaskType(taskType) {
   if (!(taskType === 'build' || taskType === 'run' || taskType === 'test')) {
-    throw new Error('Invariant violation: "taskType === \'build\' || taskType === \'run\' || taskType === \'test\'"');
+    throw new Error("Invariant violation: \"taskType === 'build' || taskType === 'run' || taskType === 'test'\"");
   }
 
   return taskType;
 }
 
 class BuckTaskRunner {
-
   constructor(initialState) {
     this.id = 'buck';
     this.name = 'Buck';
-    this._buildSystem = new (_BuckBuildSystem || _load_BuckBuildSystem()).BuckBuildSystem();
+    this._buildSystem = new (_BuckBuildSystem().BuckBuildSystem)();
     this._serializedState = initialState;
-    this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-    this._platformService = new (_PlatformService || _load_PlatformService()).PlatformService();
-    this._completedTasksObservable = new _rxjsBundlesRxMinJs.Subject();
+    this._disposables = new (_UniversalDisposable().default)();
+    this._platformService = new (_PlatformService().PlatformService)();
+    this._completedTasksObservable = new _RxMin.Subject();
   }
 
   getExtraUi() {
     if (this._extraUi == null) {
       const store = this._getStore();
+
       const boundActions = {
-        setBuildTarget: buildTarget => store.dispatch((_Actions || _load_Actions()).setBuildTarget(buildTarget)),
-        setDeploymentTarget: deploymentTarget => store.dispatch((_Actions || _load_Actions()).setDeploymentTarget(deploymentTarget)),
-        setTaskSettings: settings => store.dispatch((_Actions || _load_Actions()).setTaskSettings(settings))
+        setBuildTarget: buildTarget => store.dispatch(Actions().setBuildTarget(buildTarget)),
+        setDeploymentTarget: deploymentTarget => store.dispatch(Actions().setDeploymentTarget(deploymentTarget)),
+        setTaskSettings: settings => store.dispatch(Actions().setTaskSettings(settings))
       };
-      this._extraUi = (0, (_bindObservableAsProps || _load_bindObservableAsProps()).bindObservableAsProps)(
-      // $FlowFixMe: type symbol-observable
-      _rxjsBundlesRxMinJs.Observable.from(store).map(appState => Object.assign({ appState }, boundActions)).filter(props => props.appState.buckRoot != null), (_BuckToolbar || _load_BuckToolbar()).default);
+      this._extraUi = (0, _bindObservableAsProps().bindObservableAsProps)( // $FlowFixMe: type symbol-observable
+      _RxMin.Observable.from(store).map(appState => Object.assign({
+        appState
+      }, boundActions)).filter(props => props.appState.buckRoot != null), _BuckToolbar().default);
     }
+
     return this._extraUi;
   }
 
   getIcon() {
-    return () => _react.createElement((_Icon || _load_Icon()).Icon, { icon: 'nuclicon-buck', className: 'nuclide-buck-task-runner-icon' });
+    return () => React.createElement(_Icon().Icon, {
+      icon: "nuclicon-buck",
+      className: "nuclide-buck-task-runner-icon"
+    });
   }
 
   getBuildSystem() {
@@ -239,21 +315,36 @@ class BuckTaskRunner {
   }
 
   setBuildTarget(buildTarget) {
-    this._getStore().dispatch((_Actions || _load_Actions()).setBuildTarget(buildTarget));
+    this._getStore().dispatch(Actions().setBuildTarget(buildTarget));
+  }
+
+  setDeploymentTarget(preferredNames) {
+    const store = this._getStore();
+
+    const target = (0, _DeploymentTarget().selectValidDeploymentTarget)(preferredNames, store.getState().platformGroups);
+
+    if (target != null) {
+      store.dispatch(Actions().setDeploymentTarget(target));
+    }
   }
 
   setProjectRoot(projectRoot, callback) {
     // $FlowFixMe: type symbol-observable
-    const storeReady = _rxjsBundlesRxMinJs.Observable.from(this._getStore()).distinctUntilChanged().filter(state => !state.isLoadingBuckProject && state.projectRoot === projectRoot).share();
+    const storeReady = _RxMin.Observable.from(this._getStore()).distinctUntilChanged().filter(state => !state.isLoadingBuckProject && state.projectRoot === projectRoot).share();
 
     const enabledObservable = storeReady.map(state => state.buckRoot != null).distinctUntilChanged();
-
     const tasksObservable = storeReady.map(state => {
-      const { buildRuleType, platformGroups, selectedDeploymentTarget } = state;
-
+      const {
+        buildRuleType,
+        platformGroups,
+        selectedDeploymentTarget
+      } = state;
       const tasksFromPlatform = new Set();
+
       if (selectedDeploymentTarget != null && selectedDeploymentTarget.platform.isMobile) {
-        selectedDeploymentTarget.platform.tasksForDevice(selectedDeploymentTarget.device).forEach(taskType => tasksFromPlatform.add(taskType));
+        if (selectedDeploymentTarget.device != null) {
+          selectedDeploymentTarget.platform.tasksForDevice(selectedDeploymentTarget.device).forEach(taskType => tasksFromPlatform.add(taskType));
+        }
       } else if (buildRuleType != null) {
         const ruleType = buildRuleType;
         platformGroups.forEach(platformGroup => {
@@ -264,24 +355,26 @@ class BuckTaskRunner {
           });
         });
       }
+
       return TASKS.map(task => {
         const enabled = !state.isLoadingPlatforms && buildRuleType != null && (tasksFromPlatform.size > 0 ? tasksFromPlatform.has(task.type) : shouldEnableTask(task.type, buildRuleType.type));
-
-        return Object.assign({}, task, { disabled: !enabled });
+        return Object.assign({}, task, {
+          disabled: !enabled
+        });
       });
-    }).distinctUntilChanged((a, b) => (0, (_collection || _load_collection()).arrayEqual)(a, b, (_shallowequal || _load_shallowequal()).default));
+    }).distinctUntilChanged((a, b) => (0, _collection().arrayEqual)(a, b, _shallowequal().default));
 
-    const subscription = _rxjsBundlesRxMinJs.Observable.combineLatest(enabledObservable, tasksObservable).subscribe(([enabled, tasks]) => callback(enabled, tasks));
+    const subscription = _RxMin.Observable.combineLatest(enabledObservable, tasksObservable).subscribe(([enabled, tasks]) => callback(enabled, tasks));
 
-    this._getStore().dispatch((_Actions || _load_Actions()).setProjectRoot(projectRoot));
+    this._getStore().dispatch(Actions().setProjectRoot(projectRoot));
 
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default(subscription);
+    return new (_UniversalDisposable().default)(subscription);
   }
 
   _getStore() {
     if (this._store == null) {
       if (!(this._serializedState != null)) {
-        throw new Error('Invariant violation: "this._serializedState != null"');
+        throw new Error("Invariant violation: \"this._serializedState != null\"");
       }
 
       const initialState = {
@@ -304,36 +397,54 @@ class BuckTaskRunner {
         lastSessionDeviceGroupName: this._serializedState.selectedDeviceGroupName,
         lastSessionDeviceName: this._serializedState.selectedDeviceName
       };
-      const epics = Object.keys(_Epics || _load_Epics()).map(k => (_Epics || _load_Epics())[k]).filter(epic => typeof epic === 'function');
-      const rootEpic = (actions, store) => (0, (_reduxObservable || _load_reduxObservable()).combineEpics)(...epics)(actions, store)
-      // Log errors and continue.
+      const epics = Object.keys(Epics()).map(k => Epics()[k]).filter(epic => typeof epic === 'function');
+
+      const rootEpic = (actions, store) => (0, _reduxObservable().combineEpics)(...epics)(actions, store) // Log errors and continue.
       .catch((err, stream) => {
-        (0, (_log4js || _load_log4js()).getLogger)('nuclide-buck').error(err);
+        (0, _log4js().getLogger)('nuclide-buck').error(err);
         return stream;
       });
-      this._store = (0, (_reduxMin || _load_reduxMin()).createStore)((_Reducers || _load_Reducers()).default, initialState, (0, (_reduxMin || _load_reduxMin()).applyMiddleware)((0, (_reduxObservable || _load_reduxObservable()).createEpicMiddleware)(rootEpic)));
+
+      this._store = (0, _reduxMin().createStore)(_Reducers().default, initialState, (0, _reduxMin().applyMiddleware)((0, _reduxObservable().createEpicMiddleware)(rootEpic)));
     }
+
     return this._store;
   }
 
   getCompilationDatabaseParamsForCurrentContext() {
-    const { selectedDeploymentTarget } = this._getStore().getState();
-    const empty = { flavorsForTarget: [], args: [], useDefaultPlatform: true };
+    const {
+      selectedDeploymentTarget
+    } = this._getStore().getState();
+
+    const empty = {
+      flavorsForTarget: [],
+      args: [],
+      useDefaultPlatform: true
+    };
+
     if (selectedDeploymentTarget == null) {
       return empty;
     }
-    const { platform } = selectedDeploymentTarget;
+
+    const {
+      platform
+    } = selectedDeploymentTarget;
+
     if (typeof platform.getCompilationDatabaseParams === 'function') {
       return platform.getCompilationDatabaseParams();
     }
+
     return empty;
   }
 
   runTask(taskType) {
     // eslint-disable-next-line nuclide-internal/atom-apis
-    atom.workspace.open(CONSOLE_VIEW_URI, { searchAllPanes: true });
+    atom.workspace.open(CONSOLE_VIEW_URI, {
+      searchAllPanes: true
+    });
 
     const state = this._getStore().getState();
+
     const {
       buckRoot,
       buildRuleType,
@@ -343,30 +454,39 @@ class BuckTaskRunner {
     } = state;
 
     if (!(buckRoot != null)) {
-      throw new Error('Invariant violation: "buckRoot != null"');
+      throw new Error("Invariant violation: \"buckRoot != null\"");
     }
 
     if (!buildRuleType) {
-      throw new Error('Invariant violation: "buildRuleType"');
+      throw new Error("Invariant violation: \"buildRuleType\"");
     }
 
-    const deploymentTargetString = (0, (_DeploymentTarget || _load_DeploymentTarget()).formatDeploymentTarget)(selectedDeploymentTarget);
+    const deploymentTargetString = (0, _DeploymentTarget().formatDeploymentTarget)(selectedDeploymentTarget);
     const deploymentString = deploymentTargetString === '' ? '' : ` on "${deploymentTargetString}"`;
+    const task = (0, _tasks().taskFromObservable)(_RxMin.Observable.concat((0, _tasks().createMessage)(`Resolving ${taskType} command for "${buildTarget}"${deploymentString}`, 'log'), _RxMin.Observable.defer(() => {
+      const trace = _nuclideArtillery().NuclideArtilleryTrace.begin('nuclide_buck', taskType);
 
-    const task = (0, (_tasks || _load_tasks()).taskFromObservable)(_rxjsBundlesRxMinJs.Observable.concat((0, (_tasks || _load_tasks()).createMessage)(`Resolving ${taskType} command for "${buildTarget}"${deploymentString}`, 'log'), _rxjsBundlesRxMinJs.Observable.defer(() => {
-      const trace = (_nuclideArtillery || _load_nuclideArtillery()).NuclideArtilleryTrace.begin('nuclide_buck', taskType);
       if (selectedDeploymentTarget) {
-        const { platform, device } = selectedDeploymentTarget;
-        return platform.runTask(this._buildSystem, taskType, buildRuleType.buildTarget, taskSettings, device).do({
-          error() {
-            trace.end();
-          },
-          complete() {
-            trace.end();
+        const {
+          platform,
+          device
+        } = selectedDeploymentTarget;
+        let runTask;
+
+        if (platform.isMobile) {
+          if (!device) {
+            throw new Error("Invariant violation: \"device\"");
           }
-        });
+
+          runTask = () => platform.runTask(this._buildSystem, taskType, buildRuleType.buildTarget, taskSettings, device);
+        } else {
+          runTask = () => platform.runTask(this._buildSystem, taskType, buildRuleType.buildTarget, taskSettings);
+        }
+
+        return runTask().finally(() => trace.end());
       } else {
         let subcommand;
+
         if (isDebugTask(taskType)) {
           if (buildRuleType.type.endsWith('test')) {
             subcommand = 'test';
@@ -376,17 +496,19 @@ class BuckTaskRunner {
         } else {
           subcommand = getBuckSubcommandForTaskType(taskType);
         }
+
         return this._buildSystem.runSubcommand(buckRoot, subcommand, buildRuleType.buildTarget, taskSettings, isDebugTask(taskType), null).do({
           error() {
             trace.end();
           },
+
           complete() {
             trace.end();
           }
+
         });
       }
     })));
-
     task.onDidComplete(() => {
       this._completedTasksObservable.next({
         buckRoot,
@@ -396,7 +518,6 @@ class BuckTaskRunner {
         taskSettings
       });
     });
-
     return Object.assign({}, task, {
       getTrackingData: () => ({
         buildTarget,
@@ -416,13 +537,19 @@ class BuckTaskRunner {
     if (this._store == null) {
       return;
     }
+
     const state = this._store.getState();
-    const { buildTarget, taskSettings } = state;
+
+    const {
+      buildTarget,
+      taskSettings
+    } = state;
     const target = state.selectedDeploymentTarget;
     let selectedPlatformGroupName;
     let selectedPlatformName;
     let selectedDeviceGroupName;
     let selectedDeviceName;
+
     if (target != null) {
       selectedPlatformGroupName = target.platformGroup.name;
       selectedPlatformName = target.platform.name;
@@ -445,5 +572,7 @@ class BuckTaskRunner {
       selectedDeviceName
     };
   }
+
 }
+
 exports.BuckTaskRunner = BuckTaskRunner;

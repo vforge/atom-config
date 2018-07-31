@@ -1,37 +1,40 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _react = _interopRequireWildcard(require('react'));
+var React = _interopRequireWildcard(require("react"));
 
-var _reactDom = _interopRequireDefault(require('react-dom'));
+var _reactDom = _interopRequireDefault(require("react-dom"));
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../modules/nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _passesGK;
+function _passesGK() {
+  const data = _interopRequireDefault(require("../../commons-node/passesGK"));
 
-function _load_passesGK() {
-  return _passesGK = _interopRequireDefault(require('../../commons-node/passesGK'));
+  _passesGK = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-const GATEKEEPER_NAME = 'nuclide_blame_toggle_button';
-
-/**
- * Shows a 'toggle blame' button to the bottom right of an editor, if the
- * contents of the editor support it.
- */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -42,9 +45,13 @@ const GATEKEEPER_NAME = 'nuclide_blame_toggle_button';
  * 
  * @format
  */
+const GATEKEEPER_NAME = 'nuclide_blame_toggle_button';
+/**
+ * Shows a 'toggle blame' button to the bottom right of an editor, if the
+ * contents of the editor support it.
+ */
 
 class BlameToggle {
-
   /**
    * @param editor The atom TextEditor object.
    * @param canBlame A function returning a boolean value indicating whether
@@ -52,33 +59,36 @@ class BlameToggle {
    */
   constructor(editor, canBlame) {
     this._container = document.createElement('div');
-
     editor.getElement().appendChild(this._container);
-    _reactDom.default.render(_react.createElement(BlameToggleContainer, { editor: editor, canBlame: canBlame }), this._container);
-  }
 
+    _reactDom.default.render(React.createElement(BlameToggleContainer, {
+      editor: editor,
+      canBlame: canBlame
+    }), this._container);
+  }
   /**
    * Cleans up and removes the toggle button.
    */
+
+
   destroy() {
     _reactDom.default.unmountComponentAtNode(this._container);
   }
+
 }
 
 exports.default = BlameToggle;
-
 
 /**
  * Wraps event-handling, subscription and visibility logic for a blame toggle
  * button.
  */
-class BlameToggleContainer extends _react.Component {
-
+class BlameToggleContainer extends React.Component {
   constructor(props) {
     super(props);
 
     this._setVisible = () => {
-      this._subscriptions.add(_rxjsBundlesRxMinJs.Observable.fromPromise((0, (_passesGK || _load_passesGK()).default)(GATEKEEPER_NAME)).subscribe(passed => {
+      this._subscriptions.add(_RxMin.Observable.fromPromise((0, _passesGK().default)(GATEKEEPER_NAME)).subscribe(passed => {
         // The blame toggle button is visible if:
         //  - the use is in the Gatekeeper
         //  - the editor is not modiified
@@ -89,18 +99,18 @@ class BlameToggleContainer extends _react.Component {
       }));
     };
 
-    this.state = { visible: false };
-    this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    this.state = {
+      visible: false
+    };
+    this._subscriptions = new (_UniversalDisposable().default)();
   }
 
   componentDidMount() {
     this._setVisible();
-    this._subscriptions.add(
-    // update visibility on editor changed (may now be modified, non-blamable)
-    this.props.editor.onDidStopChanging(this._setVisible),
-    // update visibility on editor saved (may no longer be modiified)
-    this.props.editor.onDidSave(this._setVisible),
-    // update visibility on initial package load, this might have been
+
+    this._subscriptions.add( // update visibility on editor changed (may now be modified, non-blamable)
+    this.props.editor.onDidStopChanging(this._setVisible), // update visibility on editor saved (may no longer be modiified)
+    this.props.editor.onDidSave(this._setVisible), // update visibility on initial package load, this might have been
     // created before a BlameProvider was available.
     atom.packages.onDidActivateInitialPackages(this._setVisible));
   }
@@ -110,11 +120,7 @@ class BlameToggleContainer extends _react.Component {
   }
 
   render() {
-    return _react.createElement(
-      'div',
-      null,
-      this.state.visible && _react.createElement(BlameToggleComponent, null)
-    );
+    return React.createElement("div", null, this.state.visible && React.createElement(BlameToggleComponent, null));
   }
 
 }
@@ -122,16 +128,16 @@ class BlameToggleContainer extends _react.Component {
 /**
  * Renders a 'toggle blame' button in an editor.
  */
-class BlameToggleComponent extends _react.Component {
+class BlameToggleComponent extends React.Component {
   _onClick() {
     atom.commands.dispatch(atom.views.getView(atom.workspace), 'nuclide-blame:toggle-blame');
   }
 
   render() {
-    return _react.createElement(
-      'div',
-      { className: 'nuclide-blame-button', onClick: this._onClick },
-      'toggle blame'
-    );
+    return React.createElement("div", {
+      className: 'nuclide-blame-button',
+      onClick: this._onClick
+    }, "toggle blame");
   }
+
 }

@@ -1,34 +1,56 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ReverseTunnel = exports.Tunnel = undefined;
+exports.ReverseTunnel = exports.Tunnel = void 0;
 
-var _SocketManager;
+function _SocketManager() {
+  const data = require("./SocketManager");
 
-function _load_SocketManager() {
-  return _SocketManager = require('./SocketManager');
+  _SocketManager = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _Proxy;
+function _Proxy() {
+  const data = require("./Proxy");
 
-function _load_Proxy() {
-  return _Proxy = require('./Proxy');
+  _Proxy = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _events = _interopRequireDefault(require('events'));
+var _events = _interopRequireDefault(require("events"));
 
-var _log4js;
+function _log4js() {
+  const data = require("log4js");
 
-function _load_log4js() {
-  return _log4js = require('log4js');
+  _log4js = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
 class Tunnel extends _events.default {
-
   constructor(id, proxy, localPort, remotePort, useIPv4, transport) {
     super();
     this._id = id;
@@ -38,7 +60,7 @@ class Tunnel extends _events.default {
     this._useIPv4 = useIPv4;
     this._transport = transport;
     this._isClosed = false;
-    this._logger = (0, (_log4js || _load_log4js()).getLogger)('tunnel');
+    this._logger = (0, _log4js().getLogger)('tunnel');
     this._refCount = 1;
 
     if (this._proxy != null) {
@@ -50,15 +72,13 @@ class Tunnel extends _events.default {
 
   static async createTunnel(localPort, remotePort, useIPv4, transport) {
     const tunnelId = generateId();
-    const proxy = await (_Proxy || _load_Proxy()).Proxy.createProxy(tunnelId, localPort, remotePort, useIPv4, transport);
+    const proxy = await _Proxy().Proxy.createProxy(tunnelId, localPort, remotePort, useIPv4, transport);
     return new Tunnel(tunnelId, proxy, localPort, remotePort, useIPv4, transport);
   }
 
   static async createReverseTunnel(localPort, remotePort, useIPv4, transport) {
     const tunnelId = generateId();
-
-    const socketManager = new (_SocketManager || _load_SocketManager()).SocketManager(tunnelId, localPort, useIPv4, transport);
-
+    const socketManager = new (_SocketManager().SocketManager)(tunnelId, localPort, useIPv4, transport);
     transport.send(JSON.stringify({
       event: 'createProxy',
       tunnelId,
@@ -113,33 +133,24 @@ class Tunnel extends _events.default {
 
   close() {
     this._refCount--;
+
     if (!this.hasReferences()) {
       this._isClosed = true;
       this.emit('close');
 
       if (!this._proxy) {
-        throw new Error('Invariant violation: "this._proxy"');
+        throw new Error("Invariant violation: \"this._proxy\"");
       }
 
       this._proxy.close();
     }
   }
+
 }
 
-exports.Tunnel = Tunnel; /**
-                          * Copyright (c) 2017-present, Facebook, Inc.
-                          * All rights reserved.
-                          *
-                          * This source code is licensed under the BSD-style license found in the
-                          * LICENSE file in the root directory of this source tree. An additional grant
-                          * of patent rights can be found in the PATENTS file in the same directory.
-                          *
-                          * 
-                          * @format
-                          */
+exports.Tunnel = Tunnel;
 
 class ReverseTunnel extends Tunnel {
-
   constructor(id, socketManager, localPort, remotePort, useIPv4, transport) {
     super(id, null, localPort, remotePort, useIPv4, transport);
     this._socketManager = socketManager;
@@ -157,26 +168,30 @@ class ReverseTunnel extends Tunnel {
 
   close() {
     this._refCount--;
+
     if (!this.hasReferences()) {
       this._isClosed = true;
       this.emit('close');
 
       if (!this._socketManager) {
-        throw new Error('Invariant violation: "this._socketManager"');
+        throw new Error("Invariant violation: \"this._socketManager\"");
       }
 
       this._socketManager.close();
+
       this._transport.send(JSON.stringify({
         event: 'closeProxy',
         tunnelId: this._id
       }));
     }
   }
-}
 
-exports.ReverseTunnel = ReverseTunnel; // TODO: this should really be a UUID
+} // TODO: this should really be a UUID
 
+
+exports.ReverseTunnel = ReverseTunnel;
 let nextId = 1;
+
 function generateId() {
   return 'tunnel' + nextId++;
 }

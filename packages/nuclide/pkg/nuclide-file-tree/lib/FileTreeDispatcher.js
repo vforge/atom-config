@@ -1,19 +1,34 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ActionTypes = undefined;
+exports.default = exports.ActionTypes = void 0;
 
-var _Dispatcher;
+function _Dispatcher() {
+  const data = _interopRequireDefault(require("../../commons-node/Dispatcher"));
 
-function _load_Dispatcher() {
-  return _Dispatcher = _interopRequireDefault(require('../../commons-node/Dispatcher'));
+  _Dispatcher = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const ActionTypes = exports.ActionTypes = Object.freeze({
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+// $FlowFixMe(>=0.53.0) Flow suppress
+const ActionTypes = Object.freeze({
   COLLAPSE_NODE: 'COLLAPSE_NODE',
   COLLAPSE_NODE_DEEP: 'COLLAPSE_NODE_DEEP',
   DELETE_SELECTED_NODES: 'DELETE_SELECTED_NODES',
@@ -73,34 +88,23 @@ const ActionTypes = exports.ActionTypes = Object.freeze({
   UPDATE_GENERATED_STATUS: 'UPDATE_GENERATED_STATUS',
   ADD_FILTER_LETTER: 'ADD_FILTER_LETTER',
   REMOVE_FILTER_LETTER: 'REMOVE_FILTER_LETTER',
-  RESET: 'RESET',
-  UPDATE_MAX_COMPONENT_WIDTH: 'UPDATE_MAX_COMPONENT_WIDTH'
-});
-
-// Flow hack: Every FileTreeAction actionType must be in ActionTypes.
+  RESET: 'RESET'
+}); // Flow hack: Every FileTreeAction actionType must be in ActionTypes.
 // $FlowFixMe(>=0.68.0) Flow suppress (T27187857)
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
 
-// $FlowFixMe(>=0.53.0) Flow suppress
+exports.ActionTypes = ActionTypes;
 '';
-
 let instance;
 
-class FileTreeDispatcher extends (_Dispatcher || _load_Dispatcher()).default {
+class FileTreeDispatcher extends _Dispatcher().default {
   static getInstance() {
     if (!instance) {
       instance = new FileTreeDispatcher();
     }
+
     return instance;
   }
+
 }
+
 exports.default = FileTreeDispatcher;

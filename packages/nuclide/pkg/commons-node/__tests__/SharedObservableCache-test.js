@@ -1,11 +1,15 @@
-'use strict';
+"use strict";
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _SharedObservableCache;
+function _SharedObservableCache() {
+  const data = _interopRequireDefault(require("../SharedObservableCache"));
 
-function _load_SharedObservableCache() {
-  return _SharedObservableCache = _interopRequireDefault(require('../SharedObservableCache'));
+  _SharedObservableCache = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -19,41 +23,32 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  *  strict
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('SharedObservableCache', () => {
   it('creates and deletes observables on demand', () => {
-    const mockObservable = new _rxjsBundlesRxMinJs.Subject();
+    const mockObservable = new _RxMin.Subject();
     const mockFactory = jest.fn().mockReturnValue(mockObservable);
-
-    const map = new (_SharedObservableCache || _load_SharedObservableCache()).default(mockFactory);
+    const map = new (_SharedObservableCache().default)(mockFactory);
     const stream1 = map.get('key');
-    const stream2 = map.get('key');
+    const stream2 = map.get('key'); // The factory doesn't get called until the first subscription.
 
-    // The factory doesn't get called until the first subscription.
     expect(mockFactory).not.toHaveBeenCalled();
-
     const spy1 = jest.fn();
-    const spy2 = jest.fn();
+    const spy2 = jest.fn(); // The first subscription triggers observable creation.
 
-    // The first subscription triggers observable creation.
     const sub1 = stream1.subscribe(spy1);
-    expect(mockFactory.mock.calls.length).toBe(1);
+    expect(mockFactory.mock.calls.length).toBe(1); // The second subscription shouldn't.
 
-    // The second subscription shouldn't.
     const sub2 = stream2.subscribe(spy2);
     expect(mockFactory.mock.calls.length).toBe(1);
-
     mockObservable.next('test');
     expect(spy1).toHaveBeenCalledWith('test');
     expect(spy2).toHaveBeenCalledWith('test');
-
     sub1.unsubscribe();
-    sub2.unsubscribe();
+    sub2.unsubscribe(); // Cache should be clear now.
 
-    // Cache should be clear now.
     expect(map._cache.size).toBe(0);
-
     const sub3 = stream1.subscribe(() => {});
     expect(mockFactory.mock.calls.length).toBe(2);
     sub3.unsubscribe();

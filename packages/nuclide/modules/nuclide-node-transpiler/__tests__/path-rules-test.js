@@ -7,6 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @noflow
+ * @emails oncall+nuclide
  */
 'use strict';
 
@@ -28,7 +29,7 @@ describe('path-rules', () => {
 
       expect(includedFiles.includes(__filename)).toBe(true);
 
-      const pathToNodeModulesFile = require.resolve('babel-core');
+      const pathToNodeModulesFile = require.resolve('@babel/core');
       expect(!includedFiles.includes(pathToNodeModulesFile)).toBe(true);
     });
   });

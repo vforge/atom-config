@@ -1,17 +1,23 @@
-'use strict';
+"use strict";
 
-var _fs = _interopRequireDefault(require('fs'));
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../../modules/nuclide-commons/nuclideUri"));
 
-var _nuclideUri;
+  _nuclideUri = function () {
+    return data;
+  };
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../../modules/nuclide-commons/nuclideUri'));
+  return data;
 }
 
-var _ServiceTestHelper;
+function _ServiceTestHelper() {
+  const data = _interopRequireDefault(require("../../__mocks__/services/ServiceTestHelper"));
 
-function _load_ServiceTestHelper() {
-  return _ServiceTestHelper = _interopRequireDefault(require('../../__mocks__/services/ServiceTestHelper'));
+  _ServiceTestHelper = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -25,10 +31,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 jest.setTimeout(15000);
-
 describe('GrepSearch', () => {
   // Strips out hostname and current file directory.
   function makePortable(jsonObject) {
@@ -38,26 +43,23 @@ describe('GrepSearch', () => {
   }
 
   it('can execute a basic search', async () => {
-    const testHelper = new (_ServiceTestHelper || _load_ServiceTestHelper()).default();
+    const testHelper = new (_ServiceTestHelper().default)();
 
-    const FIND_IN_PROJECT_SERVICE_PATH = require.resolve('../../../nuclide-code-search-rpc');
+    const FIND_IN_PROJECT_SERVICE_PATH = require.resolve("../../../nuclide-code-search-rpc"); // Start the integration test helper.
 
-    // Start the integration test helper.
+
     await testHelper.start([{
       name: 'CodeSearchService',
       definition: FIND_IN_PROJECT_SERVICE_PATH,
       implementation: FIND_IN_PROJECT_SERVICE_PATH
     }]);
+    const remoteService = testHelper.getRemoteService('CodeSearchService'); // Search in the fixtures/basic directory.
 
-    const remoteService = testHelper.getRemoteService('CodeSearchService');
+    const input_dir = _nuclideUri().default.join(__dirname, '../../__mocks__/services/fixtures/', 'basic');
 
-    // Search in the fixtures/basic directory.
-    const input_dir = (_nuclideUri || _load_nuclideUri()).default.join(__dirname, '../../__mocks__/services/fixtures/', 'basic');
-    const uri = testHelper.getUriOfRemotePath(input_dir);
+    const uri = testHelper.getUriOfRemotePath(input_dir); // Do search.
 
-    // Do search.
     const updates = await remoteService.remoteAtomSearch(uri, /hello world/i, [], false, 'grep').refCount().toArray().toPromise();
-
     expect(makePortable(updates)).toMatchSnapshot();
     await testHelper.stop();
   });

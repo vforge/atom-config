@@ -19,8 +19,9 @@ const Proxy = require('./Proxy');
 const Service = require('./Service');
 const AtomConfig = require('./AtomConfig');
 const PhpInvoker = require('./PhpInvoker');
-const CoreManager = require('./CoreManager');
 const ConfigTester = require('./ConfigTester');
+const ServerManager = require('./ServerManager');
+const SymbolProvider = require('./SymbolProvider');
 const ProjectManager = require('./ProjectManager');
 const LinterProvider = require('./LinterProvider');
 const ComposerService = require('./ComposerService');
@@ -60,7 +61,7 @@ module.exports = {
             properties: {
                 phpExecutionType: {
                     title       : 'PHP execution type',
-                    description : `How to start PHP, which is needed to start the core in turn. \n \n \
+                    description : `How to start PHP, which is needed to start the server in turn. \n \n \
 \
 'Use PHP on the host' uses a PHP binary installed on your local machine. 'Use PHP \
 container via Docker' requires Docker and uses a PHP container to start the server \
@@ -121,7 +122,7 @@ Requires a restart after changing.`,
                 additionalDockerVolumes: {
                     title       : 'Additional Docker volumes',
                     description : `Additional paths to mount as Docker volumes. Only applies when using Docker to run \
-the core. Separate these using comma\'s, where each item follows the format \
+the server. Separate these using comma\'s, where each item follows the format \
 "src:dest" as the Docker -v flag uses. \n \n \
 Requires a restart after changing.`,
                     type        : 'array',
@@ -143,7 +144,8 @@ Requires a restart after changing.`,
                     description : `If enabled, indexing will happen continuously and automatically whenever the editor \
 is modified. If disabled, indexing will only happen on save. This also influences \
 linting, which happens automatically after indexing completes. In other words, if \
-you would like linting to happen on save, you can disable this option.`,
+you would like linting to happen on save, you can disable this option. \n \n \
+Requires a restart after changing.`,
                     type        : 'boolean',
                     default     : true,
                     order       : 1
@@ -250,9 +252,23 @@ regarding member overrides and interface implementations.`,
             }
         },
 
-        linting: {
+        symbols: {
             type: 'object',
             order: 9,
+            properties: {
+                enable: {
+                    title       : 'Enable',
+                    description : 'When enabled, symbols will be shown in the outline view.',
+                    type        : 'boolean',
+                    default     : true,
+                    order       : 1
+                }
+            }
+        },
+
+        linting: {
+            type: 'object',
+            order: 10,
             properties: {
                 enable: {
                     title       : 'Enable',
@@ -328,11 +344,11 @@ experimental (expect false positives, especially inside conditionals).\
     },
 
     /**
-     * The version of the core to download (version specification string).
+     * The version of the server to download (version specification string).
      *
      * @var {String}
     */
-    coreVersionSpecification: '4.1.0',
+    serverVersionSpecification: '4.2.0',
 
     /**
      * The name of the package.
@@ -673,6 +689,15 @@ You can do it via the menu Packages → Project Manager → Save Project.\
             }
         });
 
+        config.onDidChange('symbols.enable', value => {
+            if (value) {
+                return this.activateSymbols();
+
+            } else {
+                return this.deactivateSymbols();
+            }
+        });
+
         return config.onDidChange('linting.enable', value => {
             if (value) {
                 return this.activateLinting();
@@ -744,21 +769,21 @@ You can do it via the menu Packages → Project Manager → Save Project.\
     /**
      * @return {Promise}
     */
-    installCoreIfNecessary() {
+    installServerIfNecessary() {
         return new Promise((resolve, reject) => {
             let notification;
-            if (this.getCoreManager().isInstalled()) {
+            if (this.getServerManager().isInstalled()) {
                 resolve();
                 return;
             }
 
             const message =
-                'The core isn\'t installed yet or is outdated. I can install the latest version for you ' +
+                'The server isn\'t installed yet or is outdated. I can install the latest version for you ' +
                 'automatically.\n \n' +
 
                 'First time using this package? Please visit the package settings to set up PHP correctly first.';
 
-            return notification = atom.notifications.addInfo('Serenata - Core Installation', {
+            return notification = atom.notifications.addInfo('Serenata - Server Installation', {
                 detail      : message,
                 dismissable : true,
 
@@ -778,15 +803,15 @@ You can do it via the menu Packages → Project Manager → Save Project.\
                     },
 
                     {
-                        text: 'Ready, install the core',
+                        text: 'Ready, install the server',
                         onDidClick: () => {
                             notification.dismiss();
 
                             const callback = () => {
-                                const promise = this.installCore();
+                                const promise = this.installServer();
 
                                 promise.catch(() => {
-                                    return reject(new Error('Core installation failed'));
+                                    return reject(new Error('Server installation failed'));
                                 });
 
                                 return promise.then(() => {
@@ -795,14 +820,14 @@ You can do it via the menu Packages → Project Manager → Save Project.\
                             };
 
                             if (this.busySignalService) {
-                                return this.busySignalService.reportBusyWhile('Installing the core...', callback, {
+                                return this.busySignalService.reportBusyWhile('Installing the server...', callback, {
                                     waitingFor    : 'computer',
                                     revealTooltip : false
                                 });
 
                             } else {
                                 return console.warn(
-                                    'Busy signal service not loaded yet whilst installing core, not showing ' +
+                                    'Busy signal service not loaded yet whilst installing server, not showing ' +
                                     'loading spinner'
                                 );
                             }
@@ -824,33 +849,33 @@ You can do it via the menu Packages → Project Manager → Save Project.\
     /**
      * @return {Promise}
     */
-    installCore() {
+    installServer() {
         let message =
-            'The core is being downloaded and installed. To do this, Composer is automatically downloaded and ' +
+            'The server is being downloaded and installed. To do this, Composer is automatically downloaded and ' +
             'installed into a temporary folder.\n \n' +
 
             'Progress and output is sent to the developer tools console, in case you\'d like to monitor it.\n \n' +
 
             'You will be notified once the install finishes (or fails).';
 
-        atom.notifications.addInfo('Serenata - Installing Core', {'detail': message, dismissable: true});
+        atom.notifications.addInfo('Serenata - Installing Server', {'detail': message, dismissable: true});
 
-        const successHandler = () => atom.notifications.addSuccess('Serenata - Core Installation Succeeded', {dismissable: true});
+        const successHandler = () => atom.notifications.addSuccess('Serenata - Server Installation Succeeded', {dismissable: true});
 
         const failureHandler = function() {
             message =
-                'Installation of the core failed. This can happen for a variety of reasons, such as an outdated PHP ' +
-                'version or missing extensions.\n \n' +
+                'Installation of the server failed. This can happen for a variety of reasons, such as an outdated ' +
+                'PHP version or missing extensions.\n \n' +
 
                 'Logs in the developer tools will likely provide you with more information about what is wrong. You ' +
                 'can open it via the menu View → Developer → Toggle Developer Tools.\n \n' +
 
                 'Additionally, the README provides more information about requirements and troubleshooting.';
 
-            return atom.notifications.addError('Serenata - Core Installation Failed', {detail: message, dismissable: true});
+            return atom.notifications.addError('Serenata - Server Installation Failed', {detail: message, dismissable: true});
         };
 
-        return this.getCoreManager().install().then(successHandler, failureHandler);
+        return this.getServerManager().install().then(successHandler, failureHandler);
     },
 
     /**
@@ -1009,11 +1034,66 @@ You can do it via the menu Packages → Project Manager → Save Project.\
     },
 
     /**
+     * Shows a notification informing about support.
+    */
+    notifyAboutSponsoringUnobtrusively() {
+        if (this.getConfiguration().get('general.doNotAskForSupport') === true) {
+            return;
+        }
+
+        const message =
+            'Hello!\n \n' +
+
+            'Hopefully Serenata is working perfectly fine for you and everything is fine and dandy. If not, the ' +
+            'issue tracker is always available for feedback or issues.\n \n' +
+
+            'Since Serenata is open source, libre as well as gratis, and is a large project to maintain, I wanted ' +
+            'to take this moment to shamelessly plug a link to support its further development.\n \n' +
+
+            'If you\'re not interested, you can just click the button below and never have to hear this again. ' +
+            'If you are, great! People like you help make open source more sustainable - even a one-time symbolic ' +
+            'gesture of a single cent is appreciated.';
+
+        const me = this;
+
+        const notification = atom.notifications.addInfo('Serenata - Support', {
+            detail      : message,
+            dismissable : true,
+
+            buttons: [
+                {
+                    text: 'Tell me more',
+                    onDidClick() {
+                        const {shell} = require('electron');
+                        shell.openExternal('https://liberapay.com/Gert-dev');
+                    }
+                },
+
+                {
+                    text: 'Remind me later',
+                    onDidClick() {
+                        return notification.dismiss();
+                    }
+                },
+
+                {
+                    text: 'No, and don\'t ask me again',
+                    onDidClick() {
+                        me.getConfiguration().set('general.doNotAskForSupport', true);
+
+                        return notification.dismiss();
+                    }
+                }
+            ]
+        });
+    },
+
+    /**
      * Activates the package.
     */
     activate() {
         return packageDeps.install(this.packageName, true).then(() => {
-            const promise = this.installCoreIfNecessary();
+            const promise = this.installServerIfNecessary();
 
             promise.then(() => {
                 return this.doActivate();
@@ -1063,6 +1143,10 @@ You can do it via the menu Packages → Project Manager → Save Project.\
             this.activateRefactoring();
         }
 
+        if (this.getConfiguration().get('symbols.enable')) {
+            this.activateSymbols();
+        }
+
         if (this.getConfiguration().get('gotoDefinition.enable')) {
             this.activateGotoDefinition();
         }
@@ -1073,10 +1157,10 @@ You can do it via the menu Packages → Project Manager → Save Project.\
 
         this.getProxy().setIsActive(true);
 
-        // This fixes the corner case where the core is still installing, the project manager service has already
+        // This fixes the corner case where the server is still installing, the project manager service has already
         // loaded and the project is already active. At that point, the index that resulted from it silently
-        // failed because the proxy (and core) weren't active yet. This in turn causes the project to not
-        // automatically start indexing, which is especially relevant if a core update requires a reindex.
+        // failed because the proxy (and server) weren't active yet. This in turn causes the project to not
+        // automatically start indexing, which is especially relevant if a server update requires a reindex.
         if (this.activeProject != null) {
             return this.changeActiveProject(this.activeProject);
         }
@@ -1196,6 +1280,20 @@ You can do it via the menu Packages → Project Manager → Save Project.\
     },
 
     /**
+     * Activates symbols.
+    */
+    activateSymbols() {
+        this.getSymbolProvider().activate(this.getService());
+    },
+
+    /**
+     * Deactivates symbols.
+    */
+    deactivateSymbols() {
+        this.getSymbolProvider().deactivate();
+    },
+
+    /**
      * Activates linting.
     */
     activateLinting() {
@@ -1213,54 +1311,58 @@ You can do it via the menu Packages → Project Manager → Save Project.\
      * @param {TextEditor} editor
     */
     registerTextEditorListeners(editor) {
-        if (this.getConfiguration().get('general.indexContinuously') === true) {
-            // The default onDidStopChanging timeout is 300 milliseconds. As this is notcurrently configurable (and would
-            // also impact other packages), we install our own timeout on top of the existing one. This is useful for users
-            // that don't type particularly fast or are on slower machines and will prevent constant indexing from happening.
-            this.getDisposables().add(editor.onDidStopChanging(() => {
-                const path = editor.getPath();
+        if (this.getConfiguration().get('general.indexContinuously') !== true) {
+            this.getDisposables().add(editor.onDidSave(() => {
+                this.attemptCurrentProjectFileIndex(editor, editor.getPath(), editor.getBuffer().getText());
+            }));
 
-                const additionalIndexingDelay = this.getConfiguration().get('general.additionalIndexingDelay');
-
-                return this.editorTimeoutMap[path] = setTimeout(( () => {
-                    this.onEditorDidStopChanging(editor);
-                    return this.editorTimeoutMap[path] = null;
-                }
-                ), additionalIndexingDelay);
-            })
-            );
-
-            return this.getDisposables().add(editor.onDidChange(() => {
-                const path = editor.getPath();
-
-                if (this.editorTimeoutMap[path] != null) {
-                    clearTimeout(this.editorTimeoutMap[path]);
-                    return this.editorTimeoutMap[path] = null;
-                }
-            })
-            );
-
-        } else {
-            return this.getDisposables().add(editor.onDidSave(this.onEditorDidStopChanging.bind(this, editor)));
+            return;
         }
+
+        this.getDisposables().add(editor.onDidChange(() => {
+            const path = editor.getPath();
+
+            if (this.editorTimeoutMap[path] != null) {
+                clearTimeout(this.editorTimeoutMap[path]);
+            }
+
+            // It is important this is fetched *before* the timeout triggers. If the editor is closed in the meantime,
+            // the contents will otherwise be empty by the time the callback is invoked. We also don't want these last
+            // changes to get lost, so we don't cancel the event in that case.
+            const contents = editor.getBuffer().getText();
+
+            // The default getStoppedChangingDelay timeout is 300 ms. As this is not currently configurable, we install
+            // our own timeout on top of the existing one, which is useful for users that don't type particularly fast
+            // or are on slower machines to prevent constant indexing from happening.
+            const delay =
+                editor.getBuffer().getStoppedChangingDelay() +
+                this.getConfiguration().get('general.additionalIndexingDelay');
+
+            this.editorTimeoutMap[path] = setTimeout((() => {
+                this.attemptCurrentProjectFileIndex(editor, path, contents);
+                this.editorTimeoutMap[path] = null;
+            }), delay);
+        }));
     },
 
     /**
      * Invoked when an editor stops changing.
      *
-     * @param {TextEditor} editor
+     * @param {TextEditor}  editor
+     * @param {String|null} path
+     * @param {String}      contents
     */
-    onEditorDidStopChanging(editor) {
-        if (!/text.html.php$/.test(editor.getGrammar().scopeName)) { return; }
-
-        const fileName = editor.getPath();
-
-        if (!fileName) { return; }
+    attemptCurrentProjectFileIndex(editor, path, contents) {
+        if (!/text.html.php$/.test(editor.getGrammar().scopeName)) {
+            return;
+        } else if (!path) {
+            return;
+        }
 
         const projectManager = this.getProjectManager();
 
-        if (projectManager.hasActiveProject() && projectManager.isFilePartOfCurrentProject(fileName)) {
-            return projectManager.attemptCurrentProjectFileIndex(fileName, editor.getBuffer().getText());
+        if (projectManager.hasActiveProject() && projectManager.isFilePartOfCurrentProject(path)) {
+            return projectManager.attemptCurrentProjectFileIndex(path, contents);
         }
     },
 
@@ -1278,6 +1380,7 @@ You can do it via the menu Packages → Project Manager → Save Project.\
         this.deactivateSignatureHelp();
         this.deactivateAnnotations();
         this.deactivateRefactoring();
+        this.deactivateSymbols();
 
         this.getProxy().exit();
 
@@ -1331,6 +1434,11 @@ You can do it via the menu Packages → Project Manager → Save Project.\
         projectManager.load(project);
 
         if (!projectManager.hasActiveProject()) { return; }
+
+        // This is shown here as to not bother the user whilst first installing and setting up the package.
+        if (this.getProxy().getIsActive()) {
+            this.notifyAboutSponsoringUnobtrusively();
+        }
 
         const successHandler = isProjectInGoodShape => {
             // NOTE: If the index is manually deleted, testing will return false so the project is reinitialized.
@@ -1416,6 +1524,15 @@ You can do it via the menu Packages → Project Manager → Save Project.\
     },
 
     /**
+     * Returns a list of outline providers.
+     *
+     * @return {Array}
+    */
+    getOutlineProvider() {
+        return this.getSymbolProvider();
+    },
+
+    /**
      * @return {Service}
     */
     getService() {
@@ -1470,7 +1587,7 @@ You can do it via the menu Packages → Project Manager → Save Project.\
     getProxy() {
         if ((this.proxy == null)) {
             this.proxy = new Proxy(this.getConfiguration(), this.getPhpInvoker());
-            this.proxy.setCorePath(this.getCoreManager().getCoreSourcePath());
+            this.proxy.setServerPath(this.getServerManager().getServerSourcePath());
         }
 
         return this.proxy;
@@ -1494,7 +1611,7 @@ You can do it via the menu Packages → Project Manager → Save Project.\
         if ((this.composerService == null)) {
             this.composerService = new ComposerService(
                 this.getPhpInvoker(),
-                this.getConfiguration().get('storagePath') + '/core/'
+                this.getConfiguration().get('storagePath') + '/server/'
             );
         }
 
@@ -1502,18 +1619,18 @@ You can do it via the menu Packages → Project Manager → Save Project.\
     },
 
     /**
-     * @return {CoreManager}
+     * @return {ServerManager}
     */
-    getCoreManager() {
-        if ((this.coreManager == null)) {
-            this.coreManager = new CoreManager(
+    getServerManager() {
+        if ((this.serverManager == null)) {
+            this.serverManager = new ServerManager(
                 this.getComposerService(),
-                this.coreVersionSpecification,
-                this.getConfiguration().get('storagePath') + '/core/'
+                this.serverVersionSpecification,
+                this.getConfiguration().get('storagePath') + '/server/'
             );
         }
 
-        return this.coreManager;
+        return this.serverManager;
     },
 
     /**
@@ -1682,5 +1799,16 @@ You can do it via the menu Packages → Project Manager → Save Project.\
         }
 
         return this.refactoringProviders;
-    }
+    },
+
+    /**
+     * @return {SymbolProvider}
+    */
+    getSymbolProvider() {
+        if ((this.symbolProvider == null)) {
+            this.symbolProvider = new SymbolProvider();
+        }
+
+        return this.symbolProvider;
+    },
 };

@@ -10,5 +10,4 @@
  *  strict-local
  * @format
  */
-
 jest.setTimeout(10000);

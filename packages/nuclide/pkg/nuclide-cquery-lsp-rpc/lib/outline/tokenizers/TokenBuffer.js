@@ -1,20 +1,20 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TokenBuffer = undefined;
+exports.TokenBuffer = void 0;
 
-var _tokenizedText;
+function _tokenizedText() {
+  const data = require("../../../../../modules/nuclide-commons/tokenized-text");
 
-function _load_tokenizedText() {
-  return _tokenizedText = require('../../../../../modules/nuclide-commons/tokenized-text');
+  _tokenizedText = function () {
+    return data;
+  };
+
+  return data;
 }
 
-/**
- * An class that has useful methods for constructing the tokens to be displayed
- * in the outline tree.
- */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -26,24 +26,30 @@ function _load_tokenizedText() {
  * @format
  */
 
+/**
+ * An class that has useful methods for constructing the tokens to be displayed
+ * in the outline tree.
+ */
 class TokenBuffer {
-
   constructor(tokens = []) {
     this._tokens = [...tokens];
   }
 
   append(...token) {
     this._tokens.push(...token);
+
     return this;
   }
 
   appendBreak(text) {
-    this._tokens.push(text === ' ' ? (0, (_tokenizedText || _load_tokenizedText()).whitespace)(text) : (0, (_tokenizedText || _load_tokenizedText()).plain)(text));
+    this._tokens.push(text === ' ' ? (0, _tokenizedText().whitespace)(text) : (0, _tokenizedText().plain)(text));
+
     return this;
   }
 
   appendKeyword(text) {
-    this._tokens.push((0, (_tokenizedText || _load_tokenizedText()).keyword)(text));
+    this._tokens.push((0, _tokenizedText().keyword)(text));
+
     return this;
   }
 
@@ -54,5 +60,7 @@ class TokenBuffer {
   appendObjcParams(tokens) {
     return this.appendBreak(':').append(...tokens);
   }
+
 }
+
 exports.TokenBuffer = TokenBuffer;

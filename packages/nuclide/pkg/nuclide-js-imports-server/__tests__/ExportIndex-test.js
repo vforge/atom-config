@@ -1,14 +1,29 @@
-'use strict';
+"use strict";
 
-var _ExportIndex;
+function _ExportIndex() {
+  const data = require("../src/lib/ExportIndex");
 
-function _load_ExportIndex() {
-  return _ExportIndex = require('../src/lib/ExportIndex');
+  _ExportIndex = function () {
+    return data;
+  };
+
+  return data;
 }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ *  strict-local
+ * @format
+ * @emails oncall+nuclide
+ */
 describe('ExportIndex', () => {
   it('should filter by prefix', () => {
-    const exportIndex = new (_ExportIndex || _load_ExportIndex()).ExportIndex();
+    const exportIndex = new (_ExportIndex().ExportIndex)();
     exportIndex.setAll('someFile.js', [{
       id: 'SomeExport',
       isDefault: false,
@@ -34,7 +49,7 @@ describe('ExportIndex', () => {
     expect(ids.find(e => e === 'SomeExport2')).toBeDefined();
   });
   it('should filter by prefix after files have been cleared', () => {
-    const exportIndex = new (_ExportIndex || _load_ExportIndex()).ExportIndex();
+    const exportIndex = new (_ExportIndex().ExportIndex)();
     exportIndex.setAll('someFile.js', [{
       id: 'AutoImportsManager',
       isDefault: false,
@@ -82,7 +97,7 @@ describe('ExportIndex', () => {
     expect(ids3.length).toBe(1);
   });
   it('should fuzzy match', () => {
-    const exportIndex = new (_ExportIndex || _load_ExportIndex()).ExportIndex();
+    const exportIndex = new (_ExportIndex().ExportIndex)();
     exportIndex.setAll('someFile.js', [{
       id: 'SomeClass',
       isDefault: false,
@@ -101,13 +116,4 @@ describe('ExportIndex', () => {
     const ids = exportIndex.getIdsMatching('SeOther', 100);
     expect(ids.length).toBe(1);
   });
-}); /**
-     * Copyright (c) 2015-present, Facebook, Inc.
-     * All rights reserved.
-     *
-     * This source code is licensed under the license found in the LICENSE file in
-     * the root directory of this source tree.
-     *
-     *  strict-local
-     * @format
-     */
+});

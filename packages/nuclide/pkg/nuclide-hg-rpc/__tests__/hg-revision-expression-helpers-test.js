@@ -1,15 +1,23 @@
-'use strict';
+"use strict";
 
-var _hgRevisionExpressionHelpers;
+function _hgRevisionExpressionHelpers() {
+  const data = require("../lib/hg-revision-expression-helpers");
 
-function _load_hgRevisionExpressionHelpers() {
-  return _hgRevisionExpressionHelpers = require('../lib/hg-revision-expression-helpers');
+  _hgRevisionExpressionHelpers = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _hgConstants;
+function _hgConstants() {
+  const data = require("../lib/hg-constants");
 
-function _load_hgConstants() {
-  return _hgConstants = require('../lib/hg-constants');
+  _hgConstants = function () {
+    return data;
+  };
+
+  return data;
 }
 
 /**
@@ -21,20 +29,18 @@ function _load_hgConstants() {
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('hg-revision-expression-helpers', () => {
   describe('expressionForRevisionsBeforeHead', () => {
     it('returns a correct expression <= 0 revisions before head.', () => {
-      expect((0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).expressionForRevisionsBeforeHead)(0)).toBe('.');
-      expect((0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).expressionForRevisionsBeforeHead)(-2)).toBe('.');
+      expect((0, _hgRevisionExpressionHelpers().expressionForRevisionsBeforeHead)(0)).toBe('.');
+      expect((0, _hgRevisionExpressionHelpers().expressionForRevisionsBeforeHead)(-2)).toBe('.');
     });
-
     it('returns a correct expression for > 0 revisions before head.', () => {
-      expect((0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).expressionForRevisionsBeforeHead)(3)).toBe('.~3');
+      expect((0, _hgRevisionExpressionHelpers().expressionForRevisionsBeforeHead)(3)).toBe('.~3');
     });
   });
-
   describe('parseRevisionInfoOutput', () => {
     it('returns the parsed revision info if is valid.', () => {
       const commit1Description = `Commit 1 'title'.
@@ -51,10 +57,10 @@ Author Name<auth_2_alias@domain.com>
 a343fb3
 default
 draft
-b-1${(_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).NULL_CHAR}b-2${(_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).NULL_CHAR}
+b-1${_hgRevisionExpressionHelpers().NULL_CHAR}b-2${_hgRevisionExpressionHelpers().NULL_CHAR}
 
-tip${(_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).NULL_CHAR}
-a343fb211111${(_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).NULL_CHAR}000000000000${(_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).NULL_CHAR}
+tip${_hgRevisionExpressionHelpers().NULL_CHAR}
+a343fb211111${_hgRevisionExpressionHelpers().NULL_CHAR}000000000000${_hgRevisionExpressionHelpers().NULL_CHAR}
 @
 ["temp.txt"]
 
@@ -63,8 +69,9 @@ a343fb211111${(_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers
 
 
 
+
 ${commit1Description}
-${(_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).INFO_REV_END_MARK}
+${_hgRevisionExpressionHelpers().INFO_REV_END_MARK}
 123
 Commit 2 'title'.
 Author Name<auth_2_alias@domain.com>
@@ -73,9 +80,9 @@ a343fb2
 default
 public
 
-remote/master${(_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).NULL_CHAR}
+remote/master${_hgRevisionExpressionHelpers().NULL_CHAR}
 
-abc123411111${(_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).NULL_CHAR}000000000000${(_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).NULL_CHAR}
+abc123411111${_hgRevisionExpressionHelpers().NULL_CHAR}000000000000${_hgRevisionExpressionHelpers().NULL_CHAR}
 
 ["temp.txt"]
 
@@ -84,11 +91,11 @@ af3435454321
 
 
 
-${commit2Description}
-${(_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).INFO_REV_END_MARK}
-`;
 
-      expect((0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).parseRevisionInfoOutput)(revisionsString)).toEqual([{
+${commit2Description}
+${_hgRevisionExpressionHelpers().INFO_REV_END_MARK}
+`;
+      expect((0, _hgRevisionExpressionHelpers().parseRevisionInfoOutput)(revisionsString)).toEqual([{
         id: 124,
         isHead: true,
         files: ['temp.txt'],
@@ -121,13 +128,26 @@ ${(_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).INFO_REV
         description: commit2Description,
         successorInfo: {
           hash: 'af3435454321',
-          type: (_hgConstants || _load_hgConstants()).SuccessorType.AMEND
+          type: _hgConstants().SuccessorType.AMEND
         }
       }]);
     });
-
     it('skips an entry if invalid - should never happen', () => {
-      expect((0, (_hgRevisionExpressionHelpers || _load_hgRevisionExpressionHelpers()).parseRevisionInfoOutput)('revision:123')).toEqual([]);
+      expect((0, _hgRevisionExpressionHelpers().parseRevisionInfoOutput)('revision:123')).toEqual([]);
+    });
+  });
+  describe('parseSuccessorData', () => {
+    it('handles multiple successors', () => {
+      expect((0, _hgRevisionExpressionHelpers().parseSuccessorData)(['', '', '', '', '', '', '111111111111, 222222222222, 333333333333'])).toEqual({
+        hash: '111111111111',
+        type: _hgConstants().SuccessorType.REWRITTEN
+      });
+    });
+    it('uses rewritten last', () => {
+      expect((0, _hgRevisionExpressionHelpers().parseSuccessorData)(['', '', '', '444444444444', '', '', '111111111111'])).toEqual({
+        hash: '444444444444',
+        type: _hgConstants().SuccessorType.SPLIT
+      });
     });
   });
 });

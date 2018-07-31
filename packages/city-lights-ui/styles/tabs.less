@@ -19,7 +19,7 @@
     position: relative;
     height: @tab-height;
     line-height: @tab-height;
-    font-size: @font-size;
+    font-size: inherit;
     border-right: 1px solid @tab-border-color;
     background-color: @tab-background-color;
     border-radius: 1px;
@@ -106,22 +106,43 @@
         opacity: 1;
       }
 
-      &:before {
+      &:after {
         content: '';
         width: 100%;
         background-image: linear-gradient(to left, #7ec1ff, #478dff);
         height: 2px;
         position: absolute;
         left: 0;
+        top: 0;
       }
     }
 
     .title {
-      &:before {
+      &:after {
         content:'';
         display:inline-block;
         position: relative;
         width:16px;
+        top: 0;
+      }
+    }
+
+    &.small {
+      line-height: @tab-height - 13px !important;
+      height: @tab-height - 13px !important;
+      font-size: inherit;
+
+      .close-icon {
+        margin-top: 5.5px;
+      }
+    }
+
+    &.large {
+      line-height: @tab-height + 8px !important;
+      height: @tab-height + 8px !important;
+
+      .close-icon {
+        margin-top: 16px;
       }
     }
   }

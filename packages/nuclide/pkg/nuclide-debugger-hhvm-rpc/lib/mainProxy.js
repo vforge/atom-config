@@ -208,6 +208,14 @@ module.exports = _client => {
     });
   };
 
+  remoteModule.terminateHhvmWrapperProcesses = function () {
+    return _client.callRemoteFunction("HhvmDebuggerService/terminateHhvmWrapperProcesses", "promise", _client.marshalArguments(Array.from(arguments), [])).then(value => {
+      return _client.unmarshal(value, {
+        kind: "void"
+      });
+    });
+  };
+
   return remoteModule;
 };
 
@@ -426,13 +434,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "main.js",
-        line: 30
+        line: 31
       },
       type: {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 30
+          line: 31
         },
         kind: "function",
         argumentTypes: [{
@@ -589,13 +597,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "main.js",
-        line: 56
+        line: 57
       },
       type: {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 56
+          line: 57
         },
         kind: "function",
         argumentTypes: [{
@@ -620,13 +628,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "main.js",
-        line: 187
+        line: 188
       },
       type: {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 187
+          line: 188
         },
         kind: "function",
         argumentTypes: [],
@@ -647,13 +655,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "main.js",
-        line: 196
+        line: 197
       },
       type: {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 196
+          line: 197
         },
         kind: "function",
         argumentTypes: [],
@@ -671,13 +679,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "main.js",
-        line: 281
+        line: 282
       },
       type: {
         location: {
           type: "source",
           fileName: "main.js",
-          line: 281
+          line: 282
         },
         kind: "function",
         argumentTypes: [],
@@ -701,6 +709,30 @@ Object.defineProperty(module.exports, "defs", {
                 optional: false
               }]
             }
+          }
+        }
+      }
+    },
+    terminateHhvmWrapperProcesses: {
+      kind: "function",
+      name: "terminateHhvmWrapperProcesses",
+      location: {
+        type: "source",
+        fileName: "main.js",
+        line: 305
+      },
+      type: {
+        location: {
+          type: "source",
+          fileName: "main.js",
+          line: 305
+        },
+        kind: "function",
+        argumentTypes: [],
+        returnType: {
+          kind: "promise",
+          type: {
+            kind: "void"
           }
         }
       }

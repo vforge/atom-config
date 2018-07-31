@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -8,33 +8,48 @@ exports.windowMessage = windowMessage;
 exports.windowStatusMessage = windowStatusMessage;
 exports.addDbMessage = addDbMessage;
 
-var _log4js;
+function _log4js() {
+  const data = _interopRequireDefault(require("log4js"));
 
-function _load_log4js() {
-  return _log4js = _interopRequireDefault(require('log4js'));
+  _log4js = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _vscodeLanguageserver;
+function _vscodeLanguageserver() {
+  const data = require("vscode-languageserver");
 
-function _load_vscodeLanguageserver() {
-  return _vscodeLanguageserver = require('vscode-languageserver');
+  _vscodeLanguageserver = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideLogging;
+function _nuclideLogging() {
+  const data = require("../../../nuclide-logging");
 
-function _load_nuclideLogging() {
-  return _nuclideLogging = require('../../../nuclide-logging');
+  _nuclideLogging = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _uuid;
+function _uuid() {
+  const data = _interopRequireDefault(require("uuid"));
 
-function _load_uuid() {
-  return _uuid = _interopRequireDefault(require('uuid'));
+  _uuid = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Generate an instanceid to avoid collisions after restart.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -45,31 +60,35 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
+// Generate an instanceid to avoid collisions after restart.
+const instanceId = _uuid().default.v4();
 
-const instanceId = (_uuid || _load_uuid()).default.v4();
 let nextRequestId = 0;
+
 function generateId() {
   // Pick a prefix that will not collide with cquery.
   return `nuclide-cquery-${instanceId}-${nextRequestId++}`;
 }
 
 function initializeLogging(connection) {
-  (0, (_nuclideLogging || _load_nuclideLogging()).setupLoggingService)();
-  // Log to stderr to avoid polluting the JsonRpc stdout.
+  (0, _nuclideLogging().setupLoggingService)(); // Log to stderr to avoid polluting the JsonRpc stdout.
   // Also send errors to the client's log.
-  (_log4js || _load_log4js()).default.configure({
-    appenders: [{ type: 'stderr' }, {
+
+  _log4js().default.configure({
+    appenders: [{
+      type: 'stderr'
+    }, {
       type: 'logLevelFilter',
       level: 'WARN',
       appender: {
         connection,
-        type: require.resolve('../../../nuclide-lsp-implementation-common/connectionConsoleAppender')
+        type: require.resolve("../../../nuclide-lsp-implementation-common/connectionConsoleAppender")
       }
     }]
   });
-}
+} // Construct a LSP window/logMessage of given text and severity.
 
-// Construct a LSP window/logMessage of given text and severity.
+
 function windowMessage(type, message) {
   return {
     jsonrpc: '2.0',
@@ -88,9 +107,9 @@ function windowStatusMessage(params) {
     id: generateId(),
     params
   };
-}
+} // Construct a LSP window/logMessage to add given compilation database.
 
-// Construct a LSP window/logMessage to add given compilation database.
+
 function addDbMessage(databaseDirectory) {
   return {
     jsonrpc: '2.0',

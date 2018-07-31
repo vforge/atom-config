@@ -1,3 +1,3 @@
-'use strict';
+"use strict";
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");

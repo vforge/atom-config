@@ -1,33 +1,55 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ROOT_FS = exports.FileSystem = undefined;
-
-var _FileSystem;
-
-function _load_FileSystem() {
-  return _FileSystem = require('./FileSystem');
-}
-
-Object.defineProperty(exports, 'FileSystem', {
+Object.defineProperty(exports, "FileSystem", {
   enumerable: true,
   get: function () {
-    return (_FileSystem || _load_FileSystem()).FileSystem;
+    return _FileSystem().FileSystem;
   }
 });
+exports.ROOT_FS = void 0;
 
-var _CompositeFileSystem;
+function _CompositeFileSystem() {
+  const data = require("./CompositeFileSystem");
 
-function _load_CompositeFileSystem() {
-  return _CompositeFileSystem = require('./CompositeFileSystem');
+  _CompositeFileSystem = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _FsFileSystem;
+function _FsFileSystem() {
+  const data = require("./FsFileSystem");
 
-function _load_FsFileSystem() {
-  return _FsFileSystem = require('./FsFileSystem');
+  _FsFileSystem = function () {
+    return data;
+  };
+
+  return data;
 }
 
-const ROOT_FS = exports.ROOT_FS = new (_CompositeFileSystem || _load_CompositeFileSystem()).CompositeFileSystem(new (_FsFileSystem || _load_FsFileSystem()).FsFileSystem());
+function _FileSystem() {
+  const data = require("./FileSystem");
+
+  _FileSystem = function () {
+    return data;
+  };
+
+  return data;
+}
+
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ *  strict-local
+ * @format
+ */
+const ROOT_FS = new (_CompositeFileSystem().CompositeFileSystem)(new (_FsFileSystem().FsFileSystem)());
+exports.ROOT_FS = ROOT_FS;

@@ -1,21 +1,23 @@
-'use strict';
+"use strict";
 
-var _analytics;
+function _analytics() {
+  const data = require("../../../modules/nuclide-commons/analytics");
 
-function _load_analytics() {
-  return _analytics = require('../../../modules/nuclide-commons/analytics');
+  _analytics = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _track;
+function _track() {
+  const data = _interopRequireDefault(require("../lib/track"));
 
-function _load_track() {
-  return _track = _interopRequireDefault(require('../lib/track'));
-}
+  _track = function () {
+    return data;
+  };
 
-var _waits_for;
-
-function _load_waits_for() {
-  return _waits_for = _interopRequireDefault(require('../../../jest/waits_for'));
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -29,10 +31,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * 
  * @format
+ * @emails oncall+nuclide
  */
-
-jest.unmock('../../../modules/nuclide-commons/analytics');
-jest.mock('../lib/track', () => {
+jest.unmock("../../../modules/nuclide-commons/analytics");
+jest.mock("../lib/track", () => {
   return {
     track: jest.fn(() => Promise.resolve(1))
   };
@@ -42,45 +44,42 @@ const sleep = n => new Promise(r => setTimeout(r, n));
 
 beforeEach(() => {
   jest.restoreAllMocks();
-  (0, (_analytics || _load_analytics()).setRawAnalyticsService)((_track || _load_track()).default);
+  (0, _analytics().setRawAnalyticsService)(_track().default);
 });
-
 describe('startTracking', () => {
   let trackKey;
   let trackValues;
   let startTime;
-
   beforeEach(() => {
     jest.spyOn(process, 'hrtime').mockImplementation(() => {
       if (startTime == null) {
         startTime = Date.now();
       }
+
       const milliseconds = Date.now() - startTime;
       const seconds = Math.floor(milliseconds / 1000);
       const nanoseconds = (milliseconds - seconds * 1000) * 1000000;
       return [seconds, nanoseconds];
-    });
+    }); // Clear intercepted tracking data.
 
-    // Clear intercepted tracking data.
     trackKey = null;
     trackValues = null;
 
-    (_track || _load_track()).default.track.mockImplementation((key, values) => {
+    _track().default.track.mockImplementation((key, values) => {
       trackKey = key;
       trackValues = values;
       return Promise.resolve(1);
     });
   });
-
   it('startTracking - success', async () => {
-    const timer = (0, (_analytics || _load_analytics()).startTracking)('st-success');
+    const timer = (0, _analytics().startTracking)('st-success');
     await sleep(10);
     timer.onSuccess();
-    expect((_track || _load_track()).default.track).toHaveBeenCalled();
+    expect(_track().default.track).toHaveBeenCalled();
     expect(trackKey).toBe('performance');
 
     if (!(trackValues != null)) {
-      throw new Error('Invariant violation: "trackValues != null"');
+      throw new Error("Invariant violation: \"trackValues != null\"");
     }
 
     expect(Number(trackValues.duration)).toBeGreaterThanOrEqual(10);
@@ -88,16 +87,17 @@ describe('startTracking', () => {
     expect(trackValues.error).toBe('0');
     expect(trackValues.exception).toBe('');
   });
-
   it('startTracking - success with values', async () => {
-    const timer = (0, (_analytics || _load_analytics()).startTracking)('st-success', { newValue: 'value' });
+    const timer = (0, _analytics().startTracking)('st-success', {
+      newValue: 'value'
+    });
     await sleep(10);
     timer.onSuccess();
-    expect((_track || _load_track()).default.track).toHaveBeenCalled();
+    expect(_track().default.track).toHaveBeenCalled();
     expect(trackKey).toBe('performance');
 
     if (!(trackValues != null)) {
-      throw new Error('Invariant violation: "trackValues != null"');
+      throw new Error("Invariant violation: \"trackValues != null\"");
     }
 
     expect(Number(trackValues.duration)).toBeGreaterThanOrEqual(10);
@@ -106,16 +106,15 @@ describe('startTracking', () => {
     expect(trackValues.exception).toBe('');
     expect(trackValues.newValue).toBe('value');
   });
-
   it('startTracking - error', async () => {
-    const timer = (0, (_analytics || _load_analytics()).startTracking)('st-error');
+    const timer = (0, _analytics().startTracking)('st-error');
     await sleep(11);
     timer.onError(new Error());
-    expect((_track || _load_track()).default.track).toHaveBeenCalled();
+    expect(_track().default.track).toHaveBeenCalled();
     expect(trackKey).toBe('performance');
 
     if (!(trackValues != null)) {
-      throw new Error('Invariant violation: "trackValues != null"');
+      throw new Error("Invariant violation: \"trackValues != null\"");
     }
 
     expect(Number(trackValues.duration)).toBeGreaterThanOrEqual(11);
@@ -123,16 +122,17 @@ describe('startTracking', () => {
     expect(trackValues.error).toBe('1');
     expect(trackValues.exception).toBe('Error');
   });
-
   it('startTracking - error with values', async () => {
-    const timer = (0, (_analytics || _load_analytics()).startTracking)('st-error', { newValue: 'value' });
+    const timer = (0, _analytics().startTracking)('st-error', {
+      newValue: 'value'
+    });
     await sleep(11);
     timer.onError(new Error());
-    expect((_track || _load_track()).default.track).toHaveBeenCalled();
+    expect(_track().default.track).toHaveBeenCalled();
     expect(trackKey).toBe('performance');
 
     if (!(trackValues != null)) {
-      throw new Error('Invariant violation: "trackValues != null"');
+      throw new Error("Invariant violation: \"trackValues != null\"");
     }
 
     expect(Number(trackValues.duration)).toBeGreaterThanOrEqual(11);
@@ -142,11 +142,10 @@ describe('startTracking', () => {
     expect(trackValues.newValue).toBe('value');
   });
 });
-
 describe('trackImmediate', () => {
   it('calls track with immediate = true', async () => {
-    const result = await (0, (_analytics || _load_analytics()).trackImmediate)('test', {});
+    const result = await (0, _analytics().trackImmediate)('test', {});
     expect(result).toBe(1);
-    expect((_track || _load_track()).default.track).toHaveBeenCalledWith('test', {}, true);
+    expect(_track().default.track).toHaveBeenCalledWith('test', {}, true);
   });
 });

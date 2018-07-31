@@ -1,15 +1,23 @@
-'use strict';
+"use strict";
 
-var _formatEnoentNotification;
+function _formatEnoentNotification() {
+  const data = _interopRequireDefault(require("../format-enoent-notification"));
 
-function _load_formatEnoentNotification() {
-  return _formatEnoentNotification = _interopRequireDefault(require('../format-enoent-notification'));
+  _formatEnoentNotification = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _featureConfig;
+function _featureConfig() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/feature-config"));
 
-function _load_featureConfig() {
-  return _featureConfig = _interopRequireDefault(require('../../../modules/nuclide-commons-atom/feature-config'));
+  _featureConfig = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -23,67 +31,62 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('formatEnoentNotification', () => {
   let formatted;
-
   beforeEach(() => {
-    jest.spyOn((_featureConfig || _load_featureConfig()).default, 'getSchema').mockReturnValue({
+    jest.spyOn(_featureConfig().default, 'getSchema').mockReturnValue({
       title: 'Path to Node Executable',
       type: 'string',
       default: 'node',
       description: 'Absolute path to the node executable on your system.'
     });
-    jest.spyOn((_featureConfig || _load_featureConfig()).default, 'get').mockReturnValue('/path/to/node');
-    formatted = (0, (_formatEnoentNotification || _load_formatEnoentNotification()).default)({
+    jest.spyOn(_featureConfig().default, 'get').mockReturnValue('/path/to/node');
+    formatted = (0, _formatEnoentNotification().default)({
       feature: 'awesome stuff creation',
       toolName: 'node',
       pathSetting: 'my-special-package.pathToNode'
     });
   });
-
   it('formats the message', () => {
     if (!(formatted != null)) {
-      throw new Error('Invariant violation: "formatted != null"');
+      throw new Error("Invariant violation: \"formatted != null\"");
     }
 
     expect(formatted.message).toBe("Nuclide couldn't find *node*!");
   });
-
   it('has a useful intro line', () => {
     if (!(formatted != null)) {
-      throw new Error('Invariant violation: "formatted != null"');
+      throw new Error("Invariant violation: \"formatted != null\"");
     }
 
     const expected = "Awesome stuff creation needs *node* but Nuclide couldn't find it at `/path/to/node`";
 
     if (!(formatted.meta.description != null)) {
-      throw new Error('Invariant violation: "formatted.meta.description != null"');
+      throw new Error("Invariant violation: \"formatted.meta.description != null\"");
     }
 
     expect(formatted.meta.description.startsWith(expected)).toBe(true);
   });
-
   it('mentions the setting title in the description', () => {
     if (!(formatted != null)) {
-      throw new Error('Invariant violation: "formatted != null"');
+      throw new Error("Invariant violation: \"formatted != null\"");
     }
 
     if (!(formatted.meta.description != null)) {
-      throw new Error('Invariant violation: "formatted.meta.description != null"');
+      throw new Error("Invariant violation: \"formatted.meta.description != null\"");
     }
 
     expect(/Path to Node/.test(formatted.meta.description)).toBe(true);
   });
-
   it('mentions the setting category in the description', () => {
     if (!(formatted != null)) {
-      throw new Error('Invariant violation: "formatted != null"');
+      throw new Error("Invariant violation: \"formatted != null\"");
     }
 
     if (!(formatted.meta.description != null)) {
-      throw new Error('Invariant violation: "formatted.meta.description != null"');
+      throw new Error("Invariant violation: \"formatted.meta.description != null\"");
     }
 
     expect(/My-special-package/.test(formatted.meta.description)).toBe(true);

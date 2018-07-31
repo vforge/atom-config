@@ -1,58 +1,67 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _event;
+function _event() {
+  const data = require("../../../../../nuclide-commons/event");
 
-function _load_event() {
-  return _event = require('../../../../../nuclide-commons/event');
+  _event = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _react = _interopRequireWildcard(require('react'));
+var React = _interopRequireWildcard(require("react"));
 
-var _Tree;
+function _Tree() {
+  const data = require("../../../../../nuclide-commons-ui/Tree");
 
-function _load_Tree() {
-  return _Tree = require('../../../../../nuclide-commons-ui/Tree');
+  _Tree = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _FrameTreeNode;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../../../nuclide-commons/UniversalDisposable"));
 
-function _load_FrameTreeNode() {
-  return _FrameTreeNode = _interopRequireDefault(require('./FrameTreeNode'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _UniversalDisposable;
+function _observable() {
+  const data = require("../../../../../nuclide-commons/observable");
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../../../nuclide-commons/UniversalDisposable'));
+  _observable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _observable;
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-function _load_observable() {
-  return _observable = require('../../../../../nuclide-commons/observable');
-}
+function _ProcessTreeNode() {
+  const data = _interopRequireDefault(require("./ProcessTreeNode"));
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+  _ProcessTreeNode = function () {
+    return data;
+  };
 
-var _ProcessTreeNode;
-
-function _load_ProcessTreeNode() {
-  return _ProcessTreeNode = _interopRequireDefault(require('./ProcessTreeNode'));
-}
-
-var _ThreadTreeNode;
-
-function _load_ThreadTreeNode() {
-  return _ThreadTreeNode = _interopRequireDefault(require('./ThreadTreeNode'));
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
@@ -65,9 +74,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * 
  * @format
  */
-
-class DebuggerProcessComponent extends _react.PureComponent {
-
+class DebuggerProcessComponent extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -76,14 +83,19 @@ class DebuggerProcessComponent extends _react.PureComponent {
     };
 
     this.state = this._getState();
-    this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    this._disposables = new (_UniversalDisposable().default)();
   }
 
   componentDidMount() {
-    const { service } = this.props;
-    const { viewModel } = service;
+    const {
+      service
+    } = this.props;
+    const {
+      viewModel
+    } = service;
     const model = service.getModel();
-    this._disposables.add(_rxjsBundlesRxMinJs.Observable.merge((0, (_event || _load_event()).observableFromSubscribeFunction)(viewModel.onDidFocusStackFrame.bind(viewModel)), (0, (_event || _load_event()).observableFromSubscribeFunction)(model.onDidChangeCallStack.bind(model)), (0, (_event || _load_event()).observableFromSubscribeFunction)(service.onDidChangeMode.bind(service))).let((0, (_observable || _load_observable()).fastDebounce)(150)).subscribe(this._handleThreadsChanged));
+
+    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(viewModel.onDidFocusStackFrame.bind(viewModel)), (0, _event().observableFromSubscribeFunction)(model.onDidChangeCallStack.bind(model)), (0, _event().observableFromSubscribeFunction)(service.onDidChangeMode.bind(service))).let((0, _observable().fastDebounce)(150)).subscribe(this._handleThreadsChanged));
   }
 
   componentWillUnmount() {
@@ -92,47 +104,35 @@ class DebuggerProcessComponent extends _react.PureComponent {
 
   _getState() {
     return {
-      processList: this.props.service.getModel().getProcesses().slice()
+      processList: this.props.service.getModel().getProcesses()
     };
   }
 
   render() {
-    const { processList } = this.state;
-    const { service } = this.props;
-
+    const {
+      processList
+    } = this.state;
+    const {
+      service
+    } = this.props;
     const processElements = processList.map((process, processIndex) => {
-      const { adapterType, processName } = process.configuration;
-      const threadElements = process.getAllThreads().map((thread, threadIndex) => {
-        const stackFrameElements = thread.getCallStack().map((frame, frameIndex) => {
-          return _react.createElement((_FrameTreeNode || _load_FrameTreeNode()).default, {
-            text: frame.name,
-            frame: frame,
-            key: frameIndex,
-            service: service
-          });
-        });
-        return _react.createElement((_ThreadTreeNode || _load_ThreadTreeNode()).default, {
-          title: thread.name + (thread.stopped ? ' (Paused)' : ' (Running)'),
-          key: threadIndex,
-          childItems: stackFrameElements,
-          thread: thread,
-          service: service
-        });
-      });
-      return process == null ? 'No processes are currently being debugged' : _react.createElement((_ProcessTreeNode || _load_ProcessTreeNode()).default, {
+      const {
+        adapterType,
+        processName
+      } = process.configuration;
+      return process == null ? 'No processes are currently being debugged' : React.createElement(_ProcessTreeNode().default, {
         title: processName != null ? processName : adapterType,
         key: processIndex,
-        childItems: threadElements,
+        childItems: process.getAllThreads(),
         process: process,
         service: service
       });
     });
-
-    return _react.createElement(
-      (_Tree || _load_Tree()).TreeList,
-      { showArrows: true },
-      processElements
-    );
+    return React.createElement(_Tree().TreeList, {
+      showArrows: true
+    }, processElements);
   }
+
 }
+
 exports.default = DebuggerProcessComponent;

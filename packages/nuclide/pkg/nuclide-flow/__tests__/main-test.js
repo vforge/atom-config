@@ -1,11 +1,15 @@
-'use strict';
+"use strict";
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _;
+function _() {
+  const data = require("..");
 
-function _load_() {
-  return _ = require('..');
+  _ = function () {
+    return data;
+  };
+
+  return data;
 }
 
 /**
@@ -17,8 +21,8 @@ function _load_() {
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('serverStatusUpdatesToBusyMessages', () => {
   it('should work', async () => {
     await (async () => {
@@ -37,8 +41,7 @@ describe('serverStatusUpdatesToBusyMessages', () => {
       }, {
         pathToRoot: 'nuclide://host.example.com/remote/root',
         status: 'ready'
-      },
-      // Ending the stream should also dispose this one.
+      }, // Ending the stream should also dispose this one.
       {
         pathToRoot: '/local/test',
         status: 'busy'
@@ -59,29 +62,38 @@ describe('serverStatusUpdatesToBusyMessages', () => {
         message: 'Flow server is busy (/local/test)',
         dispose: true
       }];
-
       const messages = [];
       const mockBusySignal = {
         reportBusyWhile() {
           throw new Error('stub');
         },
+
         reportBusy(title, options) {
           let currentTitle = title;
-          messages.push({ message: currentTitle });
+          messages.push({
+            message: currentTitle
+          });
           const busyMessage = {
             setTitle: title2 => {
               currentTitle = title2;
-              messages.push({ message: currentTitle });
+              messages.push({
+                message: currentTitle
+              });
             },
             dispose: () => {
-              messages.push({ message: currentTitle, dispose: true });
+              messages.push({
+                message: currentTitle,
+                dispose: true
+              });
             }
           };
           return busyMessage;
         },
+
         dispose() {}
+
       };
-      (0, (_ || _load_()).serverStatusUpdatesToBusyMessages)(_rxjsBundlesRxMinJs.Observable.from(input), mockBusySignal);
+      (0, _().serverStatusUpdatesToBusyMessages)(_RxMin.Observable.from(input), mockBusySignal);
       expect(messages).toEqual(expected);
     })();
   });

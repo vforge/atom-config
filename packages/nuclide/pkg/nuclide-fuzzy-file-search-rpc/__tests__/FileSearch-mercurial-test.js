@@ -1,29 +1,35 @@
-'use strict';
+"use strict";
 
-var _fs = _interopRequireDefault(require('fs'));
+var _fs = _interopRequireDefault(require("fs"));
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _process;
+function _process() {
+  const data = require("../../../modules/nuclide-commons/process");
 
-function _load_process() {
-  return _process = require('../../../modules/nuclide-commons/process');
+  _process = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _testHelpers;
+function _a_file_search_should() {
+  const data = require("../__mocks__/a_file_search_should");
 
-function _load_testHelpers() {
-  return _testHelpers = require('../../../modules/nuclide-commons/test-helpers');
-}
+  _a_file_search_should = function () {
+    return data;
+  };
 
-var _a_file_search_should;
-
-function _load_a_file_search_should() {
-  return _a_file_search_should = require('../__mocks__/a_file_search_should');
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -37,23 +43,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * 
  * @format
+ * @emails oncall+nuclide
  */
-
 jest.setTimeout(30000);
 
 async function hgTestFolder() {
-  const folder = await (0, (_a_file_search_should || _load_a_file_search_should()).createTestFolder)();
-
-  await (0, (_process || _load_process()).runCommand)('hg', ['init'], { cwd: folder }).toPromise();
-  await (0, (_process || _load_process()).runCommand)('hg', ['addremove'], { cwd: folder }).toPromise();
-
-  // After adding the existing files to hg, add an ignored file to
+  const folder = await (0, _a_file_search_should().createTestFolder)();
+  await (0, _process().runCommand)('hg', ['init'], {
+    cwd: folder
+  }).toPromise();
+  await (0, _process().runCommand)('hg', ['addremove'], {
+    cwd: folder
+  }).toPromise(); // After adding the existing files to hg, add an ignored file to
   // prove we're using hg to populate the list.
+
   const ignoredFile = 'ignored';
-  _fs.default.writeFileSync((_nuclideUri || _load_nuclideUri()).default.join(folder, ignoredFile), '');
-  _fs.default.writeFileSync((_nuclideUri || _load_nuclideUri()).default.join(folder, '.hgignore'), `.hgignore\n${ignoredFile}`);
+
+  _fs.default.writeFileSync(_nuclideUri().default.join(folder, ignoredFile), '');
+
+  _fs.default.writeFileSync(_nuclideUri().default.join(folder, '.hgignore'), `.hgignore\n${ignoredFile}`);
 
   return folder;
 }
 
-(0, (_a_file_search_should || _load_a_file_search_should()).aFileSearchShould)('Mercurial', hgTestFolder);
+(0, _a_file_search_should().aFileSearchShould)('Mercurial', hgTestFolder);

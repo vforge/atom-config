@@ -1,16 +1,19 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _nuclideAnalytics;
+function _nuclideAnalytics() {
+  const data = require("../pkg/nuclide-analytics");
 
-function _load_nuclideAnalytics() {
-  return _nuclideAnalytics = require('../pkg/nuclide-analytics');
+  _nuclideAnalytics = function () {
+    return data;
+  };
+
+  return data;
 }
-
-const DURATION_REPORTING_THRESHOLD_MS = 7; // report react-measured events > 7ms
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -24,13 +27,13 @@ const DURATION_REPORTING_THRESHOLD_MS = 7; // report react-measured events > 7ms
  */
 
 /* eslint-env browser */
-const REACT_EMOJI = '\u269B';
-const WARNING_EMOJI = '\u26D4';
+const DURATION_REPORTING_THRESHOLD_MS = 7; // report react-measured events > 7ms
 
-// parse "mount" from '\u269B MarkedStringSnippet [mount]'
+const REACT_EMOJI = '\u269B';
+const WARNING_EMOJI = '\u26D4'; // parse "mount" from '\u269B MarkedStringSnippet [mount]'
+
 const LIFECYCLE_RE = new RegExp(`(${REACT_EMOJI}|${WARNING_EMOJI}) (\\S+) \\[(\\S+)\\]`);
 const METHOD_RE = new RegExp(`(${REACT_EMOJI}|${WARNING_EMOJI}) (\\S+)\\.(\\S+)$`);
-
 /**
  * Monitor important measurements while React renders out components.
  * The only reasonable way to do this is patching performance.measure as React
@@ -41,34 +44,35 @@ const METHOD_RE = new RegExp(`(${REACT_EMOJI}|${WARNING_EMOJI}) (\\S+)\\.(\\S+)$
  * does not emit performance measurements, so it is not worth intercepting
  * events in that case.
  */
-class ReactPerfMonitor {
 
+class ReactPerfMonitor {
   constructor() {
     this._disposed = false;
+    const oldMeasure = performance.measure.bind(performance); // $FlowFixMe Patching intentionally :)
 
-    const oldMeasure = performance.measure.bind(performance);
-    // $FlowFixMe Patching intentionally :)
     performance.measure = function measure(name, startMark, endMark) {
       oldMeasure(name, startMark, endMark);
+
       if (!this._disposed && (name.startsWith(REACT_EMOJI) || name.startsWith(WARNING_EMOJI)) && name[2] !== '(' // high-level react processes aren't interesting
       ) {
           const [entry] = performance.getEntriesByName(name, 'measure');
-
           let component;
           let lifecycle;
           let method;
           const lifecycleResult = name.match(LIFECYCLE_RE);
           const methodResult = name.match(METHOD_RE);
+
           if (lifecycleResult) {
-            [,, component, lifecycle] = lifecycleResult;
+            [component, lifecycle] = lifecycleResult.slice(2);
           } else if (methodResult) {
-            [,, component, method] = methodResult;
+            [component, method] = methodResult.slice(2);
           }
 
           if (entry && entry.duration >= DURATION_REPORTING_THRESHOLD_MS) {
-            (0, (_nuclideAnalytics || _load_nuclideAnalytics()).track)('react-performance', {
+            (0, _nuclideAnalytics().track)('react-performance', {
               duration: entry.duration.toString(),
-              eventName: name.slice(2), // remove the emoji
+              eventName: name.slice(2),
+              // remove the emoji
               component,
               lifecycle,
               method
@@ -81,5 +85,7 @@ class ReactPerfMonitor {
   dispose() {
     this._disposed = true;
   }
+
 }
+
 exports.default = ReactPerfMonitor;

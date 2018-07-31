@@ -1,36 +1,46 @@
-'use strict';
+"use strict";
 
-var _nullthrows;
+function _nullthrows() {
+  const data = _interopRequireDefault(require("nullthrows"));
 
-function _load_nullthrows() {
-  return _nullthrows = _interopRequireDefault(require('nullthrows'));
+  _nullthrows = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _ClangFlagsManager;
+function _ClangFlagsManager() {
+  const data = _interopRequireDefault(require("../lib/ClangFlagsManager"));
 
-function _load_ClangFlagsManager() {
-  return _ClangFlagsManager = _interopRequireDefault(require('../lib/ClangFlagsManager'));
+  _ClangFlagsManager = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideTestHelpers;
+function _nuclideTestHelpers() {
+  const data = require("../../../pkg/nuclide-test-helpers");
 
-function _load_nuclideTestHelpers() {
-  return _nuclideTestHelpers = require('../../../pkg/nuclide-test-helpers');
+  _nuclideTestHelpers = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _utils;
-
-function _load_utils() {
-  return _utils = require('../lib/utils');
-}
-
-var _path = _interopRequireDefault(require('path'));
+var _path = _interopRequireDefault(require("path"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -43,11 +53,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 jest.setTimeout(70000);
-
-
 let flagsManager;
 let compilationDatabase;
 let requestSettings;
@@ -58,11 +66,11 @@ beforeEach(async () => {
   global.performance.measure = jest.fn();
   global.performance.clearMarks = jest.fn();
   global.performance.clearMeasures = jest.fn();
-  testDir = await (0, (_nuclideTestHelpers || _load_nuclideTestHelpers()).copyFixture)('cpp_buck_project', _path.default.resolve(__dirname, '../__mocks__'));
-  flagsManager = new (_ClangFlagsManager || _load_ClangFlagsManager()).default();
+  testDir = await (0, _nuclideTestHelpers().copyFixture)('cpp_buck_project', _path.default.resolve(__dirname, '../__mocks__'));
+  flagsManager = new (_ClangFlagsManager().default)();
   compilationDatabase = {
-    file: (_nuclideUri || _load_nuclideUri()).default.join(testDir, 'compile_commands.json'),
-    flagsFile: (_nuclideUri || _load_nuclideUri()).default.join(testDir, 'BUCK'),
+    file: _nuclideUri().default.join(testDir, 'compile_commands.json'),
+    flagsFile: _nuclideUri().default.join(testDir, 'BUCK'),
     libclangPath: null
   };
   requestSettings = {
@@ -74,23 +82,18 @@ beforeEach(async () => {
     projectRoot: null
   };
 });
-
 it('gets flags for header files', async () => {
   let result = await flagsManager.getFlagsForSrc('header.h', requestSettings);
   const expectedFlags = ['g++', '-fPIC', '-O3', '-x', 'c++'];
-  expect((0, (_nullthrows || _load_nullthrows()).default)(result).flags).toEqual(expectedFlags);
-
+  expect((0, _nullthrows().default)(result).flags).toEqual(expectedFlags);
   result = await flagsManager.getFlagsForSrc('header.hpp', requestSettings);
-  expect((0, (_nullthrows || _load_nullthrows()).default)(result).flags).toEqual(expectedFlags);
-
-  // When headers are not properly owned, we should look for source files
+  expect((0, _nullthrows().default)(result).flags).toEqual(expectedFlags); // When headers are not properly owned, we should look for source files
   // in the same directory.
-  result = await flagsManager.getFlagsForSrc((_nuclideUri || _load_nuclideUri()).default.join(testDir, 'testInternal.h'), emptyRequestSettings);
-  expect((0, (_nullthrows || _load_nullthrows()).default)(result).flags).toEqual(expectedFlags);
 
-  result = await flagsManager.getFlagsForSrc((_nuclideUri || _load_nuclideUri()).default.join(testDir, 'test-inl.h'), emptyRequestSettings);
-  expect((0, (_nullthrows || _load_nullthrows()).default)(result).flags).toEqual(expectedFlags);
-
-  result = await flagsManager.getFlagsForSrc((_nuclideUri || _load_nuclideUri()).default.join(testDir, 'test2.h'), emptyRequestSettings);
-  expect((0, (_nullthrows || _load_nullthrows()).default)(result).flags).not.toBeNull();
+  result = await flagsManager.getFlagsForSrc(_nuclideUri().default.join(testDir, 'testInternal.h'), emptyRequestSettings);
+  expect((0, _nullthrows().default)(result).flags).toEqual(expectedFlags);
+  result = await flagsManager.getFlagsForSrc(_nuclideUri().default.join(testDir, 'test-inl.h'), emptyRequestSettings);
+  expect((0, _nullthrows().default)(result).flags).toEqual(expectedFlags);
+  result = await flagsManager.getFlagsForSrc(_nuclideUri().default.join(testDir, 'test2.h'), emptyRequestSettings);
+  expect((0, _nullthrows().default)(result).flags).not.toBeNull();
 });

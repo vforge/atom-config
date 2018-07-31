@@ -1,42 +1,50 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SocketManager = undefined;
+exports.SocketManager = void 0;
 
-var _net = _interopRequireDefault(require('net'));
+var _net = _interopRequireDefault(require("net"));
 
-var _log4js;
+function _log4js() {
+  const data = require("log4js");
 
-function _load_log4js() {
-  return _log4js = require('log4js');
+  _log4js = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _Encoder;
+function _Encoder() {
+  const data = _interopRequireDefault(require("./Encoder"));
 
-function _load_Encoder() {
-  return _Encoder = _interopRequireDefault(require('./Encoder'));
+  _Encoder = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _events = _interopRequireDefault(require('events'));
+var _events = _interopRequireDefault(require("events"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const logger = (0, (_log4js || _load_log4js()).getLogger)('tunnel-socket-manager'); /**
-                                                                                     * Copyright (c) 2017-present, Facebook, Inc.
-                                                                                     * All rights reserved.
-                                                                                     *
-                                                                                     * This source code is licensed under the BSD-style license found in the
-                                                                                     * LICENSE file in the root directory of this source tree. An additional grant
-                                                                                     * of patent rights can be found in the PATENTS file in the same directory.
-                                                                                     *
-                                                                                     * 
-                                                                                     * @format
-                                                                                     */
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
+const logger = (0, _log4js().getLogger)('tunnel-socket-manager');
 
 class SocketManager extends _events.default {
-
   constructor(tunnelId, port, useIPv4, transport) {
     super();
     this._tunnelId = tunnelId;
@@ -69,16 +77,22 @@ class SocketManager extends _events.default {
       port: this._port,
       family: this._useIPv4 ? 4 : 6
     };
-
     logger.info(`creating socket with ${JSON.stringify(connectOptions)}`);
+
     const socket = _net.default.createConnection(connectOptions);
 
     socket.on('error', error => {
-      this.emit('error', error);
       logger.error(error);
+
+      this._sendMessage({
+        event: 'error',
+        error,
+        clientId: message.clientId,
+        tunnelId: this._tunnelId
+      });
+
       socket.end();
     });
-
     socket.on('data', data => {
       this._sendMessage({
         event: 'data',
@@ -87,12 +101,24 @@ class SocketManager extends _events.default {
         tunnelId: this._tunnelId
       });
     });
+    socket.on('close', () => {
+      logger.info(`received close event on socket ${message.clientId} in socketManager`);
+
+      this._sendMessage({
+        event: 'close',
+        clientId: message.clientId,
+        tunnelId: this._tunnelId
+      });
+
+      this._socketByClientId.delete(message.clientId);
+    });
 
     this._socketByClientId.set(message.clientId, socket);
   }
 
   _forwardData(message) {
     const socket = this._socketByClientId.get(message.clientId);
+
     if (socket != null) {
       socket.write(message.arg);
     } else {
@@ -105,7 +131,7 @@ class SocketManager extends _events.default {
   }
 
   _sendMessage(msg) {
-    this._transport.send((_Encoder || _load_Encoder()).default.encode(msg));
+    this._transport.send(_Encoder().default.encode(msg));
   }
 
   close() {
@@ -113,5 +139,7 @@ class SocketManager extends _events.default {
       socket.end();
     });
   }
+
 }
+
 exports.SocketManager = SocketManager;

@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -16,53 +16,81 @@ exports.query = query;
 exports._getFbRepoSpecificArgs = _getFbRepoSpecificArgs;
 exports.getBuildFile = getBuildFile;
 
-var _process;
+function _process() {
+  const data = require("../../../modules/nuclide-commons/process");
 
-function _load_process() {
-  return _process = require('../../../modules/nuclide-commons/process');
+  _process = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _promiseExecutors;
+function _promiseExecutors() {
+  const data = require("../../commons-node/promise-executors");
 
-function _load_promiseExecutors() {
-  return _promiseExecutors = require('../../commons-node/promise-executors');
+  _promiseExecutors = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _os = _interopRequireWildcard(require('os'));
+var os = _interopRequireWildcard(require("os"));
 
-var _fsPromise;
+function _fsPromise() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/fsPromise"));
 
-function _load_fsPromise() {
-  return _fsPromise = _interopRequireDefault(require('../../../modules/nuclide-commons/fsPromise'));
+  _fsPromise = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _string;
+function _string() {
+  const data = require("../../../modules/nuclide-commons/string");
 
-function _load_string() {
-  return _string = require('../../../modules/nuclide-commons/string');
+  _string = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _log4js;
+function _log4js() {
+  const data = require("log4js");
 
-function _load_log4js() {
-  return _log4js = require('log4js');
+  _log4js = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideAnalytics;
+function _nuclideAnalytics() {
+  const data = require("../../nuclide-analytics");
 
-function _load_nuclideAnalytics() {
-  return _nuclideAnalytics = require('../../nuclide-analytics');
+  _nuclideAnalytics = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -74,10 +102,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * 
  * @format
  */
+const logger = (0, _log4js().getLogger)('nuclide-buck-rpc'); // Tag these Buck calls as coming from Nuclide for analytics purposes.
 
-const logger = (0, (_log4js || _load_log4js()).getLogger)('nuclide-buck-rpc');
-
-// Tag these Buck calls as coming from Nuclide for analytics purposes.
 const CLIENT_ID_ARGS = ['--config', 'client.id=nuclide'];
 
 /**
@@ -91,53 +117,75 @@ const CLIENT_ID_ARGS = ['--config', 'client.id=nuclide'];
  * from running things in parallel :(
  */
 const MAX_CONCURRENT_READ_ONLY = 1; // Math.max(1, os.cpus() ? os.cpus().length - 1 : 1);
+
 const pools = new Map();
 
 function getPool(path, readOnly) {
   const key = (readOnly ? 'ro:' : '') + path;
   let pool = pools.get(key);
+
   if (pool != null) {
     return pool;
   }
-  pool = new (_promiseExecutors || _load_promiseExecutors()).PromisePool(readOnly ? MAX_CONCURRENT_READ_ONLY : 1);
+
+  pool = new (_promiseExecutors().PromisePool)(readOnly ? MAX_CONCURRENT_READ_ONLY : 1);
   pools.set(key, pool);
   return pool;
 }
-
 /**
  * @return The path to buck and set of options to be used to run a `buck` command.
  */
+
+
 async function _getBuckCommandAndOptions(rootPath, commandOptions = {}) {
   // $UPFixMe: This should use nuclide-features-config
   let pathToBuck = global.atom && global.atom.config.get('nuclide.nuclide-buck.pathToBuck') || 'buck';
-  if (pathToBuck === 'buck' && _os.platform() === 'win32') {
+
+  if (pathToBuck === 'buck' && os.platform() === 'win32') {
     pathToBuck = 'buck.exe';
   }
-  let env = await (0, (_process || _load_process()).getOriginalEnvironment)();
+
+  let env = await (0, _process().getOriginalEnvironment)();
+
   try {
     // $FlowFB
-    const { getRealUsername } = require('./fb/realUsername');
+    const {
+      getRealUsername
+    } = require("./fb/realUsername");
+
     const username = await getRealUsername(env.USER);
+
     if (username != null) {
-      env = Object.assign({}, env, { USER: username });
+      env = Object.assign({}, env, {
+        USER: username
+      });
     }
   } catch (_) {}
+
   const buckCommandOptions = Object.assign({
     cwd: rootPath,
     // Buck restarts itself if the environment changes, so try to preserve
     // the original environment that Nuclide was started in.
     env
   }, commandOptions);
-  return { pathToBuck, buckCommandOptions };
+  return {
+    pathToBuck,
+    buckCommandOptions
+  };
 }
-
 /**
  * @param options An object describing the desired buck build operation.
  * @return An array of strings that can be passed as `args` to spawn a
  *   process to run the `buck` command.
  */
+
+
 function _translateOptionsToBuckBuildArgs(options) {
-  const { baseOptions, pathToBuildReport, buildTargets } = options;
+  const {
+    baseOptions,
+    pathToBuildReport,
+    buildTargets
+  } = options;
   const {
     install: doInstall,
     run,
@@ -146,17 +194,18 @@ function _translateOptionsToBuckBuildArgs(options) {
     debug,
     extraArguments
   } = baseOptions;
-
   let args = [test ? 'test' : doInstall ? 'install' : run ? 'run' : 'build'];
   args = args.concat(buildTargets, CLIENT_ID_ARGS);
 
   if (!run) {
     args.push('--keep-going');
-  }
-  // flowlint-next-line sketchy-null-string:off
+  } // flowlint-next-line sketchy-null-string:off
+
+
   if (pathToBuildReport) {
     args = args.concat(['--build-report', pathToBuildReport]);
   }
+
   if (doInstall) {
     // flowlint-next-line sketchy-null-string:off
     if (simulator) {
@@ -166,6 +215,7 @@ function _translateOptionsToBuckBuildArgs(options) {
 
     if (run) {
       args.push('--run');
+
       if (debug) {
         args.push('--wait-for-debugger');
       }
@@ -175,14 +225,19 @@ function _translateOptionsToBuckBuildArgs(options) {
       args.push('--debug');
     }
   }
+
   if (extraArguments != null) {
     args = args.concat(extraArguments);
   }
+
   return args;
 }
 
 async function _build(rootPath, buildTargets, options) {
-  const report = await (_fsPromise || _load_fsPromise()).default.tempfile({ suffix: '.json' });
+  const report = await _fsPromise().default.tempfile({
+    suffix: '.json'
+  });
+
   const args = _translateOptionsToBuckBuildArgs({
     baseOptions: Object.assign({}, options),
     pathToBuildReport: report,
@@ -197,21 +252,25 @@ async function _build(rootPath, buildTargets, options) {
     // The build failed. However, because --keep-going was specified, the
     // build report should have still been written unless any of the target
     // args were invalid. We check the contents of the report file to be sure.
-    const stat = await (_fsPromise || _load_fsPromise()).default.stat(report).catch(() => null);
+    const stat = await _fsPromise().default.stat(report).catch(() => null);
+
     if (stat == null || stat.size === 0) {
       throw e;
     }
   }
 
   try {
-    const json = await (_fsPromise || _load_fsPromise()).default.readFile(report, { encoding: 'UTF-8' });
+    const json = await _fsPromise().default.readFile(report, {
+      encoding: 'UTF-8'
+    });
+
     try {
       return JSON.parse(json);
     } catch (e) {
       throw new Error(`Failed to parse:\n${json}`);
     }
   } finally {
-    (_fsPromise || _load_fsPromise()).default.unlink(report);
+    _fsPromise().default.unlink(report);
   }
 }
 
@@ -221,44 +280,51 @@ function build(rootPath, buildTargets, options) {
 
 async function getDefaultPlatform(rootPath, target) {
   const result = await query(rootPath, target, ['--output-attributes', 'defaults']);
+
   if (result[target] != null && result[target].defaults != null && result[target].defaults.platform != null) {
     return result[target].defaults.platform;
   }
+
   return null;
 }
 
 async function getOwners(rootPath, filePath, extraArguments, kindFilter) {
-  let queryString = `owner("${(0, (_string || _load_string()).shellQuote)([filePath])}")`;
+  let queryString = `owner("${(0, _string().shellQuote)([filePath])}")`;
+
   if (kindFilter != null) {
     queryString = `kind(${JSON.stringify(kindFilter)}, ${queryString})`;
   }
+
   return query(rootPath, queryString, extraArguments);
 }
 
 function getRootForPath(file) {
-  return (_fsPromise || _load_fsPromise()).default.findNearestFile('.buckconfig', file);
+  return _fsPromise().default.findNearestFile('.buckconfig', file);
 }
-
 /**
  * @param args Do not include 'buck' as the first argument: it will be added
  *     automatically.
  */
+
+
 async function runBuckCommandFromProjectRoot(rootPath, args, commandOptions, addClientId = true, readOnly = true) {
   const {
     pathToBuck,
     buckCommandOptions: options
-  } = await _getBuckCommandAndOptions(rootPath, commandOptions);
+  } = await _getBuckCommandAndOptions(rootPath, commandOptions); // Create an event name from the first arg, e.g. 'buck.query' or 'buck.build'.
 
-  // Create an event name from the first arg, e.g. 'buck.query' or 'buck.build'.
   const analyticsEvent = `buck.${args.length > 0 ? args[0] : ''}`;
   const newArgs = addClientId ? args.concat(CLIENT_ID_ARGS) : args;
   return getPool(rootPath, readOnly).submit(() => {
-    logger.debug(`Running \`${pathToBuck} ${(0, (_string || _load_string()).shellQuote)(args)}\``);
-    return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)(analyticsEvent, () => (0, (_process || _load_process()).runCommand)(pathToBuck, newArgs, options).toPromise(), { args });
+    logger.debug(`Running \`${pathToBuck} ${(0, _string().shellQuote)(args)}\``);
+    return (0, _nuclideAnalytics().trackTiming)(analyticsEvent, () => (0, _process().runCommand)(pathToBuck, newArgs, options).toPromise(), {
+      args
+    });
   });
 }
-
 /** Runs `buck query --json` with the specified query. */
+
+
 async function query(rootPath, queryString, extraArguments) {
   const fbRepoSpecificArgs = await _getFbRepoSpecificArgs(rootPath);
   const args = ['query', ...extraArguments, '--json', queryString, ...fbRepoSpecificArgs];
@@ -269,7 +335,10 @@ async function query(rootPath, queryString, extraArguments) {
 async function _getFbRepoSpecificArgs(buckRoot) {
   try {
     // $FlowFB
-    const { getFbRepoSpecificArgs } = require('./fb/repoSpecificArgs');
+    const {
+      getFbRepoSpecificArgs
+    } = require("./fb/repoSpecificArgs");
+
     return await getFbRepoSpecificArgs(buckRoot);
   } catch (e) {
     return [];
@@ -279,10 +348,12 @@ async function _getFbRepoSpecificArgs(buckRoot) {
 async function getBuildFile(rootPath, targetName) {
   try {
     const result = await query(rootPath, `buildfile(${targetName})`, []);
+
     if (result.length === 0) {
       return null;
     }
-    return (_nuclideUri || _load_nuclideUri()).default.join(rootPath, result[0]);
+
+    return _nuclideUri().default.join(rootPath, result[0]);
   } catch (e) {
     logger.error(`No build file for target "${targetName}" ${e}`);
     return null;

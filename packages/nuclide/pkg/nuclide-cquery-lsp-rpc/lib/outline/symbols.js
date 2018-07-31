@@ -1,14 +1,18 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.isFunction = isFunction;
 
-var _protocol;
+function _protocol() {
+  const data = require("../../../nuclide-vscode-language-service-rpc/lib/protocol");
 
-function _load_protocol() {
-  return _protocol = require('../../../nuclide-vscode-language-service-rpc/lib/protocol');
+  _protocol = function () {
+    return data;
+  };
+
+  return data;
 }
 
 /**
@@ -21,7 +25,6 @@ function _load_protocol() {
  *  strict-local
  * @format
  */
-
 function isFunction(symbol) {
-  return symbol.kind === (_protocol || _load_protocol()).SymbolKind.Function || symbol.kind === (_protocol || _load_protocol()).SymbolKind.Method;
+  return symbol.kind === _protocol().SymbolKind.Function || symbol.kind === _protocol().SymbolKind.Method;
 }

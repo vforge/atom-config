@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6,16 +6,24 @@ Object.defineProperty(exports, "__esModule", {
 exports.activate = activate;
 exports.deactivate = deactivate;
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../modules/nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _FileWatcher;
+function _FileWatcher() {
+  const data = _interopRequireDefault(require("./FileWatcher"));
 
-function _load_FileWatcher() {
-  return _FileWatcher = _interopRequireDefault(require('./FileWatcher'));
+  _FileWatcher = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -30,11 +38,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
-
 let subscriptions = null;
 
 function activate(state) {
-  const _subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+  const _subscriptions = new (_UniversalDisposable().default)();
+
   const _watchers = new WeakSet();
 
   _subscriptions.add(atom.workspace.observeTextEditors(editor => {
@@ -42,8 +50,10 @@ function activate(state) {
       return;
     }
 
-    const fileWatcher = new (_FileWatcher || _load_FileWatcher()).default(editor);
+    const fileWatcher = new (_FileWatcher().default)(editor);
+
     _watchers.add(editor);
+
     _subscriptions.addUntilDestroyed(editor, () => fileWatcher.destroy());
   }));
 
@@ -54,6 +64,7 @@ function deactivate() {
   if (subscriptions == null) {
     return;
   }
+
   subscriptions.dispose();
   subscriptions = null;
 }

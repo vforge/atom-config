@@ -1,9 +1,13 @@
-'use strict';
+"use strict";
 
-var _searchResultHelpers;
+function _searchResultHelpers() {
+  const data = require("../lib/searchResultHelpers");
 
-function _load_searchResultHelpers() {
-  return _searchResultHelpers = require('../lib/searchResultHelpers');
+  _searchResultHelpers = function () {
+    return data;
+  };
+
+  return data;
 }
 
 /**
@@ -15,8 +19,8 @@ function _load_searchResultHelpers() {
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 const SEARCH_RESULTS_FIXTURE = {
   searchService: {
     results: {
@@ -76,11 +80,10 @@ const SEARCH_RESULTS_FIXTURE = {
     totalResults: 0
   }
 };
-
 describe('searchResultHelper', () => {
   describe('emptyResults', () => {
     it('does not include empty folders', () => {
-      const filteredResults = (0, (_searchResultHelpers || _load_searchResultHelpers()).filterEmptyResults)(SEARCH_RESULTS_FIXTURE);
+      const filteredResults = (0, _searchResultHelpers().filterEmptyResults)(SEARCH_RESULTS_FIXTURE);
       expect(filteredResults).toEqual({
         searchService: {
           results: {
@@ -109,16 +112,20 @@ describe('searchResultHelper', () => {
       });
     });
   });
-
   describe('flattenResults', () => {
     it('returns an array of flattened results', () => {
-      expect((0, (_searchResultHelpers || _load_searchResultHelpers()).flattenResults)(SEARCH_RESULTS_FIXTURE)).toEqual([{ resultType: 'FILE', path: 'foo' }, { resultType: 'FILE', path: 'bar' }]);
+      expect((0, _searchResultHelpers().flattenResults)(SEARCH_RESULTS_FIXTURE)).toEqual([{
+        resultType: 'FILE',
+        path: 'foo'
+      }, {
+        resultType: 'FILE',
+        path: 'bar'
+      }]);
     });
   });
-
   describe('getOuterResults', () => {
     it('works with top', () => {
-      const topOuterResults = (0, (_searchResultHelpers || _load_searchResultHelpers()).getOuterResults)('top', SEARCH_RESULTS_FIXTURE);
+      const topOuterResults = (0, _searchResultHelpers().getOuterResults)('top', SEARCH_RESULTS_FIXTURE);
       expect(topOuterResults).toEqual({
         serviceName: 'searchService',
         directoryName: 'folderB',
@@ -128,9 +135,8 @@ describe('searchResultHelper', () => {
         }]
       });
     });
-
     it('works with bottom', () => {
-      const topOuterResults = (0, (_searchResultHelpers || _load_searchResultHelpers()).getOuterResults)('bottom', SEARCH_RESULTS_FIXTURE);
+      const topOuterResults = (0, _searchResultHelpers().getOuterResults)('bottom', SEARCH_RESULTS_FIXTURE);
       expect(topOuterResults).toEqual({
         serviceName: 'symbolService',
         directoryName: 'folderA',

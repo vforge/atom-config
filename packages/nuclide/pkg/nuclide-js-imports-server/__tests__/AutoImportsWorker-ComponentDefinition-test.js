@@ -1,15 +1,23 @@
-'use strict';
+"use strict";
 
-var _passesGK;
+function _passesGK() {
+  const data = _interopRequireDefault(require("../../commons-node/passesGK"));
 
-function _load_passesGK() {
-  return _passesGK = _interopRequireDefault(require('../../commons-node/passesGK'));
+  _passesGK = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -23,18 +31,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
-jest.mock('../../commons-node/passesGK');
+jest.mock("../../commons-node/passesGK");
 
 // $FlowFixMe Jest doesn't have a type safe way to do this.
-(_passesGK || _load_passesGK()).default.mockImplementation(async () => true);
+_passesGK().default.mockImplementation(async () => true);
 
-const { getExportsForFile } = require('../src/lib/AutoImportsWorker');
+// eslint-disable-next-line
+const {
+  getExportsForFile
+} = require("../src/lib/AutoImportsWorker");
 
 describe('getExportsForFile component definitions', () => {
   it('gets the component definition for a React component', async () => {
-    const path = (_nuclideUri || _load_nuclideUri()).default.join(__dirname, '..', '__mocks__', 'componentDefinitions', 'FDSTest.js');
+    const path = _nuclideUri().default.join(__dirname, '..', '__mocks__', 'componentDefinitions', 'FDSTest.react.js');
+
     const exportUpdate = await getExportsForFile(path, {
       isHaste: false,
       useNameReducers: false,
@@ -45,19 +57,19 @@ describe('getExportsForFile component definitions', () => {
     expect(exportUpdate).toBeTruthy();
 
     if (!(exportUpdate != null)) {
-      throw new Error('Invariant violation: "exportUpdate != null"');
+      throw new Error("Invariant violation: \"exportUpdate != null\"");
     }
 
     expect(exportUpdate.componentDefinition).toBeTruthy();
 
     if (!exportUpdate.componentDefinition) {
-      throw new Error('Invariant violation: "exportUpdate.componentDefinition"');
+      throw new Error("Invariant violation: \"exportUpdate.componentDefinition\"");
     }
 
     expect(exportUpdate.componentDefinition.name).toBe('FDSTest');
 
     if (!exportUpdate.componentDefinition) {
-      throw new Error('Invariant violation: "exportUpdate.componentDefinition"');
+      throw new Error("Invariant violation: \"exportUpdate.componentDefinition\"");
     }
 
     expect(exportUpdate.componentDefinition.requiredProps.length).toBeGreaterThan(0);

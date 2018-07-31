@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -7,16 +7,24 @@ exports.getServerVersion = getServerVersion;
 exports.getServerPlatform = getServerPlatform;
 exports.closeConnection = closeConnection;
 
-var _nuclideVersion;
+function _nuclideVersion() {
+  const data = require("../../../nuclide-version");
 
-function _load_nuclideVersion() {
-  return _nuclideVersion = require('../../../nuclide-version');
+  _nuclideVersion = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _NuclideServer;
+function _NuclideServer() {
+  const data = _interopRequireDefault(require("../NuclideServer"));
 
-function _load_NuclideServer() {
-  return _NuclideServer = _interopRequireDefault(require('../NuclideServer'));
+  _NuclideServer = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -31,26 +39,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
-
 function getServerVersion() {
-  return Promise.resolve((0, (_nuclideVersion || _load_nuclideVersion()).getVersion)());
+  return Promise.resolve((0, _nuclideVersion().getVersion)());
 }
 
 async function getServerPlatform() {
   return process.platform;
-}
-
-// Mark this as async so the client can wait for an acknowledgement.
+} // Mark this as async so the client can wait for an acknowledgement.
 // However, we can't close the connection right away, as otherwise the response never gets sent!
 // Add a small delay to allow the return message to go through.
+
+
 function closeConnection(shutdownServer) {
   const client = this;
   setTimeout(() => {
     // TODO(T29368542): Remove references to NuclideServer here.
-    (_NuclideServer || _load_NuclideServer()).default.closeConnection(client);
+    _NuclideServer().default.closeConnection(client);
+
     client.dispose();
+
     if (shutdownServer) {
-      (_NuclideServer || _load_NuclideServer()).default.shutdown();
+      _NuclideServer().default.shutdown();
     }
   }, 1000);
   return Promise.resolve();

@@ -1,18 +1,26 @@
-'use strict';
+"use strict";
 
-var _tasks;
+function _tasks() {
+  const data = require("../tasks");
 
-function _load_tasks() {
-  return _tasks = require('../tasks');
+  _tasks = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _eventKit;
+function _eventKit() {
+  const data = require("event-kit");
 
-function _load_eventKit() {
-  return _eventKit = require('event-kit');
+  _eventKit = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -23,135 +31,155 @@ var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
  *
  * 
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('commons-node/tasks', () => {
   describe('observableFromTask', () => {
     it('calls start when subscribed', () => {
       const task = createMockTask();
-      const observable = (0, (_tasks || _load_tasks()).observableFromTask)(task);
+      const observable = (0, _tasks().observableFromTask)(task);
       expect(task.start).not.toHaveBeenCalled();
       observable.subscribe();
       expect(task.start).toHaveBeenCalled();
     });
-
     it('calls cancel when unsubscribed early', () => {
       const task = createMockTask();
-      const observable = (0, (_tasks || _load_tasks()).observableFromTask)(task);
+      const observable = (0, _tasks().observableFromTask)(task);
       const sub = observable.subscribe();
       expect(task.cancel).not.toHaveBeenCalled();
       sub.unsubscribe();
       expect(task.cancel).toHaveBeenCalled();
     });
-
     it('completes when the task does', () => {
       const task = createMockTask();
-      const observable = (0, (_tasks || _load_tasks()).observableFromTask)(task);
+      const observable = (0, _tasks().observableFromTask)(task);
       const completed = jest.fn();
-      observable.subscribe({ complete: completed });
+      observable.subscribe({
+        complete: completed
+      });
       expect(completed).not.toHaveBeenCalled();
+
       task._complete();
+
       expect(completed).toHaveBeenCalled();
     });
-
     it('errors when the task does', () => {
       const task = createMockTask();
-      const observable = (0, (_tasks || _load_tasks()).observableFromTask)(task);
+      const observable = (0, _tasks().observableFromTask)(task);
       const errored = jest.fn();
-      observable.subscribe({ error: errored });
+      observable.subscribe({
+        error: errored
+      });
       expect(errored).not.toHaveBeenCalled();
+
       task._error(new Error());
+
       expect(errored).toHaveBeenCalled();
     });
-
     it("doesn't call cancel when unsubscribed after completion", () => {
       const task = createMockTask();
-      const observable = (0, (_tasks || _load_tasks()).observableFromTask)(task);
+      const observable = (0, _tasks().observableFromTask)(task);
       const sub = observable.subscribe();
+
       task._complete();
+
       sub.unsubscribe();
       expect(task.cancel).not.toHaveBeenCalled();
     });
-
     it("doesn't call cancel when unsubscribed after an error", () => {
       const task = createMockTask();
-      const observable = (0, (_tasks || _load_tasks()).observableFromTask)(task);
-      const sub = observable.catch(() => _rxjsBundlesRxMinJs.Observable.empty()).subscribe();
+      const observable = (0, _tasks().observableFromTask)(task);
+      const sub = observable.catch(() => _RxMin.Observable.empty()).subscribe();
+
       task._error(new Error());
+
       sub.unsubscribe();
       expect(task.cancel).not.toHaveBeenCalled();
     });
-
     it('includes emitted message events', () => {
       const task = createMockTask();
-      const observable = (0, (_tasks || _load_tasks()).observableFromTask)(task);
+      const observable = (0, _tasks().observableFromTask)(task);
       const handler = jest.fn();
       observable.subscribe(handler);
-      task._message({ text: 'hello', level: 'warning' });
+
+      task._message({
+        text: 'hello',
+        level: 'warning'
+      });
+
       expect(handler).toHaveBeenCalledWith({
         type: 'message',
-        message: { text: 'hello', level: 'warning' }
+        message: {
+          text: 'hello',
+          level: 'warning'
+        }
       });
     });
-
     it('includes emitted progress events', () => {
       const task = createMockTask();
-      const observable = (0, (_tasks || _load_tasks()).observableFromTask)(task);
+      const observable = (0, _tasks().observableFromTask)(task);
       const handler = jest.fn();
       observable.subscribe(handler);
-      task._progress(0.5);
-      expect(handler).toHaveBeenCalledWith({ type: 'progress', progress: 0.5 });
-    });
 
+      task._progress(0.5);
+
+      expect(handler).toHaveBeenCalledWith({
+        type: 'progress',
+        progress: 0.5
+      });
+    });
     it('includes emitted result events', () => {
       const task = createMockTask();
-      const observable = (0, (_tasks || _load_tasks()).observableFromTask)(task);
+      const observable = (0, _tasks().observableFromTask)(task);
       const handler = jest.fn();
       observable.subscribe(handler);
-      task._result(42);
-      expect(handler).toHaveBeenCalledWith({ type: 'result', result: 42 });
-    });
 
+      task._result(42);
+
+      expect(handler).toHaveBeenCalledWith({
+        type: 'result',
+        result: 42
+      });
+    });
     it('includes emitted status events', () => {
       const task = createMockTask();
-      const observable = (0, (_tasks || _load_tasks()).observableFromTask)(task);
+      const observable = (0, _tasks().observableFromTask)(task);
       const handler = jest.fn();
       observable.subscribe(handler);
+
       task._status('fine and dandy');
+
       expect(handler).toHaveBeenCalledWith({
         type: 'status',
         status: 'fine and dandy'
       });
     });
   });
-
   describe('taskFromObservable', () => {
     it('subscribes when started', () => {
-      const observable = new _rxjsBundlesRxMinJs.Subject();
+      const observable = new _RxMin.Subject();
       jest.spyOn(observable, 'subscribe');
-      const task = (0, (_tasks || _load_tasks()).taskFromObservable)(observable);
+      const task = (0, _tasks().taskFromObservable)(observable);
       expect(observable.subscribe).not.toHaveBeenCalled();
       task.start();
       expect(observable.subscribe).toHaveBeenCalled();
     });
-
     it('unsubscribes when canceled', () => {
-      const sub = new _rxjsBundlesRxMinJs.Subscription();
+      const sub = new _RxMin.Subscription();
       jest.spyOn(sub, 'unsubscribe').mockImplementation(() => {});
-      const observable = new _rxjsBundlesRxMinJs.Subject();
+      const observable = new _RxMin.Subject();
       jest.spyOn(observable, 'subscribe').mockReturnValue(sub);
-      const task = (0, (_tasks || _load_tasks()).taskFromObservable)(observable);
+      const task = (0, _tasks().taskFromObservable)(observable);
       task.start();
       expect(sub.unsubscribe).not.toHaveBeenCalled();
       task.cancel();
       expect(sub.unsubscribe).toHaveBeenCalled();
     });
-
     it('calls onDidComplete callbacks when it completes', () => {
-      const sub = new _rxjsBundlesRxMinJs.Subscription();
+      const sub = new _RxMin.Subscription();
       jest.spyOn(sub, 'unsubscribe').mockImplementation(() => {});
-      const observable = new _rxjsBundlesRxMinJs.Subject();
-      const task = (0, (_tasks || _load_tasks()).taskFromObservable)(observable);
+      const observable = new _RxMin.Subject();
+      const task = (0, _tasks().taskFromObservable)(observable);
       const completed = jest.fn();
       task.onDidComplete(completed);
       task.start();
@@ -159,10 +187,9 @@ describe('commons-node/tasks', () => {
       observable.complete();
       expect(completed).toHaveBeenCalled();
     });
-
     it('calls onDidError callbacks when it errors', () => {
-      const observable = new _rxjsBundlesRxMinJs.Subject();
-      const task = (0, (_tasks || _load_tasks()).taskFromObservable)(observable);
+      const observable = new _RxMin.Subject();
+      const task = (0, _tasks().taskFromObservable)(observable);
       const errored = jest.fn();
       task.onDidError(errored);
       task.start();
@@ -170,14 +197,13 @@ describe('commons-node/tasks', () => {
       observable.error();
       expect(errored).toHaveBeenCalled();
     });
-
     it('calls onMessage callbacks for message events', () => {
-      const observable = new _rxjsBundlesRxMinJs.Subject();
-      const task = (0, (_tasks || _load_tasks()).taskFromObservable)(observable);
+      const observable = new _RxMin.Subject();
+      const task = (0, _tasks().taskFromObservable)(observable);
       const handler = jest.fn();
 
       if (!(task.onMessage != null)) {
-        throw new Error('Invariant violation: "task.onMessage != null"');
+        throw new Error("Invariant violation: \"task.onMessage != null\"");
       }
 
       task.onMessage(handler);
@@ -185,63 +211,75 @@ describe('commons-node/tasks', () => {
       expect(handler).not.toHaveBeenCalled();
       observable.next({
         type: 'message',
-        message: { text: 'hello', level: 'warning' }
+        message: {
+          text: 'hello',
+          level: 'warning'
+        }
       });
-      expect(handler).toHaveBeenCalledWith({ text: 'hello', level: 'warning' });
+      expect(handler).toHaveBeenCalledWith({
+        text: 'hello',
+        level: 'warning'
+      });
     });
-
     it('calls onProgress callbacks for progress events', () => {
-      const observable = new _rxjsBundlesRxMinJs.Subject();
-      const task = (0, (_tasks || _load_tasks()).taskFromObservable)(observable);
+      const observable = new _RxMin.Subject();
+      const task = (0, _tasks().taskFromObservable)(observable);
       const handler = jest.fn();
 
       if (!(task.onProgress != null)) {
-        throw new Error('Invariant violation: "task.onProgress != null"');
+        throw new Error("Invariant violation: \"task.onProgress != null\"");
       }
 
       task.onProgress(handler);
       task.start();
       expect(handler).not.toHaveBeenCalled();
-      observable.next({ type: 'progress', progress: 0.5 });
+      observable.next({
+        type: 'progress',
+        progress: 0.5
+      });
       expect(handler).toHaveBeenCalledWith(0.5);
     });
-
     it('calls onResult callbacks for result events', () => {
-      const observable = new _rxjsBundlesRxMinJs.Subject();
-      const task = (0, (_tasks || _load_tasks()).taskFromObservable)(observable);
+      const observable = new _RxMin.Subject();
+      const task = (0, _tasks().taskFromObservable)(observable);
       const handler = jest.fn();
 
       if (!(task.onResult != null)) {
-        throw new Error('Invariant violation: "task.onResult != null"');
+        throw new Error("Invariant violation: \"task.onResult != null\"");
       }
 
       task.onResult(handler);
       task.start();
       expect(handler).not.toHaveBeenCalled();
-      observable.next({ type: 'result', result: 42 });
+      observable.next({
+        type: 'result',
+        result: 42
+      });
       expect(handler).toHaveBeenCalledWith(42);
     });
-
     it('calls onStatusChange callbacks for status events', () => {
-      const observable = new _rxjsBundlesRxMinJs.Subject();
-      const task = (0, (_tasks || _load_tasks()).taskFromObservable)(observable);
+      const observable = new _RxMin.Subject();
+      const task = (0, _tasks().taskFromObservable)(observable);
       const handler = jest.fn();
 
       if (!(task.onStatusChange != null)) {
-        throw new Error('Invariant violation: "task.onStatusChange != null"');
+        throw new Error("Invariant violation: \"task.onStatusChange != null\"");
       }
 
       task.onStatusChange(handler);
       task.start();
       expect(handler).not.toHaveBeenCalled();
-      observable.next({ type: 'status', status: 'fine and dandy' });
+      observable.next({
+        type: 'status',
+        status: 'fine and dandy'
+      });
       expect(handler).toHaveBeenCalledWith('fine and dandy');
     });
   });
 });
 
 function createMockTask() {
-  const emitter = new (_eventKit || _load_eventKit()).Emitter();
+  const emitter = new (_eventKit().Emitter)();
   const task = {
     start: () => {},
     cancel: () => {},

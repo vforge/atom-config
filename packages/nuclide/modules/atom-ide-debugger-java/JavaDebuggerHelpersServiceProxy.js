@@ -217,6 +217,18 @@ Object.defineProperty(module.exports, "defs", {
             kind: "number"
           },
           optional: false
+        }, {
+          name: "packageName",
+          type: {
+            kind: "string"
+          },
+          optional: false
+        }, {
+          name: "deviceSerial",
+          type: {
+            kind: "string"
+          },
+          optional: false
         }]
       }
     },
@@ -225,7 +237,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JavaDebuggerHelpersService.js",
-        line: 37
+        line: 39
       },
       name: "JavaTargetConfig",
       definition: {
@@ -285,6 +297,18 @@ Object.defineProperty(module.exports, "defs", {
               kind: "number"
             },
             optional: false
+          }, {
+            name: "packageName",
+            type: {
+              kind: "string"
+            },
+            optional: false
+          }, {
+            name: "deviceSerial",
+            type: {
+              kind: "string"
+            },
+            optional: false
           }]
         }],
         discriminantField: "debugMode"
@@ -295,7 +319,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JavaDebuggerHelpersService.js",
-        line: 41
+        line: 43
       },
       name: "TerminalLaunchInfo",
       definition: {
@@ -350,13 +374,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JavaDebuggerHelpersService.js",
-        line: 56
+        line: 58
       },
       type: {
         location: {
           type: "source",
           fileName: "JavaDebuggerHelpersService.js",
-          line: 56
+          line: 58
         },
         kind: "function",
         argumentTypes: [],
@@ -373,7 +397,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "types.js",
-        line: 39
+        line: 38
       },
       name: "VSAdapterExecutableInfo",
       definition: {
@@ -402,13 +426,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JavaDebuggerHelpersService.js",
-        line: 60
+        line: 62
       },
       type: {
         location: {
           type: "source",
           fileName: "JavaDebuggerHelpersService.js",
-          line: 60
+          line: 62
         },
         kind: "function",
         argumentTypes: [{
@@ -432,13 +456,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JavaDebuggerHelpersService.js",
-        line: 69
+        line: 71
       },
       type: {
         location: {
           type: "source",
           fileName: "JavaDebuggerHelpersService.js",
-          line: 69
+          line: 71
         },
         kind: "function",
         argumentTypes: [{
@@ -463,13 +487,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JavaDebuggerHelpersService.js",
-        line: 97
+        line: 99
       },
       type: {
         location: {
           type: "source",
           fileName: "JavaDebuggerHelpersService.js",
-          line: 97
+          line: 99
         },
         kind: "function",
         argumentTypes: [{
@@ -492,13 +516,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JavaDebuggerHelpersService.js",
-        line: 117
+        line: 119
       },
       type: {
         location: {
           type: "source",
           fileName: "JavaDebuggerHelpersService.js",
-          line: 117
+          line: 119
         },
         kind: "function",
         argumentTypes: [{
@@ -521,13 +545,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "JavaDebuggerHelpersService.js",
-        line: 227
+        line: 228
       },
       type: {
         location: {
           type: "source",
           fileName: "JavaDebuggerHelpersService.js",
-          line: 227
+          line: 228
         },
         kind: "function",
         argumentTypes: [{

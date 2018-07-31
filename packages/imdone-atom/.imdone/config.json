@@ -22,50 +22,52 @@
       "READY",
       "ICEBOX",
       "INBOX",
-      "QUESTION"
+      "QUESTION",
+      "HELP"
     ]
   },
   "lists": [
     {
-      "name": "BACKLOG",
-      "hidden": true
+      "hidden": true,
+      "name": "BACKLOG"
     },
     {
-      "name": "TODO",
-      "hidden": false
-    },
-    {
-      "name": "DOING",
-      "hidden": false
-    },
-    {
-      "name": "CHANGED",
-      "hidden": true
-    },
-    {
-      "name": "DONE",
       "hidden": false,
-      "ignore": true
+      "name": "TODO"
+    },
+    {
+      "hidden": false,
+      "name": "DOING"
+    },
+    {
+      "hidden": true,
+      "name": "CHANGED"
+    },
+    {
+      "ignore": true,
+      "hidden": false,
+      "name": "DONE"
     }
   ],
   "marked": {
-    "gfm": true,
-    "tables": true,
-    "breaks": false,
-    "pedantic": false,
+    "langPrefix": "language-",
     "smartLists": true,
-    "langPrefix": "language-"
+    "pedantic": false,
+    "breaks": false,
+    "tables": true,
+    "gfm": true
   },
   "sync": {
-    "id": "5a11044eb01d742c3c4f516a",
+    "useImdoneioForPriority": true,
     "name": "imdone/imdone-atom",
-    "useImdoneioForPriority": true
+    "id": "5a11044eb01d742c3c4f516a"
   },
+  "noHelp": true,
   "meta": {
     "gh": {
-      "urlTemplate": "https://github.com/imdone/imdone-atom/issues/%s",
+      "icon": "icon-octoface",
       "titleTemplate": "View github issue %s",
-      "icon": "icon-octoface"
+      "urlTemplate": "https://github.com/imdone/imdone-atom/issues/%s"
     }
   }
 }

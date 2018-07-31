@@ -1,23 +1,30 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TypeCoverageProvider = undefined;
+exports.TypeCoverageProvider = void 0;
 
-var _nuclideRemoteConnection;
+function _nuclideRemoteConnection() {
+  const data = require("../../nuclide-remote-connection");
 
-function _load_nuclideRemoteConnection() {
-  return _nuclideRemoteConnection = require('../../nuclide-remote-connection');
+  _nuclideRemoteConnection = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideAnalytics;
+function _nuclideAnalytics() {
+  const data = require("../../nuclide-analytics");
 
-function _load_nuclideAnalytics() {
-  return _nuclideAnalytics = require('../../nuclide-analytics');
+  _nuclideAnalytics = function () {
+    return data;
+  };
+
+  return data;
 }
 
-// Provides Diagnostics for un-typed regions of Hack code.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -28,9 +35,8 @@ function _load_nuclideAnalytics() {
  *  strict-local
  * @format
  */
-
+// Provides Diagnostics for un-typed regions of Hack code.
 class TypeCoverageProvider {
-
   constructor(name, selector, priority, analyticsEventName, icon, connectionToLanguageService) {
     this.displayName = name;
     this.priority = priority;
@@ -39,6 +45,7 @@ class TypeCoverageProvider {
     this._analyticsEventName = analyticsEventName;
     this._connectionToLanguageService = connectionToLanguageService;
     this._onToggleValue = false;
+
     this._connectionToLanguageService.observeValues().subscribe(async languageService => {
       const ls = await languageService;
       ls.onToggleCoverage(this._onToggleValue);
@@ -50,8 +57,9 @@ class TypeCoverageProvider {
   }
 
   async getCoverage(path) {
-    return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)(this._analyticsEventName, async () => {
+    return (0, _nuclideAnalytics().trackTiming)(this._analyticsEventName, async () => {
       const languageService = this._connectionToLanguageService.getForUri(path);
+
       if (languageService == null) {
         return null;
       }
@@ -67,5 +75,7 @@ class TypeCoverageProvider {
       ls.onToggleCoverage(on);
     }));
   }
+
 }
+
 exports.TypeCoverageProvider = TypeCoverageProvider;

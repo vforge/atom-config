@@ -1,17 +1,32 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _DebuggerInterface;
+function _DebuggerInterface() {
+  const data = require("./DebuggerInterface");
 
-function _load_DebuggerInterface() {
-  return _DebuggerInterface = require('./DebuggerInterface');
+  _DebuggerInterface = function () {
+    return data;
+  };
+
+  return data;
 }
 
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ *  strict-local
+ * @format
+ */
 class VariablesCommand {
-
   constructor(con, debug) {
     this.name = 'variables';
     this.helpText = '[scope] Display variables of the current stack frame, optionally for a single scope.';
@@ -32,7 +47,6 @@ type.
 You can use the 'backtrace' command to set the selected stack frame. By default,
 when the program stops the most recent frame will be selected.
   `;
-
     this._console = con;
     this._debugger = debug;
   }
@@ -43,32 +57,30 @@ when the program stops the most recent frame will be selected.
     }
 
     const variables = await this._debugger.getVariables(args[0]);
+
     for (const scope of variables) {
       const vars = scope.variables;
+
       if (scope.expensive && vars == null) {
         this._console.outputLine();
+
         this._console.outputLine(`Variables in scope '${scope.scopeName}' have been elided as they are expensive`);
 
         this._console.outputLine(`to evaluate. Use 'variables ${scope.scopeName}' to see them.`);
-        return;
+
+        continue;
       }
 
       if (vars != null) {
         this._console.outputLine();
+
         this._console.outputLine(`Variables in scope '${scope.scopeName}':`);
+
         vars.forEach(v => this._console.outputLine(`${v.name} => ${v.value}`));
       }
     }
   }
+
 }
-exports.default = VariablesCommand; /**
-                                     * Copyright (c) 2017-present, Facebook, Inc.
-                                     * All rights reserved.
-                                     *
-                                     * This source code is licensed under the BSD-style license found in the
-                                     * LICENSE file in the root directory of this source tree. An additional grant
-                                     * of patent rights can be found in the PATENTS file in the same directory.
-                                     *
-                                     *  strict-local
-                                     * @format
-                                     */
+
+exports.default = VariablesCommand;

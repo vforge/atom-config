@@ -1,105 +1,163 @@
-'use strict';
+"use strict";
 
-var _simpleTextBuffer;
+function _astToOutline() {
+  const data = require("../lib/astToOutline");
 
-function _load_simpleTextBuffer() {
-  return _simpleTextBuffer = require('simple-text-buffer');
+  _astToOutline = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _astToOutline;
+function _classAstOld() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/class-ast-old.json"));
 
-function _load_astToOutline() {
-  return _astToOutline = require('../lib/astToOutline');
+  _classAstOld = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _classAstOld;
+function _classAstV() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/class-ast-v0.34.json"));
 
-function _load_classAstOld() {
-  return _classAstOld = _interopRequireDefault(require('../__mocks__/fixtures/class-ast-old.json'));
+  _classAstV = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _classAstV;
+function _jasmineAstOld() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/jasmine-ast-old.json"));
 
-function _load_classAstV() {
-  return _classAstV = _interopRequireDefault(require('../__mocks__/fixtures/class-ast-v0.34.json'));
+  _jasmineAstOld = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _jasmineAstOld;
+function _jasmineAstV() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/jasmine-ast-v0.34.json"));
 
-function _load_jasmineAstOld() {
-  return _jasmineAstOld = _interopRequireDefault(require('../__mocks__/fixtures/jasmine-ast-old.json'));
+  _jasmineAstV = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _jasmineAstV;
+function _toplevelAstOld() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/toplevel-ast-old.json"));
 
-function _load_jasmineAstV() {
-  return _jasmineAstV = _interopRequireDefault(require('../__mocks__/fixtures/jasmine-ast-v0.34.json'));
+  _toplevelAstOld = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _toplevelAstOld;
+function _toplevelAstV() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/toplevel-ast-v0.34.json"));
 
-function _load_toplevelAstOld() {
-  return _toplevelAstOld = _interopRequireDefault(require('../__mocks__/fixtures/toplevel-ast-old.json'));
+  _toplevelAstV = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _toplevelAstV;
+function _exportsAstOld() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/exports-ast-old.json"));
 
-function _load_toplevelAstV() {
-  return _toplevelAstV = _interopRequireDefault(require('../__mocks__/fixtures/toplevel-ast-v0.34.json'));
+  _exportsAstOld = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _exportsAstOld;
+function _exportsAstV() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/exports-ast-v0.34.json"));
 
-function _load_exportsAstOld() {
-  return _exportsAstOld = _interopRequireDefault(require('../__mocks__/fixtures/exports-ast-old.json'));
+  _exportsAstV = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _exportsAstV;
+function _exportsClassAst() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/exports-class-ast.json"));
 
-function _load_exportsAstV() {
-  return _exportsAstV = _interopRequireDefault(require('../__mocks__/fixtures/exports-ast-v0.34.json'));
+  _exportsClassAst = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _exportsClassAst;
+function _exportDefaultArrowFuncV() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/export-default-arrow-func-v0.34.json"));
 
-function _load_exportsClassAst() {
-  return _exportsClassAst = _interopRequireDefault(require('../__mocks__/fixtures/exports-class-ast.json'));
+  _exportDefaultArrowFuncV = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _exportDefaultArrowFuncV;
+function _exportDefaultAnonymousFuncV() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/export-default-anonymous-func-v0.34.json"));
 
-function _load_exportDefaultArrowFuncV() {
-  return _exportDefaultArrowFuncV = _interopRequireDefault(require('../__mocks__/fixtures/export-default-arrow-func-v0.34.json'));
+  _exportDefaultAnonymousFuncV = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _exportDefaultAnonymousFuncV;
+function _typesAstOld() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/types-ast-old.json"));
 
-function _load_exportDefaultAnonymousFuncV() {
-  return _exportDefaultAnonymousFuncV = _interopRequireDefault(require('../__mocks__/fixtures/export-default-anonymous-func-v0.34.json'));
+  _typesAstOld = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _typesAstOld;
+function _typesAstV() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/types-ast-v0.34.json"));
 
-function _load_typesAstOld() {
-  return _typesAstOld = _interopRequireDefault(require('../__mocks__/fixtures/types-ast-old.json'));
+  _typesAstV = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _typesAstV;
+function _declareAst() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/declare-ast.json"));
 
-function _load_typesAstV() {
-  return _typesAstV = _interopRequireDefault(require('../__mocks__/fixtures/types-ast-v0.34.json'));
+  _declareAst = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _declareAst;
+function _interfacesAst() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/interfaces-ast.json"));
 
-function _load_declareAst() {
-  return _declareAst = _interopRequireDefault(require('../__mocks__/fixtures/declare-ast.json'));
-}
+  _interfacesAst = function () {
+    return data;
+  };
 
-var _interfacesAst;
-
-function _load_interfacesAst() {
-  return _interfacesAst = _interopRequireDefault(require('../__mocks__/fixtures/interfaces-ast.json'));
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -113,52 +171,45 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * 
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('astToOutline', () => {
   it('should provide a class outline', () => {
     // Old version
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_classAstOld || _load_classAstOld()).default).outlineTrees).toMatchSnapshot();
-    // Newer, introduced AssignmentPattern for default function args (v0.33), made a bunch of other
+    expect((0, _astToOutline().astToOutline)(_classAstOld().default).outlineTrees).toMatchSnapshot(); // Newer, introduced AssignmentPattern for default function args (v0.33), made a bunch of other
     // changes (v0.34)
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_classAstV || _load_classAstV()).default).outlineTrees).toMatchSnapshot();
-  });
 
+    expect((0, _astToOutline().astToOutline)(_classAstV().default).outlineTrees).toMatchSnapshot();
+  });
   it('should provide an outline for miscellaneous top-level statements', () => {
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_toplevelAstOld || _load_toplevelAstOld()).default).outlineTrees).toMatchSnapshot();
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_toplevelAstV || _load_toplevelAstV()).default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_toplevelAstOld().default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_toplevelAstV().default).outlineTrees).toMatchSnapshot();
   });
-
   it('should provide an outline for Jasmine specs', () => {
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_jasmineAstOld || _load_jasmineAstOld()).default).outlineTrees).toMatchSnapshot();
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_jasmineAstV || _load_jasmineAstV()).default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_jasmineAstOld().default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_jasmineAstV().default).outlineTrees).toMatchSnapshot();
   });
-
   it('should provide an outline for module.exports', () => {
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_exportsAstOld || _load_exportsAstOld()).default).outlineTrees).toMatchSnapshot();
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_exportsAstV || _load_exportsAstV()).default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_exportsAstOld().default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_exportsAstV().default).outlineTrees).toMatchSnapshot();
   });
-
   it('should provide an outline for module.exports class expression assignments', () => {
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_exportsClassAst || _load_exportsClassAst()).default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_exportsClassAst().default).outlineTrees).toMatchSnapshot();
   });
-
   it('should provide an outline for type declarations', () => {
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_typesAstOld || _load_typesAstOld()).default).outlineTrees).toMatchSnapshot();
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_typesAstV || _load_typesAstV()).default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_typesAstOld().default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_typesAstV().default).outlineTrees).toMatchSnapshot();
   });
-
   it('should provide an outline for export default () => {}', () => {
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_exportDefaultArrowFuncV || _load_exportDefaultArrowFuncV()).default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_exportDefaultArrowFuncV().default).outlineTrees).toMatchSnapshot();
   });
-
   it('should provide an outline for export default function() {}', () => {
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_exportDefaultAnonymousFuncV || _load_exportDefaultAnonymousFuncV()).default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_exportDefaultAnonymousFuncV().default).outlineTrees).toMatchSnapshot();
   });
   it('should provide an outline for declare class, declare module and declare function', () => {
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_declareAst || _load_declareAst()).default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_declareAst().default).outlineTrees).toMatchSnapshot();
   });
   it('should provide an outline with interface declarations', () => {
-    expect((0, (_astToOutline || _load_astToOutline()).astToOutline)((_interfacesAst || _load_interfacesAst()).default).outlineTrees).toMatchSnapshot();
+    expect((0, _astToOutline().astToOutline)(_interfacesAst().default).outlineTrees).toMatchSnapshot();
   });
 });

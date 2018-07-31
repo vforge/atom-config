@@ -1,9 +1,13 @@
-'use strict';
+"use strict";
 
-var _TypedRegions;
+function _TypedRegions() {
+  const data = require("../lib/TypedRegions");
 
-function _load_TypedRegions() {
-  return _TypedRegions = require('../lib/TypedRegions');
+  _TypedRegions = function () {
+    return data;
+  };
+
+  return data;
 }
 
 /**
@@ -15,15 +19,14 @@ function _load_TypedRegions() {
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 function runTest(regions, expectedPercentage, ...expected) {
-  const result = (0, (_TypedRegions || _load_TypedRegions()).convertTypedRegionsToCoverageResult)(regions);
+  const result = (0, _TypedRegions().convertTypedRegionsToCoverageResult)(regions);
 
   if (!(result != null)) {
-    throw new Error('Invariant violation: "result != null"');
-  }
-  // Use floor since that's what will happen when it's displayed
+    throw new Error("Invariant violation: \"result != null\"");
+  } // Use floor since that's what will happen when it's displayed
 
 
   expect(Math.floor(result.percentage)).toEqual(expectedPercentage);
@@ -54,14 +57,12 @@ describe('convertTypedRegionsToCoverageRegions', () => {
   it('empty array', () => {
     runTest([], 100);
   });
-
   it('empty string', () => {
     runTest([{
       color: 'unchecked',
       text: ''
     }], 100);
   });
-
   it('simple error', () => {
     runTestError([{
       color: 'unchecked',
@@ -72,7 +73,6 @@ describe('convertTypedRegionsToCoverageRegions', () => {
       end: 4
     });
   });
-
   it('simple warning', () => {
     runTestWarning([{
       color: 'partial',
@@ -83,7 +83,6 @@ describe('convertTypedRegionsToCoverageRegions', () => {
       end: 4
     });
   });
-
   it('simple message w/ offset', () => {
     runTestError([{
       color: 'checked',
@@ -97,7 +96,6 @@ describe('convertTypedRegionsToCoverageRegions', () => {
       end: 9
     });
   });
-
   it('simple message w/ multi-line offset', () => {
     runTestError([{
       color: 'checked',
@@ -111,7 +109,6 @@ describe('convertTypedRegionsToCoverageRegions', () => {
       end: 16
     });
   });
-
   it('simple message w/ multi-line offset endling in newline', () => {
     runTestError([{
       color: 'checked',
@@ -125,7 +122,6 @@ describe('convertTypedRegionsToCoverageRegions', () => {
       end: 4
     });
   });
-
   it('multi-line error', () => {
     runTestError([{
       color: 'unchecked',
@@ -140,7 +136,6 @@ describe('convertTypedRegionsToCoverageRegions', () => {
       end: 10
     });
   });
-
   it('blank-lines error', () => {
     runTestError([{
       color: 'unchecked',
@@ -155,7 +150,6 @@ describe('convertTypedRegionsToCoverageRegions', () => {
       end: 10
     });
   });
-
   it('contiguous errors are merged', () => {
     runTestError([{
       color: 'unchecked',
@@ -169,7 +163,6 @@ describe('convertTypedRegionsToCoverageRegions', () => {
       end: 9
     });
   });
-
   it('should not count default regions in the percentage', () => {
     runTestError([{
       color: 'unchecked',

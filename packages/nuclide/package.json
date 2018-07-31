@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118527-85928-1bnghi9.3b8b2zkt9/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118626-39682-vuzpcj.7buegvte29/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118527-85928-1bnghi9.3b8b2zkt9/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118527-85928-1bnghi9.3b8b2zkt9/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118626-39682-vuzpcj.7buegvte29/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118626-39682-vuzpcj.7buegvte29/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118527-85928-ms2nmq.8dw4hg2e29"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118626-39682-1q8hvt0.b8hmgc766r"
     ]
   ],
-  "_from": "../d-118527-85928-1bnghi9.3b8b2zkt9/package.tgz",
-  "_id": "nuclide@0.319.0",
+  "_from": "../d-118626-39682-vuzpcj.7buegvte29/package.tgz",
+  "_id": "nuclide@0.327.0",
   "_inCache": true,
   "_location": "/nuclide",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118527-85928-1bnghi9.3b8b2zkt9/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118626-39682-vuzpcj.7buegvte29/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118527-85928-1bnghi9.3b8b2zkt9/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118527-85928-1bnghi9.3b8b2zkt9/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118626-39682-vuzpcj.7buegvte29/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118626-39682-vuzpcj.7buegvte29/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118527-85928-1bnghi9.3b8b2zkt9/package.tgz",
-  "_shasum": "df7a6c181a27287ea3a5454d2dc4c69fb9e57369",
+  "_resolved": "file:../d-118626-39682-vuzpcj.7buegvte29/package.tgz",
+  "_shasum": "61142692de05df044af6c4173ad048cd6bf2318d",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118527-85928-1bnghi9.3b8b2zkt9/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118527-85928-ms2nmq.8dw4hg2e29",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118626-39682-vuzpcj.7buegvte29/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118626-39682-1q8hvt0.b8hmgc766r",
   "atomTestRunner": "./lib/test-runner-entry.js",
   "bin": {
     "nuclide-start-server": "./pkg/nuclide-server/nuclide-start-server"
@@ -43,14 +43,14 @@
     "url": "https://github.com/facebook/nuclide/issues"
   },
   "dependencies": {
-    "@babel/traverse": "7.0.0-beta.44",
-    "@babel/types": "7.0.0-beta.44",
+    "@babel/parser": "7.0.0-beta.48",
+    "@babel/traverse": "7.0.0-beta.48",
+    "@babel/types": "7.0.0-beta.48",
     "adm-zip": "0.4.7",
     "anser": "1.4.6",
     "ansi-to-react": "2.0.6",
     "arch": "2.1.0",
     "atom-package-deps": "4.6.0",
-    "babylon": "7.0.0-beta.44",
     "big-integer": "1.6.17",
     "bplist-parser": "0.1.1",
     "chalk": "1.1.3",
@@ -74,6 +74,7 @@
     "event-kit": "2.2.0",
     "event-target-shim": "3.0.1",
     "fb-watchman": "2.0.0",
+    "fix-path": "2.1.0",
     "flatten-source-map": "0.0.2",
     "fs-extra": "4.0.3",
     "fs-plus": "2.9.3",
@@ -91,11 +92,11 @@
     "ini": "1.3.4",
     "invariant": "2.2.2",
     "inversify": "4.11.1",
-    "js-yaml": "3.9.1",
+    "js-yaml": "3.11.0",
     "json-stringify-safe": "5.0.1",
     "less-cache": "1.1.0",
     "line-by-line": "0.1.5",
-    "lodash": "4.17.4",
+    "lodash": "4.17.10",
     "log4js": "1.1.1",
     "lru-cache": "4.0.2",
     "marked": "0.3.9",
@@ -105,17 +106,17 @@
     "mkdirp": "0.5.1",
     "mv": "2.1.1",
     "node-fetch": "1.6.3",
-    "nuclide-prebuilt-libs": "0.5.1",
+    "nuclide-prebuilt-libs": "0.5.2",
     "nullthrows": "1.0.0",
     "plist": "2.0.1",
     "q": "1.4.1",
     "queue-fifo": "0.2.4",
-    "react": "16.3.2",
+    "react": "16.4.1",
     "react-devtools-core": "3.1.0",
-    "react-dom": "16.3.2",
+    "react-dom": "16.4.1",
     "react-redux": "5.0.6",
     "react-relay": "1.6.0",
-    "react-virtualized": "9.13.0",
+    "react-virtualized": "9.18.5",
     "read": "1.0.7",
     "redux": "3.6.0",
     "redux-logger": "3.0.6",
@@ -161,21 +162,21 @@
     "vscode-uri": "1.0.1",
     "ws": "3.2.0",
     "xml2js": "0.4.17",
-    "xterm": "3.4.1",
+    "xterm": "3.5.1",
     "yargs": "3.32.0"
   },
   "description": "A unified developer experience for web and mobile development, built as a suite of features on top of Atom to provide hackability and the support of an active community.",
   "devDependencies": {
-    "@babel/generator": "7.0.0-beta.44",
+    "@babel/generator": "7.0.0-beta.48",
     "atom-grammar-test": "0.6.3",
-    "eslint": "4.9.0",
+    "eslint": "5.1.0",
     "eslint-plugin-dependencies": "2.4.0",
     "eslint-plugin-flowtype": "2.39.1",
     "eslint-plugin-jasmine": "2.9.1",
     "eslint-plugin-jsx-a11y": "6.0.2",
     "eslint-plugin-prefer-object-spread": "1.2.1",
     "eslint-plugin-prettier": "2.3.1",
-    "eslint-plugin-react": "7.4.0",
+    "eslint-plugin-react": "7.9.1",
     "eslint-plugin-unicorn": "4.0.3",
     "flow-bin": "0.75.0",
     "jasmine-node": "1.14.5",
@@ -186,9 +187,8 @@
     "mock-spawn": "0.2.6",
     "node-ipc": "9.1.1",
     "nyc": "11.2.1",
-    "prettier": "1.13.4",
+    "prettier": "1.13.6",
     "relay-compiler": "1.6.0",
-    "sabor": "0.9.0",
     "touch": "1.0.0",
     "webfonts-generator": "0.3.5"
   },
@@ -220,7 +220,7 @@
   "name": "nuclide",
   "optionalDependencies": {},
   "package-deps": [
-    "file-icons:2.1.21",
+    "file-icons",
     "tool-bar",
     "highlight-selected",
     "language-babel",
@@ -257,7 +257,7 @@
     "method": "handleURI",
     "deferActivation": false
   },
-  "version": "0.319.0",
+  "version": "0.327.0",
   "warnings": [
     {
       "code": "ENOTSUP",
@@ -265,7 +265,7 @@
         "atom": ">=1.27.0",
         "node": ">=7.9.0"
       },
-      "pkgid": "nuclide@0.319.0"
+      "pkgid": "nuclide@0.327.0"
     },
     {
       "code": "ENOTSUP",
@@ -273,7 +273,7 @@
         "atom": ">=1.27.0",
         "node": ">=7.9.0"
       },
-      "pkgid": "nuclide@0.319.0"
+      "pkgid": "nuclide@0.327.0"
     }
   ],
   "workspaces": [

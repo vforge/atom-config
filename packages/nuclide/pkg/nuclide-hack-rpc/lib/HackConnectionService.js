@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -11,14 +11,6 @@ exports.getCompletions = getCompletions;
 exports.notifyDiagnostics = notifyDiagnostics;
 exports.disconnect = disconnect;
 
-
-// Inidicates that the file has been opened by the IDE.
-// Hack should get its source of truth for the file from
-// didChangeFile notifications until didCloseFile is seen.
-
-
-// end is exclusive, so start == end implies a 0 length range.
-// end must be >= start.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -29,33 +21,31 @@ exports.disconnect = disconnect;
  * 
  * @format
  */
-
-function didOpenFile(filename, version, contents) {
-  throw new Error('RPC stub');
-}
-
-// The version number corresponds to the contents of the file after
-// all changes have been applied.
-
-
+// Note that all line/column values are 1-based.
+// end is exclusive, so start == end implies a 0 length range.
+// end must be >= start.
 // Indicates that the text at range in the file has been
 // replaced by text. If range is null, then the new file contents
 // is set to text.
 // inserts are represented as ranges with start == end.
+// Inidicates that the file has been opened by the IDE.
+// Hack should get its source of truth for the file from
+// didChangeFile notifications until didCloseFile is seen.
+function didOpenFile(filename, version, contents) {
+  throw new Error('RPC stub');
+} // The version number corresponds to the contents of the file after
+// all changes have been applied.
 
 
-// Note that all line/column values are 1-based.
 function didChangeFile(filename, version, changes) {
   throw new Error('RPC stub');
-}
-
-// Indicates that the file has been closed by the IDE.
+} // Indicates that the file has been closed by the IDE.
 // Hack should get its source of truth for the file from the file system.
+
+
 function didCloseFile(filename) {
   throw new Error('RPC stub');
-}
-
-// Created indicates that a new file has been added to the Hack project.
+} // Created indicates that a new file has been added to the Hack project.
 //
 // Changed indicates that the IDE has noticed that a non-open file has
 // been modified. It is provided to Hack purely for informational purposes.
@@ -79,9 +69,9 @@ function getCompletions(filename, position) {
 
 function notifyDiagnostics() {
   throw new Error('RPC stub');
-}
+} // Gracefully terminates the connection.
 
-// Gracefully terminates the connection.
+
 function disconnect() {
   throw new Error('RPC stub');
 }

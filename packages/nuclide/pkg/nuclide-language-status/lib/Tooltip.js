@@ -1,26 +1,41 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _nullthrows;
+function _nullthrows() {
+  const data = _interopRequireDefault(require("nullthrows"));
 
-function _load_nullthrows() {
-  return _nullthrows = _interopRequireDefault(require('nullthrows'));
+  _nullthrows = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _react = _interopRequireWildcard(require('react'));
+var React = _interopRequireWildcard(require("react"));
 
-var _reactDom = _interopRequireDefault(require('react-dom'));
+var _reactDom = _interopRequireDefault(require("react-dom"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
 // Higher order component class for rendering a stylable hover tooltip.
 const makeTooltip = TooltipComponent => {
-  class HigherOrderTooltip extends _react.Component {
+  class HigherOrderTooltip extends React.Component {
     constructor(...args) {
       var _temp;
 
@@ -40,15 +55,21 @@ const makeTooltip = TooltipComponent => {
           trigger: 'manual'
         });
         const tooltip = this.props.parentRef != null ? atom.tooltips.tooltips.get(this.props.parentRef) : null;
+
         if (tooltip != null && tooltip[0] != null) {
           const tooltipRoot = tooltip[0].getTooltipElement();
-          this.setState({ tooltipRoot });
+          this.setState({
+            tooltipRoot
+          });
         }
       }, this._hideTooltip = () => {
         if (this._tooltipDisposable != null) {
-          (0, (_nullthrows || _load_nullthrows()).default)(this._tooltipDisposable).dispose();
+          (0, _nullthrows().default)(this._tooltipDisposable).dispose();
         }
-        this.setState({ tooltipRoot: null });
+
+        this.setState({
+          tooltipRoot: null
+        });
         this._tooltipDisposable = null;
       }, _temp;
     }
@@ -62,12 +83,16 @@ const makeTooltip = TooltipComponent => {
     }
 
     componentDidUpdate(prevProps) {
-      const { parentRef: prevParentRef } = prevProps;
-      const { parentRef } = this.props;
+      const {
+        parentRef: prevParentRef
+      } = prevProps;
+      const {
+        parentRef
+      } = this.props; // Re-render tooltip if the parent element changed.
 
-      // Re-render tooltip if the parent element changed.
       if (prevParentRef !== parentRef) {
         this._hideTooltip();
+
         this._showTooltip();
       }
     }
@@ -82,7 +107,8 @@ const makeTooltip = TooltipComponent => {
       // Use createPortal() here to render the TooltipComponent into the
       // "tooltip-inner" div.
       const container = this._getContainer();
-      return container == null ? null : _reactDom.default.createPortal(_react.createElement(TooltipComponent, Object.assign({
+
+      return container == null ? null : _reactDom.default.createPortal(React.createElement(TooltipComponent, Object.assign({
         tooltipRoot: this.state.tooltipRoot,
         showTooltip: this._showTooltip,
         hideTooltip: this._hideTooltip
@@ -96,15 +122,7 @@ const makeTooltip = TooltipComponent => {
   }
 
   return HigherOrderTooltip;
-}; /**
-    * Copyright (c) 2015-present, Facebook, Inc.
-    * All rights reserved.
-    *
-    * This source code is licensed under the license found in the LICENSE file in
-    * the root directory of this source tree.
-    *
-    * 
-    * @format
-    */
+};
 
-exports.default = makeTooltip;
+var _default = makeTooltip;
+exports.default = _default;

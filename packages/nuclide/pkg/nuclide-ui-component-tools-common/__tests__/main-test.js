@@ -1,21 +1,33 @@
-'use strict';
+"use strict";
 
-var _;
+function _() {
+  const data = require("..");
 
-function _load_() {
-  return _ = require('..');
+  _ = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _uiComponentAst;
+function _uiComponentAst() {
+  const data = require("../lib/uiComponentAst");
 
-function _load_uiComponentAst() {
-  return _uiComponentAst = require('../lib/uiComponentAst');
+  _uiComponentAst = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _common;
+function _common() {
+  const data = require("../__mocks__/common");
 
-function _load_common() {
-  return _common = require('../__mocks__/common');
+  _common = function () {
+    return data;
+  };
+
+  return data;
 }
 
 /**
@@ -27,34 +39,33 @@ function _load_common() {
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('getComponentNameFromUri', () => {
   it('returns null', () => {
-    expect((0, (_uiComponentAst || _load_uiComponentAst()).getComponentNameFromUri)('')).toBeNull();
+    expect((0, _uiComponentAst().getComponentNameFromUri)('')).toBeNull();
   });
-
   it('returns a component name', () => {
-    expect((0, (_uiComponentAst || _load_uiComponentAst()).getComponentNameFromUri)('/foo/bar/Component.react.js')).toBe('Component');
+    expect((0, _uiComponentAst().getComponentNameFromUri)('/foo/bar/Component.react.js')).toBe('Component');
   });
-
-  it('returns a component name for identity path', () => {
-    expect((0, (_uiComponentAst || _load_uiComponentAst()).getComponentNameFromUri)('Component')).toBe('Component');
+  it('returns null for invalid path', () => {
+    expect((0, _uiComponentAst().getComponentNameFromUri)('Component')).toBeNull();
+    expect((0, _uiComponentAst().getComponentNameFromUri)('Component.react.example.js')).toBeNull();
+    expect((0, _uiComponentAst().getComponentNameFromUri)('Component.js')).toBeNull();
   });
 });
-
 describe('getComponentDefinitionFromAst', () => {
   it('returns a valid component definition', () => {
-    const ast = (0, (_uiComponentAst || _load_uiComponentAst()).parseCode)((_common || _load_common()).BASIC_FDSTEST_COMPONENT_WITH_PROPS_SOURCE);
+    const ast = (0, _uiComponentAst().parseCode)(_common().BASIC_FDSTEST_COMPONENT_WITH_PROPS_SOURCE);
 
     if (!ast) {
-      throw new Error('Invariant violation: "ast"');
+      throw new Error("Invariant violation: \"ast\"");
     }
 
-    const definition = (0, (_ || _load_()).getComponentDefinitionFromAst)('foo/bar/FDSTest.react.js', ast);
+    const definition = (0, _().getComponentDefinitionFromAst)('foo/bar/FDSTest.react.js', ast);
 
     if (!definition) {
-      throw new Error('Invariant violation: "definition"');
+      throw new Error("Invariant violation: \"definition\"");
     }
 
     expect(definition.name).toBe('FDSTest');

@@ -1076,6 +1076,114 @@ module.exports = _client => {
       });
     }
 
+    onWillSave(arg0) {
+      return _client.callRemoteMethod(_client.marshal(this, {
+        kind: "named",
+        location: {
+          type: "source",
+          fileName: "FlowService.js",
+          line: 214
+        },
+        name: "FlowLanguageServiceType"
+      }), "onWillSave", "observable", _client.marshalArguments(Array.from(arguments), [{
+        name: "fileVersion",
+        type: {
+          kind: "named",
+          name: "FileVersion"
+        }
+      }])).map(value => {
+        return _client.unmarshal(value, {
+          kind: "named",
+          name: "TextEdit"
+        });
+      }).publish();
+    }
+
+    sendLspRequest(arg0, arg1, arg2) {
+      return _client.callRemoteMethod(_client.marshal(this, {
+        kind: "named",
+        location: {
+          type: "source",
+          fileName: "FlowService.js",
+          line: 214
+        },
+        name: "FlowLanguageServiceType"
+      }), "sendLspRequest", "promise", _client.marshalArguments(Array.from(arguments), [{
+        name: "filePath",
+        type: {
+          kind: "named",
+          name: "NuclideUri"
+        }
+      }, {
+        name: "method",
+        type: {
+          kind: "string"
+        }
+      }, {
+        name: "params",
+        type: {
+          kind: "mixed"
+        }
+      }])).then(value => {
+        return _client.unmarshal(value, {
+          kind: "mixed"
+        });
+      });
+    }
+
+    sendLspNotification(arg0, arg1, arg2) {
+      return _client.callRemoteMethod(_client.marshal(this, {
+        kind: "named",
+        location: {
+          type: "source",
+          fileName: "FlowService.js",
+          line: 214
+        },
+        name: "FlowLanguageServiceType"
+      }), "sendLspNotification", "promise", _client.marshalArguments(Array.from(arguments), [{
+        name: "filePath",
+        type: {
+          kind: "named",
+          name: "NuclideUri"
+        }
+      }, {
+        name: "method",
+        type: {
+          kind: "string"
+        }
+      }, {
+        name: "params",
+        type: {
+          kind: "mixed"
+        }
+      }])).then(value => {
+        return _client.unmarshal(value, {
+          kind: "void"
+        });
+      });
+    }
+
+    observeLspNotifications(arg0) {
+      return _client.callRemoteMethod(_client.marshal(this, {
+        kind: "named",
+        location: {
+          type: "source",
+          fileName: "FlowService.js",
+          line: 214
+        },
+        name: "FlowLanguageServiceType"
+      }), "observeLspNotifications", "observable", _client.marshalArguments(Array.from(arguments), [{
+        name: "notificationMethod",
+        type: {
+          kind: "string"
+        }
+      }])).map(value => {
+        return _client.unmarshal(value, {
+          kind: "mixed"
+        });
+      }).publish();
+    }
+
     dispose() {
       return _client.disposeRemoteObject(this);
     }
@@ -1092,7 +1200,7 @@ module.exports = _client => {
         location: {
           type: "source",
           fileName: "rpc-types.js",
-          line: 66
+          line: 71
         },
         name: "Progress"
       }), "setTitle", "void", _client.marshalArguments(Array.from(arguments), [{
@@ -1328,6 +1436,46 @@ module.exports = _client => {
               name: "TextEdit"
             }
           }
+        }
+      }])).then(value => {
+        return _client.unmarshal(value, {
+          kind: "boolean"
+        });
+      });
+    }
+
+    dispatchCommand(arg0, arg1) {
+      return _client.callRemoteMethod(_client.marshal(this, {
+        kind: "named",
+        location: {
+          type: "source",
+          fileName: "rpc-types.js",
+          line: 20
+        },
+        name: "HostServices"
+      }), "dispatchCommand", "promise", _client.marshalArguments(Array.from(arguments), [{
+        name: "command",
+        type: {
+          kind: "string"
+        }
+      }, {
+        name: "params",
+        type: {
+          kind: "object",
+          fields: [{
+            name: "args",
+            type: {
+              kind: "any"
+            },
+            optional: false
+          }, {
+            name: "projectRoot",
+            type: {
+              kind: "named",
+              name: "NuclideUri"
+            },
+            optional: false
+          }]
         }
       }])).then(value => {
         return _client.unmarshal(value, {
@@ -1935,6 +2083,12 @@ Object.defineProperty(module.exports, "defs", {
             kind: "boolean"
           },
           optional: true
+        }, {
+          name: "code",
+          type: {
+            kind: "number"
+          },
+          optional: true
         }]
       }
     },
@@ -1943,7 +2097,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "LanguageService.js",
-        line: 123
+        line: 124
       },
       name: "FileDiagnosticMap",
       definition: {
@@ -3199,7 +3353,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "LanguageService.js",
-        line: 124
+        line: 125
       },
       name: "CodeLensData",
       definition: {
@@ -3432,7 +3586,10 @@ Object.defineProperty(module.exports, "defs", {
         }, {
           name: "documentation",
           type: {
-            kind: "string"
+            kind: "nullable",
+            type: {
+              kind: "string"
+            }
           },
           optional: true
         }]
@@ -3457,16 +3614,22 @@ Object.defineProperty(module.exports, "defs", {
         }, {
           name: "documentation",
           type: {
-            kind: "string"
+            kind: "nullable",
+            type: {
+              kind: "string"
+            }
           },
           optional: true
         }, {
           name: "parameters",
           type: {
-            kind: "array",
+            kind: "nullable",
             type: {
-              kind: "named",
-              name: "SignatureParameter"
+              kind: "array",
+              type: {
+                kind: "named",
+                name: "SignatureParameter"
+              }
             }
           },
           optional: true
@@ -3496,13 +3659,19 @@ Object.defineProperty(module.exports, "defs", {
         }, {
           name: "activeSignature",
           type: {
-            kind: "number"
+            kind: "nullable",
+            type: {
+              kind: "number"
+            }
           },
           optional: true
         }, {
           name: "activeParameter",
           type: {
-            kind: "number"
+            kind: "nullable",
+            type: {
+              kind: "number"
+            }
           },
           optional: true
         }]
@@ -3585,7 +3754,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "LanguageService.js",
-        line: 135
+        line: 136
       },
       name: "StatusData",
       definition: {
@@ -4636,11 +4805,115 @@ Object.defineProperty(module.exports, "defs", {
             }
           }
         },
-        dispose: {
+        onWillSave: {
           location: {
             type: "source",
             fileName: "FlowService.js",
             line: 340
+          },
+          kind: "function",
+          argumentTypes: [{
+            name: "fileVersion",
+            type: {
+              kind: "named",
+              name: "FileVersion"
+            }
+          }],
+          returnType: {
+            kind: "observable",
+            type: {
+              kind: "named",
+              name: "TextEdit"
+            }
+          }
+        },
+        sendLspRequest: {
+          location: {
+            type: "source",
+            fileName: "FlowService.js",
+            line: 342
+          },
+          kind: "function",
+          argumentTypes: [{
+            name: "filePath",
+            type: {
+              kind: "named",
+              name: "NuclideUri"
+            }
+          }, {
+            name: "method",
+            type: {
+              kind: "string"
+            }
+          }, {
+            name: "params",
+            type: {
+              kind: "mixed"
+            }
+          }],
+          returnType: {
+            kind: "promise",
+            type: {
+              kind: "mixed"
+            }
+          }
+        },
+        sendLspNotification: {
+          location: {
+            type: "source",
+            fileName: "FlowService.js",
+            line: 348
+          },
+          kind: "function",
+          argumentTypes: [{
+            name: "filePath",
+            type: {
+              kind: "named",
+              name: "NuclideUri"
+            }
+          }, {
+            name: "method",
+            type: {
+              kind: "string"
+            }
+          }, {
+            name: "params",
+            type: {
+              kind: "mixed"
+            }
+          }],
+          returnType: {
+            kind: "promise",
+            type: {
+              kind: "void"
+            }
+          }
+        },
+        observeLspNotifications: {
+          location: {
+            type: "source",
+            fileName: "FlowService.js",
+            line: 354
+          },
+          kind: "function",
+          argumentTypes: [{
+            name: "notificationMethod",
+            type: {
+              kind: "string"
+            }
+          }],
+          returnType: {
+            kind: "observable",
+            type: {
+              kind: "mixed"
+            }
+          }
+        },
+        dispose: {
+          location: {
+            type: "source",
+            fileName: "FlowService.js",
+            line: 358
           },
           kind: "function",
           argumentTypes: [],
@@ -4681,7 +4954,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "rpc-types.js",
-        line: 66
+        line: 71
       },
       staticMethods: {},
       instanceMethods: {
@@ -4689,7 +4962,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 67
+            line: 72
           },
           kind: "function",
           argumentTypes: [{
@@ -4706,7 +4979,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "rpc-types.js",
-            line: 68
+            line: 73
           },
           kind: "function",
           argumentTypes: [],
@@ -4954,6 +5227,45 @@ Object.defineProperty(module.exports, "defs", {
               kind: "boolean"
             }
           }
+        },
+        dispatchCommand: {
+          location: {
+            type: "source",
+            fileName: "rpc-types.js",
+            line: 65
+          },
+          kind: "function",
+          argumentTypes: [{
+            name: "command",
+            type: {
+              kind: "string"
+            }
+          }, {
+            name: "params",
+            type: {
+              kind: "object",
+              fields: [{
+                name: "args",
+                type: {
+                  kind: "any"
+                },
+                optional: false
+              }, {
+                name: "projectRoot",
+                type: {
+                  kind: "named",
+                  name: "NuclideUri"
+                },
+                optional: false
+              }]
+            }
+          }],
+          returnType: {
+            kind: "promise",
+            type: {
+              kind: "boolean"
+            }
+          }
         }
       }
     },
@@ -5006,13 +5318,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "FlowService.js",
-        line: 343
+        line: 361
       },
       type: {
         location: {
           type: "source",
           fileName: "FlowService.js",
-          line: 343
+          line: 361
         },
         kind: "function",
         argumentTypes: [{

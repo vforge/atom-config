@@ -251,19 +251,23 @@ public class EventThread extends Thread {
     _contextManager.handleVMDeath();
 
     // There is no more VM to talk to. Kill the debug server.
-    System.exit(-1);
+    System.exit(0);
   }
 
   private void handleVMDisconnectEvent(VMDisconnectEvent event) {
     _connected = false;
     if (!_vmDied) {
+      _contextManager.sendUserMessage(
+          "VM Disconnected. This may be a result of a native crash. Use a Native debugger to investigate.",
+          Utils.UserMessageLevel.INFO);
+
       Utils.logInfo("-- The application has been disconnected --");
 
       Utils.logVerboseException(event != null ? event.toString() : "", new Throwable());
       _contextManager.handleVMDisconnect();
 
       // There is no more VM to talk to. Kill the debug server.
-      System.exit(-1);
+      System.exit(0);
     }
   }
 }

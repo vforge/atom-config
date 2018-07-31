@@ -1,27 +1,43 @@
-'use strict';
+"use strict";
 
-var _process;
+function _process() {
+  const data = require("../../../modules/nuclide-commons/process");
 
-function _load_process() {
-  return _process = require('../../../modules/nuclide-commons/process');
+  _process = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _analytics;
+function _analytics() {
+  const data = require("../../../modules/nuclide-commons/analytics");
 
-function _load_analytics() {
-  return _analytics = require('../../../modules/nuclide-commons/analytics');
+  _analytics = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _log4js;
+function _log4js() {
+  const data = _interopRequireDefault(require("log4js"));
 
-function _load_log4js() {
-  return _log4js = _interopRequireDefault(require('log4js'));
+  _log4js = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _waits_for;
+function _waits_for() {
+  const data = _interopRequireDefault(require("../../../jest/waits_for"));
 
-function _load_waits_for() {
-  return _waits_for = _interopRequireDefault(require('../../../jest/waits_for'));
+  _waits_for = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -35,26 +51,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * 
  * @format
+ * @emails oncall+nuclide
  */
-
 jest.unmock('log4js');
-
 global.NUCLIDE_DO_NOT_LOG = false;
-
 describe('processTrackingAppender', () => {
   it('captures process exits', async () => {
-    (_log4js || _load_log4js()).default.configure({
+    _log4js().default.configure({
       appenders: [{
-        type: require.resolve('../lib/processTrackingAppender'),
-        category: (_process || _load_process()).LOG_CATEGORY
+        type: require.resolve("../lib/processTrackingAppender"),
+        category: _process().LOG_CATEGORY
       }]
     });
 
-    await (0, (_process || _load_process()).runCommand)('true', ['1']).toPromise();
-
-    await (0, (_waits_for || _load_waits_for()).default)(() => (_analytics || _load_analytics()).trackSampled.mock.calls.length > 0);
-
-    expect((_analytics || _load_analytics()).trackSampled).toHaveBeenCalledWith('process-exit', 10, {
+    await (0, _process().runCommand)('true', ['1']).toPromise();
+    await (0, _waits_for().default)(() => _analytics().trackSampled.mock.calls.length > 0);
+    expect(_analytics().trackSampled).toHaveBeenCalledWith('process-exit', 10, {
       command: 'true 1',
       duration: jasmine.any(Number)
     });

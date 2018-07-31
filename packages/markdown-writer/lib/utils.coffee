@@ -15,6 +15,10 @@ escapeRegExp = (str) ->
   return "" unless str
   str.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
 
+capitalize = (str) ->
+  return "" unless str
+  str.replace /^[a-z]/, (c) -> c.toUpperCase()
+
 isUpperCase = (str) ->
   if str.length > 0 then (str[0] >= 'A' && str[0] <= 'Z')
   else false
@@ -301,6 +305,13 @@ parseInlineLink = (input) ->
     text: link[1], url: link[2], title: link[3] || ""
   else
     text: input, url: "", title: ""
+
+scanLinks = (editor, cb) ->
+  editor.buffer.scan /// #{INLINE_LINK_REGEX.source} ///g, (match) ->
+    rg = match.range
+    rg.start.column += match.match[1].length + 3 # [](
+    rg.end.column -= 1
+    cb(rg)
 
 # ==================================================
 # Reference link
@@ -648,6 +659,7 @@ findLinkInRange = (editor, range) ->
 module.exports =
   getJSON: getJSON
   escapeRegExp: escapeRegExp
+  capitalize: capitalize
   isUpperCase: isUpperCase
   incrementChars: incrementChars
   slugize: slugize
@@ -672,6 +684,7 @@ module.exports =
   isImage: isImage
   parseImage: parseImage
 
+  scanLinks: scanLinks
   isInlineLink: isInlineLink
   parseInlineLink: parseInlineLink
   isReferenceLink: isReferenceLink

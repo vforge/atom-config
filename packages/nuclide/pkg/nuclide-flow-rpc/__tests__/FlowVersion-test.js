@@ -1,28 +1,40 @@
-'use strict';
+"use strict";
 
-var _FlowVersion;
+function _FlowVersion() {
+  const data = require("../lib/FlowVersion");
 
-function _load_FlowVersion() {
-  return _FlowVersion = require('../lib/FlowVersion');
+  _FlowVersion = function () {
+    return data;
+  };
+
+  return data;
 }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ * @emails oncall+nuclide
+ */
 describe('FlowVersion', () => {
   let flowVersion = null;
   let getVersionSpy;
   let fakeVersion = null;
-
   beforeEach(() => {
     jest.useRealTimers();
     getVersionSpy = jest.fn().mockImplementation(() => Promise.resolve(fakeVersion));
-    flowVersion = new (_FlowVersion || _load_FlowVersion()).FlowVersion(getVersionSpy);
+    flowVersion = new (_FlowVersion().FlowVersion)(getVersionSpy);
   });
-
   it('should return the version the first time', async () => {
     fakeVersion = 'foo';
     expect((await flowVersion.getVersion())).toEqual('foo');
     expect(getVersionSpy.mock.calls.length).toEqual(1);
   });
-
   it('should cache versions between calls', async () => {
     fakeVersion = 'foo';
     await flowVersion.getVersion();
@@ -30,7 +42,6 @@ describe('FlowVersion', () => {
     expect((await flowVersion.getVersion())).toEqual('foo');
     expect(getVersionSpy.mock.calls.length).toEqual(1);
   });
-
   it('should properly invalidate the cached result when invalidate is called', async () => {
     fakeVersion = 'foo';
     await flowVersion.getVersion();
@@ -39,7 +50,6 @@ describe('FlowVersion', () => {
     expect((await flowVersion.getVersion())).toEqual('bar');
     expect(getVersionSpy.mock.calls.length).toEqual(2);
   });
-
   it.skip('should properly invalidate the cached result when enough time has elapsed', async () => {
     jest.useFakeTimers();
     fakeVersion = 'foo';
@@ -49,27 +59,16 @@ describe('FlowVersion', () => {
     expect((await flowVersion.getVersion())).toEqual('bar');
     expect(getVersionSpy.mock.calls.length).toEqual(2);
   });
-
   describe('satisfies', () => {
     it('work with older versions', async () => {
       fakeVersion = '0.20.0';
       const satisfies = await flowVersion.satisfies('>=0.30.0');
       expect(satisfies).toEqual(false);
     });
-
     it('work with newer versions', async () => {
       fakeVersion = '0.40.0';
       const satisfies = await flowVersion.satisfies('>=0.30.0');
       expect(satisfies).toEqual(true);
     });
   });
-}); /**
-     * Copyright (c) 2015-present, Facebook, Inc.
-     * All rights reserved.
-     *
-     * This source code is licensed under the license found in the LICENSE file in
-     * the root directory of this source tree.
-     *
-     * 
-     * @format
-     */
+});

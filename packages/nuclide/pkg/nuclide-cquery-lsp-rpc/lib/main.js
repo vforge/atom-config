@@ -1,114 +1,156 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.findNearestCompilationDbDir = findNearestCompilationDbDir;
 exports.createCqueryService = createCqueryService;
 
-var _fsPromise;
+function _fsPromise() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/fsPromise"));
 
-function _load_fsPromise() {
-  return _fsPromise = _interopRequireDefault(require('../../../modules/nuclide-commons/fsPromise'));
+  _fsPromise = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _process;
+function _process() {
+  const data = require("../../../modules/nuclide-commons/process");
 
-function _load_process() {
-  return _process = require('../../../modules/nuclide-commons/process');
+  _process = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _which;
+function _which() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/which"));
 
-function _load_which() {
-  return _which = _interopRequireDefault(require('../../../modules/nuclide-commons/which'));
+  _which = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _log4js;
+function _log4js() {
+  const data = require("log4js");
 
-function _load_log4js() {
-  return _log4js = require('log4js');
+  _log4js = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideLanguageServiceRpc;
+function _nuclideLanguageServiceRpc() {
+  const data = require("../../nuclide-language-service-rpc");
 
-function _load_nuclideLanguageServiceRpc() {
-  return _nuclideLanguageServiceRpc = require('../../nuclide-language-service-rpc');
+  _nuclideLanguageServiceRpc = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideOpenFilesRpc;
+function _nuclideOpenFilesRpc() {
+  const data = require("../../nuclide-open-files-rpc");
 
-function _load_nuclideOpenFilesRpc() {
-  return _nuclideOpenFilesRpc = require('../../nuclide-open-files-rpc');
+  _nuclideOpenFilesRpc = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _CompilationDatabaseFinder;
+function _CqueryInitialization() {
+  const data = require("./child/CqueryInitialization");
 
-function _load_CompilationDatabaseFinder() {
-  return _CompilationDatabaseFinder = require('./CompilationDatabaseFinder');
+  _CqueryInitialization = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _CqueryInitialization;
+function _FlagUtils() {
+  const data = require("./child/FlagUtils");
 
-function _load_CqueryInitialization() {
-  return _CqueryInitialization = require('./CqueryInitialization');
+  _FlagUtils = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _CqueryLanguageClient;
+function _CqueryLanguageClient() {
+  const data = require("./CqueryLanguageClient");
 
-function _load_CqueryLanguageClient() {
-  return _CqueryLanguageClient = require('./CqueryLanguageClient');
+  _CqueryLanguageClient = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _CqueryLanguageServer;
+function _CqueryLanguageServer() {
+  const data = _interopRequireDefault(require("./CqueryLanguageServer"));
 
-function _load_CqueryLanguageServer() {
-  return _CqueryLanguageServer = _interopRequireDefault(require('./CqueryLanguageServer'));
+  _CqueryLanguageServer = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const EXTENSIONS = ['.c', '.cpp', '.h', '.hpp', '.cc', '.tcc', '.m', 'mm']; /**
-                                                                             * Copyright (c) 2015-present, Facebook, Inc.
-                                                                             * All rights reserved.
-                                                                             *
-                                                                             * This source code is licensed under the license found in the LICENSE file in
-                                                                             * the root directory of this source tree.
-                                                                             *
-                                                                             *  strict-local
-                                                                             * @format
-                                                                             */
-
-function findNearestCompilationDbDir(source) {
-  return (0, (_CompilationDatabaseFinder || _load_CompilationDatabaseFinder()).findNearestCompilationDbDir)(source);
-}
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ *  strict-local
+ * @format
+ */
+const EXTENSIONS = ['.c', '.cpp', '.h', '.hpp', '.cc', '.tcc', '.m', 'mm'];
 
 async function ensureCommandExists(command, logger, host, languageId) {
-  if ((await (0, (_which || _load_which()).default)(command)) == null) {
+  if ((await (0, _which().default)(command)) == null) {
     const message = `Command "${command}" could not be found: ${languageId} language features will be disabled.`;
     logger.warn(message);
     return false;
   }
+
   return true;
 }
 
 function createLogger(logCategory, logLevel) {
-  const logger = (0, (_log4js || _load_log4js()).getLogger)(logCategory);
+  const logger = (0, _log4js().getLogger)(logCategory);
   logger.setLevel(logLevel);
   return logger;
 }
-
 /**
  * Creates a language service capable of connecting to an LSP server.
  *
  * TODO: Document all of the fields below.
  */
+
+
 async function createCqueryService(params) {
   const command = 'cquery';
   const languageId = 'cquery';
@@ -120,29 +162,38 @@ async function createCqueryService(params) {
 
   const fileCache = params.fileNotifier;
 
-  if (!(fileCache instanceof (_nuclideOpenFilesRpc || _load_nuclideOpenFilesRpc()).FileCache)) {
-    throw new Error('Invariant violation: "fileCache instanceof FileCache"');
+  if (!(fileCache instanceof _nuclideOpenFilesRpc().FileCache)) {
+    throw new Error("Invariant violation: \"fileCache instanceof FileCache\"");
   }
 
-  const forkedHost = await (0, (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).forkHostServices)(params.host, logger);
-  const multiLsp = new (_CqueryLanguageServer || _load_CqueryLanguageServer()).default(forkedHost);
+  const forkedHost = await (0, _nuclideLanguageServiceRpc().forkHostServices)(params.host, logger);
+  const multiLsp = new (_CqueryLanguageServer().default)(forkedHost);
+
   const cqueryFactory = async projectRoot => {
-    const cacheDirectory = await (0, (_CqueryInitialization || _load_CqueryInitialization()).createCacheDir)(projectRoot);
-    const initializationOptions = (0, (_CqueryInitialization || _load_CqueryInitialization()).getInitializationOptions)(cacheDirectory, projectRoot, params.defaultFlags);
-    const logFile = (_nuclideUri || _load_nuclideUri()).default.join(cacheDirectory, '..', 'diagnostics');
-    const recordFile = (_nuclideUri || _load_nuclideUri()).default.join(cacheDirectory, '..', 'record');
-    const [, host] = await Promise.all([multiLsp.hasObservedDiagnostics(), (0, (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).forkHostServices)(params.host, logger)]);
-    const stderrFd = await (_fsPromise || _load_fsPromise()).default.open((_nuclideUri || _load_nuclideUri()).default.join(cacheDirectory, '..', 'stderr'), 'a');
+    const cacheDirectory = await (0, _CqueryInitialization().createCacheDir)(projectRoot);
+
+    const logFile = _nuclideUri().default.join(cacheDirectory, '..', 'diagnostics');
+
+    const recordFile = _nuclideUri().default.join(cacheDirectory, '..', 'record');
+
+    const [, host] = await Promise.all([multiLsp.hasObservedDiagnostics(), (0, _nuclideLanguageServiceRpc().forkHostServices)(params.host, logger)]);
+    const stderrFd = await _fsPromise().default.open(_nuclideUri().default.join(cacheDirectory, '..', 'stderr'), 'a');
     const spawnOptions = {
       stdio: ['pipe', 'pipe', stderrFd],
-      env: Object.assign({}, (await (0, (_process || _load_process()).getOriginalEnvironment)()))
+      env: Object.assign({}, (await (0, _process().getOriginalEnvironment)()))
     };
-
-    const lsp = new (_CqueryLanguageClient || _load_CqueryLanguageClient()).CqueryLanguageClient(logger, fileCache, host, command, process.execPath, [require.resolve('./child/main-entry'), (_nuclideUri || _load_nuclideUri()).default.ensureTrailingSeparator(projectRoot), logFile, recordFile, String(params.enableLibclangLogs)], spawnOptions, projectRoot, EXTENSIONS, initializationOptions, 5 * 60 * 1000, // 5 minutes
+    const lsp = new (_CqueryLanguageClient().CqueryLanguageClient)(logger, fileCache, host, command, process.execPath, [require.resolve("./child/main-entry"), logFile, recordFile, String(params.enableLibclangLogs), String(params.memoryLimitPercent)], spawnOptions, projectRoot, EXTENSIONS, {
+      extraClangArguments: params.defaultFlags,
+      index: {
+        threads: params.indexerThreads
+      }
+    }, 5 * 60 * 1000, // 5 minutes
     logFile, cacheDirectory);
     lsp.start(); // Kick off 'Initializing'...
+
     return lsp;
   };
-  multiLsp.initialize(logger, fileCache, forkedHost, ['.buckconfig', (_CompilationDatabaseFinder || _load_CompilationDatabaseFinder()).COMPILATION_DATABASE_FILE], 'nearest', EXTENSIONS, cqueryFactory);
+
+  multiLsp.initialize(logger, fileCache, forkedHost, ['.buckconfig', _FlagUtils().COMPILATION_DATABASE_FILE], 'nearest', EXTENSIONS, cqueryFactory);
   return multiLsp;
 }

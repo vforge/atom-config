@@ -1,42 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-class MockHgRepositorySubscriptions {
-  observeFilesDidChange() {
-    return new _rxjsBundlesRxMinJs.Subject().publish();
-  }
-
-  observeHgIgnoreFileDidChange() {
-    return new _rxjsBundlesRxMinJs.Subject().publish();
-  }
-
-  observeHgRepoStateDidChange() {
-    return new _rxjsBundlesRxMinJs.Subject().publish();
-  }
-
-  observeHgCommitsDidChange() {
-    return new _rxjsBundlesRxMinJs.Subject().publish();
-  }
-
-  observeHgConflictStateDidChange() {
-    return new _rxjsBundlesRxMinJs.Subject().publish();
-  }
-
-  observeActiveBookmarkDidChange() {
-    return new _rxjsBundlesRxMinJs.Subject().publish();
-  }
-
-  observeBookmarksDidChange() {
-    return new _rxjsBundlesRxMinJs.Subject().publish();
-  }
-}
-
-// This class is meant to be stubbed out.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -47,6 +17,37 @@ class MockHgRepositorySubscriptions {
  * 
  * @format
  */
+class MockHgRepositorySubscriptions {
+  observeFilesDidChange() {
+    return new _RxMin.Subject().publish();
+  }
+
+  observeHgIgnoreFileDidChange() {
+    return new _RxMin.Subject().publish();
+  }
+
+  observeHgRepoStateDidChange() {
+    return new _RxMin.Subject().publish();
+  }
+
+  observeHgCommitsDidChange() {
+    return new _RxMin.Subject().publish();
+  }
+
+  observeHgConflictStateDidChange() {
+    return new _RxMin.Subject().publish();
+  }
+
+  observeActiveBookmarkDidChange() {
+    return new _RxMin.Subject().publish();
+  }
+
+  observeBookmarksDidChange() {
+    return new _RxMin.Subject().publish();
+  }
+
+} // This class is meant to be stubbed out.
+
 
 class MockHgService {
   createRepositorySubscriptions() {
@@ -54,7 +55,7 @@ class MockHgService {
   }
 
   fetchStatuses(filePaths, options) {
-    return new _rxjsBundlesRxMinJs.Subject().publish();
+    return new _RxMin.Subject().publish();
   }
 
   deleteBookmark(name) {
@@ -82,7 +83,7 @@ class MockHgService {
   }
 
   getHeadId() {
-    return new _rxjsBundlesRxMinJs.Observable();
+    return new _RxMin.Observable();
   }
 
   getFullHashForRevision() {
@@ -90,7 +91,9 @@ class MockHgService {
   }
 
   fetchFileContentAtRevision(filePath, revision) {
-    return new _rxjsBundlesRxMinJs.Subject().publish();
+    return new _RxMin.Subject().publish();
   }
+
 }
+
 exports.default = MockHgService;

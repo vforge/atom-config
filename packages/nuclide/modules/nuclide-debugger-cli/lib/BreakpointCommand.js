@@ -1,49 +1,86 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _BreakpointDeleteCommand;
+function _BreakpointDeleteCommand() {
+  const data = _interopRequireDefault(require("./BreakpointDeleteCommand"));
 
-function _load_BreakpointDeleteCommand() {
-  return _BreakpointDeleteCommand = _interopRequireDefault(require('./BreakpointDeleteCommand'));
+  _BreakpointDeleteCommand = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _BreakpointDisableCommand;
+function _BreakpointDisableCommand() {
+  const data = _interopRequireDefault(require("./BreakpointDisableCommand"));
 
-function _load_BreakpointDisableCommand() {
-  return _BreakpointDisableCommand = _interopRequireDefault(require('./BreakpointDisableCommand'));
+  _BreakpointDisableCommand = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _BreakpointEnableCommand;
+function _BreakpointEnableCommand() {
+  const data = _interopRequireDefault(require("./BreakpointEnableCommand"));
 
-function _load_BreakpointEnableCommand() {
-  return _BreakpointEnableCommand = _interopRequireDefault(require('./BreakpointEnableCommand'));
+  _BreakpointEnableCommand = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _BreakpointListCommand;
+function _BreakpointListCommand() {
+  const data = _interopRequireDefault(require("./BreakpointListCommand"));
 
-function _load_BreakpointListCommand() {
-  return _BreakpointListCommand = _interopRequireDefault(require('./BreakpointListCommand'));
+  _BreakpointListCommand = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _CommandDispatcher;
+function _CommandDispatcher() {
+  const data = _interopRequireDefault(require("./CommandDispatcher"));
 
-function _load_CommandDispatcher() {
-  return _CommandDispatcher = _interopRequireDefault(require('./CommandDispatcher'));
+  _CommandDispatcher = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _HelpCommand;
+function _HelpCommand() {
+  const data = _interopRequireDefault(require("./HelpCommand"));
 
-function _load_HelpCommand() {
-  return _HelpCommand = _interopRequireDefault(require('./HelpCommand'));
+  _HelpCommand = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ *  strict-local
+ * @format
+ */
 class BreakpointCommand {
-
+  // $TODO this will need more thorough help which will require extending the
+  // help system to support subcommands
   constructor(con, debug) {
     this.name = 'breakpoint';
     this.helpText = 'Sets a breakpoint on the target.';
@@ -79,46 +116,54 @@ The breakpoint command has several subcommands:
 * 'help' will give detailed information about the subcommands
 * 'list' will list all existing breakpoints
   `;
-
     this._console = con;
     this._debugger = debug;
-    this._dispatcher = new (_CommandDispatcher || _load_CommandDispatcher()).default(new Map());
+    this._dispatcher = new (_CommandDispatcher().default)(new Map());
 
-    this._dispatcher.registerCommand(new (_BreakpointDeleteCommand || _load_BreakpointDeleteCommand()).default(debug));
-    this._dispatcher.registerCommand(new (_BreakpointDisableCommand || _load_BreakpointDisableCommand()).default(debug));
-    this._dispatcher.registerCommand(new (_BreakpointEnableCommand || _load_BreakpointEnableCommand()).default(debug));
-    this._dispatcher.registerCommand(new (_BreakpointListCommand || _load_BreakpointListCommand()).default(con, debug));
-    this._dispatcher.registerCommand(new (_HelpCommand || _load_HelpCommand()).default(con, this._dispatcher));
+    this._dispatcher.registerCommand(new (_BreakpointDeleteCommand().default)(debug));
+
+    this._dispatcher.registerCommand(new (_BreakpointDisableCommand().default)(debug));
+
+    this._dispatcher.registerCommand(new (_BreakpointEnableCommand().default)(debug));
+
+    this._dispatcher.registerCommand(new (_BreakpointListCommand().default)(con, debug));
+
+    this._dispatcher.registerCommand(new (_HelpCommand().default)(con, this._dispatcher));
   }
-
-  // $TODO this will need more thorough help which will require extending the
-  // help system to support subcommands
-
 
   async execute(args) {
     const result = await this._trySettingBreakpoint(args);
+
     if (result != null) {
       this._displayBreakpointResult(result);
+
       return;
     }
 
-    await this._dispatcher.executeTokenizedLine(args);
+    const error = await this._dispatcher.executeTokenizedLine(args);
+
+    if (error != null) {
+      throw error;
+    }
   }
 
   async _trySettingBreakpoint(args) {
     const breakpointSpec = args[0];
+
     if (breakpointSpec == null) {
       return this._setBreakpointHere();
     }
 
     const linePattern = /^(\d+)$/;
     const lineMatch = breakpointSpec.match(linePattern);
+
     if (lineMatch != null) {
       return this._setBreakpointHere(parseInt(lineMatch[1], 10));
     }
 
     const sourceBreakPattern = /^(.+):(\d+)$/;
     const sourceMatch = breakpointSpec.match(sourceBreakPattern);
+
     if (sourceMatch != null) {
       const [, path, line] = sourceMatch;
       return this._debugger.setSourceBreakpoint(path, parseInt(line, 10));
@@ -126,6 +171,7 @@ The breakpoint command has several subcommands:
 
     const functionBreakpointPattern = /^(.+)\(\)/;
     const functionMatch = breakpointSpec.match(functionBreakpointPattern);
+
     if (functionMatch != null) {
       return this._debugger.setFunctionBreakpoint(functionMatch[1]);
     }
@@ -135,6 +181,7 @@ The breakpoint command has several subcommands:
 
   _displayBreakpointResult(result) {
     this._console.outputLine(`Breakpoint ${result.index} set.`);
+
     if (result.message != null) {
       this._console.outputLine(result.message);
     }
@@ -142,6 +189,7 @@ The breakpoint command has several subcommands:
 
   async _setBreakpointHere(line) {
     const frame = await this._debugger.getCurrentStackFrame();
+
     if (frame == null) {
       throw new Error('Cannot set breakpoint here, no current stack frame.');
     }
@@ -153,15 +201,7 @@ The breakpoint command has several subcommands:
     const result = await this._debugger.setSourceBreakpoint(frame.source.path, line == null ? frame.line : line);
     return result;
   }
+
 }
-exports.default = BreakpointCommand; /**
-                                      * Copyright (c) 2017-present, Facebook, Inc.
-                                      * All rights reserved.
-                                      *
-                                      * This source code is licensed under the BSD-style license found in the
-                                      * LICENSE file in the root directory of this source tree. An additional grant
-                                      * of patent rights can be found in the PATENTS file in the same directory.
-                                      *
-                                      *  strict-local
-                                      * @format
-                                      */
+
+exports.default = BreakpointCommand;

@@ -1,15 +1,13 @@
-'use strict';
+"use strict";
 
-var _FindReferences;
+function _FindReferences() {
+  const data = require("../lib/FindReferences");
 
-function _load_FindReferences() {
-  return _FindReferences = require('../lib/FindReferences');
-}
+  _FindReferences = function () {
+    return data;
+  };
 
-var _nuclideTestHelpers;
-
-function _load_nuclideTestHelpers() {
-  return _nuclideTestHelpers = require('../../nuclide-test-helpers');
+  return data;
 }
 
 /**
@@ -21,15 +19,14 @@ function _load_nuclideTestHelpers() {
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 const projectRoot = '/test/';
 const file1Path = '/test/file1.php';
 const file2Path = '/test/file2.php';
-
 describe('FindReferences', () => {
   it('convertReferences', () => {
-    expect((0, (_FindReferences || _load_FindReferences()).convertReferences)([{
+    expect((0, _FindReferences().convertReferences)([{
       name: '\\TestClass::testFunction',
       filename: file1Path,
       line: 13,

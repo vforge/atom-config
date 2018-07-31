@@ -1,14 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-
-/**
- * Like a CompositeDisposable, but in addition to Disposable instances it can
- * also accept plain functions and Rx subscriptions.
- */
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  * All rights reserved.
@@ -21,11 +17,15 @@ Object.defineProperty(exports, "__esModule", {
  * @format
  */
 
+/**
+ * Like a CompositeDisposable, but in addition to Disposable instances it can
+ * also accept plain functions and Rx subscriptions.
+ */
 class UniversalDisposable {
-
   constructor(...teardowns) {
     this.teardowns = new Set();
     this.disposed = false;
+
     if (teardowns.length) {
       this.add(...teardowns);
     }
@@ -35,12 +35,12 @@ class UniversalDisposable {
     if (this.disposed) {
       throw new Error('Cannot add to an already disposed UniversalDisposable!');
     }
+
     for (let i = 0; i < teardowns.length; i++) {
       assertTeardown(teardowns[i]);
       this.teardowns.add(teardowns[i]);
     }
   }
-
   /**
    * Adds a list of teardowns but also ties them to the lifetime of `destructible`.
    * When `destructible` is destroyed (or `this.dispose()` gets called, whichever comes first),
@@ -50,10 +50,13 @@ class UniversalDisposable {
    * - we need to make sure that all teardowns are also removed on destroy
    * - we also need to ensure that we don't leak the onDidDestroy disposable
    */
+
+
   addUntilDestroyed(destructible, ...teardowns) {
     if (this.disposed) {
       throw new Error('Cannot add to an already disposed UniversalDisposable!');
     }
+
     const destroyDisposable = new UniversalDisposable(...teardowns, destructible.onDidDestroy(() => {
       destroyDisposable.dispose();
       this.remove(destroyDisposable);
@@ -94,12 +97,15 @@ class UniversalDisposable {
       this.teardowns.clear();
     }
   }
+
 }
 
 exports.default = UniversalDisposable;
+
 function assertTeardown(teardown) {
   if (typeof teardown.dispose === 'function' || typeof teardown.unsubscribe === 'function' || typeof teardown.destroy === 'function' || typeof teardown === 'function') {
     return;
   }
+
   throw new TypeError('Arguments to UniversalDisposable.add must be disposable');
 }

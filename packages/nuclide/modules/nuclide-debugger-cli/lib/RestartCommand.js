@@ -1,13 +1,18 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _DebuggerInterface;
+function _DebuggerInterface() {
+  const data = require("./DebuggerInterface");
 
-function _load_DebuggerInterface() {
-  return _DebuggerInterface = require('./DebuggerInterface');
+  _DebuggerInterface = function () {
+    return data;
+  };
+
+  return data;
 }
 
 /**
@@ -21,18 +26,17 @@ function _load_DebuggerInterface() {
  *  strict-local
  * @format
  */
-
 class RestartCommand {
-
   constructor(debug) {
     this.name = 'restart';
     this.helpText = 'Restart the current target.';
-
     this._debugger = debug;
   }
 
   async execute() {
     return this._debugger.relaunch();
   }
+
 }
+
 exports.default = RestartCommand;

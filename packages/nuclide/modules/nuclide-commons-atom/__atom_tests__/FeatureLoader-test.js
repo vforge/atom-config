@@ -1,24 +1,21 @@
-'use strict';
+"use strict";
 
-var _idx;
+var _fs = _interopRequireDefault(require("fs"));
 
-function _load_idx() {
-  return _idx = _interopRequireDefault(require('idx'));
-}
+var _path = _interopRequireDefault(require("path"));
 
-var _fs = _interopRequireDefault(require('fs'));
+function _FeatureLoader() {
+  const data = _interopRequireDefault(require("../FeatureLoader"));
 
-var _path = _interopRequireDefault(require('path'));
+  _FeatureLoader = function () {
+    return data;
+  };
 
-var _FeatureLoader;
-
-function _load_FeatureLoader() {
-  return _FeatureLoader = _interopRequireDefault(require('../FeatureLoader'));
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// eslint-disable-next-line nuclide-internal/prefer-nuclide-uri
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  * All rights reserved.
@@ -29,23 +26,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
+// eslint-disable-next-line nuclide-internal/prefer-nuclide-uri
 const FEATURE_PACKAGE_PATH = _path.default.join(__dirname, '../__mocks__/fixtures', 'feature-package');
 
 const ALWAYS_ENABLED = 'always';
-
 const featurePkg = JSON.parse(_fs.default.readFileSync(_path.default.join(FEATURE_PACKAGE_PATH, 'package.json')).toString());
+
 const featureName = _path.default.basename(FEATURE_PACKAGE_PATH);
 
 const ROOT_PACKAGE_DIRNAME = 'root-package';
+
 const ROOT_PACKAGE_PATH = _path.default.join(__dirname, '../__mocks__/fixtures', ROOT_PACKAGE_DIRNAME);
+
 const rootName = _path.default.basename(ROOT_PACKAGE_PATH);
 
 describe('FeatureLoader', () => {
   let loader;
   beforeEach(() => {
-    loader = new (_FeatureLoader || _load_FeatureLoader()).default({
+    loader = new (_FeatureLoader().default)({
       path: ROOT_PACKAGE_PATH,
       pkgName: rootName,
       features: [{
@@ -55,7 +55,6 @@ describe('FeatureLoader', () => {
     });
     atom.packages.loadPackage(ROOT_PACKAGE_PATH);
   });
-
   describe('load', () => {
     beforeEach(() => {
       jest.spyOn(atom.packages, 'loadPackage').mockImplementation(() => {});
@@ -65,56 +64,45 @@ describe('FeatureLoader', () => {
         name: ROOT_PACKAGE_DIRNAME
       });
     });
-
     it('sets a description including provided and consumed services', () => {
-      var _ref, _ref2, _ref3, _ref4;
+      var _loader$getConfig, _loader$getConfig$use, _loader$getConfig$use2, _loader$getConfig$use3;
 
-      expect((_ref = loader.getConfig()) != null ? (_ref2 = _ref.use) != null ? (_ref3 = _ref2.properties) != null ? (_ref4 = _ref3[featureName]) != null ? _ref4.description : _ref4 : _ref3 : _ref2 : _ref).toEqual('Hyperclick UI<br/>**Provides:** _hyperclick.observeTextEditor_<br/>**Consumes:** _hyperclick_');
+      expect((_loader$getConfig = loader.getConfig()) === null || _loader$getConfig === void 0 ? void 0 : (_loader$getConfig$use = _loader$getConfig.use) === null || _loader$getConfig$use === void 0 ? void 0 : (_loader$getConfig$use2 = _loader$getConfig$use.properties) === null || _loader$getConfig$use2 === void 0 ? void 0 : (_loader$getConfig$use3 = _loader$getConfig$use2[featureName]) === null || _loader$getConfig$use3 === void 0 ? void 0 : _loader$getConfig$use3.description).toEqual('Hyperclick UI<br/>**Provides:** _hyperclick.observeTextEditor_<br/>**Consumes:** _hyperclick_');
     });
-
     it("merges the feature config into the passed config's feature properties", () => {
-      var _ref5, _ref6;
+      var _loader$getConfig2, _loader$getConfig2$fe;
 
-      expect((_ref5 = loader.getConfig()) != null ? (_ref6 = _ref5[featureName]) != null ? _ref6.properties : _ref6 : _ref5).toEqual(featurePkg.atomConfig);
+      expect((_loader$getConfig2 = loader.getConfig()) === null || _loader$getConfig2 === void 0 ? void 0 : (_loader$getConfig2$fe = _loader$getConfig2[featureName]) === null || _loader$getConfig2$fe === void 0 ? void 0 : _loader$getConfig2$fe.properties).toEqual(featurePkg.atomConfig);
     });
-
     it.skip('loads the feature package when the root package loads', () => {
       expect(atom.packages.loadPackage).toHaveBeenCalledWith(FEATURE_PACKAGE_PATH);
     });
   });
-
   describe('activate', () => {
     it.skip('activates the feature package right away if enabled', () => {
       jest.spyOn(atom.packages, 'activatePackage').mockImplementation(() => {});
-
       loader.load();
       atom.config.set(`${rootName}.use.${featureName}`, ALWAYS_ENABLED);
       atom.packages.emitter.emit('did-load-package', {
         name: ROOT_PACKAGE_DIRNAME
       });
       loader.activate();
-
       expect(atom.packages.activatePackage).toHaveBeenCalledWith(FEATURE_PACKAGE_PATH);
     });
   });
-
   describe('activating, deactivating, then activating again', () => {
     it.skip('actives, deactivates, then activates feature packages', () => {
       jest.spyOn(atom.packages, 'activatePackage').mockImplementation(() => {});
       jest.spyOn(atom.packages, 'deactivatePackage').mockImplementation(() => {});
-
       loader.load();
       atom.config.set(`${rootName}.use.${featureName}`, ALWAYS_ENABLED);
       atom.packages.emitter.emit('did-load-package', {
         name: ROOT_PACKAGE_DIRNAME
       });
       loader.activate();
-
       expect(atom.packages.activatePackage).toHaveBeenCalledWith(FEATURE_PACKAGE_PATH);
-
       loader.deactivate();
       expect(atom.packages.deactivatePackage).toHaveBeenCalledWith(featureName, true);
-
       loader.activate();
       expect(atom.packages.activatePackage).toHaveBeenCalledWith(FEATURE_PACKAGE_PATH);
     });

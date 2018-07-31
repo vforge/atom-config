@@ -1,23 +1,25 @@
-'use strict';
+"use strict";
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _fs = _interopRequireDefault(require('fs'));
+var _fs = _interopRequireDefault(require("fs"));
 
-var _outline;
+function _outline() {
+  const data = require("../lib/outline");
 
-function _load_outline() {
-  return _outline = require('../lib/outline');
-}
+  _outline = function () {
+    return data;
+  };
 
-var _nuclideTestHelpers;
-
-function _load_nuclideTestHelpers() {
-  return _nuclideTestHelpers = require('../../nuclide-test-helpers');
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -31,20 +33,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * 
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('Python outline', () => {
   it('converts from JSON to outline', () => {
     // Test using a fixture file containing the json representation of
     // the PythonService.getOutline result. We're only testing the conversion
     // of the raw outline to an OutlineTree, without calling the service.
-    const outlinePath = (_nuclideUri || _load_nuclideUri()).default.join(__dirname, '../__mocks__/fixtures/t.json');
-    const resultPath = (_nuclideUri || _load_nuclideUri()).default.join(__dirname, '../__mocks__/fixtures/t_expected_result.json');
+    const outlinePath = _nuclideUri().default.join(__dirname, '../__mocks__/fixtures/t.json');
+
+    const resultPath = _nuclideUri().default.join(__dirname, '../__mocks__/fixtures/t_expected_result.json');
 
     const outlineItems = JSON.parse(_fs.default.readFileSync(outlinePath, 'utf8'));
     const expectedResult = JSON.parse(_fs.default.readFileSync(resultPath, 'utf8'));
-
-    const result = (0, (_outline || _load_outline()).itemsToOutline)('all' /* mode */, outlineItems);
+    const result = (0, _outline().itemsToOutline)('all'
+    /* mode */
+    , outlineItems);
     expect(result).toEqual(expectedResult);
   });
 });

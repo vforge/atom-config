@@ -1,13 +1,18 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _Format;
+function _Format() {
+  const data = _interopRequireDefault(require("./Format"));
 
-function _load_Format() {
-  return _Format = _interopRequireDefault(require('./Format'));
+  _Format = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -23,13 +28,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *  strict-local
  * @format
  */
-
 class BreakpointListCommand {
-
   constructor(con, debug) {
     this.name = 'list';
     this.helpText = 'Lists all breakpoints.';
-
     this._console = con;
     this._debugger = debug;
   }
@@ -43,20 +45,24 @@ class BreakpointListCommand {
 
     const lastBreakpoint = breakpoints[breakpoints.length - 1];
     const indexSize = String(lastBreakpoint.index).length;
-
     breakpoints.forEach(bpt => {
       const attributes = [];
+
       if (!bpt.verified) {
         attributes.push('unverified');
       }
+
       if (!bpt.enabled) {
         attributes.push('disabled');
       }
 
-      const index = (0, (_Format || _load_Format()).default)(`#${bpt.index}`, indexSize);
+      const index = (0, _Format().default)(`#${bpt.index}`, indexSize);
       const attrs = attributes.length === 0 ? '' : `(${attributes.join(',')})`;
+
       this._console.outputLine(`${index} ${bpt.toString()} ${attrs}`);
     });
   }
+
 }
+
 exports.default = BreakpointListCommand;

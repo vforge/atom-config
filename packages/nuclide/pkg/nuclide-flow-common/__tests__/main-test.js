@@ -1,25 +1,38 @@
-'use strict';
+"use strict";
 
-var _;
+function _() {
+  const data = require("..");
 
-function _load_() {
-  return _ = require('..');
+  _ = function () {
+    return data;
+  };
+
+  return data;
 }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ * @emails oncall+nuclide
+ */
 describe('JAVASCRIPT_WORD_REGEX', () => {
   // For brevity in specs.
   function matches(s) {
-    return s.match((_ || _load_()).JAVASCRIPT_WORD_REGEX);
+    return s.match(_().JAVASCRIPT_WORD_REGEX);
   }
 
   it('should match numbers', () => {
     expect(matches('454     1231')).toEqual(['454', '1231']);
   });
-
   it('should match identifiers', () => {
     expect(matches('hello these are $_words___A (mostly)')).toEqual(['hello', 'these', 'are', '$_words___A', 'mostly']);
   });
-
   ['`', "'", '"'].forEach(delimiter => {
     describe(`matching strings delimited by ${delimiter}.`, () => {
       // For brevity.
@@ -27,81 +40,60 @@ describe('JAVASCRIPT_WORD_REGEX', () => {
       it('should match a simple string', () => {
         expect(matches(`${d}asdf asdf${d} identifier ${d}another string${d}`)).toEqual([`${d}asdf asdf${d}`, 'identifier', `${d}another string${d}`]);
       });
-
       it('should handle escaped delimiters', () => {
         expect(matches(`id ${d}foo \\${d} bar${d} another id`)).toEqual(['id', `${d}foo \\${d} bar${d}`, 'another', 'id']);
         expect(matches(`${d}\\${d}${d}`)).toEqual([`${d}\\${d}${d}`]);
       });
-
       it('should handle backslashes in front of other characters', () => {
         expect(matches(`${d}\\4asdf foo${d}`)).toEqual([`${d}\\4asdf foo${d}`]);
         expect(matches(`${d}\\\\${d}`)).toEqual([`${d}\\\\${d}`]);
       });
     });
   });
-}); /**
-     * Copyright (c) 2015-present, Facebook, Inc.
-     * All rights reserved.
-     *
-     * This source code is licensed under the license found in the LICENSE file in
-     * the root directory of this source tree.
-     *
-     * 
-     * @format
-     */
-
+});
 describe('shouldFilter', () => {
   function fakeRequest(prefix) {
     // Right now shouldFilter only uses the prefix. If it changes this will need to be updated.
-    return { prefix };
+    return {
+      prefix
+    };
   }
 
   it('should filter after a dot', () => {
-    expect((0, (_ || _load_()).shouldFilter)(fakeRequest('.'), fakeRequest('f'), 1)).toBe(true);
+    expect((0, _().shouldFilter)(fakeRequest('.'), fakeRequest('f'), 1)).toBe(true);
   });
-
   it('should filter after a dot even if the next prefix is more than one character', () => {
-    expect((0, (_ || _load_()).shouldFilter)(fakeRequest('.'), fakeRequest('fo'), 2)).toBe(true);
+    expect((0, _().shouldFilter)(fakeRequest('.'), fakeRequest('fo'), 2)).toBe(true);
   });
-
   it('should not filter after a dot if number of chars typed exceeds prefix length', () => {
-    expect((0, (_ || _load_()).shouldFilter)(fakeRequest('.'), fakeRequest('fo'), 3)).toBe(false);
+    expect((0, _().shouldFilter)(fakeRequest('.'), fakeRequest('fo'), 3)).toBe(false);
   });
-
   it('should filter when the prefix is one character longer and a valid identifier', () => {
-    expect((0, (_ || _load_()).shouldFilter)(fakeRequest('asdf'), fakeRequest('asdfg'), 1)).toBe(true);
-    expect((0, (_ || _load_()).shouldFilter)(fakeRequest('_9asdf'), fakeRequest('_9asdf$'), 1)).toBe(true);
+    expect((0, _().shouldFilter)(fakeRequest('asdf'), fakeRequest('asdfg'), 1)).toBe(true);
+    expect((0, _().shouldFilter)(fakeRequest('_9asdf'), fakeRequest('_9asdf$'), 1)).toBe(true);
   });
-
   it("should not filter if the current prefix doesn't start with the last prefix", () => {
-    expect((0, (_ || _load_()).shouldFilter)(fakeRequest('asdf'), fakeRequest('bsdfg'), 1)).toBe(false);
+    expect((0, _().shouldFilter)(fakeRequest('asdf'), fakeRequest('bsdfg'), 1)).toBe(false);
   });
-
   it('should not filter if the prefix is not a valid identifier', () => {
-    expect((0, (_ || _load_()).shouldFilter)(fakeRequest('a-df'), fakeRequest('a-dfg'), 1)).toBe(false);
-    expect((0, (_ || _load_()).shouldFilter)(fakeRequest('9asdf'), fakeRequest('9asdfg'), 1)).toBe(false);
+    expect((0, _().shouldFilter)(fakeRequest('a-df'), fakeRequest('a-dfg'), 1)).toBe(false);
+    expect((0, _().shouldFilter)(fakeRequest('9asdf'), fakeRequest('9asdfg'), 1)).toBe(false);
   });
-
   it('should filter if the current prefix is more than one character longer', () => {
-    expect((0, (_ || _load_()).shouldFilter)(fakeRequest('asdf'), fakeRequest('asdfgh'), 2)).toBe(true);
+    expect((0, _().shouldFilter)(fakeRequest('asdf'), fakeRequest('asdfgh'), 2)).toBe(true);
   });
-
   it('should not filter if number of chars typed does not match prefix length difference', () => {
-    expect((0, (_ || _load_()).shouldFilter)(fakeRequest('asdf'), fakeRequest('asdfgh'), 3)).toBe(false);
-  });
-
-  // If autocomplete is activated manually (ctrl+space), you can get a blank prefix for the first
+    expect((0, _().shouldFilter)(fakeRequest('asdf'), fakeRequest('asdfgh'), 3)).toBe(false);
+  }); // If autocomplete is activated manually (ctrl+space), you can get a blank prefix for the first
   // request. Then, we should filter when the first character is typed.
+
   it('should filter on the first character typed', () => {
-    expect((0, (_ || _load_()).shouldFilter)(fakeRequest(''), fakeRequest('a'), 1)).toBe(true);
+    expect((0, _().shouldFilter)(fakeRequest(''), fakeRequest('a'), 1)).toBe(true);
   });
 });
-
 describe('updateResults', () => {
   let prefix = null;
-
   let resultsToUpdate;
-
   beforeEach(() => {
     const resultNames = ['Foo', 'foo', 'Bar', 'BigLongNameTwo', 'BigLongNameOne'];
     resultsToUpdate = resultNames.map(name => ({
@@ -111,7 +103,7 @@ describe('updateResults', () => {
   });
 
   function run() {
-    return (0, (_ || _load_()).filterResultsByPrefix)(prefix, {
+    return (0, _().filterResultsByPrefix)(prefix, {
       isIncomplete: false,
       items: resultsToUpdate
     });
@@ -126,17 +118,14 @@ describe('updateResults', () => {
     prefix = '.';
     expect(getNames()).toEqual(['Foo', 'foo', 'Bar', 'BigLongNameTwo', 'BigLongNameOne']);
   });
-
   it('should filter suggestions by the prefix', () => {
     prefix = 'bln';
     expect(getNames()).toEqual(['BigLongNameTwo', 'BigLongNameOne']);
   });
-
   it('should not filter suggestions if the prefix is not a valid id', () => {
     prefix = '{';
     expect(getNames()).toEqual(['Foo', 'foo', 'Bar', 'BigLongNameTwo', 'BigLongNameOne']);
   });
-
   it('should rank better matches higher', () => {
     prefix = 'one';
     expect(getNames()).toEqual(['BigLongNameOne', 'BigLongNameTwo']);

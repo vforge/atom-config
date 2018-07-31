@@ -1,91 +1,122 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DefaultMetroAtomService = undefined;
+exports.DefaultMetroAtomService = void 0;
 
-var _log4js;
+function _log4js() {
+  const data = require("log4js");
 
-function _load_log4js() {
-  return _log4js = require('log4js');
+  _log4js = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../modules/nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _nuclideRemoteConnection;
+function _nuclideRemoteConnection() {
+  const data = require("../../nuclide-remote-connection");
 
-function _load_nuclideRemoteConnection() {
-  return _nuclideRemoteConnection = require('../../nuclide-remote-connection');
+  _nuclideRemoteConnection = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _Tunnel;
+function _Tunnel() {
+  const data = require("./Tunnel");
 
-function _load_Tunnel() {
-  return _Tunnel = require('./Tunnel');
+  _Tunnel = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _types;
+function _types() {
+  const data = require("./types");
 
-function _load_types() {
-  return _types = require('./types');
+  _types = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _types2;
+function _types2() {
+  const data = require("../../nuclide-metro-rpc/lib/types");
 
-function _load_types2() {
-  return _types2 = require('../../nuclide-metro-rpc/lib/types');
+  _types2 = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _LogTailer;
+function _LogTailer() {
+  const data = require("../../nuclide-console-base/lib/LogTailer");
 
-function _load_LogTailer() {
-  return _LogTailer = require('../../nuclide-console-base/lib/LogTailer');
+  _LogTailer = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _electron = _interopRequireDefault(require('electron'));
+var _electron = _interopRequireDefault(require("electron"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const logger = (0, (_log4js || _load_log4js()).getLogger)('Metro'); /**
-                                                                     * Copyright (c) 2015-present, Facebook, Inc.
-                                                                     * All rights reserved.
-                                                                     *
-                                                                     * This source code is licensed under the license found in the LICENSE file in
-                                                                     * the root directory of this source tree.
-                                                                     *
-                                                                     * 
-                                                                     * @format
-                                                                     */
-
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+const logger = (0, _log4js().getLogger)('Metro');
 const GLOBAL_RELOAD_HOTKEY = 'CmdOrCtrl+Alt+R';
 const remote = _electron.default.remote;
 
 if (!remote) {
-  throw new Error('Invariant violation: "remote"');
+  throw new Error("Invariant violation: \"remote\"");
 }
 
 class DefaultMetroAtomService {
-
   constructor(projectRootPath) {
     _initialiseProps.call(this);
 
     this._projectRootPath = projectRootPath;
-    this._disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-    this._port = new _rxjsBundlesRxMinJs.BehaviorSubject(8081);
-    this._extraArgs = new _rxjsBundlesRxMinJs.BehaviorSubject([]);
+    this._disposables = new (_UniversalDisposable().default)();
+    this._port = new _RxMin.BehaviorSubject(8081);
+    this._extraArgs = new _RxMin.BehaviorSubject([]);
     this._logTailer = this._createLogTailer(projectRootPath, this._port, this._extraArgs);
 
     this._disposables.add(() => this.stop(), this._registerShutdownOnWorkingRootChange());
@@ -102,41 +133,46 @@ var _initialiseProps = function () {
 
   this.start = async (tunnelBehavior, port = 8081, extraArgs = []) => {
     this._port.next(port);
+
     this._extraArgs.next(extraArgs);
+
     await new Promise((resolve, reject) => {
       this._logTailer.start({
         onRunning: error => {
           if (error != null) {
             // Handling these errors here because LogTailer never becomes "ready"
             // $FlowFixMe(>=0.68.0) Flow suppress (T27187857)
-            if (error.code === (_types2 || _load_types2()).NO_METRO_PROJECT_ERROR) {
+            if (error.code === _types2().NO_METRO_PROJECT_ERROR) {
               atom.notifications.addError('Could not find Metro project', {
                 dismissable: true,
                 description: 'Make sure that your current working root (or its ancestor) contains a' + ' `node_modules` directory with react-native installed, or a .buckconfig file' + ' with a `[react-native]` section that has a `server` key.'
               });
             }
+
             reject(error);
           } else {
             resolve();
           }
         }
       });
-    });
-    // now that the logTailer has started, start the global reload hotkey
+    }); // now that the logTailer has started, start the global reload hotkey
+
     logger.trace('adding global reload hotkey (' + GLOBAL_RELOAD_HOTKEY + ')');
     const success = remote.globalShortcut.register(GLOBAL_RELOAD_HOTKEY, () => {
       logger.trace('reloading the app via the global reload hotkey');
       this.reloadApp();
     });
     logger.trace('hotkey register success: ' + String(success));
+
     const projectRoot = this._projectRootPath.getValue();
 
     if (!(projectRoot != null)) {
-      throw new Error('Invariant violation: "projectRoot != null"');
+      throw new Error("Invariant violation: \"projectRoot != null\"");
     }
 
-    const tunnelEvents = (0, (_Tunnel || _load_Tunnel()).openTunnel)(projectRoot, tunnelBehavior, port).catch(e => {
+    const tunnelEvents = (0, _Tunnel().openTunnel)(projectRoot, tunnelBehavior, port).catch(e => {
       this._closeTunnel();
+
       throw e;
     });
     this._currentTunnelSubscription = tunnelEvents.subscribe();
@@ -148,7 +184,9 @@ var _initialiseProps = function () {
       logger.trace('unregistering global reload hotkey');
       remote.globalShortcut.unregister(GLOBAL_RELOAD_HOTKEY);
     }
+
     this._closeTunnel();
+
     this._logTailer.stop();
   };
 
@@ -158,10 +196,12 @@ var _initialiseProps = function () {
 
   this.reloadApp = () => {
     const path = this._projectRootPath.getValue();
+
     if (path == null) {
       return;
     }
-    const metroService = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getMetroServiceByNuclideUri)(path);
+
+    const metroService = (0, _nuclideRemoteConnection().getMetroServiceByNuclideUri)(path);
     metroService.reloadApp(this._port.getValue());
   };
 
@@ -172,6 +212,7 @@ var _initialiseProps = function () {
   this._closeTunnel = () => {
     if (this._currentTunnelSubscription != null) {
       this._currentTunnelSubscription.unsubscribe();
+
       this._currentTunnelSubscription = null;
     }
   };
@@ -197,28 +238,30 @@ var _initialiseProps = function () {
   this._createLogTailer = (projectRootPath, port, extraArgs) => {
     const self = this;
 
-    const metroEvents = _rxjsBundlesRxMinJs.Observable.defer(() => {
+    const metroEvents = _RxMin.Observable.defer(() => {
       const path = projectRootPath.getValue();
+
       if (path == null) {
-        return _rxjsBundlesRxMinJs.Observable.empty();
+        return _RxMin.Observable.empty();
       }
-      const metroService = (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getMetroServiceByNuclideUri)(path);
+
+      const metroService = (0, _nuclideRemoteConnection().getMetroServiceByNuclideUri)(path);
       return metroService.startMetro(path, getEditorArgs(path), port.getValue(), extraArgs.getValue()).refCount();
     }).share();
 
     const messages = metroEvents.filter(event => event.type === 'message').map(event => {
       if (!(event.type === 'message')) {
-        throw new Error('Invariant violation: "event.type === \'message\'"');
+        throw new Error("Invariant violation: \"event.type === 'message'\"");
       }
 
       return Object.assign({}, event.message);
     });
-    const ready = metroEvents.filter(message => message.type === 'ready').mapTo(undefined);
-
-    return new (_LogTailer || _load_LogTailer()).LogTailer({
+    const ready = metroEvents.first(message => message.type === 'ready').mapTo(undefined);
+    return new (_LogTailer().LogTailer)({
       name: 'Metro',
       messages,
       ready,
+
       handleError(error) {
         if (error.message != null && error.message.includes('EADDRINUSE')) {
           atom.notifications.addInfo(`Port ${port.getValue()} is busy. Most likely it's another metro instance and you don't need to do anything`);
@@ -228,10 +271,10 @@ var _initialiseProps = function () {
         atom.notifications.addError(`Unexpected error while running Metro.\n\n${error.message}`, {
           dismissable: true
         });
-
         logger.warn('stopping metro due to an error');
         self.stop();
       },
+
       trackingEvents: {
         start: 'metro:start',
         stop: 'metro:stop',
@@ -242,13 +285,15 @@ var _initialiseProps = function () {
 };
 
 function getEditorArgs(projectRoot) {
-  if ((_nuclideUri || _load_nuclideUri()).default.isRemote(projectRoot)) {
+  if (_nuclideUri().default.isRemote(projectRoot)) {
     return ['atom'];
   } else {
     const args = [remote.app.getPath('exe')];
+
     if (atom.devMode) {
       args.push('--dev');
     }
+
     return args;
   }
 }

@@ -1,16 +1,15 @@
-'use strict';
+"use strict";
 
-var _https = _interopRequireDefault(require('https'));
+var _https = _interopRequireDefault(require("https"));
 
-var _http = _interopRequireDefault(require('http'));
+var _http = _interopRequireDefault(require("http"));
 
-var _fs = _interopRequireDefault(require('fs'));
+var _fs = _interopRequireDefault(require("fs"));
 
-var _url = _interopRequireDefault(require('url'));
+var _url = _interopRequireDefault(require("url"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Set the initial version by reading from the file.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -21,12 +20,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *  strict
  * @format
  */
-
+// Set the initial version by reading from the file.
 const version = getVersion();
 
 function getVersion() {
-  const json = JSON.parse(_fs.default.readFileSync(require.resolve('./package.json'), 'utf8'));
-  // $FlowFixMe (>= v0.75.0)
+  const json = JSON.parse(_fs.default.readFileSync(require.resolve("./package.json"), 'utf8')); // $FlowFixMe (>= v0.75.0)
+
   const match = /^(\d+)\.(\d+)\.(\d+)(?:-([a-z0-9.-]+))?$/.exec(json.version);
   return match[2];
 }
@@ -34,7 +33,6 @@ function getVersion() {
 function processArgs() {
   const args = process.argv.slice(2);
   const processedArgs = {};
-
   args.forEach((argument, index) => {
     if (index % 2 !== 0) {
       processedArgs[args[index - 1].slice(2)] = argument;
@@ -45,6 +43,7 @@ function processArgs() {
 
 function startServer(args) {
   let _webServer;
+
   if (args.key && args.cert && args.ca) {
     const webServerOptions = {
       key: _fs.default.readFileSync(args.key),
@@ -53,9 +52,8 @@ function startServer(args) {
       requestCert: true,
       rejectUnauthorized: true
     };
+    _webServer = _https.default.createServer(webServerOptions, handleRequest); // eslint-disable-next-line no-console
 
-    _webServer = _https.default.createServer(webServerOptions, handleRequest);
-    // eslint-disable-next-line no-console
     console.log('running in secure mode');
   } else {
     _webServer = _http.default.createServer(handleRequest);
@@ -76,6 +74,7 @@ function handleRequest(request, response) {
     case '/heartbeat':
       handleVersion(request, response);
       break;
+
     default:
       response.writeHead(500);
       response.write('This mock server does not understand that command');

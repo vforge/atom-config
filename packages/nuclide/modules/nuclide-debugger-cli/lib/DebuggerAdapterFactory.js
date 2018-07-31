@@ -1,61 +1,98 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _collection;
+function _collection() {
+  const data = require("../../nuclide-commons/collection");
 
-function _load_collection() {
-  return _collection = require('../../nuclide-commons/collection');
+  _collection = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _debuggerRegistry;
+function _debuggerRegistry() {
+  const data = require("../../nuclide-debugger-common/debugger-registry");
 
-function _load_debuggerRegistry() {
-  return _debuggerRegistry = require('../../nuclide-debugger-common/debugger-registry');
+  _debuggerRegistry = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _VSPOptionsParser;
+function _VSPOptionsParser() {
+  const data = _interopRequireDefault(require("./VSPOptionsParser"));
 
-function _load_VSPOptionsParser() {
-  return _VSPOptionsParser = _interopRequireDefault(require('./VSPOptionsParser'));
+  _VSPOptionsParser = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _HHVMDebugAdapter;
+function _HHVMDebugAdapter() {
+  const data = _interopRequireDefault(require("./adapters/HHVMDebugAdapter"));
 
-function _load_HHVMDebugAdapter() {
-  return _HHVMDebugAdapter = _interopRequireDefault(require('./adapters/HHVMDebugAdapter'));
+  _HHVMDebugAdapter = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _NativeGdbDebugAdapter;
+function _NativeGdbDebugAdapter() {
+  const data = _interopRequireDefault(require("./adapters/NativeGdbDebugAdapter"));
 
-function _load_NativeGdbDebugAdapter() {
-  return _NativeGdbDebugAdapter = _interopRequireDefault(require('./adapters/NativeGdbDebugAdapter'));
+  _NativeGdbDebugAdapter = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _NodeDebugAdapter;
+function _NodeDebugAdapter() {
+  const data = _interopRequireDefault(require("./adapters/NodeDebugAdapter"));
 
-function _load_NodeDebugAdapter() {
-  return _NodeDebugAdapter = _interopRequireDefault(require('./adapters/NodeDebugAdapter'));
+  _NodeDebugAdapter = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _OCamlDebugAdapter;
+function _OCamlDebugAdapter() {
+  const data = _interopRequireDefault(require("./adapters/OCamlDebugAdapter"));
 
-function _load_OCamlDebugAdapter() {
-  return _OCamlDebugAdapter = _interopRequireDefault(require('./adapters/OCamlDebugAdapter'));
+  _OCamlDebugAdapter = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _PythonDebugAdapter;
+function _PythonDebugAdapter() {
+  const data = _interopRequireDefault(require("./adapters/PythonDebugAdapter"));
 
-function _load_PythonDebugAdapter() {
-  return _PythonDebugAdapter = _interopRequireDefault(require('./adapters/PythonDebugAdapter'));
+  _PythonDebugAdapter = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -71,10 +108,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *  strict-local
  * @format
  */
-
 class DebuggerAdapterFactory {
   constructor() {
-    this._debugAdapters = [new (_HHVMDebugAdapter || _load_HHVMDebugAdapter()).default(), new (_NativeGdbDebugAdapter || _load_NativeGdbDebugAdapter()).default(), new (_NodeDebugAdapter || _load_NodeDebugAdapter()).default(), new (_OCamlDebugAdapter || _load_OCamlDebugAdapter()).default(), new (_PythonDebugAdapter || _load_PythonDebugAdapter()).default()];
+    this._debugAdapters = [new (_HHVMDebugAdapter().default)(), new (_NativeGdbDebugAdapter().default)(), new (_NodeDebugAdapter().default)(), new (_OCamlDebugAdapter().default)(), new (_PythonDebugAdapter().default)()];
   }
 
   adapterFromArguments(args) {
@@ -91,14 +127,14 @@ class DebuggerAdapterFactory {
 
   contextSensitiveHelp(args) {
     const adapter = this._adapterFromCommandLine(args);
+
     if (adapter == null) {
       return [];
     }
 
-    const root = (0, (_debuggerRegistry || _load_debuggerRegistry()).getAdapterPackageRoot)(adapter.key);
-    const optionsParser = new (_VSPOptionsParser || _load_VSPOptionsParser()).default(root);
+    const root = (0, _debuggerRegistry().getAdapterPackageRoot)(adapter.key);
+    const optionsParser = new (_VSPOptionsParser().default)(root);
     const action = args.attach ? 'attach' : 'launch';
-
     return optionsParser.commandLineHelp(adapter.type, action, adapter.excludedOptions, adapter.customArguments);
   }
 
@@ -110,12 +146,11 @@ class DebuggerAdapterFactory {
     }
 
     const commandLineArgs = adapter.parseArguments(args);
-
     return {
       action: 'attach',
       type: adapter.key,
-      adapterInfo: (0, (_debuggerRegistry || _load_debuggerRegistry()).getAdapterExecutable)(adapter.key),
-      attachArgs: (0, (_collection || _load_collection()).objectFromMap)(commandLineArgs),
+      adapterInfo: (0, _debuggerRegistry().getAdapterExecutable)(adapter.key),
+      attachArgs: (0, _collection().objectFromMap)(commandLineArgs),
       adapter
     };
   }
@@ -135,23 +170,24 @@ class DebuggerAdapterFactory {
     }
 
     const commandLineArgs = adapter.parseArguments(args);
-
     return {
       action: 'launch',
       type: adapter.key,
-      adapterInfo: (0, (_debuggerRegistry || _load_debuggerRegistry()).getAdapterExecutable)(adapter.key),
-      launchArgs: (0, (_collection || _load_collection()).objectFromMap)(commandLineArgs),
+      adapterInfo: (0, _debuggerRegistry().getAdapterExecutable)(adapter.key),
+      launchArgs: (0, _collection().objectFromMap)(commandLineArgs),
       adapter
     };
   }
 
   _adapterFromCommandLine(args) {
     const type = args.type;
+
     if (type != null) {
       const adapter = this._debugAdapters.find(a => a.key === type);
 
       if (adapter == null) {
         const validAdapters = this._debugAdapters.map(a => a.key).join('", "');
+
         throw new Error(`Invalid target type "${type}"; valid types are "${validAdapters}".`);
       }
 
@@ -162,7 +198,8 @@ class DebuggerAdapterFactory {
   }
 
   _adapterFromProgramName(program) {
-    const programUri = (_nuclideUri || _load_nuclideUri()).default.parsePath(program);
+    const programUri = _nuclideUri().default.parsePath(program);
+
     const ext = programUri.ext;
 
     const adapters = this._debugAdapters.filter(a => a.extensions.has(ext));
@@ -173,5 +210,7 @@ class DebuggerAdapterFactory {
 
     return adapters[0];
   }
+
 }
+
 exports.default = DebuggerAdapterFactory;

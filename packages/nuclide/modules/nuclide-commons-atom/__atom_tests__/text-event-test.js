@@ -1,44 +1,56 @@
-'use strict';
+"use strict";
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _promise;
+function _promise() {
+  const data = require("../../nuclide-commons/promise");
 
-function _load_promise() {
-  return _promise = require('../../nuclide-commons/promise');
+  _promise = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _textEvent;
+function _textEvent() {
+  const data = require("../text-event");
 
-function _load_textEvent() {
-  return _textEvent = require('../text-event');
+  _textEvent = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const grammar = 'testgrammar'; /**
-                                * Copyright (c) 2017-present, Facebook, Inc.
-                                * All rights reserved.
-                                *
-                                * This source code is licensed under the BSD-style license found in the
-                                * LICENSE file in the root directory of this source tree. An additional grant
-                                * of patent rights can be found in the PATENTS file in the same directory.
-                                *
-                                * 
-                                * @format
-                                */
-
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ * @emails oncall+nuclide
+ */
+const grammar = 'testgrammar';
 describe('TextCallbackContainer', () => {
   let textCallbackContainer;
   let callback;
-
   beforeEach(() => {
     jest.restoreAllMocks();
-    textCallbackContainer = new (_textEvent || _load_textEvent()).__TEST__.TextCallbackContainer();
+    textCallbackContainer = new (_textEvent().__TEST__.TextCallbackContainer)();
     callback = jest.fn();
   });
 
@@ -50,6 +62,7 @@ describe('TextCallbackContainer', () => {
         expect(callbackSet.size).not.toBe(0);
       });
     });
+
     textCallbackContainer._allGrammarCallbacks.forEach(callbackSet => {
       expect(callbackSet.size).not.toBe(0);
     });
@@ -61,14 +74,12 @@ describe('TextCallbackContainer', () => {
     expect(callbacks).toEqual(new Set([callback]));
     checkInvariant();
   });
-
   it('should always return callbacks for all', () => {
     textCallbackContainer.addCallback('all', ['did-save'], callback);
     const callbacks = textCallbackContainer.getCallbacks('asdf', 'did-save');
     expect(callbacks).toEqual(new Set([callback]));
     checkInvariant();
   });
-
   it('should properly remove a callback', () => {
     textCallbackContainer.addCallback([grammar], ['did-change'], callback);
     expect(textCallbackContainer.getCallbacks(grammar, 'did-change')).toEqual(new Set([callback]));
@@ -77,35 +88,37 @@ describe('TextCallbackContainer', () => {
     expect(textCallbackContainer.getCallbacks(grammar, 'did-change')).toEqual(new Set());
   });
 });
-
 describe('TextEventDispatcher', () => {
   let textEventDispatcher;
   let fakeTextEditor;
   let fakeTextEditor2;
-  let activeEditor;
-  // Stores callbacks that have subscribed to Atom text events. Can be called to simulate
+  let activeEditor; // Stores callbacks that have subscribed to Atom text events. Can be called to simulate
+
   let textEventCallbacks;
   let paneSwitchCallbacks;
 
   function fakeObserveEditors(callback) {
     callback(fakeTextEditor);
     callback(fakeTextEditor2);
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    return new (_UniversalDisposable().default)();
   }
 
   function makeFakeEditor(path = '') {
     // Register a callback for this fake editor.
     const registerCallback = callback => {
       let set = textEventCallbacks.get(editor);
+
       if (!set) {
         set = new Set();
         textEventCallbacks.set(editor, set);
       }
+
       set.add(callback);
-      return new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {
+      return new (_UniversalDisposable().default)(() => {
         set.delete(callback);
       });
     };
+
     const buffer = {
       onDidStopChanging: registerCallback,
       onDidSave: registerCallback,
@@ -115,19 +128,24 @@ describe('TextEventDispatcher', () => {
       getBuffer() {
         return buffer;
       },
+
       getGrammar() {
         return {
           scopeName: grammar
         };
       },
+
       // getPath is nice for debugging tests
       getPath() {
         return path;
       },
+
       destroy() {},
+
       onDidDestroy(callback) {
-        return new (_UniversalDisposable || _load_UniversalDisposable()).default();
+        return new (_UniversalDisposable().default)();
       }
+
     };
     return editor;
   }
@@ -141,7 +159,6 @@ describe('TextEventDispatcher', () => {
   beforeEach(() => {
     textEventCallbacks = new Map();
     paneSwitchCallbacks = new Set();
-
     fakeTextEditor = makeFakeEditor('foo');
     fakeTextEditor2 = makeFakeEditor('bar');
     activeEditor = fakeTextEditor;
@@ -151,38 +168,34 @@ describe('TextEventDispatcher', () => {
     jest.spyOn(atom.workspace, 'getTextEditors').mockReturnValue([fakeTextEditor, fakeTextEditor2]);
     jest.spyOn(atom.workspace, 'onDidChangeActivePaneItem').mockImplementation(callback => {
       paneSwitchCallbacks.add(callback);
-      return new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {});
+      return new (_UniversalDisposable().default)(() => {});
     });
-    textEventDispatcher = new (_textEvent || _load_textEvent()).TextEventDispatcher();
+    textEventDispatcher = new (_textEvent().TextEventDispatcher)();
   });
-
   it('should fire events', () => {
     const callback = jest.fn();
     textEventDispatcher.onFileChange([grammar], callback);
     triggerAtomEvent(fakeTextEditor);
     expect(callback).toHaveBeenCalled();
   });
-
   it('should work with observeTextEditorEvents', () => {
     const spy = jest.fn();
-    (0, (_textEvent || _load_textEvent()).observeTextEditorEvents)([grammar], 'changes').subscribe(editor => spy(editor));
+    (0, _textEvent().observeTextEditorEvents)([grammar], 'changes').subscribe(editor => spy(editor));
     triggerAtomEvent(fakeTextEditor);
     expect(spy).toHaveBeenCalledWith(fakeTextEditor);
   });
-
   it('should debounce events', () => {
     const callback = jest.fn();
-    textEventDispatcher.onFileChange([grammar], callback);
-    // This test hinges on these two calls happening within 50 ms of each other.
+    textEventDispatcher.onFileChange([grammar], callback); // This test hinges on these two calls happening within 50 ms of each other.
     // An initial attempt to mock the clock was unsuccessful, probably because
     // of problems clearing the require cache thoroughly enough that the
     // debounce function picks up the mocked clock. If this causes problems,
     // figure out how to mock the clock properly.
+
     triggerAtomEvent(fakeTextEditor);
     triggerAtomEvent(fakeTextEditor);
     expect(callback.mock.calls.length).toBe(1);
   });
-
   it('should dispatch pending events on a tab switch', () => {
     const callback = jest.fn();
     textEventDispatcher.onFileChange([grammar], callback);
@@ -192,38 +205,28 @@ describe('TextEventDispatcher', () => {
     paneSwitchCallbacks.forEach(f => f());
     expect(callback).toHaveBeenCalledWith(fakeTextEditor2);
   });
-
   it('should register simultaneous open events as pending', async () => {
-    await (async () => {
-      const callback = jest.fn();
+    const callback = jest.fn(); // Initially, both fakeTextEditor/fakeTextEditor2 are opened.
 
-      // Initially, both fakeTextEditor/fakeTextEditor2 are opened.
-      textEventDispatcher.onFileChange([grammar], callback);
+    textEventDispatcher.onFileChange([grammar], callback); // Open events need a tick to process.
 
-      // Open events need a tick to process.
-      await (0, (_promise || _load_promise()).sleep)(0);
+    await (0, _promise().sleep)(0); // Only fakeTextEditor should have opened; the other one should be pending.
 
-      // Only fakeTextEditor should have opened; the other one should be pending.
-      expect(callback).toHaveBeenCalledWith(fakeTextEditor);
-      expect(callback).not.toHaveBeenCalledWith(fakeTextEditor2);
+    expect(callback).toHaveBeenCalledWith(fakeTextEditor);
+    expect(callback).not.toHaveBeenCalledWith(fakeTextEditor2); // Prevent the next open event from being debounced.
 
-      // Prevent the next open event from being debounced.
-      await (0, (_promise || _load_promise()).sleep)(100);
+    await (0, _promise().sleep)(100); // Switching to fakeTextEditor2 should now trigger its pending open event.
 
-      // Switching to fakeTextEditor2 should now trigger its pending open event.
-      activeEditor = fakeTextEditor2;
-      paneSwitchCallbacks.forEach(f => f());
-      expect(callback).toHaveBeenCalledWith(fakeTextEditor2);
-    })();
+    activeEditor = fakeTextEditor2;
+    paneSwitchCallbacks.forEach(f => f());
+    expect(callback).toHaveBeenCalledWith(fakeTextEditor2);
   });
-
   it('should always dispatch to clients that request all changes', () => {
     const callback = jest.fn();
     textEventDispatcher.onAnyFileChange(callback);
     triggerAtomEvent(fakeTextEditor);
     expect(callback).toHaveBeenCalled();
   });
-
   it('should deregister from text editor events when it has no subscribers', () => {
     expect(textEventCallbacks.get(fakeTextEditor)).toBe(undefined);
     const callback = jest.fn();

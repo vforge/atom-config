@@ -1,8 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.LEADING_COMMENT_LIMIT = exports.UI_COMPONENT_TOOLS_INDEXING_GK = void 0;
+
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -13,7 +15,7 @@ Object.defineProperty(exports, "__esModule", {
  *  strict-local
  * @format
  */
-
-const UI_COMPONENT_TOOLS_INDEXING_GK = exports.UI_COMPONENT_TOOLS_INDEXING_GK = 'nuclide_fb_ui_component_tools_lsp';
-
-const LEADING_COMMENT_LIMIT = exports.LEADING_COMMENT_LIMIT = 240;
+const UI_COMPONENT_TOOLS_INDEXING_GK = 'nuclide_fb_ui_component_tools_lsp';
+exports.UI_COMPONENT_TOOLS_INDEXING_GK = UI_COMPONENT_TOOLS_INDEXING_GK;
+const LEADING_COMMENT_LIMIT = 240;
+exports.LEADING_COMMENT_LIMIT = LEADING_COMMENT_LIMIT;

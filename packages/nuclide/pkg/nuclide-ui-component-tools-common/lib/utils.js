@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.removePrefix = removePrefix;
+
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -14,10 +15,10 @@ exports.removePrefix = removePrefix;
  *  strict-local
  * @format
  */
-
 function removePrefix(prefix, input) {
   if (input.indexOf(prefix) === 0) {
     return input.substr(prefix.length);
   }
+
   return input;
 }

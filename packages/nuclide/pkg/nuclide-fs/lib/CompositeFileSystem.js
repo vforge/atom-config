@@ -1,69 +1,86 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CompositeFileSystem = undefined;
+exports.CompositeFileSystem = void 0;
 
-var _fs = _interopRequireDefault(require('fs'));
+var _fs = _interopRequireDefault(require("fs"));
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _FileSystem;
+function _FileSystem() {
+  const data = require("./FileSystem");
 
-function _load_FileSystem() {
-  return _FileSystem = require('./FileSystem');
+  _FileSystem = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const ARCHIVE_SEPARATOR = (_nuclideUri || _load_nuclideUri()).default.ARCHIVE_SEPARATOR; /**
-                                                                                          * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                          * All rights reserved.
-                                                                                          *
-                                                                                          * This source code is licensed under the license found in the LICENSE file in
-                                                                                          * the root directory of this source tree.
-                                                                                          *
-                                                                                          * 
-                                                                                          * @format
-                                                                                          */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+const ARCHIVE_SEPARATOR = _nuclideUri().default.ARCHIVE_SEPARATOR;
 
 function segmentObservable(callback) {
-  return ({ segFs, pth, prefix }) => _rxjsBundlesRxMinJs.Observable.fromPromise(callback(segFs, pth, prefix));
+  return ({
+    segFs,
+    pth,
+    prefix
+  }) => _RxMin.Observable.fromPromise(callback(segFs, pth, prefix));
 }
 
 class CompositeFileSystem {
-
   constructor(rootFs) {
     this._rootFs = rootFs;
   }
 
   _topDownFsPath(fullPath) {
     const subPaths = fullPath.split(ARCHIVE_SEPARATOR);
-    return _rxjsBundlesRxMinJs.Observable.of({
+    return _RxMin.Observable.of({
       segFs: this._rootFs,
       pth: subPaths[0],
       prefix: ''
     }).expand((previous, previousIndex) => {
       const index = previousIndex + 1;
+
       if (index < subPaths.length) {
         const prefix = subPaths.slice(0, index).join(ARCHIVE_SEPARATOR);
         const pth = subPaths[index];
-        return _rxjsBundlesRxMinJs.Observable.fromPromise(previous.segFs.openArchive(previous.pth).then(segFs => ({ segFs, pth, prefix })));
+        return _RxMin.Observable.fromPromise(previous.segFs.openArchive(previous.pth).then(segFs => ({
+          segFs,
+          pth,
+          prefix
+        })));
       } else {
-        return _rxjsBundlesRxMinJs.Observable.empty();
+        return _RxMin.Observable.empty();
       }
     });
   }
 
   _bottomUpFsPath(fullPath) {
-    return this._topDownFsPath(fullPath).reduce((acc, x) => acc.concat(x), []).concatMap(array => _rxjsBundlesRxMinJs.Observable.of(...array.reverse()));
+    return this._topDownFsPath(fullPath).reduce((acc, x) => acc.concat(x), []).concatMap(array => _RxMin.Observable.of(...array.reverse()));
   }
 
   _resolveFs(fullPath, callback) {
@@ -76,6 +93,7 @@ class CompositeFileSystem {
 
   exists(fullPath) {
     const and = (x, y) => x && y;
+
     return this._topDownFsPath(fullPath).concatMap(segmentObservable((segFs, pth) => segFs.exists(pth))).reduce(and, true).toPromise().catch(e => Promise.resolve(false));
   }
 
@@ -138,6 +156,12 @@ class CompositeFileSystem {
     return this._rootFs.copy(from, to);
   }
 
+  symlink(source, target, type) {
+    rejectArchivePaths(source, 'symlink');
+    rejectArchivePaths(target, 'symlink');
+    return this._rootFs.symlink(source, target, type);
+  }
+
   rimraf(fullPath) {
     rejectArchivePaths(fullPath, 'rimraf');
     return this._rootFs.rimraf(fullPath);
@@ -152,7 +176,10 @@ class CompositeFileSystem {
   }
 
   createReadStream(fullPath, options) {
-    return this._bottomUpFsPath(fullPath).first().concatMap(({ segFs, pth }) => segFs.createReadStream(pth, options).refCount()).publish();
+    return this._bottomUpFsPath(fullPath).first().concatMap(({
+      segFs,
+      pth
+    }) => segFs.createReadStream(pth, options).refCount()).publish();
   }
 
   writeFile(fullPath, data, options) {
@@ -169,17 +196,19 @@ class CompositeFileSystem {
   }
 
   async _archiveAsDirectory(path) {
-    if ((_nuclideUri || _load_nuclideUri()).default.hasKnownArchiveExtension(path) && (await this.exists(path)) && (await this.lstat(path)).isFile()) {
+    if (_nuclideUri().default.hasKnownArchiveExtension(path) && (await this.exists(path)) && (await this.lstat(path)).isFile()) {
       return path + ARCHIVE_SEPARATOR;
     } else {
       return path;
     }
   }
+
 }
 
 exports.CompositeFileSystem = CompositeFileSystem;
+
 function rejectArchivePaths(fullPath, operation) {
-  if ((_nuclideUri || _load_nuclideUri()).default.isInArchive(fullPath)) {
+  if (_nuclideUri().default.isInArchive(fullPath)) {
     throw new Error(`The '${operation}' operation does not support archive paths like '${fullPath}'`);
   }
 }
@@ -192,6 +221,6 @@ function maybeJoin(prefix, found) {
   } else if (found === '') {
     return prefix;
   } else {
-    return (_nuclideUri || _load_nuclideUri()).default.archiveJoin(prefix, found);
+    return _nuclideUri().default.archiveJoin(prefix, found);
   }
 }

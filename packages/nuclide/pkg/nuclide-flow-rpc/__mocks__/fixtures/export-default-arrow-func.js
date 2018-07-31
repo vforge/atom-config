@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -14,5 +15,6 @@ Object.defineProperty(exports, "__esModule", {
  *  strict
  * @format
  */
+var _default = () => {};
 
-exports.default = () => {};
+exports.default = _default;

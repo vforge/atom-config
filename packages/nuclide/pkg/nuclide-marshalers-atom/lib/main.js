@@ -1,29 +1,34 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAtomSideLoopbackMarshalers = undefined;
 exports.getAtomSideMarshalers = getAtomSideMarshalers;
+exports.getAtomSideLoopbackMarshalers = void 0;
 
-var _nuclideMarshalersCommon;
+function _nuclideMarshalersCommon() {
+  const data = require("../../nuclide-marshalers-common");
 
-function _load_nuclideMarshalersCommon() {
-  return _nuclideMarshalersCommon = require('../../nuclide-marshalers-common');
+  _nuclideMarshalersCommon = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _atom = require('atom');
+var _atom = require("atom");
 
-const jsonToAtomPoint = json => new _atom.Point(json.row, json.column); /**
-                                                                         * Copyright (c) 2015-present, Facebook, Inc.
-                                                                         * All rights reserved.
-                                                                         *
-                                                                         * This source code is licensed under the license found in the LICENSE file in
-                                                                         * the root directory of this source tree.
-                                                                         *
-                                                                         *  strict-local
-                                                                         * @format
-                                                                         */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ *  strict-local
+ * @format
+ */
+const jsonToAtomPoint = json => new _atom.Point(json.row, json.column);
 
 const jsonToAtomRange = json => new _atom.Range(jsonToAtomPoint(json.start), jsonToAtomPoint(json.end));
 
@@ -32,7 +37,6 @@ const atomPointMarshalers = {
   marshaller: point => point,
   unmarshaller: jsonToAtomPoint
 };
-
 const atomRangeMarshalers = {
   typeName: 'atom$Range',
   marshaller: range => range,
@@ -40,7 +44,8 @@ const atomRangeMarshalers = {
 };
 
 function getAtomSideMarshalers(hostname) {
-  return [(0, (_nuclideMarshalersCommon || _load_nuclideMarshalersCommon()).getRemoteNuclideUriMarshalers)(hostname), atomPointMarshalers, atomRangeMarshalers];
+  return [(0, _nuclideMarshalersCommon().getRemoteNuclideUriMarshalers)(hostname), atomPointMarshalers, atomRangeMarshalers];
 }
 
-const getAtomSideLoopbackMarshalers = exports.getAtomSideLoopbackMarshalers = [(_nuclideMarshalersCommon || _load_nuclideMarshalersCommon()).localNuclideUriMarshalers, atomPointMarshalers, atomRangeMarshalers];
+const getAtomSideLoopbackMarshalers = [_nuclideMarshalersCommon().localNuclideUriMarshalers, atomPointMarshalers, atomRangeMarshalers];
+exports.getAtomSideLoopbackMarshalers = getAtomSideLoopbackMarshalers;

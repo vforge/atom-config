@@ -1,31 +1,48 @@
-'use strict';
+"use strict";
 
-var _simpleTextBuffer;
+function _simpleTextBuffer() {
+  const data = require("simple-text-buffer");
 
-function _load_simpleTextBuffer() {
-  return _simpleTextBuffer = require('simple-text-buffer');
+  _simpleTextBuffer = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _diagnosticsParser;
+function _diagnosticsParser() {
+  const data = require("../lib/diagnosticsParser");
 
-function _load_diagnosticsParser() {
-  return _diagnosticsParser = require('../lib/diagnosticsParser');
+  _diagnosticsParser = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _flowChildrenOutput;
+function _flowChildrenOutput() {
+  const data = _interopRequireDefault(require("../__mocks__/fixtures/flow-children-output.json"));
 
-function _load_flowChildrenOutput() {
-  return _flowChildrenOutput = _interopRequireDefault(require('../__mocks__/fixtures/flow-children-output.json'));
-}
+  _flowChildrenOutput = function () {
+    return data;
+  };
 
-var _flowChildrenDiagnostic;
-
-function _load_flowChildrenDiagnostic() {
-  return _flowChildrenDiagnostic = _interopRequireDefault(require('../__mocks__/fixtures/flow-children-diagnostic.json'));
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ * @emails oncall+nuclide
+ */
 const flowOutput = {
   passed: false,
   flowVersion: '0.23.0',
@@ -109,8 +126,16 @@ const flowOutput = {
       loc: {
         source: '/flow-test/src/test.js',
         type: 'SourceFile',
-        start: { line: 83, column: 9, offset: 1992 },
-        end: { line: 83, column: 12, offset: 1996 }
+        start: {
+          line: 83,
+          column: 9,
+          offset: 1992
+        },
+        end: {
+          line: 83,
+          column: 12,
+          offset: 1996
+        }
       },
       path: '/flow-test/src/test.js',
       line: 83,
@@ -133,8 +158,16 @@ const flowOutput = {
       loc: {
         source: '(builtins)',
         type: 'Builtins',
-        start: { line: 0, column: 1, offset: 0 },
-        end: { line: 0, column: 0, offset: 0 }
+        start: {
+          line: 0,
+          column: 1,
+          offset: 0
+        },
+        end: {
+          line: 0,
+          column: 0,
+          offset: 0
+        }
       },
       path: '(builtins)',
       line: 0,
@@ -142,25 +175,14 @@ const flowOutput = {
       start: 1,
       end: 0
     }]
-  }, (_flowChildrenOutput || _load_flowChildrenOutput()).default]
-}; /**
-    * Copyright (c) 2015-present, Facebook, Inc.
-    * All rights reserved.
-    *
-    * This source code is licensed under the license found in the LICENSE file in
-    * the root directory of this source tree.
-    *
-    * 
-    * @format
-    */
-
+  }, _flowChildrenOutput().default]
+};
 describe('flowStatusOutputToDiagnostics', () => {
   it('converts the flow status output', () => {
-    expect((0, (_diagnosticsParser || _load_diagnosticsParser()).flowStatusOutputToDiagnostics)(flowOutput)).toMatchSnapshot();
+    expect((0, _diagnosticsParser().flowStatusOutputToDiagnostics)(flowOutput)).toMatchSnapshot();
   });
-
   it('converts the flow status output >=0.66.0', () => {
-    expect((0, (_diagnosticsParser || _load_diagnosticsParser()).flowStatusOutputToDiagnostics)({
+    expect((0, _diagnosticsParser().flowStatusOutputToDiagnostics)({
       flowVersion: '0.65.0',
       errors: [{
         kind: 'infer',
@@ -169,14 +191,30 @@ describe('flowStatusOutputToDiagnostics', () => {
         primaryLoc: {
           source: 'test.js',
           type: 'SourceFile',
-          start: { line: 9, column: 3, offset: 92 },
-          end: { line: 9, column: 4, offset: 94 }
+          start: {
+            line: 9,
+            column: 3,
+            offset: 92
+          },
+          end: {
+            line: 9,
+            column: 4,
+            offset: 94
+          }
         },
         rootLoc: {
           source: 'test.js',
           type: 'SourceFile',
-          start: { line: 9, column: 2, offset: 91 },
-          end: { line: 9, column: 5, offset: 95 }
+          start: {
+            line: 9,
+            column: 2,
+            offset: 91
+          },
+          end: {
+            line: 9,
+            column: 5,
+            offset: 95
+          }
         },
         messageMarkup: [{
           kind: 'Text',
@@ -184,24 +222,58 @@ describe('flowStatusOutputToDiagnostics', () => {
         }, {
           kind: 'Reference',
           referenceId: '1',
-          message: [{ kind: 'Text', text: 'number' }]
-        }, { kind: 'Text', text: ' is incompatible with ' }, {
+          message: [{
+            kind: 'Text',
+            text: 'number'
+          }]
+        }, {
+          kind: 'Text',
+          text: ' is incompatible with '
+        }, {
           kind: 'Reference',
           referenceId: '2',
-          message: [{ kind: 'Text', text: 'empty' }]
-        }, { kind: 'Text', text: ' in property ' }, { kind: 'Code', text: 'p' }, { kind: 'Text', text: ' of index 0.' }],
+          message: [{
+            kind: 'Text',
+            text: 'empty'
+          }]
+        }, {
+          kind: 'Text',
+          text: ' in property '
+        }, {
+          kind: 'Code',
+          text: 'p'
+        }, {
+          kind: 'Text',
+          text: ' of index 0.'
+        }],
         referenceLocs: {
           '1': {
             source: 'test.js',
             type: 'SourceFile',
-            start: { line: 7, column: 16, offset: 65 },
-            end: { line: 7, column: 17, offset: 67 }
+            start: {
+              line: 7,
+              column: 16,
+              offset: 65
+            },
+            end: {
+              line: 7,
+              column: 17,
+              offset: 67
+            }
           },
           '2': {
             source: 'test.js',
             type: 'SourceFile',
-            start: { line: 6, column: 14, offset: 42 },
-            end: { line: 6, column: 18, offset: 47 }
+            start: {
+              line: 6,
+              column: 14,
+              offset: 42
+            },
+            end: {
+              line: 6,
+              column: 18,
+              offset: 47
+            }
           }
         }
       }, {
@@ -211,14 +283,30 @@ describe('flowStatusOutputToDiagnostics', () => {
         primaryLoc: {
           source: 'test.js',
           type: 'SourceFile',
-          start: { line: 10, column: 2, offset: 104 },
-          end: { line: 10, column: 5, offset: 108 }
+          start: {
+            line: 10,
+            column: 2,
+            offset: 104
+          },
+          end: {
+            line: 10,
+            column: 5,
+            offset: 108
+          }
         },
         rootLoc: {
           source: 'test.js',
           type: 'SourceFile',
-          start: { line: 10, column: 2, offset: 104 },
-          end: { line: 10, column: 5, offset: 108 }
+          start: {
+            line: 10,
+            column: 2,
+            offset: 104
+          },
+          end: {
+            line: 10,
+            column: 5,
+            offset: 108
+          }
         },
         messageMarkup: {
           kind: 'UnorderedList',
@@ -226,70 +314,194 @@ describe('flowStatusOutputToDiagnostics', () => {
             kind: 'Text',
             text: 'Cannot cast array literal to union type because:'
           }],
-          items: [[{ kind: 'Text', text: 'Either ' }, {
+          items: [[{
+            kind: 'Text',
+            text: 'Either '
+          }, {
             kind: 'Reference',
             referenceId: '1',
-            message: [{ kind: 'Text', text: 'number' }]
-          }, { kind: 'Text', text: ' is incompatible with ' }, {
+            message: [{
+              kind: 'Text',
+              text: 'number'
+            }]
+          }, {
+            kind: 'Text',
+            text: ' is incompatible with '
+          }, {
             kind: 'Reference',
             referenceId: '2',
-            message: [{ kind: 'Text', text: 'empty' }]
-          }, { kind: 'Text', text: ' in property ' }, { kind: 'Code', text: 'p' }, { kind: 'Text', text: ' of index 0.' }], [{ kind: 'Text', text: 'Or ' }, {
+            message: [{
+              kind: 'Text',
+              text: 'empty'
+            }]
+          }, {
+            kind: 'Text',
+            text: ' in property '
+          }, {
+            kind: 'Code',
+            text: 'p'
+          }, {
+            kind: 'Text',
+            text: ' of index 0.'
+          }], [{
+            kind: 'Text',
+            text: 'Or '
+          }, {
             kind: 'Reference',
             referenceId: '1',
-            message: [{ kind: 'Text', text: 'number' }]
-          }, { kind: 'Text', text: ' is incompatible with ' }, {
+            message: [{
+              kind: 'Text',
+              text: 'number'
+            }]
+          }, {
+            kind: 'Text',
+            text: ' is incompatible with '
+          }, {
             kind: 'Reference',
             referenceId: '3',
-            message: [{ kind: 'Text', text: 'empty' }]
-          }, { kind: 'Text', text: ' in property ' }, { kind: 'Code', text: 'p' }, { kind: 'Text', text: ' of index 0.' }], [{ kind: 'Text', text: 'Or ' }, {
+            message: [{
+              kind: 'Text',
+              text: 'empty'
+            }]
+          }, {
+            kind: 'Text',
+            text: ' in property '
+          }, {
+            kind: 'Code',
+            text: 'p'
+          }, {
+            kind: 'Text',
+            text: ' of index 0.'
+          }], [{
+            kind: 'Text',
+            text: 'Or '
+          }, {
             kind: 'Reference',
             referenceId: '1',
-            message: [{ kind: 'Text', text: 'number' }]
-          }, { kind: 'Text', text: ' is incompatible with ' }, {
+            message: [{
+              kind: 'Text',
+              text: 'number'
+            }]
+          }, {
+            kind: 'Text',
+            text: ' is incompatible with '
+          }, {
             kind: 'Reference',
             referenceId: '4',
-            message: [{ kind: 'Text', text: 'empty' }]
-          }, { kind: 'Text', text: ' in property ' }, { kind: 'Code', text: 'p' }, { kind: 'Text', text: ' of index 0.' }], [{ kind: 'Text', text: 'Or ' }, {
+            message: [{
+              kind: 'Text',
+              text: 'empty'
+            }]
+          }, {
+            kind: 'Text',
+            text: ' in property '
+          }, {
+            kind: 'Code',
+            text: 'p'
+          }, {
+            kind: 'Text',
+            text: ' of index 0.'
+          }], [{
+            kind: 'Text',
+            text: 'Or '
+          }, {
             kind: 'Reference',
             referenceId: '1',
-            message: [{ kind: 'Text', text: 'number' }]
-          }, { kind: 'Text', text: ' is incompatible with ' }, {
+            message: [{
+              kind: 'Text',
+              text: 'number'
+            }]
+          }, {
+            kind: 'Text',
+            text: ' is incompatible with '
+          }, {
             kind: 'Reference',
             referenceId: '5',
-            message: [{ kind: 'Text', text: 'empty' }]
-          }, { kind: 'Text', text: ' in property ' }, { kind: 'Code', text: 'p' }, { kind: 'Text', text: ' of index 0.' }]]
+            message: [{
+              kind: 'Text',
+              text: 'empty'
+            }]
+          }, {
+            kind: 'Text',
+            text: ' in property '
+          }, {
+            kind: 'Code',
+            text: 'p'
+          }, {
+            kind: 'Text',
+            text: ' of index 0.'
+          }]]
         },
         referenceLocs: {
           '1': {
             source: 'test.js',
             type: 'SourceFile',
-            start: { line: 8, column: 16, offset: 85 },
-            end: { line: 8, column: 17, offset: 87 }
+            start: {
+              line: 8,
+              column: 16,
+              offset: 85
+            },
+            end: {
+              line: 8,
+              column: 17,
+              offset: 87
+            }
           },
           '2': {
             source: 'test.js',
             type: 'SourceFile',
-            start: { line: 10, column: 13, offset: 115 },
-            end: { line: 10, column: 17, offset: 120 }
+            start: {
+              line: 10,
+              column: 13,
+              offset: 115
+            },
+            end: {
+              line: 10,
+              column: 17,
+              offset: 120
+            }
           },
           '3': {
             source: 'test.js',
             type: 'SourceFile',
-            start: { line: 10, column: 21, offset: 123 },
-            end: { line: 10, column: 25, offset: 128 }
+            start: {
+              line: 10,
+              column: 21,
+              offset: 123
+            },
+            end: {
+              line: 10,
+              column: 25,
+              offset: 128
+            }
           },
           '4': {
             source: 'test.js',
             type: 'SourceFile',
-            start: { line: 10, column: 36, offset: 138 },
-            end: { line: 10, column: 40, offset: 143 }
+            start: {
+              line: 10,
+              column: 36,
+              offset: 138
+            },
+            end: {
+              line: 10,
+              column: 40,
+              offset: 143
+            }
           },
           '5': {
             source: 'test.js',
             type: 'SourceFile',
-            start: { line: 10, column: 44, offset: 146 },
-            end: { line: 10, column: 48, offset: 151 }
+            start: {
+              line: 10,
+              column: 44,
+              offset: 146
+            },
+            end: {
+              line: 10,
+              column: 48,
+              offset: 151
+            }
           }
         }
       }],
@@ -297,7 +509,6 @@ describe('flowStatusOutputToDiagnostics', () => {
     })).toMatchSnapshot();
   });
 });
-
 describe('diagnosticToFix', () => {
   it('should provide a fix for an unused suppression comment', () => {
     const diagnostic = {
@@ -305,26 +516,25 @@ describe('diagnosticToFix', () => {
       providerName: 'Flow',
       type: 'Error',
       text: 'Error suppressing comment',
-      range: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range([5, 0], [5, 13]),
+      range: new (_simpleTextBuffer().Range)([5, 0], [5, 13]),
       trace: [{
         type: 'Trace',
         text: 'Unused suppression'
       }]
     };
-    const fix = (0, (_diagnosticsParser || _load_diagnosticsParser()).diagnosticToFix)(diagnostic);
+    const fix = (0, _diagnosticsParser().diagnosticToFix)(diagnostic);
     expect(fix).toEqual({
-      oldRange: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range([5, 0], [5, 13]),
+      oldRange: new (_simpleTextBuffer().Range)([5, 0], [5, 13]),
       newText: '',
       speculative: true
     });
   });
-
   it('should provide a fix for named import typos', () => {
     const diagnostic = {
       type: 'Error',
       providerName: 'Flow',
       filePath: 'foo',
-      range: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range([2, 8], [2, 16]),
+      range: new (_simpleTextBuffer().Range)([2, 8], [2, 16]),
       text: 'Named import from module `./foo`',
       trace: [{
         type: 'Trace',
@@ -332,9 +542,9 @@ describe('diagnosticToFix', () => {
         rangeInFile: null
       }]
     };
-    const fix = (0, (_diagnosticsParser || _load_diagnosticsParser()).diagnosticToFix)(diagnostic);
+    const fix = (0, _diagnosticsParser().diagnosticToFix)(diagnostic);
     expect(fix).toEqual({
-      oldRange: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range([2, 8], [2, 16]),
+      oldRange: new (_simpleTextBuffer().Range)([2, 8], [2, 16]),
       oldText: 'FooBrBaaaaz',
       newText: 'foobar',
       speculative: true

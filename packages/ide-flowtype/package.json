@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118430-97902-k542kb.n6k5hzolxr/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11869-11821-1seiw6u.9r0aoflxr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118430-97902-k542kb.n6k5hzolxr/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118430-97902-k542kb.n6k5hzolxr/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11869-11821-1seiw6u.9r0aoflxr/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11869-11821-1seiw6u.9r0aoflxr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118430-97902-p45fmb.0qekzw7b9"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11869-11821-1yjqc0u.cm7747k3xr"
     ]
   ],
-  "_from": "../d-118430-97902-k542kb.n6k5hzolxr/package.tgz",
-  "_id": "ide-flowtype@0.23.0",
+  "_from": "../d-11869-11821-1seiw6u.9r0aoflxr/package.tgz",
+  "_id": "ide-flowtype@0.23.1",
   "_inCache": true,
   "_location": "/ide-flowtype",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118430-97902-k542kb.n6k5hzolxr/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11869-11821-1seiw6u.9r0aoflxr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118430-97902-k542kb.n6k5hzolxr/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118430-97902-k542kb.n6k5hzolxr/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11869-11821-1seiw6u.9r0aoflxr/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11869-11821-1seiw6u.9r0aoflxr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118430-97902-k542kb.n6k5hzolxr/package.tgz",
-  "_shasum": "0966448885d8113e92b7cae638d2e5ddf0b45015",
+  "_resolved": "file:../d-11869-11821-1seiw6u.9r0aoflxr/package.tgz",
+  "_shasum": "2f875d052bb14a892c96d54334c5f3dce29ed9af",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118430-97902-k542kb.n6k5hzolxr/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118430-97902-p45fmb.0qekzw7b9",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11869-11821-1seiw6u.9r0aoflxr/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11869-11821-1yjqc0u.cm7747k3xr",
   "activationHooks": [
     "core:loaded-shell-environment"
   ],
@@ -127,5 +127,5 @@
     "format": "prettier --write {lib,eslint-rules}/**/*.js .eslintrc.js package.json",
     "lint": "eslint lib"
   },
-  "version": "0.23.0"
+  "version": "0.23.1"
 }

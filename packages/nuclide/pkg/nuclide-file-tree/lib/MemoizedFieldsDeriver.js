@@ -1,29 +1,52 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MemoizedFieldsDeriver = undefined;
+exports.MemoizedFieldsDeriver = void 0;
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _FileTreeHelpers;
+function _FileTreeHelpers() {
+  const data = _interopRequireDefault(require("./FileTreeHelpers"));
 
-function _load_FileTreeHelpers() {
-  return _FileTreeHelpers = _interopRequireDefault(require('./FileTreeHelpers'));
+  _FileTreeHelpers = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _hgConstants;
+function _hgConstants() {
+  const data = require("../../nuclide-hg-rpc/lib/hg-constants");
 
-function _load_hgConstants() {
-  return _hgConstants = require('../../nuclide-hg-rpc/lib/hg-constants');
+  _hgConstants = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
 
 /**
  * This is a support class for FileTreeNode.
@@ -46,31 +69,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * stored.
  *
  */
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
-
 class MemoizedFieldsDeriver {
-
   // These properties do not depend on the conf instance and can be calculated right away.
   constructor(uri, rootUri) {
     this._uri = uri;
     this._rootUri = rootUri;
-
     this._isRoot = uri === rootUri;
-    this._name = (_FileTreeHelpers || _load_FileTreeHelpers()).default.keyToName(uri);
-    this._isContainer = (_FileTreeHelpers || _load_FileTreeHelpers()).default.isDirOrArchiveKey(uri);
-    this._relativePath = (_nuclideUri || _load_nuclideUri()).default.relative(rootUri, uri);
-    this._localPath = (_FileTreeHelpers || _load_FileTreeHelpers()).default.keyToPath((_nuclideUri || _load_nuclideUri()).default.isRemote(uri) ? (_nuclideUri || _load_nuclideUri()).default.parse(uri).path : uri);
-    this._splitPath = (_nuclideUri || _load_nuclideUri()).default.split(uri);
-
+    this._name = _FileTreeHelpers().default.keyToName(uri);
+    this._isContainer = _FileTreeHelpers().default.isDirOrArchiveKey(uri);
+    this._relativePath = _nuclideUri().default.relative(rootUri, uri);
+    this._localPath = _FileTreeHelpers().default.keyToPath(_nuclideUri().default.isRemote(uri) ? _nuclideUri().default.parse(uri).path : uri);
+    this._splitPath = _nuclideUri().default.split(uri);
     this._getRepo = memoize(this._repoGetter.bind(this));
     this._getVcsStatusCode = memoize(this._vcsStatusCodeGetter.bind(this));
     this._getIsIgnored = memoize(this._isIgnoredGetter.bind(this));
@@ -84,7 +93,6 @@ class MemoizedFieldsDeriver {
   _repoGetter(conf, store) {
     if (store.reposByRoot !== conf.reposByRoot) {
       store.reposByRoot = conf.reposByRoot;
-
       store.repo = store.reposByRoot[this._rootUri];
     }
 
@@ -94,9 +102,8 @@ class MemoizedFieldsDeriver {
   _vcsStatusCodeGetter(conf, store) {
     if (store.vcsStatuses !== conf.vcsStatuses) {
       store.vcsStatuses = conf.vcsStatuses;
-
       const rootVcsStatuses = store.vcsStatuses.get(this._rootUri) || new Map();
-      store.vcsStatusCode = rootVcsStatuses.get(this._uri) || (_hgConstants || _load_hgConstants()).StatusCodeNumber.CLEAN;
+      store.vcsStatusCode = rootVcsStatuses.get(this._uri) || _hgConstants().StatusCodeNumber.CLEAN;
     }
 
     return store.vcsStatusCode;
@@ -104,9 +111,9 @@ class MemoizedFieldsDeriver {
 
   _isIgnoredGetter(conf, store) {
     const repo = this._getRepo(conf);
+
     if (store.repo !== repo) {
       store.repo = repo;
-
       store.isIgnored = store.repo != null && store.repo.isProjectAtRoot() && store.repo.isPathIgnored(this._uri);
     }
 
@@ -140,7 +147,6 @@ class MemoizedFieldsDeriver {
   _containedInWorkingSetGetter(conf, store) {
     if (store.workingSet !== conf.workingSet) {
       store.workingSet = conf.workingSet;
-
       store.containedInWorkingSet = this._isContainer ? store.workingSet.containsDirBySplitPath(this._splitPath) : store.workingSet.containsFileBySplitPath(this._splitPath);
     }
 
@@ -163,7 +169,9 @@ class MemoizedFieldsDeriver {
 
   _shouldBeShownGetter(conf, store) {
     const isIgnored = this._getIsIgnored(conf);
+
     const containedInWorkingSet = this._getContainedInWorkingSet(conf);
+
     const containedInOpenFilesWorkingSet = this._getContainedInOpenFilesWorkingSet(conf);
 
     if (store.isIgnored !== isIgnored || store.excludeVcsIgnoredPaths !== conf.excludeVcsIgnoredPaths || store.hideVcsIgnoredPaths !== conf.hideVcsIgnoredPaths || store.hideIgnoredNames !== conf.hideIgnoredNames || store.ignoredPatterns !== conf.ignoredPatterns || store.isEditingWorkingSet !== conf.isEditingWorkingSet || store.containedInWorkingSet !== containedInWorkingSet || store.containedInOpenFilesWorkingSet !== containedInOpenFilesWorkingSet) {
@@ -192,6 +200,7 @@ class MemoizedFieldsDeriver {
 
   _shouldBeSoftenedGetter(conf, store) {
     const containedInWorkingSet = this._getContainedInWorkingSet(conf);
+
     const containedInOpenFilesWorkingSet = this._getContainedInOpenFilesWorkingSet(conf);
 
     if (store.isEditingWorkingSet !== conf.isEditingWorkingSet || store.containedInWorkingSet !== containedInWorkingSet || store.containedInOpenFilesWorkingSet !== containedInOpenFilesWorkingSet) {
@@ -216,7 +225,6 @@ class MemoizedFieldsDeriver {
       isContainer: this._isContainer,
       relativePath: this._relativePath,
       localPath: this._localPath,
-
       repo: this._getRepo(conf),
       vcsStatusCode: this._getVcsStatusCode(conf),
       isIgnored: this._getIsIgnored(conf),
@@ -225,11 +233,12 @@ class MemoizedFieldsDeriver {
       shouldBeSoftened: this._getShouldBeSoftened(conf)
     };
   }
+
 }
 
 exports.MemoizedFieldsDeriver = MemoizedFieldsDeriver;
+
 function memoize(getter) {
   const store = {};
-
   return conf => getter(conf, store);
 }

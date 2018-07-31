@@ -1,15 +1,30 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.hackMessageToDiagnosticMessage = hackMessageToDiagnosticMessage;
 
-var _simpleTextBuffer;
+function _simpleTextBuffer() {
+  const data = require("simple-text-buffer");
 
-function _load_simpleTextBuffer() {
-  return _simpleTextBuffer = require('simple-text-buffer');
+  _simpleTextBuffer = function () {
+    return data;
+  };
+
+  return data;
 }
+
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
 
 /**
  * Currently, a diagnostic from Hack is an object with a "message" property.
@@ -30,20 +45,9 @@ function _load_simpleTextBuffer() {
 function extractRange(message) {
   // It's unclear why the 1-based to 0-based indexing works the way that it
   // does, but this has the desired effect in the UI, in practice.
-  return new (_simpleTextBuffer || _load_simpleTextBuffer()).Range([message.line - 1, message.start - 1], [message.line - 1, message.end]);
-}
+  return new (_simpleTextBuffer().Range)([message.line - 1, message.start - 1], [message.line - 1, message.end]);
+} // A trace object is very similar to an error object.
 
-// A trace object is very similar to an error object.
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the license found in the LICENSE file in
- * the root directory of this source tree.
- *
- * 
- * @format
- */
 
 function hackMessageToTrace(traceError) {
   return {
@@ -59,7 +63,7 @@ function hackMessageToDiagnosticMessage(hackMessages) {
   const causeMessage = hackMessages[0];
 
   if (!(causeMessage.path != null)) {
-    throw new Error('Invariant violation: "causeMessage.path != null"');
+    throw new Error("Invariant violation: \"causeMessage.path != null\"");
   }
 
   const diagnosticMessage = {
@@ -68,13 +72,11 @@ function hackMessageToDiagnosticMessage(hackMessages) {
     text: causeMessage.descr,
     filePath: causeMessage.path,
     range: extractRange(causeMessage)
-  };
-
-  // When the message is an array with multiple elements, the second element
+  }; // When the message is an array with multiple elements, the second element
   // onwards comprise the trace for the error.
+
   if (hackMessages.length > 1) {
-    diagnosticMessage.trace = hackMessages.slice(1)
-    // Skip traces without position since they are not useful, and would crash
+    diagnosticMessage.trace = hackMessages.slice(1) // Skip traces without position since they are not useful, and would crash
     // the RPC connection. See comment in HackService.
     .filter(x => {
       return x.path !== '';

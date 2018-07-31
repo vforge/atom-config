@@ -1,8 +1,9 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -18,14 +19,18 @@ Object.defineProperty(exports, "__esModule", {
 /*
  * Async implementation of Jasmine's waitsFor()
  */
-exports.default = async function waitsFor(fn, message, timeout = 4500) {
+var waitsFor = async function waitsFor(fn, message, timeout = 4500) {
   const error = new Error(message != null ? message : 'Expected the function to start returning "true" but it never did');
   const startTime = Date.now();
+
   while (!Boolean(fn())) {
     if (Date.now() - startTime > timeout) {
       throw error;
-    }
-    // eslint-disable-next-line no-await-in-loop
+    } // eslint-disable-next-line no-await-in-loop
+
+
     await new Promise(resolve => setTimeout(resolve, 50));
   }
 };
+
+exports.default = waitsFor;

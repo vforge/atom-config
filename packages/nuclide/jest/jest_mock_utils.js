@@ -8,21 +8,27 @@
  * 
  * @format
  */
-
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-const mockFunction = exports.mockFunction = (obj, propName, mockImplementation) => {
+exports.getMock = exports.mockFunction = void 0;
+
+const mockFunction = (obj, propName, mockImplementation) => {
   const mock = jest.fn(mockImplementation);
   obj[propName] = mock;
   return mock;
 };
 
-const getMock = exports.getMock = fn => {
+exports.mockFunction = mockFunction;
+
+const getMock = fn => {
   if (!fn._isMockFunction) {
     throw new Error('Passed function is not a mock');
   }
+
   return fn;
 };
+
+exports.getMock = getMock;

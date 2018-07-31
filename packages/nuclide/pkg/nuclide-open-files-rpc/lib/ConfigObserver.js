@@ -1,34 +1,50 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ConfigObserver = undefined;
+exports.ConfigObserver = void 0;
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _collection;
+function _collection() {
+  const data = require("../../../modules/nuclide-commons/collection");
 
-function _load_collection() {
-  return _collection = require('../../../modules/nuclide-commons/collection');
+  _collection = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _constants;
+function _constants() {
+  const data = require("./constants");
 
-function _load_constants() {
-  return _constants = require('./constants');
+  _constants = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _FileCache;
+function _FileCache() {
+  const data = require("./FileCache");
 
-function _load_FileCache() {
-  return _FileCache = require('./FileCache');
+  _FileCache = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -43,25 +59,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
-
 class ConfigObserver {
-
   constructor(cache, fileExtensions, findConfigDir) {
     this._fileCache = cache;
     this._fileExtensions = fileExtensions;
     this._findConfigDir = findConfigDir;
-    this._currentConfigs = new _rxjsBundlesRxMinJs.BehaviorSubject(new Set());
-    // TODO: Consider incrementally updating, rather than recomputing on each event.
-    this._subscription = cache.observeFileEvents().filter(fileEvent => fileEvent.kind !== (_constants || _load_constants()).FileEventKind.EDIT).mapTo(undefined).merge(cache.observeDirectoryEvents().mapTo(undefined)).switchMap(() => _rxjsBundlesRxMinJs.Observable.fromPromise(this._computeOpenConfigs())).distinctUntilChanged((_collection || _load_collection()).areSetsEqual)
-    // Filter out initial empty set, which duplicates the initial value of the BehaviorSubject
+    this._currentConfigs = new _RxMin.BehaviorSubject(new Set()); // TODO: Consider incrementally updating, rather than recomputing on each event.
+
+    this._subscription = cache.observeFileEvents().filter(fileEvent => fileEvent.kind !== _constants().FileEventKind.EDIT).mapTo(undefined).merge(cache.observeDirectoryEvents().mapTo(undefined)).switchMap(() => _RxMin.Observable.fromPromise(this._computeOpenConfigs())).distinctUntilChanged(_collection().areSetsEqual) // Filter out initial empty set, which duplicates the initial value of the BehaviorSubject
     .skipWhile(dirs => dirs.size === 0).subscribe(this._currentConfigs);
   }
 
   async _computeOpenConfigs() {
-    const paths = Array.from(this._fileCache.getOpenDirectories()).concat(Array.from(this._fileCache.getOpenFiles()).filter(filePath => this._fileExtensions.indexOf((_nuclideUri || _load_nuclideUri()).default.extname(filePath)) !== -1));
+    const paths = Array.from(this._fileCache.getOpenDirectories()).concat(Array.from(this._fileCache.getOpenFiles()).filter(filePath => this._fileExtensions.indexOf(_nuclideUri().default.extname(filePath)) !== -1));
+    const result = new Set((await Promise.all(paths.map(path => this._findConfigDir(path)))).filter(path => path != null)); // $FlowIssue Flow doesn't understand filter
 
-    const result = new Set((await Promise.all(paths.map(path => this._findConfigDir(path)))).filter(path => path != null));
-    // $FlowIssue Flow doesn't understand filter
     return result;
   }
 
@@ -75,8 +87,12 @@ class ConfigObserver {
 
   dispose() {
     this._subscription.unsubscribe();
+
     this._currentConfigs.complete();
+
     this._currentConfigs.unsubscribe();
   }
+
 }
+
 exports.ConfigObserver = ConfigObserver;

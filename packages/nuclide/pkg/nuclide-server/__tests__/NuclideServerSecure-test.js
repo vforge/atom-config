@@ -1,136 +1,167 @@
-'use strict';
+"use strict";
 
-var _fs = _interopRequireDefault(require('fs'));
+var _fs = _interopRequireDefault(require("fs"));
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _NuclideServer;
+function _NuclideServer() {
+  const data = _interopRequireDefault(require("../lib/NuclideServer"));
 
-function _load_NuclideServer() {
-  return _NuclideServer = _interopRequireDefault(require('../lib/NuclideServer'));
+  _NuclideServer = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideRpc;
+function _nuclideRpc() {
+  const data = require("../../nuclide-rpc");
 
-function _load_nuclideRpc() {
-  return _nuclideRpc = require('../../nuclide-rpc');
+  _nuclideRpc = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _servicesConfig;
+function _servicesConfig() {
+  const data = _interopRequireDefault(require("../lib/servicesConfig"));
 
-function _load_servicesConfig() {
-  return _servicesConfig = _interopRequireDefault(require('../lib/servicesConfig'));
+  _servicesConfig = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _ReliableSocket;
+function _ReliableSocket() {
+  const data = require("../../../modules/big-dig/src/socket/ReliableSocket");
 
-function _load_ReliableSocket() {
-  return _ReliableSocket = require('../../../modules/big-dig/src/socket/ReliableSocket');
+  _ReliableSocket = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _WebSocketTransport;
+function _WebSocketTransport() {
+  const data = require("../../../modules/big-dig/src/socket/WebSocketTransport");
 
-function _load_WebSocketTransport() {
-  return _WebSocketTransport = require('../../../modules/big-dig/src/socket/WebSocketTransport');
+  _WebSocketTransport = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideMarshalersCommon;
+function _nuclideMarshalersCommon() {
+  const data = require("../../nuclide-marshalers-common");
 
-function _load_nuclideMarshalersCommon() {
-  return _nuclideMarshalersCommon = require('../../nuclide-marshalers-common');
+  _nuclideMarshalersCommon = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideVersion;
+function _nuclideVersion() {
+  const data = require("../../nuclide-version");
 
-function _load_nuclideVersion() {
-  return _nuclideVersion = require('../../nuclide-version');
+  _nuclideVersion = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _child_process = _interopRequireDefault(require('child_process'));
+var _child_process = _interopRequireDefault(require("child_process"));
 
-var _nullthrows;
+function _nullthrows() {
+  const data = _interopRequireDefault(require("nullthrows"));
 
-function _load_nullthrows() {
-  return _nullthrows = _interopRequireDefault(require('nullthrows'));
+  _nullthrows = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-jest.setTimeout(30000); /**
-                         * Copyright (c) 2015-present, Facebook, Inc.
-                         * All rights reserved.
-                         *
-                         * This source code is licensed under the license found in the LICENSE file in
-                         * the root directory of this source tree.
-                         *
-                         * 
-                         * @format
-                         */
-
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ * @emails oncall+nuclide
+ */
+jest.setTimeout(30000);
 const HEARTBEAT_CHANNEL = 'test-heartbeat';
-
 let server;
-let socket;
+let socket; // Paths to certificate authority crt (certificate)
 
-// Paths to certificate authority crt (certificate)
-let ca_cert_path;
+let ca_cert_path; // Path to server key, and crt (certificate)
 
-// Path to server key, and crt (certificate)
 let server_cert_path;
-let server_key_path;
+let server_key_path; // Path to client key, and crt (certificate)
 
-// Path to client key, and crt (certificate)
 let client_cert_path;
 let client_key_path;
 
-const gen_certs_path = (_nuclideUri || _load_nuclideUri()).default.resolve(__dirname, '../scripts/nuclide_certificates_generator.py');
+const gen_certs_path = _nuclideUri().default.resolve(__dirname, '../scripts/nuclide_certificates_generator.py');
 
 describe('Nuclide Secure Server test suite', () => {
   it.skip('Starts a server', async () => {
     // generating certificates step fails because of missing `propmt = no` in
     // the config.
     generateCertificates();
-
-    server = new (_NuclideServer || _load_NuclideServer()).default({
+    server = new (_NuclideServer().default)({
       port: 8176,
       serverKey: _fs.default.readFileSync(server_key_path),
       serverCertificate: _fs.default.readFileSync(server_cert_path),
       certificateAuthorityCertificate: _fs.default.readFileSync(ca_cert_path)
-    }, (_servicesConfig || _load_servicesConfig()).default);
-
+    }, _servicesConfig().default);
     await server.connect();
-
-    socket = new (_ReliableSocket || _load_ReliableSocket()).ReliableSocket('https://localhost:8176', HEARTBEAT_CHANNEL, {
+    socket = new (_ReliableSocket().ReliableSocket)('https://localhost:8176', HEARTBEAT_CHANNEL, {
       ca: _fs.default.readFileSync(ca_cert_path),
       cert: _fs.default.readFileSync(client_cert_path),
       key: _fs.default.readFileSync(client_key_path),
       family: 6
     });
-    const client = (_nuclideRpc || _load_nuclideRpc()).RpcConnection.createRemote(socket, [(0, (_nuclideMarshalersCommon || _load_nuclideMarshalersCommon()).getRemoteNuclideUriMarshalers)('localhost')], (_servicesConfig || _load_servicesConfig()).default);
+
+    const client = _nuclideRpc().RpcConnection.createRemote(socket, [(0, _nuclideMarshalersCommon().getRemoteNuclideUriMarshalers)('localhost')], _servicesConfig().default);
 
     if (!client) {
-      throw new Error('Invariant violation: "client"');
+      throw new Error("Invariant violation: \"client\"");
     }
 
     const version = await client.getService('InfoService').getServerVersion();
-    expect(version).toBe((0, (_nuclideVersion || _load_nuclideVersion()).getVersion)());
+    expect(version).toBe((0, _nuclideVersion().getVersion)()); // Ensure that we resolved the IPv6 address.
 
-    // Ensure that we resolved the IPv6 address.
     const rpcTransport = client._transport;
-    const queuedTransport = (0, (_nullthrows || _load_nullthrows()).default)(rpcTransport)._transport;
-    const webSocketTransport = (0, (_nullthrows || _load_nullthrows()).default)(queuedTransport)._transport;
 
-    if (!(webSocketTransport instanceof (_WebSocketTransport || _load_WebSocketTransport()).WebSocketTransport)) {
-      throw new Error('Invariant violation: "webSocketTransport instanceof WebSocketTransport"');
+    const queuedTransport = (0, _nullthrows().default)(rpcTransport)._transport;
+
+    const webSocketTransport = (0, _nullthrows().default)(queuedTransport)._transport;
+
+    if (!(webSocketTransport instanceof _WebSocketTransport().WebSocketTransport)) {
+      throw new Error("Invariant violation: \"webSocketTransport instanceof WebSocketTransport\"");
     }
 
-    const webSocket = (0, (_nullthrows || _load_nullthrows()).default)(webSocketTransport._socket);
+    const webSocket = (0, _nullthrows().default)(webSocketTransport._socket);
     expect(webSocket._socket.remoteAddress).toBe('::1');
-
     socket.close();
     server.close();
   });
@@ -138,6 +169,7 @@ describe('Nuclide Secure Server test suite', () => {
 
 function generateCertificates() {
   const out = _child_process.default.execSync(`${gen_certs_path} -s localhost`).toString('utf8');
+
   const json = JSON.parse(out);
   ca_cert_path = json.ca_cert;
   server_cert_path = json.server_cert;

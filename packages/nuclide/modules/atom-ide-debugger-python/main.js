@@ -1,63 +1,84 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.NUCLIDE_PYTHON_DEBUGGER_DEX_URI = undefined;
 exports.getPythonAutoGenConfig = getPythonAutoGenConfig;
+exports.NUCLIDE_PYTHON_DEBUGGER_DEX_URI = void 0;
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideDebuggerCommon;
+function _nuclideDebuggerCommon() {
+  const data = require("../nuclide-debugger-common");
 
-function _load_nuclideDebuggerCommon() {
-  return _nuclideDebuggerCommon = require('../nuclide-debugger-common');
+  _nuclideDebuggerCommon = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _react = _interopRequireWildcard(require('react'));
+var React = _interopRequireWildcard(require("react"));
 
-var _createPackage;
+function _createPackage() {
+  const data = _interopRequireDefault(require("../nuclide-commons-atom/createPackage"));
 
-function _load_createPackage() {
-  return _createPackage = _interopRequireDefault(require('../nuclide-commons-atom/createPackage'));
+  _createPackage = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _AutoGenLaunchAttachProvider;
+function _AutoGenLaunchAttachProvider() {
+  const data = require("../nuclide-debugger-common/AutoGenLaunchAttachProvider");
 
-function _load_AutoGenLaunchAttachProvider() {
-  return _AutoGenLaunchAttachProvider = require('../nuclide-debugger-common/AutoGenLaunchAttachProvider');
+  _AutoGenLaunchAttachProvider = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _utils;
+function _utils() {
+  const data = require("./utils");
 
-function _load_utils() {
-  return _utils = require('./utils');
+  _utils = function () {
+    return data;
+  };
+
+  return data;
 }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const NUCLIDE_PYTHON_DEBUGGER_DEX_URI = exports.NUCLIDE_PYTHON_DEBUGGER_DEX_URI = 'https://our.intern.facebook.com/intern/dex/python-and-fbcode/debugging/#nuclide'; /**
-                                                                                                                                                                      * Copyright (c) 2017-present, Facebook, Inc.
-                                                                                                                                                                      * All rights reserved.
-                                                                                                                                                                      *
-                                                                                                                                                                      * This source code is licensed under the BSD-style license found in the
-                                                                                                                                                                      * LICENSE file in the root directory of this source tree. An additional grant
-                                                                                                                                                                      * of patent rights can be found in the PATENTS file in the same directory.
-                                                                                                                                                                      *
-                                                                                                                                                                      *  strict-local
-                                                                                                                                                                      * @format
-                                                                                                                                                                      */
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ *  strict-local
+ * @format
+ */
+const NUCLIDE_PYTHON_DEBUGGER_DEX_URI = 'https://our.intern.facebook.com/intern/dex/python-and-fbcode/debugging/#nuclide';
+exports.NUCLIDE_PYTHON_DEBUGGER_DEX_URI = NUCLIDE_PYTHON_DEBUGGER_DEX_URI;
 
 class Activation {
-
   constructor() {
-    this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default((0, (_utils || _load_utils()).listenToRemoteDebugCommands)());
+    this._subscriptions = new (_UniversalDisposable().default)((0, _utils().listenToRemoteDebugCommands)());
   }
 
   dispose() {
@@ -65,17 +86,18 @@ class Activation {
   }
 
   consumeRpcService(rpcService) {
-    return (0, (_utils || _load_utils()).setRpcService)(rpcService);
+    return (0, _utils().setRpcService)(rpcService);
   }
 
   createDebuggerProvider() {
     return {
-      type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.PYTHON,
+      type: _nuclideDebuggerCommon().VsAdapterTypes.PYTHON,
       getLaunchAttachProvider: connection => {
-        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.PYTHON, connection, getPythonAutoGenConfig());
+        return new (_AutoGenLaunchAttachProvider().AutoGenLaunchAttachProvider)(_nuclideDebuggerCommon().VsAdapterNames.PYTHON, connection, getPythonAutoGenConfig());
       }
     };
   }
+
 }
 
 function getPythonAutoGenConfig() {
@@ -134,39 +156,31 @@ function getPythonAutoGenConfig() {
     required: false,
     visible: true
   };
-
   return {
     launch: {
       launch: true,
-      vsAdapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.PYTHON,
+      vsAdapterType: _nuclideDebuggerCommon().VsAdapterTypes.PYTHON,
       threads: true,
       properties: [program, pythonPath, cwd, args, stopOnEntry, debugOptions, env],
       scriptPropertyName: 'program',
       scriptExtension: '.py',
       cwdPropertyName: 'cwd',
-      header: isNuclideEnvironment() ? _react.createElement(
-        'p',
-        null,
-        'This is intended to debug python script files.',
-        _react.createElement('br', null),
-        'To debug buck targets, you should',
-        ' ',
-        _react.createElement(
-          'a',
-          { href: NUCLIDE_PYTHON_DEBUGGER_DEX_URI },
-          'use the buck toolbar instead'
-        ),
-        '.'
-      ) : null,
+      header: isNuclideEnvironment() ? React.createElement("p", null, "This is intended to debug python script files.", React.createElement("br", null), "To debug buck targets, you should", ' ', React.createElement("a", {
+        href: NUCLIDE_PYTHON_DEBUGGER_DEX_URI
+      }, "use the buck toolbar instead"), ".") : null,
+
       getProcessName(values) {
         let processName = values.program;
         const lastSlash = processName.lastIndexOf('/');
+
         if (lastSlash >= 0) {
           processName = processName.substring(lastSlash + 1, processName.length);
         }
+
         processName += ' (Python)';
         return processName;
       }
+
     },
     attach: null
   };
@@ -176,4 +190,4 @@ function isNuclideEnvironment() {
   return atom.packages.isPackageLoaded('nuclide');
 }
 
-(0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);
+(0, _createPackage().default)(module.exports, Activation);

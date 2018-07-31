@@ -1,29 +1,53 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _collection;
+function _collection() {
+  const data = require("../../nuclide-commons/collection");
 
-function _load_collection() {
-  return _collection = require('../../nuclide-commons/collection');
+  _collection = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _Breakpoint;
+function _Breakpoint() {
+  const data = _interopRequireDefault(require("./Breakpoint"));
 
-function _load_Breakpoint() {
-  return _Breakpoint = _interopRequireDefault(require('./Breakpoint'));
+  _Breakpoint = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nullthrows;
+function _nullthrows() {
+  const data = _interopRequireDefault(require("nullthrows"));
 
-function _load_nullthrows() {
-  return _nullthrows = _interopRequireDefault(require('nullthrows'));
+  _nullthrows = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ *  strict-local
+ * @format
+ */
 class BreakpointCollection {
   constructor() {
     this._breakpoints = new Map();
@@ -38,11 +62,13 @@ class BreakpointCollection {
     });
 
     const index = this._allocateIndex();
-    const breakpoint = new (_Breakpoint || _load_Breakpoint()).default(index);
+
+    const breakpoint = new (_Breakpoint().default)(index);
     breakpoint.setPath(path);
     breakpoint.setLine(line);
 
     this._breakpoints.set(index, breakpoint);
+
     return index;
   }
 
@@ -54,9 +80,12 @@ class BreakpointCollection {
     });
 
     const index = this._allocateIndex();
-    const breakpoint = new (_Breakpoint || _load_Breakpoint()).default(index);
+
+    const breakpoint = new (_Breakpoint().default)(index);
     breakpoint.setFunc(func);
+
     this._breakpoints.set(index, breakpoint);
+
     return index;
   }
 
@@ -66,13 +95,13 @@ class BreakpointCollection {
       id: _.id,
       verified: _.verified,
       enabled: _.enabled,
-      path: (0, (_nullthrows || _load_nullthrows()).default)(_.path),
-      line: (0, (_nullthrows || _load_nullthrows()).default)(_.line)
+      path: (0, _nullthrows().default)(_.path),
+      line: (0, _nullthrows().default)(_.line)
     }));
   }
 
   getAllEnabledBreakpointsByPath() {
-    const sources = new Set((0, (_collection || _load_collection()).arrayCompact)(Array.from(this._breakpoints.values()).map(_ => _.path)));
+    const sources = new Set((0, _collection().arrayCompact)(Array.from(this._breakpoints.values()).map(_ => _.path)));
     return new Map(Array.from(sources).map(src => [src, this.getAllEnabledBreakpointsForSource(src)]));
   }
 
@@ -84,7 +113,7 @@ class BreakpointCollection {
       enabled: x.enabled,
       path: x.path,
       line: x.line,
-      func: (0, (_nullthrows || _load_nullthrows()).default)(x.func)
+      func: (0, _nullthrows().default)(x.func)
     }));
   }
 
@@ -118,6 +147,7 @@ class BreakpointCollection {
 
   setBreakpointId(index, id) {
     const bpt = this._breakpoints.get(index);
+
     if (bpt != null) {
       bpt.setId(id);
     }
@@ -125,6 +155,7 @@ class BreakpointCollection {
 
   setBreakpointVerified(index, verified) {
     const bpt = this._breakpoints.get(index);
+
     if (bpt != null) {
       bpt.setVerified(verified);
     }
@@ -132,6 +163,7 @@ class BreakpointCollection {
 
   setPathAndFile(index, path, line) {
     const bpt = this._breakpoints.get(index);
+
     if (bpt != null) {
       bpt.setPath(path);
       bpt.setLine(line);
@@ -141,15 +173,7 @@ class BreakpointCollection {
   _allocateIndex() {
     return this._nextIndex++;
   }
+
 }
-exports.default = BreakpointCollection; /**
-                                         * Copyright (c) 2017-present, Facebook, Inc.
-                                         * All rights reserved.
-                                         *
-                                         * This source code is licensed under the BSD-style license found in the
-                                         * LICENSE file in the root directory of this source tree. An additional grant
-                                         * of patent rights can be found in the PATENTS file in the same directory.
-                                         *
-                                         *  strict-local
-                                         * @format
-                                         */
+
+exports.default = BreakpointCollection;

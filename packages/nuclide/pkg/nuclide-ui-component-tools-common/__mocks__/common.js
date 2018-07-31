@@ -3,6 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.BASIC_FDSTEST_COMPONENT_WITH_PROPS_SOURCE = void 0;
+
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -13,8 +15,7 @@ Object.defineProperty(exports, "__esModule", {
  *  strict-local
  * @format
  */
-
-const BASIC_FDSTEST_COMPONENT_WITH_PROPS_SOURCE = exports.BASIC_FDSTEST_COMPONENT_WITH_PROPS_SOURCE = `
+const BASIC_FDSTEST_COMPONENT_WITH_PROPS_SOURCE = `
 /**
  * Copyright 2004-present Facebook. All Rights Reserved.
  */
@@ -67,3 +68,4 @@ class FDSTest extends React.PureComponent<Props> {
 
 module.exports = FDSTest;
 `;
+exports.BASIC_FDSTEST_COMPONENT_WITH_PROPS_SOURCE = BASIC_FDSTEST_COMPONENT_WITH_PROPS_SOURCE;

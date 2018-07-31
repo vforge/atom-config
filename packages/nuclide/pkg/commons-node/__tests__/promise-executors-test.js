@@ -1,15 +1,23 @@
-'use strict';
+"use strict";
 
-var _promiseExecutors;
+function _promiseExecutors() {
+  const data = require("../promise-executors");
 
-function _load_promiseExecutors() {
-  return _promiseExecutors = require('../promise-executors');
+  _promiseExecutors = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _waits_for;
+function _waits_for() {
+  const data = _interopRequireDefault(require("../../../jest/waits_for"));
 
-function _load_waits_for() {
-  return _waits_for = _interopRequireDefault(require('../../../jest/waits_for'));
+  _waits_for = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -23,18 +31,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('PromiseQueue', () => {
   it('Run three async operations serially and make sure they do not overlap', async () => {
-    const queue = new (_promiseExecutors || _load_promiseExecutors()).PromiseQueue();
+    const queue = new (_promiseExecutors().PromiseQueue)();
     let res1Start = 0;
     let res1End = 0;
     let res2Start = 0;
     let res2End = 0;
     let res3Start = 0;
     let res3End = 0;
-
     queue.submit(async () => {
       res1Start = Date.now();
       await new Promise(resolve => {
@@ -59,10 +66,8 @@ describe('PromiseQueue', () => {
         }, 300);
       });
     });
+    await (0, _waits_for().default)(() => Boolean(res1End && res2End && res3End)); // Make sure that none of the executors overlapped.
 
-    await (0, (_waits_for || _load_waits_for()).default)(() => Boolean(res1End && res2End && res3End));
-
-    // Make sure that none of the executors overlapped.
     expect(res1Start).not.toBeGreaterThan(res1End);
     expect(res1End).not.toBeGreaterThan(res2Start);
     expect(res2Start).not.toBeGreaterThan(res2End);
@@ -70,7 +75,6 @@ describe('PromiseQueue', () => {
     expect(res3Start).not.toBeGreaterThan(res3End);
   });
 });
-
 describe('PromisePool', () => {
   // This test is flaky because it compares real time intervals that are very
   // different in every run
@@ -79,8 +83,8 @@ describe('PromisePool', () => {
     const numDelayedExecutors = 30;
     const delayMs = 10;
     let numRunning = 0;
-
     const executors = [];
+
     for (let i = 0; i < numDelayedExecutors; i++) {
       executors.push(async () => {
         numRunning++;
@@ -95,8 +99,7 @@ describe('PromisePool', () => {
       });
     }
 
-    const queue = new (_promiseExecutors || _load_promiseExecutors()).PromisePool(poolSize);
-
+    const queue = new (_promiseExecutors().PromisePool)(poolSize);
     const start = Date.now();
     await Promise.all(executors.map(executor => queue.submit(executor)));
     const end = Date.now();

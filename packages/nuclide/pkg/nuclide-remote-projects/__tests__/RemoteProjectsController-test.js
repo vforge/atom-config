@@ -1,23 +1,35 @@
-'use strict';
+"use strict";
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../modules/nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _ConnectionState;
+function _ConnectionState() {
+  const data = _interopRequireDefault(require("../lib/ConnectionState"));
 
-function _load_ConnectionState() {
-  return _ConnectionState = _interopRequireDefault(require('../lib/ConnectionState'));
+  _ConnectionState = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _RemoteProjectsController;
+function _RemoteProjectsController() {
+  const data = require("../lib/RemoteProjectsController");
 
-function _load_RemoteProjectsController() {
-  return _RemoteProjectsController = require('../lib/RemoteProjectsController');
+  _RemoteProjectsController = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -31,11 +43,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * 
  * @format
+ * @emails oncall+nuclide
  */
-
 class MockHeartbeat {
   constructor() {
-    this.away = new _rxjsBundlesRxMinJs.BehaviorSubject(false);
+    this.away = new _RxMin.BehaviorSubject(false);
   }
 
   isAway() {
@@ -43,48 +55,50 @@ class MockHeartbeat {
   }
 
   onHeartbeat(callback) {
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default(this.away.filter(x => !x).subscribe(callback));
+    return new (_UniversalDisposable().default)(this.away.filter(x => !x).subscribe(callback));
   }
 
   onHeartbeatError(callback) {
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default(this.away.filter(x => x).subscribe(callback));
+    return new (_UniversalDisposable().default)(this.away.filter(x => x).subscribe(callback));
   }
+
 }
 
 describe('_observeConnectionState', () => {
   it('reflects the state of all connections', () => {
-    const connectionSubject = new _rxjsBundlesRxMinJs.BehaviorSubject([]);
+    const connectionSubject = new _RxMin.BehaviorSubject([]);
     const propStream = [];
-    (0, (_RemoteProjectsController || _load_RemoteProjectsController())._observeConnectionState)(connectionSubject).subscribe(props => propStream.push(props));
-
+    (0, _RemoteProjectsController()._observeConnectionState)(connectionSubject).subscribe(props => propStream.push(props));
     const heartbeat1 = new MockHeartbeat();
     const connection1 = {
       getRemoteHostname: () => 'host1',
       getHeartbeat: () => heartbeat1
     };
     connectionSubject.next([connection1]);
-
     const heartbeat2 = new MockHeartbeat();
     const connection2 = {
       getRemoteHostname: () => 'host2',
       getHeartbeat: () => heartbeat2
     };
     connectionSubject.next([connection1, connection2]);
-
     heartbeat1.away.next(true);
     heartbeat2.away.next(true);
     heartbeat2.away.next(false);
-
     connectionSubject.next([]);
-
-    expect(propStream).toEqual([{ connectionStates: new Map() }, { connectionStates: new Map([['host1', (_ConnectionState || _load_ConnectionState()).default.CONNECTED]]) }, {
-      connectionStates: new Map([['host1', (_ConnectionState || _load_ConnectionState()).default.CONNECTED], ['host2', (_ConnectionState || _load_ConnectionState()).default.CONNECTED]])
+    expect(propStream).toEqual([{
+      connectionStates: new Map()
     }, {
-      connectionStates: new Map([['host1', (_ConnectionState || _load_ConnectionState()).default.DISCONNECTED], ['host2', (_ConnectionState || _load_ConnectionState()).default.CONNECTED]])
+      connectionStates: new Map([['host1', _ConnectionState().default.CONNECTED]])
     }, {
-      connectionStates: new Map([['host1', (_ConnectionState || _load_ConnectionState()).default.DISCONNECTED], ['host2', (_ConnectionState || _load_ConnectionState()).default.DISCONNECTED]])
+      connectionStates: new Map([['host1', _ConnectionState().default.CONNECTED], ['host2', _ConnectionState().default.CONNECTED]])
     }, {
-      connectionStates: new Map([['host1', (_ConnectionState || _load_ConnectionState()).default.DISCONNECTED], ['host2', (_ConnectionState || _load_ConnectionState()).default.CONNECTED]])
-    }, { connectionStates: new Map() }]);
+      connectionStates: new Map([['host1', _ConnectionState().default.DISCONNECTED], ['host2', _ConnectionState().default.CONNECTED]])
+    }, {
+      connectionStates: new Map([['host1', _ConnectionState().default.DISCONNECTED], ['host2', _ConnectionState().default.DISCONNECTED]])
+    }, {
+      connectionStates: new Map([['host1', _ConnectionState().default.DISCONNECTED], ['host2', _ConnectionState().default.CONNECTED]])
+    }, {
+      connectionStates: new Map()
+    }]);
   });
 });

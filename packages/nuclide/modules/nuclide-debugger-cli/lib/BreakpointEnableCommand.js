@@ -1,8 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
+
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  * All rights reserved.
@@ -14,13 +16,10 @@ Object.defineProperty(exports, "__esModule", {
  *  strict-local
  * @format
  */
-
 class BreakpointEnableCommand {
-
   constructor(debug) {
     this.name = 'enable';
     this.helpText = '[index]: enables a breakpoint.';
-
     this._debugger = debug;
   }
 
@@ -33,5 +32,7 @@ class BreakpointEnableCommand {
 
     await this._debugger.setBreakpointEnabled(index, true);
   }
+
 }
+
 exports.default = BreakpointEnableCommand;

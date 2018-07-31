@@ -1,44 +1,74 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.resolveConfiguration = resolveConfiguration;
 
-var _createPackage;
+function _createPackage() {
+  const data = _interopRequireDefault(require("../nuclide-commons-atom/createPackage"));
 
-function _load_createPackage() {
-  return _createPackage = _interopRequireDefault(require('../nuclide-commons-atom/createPackage'));
+  _createPackage = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _AutoGenLaunchAttachProvider;
+function _AutoGenLaunchAttachProvider() {
+  const data = require("../nuclide-debugger-common/AutoGenLaunchAttachProvider");
 
-function _load_AutoGenLaunchAttachProvider() {
-  return _AutoGenLaunchAttachProvider = require('../nuclide-debugger-common/AutoGenLaunchAttachProvider');
+  _AutoGenLaunchAttachProvider = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideDebuggerCommon;
+function _nuclideDebuggerCommon() {
+  const data = require("../nuclide-debugger-common");
 
-function _load_nuclideDebuggerCommon() {
-  return _nuclideDebuggerCommon = require('../nuclide-debugger-common');
+  _nuclideDebuggerCommon = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @format
+ */
 class Activation {
-
   constructor() {
     this._gkService = null;
   }
@@ -47,9 +77,9 @@ class Activation {
 
   createDebuggerProvider() {
     return {
-      type: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.REACT_NATIVE,
+      type: _nuclideDebuggerCommon().VsAdapterTypes.REACT_NATIVE,
       getLaunchAttachProvider: connection => {
-        return new (_AutoGenLaunchAttachProvider || _load_AutoGenLaunchAttachProvider()).AutoGenLaunchAttachProvider((_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterNames.REACT_NATIVE, connection, getReactNativeConfig(), async () => {
+        return new (_AutoGenLaunchAttachProvider().AutoGenLaunchAttachProvider)(_nuclideDebuggerCommon().VsAdapterNames.REACT_NATIVE, connection, getReactNativeConfig(), async () => {
           // This debugger is enabled for non-Facebook users, and Facebook
           // users inside the Gatekeeper nuclide_debugger_reactnative
           return this._gkService == null ? Promise.resolve(true) : this._gkService.passesGK('nuclide_debugger_reactnative');
@@ -60,33 +90,24 @@ class Activation {
 
   consumeGatekeeperService(service) {
     this._gkService = service;
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default(() => this._gkService = null);
+    return new (_UniversalDisposable().default)(() => this._gkService = null);
   }
 
   createDebuggerConfigurator() {
     return [{
       resolveConfiguration,
-      adapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.REACT_NATIVE
+      adapterType: _nuclideDebuggerCommon().VsAdapterTypes.REACT_NATIVE
     }];
   }
-} /**
-   * Copyright (c) 2017-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the BSD-style license found in the
-   * LICENSE file in the root directory of this source tree. An additional grant
-   * of patent rights can be found in the PATENTS file in the same directory.
-   *
-   * 
-   * @format
-   */
+
+}
 
 function _deriveProgramFromWorkspace(workspacePath) {
-  return (_nuclideUri || _load_nuclideUri()).default.getPath((_nuclideUri || _load_nuclideUri()).default.join(workspacePath, '.vscode', 'launchReactNative.js'));
+  return _nuclideUri().default.getPath(_nuclideUri().default.join(workspacePath, '.vscode', 'launchReactNative.js'));
 }
 
 function _deriveOutDirFromWorkspace(workspacePath) {
-  return (_nuclideUri || _load_nuclideUri()).default.getPath((_nuclideUri || _load_nuclideUri()).default.join(workspacePath, '.vscode', '.react'));
+  return _nuclideUri().default.getPath(_nuclideUri().default.join(workspacePath, '.vscode', '.react'));
 }
 
 function getReactNativeConfig() {
@@ -128,9 +149,7 @@ function getReactNativeConfig() {
     required: false,
     visible: true
   };
-
   const attachProperties = [workspace, sourceMaps, outDir, sourceMapPathOverrides, port];
-
   const platform = {
     name: 'platform',
     type: 'enum',
@@ -149,46 +168,52 @@ function getReactNativeConfig() {
     required: true,
     visible: true
   };
-
   const launchProperties = [platform, target].concat(attachProperties);
-
   return {
     launch: {
       launch: true,
-      vsAdapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.REACT_NATIVE,
+      vsAdapterType: _nuclideDebuggerCommon().VsAdapterTypes.REACT_NATIVE,
       threads: false,
       properties: launchProperties,
       scriptPropertyName: null,
       cwdPropertyName: 'workspace',
       scriptExtension: '.js',
       header: null,
+
       getProcessName(values) {
         return 'Port: ' + values.port + ' (React Native)';
       }
+
     },
     attach: {
       launch: false,
-      vsAdapterType: (_nuclideDebuggerCommon || _load_nuclideDebuggerCommon()).VsAdapterTypes.REACT_NATIVE,
+      vsAdapterType: _nuclideDebuggerCommon().VsAdapterTypes.REACT_NATIVE,
       threads: false,
       properties: attachProperties,
       cwdPropertyName: 'workspace',
       scriptExtension: '.js',
       header: null,
+
       getProcessName(values) {
         return 'Port: ' + values.port + ' (React Native)';
       }
+
     }
   };
 }
 
 async function resolveConfiguration(configuration) {
-  const { config } = configuration;
+  const {
+    config
+  } = configuration;
+
   if (config.outDir == null) {
     config.outDir = _deriveOutDirFromWorkspace(config.workspace);
   }
+
   config.program = _deriveProgramFromWorkspace(config.workspace);
   delete config.workspace;
   return configuration;
 }
 
-(0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);
+(0, _createPackage().default)(module.exports, Activation);

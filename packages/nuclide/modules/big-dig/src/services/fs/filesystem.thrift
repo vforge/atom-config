@@ -24,6 +24,7 @@ enum ErrorCode {
   EROFS     = 30,
   ENOTEMPTY = 39,
   ENOTSUP   = 95,
+  EUNKNOWN  = 97,
 }
 
 const map<ErrorCode, string> ERROR_MAP = {
@@ -47,20 +48,18 @@ const map<ErrorCode, string> ERROR_MAP = {
 exception Error {
   1: ErrorCode code,
   2: string message,
+  3: string details, /* Json.stringify */
 }
 
 /**
-* File change types may be different on different platforms. However, on most
-* platforms, 'rename' is emitted whenever a filename appears or disappears
-* in the directory.
-*
-* Refer to:
-* https://nodejs.org/docs/latest/api/fs.html#fs_fs_watch_filename_options_listener
+* File change types may be different on different platforms. Need to write
+* converter methods to convert file change events on different platforms.
 */
 enum FileChangeEventType {
   UNKNOWN = 1,
-  CHANGE = 2,
-  RENAME = 3,
+  ADD = 2,
+  DELETE = 3,
+  UPDATE = 4,
 }
 
 /**
@@ -91,20 +90,30 @@ struct FileChangeEvent {
 }
 
 /**
-* Here we only keep several important fields, add more later if needed
 * Refer to: https://nodejs.org/api/fs.html#fs_class_fs_stats
 */
 struct FileStat {
-  1: i32 fsize,
-  2: string atime,
-  3: string mtime,
-  4: string ctime,
-  5: FileType ftype,
+  1: i32 dev,
+  2: i32 mode,
+  3: i32 nlink,
+  4: i32 uid,
+  5: i32 gid,
+  6: i32 rdev,
+  7: i32 blksize,
+  8: i32 ino,
+  9: i32 size,
+  10: i32 blocks,
+  11: string atime,
+  12: string mtime,
+  13: string ctime,
+  14: string birthtime,
+  15: FileType ftype,
 }
 
 struct FileEntry {
   1: string fname,
   2: FileType ftype,
+  3: FileStat fstat,
 }
 
 struct WatchOpt {
@@ -115,6 +124,9 @@ struct WatchOpt {
 struct WriteFileOpt {
   1: bool create,
   2: bool overwrite,
+  3: string encoding,
+  4: i32 mode,
+  5: string flag,
  }
 
 struct DeleteOpt {
@@ -161,13 +173,21 @@ service RemoteFileSystemService {
   /**
    * Retrieve metadata about a file.
    *
-   * Note that the metadata for symbolic links should be the metadata of the
-   * file they refer to.
+   * Follow symlinks to fetch metadata of the files the symlinks refer to.
    *
    * @param uri The uri of the file to retrieve metadata about.
    * @return The file metadata about the file.
    */
   FileStat stat(1: string uri) throws(1: Error error);
+
+  /**
+   * Do not follow symlinks, the link itself is stat-ed, not the file
+   * that it refers to.
+   *
+   * @param uri The uri of the file to retrieve metadata about.
+   * @return The file metadata about the file.
+   */
+  FileStat lstat(1: string uri) throws(1: Error error);
 
   /**
    * Retrieve all entries of a directory.

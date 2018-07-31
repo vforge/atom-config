@@ -53,7 +53,7 @@ module.exports =
             /**
              * @var {String}
             */
-            this.prototype.corePath = null;
+            this.prototype.serverPath = null;
 
             /**
              * @var {Object}
@@ -129,7 +129,7 @@ module.exports =
                 //'-d xdebug.profiler_output_dir=/tmp',
 
                 `-d memory_limit=${memoryLimit}M`,
-                this.phpInvoker.normalizePlatformAndRuntimePath(this.corePath) + '/bin/console',
+                this.phpInvoker.normalizePlatformAndRuntimePath(this.serverPath) + '/bin/console',
                 `--uri=tcp://${socketHost}:${port}`
             ];
 
@@ -174,10 +174,11 @@ module.exports =
 
                     } else if (code !== 0) {
                         const detail =
-                            'Serenata unexpectedly closed. Either something caused the process to stop, it crashed, or ' +
-                            'the socket closed. In case of the first two, you should see additional output indicating ' +
-                            'this is the case and you can report a bug. If there is no additional output, the server may ' +
-                            'have run out of memory (you can increase it via the settings screen).';
+                            'Serenata unexpectedly closed. Either something caused the process to stop, it crashed, ' +
+                            'or the socket closed. In case of the first two, you should see additional output ' +
+                            'indicating this is the case and you can report a bug. If there is no additional output, ' +
+                            'you may be missing the right dependencies or extensions or the server may have run out ' +
+                            'of memory (you can increase it via the settings screen).';
 
                         console.error(detail);
                     }
@@ -519,7 +520,7 @@ module.exports =
         performJsonRpcRequest(id, method, parameters, streamCallback = null) {
             const executor = (resolve, reject) => {
                 if (!this.getIsActive()) {
-                    reject('The proxy is not yet active, the core may be in the process of being downloaded');
+                    reject('The proxy is not yet active, the server may be in the process of being downloaded');
                     return;
                 }
 
@@ -1114,6 +1115,34 @@ module.exports =
         }
 
         /**
+         * Retrieves a list of document symbols.
+         *
+         * @param {String} file
+         *
+         * @return {CancellablePromise}
+        */
+        getDocumentSymbols(file) {
+            if (file == null) {
+                return new CancellablePromise(function(resolve, reject) {
+                    return reject('A path to a file must be passed!');
+                });
+            }
+
+            if (this.getIndexDatabasePath() == null) {
+                return new CancellablePromise(function(resolve, reject) {
+                    return reject('Request aborted as there is no project active (yet)');
+                });
+            }
+
+            const parameters = {
+                database : this.getIndexDatabasePath(),
+                file     : this.phpInvoker.normalizePlatformAndRuntimePath(file)
+            };
+
+            return this.performRequest('documentSymbols', parameters);
+        }
+
+        /**
          * Initializes a project.
          *
          * @return {Promise}
@@ -1259,24 +1288,26 @@ module.exports =
                 return null;
             }
 
-            const folder = this.config.get('storagePath') + path.sep + 'indexes';
+            const folder = this.config.get('storagePath') + path.sep + 'databases';
 
             mkdirp.sync(folder);
 
-            return this.phpInvoker.normalizePlatformAndRuntimePath(folder + path.sep + this.indexDatabaseName + '.sqlite');
+            return this.phpInvoker.normalizePlatformAndRuntimePath(
+                folder + path.sep + this.indexDatabaseName + '.sqlite'
+            );
         }
 
         /**
-         * @param {String} corePath
+         * @param {String} serverPath
         */
-        setCorePath(corePath) {
-            return this.corePath = corePath;
+        setServerPath(serverPath) {
+            this.serverPath = serverPath;
         }
 
         /**
          * @return {Boolean}
         */
-        getIsActive(isActive) {
+        getIsActive() {
             return this.isActive;
         }
 

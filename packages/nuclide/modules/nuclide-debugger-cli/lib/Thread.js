@@ -3,6 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
+
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  * All rights reserved.
@@ -14,9 +16,7 @@ Object.defineProperty(exports, "__esModule", {
  * 
  * @format
  */
-
 class Thread {
-
   constructor(id, name) {
     this._id = id;
     this._name = name;
@@ -59,5 +59,7 @@ class Thread {
   setStopped() {
     this._stopped = true;
   }
+
 }
+
 exports.default = Thread;

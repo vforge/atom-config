@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -11,28 +11,44 @@ exports.getRequiredPropsFromAst = getRequiredPropsFromAst;
 exports.getRequiredProps = getRequiredProps;
 exports.getLeadingCommentForComponent = getLeadingCommentForComponent;
 
-var _babylon;
+function _parser() {
+  const data = require("@babel/parser");
 
-function _load_babylon() {
-  return _babylon = require('babylon');
+  _parser = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _AutoImportsManager;
+function _AutoImportsManager() {
+  const data = require("../../nuclide-js-imports-server/src/lib/AutoImportsManager");
 
-function _load_AutoImportsManager() {
-  return _AutoImportsManager = require('../../nuclide-js-imports-server/src/lib/AutoImportsManager');
+  _AutoImportsManager = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _utils;
+function _utils() {
+  const data = require("./utils");
 
-function _load_utils() {
-  return _utils = require('./utils');
+  _utils = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -47,14 +63,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *  strict-local
  * @format
  */
-
 // TODO: T29733418 Figure out a typed import for babylon or @babel/parser.
 // flowlint-next-line untyped-import:off
-const babelParserOptions = (_AutoImportsManager || _load_AutoImportsManager()).babylonOptions;
+const babelParserOptions = _AutoImportsManager().babylonOptions;
 
 function getComponentNameFromUri(uri) {
-  const basename = (_nuclideUri || _load_nuclideUri()).default.basename(uri);
-  const componentName = basename.split('.')[0];
+  const basename = _nuclideUri().default.basename(uri);
+
+  const parts = basename.split('.');
+
+  if (!(parts.length === 3 && parts[1] === 'react' && parts[2] === 'js')) {
+    // This must be exactly ComponentName.react.js.
+    // We don't want to index ComponentName.example.react.js and clobber over
+    // the ComponentName definition.
+    return null;
+  }
+
+  const componentName = parts[0];
+
   if (componentName.length === 0) {
     return null;
   }
@@ -64,7 +90,7 @@ function getComponentNameFromUri(uri) {
 
 function parseCode(code) {
   try {
-    return (0, (_babylon || _load_babylon()).parse)(code, babelParserOptions);
+    return (0, _parser().parse)(code, babelParserOptions);
   } catch (_error) {
     // This will be a common error when parse fails on this string of code.
     // Logging this would likely be far more noise than signal.
@@ -82,12 +108,15 @@ function getComponentNode(componentName, ast) {
 
 function getTypeParameterNames(componentName, ast) {
   const componentNode = getComponentNode(componentName, ast);
+
   if (!componentNode) {
     return [];
   }
+
   if (componentNode.superTypeParameters == null || componentNode.superTypeParameters.params == null) {
     return [];
   }
+
   return componentNode.superTypeParameters.params.map(p => p.type === 'GenericTypeAnnotation' && p.id.name);
 }
 
@@ -96,19 +125,16 @@ function getTypeAnnotation(node) {
   // 'GenericTypeAnnotation'.
   if (node.value.id) {
     return node.value.id.name;
-  }
+  } // Primitive types such as 'string' and 'number' won't have an id.
 
-  // Primitive types such as 'string' and 'number' won't have an id.
+
   return node.value.type;
 }
 
 function formatLeadingComment(comment) {
-  return comment.split('\n')
-  // Remove any leading asterisks.
-  .map(l => (0, (_utils || _load_utils()).removePrefix)('*', l.trim()).trim())
-  // Filter any blank lines before and after the entire text.
-  .filter((l, i, arr) => i > 0 && i < arr.length - 2 && arr[i + 1].length > 0 || l.length > 0)
-  // Join lines together, but preserve extra newlines in the text.
+  return comment.split('\n') // Remove any leading asterisks.
+  .map(l => (0, _utils().removePrefix)('*', l.trim()).trim()) // Filter any blank lines before and after the entire text.
+  .filter((l, i, arr) => i > 0 && i < arr.length - 2 && arr[i + 1].length > 0 || l.length > 0) // Join lines together, but preserve extra newlines in the text.
   // e.g., Hello\nGoodbye becomes "Hello Goodbye" but "Hello\n\nGoodbye"
   // remains "Hello\n\nGoodbye".
   .reduce((res, line, i, arr) => {
@@ -131,20 +157,22 @@ function formatLeadingComment(comment) {
 function getLeadingComment(node) {
   if (!node.leadingComments) {
     return null;
-  }
+  } // Remove trailing whitespace, trailing empty lines, and leading asterisk.
 
-  // Remove trailing whitespace, trailing empty lines, and leading asterisk.
+
   return formatLeadingComment(node.leadingComments[node.leadingComments.length - 1].value);
 }
 
 function getDefaultPropsFromIdentifier(identifier, ast) {
   for (let i = 0; i < ast.program.body.length; i++) {
     const node = ast.program.body[i];
+
     if (node.type !== 'VariableDeclaration') {
       continue;
     }
 
     const expr = node.declarations.find(n => n.type === 'VariableDeclarator' && n.id.type === 'Identifier' && n.id.name === identifier);
+
     if (!expr) {
       continue;
     }
@@ -152,8 +180,10 @@ function getDefaultPropsFromIdentifier(identifier, ast) {
     if (expr.init && expr.init.type === 'ObjectExpression') {
       return getDefaultPropsFromObjectExpression(expr.init);
     }
+
     return [];
   }
+
   return [];
 }
 
@@ -163,14 +193,17 @@ function getDefaultPropsFromObjectExpression(expr) {
 
 function getDefaultPropNames(componentName, ast) {
   const componentNode = getComponentNode(componentName, ast);
+
   if (!componentNode || !componentNode.body || componentNode.body.type !== 'ClassBody') {
     return [];
   }
 
   const defaultPropsStaticNode = componentNode.body.body.find(n => n.type === 'ClassProperty' && n.static && n.key.name === 'defaultProps');
+
   if (!defaultPropsStaticNode || !defaultPropsStaticNode.value) {
     return [];
   }
+
   if (defaultPropsStaticNode.value.type === 'Identifier') {
     return getDefaultPropsFromIdentifier(defaultPropsStaticNode.value.name, ast);
   } else if (defaultPropsStaticNode.value.type === 'ObjectExpression') {
@@ -186,16 +219,16 @@ function getObjectTypeProperties(node) {
   }
 
   const n = node.declaration.right;
+
   if (n.type === 'ObjectTypeAnnotation') {
     return node.declaration.right.properties;
-  }
-
-  // Only support the $Exact utility. We could recurse and support other utility
+  } // Only support the $Exact utility. We could recurse and support other utility
   // types but then we would need more logic and we'd start just re-writing
   // Flow. Traversing one $Exact utility type is sufficient for these purposes.
   // We don't want to support something like $Rest or $Diff.
-  if (n.type === 'GenericTypeAnnotation' && n.id.name === '$Exact' && n.typeParameters.type === 'TypeParameterInstantiation' &&
-  // The $Exact utility will only have one parameter. Anything more
+
+
+  if (n.type === 'GenericTypeAnnotation' && n.id.name === '$Exact' && n.typeParameters.type === 'TypeParameterInstantiation' && // The $Exact utility will only have one parameter. Anything more
   // complicated and we abandon ship.
   n.typeParameters.params.length === 1 && n.typeParameters.params[0].type === 'ObjectTypeAnnotation') {
     return n.typeParameters.params[0].properties;
@@ -205,18 +238,21 @@ function getObjectTypeProperties(node) {
 function getRequiredPropsFromAst(componentName, ast) {
   const typeParameterNames = getTypeParameterNames(componentName, ast);
 
-  const requiredProps = ast.program.body.filter(node => node.exportKind === 'type' && node.declaration && node.declaration.right &&
-  // Ensure this type is in the component's class generics.
+  if (typeParameterNames.length === 0) {
+    return null;
+  }
+
+  const requiredProps = ast.program.body.filter(node => node.exportKind === 'type' && node.declaration && node.declaration.right && // Ensure this type is in the component's class generics.
   // i.e., ``class Foo extends Component<Props>`` means this type should
   // be named "Props".
   typeParameterNames.includes(node.declaration.id.name)).reduce((props, node) => {
     const properties = getObjectTypeProperties(node);
+
     if (properties == null) {
       return props;
     }
 
-    const required = properties
-    // There could be properties with a type such as
+    const required = properties // There could be properties with a type such as
     // ObjectTypeSpreadProperty which would require more logic to
     // include.
     .filter(n => !n.optional && n.type === 'ObjectTypeProperty' && n.key).map(n => {
@@ -224,18 +260,20 @@ function getRequiredPropsFromAst(componentName, ast) {
       return Object.assign({
         name: n.key.name,
         typeAnnotation: getTypeAnnotation(n)
-      }, leadingComment == null ? {} : { leadingComment });
+      }, leadingComment == null ? {} : {
+        leadingComment
+      });
     });
     return props.concat(required);
   }, []);
-
   return requiredProps;
-}
-
-// This is used for testing purposes. ASTs are expensive to compute and thus
+} // This is used for testing purposes. ASTs are expensive to compute and thus
 // should be re-used by passing instances to `getRequiredPropsFromAst`.
+
+
 function getRequiredProps(componentName, code) {
   const ast = parseCode(code);
+
   if (ast == null) {
     return [];
   }
@@ -245,6 +283,7 @@ function getRequiredProps(componentName, code) {
 
 function getLeadingCommentForComponent(componentName, ast) {
   const componentNode = getComponentNode(componentName, ast);
+
   if (!componentNode) {
     return null;
   }

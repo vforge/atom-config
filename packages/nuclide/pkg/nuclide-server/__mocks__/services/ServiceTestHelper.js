@@ -1,58 +1,79 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _NuclideServer;
+function _NuclideServer() {
+  const data = _interopRequireDefault(require("../../lib/NuclideServer"));
 
-function _load_NuclideServer() {
-  return _NuclideServer = _interopRequireDefault(require('../../lib/NuclideServer'));
+  _NuclideServer = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _ReliableSocket;
+function _ReliableSocket() {
+  const data = require("../../../../modules/big-dig/src/socket/ReliableSocket");
 
-function _load_ReliableSocket() {
-  return _ReliableSocket = require('../../../../modules/big-dig/src/socket/ReliableSocket');
+  _ReliableSocket = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideRpc;
+function _nuclideRpc() {
+  const data = require("../../../nuclide-rpc");
 
-function _load_nuclideRpc() {
-  return _nuclideRpc = require('../../../nuclide-rpc');
+  _nuclideRpc = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideMarshalersCommon;
+function _nuclideMarshalersCommon() {
+  const data = require("../../../nuclide-marshalers-common");
 
-function _load_nuclideMarshalersCommon() {
-  return _nuclideMarshalersCommon = require('../../../nuclide-marshalers-common');
+  _nuclideMarshalersCommon = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const HEARTBEAT_CHANNEL = 'test-heartbeat'; /**
-                                             * Copyright (c) 2015-present, Facebook, Inc.
-                                             * All rights reserved.
-                                             *
-                                             * This source code is licensed under the license found in the LICENSE file in
-                                             * the root directory of this source tree.
-                                             *
-                                             * 
-                                             * @format
-                                             */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+const HEARTBEAT_CHANNEL = 'test-heartbeat';
 
 class ServiceTestHelper {
-
   async start(customServices) {
-    this._server = new (_NuclideServer || _load_NuclideServer()).default({ port: 0 }, customServices);
+    this._server = new (_NuclideServer().default)({
+      port: 0
+    }, customServices);
     await this._server.connect();
 
     const port = this._server._webServer.address().port;
-    this._client = (_nuclideRpc || _load_nuclideRpc()).RpcConnection.createRemote(new (_ReliableSocket || _load_ReliableSocket()).ReliableSocket(`http://localhost:${port}`, HEARTBEAT_CHANNEL, null), [(0, (_nuclideMarshalersCommon || _load_nuclideMarshalersCommon()).getRemoteNuclideUriMarshalers)('localhost')], customServices);
+
+    this._client = _nuclideRpc().RpcConnection.createRemote(new (_ReliableSocket().ReliableSocket)(`http://localhost:${port}`, HEARTBEAT_CHANNEL, null), [(0, _nuclideMarshalersCommon().getRemoteNuclideUriMarshalers)('localhost')], customServices);
   }
 
   async stop() {
     this._client.dispose();
+
     await this._server.close();
   }
 
@@ -63,5 +84,7 @@ class ServiceTestHelper {
   getUriOfRemotePath(remotePath) {
     return `nuclide://localhost${remotePath}`;
   }
+
 }
+
 exports.default = ServiceTestHelper;

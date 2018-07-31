@@ -1,79 +1,105 @@
-'use strict';
+"use strict";
 
-var _createPackage;
+function _createPackage() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/createPackage"));
 
-function _load_createPackage() {
-  return _createPackage = _interopRequireDefault(require('../../../modules/nuclide-commons-atom/createPackage'));
+  _createPackage = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideLanguageService;
+function _nuclideLanguageService() {
+  const data = require("../../nuclide-language-service");
 
-function _load_nuclideLanguageService() {
-  return _nuclideLanguageService = require('../../nuclide-language-service');
+  _nuclideLanguageService = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideLanguageServiceRpc;
+function _nuclideLanguageServiceRpc() {
+  const data = require("../../nuclide-language-service-rpc");
 
-function _load_nuclideLanguageServiceRpc() {
-  return _nuclideLanguageServiceRpc = require('../../nuclide-language-service-rpc');
+  _nuclideLanguageServiceRpc = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideOpenFiles;
+function _nuclideOpenFiles() {
+  const data = require("../../nuclide-open-files");
 
-function _load_nuclideOpenFiles() {
-  return _nuclideOpenFiles = require('../../nuclide-open-files');
+  _nuclideOpenFiles = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideRemoteConnection;
+function _nuclideRemoteConnection() {
+  const data = require("../../nuclide-remote-connection");
 
-function _load_nuclideRemoteConnection() {
-  return _nuclideRemoteConnection = require('../../nuclide-remote-connection');
+  _nuclideRemoteConnection = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _featureConfig;
+function _featureConfig() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/feature-config"));
 
-function _load_featureConfig() {
-  return _featureConfig = _interopRequireDefault(require('../../../modules/nuclide-commons-atom/feature-config'));
+  _featureConfig = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _DashProjectSymbolProvider;
+function _DashProjectSymbolProvider() {
+  const data = _interopRequireDefault(require("./DashProjectSymbolProvider"));
 
-function _load_DashProjectSymbolProvider() {
-  return _DashProjectSymbolProvider = _interopRequireDefault(require('./DashProjectSymbolProvider'));
+  _DashProjectSymbolProvider = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+// $FlowFB
 async function connectToService(connection) {
-  const [fileNotifier, host] = await Promise.all([(0, (_nuclideOpenFiles || _load_nuclideOpenFiles()).getNotifierByConnection)(connection), (0, (_nuclideLanguageService || _load_nuclideLanguageService()).getHostServices)()]);
-
-  const lspService = await (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getVSCodeLanguageServiceByConnection)(connection).createMultiLspLanguageService('css', ['vscode-css-languageserver-bin/cssServerMain'], ['--stdio'], {
+  const [fileNotifier, host] = await Promise.all([(0, _nuclideOpenFiles().getNotifierByConnection)(connection), (0, _nuclideLanguageService().getHostServices)()]);
+  const lspService = await (0, _nuclideRemoteConnection().getVSCodeLanguageServiceByConnection)(connection).createMultiLspLanguageService('css', 'vscode-css-languageserver-bin/cssServerMain', ['--stdio'], {
     fileNotifier,
     host,
     projectFileNames: ['.arcconfig', '.flowconfig', '.hg', '.git'],
     fileExtensions: ['.css', '.less', '.scss'],
     logCategory: 'nuclide-css-lsp',
-    logLevel: (_featureConfig || _load_featureConfig()).default.get('nuclide-css-lsp-client.logLevel'),
+    logLevel: _featureConfig().default.get('nuclide-css-lsp-client.logLevel'),
     fork: true,
     waitForDiagnostics: false
   });
-  return lspService || new (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).NullLanguageService();
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   * @format
-   */
-
-// $FlowFB
-
+  return lspService || new (_nuclideLanguageServiceRpc().NullLanguageService)();
+}
 
 function createLanguageService() {
-  return new (_nuclideLanguageService || _load_nuclideLanguageService()).AtomLanguageService(connectToService, {
+  return new (_nuclideLanguageService().AtomLanguageService)(connectToService, {
     name: 'CSSLSPService',
     grammars: ['source.css', 'source.css.less', 'source.css.scss'],
     autocomplete: {
@@ -83,8 +109,8 @@ function createLanguageService() {
       disableForSelector: null,
       excludeLowerPriority: false,
       autocompleteCacherConfig: {
-        updateResults: (_nuclideLanguageService || _load_nuclideLanguageService()).updateAutocompleteResults,
-        updateFirstResults: (_nuclideLanguageService || _load_nuclideLanguageService()).updateAutocompleteFirstResults
+        updateResults: _nuclideLanguageService().updateAutocompleteResults,
+        updateFirstResults: _nuclideLanguageService().updateAutocompleteFirstResults
       },
       analytics: {
         eventName: 'cssLSP.autocomplete',
@@ -121,19 +147,20 @@ function createLanguageService() {
 }
 
 class Activation {
-
   constructor() {
     this._languageService = createLanguageService();
+
     this._languageService.activate();
   }
 
   provideProjectSymbolSearch() {
-    return new (_DashProjectSymbolProvider || _load_DashProjectSymbolProvider()).default(this._languageService);
+    return new (_DashProjectSymbolProvider().default)(this._languageService);
   }
 
   dispose() {
     this._languageService.dispose();
   }
+
 }
 
-(0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);
+(0, _createPackage().default)(module.exports, Activation);

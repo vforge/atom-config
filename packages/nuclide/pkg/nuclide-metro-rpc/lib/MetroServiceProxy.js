@@ -211,7 +211,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "types.js",
-        line: 21
+        line: 22
       },
       name: "MetroStartCommand",
       definition: {
@@ -289,6 +289,26 @@ Object.defineProperty(module.exports, "defs", {
           type: {
             kind: "string-literal",
             value: "ready"
+          },
+          optional: false
+        }]
+      }
+    },
+    RestartEvent: {
+      kind: "alias",
+      location: {
+        type: "source",
+        fileName: "types.js",
+        line: 19
+      },
+      name: "RestartEvent",
+      definition: {
+        kind: "object",
+        fields: [{
+          name: "type",
+          type: {
+            kind: "string-literal",
+            value: "restarting"
           },
           optional: false
         }]
@@ -383,7 +403,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "types.js",
-        line: 19
+        line: 20
       },
       name: "MetroEvent",
       definition: {
@@ -395,6 +415,16 @@ Object.defineProperty(module.exports, "defs", {
             type: {
               kind: "string-literal",
               value: "ready"
+            },
+            optional: false
+          }]
+        }, {
+          kind: "object",
+          fields: [{
+            name: "type",
+            type: {
+              kind: "string-literal",
+              value: "restarting"
             },
             optional: false
           }]

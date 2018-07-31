@@ -1,26 +1,38 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ArchiveDirectory = undefined;
+exports.ArchiveDirectory = void 0;
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../modules/nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _common;
+function _common() {
+  const data = require("./common");
 
-function _load_common() {
-  return _common = require('./common');
+  _common = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -35,20 +47,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *  strict-local
  * @format
  */
-
 class ArchiveDirectory {
-
   constructor(path, fs) {
     this._fs = fs;
     this._path = path;
   }
 
   create(mode) {
-    return (0, (_common || _load_common()).rejectWrite)();
+    return (0, _common().rejectWrite)();
   }
 
   onDidChange(callback) {
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    return new (_UniversalDisposable().default)();
   }
 
   isFile() {
@@ -68,42 +78,46 @@ class ArchiveDirectory {
   }
 
   getBaseName() {
-    return (_nuclideUri || _load_nuclideUri()).default.basename(this._path);
+    return _nuclideUri().default.basename(this._path);
   }
 
   relativize(fullPath) {
-    return (_nuclideUri || _load_nuclideUri()).default.relative(this._path, fullPath);
+    return _nuclideUri().default.relative(this._path, fullPath);
   }
 
   onDidRename(callback) {
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    return new (_UniversalDisposable().default)();
   }
 
   onDidDelete(callback) {
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    return new (_UniversalDisposable().default)();
   }
 
   getParent() {
-    return (0, (_common || _load_common()).getParentDir)(this._fs, this._path);
+    return (0, _common().getParentDir)(this._fs, this._path);
   }
 
   getFile(name) {
-    const path = (_nuclideUri || _load_nuclideUri()).default.join(this._path, name);
+    const path = _nuclideUri().default.join(this._path, name);
+
     return this._fs.newArchiveFile(path);
   }
 
   getSubdirectory(name) {
-    const path = (_nuclideUri || _load_nuclideUri()).default.join(this._path, name);
+    const path = _nuclideUri().default.join(this._path, name);
+
     return this._fs.newArchiveDirectory(path);
   }
 
   getEntries(callback) {
-    this._fs.readdir(this._path).then(entries => entries.map(x => (0, (_common || _load_common()).fromEntry)(this._fs, this._path, true, x))).then(entries => callback(null, entries)).catch(error => callback(error, null));
+    this._fs.readdir(this._path).then(entries => entries.map(x => (0, _common().fromEntry)(this._fs, this._path, true, x))).then(entries => callback(null, entries)).catch(error => callback(error, null));
   }
 
   contains(path) {
-    const seps = [(_nuclideUri || _load_nuclideUri()).default.ARCHIVE_SEPARATOR, (_nuclideUri || _load_nuclideUri()).default.pathSeparatorFor(path)];
+    const seps = [_nuclideUri().default.ARCHIVE_SEPARATOR, _nuclideUri().default.pathSeparatorFor(path)];
     return path.startsWith(this._path) && path.length > this._path.length && seps.includes(path.charAt(this._path.length));
   }
+
 }
+
 exports.ArchiveDirectory = ArchiveDirectory;

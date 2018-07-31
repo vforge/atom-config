@@ -1,9 +1,13 @@
-'use strict';
+"use strict";
 
-var _loadingNotification;
+function _loadingNotification() {
+  const data = _interopRequireDefault(require("../loading-notification"));
 
-function _load_loadingNotification() {
-  return _loadingNotification = _interopRequireDefault(require('../loading-notification'));
+  _loadingNotification = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -17,8 +21,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 const sleep = n => new Promise(r => setTimeout(r, n));
 
 beforeEach(() => {
@@ -32,65 +36,61 @@ describe('loadingNotification', () => {
     };
     jest.spyOn(atom.notifications, 'addInfo').mockReturnValue(mockNotif);
   });
-
   it('displays and closes a loading notification', async () => {
-    await (async () => {
-      const testValue = 1;
-      const promise = new Promise((resolve, reject) => {
-        setTimeout(() => resolve(testValue), 10);
-      });
-      const resultPromise = (0, (_loadingNotification || _load_loadingNotification()).default)(promise, 'test message',
-      /* delayMs */0);
-      await sleep(10);
-      expect((await resultPromise)).toEqual(testValue);
-      expect(atom.notifications.addInfo).toHaveBeenCalled();
+    const testValue = 1;
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => resolve(testValue), 10);
+    });
+    const resultPromise = (0, _loadingNotification().default)(promise, 'test message',
+    /* delayMs */
+    0);
+    await sleep(10);
+    expect((await resultPromise)).toEqual(testValue);
+    expect(atom.notifications.addInfo).toHaveBeenCalled();
 
-      if (!mockNotif) {
-        throw new Error('Invariant violation: "mockNotif"');
-      }
+    if (!mockNotif) {
+      throw new Error("Invariant violation: \"mockNotif\"");
+    }
 
-      expect(mockNotif.dismiss).toHaveBeenCalled();
-    })();
+    expect(mockNotif.dismiss).toHaveBeenCalled();
   });
-
   it('displays and closes a loading notification for errors', async () => {
-    await (async () => {
-      const promise = new Promise((resolve, reject) => {
-        setTimeout(() => reject(new Error()), 10);
-      });
-      try {
-        const resultPromise = (0, (_loadingNotification || _load_loadingNotification()).default)(promise, 'test message',
-        /* delayMs */0);
-        await sleep(10);
-        await resultPromise;
-      } catch (e) {}
-      expect(atom.notifications.addInfo).toHaveBeenCalled();
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => reject(new Error()), 10);
+    });
 
-      if (!mockNotif) {
-        throw new Error('Invariant violation: "mockNotif"');
-      }
+    try {
+      const resultPromise = (0, _loadingNotification().default)(promise, 'test message',
+      /* delayMs */
+      0);
+      await sleep(10);
+      await resultPromise;
+    } catch (e) {}
 
-      expect(mockNotif.dismiss).toHaveBeenCalled();
-    })();
+    expect(atom.notifications.addInfo).toHaveBeenCalled();
+
+    if (!mockNotif) {
+      throw new Error("Invariant violation: \"mockNotif\"");
+    }
+
+    expect(mockNotif.dismiss).toHaveBeenCalled();
   });
-
   it('does nothing for fast promises', async () => {
-    await (async () => {
-      const testValue = 1;
-      const promise = new Promise((resolve, reject) => {
-        setTimeout(() => resolve(testValue), 1);
-      });
-      const resultPromise = (0, (_loadingNotification || _load_loadingNotification()).default)(promise, 'test message',
-      /* delayMs */10);
-      await sleep(1);
-      expect((await resultPromise)).toEqual(testValue);
-      expect(atom.notifications.addInfo.mock.calls.length).toEqual(0);
+    const testValue = 1;
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => resolve(testValue), 1);
+    });
+    const resultPromise = (0, _loadingNotification().default)(promise, 'test message',
+    /* delayMs */
+    10);
+    await sleep(1);
+    expect((await resultPromise)).toEqual(testValue);
+    expect(atom.notifications.addInfo.mock.calls.length).toEqual(0);
 
-      if (!mockNotif) {
-        throw new Error('Invariant violation: "mockNotif"');
-      }
+    if (!mockNotif) {
+      throw new Error("Invariant violation: \"mockNotif\"");
+    }
 
-      expect(mockNotif.dismiss.mock.calls.length).toEqual(0);
-    })();
+    expect(mockNotif.dismiss.mock.calls.length).toEqual(0);
   });
 });

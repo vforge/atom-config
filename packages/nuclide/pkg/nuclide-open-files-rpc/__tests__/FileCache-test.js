@@ -1,19 +1,38 @@
-'use strict';
+"use strict";
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _FileCache;
+function _FileCache() {
+  const data = require("../lib/FileCache");
 
-function _load_FileCache() {
-  return _FileCache = require('../lib/FileCache');
+  _FileCache = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _simpleTextBuffer;
+function _simpleTextBuffer() {
+  const data = require("simple-text-buffer");
 
-function _load_simpleTextBuffer() {
-  return _simpleTextBuffer = require('simple-text-buffer');
+  _simpleTextBuffer = function () {
+    return data;
+  };
+
+  return data;
 }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ * @emails oncall+nuclide
+ */
 function fileInfoToObject(fileInfo) {
   return {
     buffer: {
@@ -22,43 +41,38 @@ function fileInfoToObject(fileInfo) {
     },
     languageId: fileInfo.languageId
   };
-} /**
-   * Copyright (c) 2015-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the license found in the LICENSE file in
-   * the root directory of this source tree.
-   *
-   * 
-   * @format
-   */
+}
 
 function cacheToObject(cache) {
   const result = {};
+
   cache._buffers.forEach((fileInfo, filePath) => {
     result[filePath] = fileInfoToObject(fileInfo);
   });
+
   return result;
 }
 
 describe('FileCache', () => {
-  let cache = null;
-  // Initialize with a placeholder
+  let cache = null; // Initialize with a placeholder
+
   let finishEvents = async () => [];
+
   let finishDirEvents = async () => [];
 
   async function getFileContentsByVersion(filePath, changeCount) {
     const buffer = await cache.getBufferAtVersion(cache.createFileVersion(filePath, changeCount));
+
     if (buffer == null) {
       return null;
     }
+
     return buffer.getText();
   }
 
   beforeEach(() => {
-    cache = new (_FileCache || _load_FileCache()).FileCache();
-
-    const done = new _rxjsBundlesRxMinJs.Subject();
+    cache = new (_FileCache().FileCache)();
+    const done = new _RxMin.Subject();
     const events = cache.observeFileEvents().takeUntil(done).map(event => {
       const result = Object.assign({}, event, {
         filePath: event.fileVersion.filePath,
@@ -67,82 +81,80 @@ describe('FileCache', () => {
       delete result.fileVersion;
       return result;
     }).toArray().toPromise();
+
     finishEvents = () => {
       done.next();
       done.complete();
       return events;
     };
+
     const dirEvents = cache.observeDirectoryEvents().takeUntil(done).map(dirs => Array.from(dirs)).toArray().toPromise();
+
     finishDirEvents = () => {
       done.next();
       done.complete();
       return dirEvents;
     };
   });
-
   it('open', async () => {
-    await (async () => {
-      cache.onFileEvent({
-        kind: 'open',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 3
-        },
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      expect(cacheToObject(cache)).toEqual({
-        f1: {
-          buffer: {
-            text: 'contents1',
-            changeCount: 3
-          },
-          languageId: 'Babel ES6 JavaScript'
-        }
-      });
-      expect((await finishEvents())).toEqual([{
-        kind: 'open',
+    cache.onFileEvent({
+      kind: 'open',
+      fileVersion: {
+        notifier: cache,
         filePath: 'f1',
-        changeCount: 3,
-        contents: 'contents1',
+        version: 3
+      },
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    expect(cacheToObject(cache)).toEqual({
+      f1: {
+        buffer: {
+          text: 'contents1',
+          changeCount: 3
+        },
         languageId: 'Babel ES6 JavaScript'
-      }]);
-    })();
+      }
+    });
+    expect((await finishEvents())).toEqual([{
+      kind: 'open',
+      filePath: 'f1',
+      changeCount: 3,
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    }]);
   });
   it('open/close', async () => {
-    await (async () => {
-      cache.onFileEvent({
-        kind: 'open',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 3
-        },
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      cache.onFileEvent({
-        kind: 'close',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 3
-        }
-      });
-      expect(cacheToObject(cache)).toEqual({});
-      expect((await finishEvents())).toEqual([{
-        kind: 'open',
+    cache.onFileEvent({
+      kind: 'open',
+      fileVersion: {
+        notifier: cache,
         filePath: 'f1',
-        changeCount: 3,
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      }, {
-        kind: 'close',
+        version: 3
+      },
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    cache.onFileEvent({
+      kind: 'close',
+      fileVersion: {
+        notifier: cache,
         filePath: 'f1',
-        changeCount: 3
-      }]);
-    })();
+        version: 3
+      }
+    });
+    expect(cacheToObject(cache)).toEqual({});
+    expect((await finishEvents())).toEqual([{
+      kind: 'open',
+      filePath: 'f1',
+      changeCount: 3,
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    }, {
+      kind: 'close',
+      filePath: 'f1',
+      changeCount: 3
+    }]);
   });
   it('edit', async () => {
     cache.onFileEvent({
@@ -162,9 +174,9 @@ describe('FileCache', () => {
         filePath: 'f1',
         version: 4
       },
-      oldRange: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 3), new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 6)),
+      oldRange: new (_simpleTextBuffer().Range)(new (_simpleTextBuffer().Point)(0, 3), new (_simpleTextBuffer().Point)(0, 6)),
       oldText: 'ten',
-      newRange: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 3), new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 9)),
+      newRange: new (_simpleTextBuffer().Range)(new (_simpleTextBuffer().Point)(0, 3), new (_simpleTextBuffer().Point)(0, 9)),
       newText: 'eleven'
     });
     expect((await finishEvents())).toMatchSnapshot();
@@ -236,13 +248,25 @@ describe('FileCache', () => {
     }, {
       kind: 'edit',
       oldRange: {
-        start: { row: 0, column: 0 },
-        end: { row: 0, column: 4 }
+        start: {
+          row: 0,
+          column: 0
+        },
+        end: {
+          row: 0,
+          column: 4
+        }
       },
       oldText: 'blip',
       newRange: {
-        start: { row: 0, column: 0 },
-        end: { row: 0, column: 10 }
+        start: {
+          row: 0,
+          column: 0
+        },
+        end: {
+          row: 0,
+          column: 10
+        }
       },
       newText: 'contents12',
       filePath: 'f2',
@@ -280,11 +304,20 @@ describe('FileCache', () => {
       }
     });
     expect(JSON.stringify((await finishEvents()))).toMatchSnapshot();
-  });
+  }); // Unexpected Operations Should Throw
 
-  // Unexpected Operations Should Throw
   it('open existing file', async () => {
-    await (async () => {
+    cache.onFileEvent({
+      kind: 'open',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 3
+      },
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    expect(() => {
       cache.onFileEvent({
         kind: 'open',
         fileVersion: {
@@ -295,26 +328,14 @@ describe('FileCache', () => {
         contents: 'contents1',
         languageId: 'Babel ES6 JavaScript'
       });
-      expect(() => {
-        cache.onFileEvent({
-          kind: 'open',
-          fileVersion: {
-            notifier: cache,
-            filePath: 'f1',
-            version: 3
-          },
-          contents: 'contents1',
-          languageId: 'Babel ES6 JavaScript'
-        });
-      }).toThrow();
-      expect((await finishEvents())).toEqual([{
-        kind: 'open',
-        filePath: 'f1',
-        changeCount: 3,
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      }]);
-    })();
+    }).toThrow();
+    expect((await finishEvents())).toEqual([{
+      kind: 'open',
+      filePath: 'f1',
+      changeCount: 3,
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    }]);
   });
   it('close non-existing file', async () => {
     expect(() => {
@@ -338,9 +359,9 @@ describe('FileCache', () => {
           filePath: 'f1',
           version: 4
         },
-        oldRange: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 3), new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 6)),
+        oldRange: new (_simpleTextBuffer().Range)(new (_simpleTextBuffer().Point)(0, 3), new (_simpleTextBuffer().Point)(0, 6)),
         oldText: 'ten',
-        newRange: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 3), new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 9)),
+        newRange: new (_simpleTextBuffer().Range)(new (_simpleTextBuffer().Point)(0, 3), new (_simpleTextBuffer().Point)(0, 9)),
         newText: 'eleven'
       });
     }).toThrow();
@@ -355,8 +376,14 @@ describe('FileCache', () => {
         version: 3
       },
       oldRange: {
-        start: { row: 0, column: 3 },
-        end: { row: 0, column: 6 }
+        start: {
+          row: 0,
+          column: 3
+        },
+        end: {
+          row: 0,
+          column: 6
+        }
       },
       contents: 'contents1',
       languageId: 'Babel ES6 JavaScript'
@@ -369,9 +396,9 @@ describe('FileCache', () => {
           filePath: 'f1',
           version: 5
         },
-        oldRange: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 3), new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 6)),
+        oldRange: new (_simpleTextBuffer().Range)(new (_simpleTextBuffer().Point)(0, 3), new (_simpleTextBuffer().Point)(0, 6)),
         oldText: 'ten',
-        newRange: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 3), new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 9)),
+        newRange: new (_simpleTextBuffer().Range)(new (_simpleTextBuffer().Point)(0, 3), new (_simpleTextBuffer().Point)(0, 9)),
         newText: 'eleven'
       });
     }).toThrow();
@@ -384,87 +411,17 @@ describe('FileCache', () => {
     }]);
   });
   it('edit with incorrect oldText', async () => {
-    await (async () => {
-      cache.onFileEvent({
-        kind: 'open',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 3
-        },
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      expect(() => {
-        cache.onFileEvent({
-          kind: 'edit',
-          fileVersion: {
-            notifier: cache,
-            filePath: 'f1',
-            version: 4
-          },
-          oldRange: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 3), new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 6)),
-          oldText: 'one',
-          newRange: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 3), new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 9)),
-          newText: 'eleven'
-        });
-      }).toThrow();
-      expect((await finishEvents())).toEqual([{
-        kind: 'open',
+    cache.onFileEvent({
+      kind: 'open',
+      fileVersion: {
+        notifier: cache,
         filePath: 'f1',
-        changeCount: 3,
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      }]);
-    })();
-  });
-
-  // getBufferAtVersion
-  it('getBufferAtVersion on current version', async () => {
-    await (async () => {
-      cache.onFileEvent({
-        kind: 'open',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 3
-        },
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      const result = await getFileContentsByVersion('f1', 3);
-      expect(result).toBe('contents1');
-    })();
-  });
-  it('getBufferAtVersion on out of date version', async () => {
-    await (async () => {
-      cache.onFileEvent({
-        kind: 'open',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 3
-        },
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      const value = await getFileContentsByVersion('f1', 2);
-      expect(value).toBe(null);
-    })();
-  });
-  it('getBufferAtVersion on next version', async () => {
-    await (async () => {
-      cache.onFileEvent({
-        kind: 'open',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 3
-        },
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      const result = getFileContentsByVersion('f1', 4);
+        version: 3
+      },
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    expect(() => {
       cache.onFileEvent({
         kind: 'edit',
         fileVersion: {
@@ -472,141 +429,186 @@ describe('FileCache', () => {
           filePath: 'f1',
           version: 4
         },
-        oldRange: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 3), new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 6)),
-        oldText: 'ten',
-        newRange: new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 3), new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(0, 9)),
+        oldRange: new (_simpleTextBuffer().Range)(new (_simpleTextBuffer().Point)(0, 3), new (_simpleTextBuffer().Point)(0, 6)),
+        oldText: 'one',
+        newRange: new (_simpleTextBuffer().Range)(new (_simpleTextBuffer().Point)(0, 3), new (_simpleTextBuffer().Point)(0, 9)),
         newText: 'eleven'
       });
-      const value = await result;
-      expect(value).toBe('conelevents1');
-    })();
+    }).toThrow();
+    expect((await finishEvents())).toEqual([{
+      kind: 'open',
+      filePath: 'f1',
+      changeCount: 3,
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    }]);
+  }); // getBufferAtVersion
+
+  it('getBufferAtVersion on current version', async () => {
+    cache.onFileEvent({
+      kind: 'open',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 3
+      },
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    const result = await getFileContentsByVersion('f1', 3);
+    expect(result).toBe('contents1');
+  });
+  it('getBufferAtVersion on out of date version', async () => {
+    cache.onFileEvent({
+      kind: 'open',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 3
+      },
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    const value = await getFileContentsByVersion('f1', 2);
+    expect(value).toBe(null);
+  });
+  it('getBufferAtVersion on next version', async () => {
+    cache.onFileEvent({
+      kind: 'open',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 3
+      },
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    const result = getFileContentsByVersion('f1', 4);
+    cache.onFileEvent({
+      kind: 'edit',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 4
+      },
+      oldRange: new (_simpleTextBuffer().Range)(new (_simpleTextBuffer().Point)(0, 3), new (_simpleTextBuffer().Point)(0, 6)),
+      oldText: 'ten',
+      newRange: new (_simpleTextBuffer().Range)(new (_simpleTextBuffer().Point)(0, 3), new (_simpleTextBuffer().Point)(0, 9)),
+      newText: 'eleven'
+    });
+    const value = await result;
+    expect(value).toBe('conelevents1');
   });
   it('getBufferAtVersion before open', async () => {
-    await (async () => {
-      const result = getFileContentsByVersion('f1', 3);
-      cache.onFileEvent({
-        kind: 'open',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 3
-        },
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      const value = await result;
-      expect(value).toBe('contents1');
-    })();
+    const result = getFileContentsByVersion('f1', 3);
+    cache.onFileEvent({
+      kind: 'open',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 3
+      },
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    const value = await result;
+    expect(value).toBe('contents1');
   });
   it('getBufferAtVersion on out of date version before open', async () => {
     const result = getFileContentsByVersion('f1', 2);
-    await (async () => {
-      cache.onFileEvent({
-        kind: 'open',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 3
-        },
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      expect((await result)).toBe(null);
-    })();
+    cache.onFileEvent({
+      kind: 'open',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 3
+      },
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    expect((await result)).toBe(null);
   });
   it('getBufferAtVersion on sync open', async () => {
-    await (async () => {
-      const result = getFileContentsByVersion('f1', 3);
-      cache.onFileEvent({
-        kind: 'sync',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 3
-        },
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      const value = await result;
-      expect(value).toBe('contents1');
-    })();
+    const result = getFileContentsByVersion('f1', 3);
+    cache.onFileEvent({
+      kind: 'sync',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 3
+      },
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    const value = await result;
+    expect(value).toBe('contents1');
   });
   it('getBufferAtVersion on sync edit', async () => {
-    await (async () => {
-      const result = getFileContentsByVersion('f1', 6);
-      cache.onFileEvent({
-        kind: 'open',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 3
-        },
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      cache.onFileEvent({
-        kind: 'sync',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 6
-        },
-        contents: 'contents6',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      const value = await result;
-      expect(value).toBe('contents6');
-    })();
+    const result = getFileContentsByVersion('f1', 6);
+    cache.onFileEvent({
+      kind: 'open',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 3
+      },
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    cache.onFileEvent({
+      kind: 'sync',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 6
+      },
+      contents: 'contents6',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    const value = await result;
+    expect(value).toBe('contents6');
   });
   it('getBufferAtVersion on reopened file', async () => {
-    await (async () => {
-      const result1 = getFileContentsByVersion('f1', 3);
-      cache.onFileEvent({
-        kind: 'open',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 3
-        },
-        contents: 'contents1',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      expect((await result1)).toBe('contents1');
-      cache.onFileEvent({
-        kind: 'close',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 4
-        }
-      });
-
-      const result2 = getFileContentsByVersion('f1', 4);
-      cache.onFileEvent({
-        kind: 'open',
-        fileVersion: {
-          notifier: cache,
-          filePath: 'f1',
-          version: 4
-        },
-        contents: 'contents-reopened',
-        languageId: 'Babel ES6 JavaScript'
-      });
-      expect((await result2)).toBe('contents-reopened');
-    })();
+    const result1 = getFileContentsByVersion('f1', 3);
+    cache.onFileEvent({
+      kind: 'open',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 3
+      },
+      contents: 'contents1',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    expect((await result1)).toBe('contents1');
+    cache.onFileEvent({
+      kind: 'close',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 4
+      }
+    });
+    const result2 = getFileContentsByVersion('f1', 4);
+    cache.onFileEvent({
+      kind: 'open',
+      fileVersion: {
+        notifier: cache,
+        filePath: 'f1',
+        version: 4
+      },
+      contents: 'contents-reopened',
+      languageId: 'Babel ES6 JavaScript'
+    });
+    expect((await result2)).toBe('contents-reopened');
   });
   it('Initial dirs', async () => {
-    await (async () => {
-      expect((await finishDirEvents())).toEqual([[]]);
-    })();
+    expect((await finishDirEvents())).toEqual([[]]);
   });
   it('Single dir', async () => {
-    await (async () => {
-      cache.onDirectoriesChanged(new Set(['abc']));
-      expect((await finishDirEvents())).toEqual([[], ['abc']]);
-    })();
+    cache.onDirectoriesChanged(new Set(['abc']));
+    expect((await finishDirEvents())).toEqual([[], ['abc']]);
   });
-
   afterEach(() => {
     cache.dispose();
     cache = null;

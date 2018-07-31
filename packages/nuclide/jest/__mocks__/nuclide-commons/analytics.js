@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.trackTiming = trackTiming;
+exports.trackSampled = exports.trackTimingSampled = exports.setRawAnalyticsService = exports.trackImmediate = exports.startTracking = exports.track = void 0;
+
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -14,26 +16,27 @@ exports.trackTiming = trackTiming;
  * 
  * @format
  */
-
 function trackTiming(eventName, operation, values = {}) {
   return operation();
 }
 
-const track = exports.track = jest.fn();
+const track = jest.fn();
+exports.track = track;
 
-const startTracking = exports.startTracking = () => {
+const startTracking = () => {
   const timingTracker = {
     onError: jest.fn(),
     onSuccess: jest.fn()
   };
-
   return timingTracker;
 };
 
-const trackImmediate = exports.trackImmediate = jest.fn();
-
-const setRawAnalyticsService = exports.setRawAnalyticsService = jest.fn();
-
-const trackTimingSampled = exports.trackTimingSampled = jest.fn((event, fn) => fn());
-
-const trackSampled = exports.trackSampled = jest.fn();
+exports.startTracking = startTracking;
+const trackImmediate = jest.fn();
+exports.trackImmediate = trackImmediate;
+const setRawAnalyticsService = jest.fn();
+exports.setRawAnalyticsService = setRawAnalyticsService;
+const trackTimingSampled = jest.fn((event, fn) => fn());
+exports.trackTimingSampled = trackTimingSampled;
+const trackSampled = jest.fn();
+exports.trackSampled = trackSampled;

@@ -1,15 +1,23 @@
-'use strict';
+"use strict";
 
-var _MIRegisterValue;
+function _MIRegisterValue() {
+  const data = require("./MIRegisterValue");
 
-function _load_MIRegisterValue() {
-  return _MIRegisterValue = require('./MIRegisterValue');
+  _MIRegisterValue = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _VariableReference;
+function _VariableReference() {
+  const data = _interopRequireDefault(require("./VariableReference"));
 
-function _load_VariableReference() {
-  return _VariableReference = _interopRequireDefault(require('./VariableReference'));
+  _VariableReference = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

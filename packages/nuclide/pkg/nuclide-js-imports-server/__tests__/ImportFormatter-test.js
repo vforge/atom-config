@@ -1,11 +1,26 @@
-'use strict';
+"use strict";
 
-var _ImportFormatter;
+function _ImportFormatter() {
+  const data = require("../src/lib/ImportFormatter");
 
-function _load_ImportFormatter() {
-  return _ImportFormatter = require('../src/lib/ImportFormatter');
+  _ImportFormatter = function () {
+    return data;
+  };
+
+  return data;
 }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ *  strict-local
+ * @format
+ * @emails oncall+nuclide
+ */
 describe('ImportFormatter', () => {
   it('Should properly format filenames', () => {
     const suggestedImport = {
@@ -15,8 +30,7 @@ describe('ImportFormatter', () => {
       isTypeExport: false,
       isDefault: false
     };
-
-    const formatter = new (_ImportFormatter || _load_ImportFormatter()).ImportFormatter([], false);
+    const formatter = new (_ImportFormatter().ImportFormatter)([], false);
     expect(formatter.formatImportFile('/Users/login/home/root/subdirectory/file.js', suggestedImport)).toBe('../someFile');
   });
   it('Should properly format filesnames with modules', () => {
@@ -27,11 +41,9 @@ describe('ImportFormatter', () => {
       isTypeExport: false,
       isDefault: false
     };
-
-    const formatter = new (_ImportFormatter || _load_ImportFormatter()).ImportFormatter(['/Users/login/home/root/subdirectory/modules'], false);
+    const formatter = new (_ImportFormatter().ImportFormatter)(['/Users/login/home/root/subdirectory/modules'], false);
     expect(formatter.formatImportFile('/Users/login/home/root/subdirectory/someProject/someSubdirectory/file.js', suggestedImport)).toBe('module1/someFile');
   });
-
   it('Should properly format filesnames with leading period', () => {
     const suggestedImport = {
       id: 'SomeSymbol',
@@ -40,8 +52,7 @@ describe('ImportFormatter', () => {
       isTypeExport: false,
       isDefault: false
     };
-
-    const formatter = new (_ImportFormatter || _load_ImportFormatter()).ImportFormatter(['/Users/login/home/root/subdirectory/modules'], false);
+    const formatter = new (_ImportFormatter().ImportFormatter)(['/Users/login/home/root/subdirectory/modules'], false);
     expect(formatter.formatImportFile('/Users/login/home/root/subdirectory/file.js', suggestedImport)).toBe('./types');
   });
   it('Should properly format import statement for values', () => {
@@ -52,8 +63,7 @@ describe('ImportFormatter', () => {
       isTypeExport: false,
       isDefault: false
     };
-
-    const formatter = new (_ImportFormatter || _load_ImportFormatter()).ImportFormatter([], false);
+    const formatter = new (_ImportFormatter().ImportFormatter)([], false);
     expect(formatter.formatImport('/Users/login/home/root/subdirectory/file.js', suggestedImport)).toBe("import {SomeSymbol} from '../someFile';");
   });
   it('Should properly format import statement for types', () => {
@@ -64,8 +74,7 @@ describe('ImportFormatter', () => {
       isTypeExport: true,
       isDefault: false
     };
-
-    const formatter = new (_ImportFormatter || _load_ImportFormatter()).ImportFormatter([], false);
+    const formatter = new (_ImportFormatter().ImportFormatter)([], false);
     expect(formatter.formatImport('/Users/login/home/root/subdirectory/file.js', suggestedImport)).toBe("import type {SomeType} from '../someFile';");
   });
   it('Should properly format import statement for default exports', () => {
@@ -76,8 +85,7 @@ describe('ImportFormatter', () => {
       isTypeExport: false,
       isDefault: true
     };
-
-    const formatter = new (_ImportFormatter || _load_ImportFormatter()).ImportFormatter([], false);
+    const formatter = new (_ImportFormatter().ImportFormatter)([], false);
     expect(formatter.formatImport('/Users/login/home/root/subdirectory/file.js', suggestedImport)).toBe("import SomeSymbol from '../someFile';");
   });
   it('Should provide a relative import for files within the same module', () => {
@@ -88,7 +96,7 @@ describe('ImportFormatter', () => {
       isTypeExport: false,
       isDefault: true
     };
-    const formatter = new (_ImportFormatter || _load_ImportFormatter()).ImportFormatter(['/Users/modules'], false);
+    const formatter = new (_ImportFormatter().ImportFormatter)(['/Users/modules'], false);
     expect(formatter.formatImport('/Users/modules/atom-ide-ui/aDifferentPackage/lib/anotherFile.js', suggestedImport)).toBe("import SomeSymbol from '../../somePackage/someFile';");
   });
   it('Should NOT provide a relative import for files NOT within the same module', () => {
@@ -99,7 +107,7 @@ describe('ImportFormatter', () => {
       isTypeExport: false,
       isDefault: true
     };
-    const formatter = new (_ImportFormatter || _load_ImportFormatter()).ImportFormatter(['/Users/modules'], false);
+    const formatter = new (_ImportFormatter().ImportFormatter)(['/Users/modules'], false);
     expect(formatter.formatImport('/Users/modules/nuclide-commons/aDifferentPackage/lib/anotherFile.js', suggestedImport)).toBe("import SomeSymbol from 'atom-ide-ui/somePackage/someFile';");
   });
   it('Should correctly handle haste formatting with JS files', () => {
@@ -111,16 +119,7 @@ describe('ImportFormatter', () => {
       isTypeExport: false,
       isDefault: true
     };
-    const formatter = new (_ImportFormatter || _load_ImportFormatter()).ImportFormatter([], true);
+    const formatter = new (_ImportFormatter().ImportFormatter)([], true);
     expect(formatter.formatImportFile('/Users/modules/somePackage/somePackage/AutoImportsManager.js', suggestedImport)).toBe('AutoImportsManagerHaste');
   });
-}); /**
-     * Copyright (c) 2015-present, Facebook, Inc.
-     * All rights reserved.
-     *
-     * This source code is licensed under the license found in the LICENSE file in
-     * the root directory of this source tree.
-     *
-     *  strict-local
-     * @format
-     */
+});

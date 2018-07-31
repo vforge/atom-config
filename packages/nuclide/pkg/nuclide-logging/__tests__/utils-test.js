@@ -1,9 +1,13 @@
-'use strict';
+"use strict";
 
-var _utils;
+function _utils() {
+  const data = require("../lib/utils");
 
-function _load_utils() {
-  return _utils = require('../lib/utils');
+  _utils = function () {
+    return data;
+  };
+
+  return data;
 }
 
 /**
@@ -15,8 +19,8 @@ function _load_utils() {
  *
  * 
  * @format
+ * @emails oncall+nuclide
  */
-
 jest.unmock('log4js');
 
 // Construct a loggingEvent following log4js event format.
@@ -44,29 +48,24 @@ describe('Logview Appender Utils.', () => {
     const loggingEventWithError = createLoggingEvent(error);
     expect(loggingEventWithError.data[0] instanceof Error).toBe(true);
     expect(loggingEventWithError.data[0]).toBe(error);
-
-    const patchedLoggingEventWithError = (0, (_utils || _load_utils()).patchErrorsOfLoggingEvent)(loggingEventWithError);
+    const patchedLoggingEventWithError = (0, _utils().patchErrorsOfLoggingEvent)(loggingEventWithError);
     expect(patchedLoggingEventWithError.data[0] instanceof Error).toBe(false);
     expect(typeof patchedLoggingEventWithError.data[0].stack).toBe('string');
     expect(patchedLoggingEventWithError.data[0].stackTrace instanceof Array).toBe(true);
     const callsite = patchedLoggingEventWithError.data[0].stackTrace[0];
     expect(callsite.fileName).toBe(__filename);
   });
-
   it('addes error if no error exists in loggingEvent.data', () => {
     const loggingEventWithoutError = createLoggingEvent();
     expect(loggingEventWithoutError.data.length).toBe(0);
-    const patchedLoggingEventWithoutError = (0, (_utils || _load_utils()).patchErrorsOfLoggingEvent)(loggingEventWithoutError);
+    const patchedLoggingEventWithoutError = (0, _utils().patchErrorsOfLoggingEvent)(loggingEventWithoutError);
     expect(typeof patchedLoggingEventWithoutError.data[0].stack).toBe('string');
   });
-
   it('Test serialization/deserialization utils.', () => {
-    const loggingEvent = (0, (_utils || _load_utils()).patchErrorsOfLoggingEvent)(createLoggingEvent(new Error('123')));
-
-    const serialization = (0, (_utils || _load_utils()).serializeLoggingEvent)(loggingEvent);
+    const loggingEvent = (0, _utils().patchErrorsOfLoggingEvent)(createLoggingEvent(new Error('123')));
+    const serialization = (0, _utils().serializeLoggingEvent)(loggingEvent);
     expect(typeof serialization === 'string').toBe(true);
-
-    const deserialization = (0, (_utils || _load_utils()).deserializeLoggingEvent)(serialization);
+    const deserialization = (0, _utils().deserializeLoggingEvent)(serialization);
     expect(deserialization.startTime.toString()).toEqual(loggingEvent.startTime.toString());
     expect(deserialization.categoryName).toEqual(loggingEvent.categoryName);
     expect(JSON.stringify(deserialization.level)).toEqual(JSON.stringify(loggingEvent.level));

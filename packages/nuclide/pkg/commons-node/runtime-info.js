@@ -1,29 +1,46 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.__DEV__ = undefined;
 exports.getRuntimeInformation = getRuntimeInformation;
+Object.defineProperty(exports, "__DEV__", {
+  enumerable: true,
+  get: function () {
+    return _env().__DEV__;
+  }
+});
 
-var _systemInfo;
+function _systemInfo() {
+  const data = require("./system-info");
 
-function _load_systemInfo() {
-  return _systemInfo = require('./system-info');
+  _systemInfo = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _os = _interopRequireDefault(require('os'));
+var _os = _interopRequireDefault(require("os"));
 
-var _uuid;
+function _uuid() {
+  const data = _interopRequireDefault(require("uuid"));
 
-function _load_uuid() {
-  return _uuid = _interopRequireDefault(require('uuid'));
+  _uuid = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _env;
+function _env() {
+  const data = require("../../modules/nuclide-node-transpiler/lib/env");
 
-function _load_env() {
-  return _env = require('../../modules/nuclide-node-transpiler/lib/env');
+  _env = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -38,7 +55,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *  strict-local
  * @format
  */
-
 let cachedInformation = null;
 
 function getCacheableRuntimeInformation() {
@@ -48,20 +64,19 @@ function getCacheableRuntimeInformation() {
   }
 
   cachedInformation = {
-    sessionId: (_uuid || _load_uuid()).default.v4(),
+    sessionId: _uuid().default.v4(),
     user: _os.default.userInfo().username,
-    osType: (0, (_systemInfo || _load_systemInfo()).getOsType)(),
+    osType: (0, _systemInfo().getOsType)(),
     timestamp: 0,
-    isClient: !(0, (_systemInfo || _load_systemInfo()).isRunningInServer)(),
-    isDevelopment: (_env || _load_env()).__DEV__,
-    atomVersion: typeof atom === 'object' ? (0, (_systemInfo || _load_systemInfo()).getAtomVersion)() : '',
-    nuclideVersion: (0, (_systemInfo || _load_systemInfo()).getNuclideVersion)(),
+    isClient: !(0, _systemInfo().isRunningInServer)(),
+    isDevelopment: _env().__DEV__,
+    atomVersion: typeof atom === 'object' ? (0, _systemInfo().getAtomVersion)() : '',
+    nuclideVersion: (0, _systemInfo().getNuclideVersion)(),
     installerPackageVersion: 0,
     uptime: 0,
     // TODO (chenshen) fill following information.
     serverVersion: 0
   };
-
   return cachedInformation;
 }
 
@@ -72,5 +87,3 @@ function getRuntimeInformation() {
   });
   return runtimeInformation;
 }
-
-exports.__DEV__ = (_env || _load_env()).__DEV__;

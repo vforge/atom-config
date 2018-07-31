@@ -1,11 +1,26 @@
-'use strict';
+"use strict";
 
-var _utils;
+function _utils() {
+  const data = require("../lib/utils");
 
-function _load_utils() {
-  return _utils = require('../lib/utils');
+  _utils = function () {
+    return data;
+  };
+
+  return data;
 }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ *  strict
+ * @format
+ * @emails oncall+nuclide
+ */
 describe('utils', () => {
   describe('parseFileNameQuery()', () => {
     const tests = [{
@@ -47,17 +62,8 @@ describe('utils', () => {
 
     for (const test of tests) {
       it(`should parse "${test.query}"`, () => {
-        expect((0, (_utils || _load_utils()).parseFileNameQuery)(test.query)).toEqual(test.result);
+        expect((0, _utils().parseFileNameQuery)(test.query)).toEqual(test.result);
       });
     }
   });
-}); /**
-     * Copyright (c) 2015-present, Facebook, Inc.
-     * All rights reserved.
-     *
-     * This source code is licensed under the license found in the LICENSE file in
-     * the root directory of this source tree.
-     *
-     *  strict
-     * @format
-     */
+});

@@ -41,6 +41,7 @@ module.exports =
                 },
 
                 general: {
+                    doNotAskForSupport      : false,
                     indexContinuously       : true,
                     additionalIndexingDelay : 200
                 },
@@ -66,6 +67,10 @@ module.exports =
                 },
 
                 refactoring: {
+                    enable : true
+                },
+
+                symbols: {
                     enable : true
                 },
 

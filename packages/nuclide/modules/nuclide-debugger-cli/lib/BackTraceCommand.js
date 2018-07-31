@@ -1,33 +1,46 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _vscodeDebugprotocol;
+function DebugProtocol() {
+  const data = _interopRequireWildcard(require("vscode-debugprotocol"));
 
-function _load_vscodeDebugprotocol() {
-  return _vscodeDebugprotocol = _interopRequireWildcard(require('vscode-debugprotocol'));
+  DebugProtocol = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _idx;
+function _Thread() {
+  const data = _interopRequireDefault(require("./Thread"));
 
-function _load_idx() {
-  return _idx = _interopRequireDefault(require('idx'));
-}
+  _Thread = function () {
+    return data;
+  };
 
-var _Thread;
-
-function _load_Thread() {
-  return _Thread = _interopRequireDefault(require('./Thread'));
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ *  strict-local
+ * @format
+ */
 class BackTraceCommand {
-
   constructor(con, debug) {
     this.name = 'backtrace';
     this.helpText = '[frame] Displays the call stack of the active thread. With optional frame index, sets the current frame for variable display.';
@@ -50,7 +63,6 @@ which query program state will use the selected frame for context; for example:
 * The 'print' command will evaluate expression in terms of the variables that are
   in scope in the selected frame.
   `;
-
     this._console = con;
     this._debugger = debug;
   }
@@ -63,12 +75,14 @@ which query program state will use the selected frame for context; for example:
     }
 
     const frameArg = args[0];
+
     if (frameArg != null) {
       await this._setSelectedStackFrame(activeThread, frameArg);
       return;
     }
 
     const frames = await this._debugger.getStackTrace(activeThread.id(), BackTraceCommand._defaultFrames);
+
     this._printFrames(frames, activeThread.selectedStackFrame());
   }
 
@@ -83,25 +97,17 @@ which query program state will use the selected frame for context; for example:
 
   _printFrames(frames, selectedFrame) {
     frames.forEach((frame, index) => {
-      var _ref, _ref2;
+      var _ref;
 
       const selectedMarker = index === selectedFrame ? '*' : ' ';
-      const path = ((_ref = frame) != null ? (_ref2 = _ref.source) != null ? _ref2.path : _ref2 : _ref) || null;
+      const path = ((_ref = frame) != null ? (_ref = _ref.source) != null ? _ref.path : _ref : _ref) || null;
       const location = path != null ? `${path}:${frame.line}` : '[no source]';
+
       this._console.outputLine(`${selectedMarker} #${index} ${frame.name} ${location}`);
     });
   }
-}
-exports.default = BackTraceCommand; /**
-                                     * Copyright (c) 2017-present, Facebook, Inc.
-                                     * All rights reserved.
-                                     *
-                                     * This source code is licensed under the BSD-style license found in the
-                                     * LICENSE file in the root directory of this source tree. An additional grant
-                                     * of patent rights can be found in the PATENTS file in the same directory.
-                                     *
-                                     *  strict-local
-                                     * @format
-                                     */
 
+}
+
+exports.default = BackTraceCommand;
 BackTraceCommand._defaultFrames = 100;

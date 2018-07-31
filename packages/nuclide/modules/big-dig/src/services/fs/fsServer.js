@@ -1,81 +1,72 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RemoteFileSystemServer = undefined;
-exports.createThriftServer = createThriftServer;
+exports.RemoteFileSystemServer = void 0;
 
-var _thrift;
+function _thrift() {
+  const data = _interopRequireDefault(require("thrift"));
 
-function _load_thrift() {
-  return _thrift = _interopRequireDefault(require('thrift'));
+  _thrift = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _RemoteFileSystemService;
+function _RemoteFileSystemService() {
+  const data = _interopRequireDefault(require("./gen-nodejs/RemoteFileSystemService"));
 
-function _load_RemoteFileSystemService() {
-  return _RemoteFileSystemService = _interopRequireDefault(require('./gen-nodejs/RemoteFileSystemService'));
+  _RemoteFileSystemService = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _RemoteFileSystemServiceHandler;
+function _RemoteFileSystemServiceHandler() {
+  const data = require("./RemoteFileSystemServiceHandler");
 
-function _load_RemoteFileSystemServiceHandler() {
-  return _RemoteFileSystemServiceHandler = require('./RemoteFileSystemServiceHandler');
+  _RemoteFileSystemServiceHandler = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _ports;
+function _ports() {
+  const data = require("../../common/ports");
 
-function _load_ports() {
-  return _ports = require('../../common/ports');
+  _ports = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _log4js;
+function _log4js() {
+  const data = require("log4js");
 
-function _load_log4js() {
-  return _log4js = require('log4js');
+  _log4js = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _nuclideWatchmanHelpers() {
+  const data = require("../../../../nuclide-watchman-helpers");
+
+  _nuclideWatchmanHelpers = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Wrapper class of raw thrift server which provide more methods
- * e.g. initialze(), close() etc.
- */
-class RemoteFileSystemServer {
-
-  constructor(options) {
-    this._serviceHandler = new (_RemoteFileSystemServiceHandler || _load_RemoteFileSystemServiceHandler()).RemoteFileSystemServiceHandler();
-    this._logger = (0, (_log4js || _load_log4js()).getLogger)('fs-thrift-server');
-    this._options = options;
-  }
-
-  async initialize() {
-    if (this._server != null) {
-      return;
-    }
-    this._server = (_thrift || _load_thrift()).default.createServer((_RemoteFileSystemService || _load_RemoteFileSystemService()).default, {
-      createDirectory: uri => {
-        return this._serviceHandler.createDirectory(uri);
-      }
-    });
-    this._server.on('error', error => {
-      throw error;
-    });
-    if (!(await (0, (_ports || _load_ports()).scanPortsToListen)(this._server, this._options.ports))) {
-      throw new Error(`All ports in range "${this._options.ports}" are already in use`);
-    }
-  }
-
-  close() {
-    this._logger.info('Close remote file system thrift service server...');
-    this._server = null;
-  }
-}
-
-exports.RemoteFileSystemServer = RemoteFileSystemServer; /**
-                                                          * Creates a remote file system thrift server.
-                                                          */
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  * All rights reserved.
@@ -88,9 +79,79 @@ exports.RemoteFileSystemServer = RemoteFileSystemServer; /**
  * @format
  */
 
-async function createThriftServer(options) {
-  const server = new RemoteFileSystemServer(options);
-  // Make sure we successfully start a thrift server
-  await server.initialize();
-  return server;
+/**
+ * Wrapper class of raw thrift server which provide more methods
+ * e.g. initialze(), close() etc.
+ */
+class RemoteFileSystemServer {
+  constructor(port) {
+    this._port = port;
+    this._logger = (0, _log4js().getLogger)('fs-thrift-server');
+    this._watcher = new (_nuclideWatchmanHelpers().WatchmanClient)();
+    this._serviceHandler = new (_RemoteFileSystemServiceHandler().RemoteFileSystemServiceHandler)(this._watcher);
+  }
+
+  async initialize() {
+    if (this._server != null) {
+      return;
+    }
+
+    this._server = _thrift().default.createServer(_RemoteFileSystemService().default, {
+      watch: (uri, options) => {
+        return this._serviceHandler.watch(uri, options);
+      },
+      pollFileChanges: () => {
+        return this._serviceHandler.pollFileChanges();
+      },
+      createDirectory: uri => {
+        return this._serviceHandler.createDirectory(uri);
+      },
+      stat: uri => {
+        return this._serviceHandler.stat(uri);
+      },
+      readFile: uri => {
+        return this._serviceHandler.readFile(uri);
+      },
+      writeFile: (uri, content, options) => {
+        return this._serviceHandler.writeFile(uri, content, options);
+      },
+      rename: (oldUri, newUri, options) => {
+        return this._serviceHandler.rename(oldUri, newUri, options);
+      },
+      copy: (source, destination, options) => {
+        return this._serviceHandler.copy(source, destination, options);
+      },
+      deletePath: (uri, options) => {
+        return this._serviceHandler.deletePath(uri, options);
+      },
+      readDirectory: uri => {
+        return this._serviceHandler.readDirectory(uri);
+      }
+    });
+
+    this._server.on('error', error => {
+      throw error;
+    });
+
+    const isServerListening = await (0, _ports().scanPortsToListen)(this._server, String(this._port));
+
+    if (!isServerListening) {
+      throw new Error(`All ports in range "${this._port}" are already in use`);
+    }
+  }
+
+  getPort() {
+    return this._server.address().port;
+  }
+
+  close() {
+    this._logger.info('Close remote file system thrift service server...');
+
+    this._server = null;
+
+    this._watcher.dispose();
+  }
+
 }
+
+exports.RemoteFileSystemServer = RemoteFileSystemServer;

@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118619-58315-fn9itu.oe0mmfgvi/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
-        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118619-58315-fn9itu.oe0mmfgvi/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118619-58315-fn9itu.oe0mmfgvi/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118221-85902-nmrn98.ddrh08uxr"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118619-58315-11apslm.8gyqkqehfr"
     ]
   ],
-  "_from": "../d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
-  "_id": "ide-ruby@0.1.10",
+  "_from": "../d-118619-58315-fn9itu.oe0mmfgvi/package.tgz",
+  "_id": "ide-ruby@0.2.0",
   "_inCache": true,
   "_location": "/ide-ruby",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118619-58315-fn9itu.oe0mmfgvi/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
-    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118619-58315-fn9itu.oe0mmfgvi/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118619-58315-fn9itu.oe0mmfgvi/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
-  "_shasum": "be927b58ca37e9a89ad5e32983c34a8839258a91",
+  "_resolved": "file:../d-118619-58315-fn9itu.oe0mmfgvi/package.tgz",
+  "_shasum": "989e84616ec6f448891b7a23c6de6b46266fa0d5",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118221-85902-1v8won0.xgl6dpldi/package.tgz",
-  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118221-85902-nmrn98.ddrh08uxr",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118619-58315-fn9itu.oe0mmfgvi/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118619-58315-11apslm.8gyqkqehfr",
   "atomCommands": {
     "ide-ruby:help": "Provides help information and descriptions of commands."
   },
@@ -164,5 +164,5 @@
     "lint": "eslint src/",
     "test": "npm run lint"
   },
-  "version": "0.1.10"
+  "version": "0.2.0"
 }

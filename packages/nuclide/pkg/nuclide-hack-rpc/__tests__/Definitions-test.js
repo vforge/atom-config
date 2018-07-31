@@ -1,9 +1,13 @@
-'use strict';
+"use strict";
 
-var _Definitions;
+function _Definitions() {
+  const data = require("../lib/Definitions");
 
-function _load_Definitions() {
-  return _Definitions = require('../lib/Definitions');
+  _Definitions = function () {
+    return data;
+  };
+
+  return data;
 }
 
 /**
@@ -15,13 +19,12 @@ function _load_Definitions() {
  *
  * 
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('convertDefinitions', () => {
   const filePath = '/tmp/file1';
   const defPath = '/tmp/file2';
   const projectRoot = '/tmp';
-
   const filteredDef = {
     definition_pos: null,
     name: 'filtered',
@@ -32,7 +35,6 @@ describe('convertDefinitions', () => {
       char_end: 13
     }
   };
-
   const def = {
     definition_pos: {
       filename: defPath,
@@ -56,7 +58,6 @@ describe('convertDefinitions', () => {
     },
     projectRoot
   };
-
   const defaultName = {
     definition_pos: {
       filename: null,
@@ -73,20 +74,16 @@ describe('convertDefinitions', () => {
     },
     projectRoot
   };
-
   it('no definitions', () => {
-    expect((0, (_Definitions || _load_Definitions()).convertDefinitions)([], filePath, projectRoot)).toBe(null);
+    expect((0, _Definitions().convertDefinitions)([], filePath, projectRoot)).toBe(null);
   });
-
   it('filtered definitions', () => {
-    expect((0, (_Definitions || _load_Definitions()).convertDefinitions)([filteredDef], filePath, projectRoot)).toBe(null);
+    expect((0, _Definitions().convertDefinitions)([filteredDef], filePath, projectRoot)).toBe(null);
   });
-
   it('valid definition', () => {
-    expect((0, (_Definitions || _load_Definitions()).convertDefinitions)([filteredDef, def], filePath, projectRoot)).toMatchSnapshot();
+    expect((0, _Definitions().convertDefinitions)([filteredDef, def], filePath, projectRoot)).toMatchSnapshot();
   });
-
   it('default name definition', () => {
-    expect((0, (_Definitions || _load_Definitions()).convertDefinitions)([defaultName], filePath, projectRoot)).toMatchSnapshot();
+    expect((0, _Definitions().convertDefinitions)([defaultName], filePath, projectRoot)).toMatchSnapshot();
   });
 });

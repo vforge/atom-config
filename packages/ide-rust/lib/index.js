@@ -18,7 +18,9 @@ const PERIODIC_UPDATE_CHECK_MILLIS = 6 * 60 * 60 * 1000
 
 async function exec(command) {
   return new Promise((resolve, reject) => {
-    cp.exec(command, { env: { PATH: envPath() } }, (err, stdout, stderr) => {
+    const env = process.env
+    env.PATH = envPath()
+    cp.exec(command, { env }, (err, stdout, stderr) => {
       if (err != null) {
         reject(err)
         return
@@ -84,6 +86,17 @@ function rlsCommandOverride() {
 // Installs nightly
 function installCompiler() {
   return exec(`rustup toolchain install ${configToolchain()}`)
+}
+
+/**
+ * @param {string} projectPath
+ * @return {bool} the project path has been explicitly disabled
+ */
+function shouldIgnoreProjectPath(projectPath) {
+  const ignoredPaths = atom.config.get('ide-rust.ignoredProjectPaths')
+  return ignoredPaths && ignoredPaths.split(',')
+    .map(path => path.trim().replace(/[/\\]*$/, ''))
+    .some(path => path === projectPath.trim().replace(/[/\\]*$/, ''))
 }
 
 /**
@@ -270,6 +283,7 @@ class RustLanguageClient extends AutoLanguageClient {
         description: 'Configuration default sent to all Rls instances, overridden by project rls.toml configuration',
         type: 'object',
         collapsed: false,
+        order: 3,
         properties: {
           allTargets: {
             title: "Check All Targets",
@@ -288,6 +302,12 @@ class RustLanguageClient extends AutoLanguageClient {
             enum: ["On", "Opt-in", "Off", "Rls Default"]
           }
         }
+      },
+      ignoredProjectPaths: {
+        description: 'Disables ide-rust functionality on a comma-separated list of project paths.',
+        type: 'string',
+        default: '',
+        order: 999
       }
     }
   }
@@ -575,6 +595,13 @@ class RustLanguageClient extends AutoLanguageClient {
   }
 
   async startServerProcess(projectPath) {
+    if (shouldIgnoreProjectPath(projectPath)) {
+      console.warn("ide-rust disabled on", projectPath)
+      // It's a bit ugly to just return as it causes some upstream error logs
+      // But there doesn't seem to be a better option for path disabling at the moment
+      return
+    }
+
     if (!this._periodicUpdateChecking) {
       // if haven't started periodic checks for updates yet start now
       let periodicUpdateTimeoutId

@@ -1,32 +1,48 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RenameProvider = undefined;
+exports.RenameProvider = void 0;
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../modules/nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideRemoteConnection;
+function _nuclideRemoteConnection() {
+  const data = require("../../nuclide-remote-connection");
 
-function _load_nuclideRemoteConnection() {
-  return _nuclideRemoteConnection = require('../../nuclide-remote-connection');
+  _nuclideRemoteConnection = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideAnalytics;
+function _nuclideAnalytics() {
+  const data = require("../../nuclide-analytics");
 
-function _load_nuclideAnalytics() {
-  return _nuclideAnalytics = require('../../nuclide-analytics');
+  _nuclideAnalytics = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideOpenFiles;
+function _nuclideOpenFiles() {
+  const data = require("../../nuclide-open-files");
 
-function _load_nuclideOpenFiles() {
-  return _nuclideOpenFiles = require('../../nuclide-open-files');
+  _nuclideOpenFiles = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -41,9 +57,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *  strict-local
  * @format
  */
-
 class RenameProvider {
-
   constructor(name, grammarScopes, priority, analyticsEventName, connectionToLanguageService) {
     this.name = name;
     this.grammarScopes = grammarScopes;
@@ -53,8 +67,7 @@ class RenameProvider {
   }
 
   static register(name, grammarScopes, config, connectionToLanguageService) {
-    const disposable = new (_UniversalDisposable || _load_UniversalDisposable()).default(atom.packages.serviceHub.provide('nuclide-rename.provider', config.version, new RenameProvider(name, grammarScopes, config.priority, config.analyticsEventName, connectionToLanguageService).provide()));
-
+    const disposable = new (_UniversalDisposable().default)(atom.packages.serviceHub.provide('nuclide-refactor', config.version, new RenameProvider(name, grammarScopes, config.priority, config.analyticsEventName, connectionToLanguageService).provide()));
     return disposable;
   }
 
@@ -67,14 +80,19 @@ class RenameProvider {
   }
 
   rename(editor, position, newName) {
-    return (0, (_nuclideAnalytics || _load_nuclideAnalytics()).trackTiming)(this._analyticsEventName, async () => {
-      const fileVersion = await (0, (_nuclideOpenFiles || _load_nuclideOpenFiles()).getFileVersionOfEditor)(editor);
+    return (0, _nuclideAnalytics().trackTiming)(this._analyticsEventName, async () => {
+      const fileVersion = await (0, _nuclideOpenFiles().getFileVersionOfEditor)(editor);
+
       const languageService = this._connectionToLanguageService.getForUri(editor.getPath());
+
       if (languageService == null || fileVersion == null) {
         return null;
       }
+
       return (await languageService).rename(fileVersion, position, newName);
     });
   }
+
 }
+
 exports.RenameProvider = RenameProvider;

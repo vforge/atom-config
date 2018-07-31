@@ -1,27 +1,45 @@
-'use strict';
+"use strict";
 
-var _atom = require('atom');
+var _atom = require("atom");
 
-var _ClangLinter;
+function _ClangLinter() {
+  const data = _interopRequireDefault(require("../lib/ClangLinter"));
 
-function _load_ClangLinter() {
-  return _ClangLinter = _interopRequireDefault(require('../lib/ClangLinter'));
+  _ClangLinter = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _range;
+function range() {
+  const data = _interopRequireWildcard(require("../../../modules/nuclide-commons-atom/range"));
 
-function _load_range() {
-  return _range = _interopRequireWildcard(require('../../../modules/nuclide-commons-atom/range'));
+  range = function () {
+    return data;
+  };
+
+  return data;
 }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ * @emails oncall+nuclide
+ */
 describe('ClangDiagnosticsProvider', () => {
   const TEST_PATH = '/path/test.cpp';
   const TEST_PATH2 = '/path/asdf';
-
   const fakeEditor = {
     getBuffer: () => ({
       isDestroyed: () => false,
@@ -29,18 +47,16 @@ describe('ClangDiagnosticsProvider', () => {
       rangeForRow: row => new _atom.Range([row, 0], [row + 1, 0])
     })
   };
-
   beforeEach(() => {
-    jest.spyOn(_range || _load_range(), 'wordAtPosition').mockImplementation((editor, pos, regex) => {
+    jest.spyOn(range(), 'wordAtPosition').mockImplementation((editor, pos, regex) => {
       return {
         range: new _atom.Range(pos, [pos.row, pos.column + 1])
       };
     });
   });
-
   describe('processDiagnostics', () => {
     it('should group diagnostics by file', () => {
-      const messages = (_ClangLinter || _load_ClangLinter()).default._processDiagnostics({
+      const messages = _ClangLinter().default._processDiagnostics({
         diagnostics: [{
           severity: 2,
           location: {
@@ -50,7 +66,8 @@ describe('ClangDiagnosticsProvider', () => {
           ranges: null,
           spelling: 'whole file'
         }, {
-          severity: 1, // severity < 2 is ignored
+          severity: 1,
+          // severity < 2 is ignored
           location: {
             file: '',
             point: new _atom.Point(0, 0)
@@ -63,7 +80,8 @@ describe('ClangDiagnosticsProvider', () => {
             file: TEST_PATH2,
             point: new _atom.Point(0, 0)
           },
-          ranges: null, // use the entire line
+          ranges: null,
+          // use the entire line
           spelling: 'other file',
           fixits: [{
             range: {
@@ -147,13 +165,4 @@ describe('ClangDiagnosticsProvider', () => {
       }]);
     });
   });
-}); /**
-     * Copyright (c) 2015-present, Facebook, Inc.
-     * All rights reserved.
-     *
-     * This source code is licensed under the license found in the LICENSE file in
-     * the root directory of this source tree.
-     *
-     * 
-     * @format
-     */
+});

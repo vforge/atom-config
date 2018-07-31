@@ -1,80 +1,139 @@
-'use strict';
+"use strict";
 
-var _createPackage;
+function _createPackage() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/createPackage"));
 
-function _load_createPackage() {
-  return _createPackage = _interopRequireDefault(require('../../../modules/nuclide-commons-atom/createPackage'));
+  _createPackage = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _log4js;
+function _log4js() {
+  const data = require("log4js");
 
-function _load_log4js() {
-  return _log4js = require('log4js');
+  _log4js = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _featureConfig;
+function _featureConfig() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/feature-config"));
 
-function _load_featureConfig() {
-  return _featureConfig = _interopRequireDefault(require('../../../modules/nuclide-commons-atom/feature-config'));
+  _featureConfig = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _UniversalDisposable;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../modules/nuclide-commons/UniversalDisposable'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
 
-var _libclang;
+  _UniversalDisposable = function () {
+    return data;
+  };
 
-function _load_libclang() {
-  return _libclang = require('../../nuclide-clang/lib/libclang');
+  return data;
 }
 
-var _passesGK;
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-function _load_passesGK() {
-  return _passesGK = _interopRequireDefault(require('../../commons-node/passesGK'));
+function _libclang() {
+  const data = require("../../nuclide-clang/lib/libclang");
+
+  _libclang = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideLanguageService;
+function _passesGK() {
+  const data = _interopRequireDefault(require("../../commons-node/passesGK"));
 
-function _load_nuclideLanguageService() {
-  return _nuclideLanguageService = require('../../nuclide-language-service');
+  _passesGK = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideLanguageServiceRpc;
+function _nuclideLanguageService() {
+  const data = require("../../nuclide-language-service");
 
-function _load_nuclideLanguageServiceRpc() {
-  return _nuclideLanguageServiceRpc = require('../../nuclide-language-service-rpc');
+  _nuclideLanguageService = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideOpenFiles;
+function _nuclideLanguageServiceRpc() {
+  const data = require("../../nuclide-language-service-rpc");
 
-function _load_nuclideOpenFiles() {
-  return _nuclideOpenFiles = require('../../nuclide-open-files');
+  _nuclideLanguageServiceRpc = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideRemoteConnection;
+function _nuclideOpenFiles() {
+  const data = require("../../nuclide-open-files");
 
-function _load_nuclideRemoteConnection() {
-  return _nuclideRemoteConnection = require('../../nuclide-remote-connection');
+  _nuclideOpenFiles = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _utils;
+function _nuclideRemoteConnection() {
+  const data = require("../../nuclide-remote-connection");
 
-function _load_utils() {
-  return _utils = require('./utils');
+  _nuclideRemoteConnection = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _convert() {
+  const data = require("../../nuclide-vscode-language-service-rpc/lib/convert");
+
+  _convert = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _utils() {
+  const data = require("./utils");
+
+  _utils = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const NUCLIDE_CQUERY_GK = 'nuclide_cquery_lsp';
-// Must match string in nuclide-clang/lib/constants.js
-
-// TODO pelmers: maybe don't import from libclang
-// eslint-disable-next-line nuclide-internal/no-cross-atom-imports
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -85,47 +144,73 @@ const NUCLIDE_CQUERY_GK = 'nuclide_cquery_lsp';
  *  strict-local
  * @format
  */
+// TODO pelmers: maybe don't import from libclang
+// eslint-disable-next-line nuclide-internal/no-cross-atom-imports
+const NUCLIDE_CQUERY_GK = 'nuclide_cquery_lsp'; // Must match string in nuclide-clang/lib/constants.js
 
 const NUCLIDE_CLANG_PACKAGE_NAME = 'nuclide-clang';
 const USE_CQUERY_CONFIG = 'nuclide-cquery-lsp.use-cquery';
 const GRAMMARS = ['source.cpp', 'source.c', 'source.objc', 'source.objcpp'];
+
 let _referencesViewService;
 
-class CqueryNullLanguageService extends (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).NullLanguageService {
-  async freshenIndexForFile(file) {}
+class CqueryNullLanguageService extends _nuclideLanguageServiceRpc().NullLanguageService {
   async restartProcessForFile(file) {}
-  async requestLocationsCommand(methodName, path, point) {
-    return [];
-  }
+
+}
+
+async function requestLocations(service, method, path, point) {
+  const hostname = _nuclideUri().default.getHostnameOpt(path);
+
+  const response = await service.sendLspRequest(path, method, {
+    textDocument: {
+      uri: (0, _convert().localPath_lspUri)(_nuclideUri().default.getPath(path))
+    },
+    position: (0, _convert().atomPoint_lspPosition)(point)
+  });
+  return response == null ? [] : // $FlowIgnore: type matches Out_LocationList: https://git.io/fNcSI
+  response.map(({
+    uri,
+    range
+  }) => {
+    const lspPath = (0, _convert().lspUri_localPath)(uri);
+    return {
+      uri: hostname == null ? lspPath : _nuclideUri().default.createRemoteUri(hostname, lspPath),
+      range: (0, _convert().lspRange_atomRange)(range)
+    };
+  });
 }
 
 function addCommands(atomService) {
-  const notificationCommands = [
-  // This command just sends a notification to the server.
+  const notificationCommands = [// This command just sends a notification to the server.
   atom.commands.add('atom-text-editor', 'cquery:freshen-index', async () => {
     const editor = atom.workspace.getActiveTextEditor();
+
     if (editor) {
       const path = editor.getPath();
       const service = await atomService.getLanguageServiceForUri(path);
+
       if (path != null && service != null) {
-        service.freshenIndexForFile(path);
+        // identical to vscode extension, https://git.io/vbUbQ
+        await service.sendLspNotification(path, '$cquery/freshenIndex', {});
       }
     }
-  }),
-  // Equivalent to 'clang:clean-and-rebuild'
+  }), // Equivalent to 'clang:clean-and-rebuild'
   atom.commands.add('atom-text-editor', 'cquery:clean-and-restart', async () => {
     const editor = atom.workspace.getActiveTextEditor();
+
     if (editor) {
       const path = editor.getPath();
       const service = await atomService.getLanguageServiceForUri(path);
+
       if (path != null && service != null) {
-        await (0, (_libclang || _load_libclang()).resetForSource)(editor);
+        await (0, _libclang().resetForSource)(editor);
         await service.restartProcessForFile(path);
       }
     }
-  })];
-  // These commands all request locations in response to a position
+  })]; // These commands all request locations in response to a position
   // which we can display in a find references pane.
+
   const requestCommands = [{
     command: 'cquery:find-variables',
     methodName: '$cquery/vars',
@@ -142,48 +227,62 @@ function addCommands(atomService) {
     command: 'cquery:find-derived-class',
     methodName: '$cquery/derived',
     title: 'Derived classes'
-  }].map(({ command, methodName, title }) => atom.commands.add('atom-text-editor', command, async () => {
+  }].map(({
+    command,
+    methodName,
+    title
+  }) => atom.commands.add('atom-text-editor', command, async () => {
     const editor = atom.workspace.getActiveTextEditor();
+
     if (editor) {
       const point = editor.getCursorBufferPosition();
       const path = editor.getPath();
-      const name = (0, (_utils || _load_utils()).wordUnderPoint)(editor, point);
+      const name = (0, _utils().wordUnderPoint)(editor, point);
       const service = await atomService.getLanguageServiceForUri(path);
+
       if (service != null && path != null && name != null) {
-        service.requestLocationsCommand(methodName, path, point).then(locations => {
-          if (_referencesViewService != null) {
-            _referencesViewService.viewResults({
-              type: 'data',
-              baseUri: path,
-              referencedSymbolName: name,
-              title,
-              references: locations.map(loc => Object.assign({}, loc, { name: '' }))
-            });
-          }
-        });
+        const locations = await requestLocations(service, methodName, path, point);
+
+        if (_referencesViewService != null) {
+          _referencesViewService.viewResults({
+            type: 'data',
+            baseUri: path,
+            referencedSymbolName: name,
+            title,
+            references: locations.map(loc => Object.assign({}, loc, {
+              name: ''
+            }))
+          });
+        }
       }
     }
   }));
-  return new (_UniversalDisposable || _load_UniversalDisposable()).default(...notificationCommands, ...requestCommands);
+  return new (_UniversalDisposable().default)(...notificationCommands, ...requestCommands);
 }
 
 async function getConnection(connection) {
-  const [fileNotifier, host] = await Promise.all([(0, (_nuclideOpenFiles || _load_nuclideOpenFiles()).getNotifierByConnection)(connection), (0, (_nuclideLanguageService || _load_nuclideLanguageService()).getHostServices)()]);
-  const { defaultFlags } = (0, (_libclang || _load_libclang()).getServerSettings)();
-  const cqueryService = await (0, (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).getCqueryLSPServiceByConnection)(connection).createCqueryService({
+  const [fileNotifier, host] = await Promise.all([(0, _nuclideOpenFiles().getNotifierByConnection)(connection), (0, _nuclideLanguageService().getHostServices)()]);
+  const {
+    defaultFlags
+  } = (0, _libclang().getServerSettings)();
+  const cqueryService = await (0, _nuclideRemoteConnection().getCqueryLSPServiceByConnection)(connection).createCqueryService({
     fileNotifier,
     host,
     logCategory: 'cquery-language-server',
     logLevel: 'WARN',
-    enableLibclangLogs: (_featureConfig || _load_featureConfig()).default.get('nuclide-cquery-lsp.enable-libclang-logs') === true,
+    enableLibclangLogs: (0, _utils().enableLibclangLogsConfig)(),
+    indexerThreads: (0, _utils().indexerThreadsConfig)(),
+    memoryLimitPercent: (0, _utils().memoryLimitConfig)(),
     defaultFlags: defaultFlags != null ? defaultFlags : []
   });
-  if (cqueryService == null && (_featureConfig || _load_featureConfig()).default.get(USE_CQUERY_CONFIG)) {
+
+  if (cqueryService == null && _featureConfig().default.get(USE_CQUERY_CONFIG)) {
     const notification = atom.notifications.addWarning('Could not enable cquery, would you like to switch to built-in C++ support?', {
       buttons: [{
         text: 'Use built-in C++ services',
         onDidClick: () => {
-          (_featureConfig || _load_featureConfig()).default.set(USE_CQUERY_CONFIG, false);
+          _featureConfig().default.set(USE_CQUERY_CONFIG, false);
+
           notification.dismiss();
         }
       }, {
@@ -194,26 +293,28 @@ async function getConnection(connection) {
       }]
     });
   }
+
   return cqueryService != null ? cqueryService : new CqueryNullLanguageService();
 }
 
 class Activation {
-
   constructor(state) {
-    this._subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    this._subscriptions = new (_UniversalDisposable().default)();
     this._lastGkResult = false;
 
     if (state != null) {
       this._lastGkResult = Boolean(state.savedGkResult);
     }
-    this._subscriptions.add(_rxjsBundlesRxMinJs.Observable.fromPromise((0, (_passesGK || _load_passesGK()).default)(NUCLIDE_CQUERY_GK)).subscribe(result => {
+
+    this._subscriptions.add(_RxMin.Observable.fromPromise((0, _passesGK().default)(NUCLIDE_CQUERY_GK)).subscribe(result => {
       // Only update the config if the GK value changed, since someone may
       // not pass GK but still want to have the feature on.
       if (this._lastGkResult !== result) {
         this._lastGkResult = result;
-        (_featureConfig || _load_featureConfig()).default.set(USE_CQUERY_CONFIG, result);
+
+        _featureConfig().default.set(USE_CQUERY_CONFIG, result);
       }
-    }), (_featureConfig || _load_featureConfig()).default.observeAsStream(USE_CQUERY_CONFIG).subscribe(config => {
+    }), _featureConfig().default.observeAsStream(USE_CQUERY_CONFIG).subscribe(config => {
       if (config === true) {
         if (this._languageService == null) {
           this._languageService = this.initializeLsp();
@@ -221,6 +322,7 @@ class Activation {
       } else {
         if (this._languageService != null) {
           this._languageService.dispose();
+
           this._languageService = null;
         }
       }
@@ -228,16 +330,18 @@ class Activation {
   }
 
   serialize() {
-    return { savedGkResult: this._lastGkResult };
+    return {
+      savedGkResult: this._lastGkResult
+    };
   }
 
   consumeClangConfigurationProvider(provider) {
-    return (0, (_libclang || _load_libclang()).registerClangProvider)(provider);
+    return (0, _libclang().registerClangProvider)(provider);
   }
 
   consumeReferencesView(provider) {
     _referencesViewService = provider;
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {
+    return new (_UniversalDisposable().default)(() => {
       _referencesViewService = null;
     });
   }
@@ -246,7 +350,7 @@ class Activation {
     return {
       grammarScopes: GRAMMARS,
       priority: 1,
-      formatEntireFile: (_libclang || _load_libclang()).formatCode
+      formatEntireFile: _libclang().formatCode
     };
   }
 
@@ -263,8 +367,8 @@ class Activation {
         });
       }
     };
-    disableNuclideClang();
 
+    disableNuclideClang();
     const atomConfig = {
       name: 'cquery',
       grammars: GRAMMARS,
@@ -274,8 +378,8 @@ class Activation {
         disableForSelector: null,
         excludeLowerPriority: false,
         autocompleteCacherConfig: {
-          updateResults: (_nuclideLanguageService || _load_nuclideLanguageService()).updateAutocompleteResults,
-          updateFirstResults: (_nuclideLanguageService || _load_nuclideLanguageService()).updateAutocompleteFirstResults
+          updateResults: _nuclideLanguageService().updateAutocompleteResults,
+          updateFirstResults: _nuclideLanguageService().updateAutocompleteFirstResults
         },
         analytics: {
           eventName: 'nuclide-cquery-lsp',
@@ -328,18 +432,19 @@ class Activation {
         iconMarkdown: 'cquery'
       }
     };
-
-    const languageService = new (_nuclideLanguageService || _load_nuclideLanguageService()).AtomLanguageService(getConnection, atomConfig, null, (0, (_log4js || _load_log4js()).getLogger)('cquery-language-server'));
+    const languageService = new (_nuclideLanguageService().AtomLanguageService)(getConnection, atomConfig, null, (0, _log4js().getLogger)('cquery-language-server'));
     languageService.activate();
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default(languageService, addCommands(languageService), atom.packages.onDidActivatePackage(disableNuclideClang), () => atom.packages.activatePackage(NUCLIDE_CLANG_PACKAGE_NAME));
+    return new (_UniversalDisposable().default)(languageService, addCommands(languageService), atom.packages.onDidActivatePackage(disableNuclideClang), () => atom.packages.activatePackage(NUCLIDE_CLANG_PACKAGE_NAME));
   }
 
   dispose() {
     this._subscriptions.dispose();
+
     if (this._languageService != null) {
       this._languageService.dispose();
     }
   }
+
 }
 
-(0, (_createPackage || _load_createPackage()).default)(module.exports, Activation);
+(0, _createPackage().default)(module.exports, Activation);

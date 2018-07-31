@@ -7,6 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @noflow
+ * @emails oncall+nuclide
  */
 'use strict';
 
@@ -18,6 +19,7 @@
 
 const child_process = require('child_process');
 const vm = require('vm');
+// eslint-disable-next-line nuclide-internal/modules-dependencies
 const waitsFor = require('../../../jest/waits_for').default;
 const path = require('path');
 const NODE_BIN = path.resolve(

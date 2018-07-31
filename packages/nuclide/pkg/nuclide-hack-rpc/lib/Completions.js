@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6,16 +6,24 @@ Object.defineProperty(exports, "__esModule", {
 exports.convertCompletions = convertCompletions;
 exports.hasPrefix = hasPrefix;
 
-var _simpleTextBuffer;
+function _simpleTextBuffer() {
+  const data = require("simple-text-buffer");
 
-function _load_simpleTextBuffer() {
-  return _simpleTextBuffer = require('simple-text-buffer');
+  _simpleTextBuffer = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _autocomplete;
+function _autocomplete() {
+  const data = require("../../nuclide-hack-common/lib/autocomplete");
 
-function _load_autocomplete() {
-  return _autocomplete = require('../../nuclide-hack-common/lib/autocomplete');
+  _autocomplete = function () {
+    return data;
+  };
+
+  return data;
 }
 
 /**
@@ -28,10 +36,9 @@ function _load_autocomplete() {
  *  strict-local
  * @format
  */
-
 function convertCompletions(contents, offset, prefix, hackCompletions) {
   const completions = processCompletions(hackCompletions, contents, offset, prefix);
-  return (0, (_autocomplete || _load_autocomplete()).sortAndFilterCompletions)(completions, prefix);
+  return (0, _autocomplete().sortAndFilterCompletions)(completions, prefix);
 }
 
 function matchTypeOfType(type) {
@@ -39,6 +46,7 @@ function matchTypeOfType(type) {
   if (type[0] === '(' && type[type.length - 1] === ')') {
     return type.substring(1, type.length - 1);
   }
+
   return type;
 }
 
@@ -53,6 +61,7 @@ function paramSignature(params) {
 
 function matchSnippet(name, params) {
   const escapedName = escapeName(name);
+
   if (params != null) {
     // Construct the snippet: e.g. myFunction(${1:$arg1}, ${2:$arg2});
     const paramsString = params.map((param, index) => `\${${index + 1}:${param.name}}`).join(', ');
@@ -68,20 +77,24 @@ function processCompletions(completionsResponse, contents, offset, defaultPrefix
   const contentsRestOfLine = contents.substring(offset, lineEnd);
   const nextCharIndex = contentsRestOfLine.search(/\S/);
   const alreadyHasParams = nextCharIndex !== -1 && contentsRestOfLine[nextCharIndex] === '(';
-
   return completionsResponse.map(completion => {
-    const { name, type, func_details } = completion;
-    const resultPrefix = (0, (_autocomplete || _load_autocomplete()).getResultPrefix)(contents, offset, name);
+    const {
+      name,
+      type,
+      func_details
+    } = completion;
+    const resultPrefix = (0, _autocomplete().getResultPrefix)(contents, offset, name);
     const commonResult = {
       displayText: name,
-      replacementPrefix: (0, (_autocomplete || _load_autocomplete()).getReplacementPrefix)(resultPrefix, defaultPrefix),
+      replacementPrefix: (0, _autocomplete().getReplacementPrefix)(resultPrefix, defaultPrefix),
       description: matchTypeOfType(type)
-    };
-    // The typechecker only gives us suggestions that are valid in the
+    }; // The typechecker only gives us suggestions that are valid in the
     // current scope - so, if what the user typed didn't start with the
     // namespace (which would lead to us having a resultPrefix), we don't
     // want to put the namespace in the replacement.
+
     const scopedName = resultPrefix === '' ? name.split('\\').pop() : name;
+
     if (func_details != null) {
       const completionParams = alreadyHasParams ? null : func_details.params;
       return Object.assign({}, commonResult, {
@@ -101,11 +114,11 @@ function processCompletions(completionsResponse, contents, offset, defaultPrefix
 
 const FIELD_ACCESSORS = ['->', '::'];
 const PREFIX_LOOKBACK = Math.max.apply(null, FIELD_ACCESSORS.map(prefix => prefix.length));
-
 /**
  * Returns true if `bufferPosition` is prefixed with any of the passed `checkPrefixes`.
  */
+
 function hasPrefix(buffer, bufferPosition) {
-  const priorChars = buffer.getTextInRange(new (_simpleTextBuffer || _load_simpleTextBuffer()).Range(new (_simpleTextBuffer || _load_simpleTextBuffer()).Point(bufferPosition.row, bufferPosition.column - PREFIX_LOOKBACK), bufferPosition));
+  const priorChars = buffer.getTextInRange(new (_simpleTextBuffer().Range)(new (_simpleTextBuffer().Point)(bufferPosition.row, bufferPosition.column - PREFIX_LOOKBACK), bufferPosition));
   return FIELD_ACCESSORS.some(prefix => priorChars.endsWith(prefix));
 }

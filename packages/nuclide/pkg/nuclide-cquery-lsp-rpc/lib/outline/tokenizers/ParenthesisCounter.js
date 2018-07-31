@@ -1,8 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.ParenthesisCounter = void 0;
+
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -35,10 +37,12 @@ class ParenthesisCounter {
       case '[':
       case '(':
         return +1;
+
       case '>':
       case ']':
       case ')':
         return -1;
+
       default:
         return 0;
     }
@@ -47,5 +51,7 @@ class ParenthesisCounter {
   isInsideParenthesis() {
     return this._count !== 0;
   }
+
 }
+
 exports.ParenthesisCounter = ParenthesisCounter;

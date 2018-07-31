@@ -1,14 +1,29 @@
-'use strict';
+"use strict";
 
-var _OutlineView;
+function _OutlineView() {
+  const data = require("../lib/OutlineView");
 
-function _load_OutlineView() {
-  return _OutlineView = require('../lib/OutlineView');
+  _OutlineView = function () {
+    return data;
+  };
+
+  return data;
 }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ *  strict-local
+ * @format
+ * @emails oncall+nuclide
+ */
 describe('outlineFromHackIdeOutline', () => {
   it('function', () => {
-    const actualOutline = (0, (_OutlineView || _load_OutlineView()).outlineFromHackIdeOutline)([{
+    const actualOutline = (0, _OutlineView().outlineFromHackIdeOutline)([{
       name: 'f',
       representativeName: 'f',
       modifiers: [],
@@ -64,9 +79,8 @@ describe('outlineFromHackIdeOutline', () => {
     }]);
     expect(actualOutline).toMatchSnapshot();
   });
-
   it('class', () => {
-    const actualOutline = (0, (_OutlineView || _load_OutlineView()).outlineFromHackIdeOutline)([{
+    const actualOutline = (0, _OutlineView().outlineFromHackIdeOutline)([{
       name: 'D',
       children: [{
         position: {
@@ -190,9 +204,8 @@ describe('outlineFromHackIdeOutline', () => {
     }]);
     expect(actualOutline).toMatchSnapshot();
   });
-
   it('trait', () => {
-    const actualOutline = (0, (_OutlineView || _load_OutlineView()).outlineFromHackIdeOutline)([{
+    const actualOutline = (0, _OutlineView().outlineFromHackIdeOutline)([{
       position: {
         filename: '',
         char_end: 7,
@@ -231,9 +244,8 @@ describe('outlineFromHackIdeOutline', () => {
     }]);
     expect(actualOutline).toMatchSnapshot();
   });
-
   it('interface', () => {
-    const actualOutline = (0, (_OutlineView || _load_OutlineView()).outlineFromHackIdeOutline)([{
+    const actualOutline = (0, _OutlineView().outlineFromHackIdeOutline)([{
       kind: 'interface',
       position: {
         line: 25,
@@ -254,9 +266,8 @@ describe('outlineFromHackIdeOutline', () => {
     }]);
     expect(actualOutline).toMatchSnapshot();
   });
-
   it('enum', () => {
-    const actualOutline = (0, (_OutlineView || _load_OutlineView()).outlineFromHackIdeOutline)([{
+    const actualOutline = (0, _OutlineView().outlineFromHackIdeOutline)([{
       name: 'En',
       children: [{
         kind: 'const',
@@ -294,13 +305,4 @@ describe('outlineFromHackIdeOutline', () => {
     }]);
     expect(actualOutline).toMatchSnapshot();
   });
-}); /**
-     * Copyright (c) 2015-present, Facebook, Inc.
-     * All rights reserved.
-     *
-     * This source code is licensed under the license found in the LICENSE file in
-     * the root directory of this source tree.
-     *
-     *  strict-local
-     * @format
-     */
+});

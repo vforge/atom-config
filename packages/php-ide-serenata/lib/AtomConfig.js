@@ -45,6 +45,7 @@ module.exports =
                 'core.phpCommand',
                 'core.memoryLimit',
                 'core.additionalDockerVolumes',
+                'general.doNotAskForSupport',
                 'general.indexContinuously',
                 'general.additionalIndexingDelay',
                 'datatips.enable',
@@ -53,6 +54,7 @@ module.exports =
                 'autocompletion.enable',
                 'annotations.enable',
                 'refactoring.enable',
+                'symbols.enable',
                 'linting.enable',
                 'linting.showUnknownClasses',
                 'linting.showUnknownMembers',
@@ -78,6 +80,15 @@ module.exports =
         }
 
         /**
+         * @inheritdoc
+        */
+        set(name, value) {
+            super.set(name, value);
+
+            atom.config.set(`${this.packageName}.${name}`, value);
+        }
+
+        /**
          * Attaches listeners to listen to Atom configuration changes.
         */
         attachListeners() {
@@ -98,8 +109,8 @@ module.exports =
          * @return {String}
         */
         getPathToStorageFolderInRidiculousWay() {
-            // NOTE: Apparently process.env.ATOM_HOME is not always set for whatever reason and this ridiculous workaround
-            // is needed to fetch an OS-compliant location to store application data.
+            // NOTE: Apparently process.env.ATOM_HOME is not always set for whatever reason and this ridiculous
+            // workaround is needed to fetch an OS-compliant location to store application data.
             let baseFolder = null;
 
             if (process.env.APPDATA) {

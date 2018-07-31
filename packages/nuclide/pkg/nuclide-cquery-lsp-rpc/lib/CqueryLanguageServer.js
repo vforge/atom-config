@@ -1,27 +1,40 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _fsPromise;
+function _fsPromise() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/fsPromise"));
 
-function _load_fsPromise() {
-  return _fsPromise = _interopRequireDefault(require('../../../modules/nuclide-commons/fsPromise'));
+  _fsPromise = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _nuclideLanguageServiceRpc;
+function _nuclideLanguageServiceRpc() {
+  const data = require("../../nuclide-language-service-rpc");
 
-function _load_nuclideLanguageServiceRpc() {
-  return _nuclideLanguageServiceRpc = require('../../nuclide-language-service-rpc');
+  _nuclideLanguageServiceRpc = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _CqueryLanguageClient;
+function _CqueryLanguageClient() {
+  const data = require("./CqueryLanguageClient");
 
-function _load_CqueryLanguageClient() {
-  return _CqueryLanguageClient = require('./CqueryLanguageClient');
+  _CqueryLanguageClient = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -36,54 +49,39 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *  strict-local
  * @format
  */
-
-class CqueryLanguageServer extends (_nuclideLanguageServiceRpc || _load_nuclideLanguageServiceRpc()).MultiProjectLanguageService {
-
+class CqueryLanguageServer extends _nuclideLanguageServiceRpc().MultiProjectLanguageService {
   constructor(host) {
     super();
     this._host = host;
     this._languageId = 'cquery';
   }
 
-  async requestLocationsCommand(methodName, path, point) {
-    const cqueryProcess = await this.getLanguageServiceForFile(path);
-    if (cqueryProcess) {
-      return cqueryProcess.requestLocationsCommand(methodName, path, point);
-    } else {
-      this._host.consoleNotification(this._languageId, 'warning', 'Could not freshen: no cquery index found for ' + path);
-      return [];
-    }
-  }
-
-  async freshenIndexForFile(file) {
-    const cqueryProcess = await this.getLanguageServiceForFile(file);
-    if (cqueryProcess) {
-      cqueryProcess.freshenIndex();
-    } else {
-      this._host.consoleNotification(this._languageId, 'warning', 'Could not freshen: no cquery index found for ' + file);
-    }
-  }
-
   async restartProcessForFile(file) {
     const projectDir = await this.findProjectDir(file);
     const cqueryProcess = await this.getLanguageServiceForFile(file);
+
     if (projectDir != null && cqueryProcess != null) {
       const cacheDir = cqueryProcess.getCacheDirectory();
+
       this._processes.delete(projectDir);
-      await (_fsPromise || _load_fsPromise()).default.rimraf(cacheDir);
+
+      await _fsPromise().default.rimraf(cacheDir);
     } else {
       this._host.consoleNotification(this._languageId, 'warning', 'Could not restart: no cquery index found for ' + file);
     }
   }
 
   observeStatus(fileVersion) {
-    this._observeStatusPromiseResolver();
-    // Concat the observable to itself in case the language service for a file
+    this._observeStatusPromiseResolver(); // Concat the observable to itself in case the language service for a file
     // changes but the version has not (e.g. the underlying service restarts).
-    const factory = () => _rxjsBundlesRxMinJs.Observable.fromPromise(this.getLanguageServiceForFile(fileVersion.filePath)).flatMap(ls =>
-    // If we receive a null language service then don't restart.
-    ls != null ? ls.observeStatus(fileVersion).refCount().concat(_rxjsBundlesRxMinJs.Observable.defer(factory)) : _rxjsBundlesRxMinJs.Observable.empty());
+
+
+    const factory = () => _RxMin.Observable.fromPromise(this.getLanguageServiceForFile(fileVersion.filePath)).flatMap(ls => // If we receive a null language service then don't restart.
+    ls != null ? ls.observeStatus(fileVersion).refCount().concat(_RxMin.Observable.defer(factory)) : _RxMin.Observable.empty());
+
     return factory().publish();
   }
+
 }
+
 exports.default = CqueryLanguageServer;

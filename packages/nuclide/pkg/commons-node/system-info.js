@@ -1,9 +1,8 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isRunningInTest = exports.OS_TYPE = undefined;
 exports.isRunningInServer = isRunningInServer;
 exports.getAtomNuclideDir = getAtomNuclideDir;
 exports.getAtomVersion = getAtomVersion;
@@ -13,21 +12,30 @@ exports.getOsType = getOsType;
 exports.isRunningInWindows = isRunningInWindows;
 exports.getOsVersion = getOsVersion;
 exports.getRuntimePath = getRuntimePath;
+exports.isRunningInTest = exports.OS_TYPE = void 0;
 
-var _fs = _interopRequireDefault(require('fs'));
+var _fs = _interopRequireDefault(require("fs"));
 
-var _once;
+function _once() {
+  const data = _interopRequireDefault(require("./once"));
 
-function _load_once() {
-  return _once = _interopRequireDefault(require('./once'));
+  _once = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _os = _interopRequireDefault(require('os'));
+var _os = _interopRequireDefault(require("os"));
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -42,20 +50,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *  strict-local
  * @format
  */
+const NUCLIDE_PACKAGE_JSON_PATH = require.resolve("../../package.json");
 
-const NUCLIDE_PACKAGE_JSON_PATH = require.resolve('../../package.json');
-const NUCLIDE_BASEDIR = (_nuclideUri || _load_nuclideUri()).default.dirname(NUCLIDE_PACKAGE_JSON_PATH);
+const NUCLIDE_BASEDIR = _nuclideUri().default.dirname(NUCLIDE_PACKAGE_JSON_PATH);
 
 const pkgJson = JSON.parse(_fs.default.readFileSync(NUCLIDE_PACKAGE_JSON_PATH, 'utf8'));
-
-const OS_TYPE = exports.OS_TYPE = {
+const OS_TYPE = {
   WIN32: 'win32',
   WIN64: 'win64',
   LINUX: 'linux',
   OSX: 'darwin'
-};
-
-// Prior to Atom v1.7.0, `atom.inSpecMode` had a chance of performing an IPC call that could be
+}; // Prior to Atom v1.7.0, `atom.inSpecMode` had a chance of performing an IPC call that could be
 // expensive depending on how much work the other process was doing. Because this value will not
 // change during run time, memoize the value to ensure the IPC call is performed only once.
 //
@@ -63,34 +68,38 @@ const OS_TYPE = exports.OS_TYPE = {
 // ensures happens only once.
 //
 // [1]: https://github.com/atom/atom/blob/v1.6.2/src/window-load-settings-helpers.coffee#L10-L14
-const isRunningInTest = exports.isRunningInTest = (0, (_once || _load_once()).default)(() => {
+
+exports.OS_TYPE = OS_TYPE;
+const isRunningInTest = (0, _once().default)(() => {
   if (typeof atom === 'object') {
     return atom.inSpecMode();
   } else {
     return process.env.NODE_ENV === 'test';
   }
-});
-
-// Nuclide code can run in one of three situations:
+}); // Nuclide code can run in one of three situations:
 //
 // 1) Inside of Atom (just checking the Atom global is enough)
 // 2) Inside of a forked Atom Helper (which has ELECTRON_RUN_AS_NODE)
 // 3) Inside of the Nuclide server, or another plain Node script
 //
 // It's hard to explicitly check 3) so this checks for the absence of 1/2.
+
+exports.isRunningInTest = isRunningInTest;
+
 function isRunningInServer() {
   return typeof atom === 'undefined' && process.env.ELECTRON_RUN_AS_NODE !== '1';
-}
+} // This path may be a symlink.
 
-// This path may be a symlink.
+
 function getAtomNuclideDir() {
   if (typeof atom !== 'object') {
     throw new Error('Not running in Atom.');
   }
+
   const nuclidePackageModule = atom.packages.getLoadedPackage('nuclide');
 
   if (!nuclidePackageModule) {
-    throw new Error('Invariant violation: "nuclidePackageModule"');
+    throw new Error("Invariant violation: \"nuclidePackageModule\"");
   }
 
   return nuclidePackageModule.path;
@@ -100,6 +109,7 @@ function getAtomVersion() {
   if (typeof atom !== 'object') {
     throw new Error('Not running in Atom.');
   }
+
   return atom.getVersion();
 }
 
@@ -133,6 +143,7 @@ function getRuntimePath() {
   // $FlowFixMe(>=0.68.0) Flow suppress (T27187857)
   if (global.atom && typeof process.resourcesPath === 'string') {
     const resourcesPath = process.resourcesPath;
+
     if (_os.default.platform() === 'darwin') {
       return resourcesPath.replace(/\/Contents\/Resources$/, '');
     } else if (_os.default.platform() === 'linux') {

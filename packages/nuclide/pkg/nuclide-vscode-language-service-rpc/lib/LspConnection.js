@@ -1,20 +1,22 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.LspConnection = undefined;
+exports.LspConnection = void 0;
 
-var _protocol;
+function p() {
+  const data = _interopRequireWildcard(require("./protocol"));
 
-function _load_protocol() {
-  return _protocol = _interopRequireWildcard(require('./protocol'));
+  p = function () {
+    return data;
+  };
+
+  return data;
 }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-// This is a strongly typed encapsulation over an underlying MessageConnection
-// transport, which exposes only the LSP methods.
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -25,9 +27,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * 
  * @format
  */
-
+// This is a strongly typed encapsulation over an underlying MessageConnection
+// transport, which exposes only the LSP methods.
 class LspConnection {
-
   constructor(jsonRpcConnection) {
     this._jsonRpcConnection = jsonRpcConnection;
   }
@@ -86,6 +88,10 @@ class LspConnection {
 
   didSaveTextDocument(params) {
     this._jsonRpcConnection.sendNotification('textDocument/didSave', params);
+  }
+
+  willSaveWaitUntilTextDocument(params, token) {
+    return this._jsonRpcConnection.sendRequest('textDocument/willSaveWaitUntil', params, token);
   }
 
   didChangeWatchedFiles(params) {
@@ -181,47 +187,71 @@ class LspConnection {
   }
 
   onDiagnosticsNotification(callback) {
-    this._jsonRpcConnection.onNotification({ method: 'textDocument/publishDiagnostics' }, callback);
+    this._jsonRpcConnection.onNotification({
+      method: 'textDocument/publishDiagnostics'
+    }, callback);
   }
 
   onTelemetryNotification(callback) {
-    this._jsonRpcConnection.onNotification({ method: 'telemetry/event' }, callback);
+    this._jsonRpcConnection.onNotification({
+      method: 'telemetry/event'
+    }, callback);
   }
 
   onLogMessageNotification(callback) {
-    this._jsonRpcConnection.onNotification({ method: 'window/logMessage' }, callback);
+    this._jsonRpcConnection.onNotification({
+      method: 'window/logMessage'
+    }, callback);
   }
 
   onShowMessageNotification(callback) {
-    this._jsonRpcConnection.onNotification({ method: 'window/showMessage' }, callback);
+    this._jsonRpcConnection.onNotification({
+      method: 'window/showMessage'
+    }, callback);
   }
 
   onShowMessageRequest(callback) {
-    this._jsonRpcConnection.onRequest({ method: 'window/showMessageRequest' }, callback);
+    this._jsonRpcConnection.onRequest({
+      method: 'window/showMessageRequest'
+    }, callback);
   }
 
   onShowStatusRequest(callback) {
-    this._jsonRpcConnection.onRequest({ method: 'window/showStatus' }, callback);
+    this._jsonRpcConnection.onRequest({
+      method: 'window/showStatus'
+    }, callback);
   }
 
   onApplyEditRequest(callback) {
-    this._jsonRpcConnection.onRequest({ method: 'workspace/applyEdit' }, callback);
+    this._jsonRpcConnection.onRequest({
+      method: 'workspace/applyEdit'
+    }, callback);
   }
 
   onRegisterCapabilityRequest(callback) {
-    this._jsonRpcConnection.onRequest({ method: 'client/registerCapability' }, callback);
+    this._jsonRpcConnection.onRequest({
+      method: 'client/registerCapability'
+    }, callback);
   }
 
   onUnregisterCapabilityRequest(callback) {
-    this._jsonRpcConnection.onRequest({ method: 'client/unregisterCapability' }, callback);
+    this._jsonRpcConnection.onRequest({
+      method: 'client/unregisterCapability'
+    }, callback);
   }
 
   onProgressNotification(callback) {
-    this._jsonRpcConnection.onNotification({ method: 'window/progress' }, callback);
+    this._jsonRpcConnection.onNotification({
+      method: 'window/progress'
+    }, callback);
   }
 
   onActionRequiredNotification(callback) {
-    this._jsonRpcConnection.onNotification({ method: 'window/actionRequired' }, callback);
+    this._jsonRpcConnection.onNotification({
+      method: 'window/actionRequired'
+    }, callback);
   }
+
 }
+
 exports.LspConnection = LspConnection;

@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-kxugcp.z1r3jfko6r/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118612-13891-d6ywhb.06sbiq9f6r/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-kxugcp.z1r3jfko6r/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-kxugcp.z1r3jfko6r/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118612-13891-d6ywhb.06sbiq9f6r/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118612-13891-d6ywhb.06sbiq9f6r/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-1bwq6i2.zcfr5p14i"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118612-13891-6l50sq.2baxrms4i"
     ]
   ],
-  "_from": "../d-117913-40922-kxugcp.z1r3jfko6r/package.tgz",
-  "_id": "dash-syntax@0.4.1",
+  "_from": "../d-118612-13891-d6ywhb.06sbiq9f6r/package.tgz",
+  "_id": "dash-syntax@0.4.2",
   "_inCache": true,
   "_location": "/dash-syntax",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-kxugcp.z1r3jfko6r/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118612-13891-d6ywhb.06sbiq9f6r/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-kxugcp.z1r3jfko6r/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-kxugcp.z1r3jfko6r/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118612-13891-d6ywhb.06sbiq9f6r/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118612-13891-d6ywhb.06sbiq9f6r/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-117913-40922-kxugcp.z1r3jfko6r/package.tgz",
-  "_shasum": "de06366df3907c4b57130b64a95d5945da82336c",
+  "_resolved": "file:../d-118612-13891-d6ywhb.06sbiq9f6r/package.tgz",
+  "_shasum": "43b7c44ef97cc07ab04ea0e2b507661f4d7fbd4f",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-117913-40922-kxugcp.z1r3jfko6r/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-117913-40922-1bwq6i2.zcfr5p14i",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118612-13891-d6ywhb.06sbiq9f6r/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118612-13891-6l50sq.2baxrms4i",
   "bugs": {
     "url": "https://github.com/cpsdqs/dash-syntax/issues"
   },
@@ -70,5 +70,5 @@
     "url": "git+https://github.com/cpsdqs/dash-syntax.git"
   },
   "theme": "syntax",
-  "version": "0.4.1"
+  "version": "0.4.2"
 }

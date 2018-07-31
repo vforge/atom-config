@@ -1,11 +1,26 @@
-'use strict';
+"use strict";
 
-var _hgDiffOutputParser;
+function _hgDiffOutputParser() {
+  const data = require("../lib/hg-diff-output-parser");
 
-function _load_hgDiffOutputParser() {
-  return _hgDiffOutputParser = require('../lib/hg-diff-output-parser');
+  _hgDiffOutputParser = function () {
+    return data;
+  };
+
+  return data;
 }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ *  strict-local
+ * @format
+ * @emails oncall+nuclide
+ */
 const MULTI_CHUNK_CHANGE_HG_DIFF_OUTPUT = `diff --git a/test-test/blah/blah.js b/test-test/blah/blah.js
 --- a/jar-rename/blah/blah.js
 +++ b/jar-rename/blah/blah.js
@@ -18,17 +33,7 @@ diff --git a/test.xml b/test.xml
 @@ -152,0 +153,3 @@
 +
 +test
-+test`; /**
-         * Copyright (c) 2015-present, Facebook, Inc.
-         * All rights reserved.
-         *
-         * This source code is licensed under the license found in the LICENSE file in
-         * the root directory of this source tree.
-         *
-         *  strict-local
-         * @format
-         */
-
++test`;
 const MULTI_CHUNK_ADD_MOVE_COPY_DELETE_CHANGES = `diff --git a/add.js b/add.js
 --- /dev/null
 +++ add.js
@@ -55,7 +60,6 @@ rename to moveafter.txt
 @@ -1, +1 @@
 -rename
 +newline`;
-
 const MULTI_FILE_HG_DIFF_OUTPUT = `diff --git test-test/blah/blah.js test-test/blah/blah.js
 --- test-test/blah/blah.js
 +++ test-test/blah/blah.js
@@ -80,12 +84,11 @@ diff --git test-test/foo/foo.js test-test/foo/foo.js
 +  describe('parseMultiFileHgDiffUnifiedOutput', () => {
 +
 +  });`;
-
 describe('hg-diff-output-parser', () => {
   describe('parseHgDiffUnifiedOutput', () => {
     it('parses a summary line correctly when both old and new line counts are explicit.', () => {
       const testOutput = '@@ -150,11 +150,2 @@';
-      const diffInfo = (0, (_hgDiffOutputParser || _load_hgDiffOutputParser()).parseHgDiffUnifiedOutput)(testOutput);
+      const diffInfo = (0, _hgDiffOutputParser().parseHgDiffUnifiedOutput)(testOutput);
       expect(diffInfo).toEqual({
         added: 2,
         deleted: 11,
@@ -97,10 +100,9 @@ describe('hg-diff-output-parser', () => {
         }]
       });
     });
-
     it('parses a summary line correctly when both old and new line counts are left out.', () => {
       const testOutput = '@@ -150 +150 @@';
-      const diffInfo = (0, (_hgDiffOutputParser || _load_hgDiffOutputParser()).parseHgDiffUnifiedOutput)(testOutput);
+      const diffInfo = (0, _hgDiffOutputParser().parseHgDiffUnifiedOutput)(testOutput);
       expect(diffInfo).toEqual({
         added: 1,
         deleted: 1,
@@ -112,10 +114,9 @@ describe('hg-diff-output-parser', () => {
         }]
       });
     });
-
     it('parses a summary line correctly when the old line count is left out.', () => {
       const testOutput = '@@ -150 +150,2 @@';
-      const diffInfo = (0, (_hgDiffOutputParser || _load_hgDiffOutputParser()).parseHgDiffUnifiedOutput)(testOutput);
+      const diffInfo = (0, _hgDiffOutputParser().parseHgDiffUnifiedOutput)(testOutput);
       expect(diffInfo).toEqual({
         added: 2,
         deleted: 1,
@@ -127,10 +128,9 @@ describe('hg-diff-output-parser', () => {
         }]
       });
     });
-
     it('parses a summary line correctly when the new line count is left out.', () => {
       const testOutput = '@@ -150,11 +150 @@';
-      const diffInfo = (0, (_hgDiffOutputParser || _load_hgDiffOutputParser()).parseHgDiffUnifiedOutput)(testOutput);
+      const diffInfo = (0, _hgDiffOutputParser().parseHgDiffUnifiedOutput)(testOutput);
       expect(diffInfo).toEqual({
         added: 1,
         deleted: 11,
@@ -142,9 +142,8 @@ describe('hg-diff-output-parser', () => {
         }]
       });
     });
-
     it('parses a full diff output correctly when multiple chunks changes.', () => {
-      const diffInfo = (0, (_hgDiffOutputParser || _load_hgDiffOutputParser()).parseHgDiffUnifiedOutput)(MULTI_CHUNK_CHANGE_HG_DIFF_OUTPUT);
+      const diffInfo = (0, _hgDiffOutputParser().parseHgDiffUnifiedOutput)(MULTI_CHUNK_CHANGE_HG_DIFF_OUTPUT);
       expect(diffInfo).toEqual({
         added: 5,
         deleted: 0,
@@ -161,10 +160,9 @@ describe('hg-diff-output-parser', () => {
         }]
       });
     });
-
     it('handles empty string as input.', () => {
-      const diffInfoForNull = (0, (_hgDiffOutputParser || _load_hgDiffOutputParser()).parseHgDiffUnifiedOutput)('');
-      const diffInfoForEmptyString = (0, (_hgDiffOutputParser || _load_hgDiffOutputParser()).parseHgDiffUnifiedOutput)('');
+      const diffInfoForNull = (0, _hgDiffOutputParser().parseHgDiffUnifiedOutput)('');
+      const diffInfoForEmptyString = (0, _hgDiffOutputParser().parseHgDiffUnifiedOutput)('');
       expect(diffInfoForNull).toEqual({
         added: 0,
         deleted: 0,
@@ -173,10 +171,9 @@ describe('hg-diff-output-parser', () => {
       expect(diffInfoForEmptyString).toEqual(diffInfoForNull);
     });
   });
-
   describe('parseMultiFileHgDiffUnifiedOutput', () => {
     it('parses the diff information correctly for each file.', () => {
-      const diffInfoForManyFiles = (0, (_hgDiffOutputParser || _load_hgDiffOutputParser()).parseMultiFileHgDiffUnifiedOutput)(MULTI_FILE_HG_DIFF_OUTPUT);
+      const diffInfoForManyFiles = (0, _hgDiffOutputParser().parseMultiFileHgDiffUnifiedOutput)(MULTI_FILE_HG_DIFF_OUTPUT);
       expect(diffInfoForManyFiles.size).toBe(2);
       expect(diffInfoForManyFiles.get('test-test/blah/blah.js')).toEqual({
         added: 1,
@@ -209,10 +206,9 @@ describe('hg-diff-output-parser', () => {
         }]
       });
     });
-
     describe('parseMultiFileHgDiffUnifiedOutput', () => {
       it('parses the diff information correctly for each file.', () => {
-        const diffInfoForManyFiles = (0, (_hgDiffOutputParser || _load_hgDiffOutputParser()).parseMultiFileHgDiffUnifiedOutput)(MULTI_CHUNK_ADD_MOVE_COPY_DELETE_CHANGES);
+        const diffInfoForManyFiles = (0, _hgDiffOutputParser().parseMultiFileHgDiffUnifiedOutput)(MULTI_CHUNK_ADD_MOVE_COPY_DELETE_CHANGES);
         expect(diffInfoForManyFiles.size).toBe(4);
         expect(diffInfoForManyFiles.get('add.js')).toEqual({
           added: 1,

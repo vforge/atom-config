@@ -1,61 +1,103 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.NUCLIDE_DEBUGGER_DEV_GK = undefined;
 exports.getJavaAndroidConfig = getJavaAndroidConfig;
 exports.getCustomControlButtonsForJavaSourcePaths = getCustomControlButtonsForJavaSourcePaths;
 exports.resolveConfiguration = resolveConfiguration;
+exports.NUCLIDE_DEBUGGER_DEV_GK = void 0;
 
-var _idx;
+function _constants() {
+  const data = require("../atom-ide-ui/pkg/atom-ide-debugger/lib/constants");
 
-function _load_idx() {
-  return _idx = _interopRequireDefault(require('idx'));
+  _constants = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideAdb;
+function _nuclideAdb() {
+  const data = require("../nuclide-adb");
 
-function _load_nuclideAdb() {
-  return _nuclideAdb = require('../nuclide-adb');
+  _nuclideAdb = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _constants;
+function _constants2() {
+  const data = require("../nuclide-debugger-common/constants");
 
-function _load_constants() {
-  return _constants = require('../nuclide-debugger-common/constants');
+  _constants2 = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _utils;
+function _utils() {
+  const data = require("../atom-ide-debugger-java/utils");
 
-function _load_utils() {
-  return _utils = require('../atom-ide-debugger-java/utils');
+  _utils = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nullthrows;
+function _nullthrows() {
+  const data = _interopRequireDefault(require("nullthrows"));
 
-function _load_nullthrows() {
-  return _nullthrows = _interopRequireDefault(require('nullthrows'));
+  _nullthrows = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _AndroidJavaDebuggerHelpers;
+function _analytics() {
+  const data = require("../nuclide-commons/analytics");
 
-function _load_AndroidJavaDebuggerHelpers() {
-  return _AndroidJavaDebuggerHelpers = require('./AndroidJavaDebuggerHelpers');
+  _analytics = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _AndroidJavaDebuggerHelpers() {
+  const data = require("./AndroidJavaDebuggerHelpers");
+
+  _AndroidJavaDebuggerHelpers = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -71,8 +113,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
-
-const NUCLIDE_DEBUGGER_DEV_GK = exports.NUCLIDE_DEBUGGER_DEV_GK = 'nuclide_debugger_dev';
+const NUCLIDE_DEBUGGER_DEV_GK = 'nuclide_debugger_dev';
+exports.NUCLIDE_DEBUGGER_DEV_GK = NUCLIDE_DEBUGGER_DEV_GK;
 
 function getJavaAndroidConfig() {
   const deviceAndPackage = {
@@ -103,7 +145,6 @@ function getJavaAndroidConfig() {
     required: false,
     visible: true
   };
-
   const deviceAndProcess = {
     name: 'deviceAndProcess',
     type: 'deviceAndProcess',
@@ -118,30 +159,33 @@ function getJavaAndroidConfig() {
     required: true,
     visible: true
   };
-
   return {
     launch: {
       launch: true,
-      vsAdapterType: (_constants || _load_constants()).VsAdapterTypes.JAVA_ANDROID,
+      vsAdapterType: _constants2().VsAdapterTypes.JAVA_ANDROID,
       threads: true,
       properties: [deviceAndPackage, activity, service, intent, selectSources],
       cwdPropertyName: 'cwd',
       header: null,
+
       // Value will be replaced in the return value of resolveConfiguration().
       getProcessName(values) {
         return 'Android';
       }
+
     },
     attach: {
       launch: false,
-      vsAdapterType: (_constants || _load_constants()).VsAdapterTypes.JAVA_ANDROID,
+      vsAdapterType: _constants2().VsAdapterTypes.JAVA_ANDROID,
       threads: true,
       properties: [deviceAndProcess, selectSources],
       header: null,
+
       // Value will be replaced in the return value of resolveConfiguration().
       getProcessName(values) {
         return 'Android';
       }
+
     }
   };
 }
@@ -155,89 +199,114 @@ function getCustomControlButtonsForJavaSourcePaths(clickEvents) {
 }
 
 function _getPackageName(debugMode, config) {
-  var _ref, _ref2, _ref3, _ref4, _ref5;
+  var _ref, _ref2;
 
-  return (0, (_nullthrows || _load_nullthrows()).default)(debugMode === 'launch' ? (_ref = config) != null ? (_ref2 = _ref.deviceAndPackage) != null ? _ref2.selectedPackage : _ref2 : _ref : (_ref3 = config) != null ? (_ref4 = _ref3.deviceAndProcess) != null ? (_ref5 = _ref4.selectedProcess) != null ? _ref5.name : _ref5 : _ref4 : _ref3);
+  return (0, _nullthrows().default)(debugMode === 'launch' ? (_ref = config) != null ? (_ref = _ref.deviceAndPackage) != null ? _ref.selectedPackage : _ref : _ref : (_ref2 = config) != null ? (_ref2 = _ref2.deviceAndProcess) != null ? (_ref2 = _ref2.selectedProcess) != null ? _ref2.name : _ref2 : _ref2 : _ref2);
 }
 
 function _getDevice(debugMode, config) {
-  var _ref6, _ref7, _ref8, _ref9;
+  var _ref3, _ref4;
 
-  return (0, (_nullthrows || _load_nullthrows()).default)(debugMode === 'launch' ? (_ref6 = config) != null ? (_ref7 = _ref6.deviceAndPackage) != null ? _ref7.device : _ref7 : _ref6 : (_ref8 = config) != null ? (_ref9 = _ref8.deviceAndProcess) != null ? _ref9.device : _ref9 : _ref8);
+  return (0, _nullthrows().default)(debugMode === 'launch' ? (_ref3 = config) != null ? (_ref3 = _ref3.deviceAndPackage) != null ? _ref3.device : _ref3 : _ref3 : (_ref4 = config) != null ? (_ref4 = _ref4.deviceAndProcess) != null ? _ref4.device : _ref4 : _ref4);
 }
 
 async function _getPid(debugMode, config, adbServiceUri, device, packageName) {
-  var _ref10, _ref11, _ref12;
+  var _ref5;
 
-  const selectedProcessPidString = (_ref10 = config) != null ? (_ref11 = _ref10.deviceAndProcess) != null ? (_ref12 = _ref11.selectedProcess) != null ? _ref12.pid : _ref12 : _ref11 : _ref10;
+  const selectedProcessPidString = (_ref5 = config) != null ? (_ref5 = _ref5.deviceAndProcess) != null ? (_ref5 = _ref5.selectedProcess) != null ? _ref5.pid : _ref5 : _ref5 : _ref5;
   const selectedProcessPid = parseInt(selectedProcessPidString, 10);
-  const pid = debugMode === 'attach' && selectedProcessPidString != null ? selectedProcessPid : await (0, (_AndroidJavaDebuggerHelpers || _load_AndroidJavaDebuggerHelpers()).getPidFromPackageName)(adbServiceUri, device, packageName);
+  const pid = debugMode === 'attach' && selectedProcessPidString != null ? selectedProcessPid : await (0, _AndroidJavaDebuggerHelpers().getPidFromPackageName)(adbServiceUri, device, packageName);
+
   if (isNaN(pid)) {
     throw new Error('Selected process pid is not a number: ' + JSON.stringify(selectedProcessPidString));
   }
+
   return pid;
 }
 
 function _getResolvedTargetUri(targetUri, config) {
-  var _ref13;
+  var _ref6;
 
-  const selectSources = (_ref13 = config) != null ? _ref13.selectSources : _ref13;
+  const selectSources = (_ref6 = config) != null ? _ref6.selectSources : _ref6;
   return selectSources != null ? selectSources : targetUri;
 }
 
 function _getAdbServiceUri(unresolvedTargetUri, config) {
-  var _ref14;
+  var _ref7;
 
-  const adbServiceUri = (_ref14 = config) != null ? _ref14.adbServiceUri : _ref14;
+  const adbServiceUri = (_ref7 = config) != null ? _ref7.adbServiceUri : _ref7;
   return adbServiceUri != null ? adbServiceUri : unresolvedTargetUri;
 }
 
 async function _getAndroidSdkSourcePaths(targetUri, adbServiceUri, device) {
-  const sdkVersion = await (0, (_nuclideAdb || _load_nuclideAdb()).getAdbServiceByNuclideUri)(adbServiceUri).getAPIVersion(device.name);
-  const sdkSourcePath = sdkVersion !== '' ? await (0, (_utils || _load_utils()).getJavaDebuggerHelpersServiceByNuclideUri)(targetUri).getSdkVersionSourcePath(sdkVersion) : null;
-  const sdkSourcePathResolved = sdkSourcePath != null ? (_nuclideUri || _load_nuclideUri()).default.getPath(sdkSourcePath) : null;
+  const sdkVersion = await (0, _nuclideAdb().getAdbServiceByNuclideUri)(adbServiceUri).getAPIVersion(device.serial);
+  const sdkSourcePath = sdkVersion !== '' ? await (0, _utils().getJavaDebuggerHelpersServiceByNuclideUri)(targetUri).getSdkVersionSourcePath(sdkVersion) : null;
+
+  if (sdkSourcePath == null) {
+    atom.notifications.addInfo('Unable to find Android Sdk Sources for version: ' + sdkVersion + '. Check if they are installed. Nuclide can still debug your application, but source code for frames inside Android library routines will not be available.');
+  }
+
+  (0, _analytics().track)(_constants().AnalyticsEvents.ANDROID_DEBUGGER_SDK_SOURCES, {
+    deviceSerial: device.serial,
+    sdkVersion,
+    sdkSourcePathExists: sdkSourcePath != null,
+    sdkSourcePath
+  });
+  const sdkSourcePathResolved = sdkSourcePath != null ? _nuclideUri().default.getPath(sdkSourcePath) : null;
   return sdkSourcePathResolved != null ? [sdkSourcePathResolved] : [];
 }
 
 async function resolveConfiguration(configuration) {
   // adapterType === VsAdapterTypes.JAVA_ANDROID
-  const { config, debugMode, targetUri } = configuration;
+  const {
+    config,
+    debugMode,
+    targetUri
+  } = configuration;
+
   const adbServiceUri = _getAdbServiceUri(targetUri, config);
+
   const resolvedTargetUri = _getResolvedTargetUri(targetUri, config);
+
   const packageName = _getPackageName(debugMode, config);
+
   const device = _getDevice(debugMode, config);
+
   if (debugMode === 'launch') {
-    const { service, intent, activity } = config;
-    await (0, (_AndroidJavaDebuggerHelpers || _load_AndroidJavaDebuggerHelpers()).launchAndroidServiceOrActivity)(adbServiceUri, service, activity, intent, /* intent and action are the same */
+    const {
+      service,
+      intent,
+      activity
+    } = config;
+    await (0, _AndroidJavaDebuggerHelpers().launchAndroidServiceOrActivity)(adbServiceUri, service, activity, intent,
+    /* intent and action are the same */
     device, packageName);
   }
 
   const pid = await _getPid(debugMode, config, adbServiceUri, device, packageName);
-
-  const subscriptions = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-  const attachPortTargetConfig = await (0, (_AndroidJavaDebuggerHelpers || _load_AndroidJavaDebuggerHelpers()).getAdbAttachPortTargetInfo)(device, adbServiceUri, resolvedTargetUri, pid, subscriptions);
-
-  const customDisposable = configuration.customDisposable || new (_UniversalDisposable || _load_UniversalDisposable()).default();
+  const subscriptions = new (_UniversalDisposable().default)();
+  const attachPortTargetConfig = await (0, _AndroidJavaDebuggerHelpers().getAdbAttachPortTargetInfo)(device, adbServiceUri, resolvedTargetUri, pid, subscriptions, packageName);
+  const customDisposable = configuration.customDisposable || new (_UniversalDisposable().default)();
   customDisposable.add(subscriptions);
-
   const androidSdkSourcePaths = await _getAndroidSdkSourcePaths(resolvedTargetUri, adbServiceUri, device);
+  const clickEvents = new _RxMin.Subject();
 
-  const clickEvents = new _rxjsBundlesRxMinJs.Subject();
   const onInitializeCallback = async session => {
-    customDisposable.add(...(0, (_utils || _load_utils()).getSourcePathClickSubscriptions)(resolvedTargetUri, session, clickEvents, androidSdkSourcePaths));
+    customDisposable.add(...(0, _utils().getSourcePathClickSubscriptions)(resolvedTargetUri, session, clickEvents, androidSdkSourcePaths));
   };
 
-  const adapterExecutable = await (0, (_utils || _load_utils()).getJavaDebuggerHelpersServiceByNuclideUri)(resolvedTargetUri).getJavaVSAdapterExecutableInfo(false);
+  const adapterExecutable = await (0, _utils().getJavaDebuggerHelpersServiceByNuclideUri)(resolvedTargetUri).getJavaVSAdapterExecutableInfo(false);
 
-  let processName = _getPackageName(debugMode, config);
+  let processName = _getPackageName(debugMode, config); // Gets rid of path to package.
 
-  // Gets rid of path to package.
+
   const lastPeriod = processName.lastIndexOf('.');
+
   if (lastPeriod >= 0) {
     processName = processName.substring(lastPeriod + 1, processName.length);
   }
-  processName += ' (Android)';
 
+  processName += ' (Android)';
   return Object.assign({}, configuration, {
     targetUri: resolvedTargetUri,
     debugMode: 'attach',

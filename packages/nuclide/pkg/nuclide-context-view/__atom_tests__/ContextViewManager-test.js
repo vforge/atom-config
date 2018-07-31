@@ -1,26 +1,38 @@
-'use strict';
+"use strict";
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../modules/nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _ContextViewManager;
+function _ContextViewManager() {
+  const data = require("../lib/ContextViewManager");
 
-function _load_ContextViewManager() {
-  return _ContextViewManager = require('../lib/ContextViewManager');
+  _ContextViewManager = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _react = _interopRequireWildcard(require('react'));
+var React = _interopRequireWildcard(require("react"));
 
-var _featureConfig;
+function _featureConfig() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/feature-config"));
 
-function _load_featureConfig() {
-  return _featureConfig = _interopRequireDefault(require('../../../modules/nuclide-commons-atom/feature-config'));
+  _featureConfig = function () {
+    return data;
+  };
+
+  return data;
 }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33,13 +45,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 const PROVIDER1_ID = 'context-provider-1';
 const PROVIDER1_TITLE = 'Provider One';
 const PROVIDER2_ID = 'context-provider-2';
 const PROVIDER2_TITLE = 'Provider Two';
-
 describe('ContextViewManager', () => {
   let manager;
   let disposables;
@@ -54,18 +65,13 @@ describe('ContextViewManager', () => {
 
   function elementFactory() {
     return props => {
-      return _react.createElement(
-        'div',
-        null,
-        'Some context provider view'
-      );
+      return React.createElement("div", null, "Some context provider view");
     };
   }
 
   beforeEach(() => {
-    disposables = new (_UniversalDisposable || _load_UniversalDisposable()).default();
-
-    manager = new (_ContextViewManager || _load_ContextViewManager()).ContextViewManager();
+    disposables = new (_UniversalDisposable().default)();
+    manager = new (_ContextViewManager().ContextViewManager)();
     provider1 = {
       getElementFactory: elementFactory,
       id: PROVIDER1_ID,
@@ -78,8 +84,11 @@ describe('ContextViewManager', () => {
       title: PROVIDER2_TITLE,
       priority: 2
     };
-    (_featureConfig || _load_featureConfig()).default.set(provider1.id.concat('.priority'), provider1Priority);
-    (_featureConfig || _load_featureConfig()).default.set(provider2.id.concat('.priority'), provider2Priority);
+
+    _featureConfig().default.set(provider1.id.concat('.priority'), provider1Priority);
+
+    _featureConfig().default.set(provider2.id.concat('.priority'), provider2Priority);
+
     defProvider = {
       priority: 1,
       grammarScopes: ['text.plain.null-grammar'],
@@ -90,11 +99,9 @@ describe('ContextViewManager', () => {
     };
     disposables.add(manager);
   });
-
   afterEach(() => {
     disposables.dispose();
   });
-
   /** Registration/deregistration API */
 
   it('correctly registers a single context provider and rerenders', () => {
@@ -118,6 +125,7 @@ describe('ContextViewManager', () => {
     const registeredAgain = manager.registerProvider(provider1);
     expect(registered1).toBe(true);
     expect(registeredAgain).toBe(false); // Shouldn't re-register provider with same ID
+
     expect(manager._contextProviders.length).toBe(1);
   });
   it('unregisters a provider and rerenders', () => {
@@ -157,17 +165,20 @@ describe('ContextViewManager', () => {
       title: '5',
       priority: 5
     };
-    (_featureConfig || _load_featureConfig()).default.set(provider3.id.concat('.priority'), provider3Priority);
-    (_featureConfig || _load_featureConfig()).default.set(provider4.id.concat('.priority'), provider4Priority);
-    (_featureConfig || _load_featureConfig()).default.set(provider5.id.concat('.priority'), provider5Priority);
+
+    _featureConfig().default.set(provider3.id.concat('.priority'), provider3Priority);
+
+    _featureConfig().default.set(provider4.id.concat('.priority'), provider4Priority);
+
+    _featureConfig().default.set(provider5.id.concat('.priority'), provider5Priority);
+
     manager.registerProvider(provider2);
     manager.registerProvider(provider1);
     expect(manager._contextProviders[0].id).toBe(PROVIDER1_ID);
     expect(manager._contextProviders[1].id).toBe(PROVIDER2_ID);
-
-    manager = new (_ContextViewManager || _load_ContextViewManager()).ContextViewManager();
-    // Insert order: 4, 5, 1, 3, 2
+    manager = new (_ContextViewManager().ContextViewManager)(); // Insert order: 4, 5, 1, 3, 2
     // Provider list should end up as [1, 2, 3, 4, 5]
+
     manager.registerProvider(provider4);
     manager.registerProvider(provider5);
     manager.registerProvider(provider1);
@@ -179,8 +190,8 @@ describe('ContextViewManager', () => {
     expect(manager._contextProviders[3].id).toBe('4');
     expect(manager._contextProviders[4].id).toBe('5');
   });
-
   /** Actions affecting definition service subscription */
+
   it('consumes the definition service when showing', () => {
     manager.show();
     jest.spyOn(manager, 'updateSubscription');
@@ -230,8 +241,7 @@ describe('ContextViewManager', () => {
   });
   it('disposes correctly', () => {
     manager.show();
-    manager.consumeDefinitionProvider(defProvider);
-    // i.e. the subscription is unsubscribed if not null
+    manager.consumeDefinitionProvider(defProvider); // i.e. the subscription is unsubscribed if not null
 
     if (!(manager._defServiceSubscription != null)) {
       throw new Error('Subscription should exist if panel is visible and def. service consumed');

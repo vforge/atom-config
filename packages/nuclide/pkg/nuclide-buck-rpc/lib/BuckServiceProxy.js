@@ -671,6 +671,25 @@ module.exports = _client => {
     }).publish();
   };
 
+  remoteModule.isExoPackage = function (arg0, arg1) {
+    return _client.callRemoteFunction("BuckService/isExoPackage", "observable", _client.marshalArguments(Array.from(arguments), [{
+      name: "rootPath",
+      type: {
+        kind: "named",
+        name: "NuclideUri"
+      }
+    }, {
+      name: "target",
+      type: {
+        kind: "string"
+      }
+    }])).map(value => {
+      return _client.unmarshal(value, {
+        kind: "boolean"
+      });
+    }).publish();
+  };
+
   return remoteModule;
 };
 
@@ -2548,6 +2567,41 @@ Object.defineProperty(module.exports, "defs", {
           type: "source",
           fileName: "BuckService.js",
           line: 660
+        },
+        kind: "function",
+        argumentTypes: [{
+          name: "rootPath",
+          type: {
+            kind: "named",
+            name: "NuclideUri"
+          }
+        }, {
+          name: "target",
+          type: {
+            kind: "string"
+          }
+        }],
+        returnType: {
+          kind: "observable",
+          type: {
+            kind: "boolean"
+          }
+        }
+      }
+    },
+    isExoPackage: {
+      kind: "function",
+      name: "isExoPackage",
+      location: {
+        type: "source",
+        fileName: "BuckService.js",
+        line: 670
+      },
+      type: {
+        location: {
+          type: "source",
+          fileName: "BuckService.js",
+          line: 670
         },
         kind: "function",
         argumentTypes: [{

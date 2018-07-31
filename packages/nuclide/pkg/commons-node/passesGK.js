@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -7,25 +7,30 @@ exports.isGkEnabled = isGkEnabled;
 exports.onceGkInitialized = onceGkInitialized;
 exports.onceGkInitializedAsync = onceGkInitializedAsync;
 exports.getCacheEntries = getCacheEntries;
+exports.default = void 0;
 
-var _once;
+function _once() {
+  const data = _interopRequireDefault(require("./once"));
 
-function _load_once() {
-  return _once = _interopRequireDefault(require('./once'));
+  _once = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../modules/nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../modules/nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Get the actual Gatekeeper constructor or stub the relevant methods for OSS
- * friendliness.
- */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -37,11 +42,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @format
  */
 
-const getGatekeeper = (0, (_once || _load_once()).default)(() => {
+/**
+ * Get the actual Gatekeeper constructor or stub the relevant methods for OSS
+ * friendliness.
+ */
+const getGatekeeper = (0, _once().default)(() => {
   let Gatekeeper;
+
   try {
     // $FlowFB
-    Gatekeeper = require('./fb-gatekeeper').Gatekeeper;
+    Gatekeeper = require("./fb-gatekeeper").Gatekeeper;
   } catch (e) {
     Gatekeeper = class {
       isGkEnabled(name) {
@@ -59,7 +69,7 @@ const getGatekeeper = (0, (_once || _load_once()).default)(() => {
             callback();
           }
         });
-        return new (_UniversalDisposable || _load_UniversalDisposable()).default(() => {
+        return new (_UniversalDisposable().default)(() => {
           canceled = true;
         });
       }
@@ -67,30 +77,34 @@ const getGatekeeper = (0, (_once || _load_once()).default)(() => {
       getCacheEntries() {
         return [];
       }
+
     };
   }
+
   return new Gatekeeper();
 });
-
 /**
  * Check a GK. Silently return false on error.
  */
 
-exports.default = async function passesGK(name,
-// timeout in ms
+var passesGK = async function passesGK(name, // timeout in ms
 timeout) {
+  const gatekeeper = getGatekeeper();
+
   try {
-    return (await getGatekeeper().asyncIsGkEnabled(name, timeout)) === true;
+    return (await gatekeeper.asyncIsGkEnabled(name, timeout)) === true;
   } catch (e) {
-    return false;
+    // If the Gatekeeper class implements caching, this may retrieve a cached value.
+    return gatekeeper.isGkEnabled(name) === true;
   }
 };
-
 /**
  * Synchronous GK check. There is no guarantee that GKs have loaded. This
  * should be used inside a `onceGkInitialized`.
  */
 
+
+exports.default = passesGK;
 
 function isGkEnabled(name) {
   return getGatekeeper().isGkEnabled(name);

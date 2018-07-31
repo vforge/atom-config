@@ -1,15 +1,23 @@
-'use strict';
+"use strict";
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _HyperclickProvider;
+function _HyperclickProvider() {
+  const data = require("../lib/HyperclickProvider");
 
-function _load_HyperclickProvider() {
-  return _HyperclickProvider = require('../lib/HyperclickProvider');
+  _HyperclickProvider = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -23,47 +31,38 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * 
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('HyperclickProvider', () => {
   let projectPath = null;
-
   beforeEach(() => {
-    projectPath = (_nuclideUri || _load_nuclideUri()).default.join(__dirname, '../__mocks__/fixtures/test-project') + '/';
+    projectPath = _nuclideUri().default.join(__dirname, '../__mocks__/fixtures/test-project') + '/';
     atom.project.setPaths([projectPath]);
   });
-
   describe('parseTarget', () => {
     it('searches //Apps/TestApp/BUCK-rename', async () => {
-      let target = await (0, (_HyperclickProvider || _load_HyperclickProvider()).parseTarget)([':target1', null, 'target1'], null, projectPath);
+      let target = await (0, _HyperclickProvider().parseTarget)([':target1', null, 'target1'], null, projectPath);
       expect(target).toBe(null);
-
-      target = await (0, (_HyperclickProvider || _load_HyperclickProvider()).parseTarget)([':target1', null, 'target1'], projectPath + 'test/BUCK', projectPath);
+      target = await (0, _HyperclickProvider().parseTarget)([':target1', null, 'target1'], projectPath + 'test/BUCK', projectPath);
       expect(target).toEqual({
         path: projectPath + 'test/BUCK',
         name: 'target1'
       });
-
-      target = await (0, (_HyperclickProvider || _load_HyperclickProvider()).parseTarget)(['//Apps/TestApp:w3ird', '//Apps/TestApp', 'w3ird'], null, projectPath);
+      target = await (0, _HyperclickProvider().parseTarget)(['//Apps/TestApp:w3ird', '//Apps/TestApp', 'w3ird'], null, projectPath);
       expect(target).toEqual(null);
-
-      target = await (0, (_HyperclickProvider || _load_HyperclickProvider()).parseTarget)(['//Apps/TestApp:w3ird', '//Apps/TestApp', 'w3ird'], '//test/BUCK', projectPath);
+      target = await (0, _HyperclickProvider().parseTarget)(['//Apps/TestApp:w3ird', '//Apps/TestApp', 'w3ird'], '//test/BUCK', projectPath);
       expect(target).toEqual({
         path: projectPath + 'Apps/TestApp/BUCK',
         name: 'w3ird'
       });
     });
   });
-
   describe('parseLoadTarget', () => {
     it('resolves a path for //pkg/subpkg:ext.bzl', async () => {
-      await (async () => {
-        const target = await (0, (_HyperclickProvider || _load_HyperclickProvider()).resolveLoadTargetPath)(['//pkg/subpkg:ext.bzl', '', '//pkg/subpkg', 'ext.bzl'], projectPath);
-        expect(target).toEqual(projectPath + 'pkg/subpkg/ext.bzl');
-      })();
+      const target = await (0, _HyperclickProvider().resolveLoadTargetPath)(['//pkg/subpkg:ext.bzl', '', '//pkg/subpkg', 'ext.bzl'], projectPath);
+      expect(target).toEqual(projectPath + 'pkg/subpkg/ext.bzl');
     });
   });
-
   describe('findTargetLocation', () => {
     const targetsByFile = {
       'Apps/TestApp/BUCK-rename': {
@@ -98,11 +97,12 @@ describe('HyperclickProvider', () => {
       for (const targetName in targetsByFile[file]) {
         it('asks for a location of the target', async () => {
           await (() => {
-            return (0, (_HyperclickProvider || _load_HyperclickProvider()).findTargetLocation)({
+            return (0, _HyperclickProvider().findTargetLocation)({
               path: projectPath + file,
               name: targetName
             }).then(location => {
               const line = targetsByFile[file][targetName];
+
               if (line !== -1) {
                 expect(location).toEqual({
                   path: projectPath + file,

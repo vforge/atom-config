@@ -1,15 +1,23 @@
-'use strict';
+"use strict";
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../modules/nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _DiagnosticsProviderBase;
+function _DiagnosticsProviderBase() {
+  const data = require("../lib/DiagnosticsProviderBase");
 
-function _load_DiagnosticsProviderBase() {
-  return _DiagnosticsProviderBase = require('../lib/DiagnosticsProviderBase');
+  _DiagnosticsProviderBase = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -23,34 +31,32 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * 
  * @format
+ * @emails oncall+nuclide
  */
-
 const grammar = 'testgrammar';
-
 describe('DiagnosticsProviderBase', () => {
   let providerBase;
-
   let eventCallback;
   let subscribedToAny;
   let fakeEditor;
-
   let textEventCallback;
 
   class FakeEventDispatcher {
     onFileChange(grammars, callback) {
       eventCallback = callback;
-      return new (_UniversalDisposable || _load_UniversalDisposable()).default();
+      return new (_UniversalDisposable().default)();
     }
 
     onAnyFileChange(callback) {
       subscribedToAny = true;
       eventCallback = callback;
-      return new (_UniversalDisposable || _load_UniversalDisposable()).default();
+      return new (_UniversalDisposable().default)();
     }
+
   }
 
   function newProviderBase(options) {
-    return new (_DiagnosticsProviderBase || _load_DiagnosticsProviderBase()).DiagnosticsProviderBase(options, new FakeEventDispatcher());
+    return new (_DiagnosticsProviderBase().DiagnosticsProviderBase)(options, new FakeEventDispatcher());
   }
 
   beforeEach(() => {
@@ -58,14 +64,17 @@ describe('DiagnosticsProviderBase', () => {
       getPath() {
         return 'foo';
       },
+
       getGrammar() {
-        return { scopeName: grammar };
+        return {
+          scopeName: grammar
+        };
       }
+
     };
     eventCallback = null;
-    subscribedToAny = null;
+    subscribedToAny = null; // Flow complains that a spy is not callable.
 
-    // Flow complains that a spy is not callable.
     textEventCallback = jest.fn();
     const options = {
       grammarScopes: new Set([grammar]),
@@ -74,12 +83,10 @@ describe('DiagnosticsProviderBase', () => {
     };
     providerBase = newProviderBase(options);
   });
-
   it('should call the provided callback when there is a text event', () => {
     eventCallback(fakeEditor);
     expect(textEventCallback).toHaveBeenCalled();
   });
-
   it("should subscribe to 'all' if allGrammarScopes is true", () => {
     newProviderBase({
       grammarScopes: new Set([]),
@@ -88,14 +95,11 @@ describe('DiagnosticsProviderBase', () => {
     });
     expect(subscribedToAny).toBe(true);
   });
-
   it('should send published messages to all subscribers', () => {
     const callback1 = jest.fn();
     const callback2 = jest.fn();
-
     providerBase.onMessageUpdate(callback1);
     providerBase.onMessageUpdate(callback2);
-
     const update = 'this is a fake update';
     providerBase.publishMessageUpdate(update);
     expect(callback1).toHaveBeenCalledWith(update);

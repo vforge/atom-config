@@ -1,44 +1,52 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.AutoGenLaunchAttachProvider = undefined;
+exports.AutoGenLaunchAttachProvider = void 0;
 
-var _DebuggerLaunchAttachProvider;
+function _DebuggerLaunchAttachProvider() {
+  const data = _interopRequireDefault(require("./DebuggerLaunchAttachProvider"));
 
-function _load_DebuggerLaunchAttachProvider() {
-  return _DebuggerLaunchAttachProvider = _interopRequireDefault(require('./DebuggerLaunchAttachProvider'));
+  _DebuggerLaunchAttachProvider = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _react = _interopRequireWildcard(require('react'));
+var React = _interopRequireWildcard(require("react"));
 
-var _AutoGenLaunchAttachUiComponent;
+function _AutoGenLaunchAttachUiComponent() {
+  const data = _interopRequireDefault(require("./AutoGenLaunchAttachUiComponent"));
 
-function _load_AutoGenLaunchAttachUiComponent() {
-  return _AutoGenLaunchAttachUiComponent = _interopRequireDefault(require('./AutoGenLaunchAttachUiComponent'));
+  _AutoGenLaunchAttachUiComponent = function () {
+    return data;
+  };
+
+  return data;
 }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ *  strict-local
+ * @format
+ */
 const LaunchAttachProviderDefaultIsEnabled = (action, config) => {
   return Promise.resolve(config[action] != null);
-}; /**
-    * Copyright (c) 2017-present, Facebook, Inc.
-    * All rights reserved.
-    *
-    * This source code is licensed under the BSD-style license found in the
-    * LICENSE file in the root directory of this source tree. An additional grant
-    * of patent rights can be found in the PATENTS file in the same directory.
-    *
-    *  strict-local
-    * @format
-    */
+};
 
-class AutoGenLaunchAttachProvider extends (_DebuggerLaunchAttachProvider || _load_DebuggerLaunchAttachProvider()).default {
-
+class AutoGenLaunchAttachProvider extends _DebuggerLaunchAttachProvider().default {
   constructor(debuggingTypeName, targetUri, config, isEnabled = LaunchAttachProviderDefaultIsEnabled) {
     super(debuggingTypeName, targetUri);
     this._config = config;
@@ -46,13 +54,15 @@ class AutoGenLaunchAttachProvider extends (_DebuggerLaunchAttachProvider || _loa
   }
 
   async _resolvePath(project, filePath) {
-    let rpcService = null;
-    // Atom's service hub is synchronous.
+    let rpcService = null; // Atom's service hub is synchronous.
+
     atom.packages.serviceHub.consume('nuclide-rpc-services', '0.0.0', provider => {
       rpcService = provider;
     }).dispose();
+
     if (rpcService != null) {
       const fsService = rpcService.getServiceByNuclideUri('FileSystemService', project);
+
       if (fsService != null) {
         try {
           return fsService.expandHomeDir(filePath);
@@ -79,15 +89,22 @@ class AutoGenLaunchAttachProvider extends (_DebuggerLaunchAttachProvider || _loa
         const launchOrAttachConfig = this._config[action];
 
         if (!(launchOrAttachConfig != null)) {
-          throw new Error('Invariant violation: "launchOrAttachConfig != null"');
+          throw new Error("Invariant violation: \"launchOrAttachConfig != null\"");
         }
 
         if (defaultConfig != null) {
           launchOrAttachConfig.properties = launchOrAttachConfig.properties.map(p => Object.assign({}, p, {
             defaultValue: defaultConfig[p.name] == null ? p.defaultValue : defaultConfig[p.name]
-          }));
+          })); // Pass the ignore flag from the properites to the LaunchOrAttachConfigBase
+
+          if (defaultConfig.ignorePreviousParams !== undefined) {
+            launchOrAttachConfig.ignorePreviousParams = Boolean(defaultConfig.ignorePreviousParams);
+          } else {
+            launchOrAttachConfig.ignorePreviousParams = false;
+          }
         }
-        return _react.createElement((_AutoGenLaunchAttachUiComponent || _load_AutoGenLaunchAttachUiComponent()).default, {
+
+        return React.createElement(_AutoGenLaunchAttachUiComponent().default, {
           targetUri: this.getTargetUri(),
           configIsValidChanged: configIsValidChanged,
           config: launchOrAttachConfig,
@@ -97,5 +114,7 @@ class AutoGenLaunchAttachProvider extends (_DebuggerLaunchAttachProvider || _loa
       }
     };
   }
+
 }
+
 exports.AutoGenLaunchAttachProvider = AutoGenLaunchAttachProvider;

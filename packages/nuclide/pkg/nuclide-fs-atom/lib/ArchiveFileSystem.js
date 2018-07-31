@@ -1,34 +1,50 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ArchiveFileSystem = undefined;
+exports.ArchiveFileSystem = void 0;
 
-var _fs = _interopRequireDefault(require('fs'));
+var _fs = _interopRequireDefault(require("fs"));
 
-var _nuclideFs;
+function _nuclideFs() {
+  const data = require("../../nuclide-fs");
 
-function _load_nuclideFs() {
-  return _nuclideFs = require('../../nuclide-fs');
+  _nuclideFs = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _ArchiveFile;
+function _ArchiveFile() {
+  const data = require("./ArchiveFile");
 
-function _load_ArchiveFile() {
-  return _ArchiveFile = require('./ArchiveFile');
+  _ArchiveFile = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _ArchiveFileAsDirectory;
+function _ArchiveFileAsDirectory() {
+  const data = require("./ArchiveFileAsDirectory");
 
-function _load_ArchiveFileAsDirectory() {
-  return _ArchiveFileAsDirectory = require('./ArchiveFileAsDirectory');
+  _ArchiveFileAsDirectory = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _ArchiveDirectory;
+function _ArchiveDirectory() {
+  const data = require("./ArchiveDirectory");
 
-function _load_ArchiveDirectory() {
-  return _ArchiveDirectory = require('./ArchiveDirectory');
+  _ArchiveDirectory = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -43,26 +59,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *  strict-local
  * @format
  */
-
 // This exists to break the cycle between ArchiveFile,
 // ArchiveDirectory, and ArchiveFileAsDirectory
-
 class ArchiveFileSystem {
-
   constructor(fileSystem) {
     this._fs = fileSystem;
   }
 
   newArchiveFile(path) {
-    return new (_ArchiveFile || _load_ArchiveFile()).ArchiveFile(path, this);
+    return new (_ArchiveFile().ArchiveFile)(path, this);
   }
 
   newArchiveFileAsDirectory(path) {
-    return new (_ArchiveFileAsDirectory || _load_ArchiveFileAsDirectory()).ArchiveFileAsDirectory(path, this);
+    return new (_ArchiveFileAsDirectory().ArchiveFileAsDirectory)(path, this);
   }
 
   newArchiveDirectory(path) {
-    return new (_ArchiveDirectory || _load_ArchiveDirectory()).ArchiveDirectory(path, this);
+    return new (_ArchiveDirectory().ArchiveDirectory)(path, this);
   }
 
   exists(path) {
@@ -117,6 +130,10 @@ class ArchiveFileSystem {
     return this._fs.copy(from, to);
   }
 
+  symlink(source, target, type) {
+    return this._fs.symlink(source, target, type);
+  }
+
   rimraf(path) {
     return this._fs.rimraf(path);
   }
@@ -148,5 +165,7 @@ class ArchiveFileSystem {
   openArchive(path) {
     return this._fs.openArchive(path);
   }
+
 }
+
 exports.ArchiveFileSystem = ArchiveFileSystem;

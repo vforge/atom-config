@@ -66,7 +66,6 @@ public class ContextManager {
     synchronized (resumeAfterVMStartAndConfigurationDoneLock) {
       vmStarted = true;
       if (vmStarted && configurationDone) {
-        getBreakpointManager().forceResolveAll();
         resumeVm(true /* needsResponse */);
       }
     }
@@ -76,7 +75,6 @@ public class ContextManager {
     synchronized (resumeAfterVMStartAndConfigurationDoneLock) {
       configurationDone = true;
       if (vmStarted && configurationDone) {
-        getBreakpointManager().forceResolveAll();
         resumeVm(true /* needsResponse */);
       }
     }
@@ -345,14 +343,11 @@ public class ContextManager {
     }
   }
 
-  public void sendUserMessage(
-      String message, Utils.UserMessageLevel level, boolean raiseNotification) {
+  public void sendUserMessage(String message, Utils.UserMessageLevel level) {
     NotificationChannel channel = getNotificationChannel();
     if (channel instanceof VsDebugAdapterChannelManager) {
       JavaDebuggerServer javaDebuggerServer = (JavaDebuggerServer) getInterpreter();
       javaDebuggerServer.sendUserMessage(message, level);
-    } else {
-      Utils.sendUserMessage(this, message, level, raiseNotification);
     }
   }
 

@@ -1,34 +1,55 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ArchiveFile = undefined;
+exports.ArchiveFile = void 0;
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _UniversalDisposable;
+function _UniversalDisposable() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
 
-function _load_UniversalDisposable() {
-  return _UniversalDisposable = _interopRequireDefault(require('../../../modules/nuclide-commons/UniversalDisposable'));
+  _UniversalDisposable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _common;
+function _common() {
+  const data = require("./common");
 
-function _load_common() {
-  return _common = require('./common');
+  _common = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _stream = _interopRequireDefault(require('stream'));
+var _stream = _interopRequireDefault(require("stream"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
 class ArchiveFile {
-
   constructor(path, fs) {
     this._fs = fs;
     this._path = path;
@@ -36,7 +57,7 @@ class ArchiveFile {
   }
 
   create() {
-    return (0, (_common || _load_common()).rejectWrite)();
+    return (0, _common().rejectWrite)();
   }
 
   isFile() {
@@ -64,19 +85,19 @@ class ArchiveFile {
   }
 
   onDidRename(callback) {
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    return new (_UniversalDisposable().default)();
   }
 
   onDidDelete(callback) {
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    return new (_UniversalDisposable().default)();
   }
 
   onDidChange(callback) {
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    return new (_UniversalDisposable().default)();
   }
 
   onWillThrowWatchError(callback) {
-    return new (_UniversalDisposable || _load_UniversalDisposable()).default();
+    return new (_UniversalDisposable().default)();
   }
 
   getPath() {
@@ -84,21 +105,23 @@ class ArchiveFile {
   }
 
   getBaseName() {
-    return (_nuclideUri || _load_nuclideUri()).default.basename(this._path);
+    return _nuclideUri().default.basename(this._path);
   }
 
   getParent() {
-    return (0, (_common || _load_common()).getParentDir)(this._fs, this._path);
+    return (0, _common().getParentDir)(this._fs, this._path);
   }
 
   createReadStream() {
     let started = false;
+
     const createStream = () => this._fs.createReadStream(this._path);
+
     const stream = new _stream.default.Readable({
       read(size) {
         if (!started) {
           started = true;
-          const disposer = new (_UniversalDisposable || _load_UniversalDisposable()).default();
+          const disposer = new (_UniversalDisposable().default)();
           const inner = createStream();
           disposer.add(inner.subscribe(buffer => {
             stream.push(buffer);
@@ -111,6 +134,7 @@ class ArchiveFile {
           }), inner.connect());
         }
       }
+
     });
     return stream;
   }
@@ -125,20 +149,13 @@ class ArchiveFile {
   }
 
   write(text) {
-    return (0, (_common || _load_common()).rejectWrite)();
+    return (0, _common().rejectWrite)();
   }
 
   writeSync(text) {
-    (0, (_common || _load_common()).rejectWriteSync)();
+    (0, _common().rejectWriteSync)();
   }
+
 }
-exports.ArchiveFile = ArchiveFile; /**
-                                    * Copyright (c) 2015-present, Facebook, Inc.
-                                    * All rights reserved.
-                                    *
-                                    * This source code is licensed under the license found in the LICENSE file in
-                                    * the root directory of this source tree.
-                                    *
-                                    * 
-                                    * @format
-                                    */
+
+exports.ArchiveFile = ArchiveFile;

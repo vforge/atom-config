@@ -316,7 +316,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "types.js",
-        line: 39
+        line: 38
       },
       name: "VSAdapterExecutableInfo",
       definition: {
@@ -536,13 +536,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "VSCodeDebuggerAdapterService.js",
-        line: 70
+        line: 73
       },
       type: {
         location: {
           type: "source",
           fileName: "VSCodeDebuggerAdapterService.js",
-          line: 70
+          line: 73
         },
         kind: "function",
         argumentTypes: [{
@@ -568,13 +568,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "VSCodeDebuggerAdapterService.js",
-        line: 79
+        line: 82
       },
       type: {
         location: {
           type: "source",
           fileName: "VSCodeDebuggerAdapterService.js",
-          line: 79
+          line: 82
         },
         kind: "function",
         argumentTypes: [{
@@ -596,7 +596,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "types.js",
-        line: 46
+        line: 45
       },
       name: "VsAdapterType",
       definition: {
@@ -643,13 +643,13 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "VSCodeDebuggerAdapterService.js",
-        line: 83
+        line: 86
       },
       type: {
         location: {
           type: "source",
           fileName: "VSCodeDebuggerAdapterService.js",
-          line: 83
+          line: 86
         },
         kind: "function",
         argumentTypes: [{

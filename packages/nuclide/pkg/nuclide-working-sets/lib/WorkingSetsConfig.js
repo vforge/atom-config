@@ -1,28 +1,33 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.WorkingSetsConfig = undefined;
+exports.WorkingSetsConfig = void 0;
 
-var _featureConfig;
+function _featureConfig() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/feature-config"));
 
-function _load_featureConfig() {
-  return _featureConfig = _interopRequireDefault(require('../../../modules/nuclide-commons-atom/feature-config'));
+  _featureConfig = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const CONFIG_KEY = 'nuclide-working-sets.workingSets'; /**
-                                                        * Copyright (c) 2015-present, Facebook, Inc.
-                                                        * All rights reserved.
-                                                        *
-                                                        * This source code is licensed under the license found in the LICENSE file in
-                                                        * the root directory of this source tree.
-                                                        *
-                                                        * 
-                                                        * @format
-                                                        */
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
+const CONFIG_KEY = 'nuclide-working-sets.workingSets';
 
 class WorkingSetsConfig {
   observeDefinitions(callback) {
@@ -31,19 +36,20 @@ class WorkingSetsConfig {
       const copiedDefinitions = definitions.map(def => {
         return Object.assign({}, def);
       });
-
       callback(copiedDefinitions);
     };
 
-    return (_featureConfig || _load_featureConfig()).default.observe(CONFIG_KEY, wrapped);
+    return _featureConfig().default.observe(CONFIG_KEY, wrapped);
   }
 
   getDefinitions() {
-    return (_featureConfig || _load_featureConfig()).default.get(CONFIG_KEY);
+    return _featureConfig().default.get(CONFIG_KEY);
   }
 
   setDefinitions(definitions) {
-    (_featureConfig || _load_featureConfig()).default.set(CONFIG_KEY, definitions.filter(d => !d.isActiveProject));
+    _featureConfig().default.set(CONFIG_KEY, definitions.filter(d => !d.isActiveProject));
   }
+
 }
+
 exports.WorkingSetsConfig = WorkingSetsConfig;

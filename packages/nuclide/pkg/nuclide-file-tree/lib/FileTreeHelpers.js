@@ -1,51 +1,76 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _Constants;
+function _Constants() {
+  const data = require("./Constants");
 
-function _load_Constants() {
-  return _Constants = require('./Constants');
+  _Constants = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _atom = require('atom');
+var _atom = require("atom");
 
-var _nuclideRemoteConnection;
+function _nuclideRemoteConnection() {
+  const data = require("../../nuclide-remote-connection");
 
-function _load_nuclideRemoteConnection() {
-  return _nuclideRemoteConnection = require('../../nuclide-remote-connection');
+  _nuclideRemoteConnection = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _featureConfig;
+function _featureConfig() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/feature-config"));
 
-function _load_featureConfig() {
-  return _featureConfig = _interopRequireDefault(require('../../../modules/nuclide-commons-atom/feature-config'));
+  _featureConfig = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _observable;
+function _observable() {
+  const data = require("../../../modules/nuclide-commons/observable");
 
-function _load_observable() {
-  return _observable = require('../../../modules/nuclide-commons/observable');
+  _observable = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
-var _crypto = _interopRequireDefault(require('crypto'));
+var _crypto = _interopRequireDefault(require("crypto"));
 
-var _os = _interopRequireDefault(require('os'));
+var _os = _interopRequireDefault(require("os"));
 
-var _nuclideFsAtom;
+function _nuclideFsAtom() {
+  const data = require("../../nuclide-fs-atom");
 
-function _load_nuclideFsAtom() {
-  return _nuclideFsAtom = require('../../nuclide-fs-atom');
+  _nuclideFsAtom = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -60,31 +85,29 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
-
 function dirPathToKey(path) {
-  return (_nuclideUri || _load_nuclideUri()).default.ensureTrailingSeparator((_nuclideUri || _load_nuclideUri()).default.trimTrailingSeparator(path));
+  return _nuclideUri().default.ensureTrailingSeparator(_nuclideUri().default.trimTrailingSeparator(path));
 }
 
 function isDirOrArchiveKey(key) {
-  return (_nuclideUri || _load_nuclideUri()).default.endsWithSeparator(key) || (_nuclideUri || _load_nuclideUri()).default.hasKnownArchiveExtension(key);
+  return _nuclideUri().default.endsWithSeparator(key) || _nuclideUri().default.hasKnownArchiveExtension(key);
 }
 
 function keyToName(key) {
-  return (_nuclideUri || _load_nuclideUri()).default.basename(key);
+  return _nuclideUri().default.basename(key);
 }
 
 function keyToPath(key) {
-  return (_nuclideUri || _load_nuclideUri()).default.trimTrailingSeparator(key);
+  return _nuclideUri().default.trimTrailingSeparator(key);
 }
 
 function getParentKey(key) {
-  return (_nuclideUri || _load_nuclideUri()).default.ensureTrailingSeparator((_nuclideUri || _load_nuclideUri()).default.dirname(key));
-}
+  return _nuclideUri().default.ensureTrailingSeparator(_nuclideUri().default.dirname(key));
+} // The array this resolves to contains the `nodeKey` of each child
 
-// The array this resolves to contains the `nodeKey` of each child
+
 function fetchChildren(nodeKey) {
   const directory = getDirectoryByKey(nodeKey);
-
   return new Promise((resolve, reject) => {
     if (directory == null) {
       reject(new Error(`Directory "${nodeKey}" not found or is inaccessible.`));
@@ -92,16 +115,18 @@ function fetchChildren(nodeKey) {
     }
 
     directory.getEntries((error, entries_) => {
-      let entries = entries_;
-      // Resolve to an empty array if the directory deson't exist.
+      let entries = entries_; // Resolve to an empty array if the directory deson't exist.
       // TODO: should we reject promise?
+
       if (error && error.code !== 'ENOENT') {
         reject(error);
         return;
       }
+
       entries = entries || [];
       const keys = entries.map(entry => {
         const path = entry.getPath();
+
         if (entry.isDirectory()) {
           return dirPathToKey(path);
         } else {
@@ -115,46 +140,52 @@ function fetchChildren(nodeKey) {
 
 function getDirectoryByKey(key) {
   const path = keyToPath(key);
+
   if (!isDirOrArchiveKey(key)) {
     return null;
-  } else if ((_nuclideUri || _load_nuclideUri()).default.isRemote(path)) {
-    const connection = (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).ServerConnection.getForUri(path);
+  } else if (_nuclideUri().default.isRemote(path)) {
+    const connection = _nuclideRemoteConnection().ServerConnection.getForUri(path);
+
     if (connection == null) {
       // Placeholder remote directories are just empty.
       // These will be removed by nuclide-remote-projects after reconnection, anyway.
-      return new (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).RemoteDirectoryPlaceholder(path);
+      return new (_nuclideRemoteConnection().RemoteDirectoryPlaceholder)(path);
     }
-    if ((_nuclideUri || _load_nuclideUri()).default.hasKnownArchiveExtension(key)) {
+
+    if (_nuclideUri().default.hasKnownArchiveExtension(key)) {
       return connection.createFileAsDirectory(path);
     } else {
       return connection.createDirectory(path);
     }
-  } else if ((_nuclideUri || _load_nuclideUri()).default.hasKnownArchiveExtension(key)) {
+  } else if (_nuclideUri().default.hasKnownArchiveExtension(key)) {
     // $FlowFixMe(>=0.68.0) Flow suppress (T27187857)
-    return (_nuclideFsAtom || _load_nuclideFsAtom()).ROOT_ARCHIVE_FS.newArchiveFileAsDirectory(path);
-  } else if (!(_nuclideUri || _load_nuclideUri()).default.isInArchive(path)) {
+    return _nuclideFsAtom().ROOT_ARCHIVE_FS.newArchiveFileAsDirectory(path);
+  } else if (!_nuclideUri().default.isInArchive(path)) {
     return new _atom.Directory(path);
   } else {
     // $FlowFixMe(>=0.68.0) Flow suppress (T27187857)
-    return (_nuclideFsAtom || _load_nuclideFsAtom()).ROOT_ARCHIVE_FS.newArchiveDirectory(path);
+    return _nuclideFsAtom().ROOT_ARCHIVE_FS.newArchiveDirectory(path);
   }
 }
 
 function getFileByKey(key) {
   const path = keyToPath(key);
+
   if (isDirOrArchiveKey(key)) {
     return null;
-  } else if ((_nuclideUri || _load_nuclideUri()).default.isRemote(path)) {
-    const connection = (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).ServerConnection.getForUri(path);
+  } else if (_nuclideUri().default.isRemote(path)) {
+    const connection = _nuclideRemoteConnection().ServerConnection.getForUri(path);
+
     if (connection == null) {
       return null;
     }
+
     return connection.createFile(path);
-  } else if (!(_nuclideUri || _load_nuclideUri()).default.isInArchive(path)) {
+  } else if (!_nuclideUri().default.isInArchive(path)) {
     return new _atom.File(path);
   } else {
     // $FlowFixMe(>=0.68.0) Flow suppress (T27187857)
-    return (_nuclideFsAtom || _load_nuclideFsAtom()).ROOT_ARCHIVE_FS.newArchiveFile(path);
+    return _nuclideFsAtom().ROOT_ARCHIVE_FS.newArchiveFile(path);
   }
 }
 
@@ -165,25 +196,25 @@ function getEntryByKey(key) {
 function getDisplayTitle(key) {
   const path = keyToPath(key);
 
-  if ((_nuclideUri || _load_nuclideUri()).default.isRemote(path)) {
-    const connection = (_nuclideRemoteConnection || _load_nuclideRemoteConnection()).RemoteConnection.getForUri(path);
+  if (_nuclideUri().default.isRemote(path)) {
+    const connection = _nuclideRemoteConnection().RemoteConnection.getForUri(path);
 
     if (connection != null) {
       return connection.getDisplayTitle();
     }
   }
-}
-
-// Sometimes remote directories are instantiated as local directories but with invalid paths.
+} // Sometimes remote directories are instantiated as local directories but with invalid paths.
 // Also, until https://github.com/atom/atom/issues/10297 is fixed in 1.12,
 // Atom sometimes creates phantom "atom:" directories when opening atom:// URIs.
+
+
 function isValidDirectory(directory) {
   if (!isLocalEntry(directory)) {
     return true;
   }
 
   const dirPath = directory.getPath();
-  return (_nuclideUri || _load_nuclideUri()).default.isAbsolute(dirPath);
+  return _nuclideUri().default.isAbsolute(dirPath);
 }
 
 function isLocalEntry(entry) {
@@ -200,16 +231,18 @@ function buildHashKey(nodeKey) {
 }
 
 function observeUncommittedChangesKindConfigKey() {
-  return (0, (_observable || _load_observable()).cacheWhileSubscribed)((_featureConfig || _load_featureConfig()).default.observeAsStream((_Constants || _load_Constants()).SHOW_UNCOMMITTED_CHANGES_KIND_CONFIG_KEY).map(setting => {
+  return (0, _observable().cacheWhileSubscribed)(_featureConfig().default.observeAsStream(_Constants().SHOW_UNCOMMITTED_CHANGES_KIND_CONFIG_KEY).map(setting => {
     // We need to map the unsanitized feature-setting string
     // into a properly typed value:
     switch (setting) {
-      case (_Constants || _load_Constants()).ShowUncommittedChangesKind.HEAD:
-        return (_Constants || _load_Constants()).ShowUncommittedChangesKind.HEAD;
-      case (_Constants || _load_Constants()).ShowUncommittedChangesKind.STACK:
-        return (_Constants || _load_Constants()).ShowUncommittedChangesKind.STACK;
+      case _Constants().ShowUncommittedChangesKind.HEAD:
+        return _Constants().ShowUncommittedChangesKind.HEAD;
+
+      case _Constants().ShowUncommittedChangesKind.STACK:
+        return _Constants().ShowUncommittedChangesKind.STACK;
+
       default:
-        return (_Constants || _load_Constants()).ShowUncommittedChangesKind.UNCOMMITTED;
+        return _Constants().ShowUncommittedChangesKind.UNCOMMITTED;
     }
   }).distinctUntilChanged());
 }
@@ -218,15 +251,18 @@ function updatePathInOpenedEditors(oldPath, newPath) {
   atom.workspace.getTextEditors().forEach(editor => {
     const buffer = editor.getBuffer();
     const bufferPath = buffer.getPath();
+
     if (bufferPath == null) {
       return;
     }
 
-    if ((_nuclideUri || _load_nuclideUri()).default.contains(oldPath, bufferPath)) {
-      const relativeToOld = (_nuclideUri || _load_nuclideUri()).default.relative(oldPath, bufferPath);
-      const newBufferPath = (_nuclideUri || _load_nuclideUri()).default.join(newPath, relativeToOld);
-      // setPath() doesn't work correctly with remote files.
+    if (_nuclideUri().default.contains(oldPath, bufferPath)) {
+      const relativeToOld = _nuclideUri().default.relative(oldPath, bufferPath);
+
+      const newBufferPath = _nuclideUri().default.join(newPath, relativeToOld); // setPath() doesn't work correctly with remote files.
       // We need to create a new remote file and reset the underlying file.
+
+
       const file = getFileByKey(newBufferPath);
 
       if (!(file != null)) {
@@ -242,19 +278,23 @@ function getSelectionMode(event) {
   if (_os.default.platform() === 'darwin' && event.metaKey && event.button === 0 || _os.default.platform() !== 'darwin' && event.ctrlKey && event.button === 0) {
     return 'multi-select';
   }
+
   if (_os.default.platform() === 'darwin' && event.ctrlKey && event.button === 0) {
     return 'single-select';
   }
+
   if (event.shiftKey && event.button === 0) {
     return 'range-select';
   }
+
   if (!event.shiftKey && !event.ctrlKey && !event.metaKey && !event.altKey) {
     return 'single-select';
   }
+
   return 'invalid-select';
 }
 
-exports.default = {
+var _default = {
   dirPathToKey,
   isDirOrArchiveKey,
   keyToName,
@@ -273,3 +313,4 @@ exports.default = {
   updatePathInOpenedEditors,
   getSelectionMode
 };
+exports.default = _default;

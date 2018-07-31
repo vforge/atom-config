@@ -1,8 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
+
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  * All rights reserved.
@@ -14,13 +16,10 @@ Object.defineProperty(exports, "__esModule", {
  *  strict-local
  * @format
  */
-
 class BreakpointDeleteCommand {
-
   constructor(debug) {
     this.name = 'delete';
     this.helpText = '[index]: permanently deletes a breakpoint.';
-
     this._debugger = debug;
   }
 
@@ -33,5 +32,7 @@ class BreakpointDeleteCommand {
 
     await this._debugger.deleteBreakpoint(index);
   }
+
 }
+
 exports.default = BreakpointDeleteCommand;

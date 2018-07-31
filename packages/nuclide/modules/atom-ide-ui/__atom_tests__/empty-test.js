@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
@@ -10,8 +10,8 @@
  *
  *  strict-local
  * @format
+ * @emails oncall+nuclide
  */
-
 test('test', () => {
   expect(2).toMatchSnapshot();
 });

@@ -1,9 +1,13 @@
-'use strict';
+"use strict";
 
-var _ProviderRegistry;
+function _ProviderRegistry() {
+  const data = _interopRequireDefault(require("../ProviderRegistry"));
 
-function _load_ProviderRegistry() {
-  return _ProviderRegistry = _interopRequireDefault(require('../ProviderRegistry'));
+  _ProviderRegistry = function () {
+    return data;
+  };
+
+  return data;
 }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -18,15 +22,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * 
  * @format
+ * @emails oncall+nuclide
  */
-
 describe('ProviderRegistry', () => {
   let providerRegistry = null;
   let provider1;
   let provider2;
-
   beforeEach(() => {
-    providerRegistry = new (_ProviderRegistry || _load_ProviderRegistry()).default();
+    providerRegistry = new (_ProviderRegistry().default)();
     provider1 = {
       priority: 10,
       grammarScopes: ['foo', 'bar']
@@ -38,13 +41,11 @@ describe('ProviderRegistry', () => {
     providerRegistry.addProvider(provider1);
     providerRegistry.addProvider(provider2);
   });
-
   it('should return the highest-priority provider', () => {
     expect(providerRegistry.findProvider('foo')).toBe(provider1);
     expect(providerRegistry.findProvider('bar')).toBe(provider1);
     expect(providerRegistry.findProvider('baz')).toBe(provider2);
   });
-
   it('should return the provider for an editor', () => {
     const editor = {
       getGrammar() {
@@ -52,10 +53,10 @@ describe('ProviderRegistry', () => {
           scopeName: 'foo'
         };
       }
+
     };
     expect(providerRegistry.getProviderForEditor(editor)).toBe(provider1);
   });
-
   it('should treat null grammarScopes as all-inclusive', () => {
     const provider3 = {
       priority: 0
@@ -63,7 +64,6 @@ describe('ProviderRegistry', () => {
     providerRegistry.addProvider(provider3);
     expect(providerRegistry.findProvider('asdf')).toBe(provider3);
   });
-
   it('can return all providers for an editor', () => {
     const editor = {
       getGrammar() {
@@ -71,14 +71,13 @@ describe('ProviderRegistry', () => {
           scopeName: 'bar'
         };
       }
+
     };
     expect(Array.from(providerRegistry.getAllProvidersForEditor(editor))).toEqual([provider1, provider2]);
   });
-
   it('should return null if there is no provider', () => {
     expect(providerRegistry.findProvider('42')).toBeNull();
   });
-
   it('should correctly remove a provider', () => {
     providerRegistry.removeProvider(provider1);
     expect(providerRegistry.findProvider('foo')).toBe(null);

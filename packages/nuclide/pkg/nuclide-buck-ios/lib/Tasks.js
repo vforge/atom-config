@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6,29 +6,40 @@ Object.defineProperty(exports, "__esModule", {
 exports.getTasks = getTasks;
 exports.runTask = runTask;
 
-var _BuckTaskRunner;
+function _BuckTaskRunner() {
+  const data = require("../../nuclide-buck/lib/BuckTaskRunner");
 
-function _load_BuckTaskRunner() {
-  return _BuckTaskRunner = require('../../nuclide-buck/lib/BuckTaskRunner');
+  _BuckTaskRunner = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _types;
+function _types() {
+  const data = require("./types");
 
-function _load_types() {
-  return _types = require('./types');
+  _types = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _nuclideUri;
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
-function _load_nuclideUri() {
-  return _nuclideUri = _interopRequireDefault(require('../../../modules/nuclide-commons/nuclideUri'));
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
 }
 
-var _rxjsBundlesRxMinJs = require('rxjs/bundles/Rx.min.js');
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// eslint-disable-next-line nuclide-internal/no-cross-atom-imports
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -39,40 +50,50 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *  strict-local
  * @format
  */
-
+// eslint-disable-next-line nuclide-internal/no-cross-atom-imports
 function getTasks(buckRoot, ruleType, device, debuggerAvailable) {
   // $FlowIgnore typecast
   const iosDeployable = device;
   const tasks = new Set(['build']);
+
   if (iosDeployable.buildOnly !== true) {
-    if ((_types || _load_types()).RUNNABLE_RULE_TYPES.has(ruleType)) {
+    if (_types().RUNNABLE_RULE_TYPES.has(ruleType)) {
       tasks.add('run');
     }
-    if (!(_nuclideUri || _load_nuclideUri()).default.isRemote(buckRoot)) {
+
+    if (!_nuclideUri().default.isRemote(buckRoot)) {
       tasks.add('test');
+
       if (debuggerAvailable) {
         tasks.add('debug');
       }
     }
   }
+
   return tasks;
 }
 
 function runTask(builder, taskType, ruleType, buildTarget, settings, device, buckRoot, debuggerCallback) {
   // $FlowIgnore typecast
   const iosDeployable = device;
-  const { arch, udid, type } = iosDeployable;
+  const {
+    arch,
+    udid,
+    type
+  } = iosDeployable;
   const iosPlatform = type === 'simulator' ? 'iphonesimulator' : 'iphoneos';
   const flavor = `${iosPlatform}-${arch}`;
   const newTarget = Object.assign({}, buildTarget, {
     flavors: buildTarget.flavors.concat([flavor])
   });
 
-  if ((_nuclideUri || _load_nuclideUri()).default.isRemote(buckRoot)) {
+  if (_nuclideUri().default.isRemote(buckRoot)) {
     let runRemoteTask;
+
     try {
       // $FlowFB
-      const remoteWorkflow = require('./fb-RemoteWorkflow');
+      const remoteWorkflow = require("./fb-RemoteWorkflow");
+
       runRemoteTask = () => {
         return remoteWorkflow.runRemoteTask(buckRoot, builder, taskType, ruleType, buildTarget, settings, iosDeployable, flavor);
       };
@@ -85,36 +106,39 @@ function runTask(builder, taskType, ruleType, buildTarget, settings, device, buc
     return runRemoteTask();
   } else {
     const subcommand = _getLocalSubcommand(taskType, ruleType);
+
     if (subcommand === 'install' || subcommand === 'test') {
       startLogger(iosDeployable);
     }
 
     const debug = taskType === 'debug';
-
     return builder.runSubcommand(buckRoot, subcommand, newTarget, settings, debug, udid, debug ? debuggerCallback : null);
   }
 }
 
 function _getLocalSubcommand(taskType, ruleType) {
-  if (taskType === 'run' || (0, (_BuckTaskRunner || _load_BuckTaskRunner()).isDebugTask)(taskType)) {
+  if (taskType === 'run' || (0, _BuckTaskRunner().isDebugTask)(taskType)) {
     switch (ruleType) {
       case 'apple_bundle':
         return 'install';
+
       case 'apple_test':
         return 'test';
+
       default:
         throw new Error('Unsupported rule type');
     }
   }
 
-  return (0, (_BuckTaskRunner || _load_BuckTaskRunner()).getBuckSubcommandForTaskType)(taskType);
+  return (0, _BuckTaskRunner().getBuckSubcommandForTaskType)(taskType);
 }
 
 function startLogger(iosDeployable) {
-  return _rxjsBundlesRxMinJs.Observable.create(observer => {
+  return _RxMin.Observable.create(observer => {
     if (iosDeployable.type === 'simulator') {
       atom.commands.dispatch(atom.views.getView(atom.workspace), 'nuclide-ios-simulator-logs:start');
     }
+
     observer.complete();
   });
 }
