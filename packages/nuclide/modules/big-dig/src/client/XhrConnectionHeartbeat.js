@@ -161,7 +161,25 @@ class XhrConnectionHeartbeat {
         case 'EADDRNOTAVAIL': // The host server is unreachable, could be in a VPN.
         // falls through
 
-        case 'EHOSTUNREACH': // A request timeout is considered a network away event.
+        case 'EHOSTUNREACH': // The network is unreachable.
+        // falls through
+
+        case 'ENETUNREACH': // Resource temporarly unavailable
+        // falls through
+
+        case 'EAGAIN': // The pathname in the remote address specified to connect did not exist.
+        // (seems to be an internal Node error)
+        // falls through
+
+        case 'ENOENT': // Software caused connection abort
+        // (seems to be an internal Node error and recoverable P59856025)
+        // falls through
+
+        case 'ECONNABORTED': // Operation canceled; an asynchronous operation was canceled before it completed.
+        // (seems to be an internal Node error)
+        // falls through
+
+        case 'ECANCELED': // A request timeout is considered a network away event.
         // falls through
 
         case 'ETIMEDOUT':
@@ -183,6 +201,7 @@ class XhrConnectionHeartbeat {
           code = this._checkReconnectErrorType(originalCode);
           break;
 
+        case 'CERT_HAS_EXPIRED':
         case 'CERT_SIGNATURE_FAILURE':
           code = 'INVALID_CERTIFICATE';
           break;

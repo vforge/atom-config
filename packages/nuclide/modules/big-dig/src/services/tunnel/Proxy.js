@@ -85,8 +85,6 @@ class Proxy extends _events.default {
           });
         });
         socket.once('error', error => {
-          this.emit('error', error);
-
           this._destroySocket(clientId, error);
         });
         socket.once('close', this._closeSocket.bind(this, clientId));

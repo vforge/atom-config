@@ -5,16 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.JavaDebuggerDevicePanelProvider = void 0;
 
-function _UniversalDisposable() {
-  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
-
-  _UniversalDisposable = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function _nuclideDebuggerCommon() {
   const data = require("../../../modules/nuclide-debugger-common");
 
@@ -36,8 +26,6 @@ function _debugger() {
 
   return data;
 }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -66,7 +54,6 @@ async function _createAndroidDebugAttachConfig(targetUri, device, proc) {
     debugMode: 'attach',
     adapterType: _nuclideDebuggerCommon().VsAdapterTypes.JAVA_ANDROID,
     config,
-    customDisposable: new (_UniversalDisposable().default)(),
     processName: 'Process ' + proc.pid + ' (Android Java ' + device.displayName + ')'
   };
 }

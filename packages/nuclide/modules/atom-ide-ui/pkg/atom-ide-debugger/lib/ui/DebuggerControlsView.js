@@ -37,6 +37,8 @@ function _TruncatedButton() {
   return data;
 }
 
+var _RxMin = require("rxjs/bundles/Rx.min.js");
+
 function _DebuggerSteppingComponent() {
   const data = _interopRequireDefault(require("./DebuggerSteppingComponent"));
 
@@ -99,7 +101,7 @@ class DebuggerControlsView extends React.PureComponent {
     super(props);
     this._disposables = new (_UniversalDisposable().default)();
     this.state = {
-      mode: props.service.getDebuggerMode(),
+      mode: _constants().DebuggerMode.STOPPED,
       hasDevicePanelService: false
     };
   }
@@ -109,9 +111,17 @@ class DebuggerControlsView extends React.PureComponent {
       service
     } = this.props;
 
-    this._disposables.add((0, _event().observableFromSubscribeFunction)(service.onDidChangeMode.bind(service)).subscribe(mode => this.setState({
-      mode
-    })), atom.packages.serviceHub.consume('nuclide.devices', '0.0.0', provider => this.setState({
+    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(service.onDidChangeProcessMode.bind(service)), (0, _event().observableFromSubscribeFunction)(service.viewModel.onDidChangeDebuggerFocus.bind(service.viewModel))).startWith(null).subscribe(() => {
+      const {
+        viewModel
+      } = this.props.service;
+      const {
+        focusedProcess
+      } = viewModel;
+      this.setState({
+        mode: focusedProcess == null ? _constants().DebuggerMode.STOPPED : focusedProcess.debuggerMode
+      });
+    }), atom.packages.serviceHub.consume('nuclide.devices', '0.0.0', provider => this.setState({
       hasDevicePanelService: true
     })));
   }

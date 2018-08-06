@@ -214,8 +214,15 @@ class BreakpointListComponent extends React.Component {
 
   componentDidMount() {
     const model = this.props.service.getModel();
+    const {
+      viewModel
+    } = this.props.service;
 
     this._disposables.add(model.onDidChangeBreakpoints(() => {
+      this.setState(this._computeState());
+    }), // Exception breakpoint filters are different for different debuggers,
+    // so we must refresh when switching debugger focus.
+    viewModel.onDidChangeDebuggerFocus(() => {
       this.setState(this._computeState());
     }), (0, _projects().observeProjectPathsAll)(projectPaths => this.setState({
       activeProjects: projectPaths

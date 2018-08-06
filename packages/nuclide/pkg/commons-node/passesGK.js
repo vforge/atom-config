@@ -85,6 +85,12 @@ const getGatekeeper = (0, _once().default)(() => {
 });
 /**
  * Check a GK. Silently return false on error.
+ *
+ * (NOTE) The underlying module (fb-gatekeeper) checks the Unix name the node
+ * process is running on. If you use this predicate in a package running on the
+ * server (e.g., a language service backend) then it might not check the Unix
+ * name you expect (e.g., `svmscm` on an On Demand instead of the user's Unix
+ * name).
  */
 
 var passesGK = async function passesGK(name, // timeout in ms
@@ -101,6 +107,12 @@ timeout) {
 /**
  * Synchronous GK check. There is no guarantee that GKs have loaded. This
  * should be used inside a `onceGkInitialized`.
+ *
+ * (NOTE) The underlying module (fb-gatekeeper) checks the Unix name the node
+ * process is running on. If you use this predicate in a package running on the
+ * server (e.g., a language service backend) then it might not check the Unix
+ * name you expect (e.g., `svmscm` on an On Demand instead of the user's Unix
+ * name).
  */
 
 

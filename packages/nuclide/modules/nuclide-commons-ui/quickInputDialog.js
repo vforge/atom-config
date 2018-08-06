@@ -81,20 +81,30 @@ function quickInputDialog(title, inputLabel, onConfirm, validateInput, initialVa
   const panel = atom.workspace.addModalPanel({
     item
   });
-
-  _reactDom.default.render(React.createElement(QuickInputDialog, {
-    validateInput: validateInput,
-    initialValue: initialValue,
-    inputLabel: inputLabel,
-    onCancel: () => panel.destroy(),
-    onConfirm: content => {
-      onConfirm(content);
+  return new Promise((resolve, reject) => {
+    const cancel = () => {
       panel.destroy();
-    },
-    title: title
-  }), item);
+      reject(new Error('User cancelled'));
+    };
 
-  panel.onDidDestroy(() => _reactDom.default.unmountComponentAtNode(item));
+    _reactDom.default.render(React.createElement(QuickInputDialog, {
+      validateInput: validateInput,
+      initialValue: initialValue,
+      inputLabel: inputLabel,
+      onCancel: cancel,
+      onConfirm: content => {
+        if (onConfirm) {
+          onConfirm(content);
+        }
+
+        resolve(content);
+        panel.destroy();
+      },
+      title: title
+    }), item);
+
+    panel.onDidDestroy(() => _reactDom.default.unmountComponentAtNode(item));
+  });
 }
 
 class QuickInputDialog extends React.Component {
@@ -150,7 +160,10 @@ class QuickInputDialog extends React.Component {
       onDidChange: this._handleInputChange,
       startSelected: true
     }), React.createElement("div", {
-      className: "fb-interactive-smartlog-quick-input-dialog-toolbar"
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between'
+      }
     }, React.createElement("span", null, errorMessage), React.createElement(_ButtonGroup().ButtonGroup, {
       size: _ButtonGroup().ButtonGroupSizes.SMALL
     }, React.createElement(_Button().Button, {

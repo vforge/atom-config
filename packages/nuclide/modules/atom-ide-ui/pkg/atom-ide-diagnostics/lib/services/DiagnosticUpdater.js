@@ -86,6 +86,10 @@ class DiagnosticUpdater {
       return new (_UniversalDisposable().default)(this._states.map(state => state.codeActionsForMessage).distinctUntilChanged().subscribe(callback));
     };
 
+    this.observeDescriptions = callback => {
+      return new (_UniversalDisposable().default)(this._states.map(state => state.descriptions).distinctUntilChanged().subscribe(callback));
+    };
+
     this.observeSupportedMessageKinds = callback => {
       return new (_UniversalDisposable().default)(this._states.map(Selectors().getSupportedMessageKinds).subscribe(callback));
     };
@@ -104,6 +108,10 @@ class DiagnosticUpdater {
 
     this.fetchCodeActions = (editor, messages) => {
       this._store.dispatch(Actions().fetchCodeActions(editor, messages));
+    };
+
+    this.fetchDescriptions = messages => {
+      this._store.dispatch(Actions().fetchDescriptions(messages));
     };
 
     this._store = store; // $FlowIgnore: Flow doesn't know about Symbol.observable

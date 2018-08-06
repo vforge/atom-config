@@ -109,7 +109,7 @@ class ProjectStore {
 
   _isFileHHVMProject(fileUri) {
     return (0, _nuclideAnalytics().trackTiming)('toolbar.isFileHHVMProject', async () => {
-      return fileUri != null && _nuclideUri().default.isRemote(fileUri) && (0, _HackLanguage().isFileInHackProject)(fileUri);
+      return fileUri != null && (_nuclideUri().default.isRemote(fileUri) || process.platform !== 'win32') && (0, _HackLanguage().isFileInHackProject)(fileUri);
     });
   }
 
@@ -199,10 +199,7 @@ class ProjectStore {
 
       const lastScriptCommand = this.getLastScriptCommand(localPath);
       return lastScriptCommand === '' ? localPath : lastScriptCommand;
-    } // getHostname throws for non-remote paths.
-    // Technically this shouldn't be visible for non-remote paths, but the UI
-    // can sometimes display the toolbar anyway.
-
+    }
 
     const rootPath = this._projectRoot.getValue();
 
@@ -210,7 +207,7 @@ class ProjectStore {
       return _nuclideUri().default.getHostname(rootPath);
     }
 
-    return '';
+    return 'localhost';
   }
 
   dispose() {

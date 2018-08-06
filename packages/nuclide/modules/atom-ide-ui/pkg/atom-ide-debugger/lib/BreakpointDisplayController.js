@@ -132,7 +132,7 @@ class BreakpointDisplayController {
   }
 
   _isDebugging() {
-    return this._service.getDebuggerMode() !== _constants().DebuggerMode.STOPPED;
+    return this._service.getModel().getProcesses().some(process => process.debuggerMode !== _constants().DebuggerMode.STOPPED);
   }
 
   _registerEditorContextMenuHandler() {

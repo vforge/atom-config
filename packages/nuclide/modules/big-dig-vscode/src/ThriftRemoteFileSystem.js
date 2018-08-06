@@ -5,16 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ThriftRemoteFileSystem = void 0;
 
-function _types() {
-  const data = require("../../big-dig/src/services/fs/types");
-
-  _types = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function vscode() {
   const data = _interopRequireWildcard(require("vscode"));
 
@@ -24,6 +14,8 @@ function vscode() {
 
   return data;
 }
+
+var pathModule = _interopRequireWildcard(require("path"));
 
 function _Server() {
   const data = require("./remote/Server");
@@ -55,16 +47,6 @@ function _converter() {
   return data;
 }
 
-function _log4js() {
-  const data = require("log4js");
-
-  _log4js = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function _analytics() {
   const data = require("./analytics/analytics");
 
@@ -79,6 +61,26 @@ function _filesystem_types() {
   const data = _interopRequireDefault(require("../../big-dig/src/services/fs/gen-nodejs/filesystem_types"));
 
   _filesystem_types = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _types() {
+  const data = require("../../big-dig/src/services/fs/types");
+
+  _types = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _FileWatch() {
+  const data = require("../../big-dig/src/services/fs/FileWatch");
+
+  _FileWatch = function () {
     return data;
   };
 
@@ -101,46 +103,64 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * @format
  */
 const BUFFER_ENCODING = 'utf-8';
-const POLLING_INTERVAL_MS = 3000;
-const logger = (0, _log4js().getLogger)('remote-fs');
 
 class ThriftRemoteFileSystem extends _RemoteFileSystem().RemoteFileSystem {
   constructor(hostname, server) {
     super(hostname, server);
-    this._pollingInterval = null;
-  }
-
-  async _startWatching(uri, options) {
-    const path = this.uriToPath(uri);
-    const client = await this.getThriftClient();
-    await client.watch(path, options); // Start polling file change events
-
-    this._pollingInterval = setInterval(async () => {
-      const changes = await client.pollFileChanges();
-
-      this._onFilesChanged(path, (0, _converter().convertToVSCodeFileChangeEvents)(changes));
-    }, POLLING_INTERVAL_MS);
+    this._idxToFileWatches = new Map();
+    this._clientWrapper = null;
+    this._watchRequests = new Set();
   }
 
   watch(uri, options) {
-    try {
-      this._startWatching(uri, options);
-    } catch (error) {
-      throw (0, _converter().createVSCodeFsError)(error, uri);
-    } // Need to return a vscode.Disposable
+    const watchRequest = {
+      watch: new (_FileWatch().FileWatch)(() => this.getThriftClientWrapper(), this.uriToPath(uri), options, this._handleFileChanges.bind(this)),
+      watchPath: this.uriToPath(uri),
+      watchOptions: options
+    };
 
+    this._watchRequests.add(watchRequest);
 
-    return new (vscode().Disposable)(() => {
-      logger.info(`Stopped watching: ${uri.toString()}`);
+    return new (vscode().Disposable)(() => watchRequest.watch.dispose());
+  }
 
-      this._disposePollingInterval();
+  _handleFileChanges(basePath, thriftFileChanges) {
+    const changes = (0, _converter().convertToVSCodeFileChangeEvents)(thriftFileChanges);
+    const fileChanges = changes.map(change => ({
+      type: (0, _converter().toChangeType)(change.type),
+      uri: this.pathToUri(pathModule.join(basePath, change.path))
+    }));
+
+    if (fileChanges.length > 0) {
+      this._onDidChangeEmitter.fire(fileChanges);
+    }
+  }
+
+  _updateFileWatches() {
+    this._watchRequests.forEach(watchRequest => {
+      watchRequest.watch.dispose();
+      watchRequest.watch = new (_FileWatch().FileWatch)(() => this.getThriftClientWrapper(), watchRequest.watchPath, watchRequest.watchOptions, this._handleFileChanges.bind(this));
     });
   }
 
-  async getThriftClient() {
+  async getThriftClientWrapper() {
     const conn = await this.getConnection();
-    const client = conn.getOrCreateThriftClient();
-    return client;
+    const clientWrapper = await conn.getOrCreateThriftClient();
+
+    if (this._clientWrapper == null) {
+      this._clientWrapper = clientWrapper;
+    } else if (clientWrapper !== this._clientWrapper) {
+      this._clientWrapper = clientWrapper;
+
+      this._updateFileWatches();
+    }
+
+    return clientWrapper;
+  }
+
+  async getThriftClient() {
+    const clientWrapper = await this.getThriftClientWrapper();
+    return clientWrapper.getClient();
   }
 
   async createDirectory(uri) {
@@ -251,17 +271,10 @@ class ThriftRemoteFileSystem extends _RemoteFileSystem().RemoteFileSystem {
     }
   }
 
-  _disposePollingInterval() {
-    if (this._pollingInterval) {
-      clearInterval(this._pollingInterval);
-      this._pollingInterval = null;
-    }
-  }
-
   dispose() {
     super.dispose();
 
-    this._disposePollingInterval();
+    this._idxToFileWatches.clear();
   }
 
 }

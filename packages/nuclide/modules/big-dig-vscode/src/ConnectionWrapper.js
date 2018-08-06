@@ -15,16 +15,6 @@ function _serviceConfig() {
   return data;
 }
 
-function _types() {
-  const data = require("../../big-dig/src/services/fs/types");
-
-  _types = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function vscode() {
   const data = _interopRequireWildcard(require("vscode"));
 
@@ -100,8 +90,8 @@ exports.RpcMethodError = RpcMethodError;
 class ConnectionWrapper {
   constructor(bigDigClient) {
     this._closed = new (_promise().Deferred)();
-    this._fsThriftClient = null;
     this._fsThriftClientPromise = null;
+    this._fsClientSubscription = null;
     this._bigDigClient = bigDigClient;
     this._nextId = 0;
     this._emitter = new _events.default();
@@ -156,22 +146,15 @@ class ConnectionWrapper {
   }
 
   getOrCreateThriftClient() {
-    if (this._fsThriftClient != null) {
-      return Promise.resolve(this._fsThriftClient);
-    }
-
-    return this._getThriftClientPromise();
-  }
-
-  _getThriftClientPromise() {
-    if (this._fsThriftClientPromise != null) {
+    if (this._fsThriftClientPromise) {
       return this._fsThriftClientPromise;
     }
 
     this._fsThriftClientPromise = this._bigDigClient.getOrCreateThriftClient(_serviceConfig().FS_SERVICE_CONIFG).then(client => {
-      this._fsThriftClientPromise = null;
-      this._fsThriftClient = client.getClient();
-      return client.getClient();
+      this._fsClientSubscription = client.onUnexpectedClientFailure(() => {
+        this._fsThriftClientPromise = null;
+      });
+      return client;
     }, error => {
       this._fsThriftClientPromise = null;
       return Promise.reject(error);
@@ -458,6 +441,10 @@ class ConnectionWrapper {
 
   dispose() {
     this._bigDigClient.close();
+
+    if (this._fsClientSubscription != null) {
+      this._fsClientSubscription.unsubscribe();
+    }
 
     this._emitter.removeAllListeners();
   }

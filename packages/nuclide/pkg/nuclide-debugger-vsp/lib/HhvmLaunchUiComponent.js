@@ -150,6 +150,10 @@ class LaunchUiComponent extends React.Component {
     };
   }
 
+  _getHostName() {
+    return _nuclideUri().default.isRemote(this.props.targetUri) ? _nuclideUri().default.getHostname(this.props.targetUri) : '';
+  }
+
   _getSerializationArgs() {
     return [_nuclideUri().default.isRemote(this.props.targetUri) ? _nuclideUri().default.getHostname(this.props.targetUri) : 'local', 'launch', 'php'];
   }
@@ -238,13 +242,13 @@ class LaunchUiComponent extends React.Component {
   }
 
   _getRecentlyLaunchedKey() {
-    const hostname = _nuclideUri().default.getHostname(this.props.targetUri);
+    const hostname = this._getHostName();
 
     return 'debugger-php.recentlyLaunchedScripts:' + hostname;
   }
 
   _getCwdKey() {
-    const hostname = _nuclideUri().default.getHostname(this.props.targetUri);
+    const hostname = this._getHostName();
 
     return 'debugger-php.Cwd:' + hostname;
   }
@@ -288,7 +292,7 @@ class LaunchUiComponent extends React.Component {
   }
 
   _getPathMenuItems() {
-    const hostname = _nuclideUri().default.getHostname(this.props.targetUri);
+    const hostname = this._getHostName();
 
     const connections = _nuclideRemoteConnection().RemoteConnection.getByHostname(hostname);
 

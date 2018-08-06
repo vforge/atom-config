@@ -8,13 +8,15 @@ exports.removeProvider = removeProvider;
 exports.setCodeActionFetcher = setCodeActionFetcher;
 exports.fetchCodeActions = fetchCodeActions;
 exports.setCodeActions = setCodeActions;
+exports.fetchDescriptions = fetchDescriptions;
+exports.setDescriptions = setDescriptions;
 exports.invalidateMessages = invalidateMessages;
 exports.updateMessages = updateMessages;
 exports.applyFix = applyFix;
 exports.applyFixesForFile = applyFixesForFile;
 exports.fixFailed = fixFailed;
 exports.fixesApplied = fixesApplied;
-exports.FIXES_APPLIED = exports.FIX_FAILED = exports.APPLY_FIXES_FOR_FILE = exports.APPLY_FIX = exports.INVALIDATE_MESSAGES = exports.UPDATE_MESSAGES = exports.SET_CODE_ACTIONS = exports.FETCH_CODE_ACTIONS = exports.SET_CODE_ACTION_FETCHER = exports.REMOVE_PROVIDER = exports.ADD_PROVIDER = void 0;
+exports.FIXES_APPLIED = exports.FIX_FAILED = exports.APPLY_FIXES_FOR_FILE = exports.APPLY_FIX = exports.INVALIDATE_MESSAGES = exports.UPDATE_MESSAGES = exports.SET_DESCRIPTIONS = exports.FETCH_DESCRIPTIONS = exports.SET_CODE_ACTIONS = exports.FETCH_CODE_ACTIONS = exports.SET_CODE_ACTION_FETCHER = exports.REMOVE_PROVIDER = exports.ADD_PROVIDER = void 0;
 
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
@@ -37,6 +39,10 @@ const FETCH_CODE_ACTIONS = 'FETCH_CODE_ACTIONS';
 exports.FETCH_CODE_ACTIONS = FETCH_CODE_ACTIONS;
 const SET_CODE_ACTIONS = 'SET_CODE_ACTIONS';
 exports.SET_CODE_ACTIONS = SET_CODE_ACTIONS;
+const FETCH_DESCRIPTIONS = 'FETCH_DESCRIPTIONS';
+exports.FETCH_DESCRIPTIONS = FETCH_DESCRIPTIONS;
+const SET_DESCRIPTIONS = 'SET_DESCRIPTIONS';
+exports.SET_DESCRIPTIONS = SET_DESCRIPTIONS;
 const UPDATE_MESSAGES = 'UPDATE_MESSAGES';
 exports.UPDATE_MESSAGES = UPDATE_MESSAGES;
 const INVALIDATE_MESSAGES = 'INVALIDATE_MESSAGES';
@@ -92,6 +98,25 @@ function setCodeActions(codeActionsForMessage) {
     type: SET_CODE_ACTIONS,
     payload: {
       codeActionsForMessage
+    }
+  };
+}
+
+function fetchDescriptions(messages) {
+  return {
+    type: FETCH_DESCRIPTIONS,
+    payload: {
+      messages
+    }
+  };
+}
+
+function setDescriptions(descriptions, keepDescriptions) {
+  return {
+    type: SET_DESCRIPTIONS,
+    payload: {
+      descriptions,
+      keepDescriptions
     }
   };
 }

@@ -157,7 +157,7 @@ class ScopesComponent extends React.Component {
       viewModel
     } = this.props.service;
 
-    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(viewModel.onDidFocusStackFrame.bind(viewModel)), (0, _event().observableFromSubscribeFunction)(viewModel.onDidChangeExpressionContext.bind(viewModel))).debounceTime(100).startWith(null).switchMap(() => this._getScopes()).subscribe(scopes => {
+    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(viewModel.onDidChangeDebuggerFocus.bind(viewModel)), (0, _event().observableFromSubscribeFunction)(viewModel.onDidChangeExpressionContext.bind(viewModel))).debounceTime(100).startWith(null).switchMap(() => this._getScopes()).subscribe(scopes => {
       this.setState({
         scopes
       });

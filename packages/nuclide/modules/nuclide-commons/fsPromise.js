@@ -697,6 +697,47 @@ function rmdir(path) {
     });
   });
 }
+/**
+ * Attempts to resolve the physical path of the filename.
+ * Sometimes filePath may not exist yet, in which case we need to look upwards
+ * for the first prefix that actually does exist.
+ */
+
+
+async function guessRealPath(filePath) {
+  if (_nuclideUri().default.isRemote(filePath)) {
+    throw new Error('Only local paths can be used with guessRealPath');
+  }
+
+  const resolved = _nuclideUri().default.resolve(filePath);
+
+  let prefix = resolved;
+  let suffix = null;
+
+  while (true) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const realPath = await realpath(prefix);
+      return suffix == null ? realPath : _nuclideUri().default.join(realPath, suffix);
+    } catch (err) {
+      if (err.code !== 'ENOENT') {
+        throw err;
+      }
+
+      const basename = _nuclideUri().default.basename(prefix);
+
+      if (basename === '') {
+        // We've reached the filesystem root.
+        break;
+      }
+
+      suffix = suffix == null ? basename : _nuclideUri().default.join(basename, suffix);
+      prefix = _nuclideUri().default.dirname(prefix);
+    }
+  }
+
+  return resolved;
+}
 
 var _default = {
   tempdir,
@@ -735,6 +776,7 @@ var _default = {
   rmdir,
   access,
   findNearestAncestorNamed,
-  resolveRealPath
+  resolveRealPath,
+  guessRealPath
 };
 exports.default = _default;

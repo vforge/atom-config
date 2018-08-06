@@ -136,7 +136,7 @@ class MockedThriftClientClass {
     this._connection.end();
   }
 
-  onConnectionEnd(handler) {
+  onClientClose(handler) {
     this._connection.on('end', handler);
 
     return {
@@ -144,7 +144,7 @@ class MockedThriftClientClass {
     };
   }
 
-  onUnexpectedConnectionEnd(handler) {
+  onUnexpectedClientFailure(handler) {
     this._connection.on('lost_connection', handler);
 
     return {
@@ -258,8 +258,8 @@ exports.MockedThriftClientClass = MockedThriftClientClass;
   });
   (0, _globals().it)('successfully start a client', async () => {
     const mockedClient = {
-      onConnectionEnd: () => {},
-      onUnexpectedConnectionEnd: () => {}
+      onClientClose: () => {},
+      onUnexpectedClientFailure: () => {}
     };
     (0, _jest_mock_utils().getMock)(_createThriftClient().createThriftClient).mockReturnValue(mockedClient);
     mockClientServerCommunication(clientMessage, serverMessage);
@@ -269,8 +269,8 @@ exports.MockedThriftClientClass = MockedThriftClientClass;
   (0, _globals().it)('reuse existing tunnel', async () => {
     // create the first client -> create new tunnel and new server
     (0, _jest_mock_utils().getMock)(_createThriftClient().createThriftClient).mockReturnValue({
-      onConnectionEnd: () => {},
-      onUnexpectedConnectionEnd: () => {}
+      onClientClose: () => {},
+      onUnexpectedClientFailure: () => {}
     });
     mockClientServerCommunication(clientMessage, serverMessage);
     await manager.createThriftClient(mockedServiceConfig); // create second client

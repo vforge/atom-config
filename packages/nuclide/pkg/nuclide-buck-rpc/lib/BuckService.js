@@ -128,7 +128,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
-const MULTIPLE_TARGET_RULE_TYPE = 'multiple_targets';
+const MULTIPLE_TARGET_RULE_TYPE = 'multiple_targets'; // All Buck events should contain the fields the members in
+// https://phabricator.internmc.facebook.com/diffusion/BUCK/browse/master/src/com/facebook/buck/event/AbstractBuckEvent.java
+// Certain events maybe contain additional fields, defined in the interfaces in
+// https://phabricator.internmc.facebook.com/diffusion/BUCK/browse/master/src/com/facebook/buck/event/external/events/
+
 exports.MULTIPLE_TARGET_RULE_TYPE = MULTIPLE_TARGET_RULE_TYPE;
 
 /**

@@ -94,11 +94,10 @@ class BufferSubscription {
         throw new Error("Invariant violation: \"this._notifier != null\"");
       }
 
-      const notifier = await this._notifier;
-
       if (this._sentOpen) {
-        // Changes must be sent in reverse order to ensure that they are applied cleanly.
+        const notifier = await this._notifier; // Changes must be sent in reverse order to ensure that they are applied cleanly.
         // (Atom ensures that they are sent over in increasing lexicographic order).
+
         for (let i = event.changes.length - 1; i >= 0; i--) {
           const edit = event.changes[i];
           this.sendEvent({
@@ -115,7 +114,7 @@ class BufferSubscription {
           });
         }
       } else {
-        this._sendOpenByNotifier(notifier, version);
+        this._sendOpenByNotifier(this._notifier, version);
       }
     }));
     subscriptions.add(buffer.onDidSave(async () => {
@@ -133,20 +132,19 @@ class BufferSubscription {
         throw new Error("Invariant violation: \"this._notifier != null\"");
       }
 
-      const notifier = await this._notifier;
       const version = this._changeCount;
 
       if (this._sentOpen) {
         this.sendEvent({
           kind: _nuclideOpenFilesRpc().FileEventKind.SAVE,
           fileVersion: {
-            notifier,
+            notifier: await this._notifier,
             filePath,
             version
           }
         });
       } else {
-        this._sendOpenByNotifier(notifier, version);
+        this._sendOpenByNotifier(this._notifier, version);
       }
     }));
     this._subscriptions = subscriptions;
@@ -157,28 +155,18 @@ class BufferSubscription {
     // after startup, leaving the only failure the reopening of empty files at startup.
 
     if (this._buffer.getText() !== '' && this._notifier != null) {
-      this._sendOpen(this._changeCount);
+      this._sendOpenByNotifier(this._notifier, this._changeCount);
     }
   }
 
-  async _sendOpen(version) {
-    if (!(this._notifier != null)) {
-      throw new Error("Invariant violation: \"this._notifier != null\"");
-    }
+  async _sendOpenByNotifier(notifier, version) {
+    const contents = this._buffer.getText();
 
-    const notifier = await this._notifier;
-
-    this._sendOpenByNotifier(notifier, version);
-  }
-
-  _sendOpenByNotifier(notifier, version) {
     const filePath = this._buffer.getPath();
 
     if (!(filePath != null)) {
       throw new Error("Invariant violation: \"filePath != null\"");
     }
-
-    const contents = this._buffer.getText();
 
     const languageId = this._getLanguageId(filePath, contents);
 
@@ -186,7 +174,7 @@ class BufferSubscription {
     this.sendEvent({
       kind: _nuclideOpenFilesRpc().FileEventKind.OPEN,
       fileVersion: {
-        notifier,
+        notifier: await notifier,
         filePath,
         version
       },

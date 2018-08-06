@@ -129,7 +129,7 @@ class HhvmLaunchAttachProvider extends _nuclideDebuggerCommon().DebuggerLaunchAt
        * Whether this provider is enabled or not.
        */
       isEnabled: () => {
-        return Promise.resolve(_nuclideUri().default.isRemote(this.getTargetUri()));
+        return Promise.resolve(_nuclideUri().default.isRemote(this.getTargetUri()) || process.platform !== 'win32');
       },
 
       /**
@@ -243,27 +243,32 @@ async function startAttachProcessConfig(targetUri, attachPort, serverAttach) {
     config,
     customControlButtons: getCustomControlButtons(),
     threadsComponentTitle: 'Requests',
-    customDisposable: new (_UniversalDisposable().default)()
+    isRestartable: true,
+    onDebugStartingCallback: instance => {
+      // This IDisposable will be disposed when the debugging session ends.
+      // The debug service will ensure it is called on our behalf.
+      const disposables = new (_UniversalDisposable().default)();
+
+      try {
+        // $FlowFB
+        const services = require("./fb-HhvmServices");
+
+        services.startSlog();
+        disposables.add(() => {
+          services.stopSlog();
+        });
+
+        if (serverAttach) {
+          services.startCrashHandler(targetUri, processConfig, startAttachProcessConfig, instance);
+          disposables.add(() => {
+            services.stopCrashHandler(processConfig);
+          });
+        }
+      } catch (_) {}
+
+      return disposables;
+    }
   };
   const debugService = await (0, _debugger().getDebuggerService)();
-  const startDebuggingPromise = debugService.startVspDebugging(processConfig);
-
-  try {
-    // $FlowFB
-    const services = require("./fb-HhvmServices");
-
-    services.startSlog();
-    processConfig.customDisposable.add(() => {
-      services.stopSlog();
-
-      if (serverAttach) {
-        services.stopCrashHandler(processConfig);
-      }
-    });
-
-    if (serverAttach) {
-      const instance = await startDebuggingPromise;
-      services.startCrashHandler(targetUri, processConfig, startAttachProcessConfig, instance);
-    }
-  } catch (_) {}
+  debugService.startVspDebugging(processConfig);
 }

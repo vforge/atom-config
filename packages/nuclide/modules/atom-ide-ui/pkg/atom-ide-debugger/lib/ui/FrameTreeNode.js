@@ -47,10 +47,8 @@ class FrameTreeNode extends React.Component {
     super(props);
 
     this.handleSelect = () => {
-      this.props.service.focusStackFrame(this.props.frame, null, null, true);
+      this.props.service.viewModel.setFocusedStackFrame(this.props.frame, true);
     };
-
-    this.handleSelect = this.handleSelect.bind(this);
   }
 
   render() {

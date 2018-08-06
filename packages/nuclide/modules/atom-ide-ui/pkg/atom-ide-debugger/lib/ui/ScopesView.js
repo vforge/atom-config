@@ -77,7 +77,7 @@ class ScopesView extends React.PureComponent {
     super(props);
     this._disposables = new (_UniversalDisposable().default)();
     this.state = {
-      mode: props.service.getDebuggerMode()
+      mode: _constants().DebuggerMode.STOPPED
     };
   }
 
@@ -86,9 +86,14 @@ class ScopesView extends React.PureComponent {
       service
     } = this.props;
 
-    this._disposables.add((0, _event().observableFromSubscribeFunction)(service.onDidChangeMode.bind(service)).subscribe(mode => this.setState({
-      mode
-    })));
+    this._disposables.add((0, _event().observableFromSubscribeFunction)(service.onDidChangeProcessMode.bind(service)).subscribe(data => this.setState({
+      mode: data.mode
+    })), (0, _event().observableFromSubscribeFunction)(service.viewModel.onDidChangeDebuggerFocus.bind(service)).startWith(null).subscribe(() => {
+      const focusedProcess = this.props.service.viewModel.focusedProcess;
+      this.setState({
+        mode: focusedProcess == null ? _constants().DebuggerMode.STOPPED : focusedProcess.debuggerMode
+      });
+    }));
   }
 
   componentWillUnmount() {

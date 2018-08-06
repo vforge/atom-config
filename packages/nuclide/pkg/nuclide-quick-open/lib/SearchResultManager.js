@@ -5,6 +5,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.__test__ = exports.default = void 0;
 
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
+
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _observable() {
   const data = require("../../../modules/nuclide-commons/observable");
 
@@ -101,9 +111,9 @@ function _collection() {
   return data;
 }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
@@ -307,7 +317,7 @@ class SearchResultManager {
       // no sorting takes place. It would be nice to the project root that contains the current
       // working root on top. But Directory::contains includes code that synchronously queries the
       // filesystem so I want to avoid it for now.
-      if (dir.getPath() === currentWorkingRoot) {
+      if (_nuclideUri().default.normalizeDir(dir.getPath()) === _nuclideUri().default.normalizeDir(currentWorkingRoot)) {
         // This *not* currentWorkingRoot. It's the directory from this._directories. That's because
         // currentWorkingRoot uses the Directory type (which explicitly includes remote directory
         // objects), whereas this module uses atom$Directory. That should probably be addressed.

@@ -69,7 +69,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @format
  */
 async function debuggerDatatip(service, editor, position) {
-  if (service.getDebuggerMode() !== _constants().DebuggerMode.PAUSED) {
+  if (service.viewModel.focusedProcess == null || service.viewModel.focusedProcess.debuggerMode !== _constants().DebuggerMode.PAUSED) {
     return null;
   }
 

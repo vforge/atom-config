@@ -553,6 +553,20 @@ class Thread {
     return `thread:${this.process.getId()}:${this.threadId}`;
   }
 
+  additionalFramesAvailable(currentFrameCount) {
+    if (this._callStack.callFrames.length > currentFrameCount) {
+      return true;
+    }
+
+    const supportsDelayLoading = (0, _nullthrows().default)(this.process).session.capabilities.supportsDelayedStackTraceLoading === true;
+
+    if (supportsDelayLoading && this.stoppedDetails != null && this.stoppedDetails.totalFrames != null && this.stoppedDetails.totalFrames > currentFrameCount) {
+      return true;
+    }
+
+    return false;
+  }
+
   clearCallStack() {
     this._callStack = this._getEmptyCallstackState();
   }
@@ -748,6 +762,8 @@ class Process {
     this._session = session;
     this._threads = new Map();
     this._sources = new Map();
+    this._pendingStart = true;
+    this._pendingStop = false;
   }
 
   get sources() {
@@ -760,6 +776,33 @@ class Process {
 
   get configuration() {
     return this._configuration;
+  }
+
+  get debuggerMode() {
+    if (this._pendingStart) {
+      return _constants().DebuggerMode.STARTING;
+    }
+
+    if (this._pendingStop) {
+      return _constants().DebuggerMode.STOPPING;
+    }
+
+    if (this.getAllThreads().some(t => t.stopped)) {
+      // TOOD: Currently our UX controls support resume and async-break
+      // on a per-process basis only. This needs to be modified here if
+      // we add support for freezing and resuming individual threads.
+      return _constants().DebuggerMode.PAUSED;
+    }
+
+    return _constants().DebuggerMode.RUNNING;
+  }
+
+  clearProcessStartingFlag() {
+    this._pendingStart = false;
+  }
+
+  setStopPending() {
+    this._pendingStop = true;
   }
 
   getSource(raw) {
@@ -791,11 +834,12 @@ class Process {
       threadId,
       stoppedDetails
     } = data;
+    this.clearProcessStartingFlag();
 
     if (threadId != null && !this._threads.has(threadId)) {
       // We're being asked to update a thread we haven't seen yet, so
       // create it
-      const thread = new Thread(this, 'PENDING_UPDATE', threadId);
+      const thread = new Thread(this, `Thread ${threadId}`, threadId);
 
       this._threads.set(threadId, thread);
     } // Set the availability of the threads' callstacks depending on
@@ -821,6 +865,7 @@ class Process {
     const {
       thread
     } = data;
+    this.clearProcessStartingFlag();
 
     if (!this._threads.has(thread.id)) {
       // A new thread came in, initialize it.
@@ -942,8 +987,9 @@ class ExceptionBreakpoint {
 
 exports.ExceptionBreakpoint = ExceptionBreakpoint;
 const BREAKPOINTS_CHANGED = 'BREAKPOINTS_CHANGED';
-const CALLSTACK_CHANGED = 'CALLSTACK_CHANGED';
 const WATCH_EXPRESSIONS_CHANGED = 'WATCH_EXPRESSIONS_CHANGED';
+const CALLSTACK_CHANGED = 'CALLSTACK_CHANGED';
+const PROCESSES_CHANGED = 'PROCESSES_CHANGED';
 
 class Model {
   constructor(breakpoints, breakpointsActivated, functionBreakpoints, exceptionBreakpoints, watchExpressions) {
@@ -970,6 +1016,8 @@ class Model {
 
     this._processes.push(process);
 
+    this._emitter.emit(PROCESSES_CHANGED);
+
     return process;
   }
 
@@ -984,17 +1032,23 @@ class Model {
       }
     });
 
-    this._emitter.emit(CALLSTACK_CHANGED);
+    this._emitter.emit(PROCESSES_CHANGED);
 
     return removedProcesses;
   }
 
   onDidChangeBreakpoints(callback) {
     return this._emitter.on(BREAKPOINTS_CHANGED, callback);
-  }
+  } // TODO: Scope this so that only the tree nodes for the process that
+  // had a call stack change need to re-render
+
 
   onDidChangeCallStack(callback) {
     return this._emitter.on(CALLSTACK_CHANGED, callback);
+  }
+
+  onDidChangeProcesses(callback) {
+    return this._emitter.on(PROCESSES_CHANGED, callback);
   }
 
   onDidChangeWatchExpressions(callback) {

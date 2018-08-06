@@ -63,7 +63,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
-function renderMessage(fixer, goToLocation, codeActionsForMessage, message, index) {
+function renderMessage(fixer, goToLocation, codeActionsForMessage, descriptions, message, index) {
   const className = (0, _classnames().default)( // native-key-bindings and tabIndex=-1 are both needed to allow copying the text in the popup.
   'native-key-bindings', 'diagnostics-popup-diagnostic', {
     'diagnostics-popup-error': message.type === 'Error',
@@ -71,6 +71,7 @@ function renderMessage(fixer, goToLocation, codeActionsForMessage, message, inde
     'diagnostics-popup-info': message.type === 'Info'
   });
   const codeActions = getCodeActions(message, codeActionsForMessage);
+  const description = getDescription(message, descriptions);
   return React.createElement("div", {
     className: className,
     key: index,
@@ -78,7 +79,8 @@ function renderMessage(fixer, goToLocation, codeActionsForMessage, message, inde
   }, React.createElement(_DiagnosticsMessage().DiagnosticsMessage, {
     fixer: fixer,
     goToLocation: goToLocation,
-    message: message
+    message: message,
+    description: description
   }, codeActions && codeActions.size ? React.createElement(_DiagnosticsCodeActions().default, {
     codeActions: codeActions
   }) : null));
@@ -113,6 +115,14 @@ function getCodeActions(message, codeActionsForMessage) {
   }
 
   return codeActionMaps.length > 0 ? (0, _collection().mapUnion)(...codeActionMaps) : null;
+}
+
+function getDescription(message, descriptions) {
+  if (descriptions) {
+    return descriptions.get(message) || '';
+  }
+
+  return '';
 } // TODO move LESS styles to nuclide-ui
 
 
@@ -130,13 +140,14 @@ class DiagnosticsPopup extends React.Component {
       fixer,
       goToLocation,
       codeActionsForMessage,
+      descriptions,
       messages
     } = _this$props,
-          rest = _objectWithoutProperties(_this$props, ["fixer", "goToLocation", "codeActionsForMessage", "messages"]);
+          rest = _objectWithoutProperties(_this$props, ["fixer", "goToLocation", "codeActionsForMessage", "descriptions", "messages"]);
 
     return React.createElement("div", Object.assign({
       className: "diagnostics-popup"
-    }, rest), messages.map(renderMessage.bind(null, fixer, goToLocation, codeActionsForMessage)));
+    }, rest), messages.map((msg, index) => renderMessage(fixer, goToLocation, codeActionsForMessage, descriptions, msg, index)));
   }
 
 }

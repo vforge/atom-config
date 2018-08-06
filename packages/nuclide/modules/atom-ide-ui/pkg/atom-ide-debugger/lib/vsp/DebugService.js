@@ -264,8 +264,7 @@ const CUSTOM_DEBUG_EVENT = 'CUSTOM_DEBUG_EVENT';
 const CHANGE_DEBUG_MODE = 'CHANGE_DEBUG_MODE';
 const START_DEBUG_SESSION = 'START_DEBUG_SESSION';
 const ACTIVE_THREAD_CHANGED = 'ACTIVE_THREAD_CHANGED';
-const CHANGE_FOCUSED_PROCESS = 'CHANGE_FOCUSED_PROCESS';
-const CHANGE_FOCUSED_STACKFRAME = 'CHANGE_FOCUSED_STACKFRAME';
+const DEBUGGER_FOCUS_CHANGED = 'DEBUGGER_FOCUS_CHANGED';
 const CHANGE_EXPRESSION_CONTEXT = 'CHANGE_EXPRESSION_CONTEXT'; // Berakpoint events may arrive sooner than breakpoint responses.
 
 const MAX_BREAKPOINT_EVENT_DELAY_MS = 5 * 1000;
@@ -285,53 +284,118 @@ class ViewModel {
   }
 
   get focusedThread() {
-    return this._focusedStackFrame != null ? this._focusedStackFrame.thread : this._focusedThread;
+    return this._focusedThread;
   }
 
   get focusedStackFrame() {
     return this._focusedStackFrame;
   }
 
-  onDidFocusProcess(callback) {
-    return this._emitter.on(CHANGE_FOCUSED_PROCESS, callback);
-  }
-
-  onDidFocusStackFrame(callback) {
-    return this._emitter.on(CHANGE_FOCUSED_STACKFRAME, callback);
+  onDidChangeDebuggerFocus(callback) {
+    return this._emitter.on(DEBUGGER_FOCUS_CHANGED, callback);
   }
 
   onDidChangeExpressionContext(callback) {
     return this._emitter.on(CHANGE_EXPRESSION_CONTEXT, callback);
   }
 
-  isMultiProcessView() {
-    return false;
-  }
+  _chooseFocusThread(process) {
+    const threads = process.getAllThreads(); // If the current focused thread is in the focused process and is stopped,
+    // leave that thread focused. Otherwise, choose the first
+    // stopped thread in the focused process if there is one,
+    // and the first running thread otherwise.
 
-  setFocus(stackFrame, thread, process, explicit) {
-    const shouldEmit = this._focusedProcess !== process || this._focusedThread !== thread || this._focusedStackFrame !== stackFrame || explicit;
+    if (this._focusedThread != null) {
+      const id = this._focusedThread.getId();
 
-    if (this._focusedProcess !== process) {
-      this._focusedProcess = process;
+      const currentFocusedThread = threads.filter(t => t.getId() === id && t.stopped);
 
-      this._emitter.emit(CHANGE_FOCUSED_PROCESS, process);
+      if (currentFocusedThread.length > 0) {
+        return currentFocusedThread[0];
+      }
     }
 
+    const stoppedThreads = threads.filter(t => t.stopped);
+    return stoppedThreads[0] || threads[0];
+  }
+
+  _chooseFocusStackFrame(thread) {
+    if (thread == null) {
+      return null;
+    } // If the current focused stack frame is in the current focused thread's
+    // frames, leave it alone. Otherwise return the top stack frame if the
+    // thread is stopped, and null if it is running.
+
+
+    const currentFocusedFrame = thread.getCachedCallStack().find(f => f === this._focusedStackFrame);
+    return thread.stopped ? currentFocusedFrame || thread.getCallStackTopFrame() : null;
+  }
+
+  _setFocus(process, thread, stackFrame, explicit) {
+    let newProcess = process; // If we have a focused frame, we must have a focused thread.
+
+    if (!(stackFrame == null || thread === stackFrame.thread)) {
+      throw new Error("Invariant violation: \"stackFrame == null || thread === stackFrame.thread\"");
+    } // If we have a focused thread, we must have a focused process.
+
+
+    if (!(thread == null || process === thread.process)) {
+      throw new Error("Invariant violation: \"thread == null || process === thread.process\"");
+    }
+
+    if (newProcess == null) {
+      if (!(thread == null && stackFrame == null)) {
+        throw new Error("Invariant violation: \"thread == null && stackFrame == null\"");
+      }
+
+      newProcess = this._focusedProcess;
+    }
+
+    const focusChanged = this._focusedProcess !== newProcess || this._focusedThread !== thread || this._focusedStackFrame !== stackFrame || explicit;
+    this._focusedProcess = newProcess;
     this._focusedThread = thread;
     this._focusedStackFrame = stackFrame;
 
-    if (shouldEmit) {
-      this._emitter.emit(CHANGE_FOCUSED_STACKFRAME, {
-        stackFrame,
+    if (focusChanged) {
+      this._emitter.emit(DEBUGGER_FOCUS_CHANGED, {
         explicit
       });
     } else {
       // The focused stack frame didn't change, but something about the
       // context did, so interested listeners should re-evaluate expressions.
       this._emitter.emit(CHANGE_EXPRESSION_CONTEXT, {
-        stackFrame,
         explicit
       });
+    }
+  }
+
+  setFocusedProcess(process, explicit) {
+    if (process == null) {
+      this._focusedProcess = null;
+
+      this._setFocus(null, null, null, explicit);
+    } else {
+      const newFocusThread = this._chooseFocusThread(process);
+
+      const newFocusFrame = this._chooseFocusStackFrame(newFocusThread);
+
+      this._setFocus(process, newFocusThread, newFocusFrame, explicit);
+    }
+  }
+
+  setFocusedThread(thread, explicit) {
+    if (thread == null) {
+      this._setFocus(null, null, null, explicit);
+    } else {
+      this._setFocus(thread.process, thread, this._chooseFocusStackFrame(thread), explicit);
+    }
+  }
+
+  setFocusedStackFrame(stackFrame, explicit) {
+    if (stackFrame == null) {
+      this._setFocus(null, null, null, explicit);
+    } else {
+      this._setFocus(stackFrame.thread.process, stackFrame.thread, stackFrame, explicit);
     }
   }
 
@@ -388,7 +452,7 @@ class DebugService {
       terminal.setProcessExitCallback(() => {
         // This callback is invoked if the target process dies first, ensuring
         // we tear down the debugger.
-        this.stopProcess();
+        this.stopProcess(process);
       });
 
       this._sessionEndDisposables.add(() => {
@@ -400,40 +464,54 @@ class DebugService {
       });
     };
 
-    this._onSessionEnd = givenSession => {
-      const session = givenSession == null ? this._getCurrentSession() : givenSession;
-
-      if (session == null) {
-        return;
-      }
-
+    this._onSessionEnd = async session => {
       (0, _analytics().track)(_constants().AnalyticsEvents.DEBUGGER_STOP);
 
       const removedProcesses = this._model.removeProcess(session.getId());
 
+      if (removedProcesses.length === 0) {
+        // If the process is already removed from the model, there's nothing else
+        // to do. We can re-enter here if the debug session ends before the
+        // debug adapter process terminates.
+        return;
+      } // Mark all removed processes as STOPPING.
+
+
+      removedProcesses.forEach(process => {
+        process.setStopPending();
+
+        this._onDebuggerModeChanged(process, _constants().DebuggerMode.STOPPING);
+      }); // Ensure all the adapters are terminated.
+
+      await session.disconnect(false
+      /* restart */
+      , true
+      /* force */
+      );
+
       if (this._model.getProcesses() == null || this._model.getProcesses().length === 0) {
         this._sessionEndDisposables.dispose();
 
-        this._consoleDisposables.dispose();
+        this._consoleDisposables.dispose(); // No processes remaining, clear process focus.
 
-        this.focusStackFrame(null, null, null);
 
-        this._updateModeAndEmit(_constants().DebuggerMode.STOPPED);
+        this._viewModel.setFocusedProcess(null, false);
       } else {
         if (this._viewModel.focusedProcess != null && this._viewModel.focusedProcess.getId() === session.getId()) {
-          const processToFocus = this._model.getProcesses()[this._model.getProcesses().length - 1];
+          // The process that just exited was the focused process, so we need
+          // to move focus to another process. If there's a process with a
+          // stopped thread, choose that. Otherwise choose the last process.
+          const allProcesses = this._model.getProcesses();
 
-          const threadToFocus = processToFocus.getAllThreads().length > 0 ? processToFocus.getAllThreads()[0] : null;
-          const frameToFocus = threadToFocus != null ? threadToFocus.getCallStackTopFrame() : null;
-          this.focusStackFrame(frameToFocus, threadToFocus, processToFocus);
-        } else {
-          // The UI needs to refresh the debugger mode for the current
-          // focused process. If an adapter exited before the mode transitioned
-          // to STARTED, the UI can get stuck in the STARTING state otherwise.
-          this._updateModeAndEmit(this._computeDebugMode());
+          const processToFocus = allProcesses.filter(p => p.getAllThreads().some(t => t.stopped))[0] || allProcesses[allProcesses.length - 1];
+
+          this._viewModel.setFocusedProcess(processToFocus, false);
         }
       }
 
+      removedProcesses.forEach(process => {
+        this._onDebuggerModeChanged(process, _constants().DebuggerMode.STOPPED);
+      });
       const createConsole = (0, _AtomServiceContainer().getConsoleService)();
 
       if (createConsole != null) {
@@ -474,7 +552,6 @@ class DebugService {
     this._sessionEndDisposables = new (_UniversalDisposable().default)();
     this._consoleDisposables = new (_UniversalDisposable().default)();
     this._emitter = new _atom.Emitter();
-    this._debuggerMode = _constants().DebuggerMode.STOPPED;
     this._viewModel = new ViewModel();
     this._breakpointsToSendOnSave = new Set();
     this._model = new (_DebuggerModel().Model)(this._loadBreakpoints(state), true, this._loadFunctionBreakpoints(state), this._loadExceptionBreakpoints(state), this._loadWatchExpressions(state));
@@ -488,14 +565,18 @@ class DebugService {
     return this._viewModel;
   }
 
-  getDebuggerMode() {
-    return this._debuggerMode;
+  getDebuggerMode(process) {
+    if (process == null) {
+      return _constants().DebuggerMode.STOPPED;
+    }
+
+    return process.debuggerMode;
   }
 
   _registerListeners() {
     this._disposables.add(atom.workspace.addOpener(uri => {
       if (uri.startsWith(_constants().DEBUG_SOURCES_URI)) {
-        if (this._debuggerMode !== _constants().DebuggerMode.STOPPED) {
+        if (this.getDebuggerMode(this._viewModel.focusedProcess) !== _constants().DebuggerMode.STOPPED) {
           return this._openSourceView(uri);
         }
       }
@@ -552,16 +633,16 @@ class DebugService {
     return editor;
   }
   /**
-   * Stops the process. If the process does not exist then stops all processes.
+   * Stops the specified process.
    */
 
 
-  async stopProcess() {
-    if (this._debuggerMode === _constants().DebuggerMode.STOPPING || this._debuggerMode === _constants().DebuggerMode.STOPPED) {
+  async stopProcess(process) {
+    if (process.debuggerMode === _constants().DebuggerMode.STOPPING || process.debuggerMode === _constants().DebuggerMode.STOPPED) {
       return;
     }
 
-    this._onSessionEnd();
+    this._onSessionEnd(process.session);
   }
 
   async _tryToAutoFocusStackFrame(thread) {
@@ -580,7 +661,7 @@ class DebugService {
       return;
     }
 
-    this.focusStackFrame(stackFrameToFocus, null, null);
+    this._viewModel.setFocusedStackFrame(stackFrameToFocus, false);
   }
 
   _registerMarkers(process) {
@@ -601,15 +682,15 @@ class DebugService {
       }
     };
 
-    return new (_UniversalDisposable().default)((0, _event().observableFromSubscribeFunction)(this._viewModel.onDidFocusStackFrame.bind(this._viewModel)).concatMap(event => {
+    return new (_UniversalDisposable().default)((0, _event().observableFromSubscribeFunction)(this._viewModel.onDidChangeDebuggerFocus.bind(this._viewModel)).concatMap(event => {
       cleaupMarkers();
       const {
-        stackFrame,
         explicit
       } = event;
+      const stackFrame = this._viewModel.focusedStackFrame;
 
       if (stackFrame == null || !stackFrame.source.available) {
-        if (explicit && this._debuggerMode === _constants().DebuggerMode.PAUSED) {
+        if (explicit && this.getDebuggerMode(this._viewModel.focusedProcess) === _constants().DebuggerMode.PAUSED) {
           atom.notifications.addWarning('No source available for the selected stack frame');
         }
 
@@ -646,6 +727,8 @@ class DebugService {
       if (datatipService == null) {
         return;
       }
+
+      this._model.setExceptionBreakpoints(stackFrame.thread.process.session.capabilities.exceptionBreakpointFilters || []);
 
       if (lastFocusedThreadId != null && !explicit && stackFrame.thread.threadId !== lastFocusedThreadId && process === lastFocusedProcess) {
         let message = `Active thread changed from ${lastFocusedThreadId} to ${stackFrame.thread.threadId}`;
@@ -713,10 +796,10 @@ class DebugService {
       const sendConfigurationDone = async () => {
         if (session && session.getCapabilities().supportsConfigurationDoneRequest) {
           return session.configurationDone().then(_ => {
-            this._updateModeAndEmit(_constants().DebuggerMode.RUNNING);
+            this._onDebuggerModeChanged(process, _constants().DebuggerMode.RUNNING);
           }).catch(e => {
             // Disconnect the debug session on configuration done error #10596
-            this._onSessionEnd();
+            this._onSessionEnd(session);
 
             session.disconnect().catch(_utils().onUnexpectedError);
             atom.notifications.addError('Failed to configure debugger. This is often because either ' + 'the process you tried to attach to has already terminated, or ' + 'you do not have permissions (the process is running as root or ' + 'another user.)', {
@@ -741,7 +824,7 @@ class DebugService {
     };
 
     this._sessionEndDisposables.add(session.observeStopEvents().subscribe(() => {
-      this._updateModeAndEmit(_constants().DebuggerMode.PAUSED);
+      this._onDebuggerModeChanged(process, _constants().DebuggerMode.PAUSED);
     }), session.observeStopEvents().flatMap(event => _RxMin.Observable.fromPromise(threadFetcher()).ignoreElements().concat(_RxMin.Observable.of(event)).catch(error => {
       (0, _utils().onUnexpectedError)(error);
       return _RxMin.Observable.empty();
@@ -809,7 +892,7 @@ class DebugService {
 
     this._sessionEndDisposables.add(session.observeTerminateDebugeeEvents().subscribe(event => {
       if (event.body && event.body.restart) {
-        this.restartProcess().catch(err => {
+        this.restartProcess(process).catch(err => {
           atom.notifications.addError('Failed to restart debugger', {
             detail: err.stack || String(err)
           });
@@ -826,9 +909,9 @@ class DebugService {
 
       this._model.clearThreads(session.getId(), false, threadId);
 
-      this.focusStackFrame(null, this._viewModel.focusedThread, null);
+      this._viewModel.setFocusedThread(this._viewModel.focusedThread, false);
 
-      this._updateModeAndEmit(this._computeDebugMode());
+      this._onDebuggerModeChanged(process, _constants().DebuggerMode.RUNNING);
     }));
 
     const createConsole = (0, _AtomServiceContainer().getConsoleService)();
@@ -1012,7 +1095,7 @@ class DebugService {
     return this._emitter.on(CUSTOM_DEBUG_EVENT, callback);
   }
 
-  onDidChangeMode(callback) {
+  onDidChangeProcessMode(callback) {
     return this._emitter.on(CHANGE_DEBUG_MODE, callback);
   }
 
@@ -1078,68 +1161,13 @@ class DebugService {
     return result;
   }
 
-  _updateModeAndEmit(debugMode) {
-    this._debuggerMode = debugMode;
-
-    this._emitter.emit(CHANGE_DEBUG_MODE, debugMode);
-  }
-
-  focusStackFrame(stackFrame, thread, process, explicit = false) {
-    let focusProcess = process;
-
-    if (focusProcess == null) {
-      if (stackFrame != null) {
-        focusProcess = stackFrame.thread.process;
-      } else if (thread != null) {
-        focusProcess = thread.process;
-      } else {
-        focusProcess = this._model.getProcesses()[0];
+  _onDebuggerModeChanged(process, mode) {
+    this._emitter.emit(CHANGE_DEBUG_MODE, {
+      data: {
+        process,
+        mode
       }
-    }
-
-    let focusThread = thread;
-    let focusStackFrame = stackFrame;
-
-    if (focusThread == null && stackFrame != null) {
-      focusThread = stackFrame.thread;
-    } else if (focusThread == null && focusProcess != null) {
-      // A focused process has been specified, but not a thread.
-      // If the current focused thread is in this process, leave it alone.
-      // Otherwise, use the first stopped thread in the process if there is one.
-      const currentFocusedThread = this._viewModel.focusedThread;
-      focusThread = focusProcess.getAllThreads().filter(t => t === currentFocusedThread)[0];
-
-      if (focusThread == null) {
-        focusThread = focusProcess.getAllThreads().filter(t => t.stopped)[0];
-      }
-    } else if (focusThread != null && focusProcess != null) {
-      focusThread = focusProcess.getThread(focusThread.threadId);
-    }
-
-    if (stackFrame == null && thread != null) {
-      focusStackFrame = thread.getCallStackTopFrame();
-    }
-
-    this._viewModel.setFocus(focusStackFrame, focusThread, focusProcess, explicit);
-
-    this._updateModeAndEmit(this._computeDebugMode());
-  }
-
-  _computeDebugMode() {
-    const {
-      focusedThread,
-      focusedStackFrame
-    } = this._viewModel;
-
-    if (focusedStackFrame != null || focusedThread != null && focusedThread.stopped) {
-      return _constants().DebuggerMode.PAUSED;
-    } else if (this._getCurrentProcess() == null) {
-      return _constants().DebuggerMode.STOPPED;
-    } else if (this._debuggerMode === _constants().DebuggerMode.STARTING) {
-      return _constants().DebuggerMode.STARTING;
-    } else {
-      return _constants().DebuggerMode.RUNNING;
-    }
+    });
   }
 
   enableOrDisableBreakpoints(enable, breakpoint) {
@@ -1358,18 +1386,18 @@ class DebugService {
 
       if (this._model.getProcesses() == null || this._model.getProcesses().length === 0) {
         this._consoleDisposables.dispose();
-
-        this._updateModeAndEmit(_constants().DebuggerMode.STOPPED);
       }
 
       if (session != null && !session.isDisconnected()) {
-        this._onSessionEnd();
+        this._onSessionEnd(session);
 
         session.disconnect().catch(_utils().onUnexpectedError);
       }
 
       if (process != null) {
         this._model.removeProcess(process.getId());
+
+        this._onDebuggerModeChanged(process, _constants().DebuggerMode.STOPPED);
       }
     };
 
@@ -1380,21 +1408,33 @@ class DebugService {
       }));
       const {
         adapterType,
-        onInitializeCallback,
-        customDisposable
+        onDebugStartingCallback,
+        onDebugStartedCallback
       } = configuration;
       (0, _analytics().track)(_constants().AnalyticsEvents.DEBUGGER_START, {
         serviceName: configuration.adapterType,
         clientType: 'VSP'
       });
+      const sessionTeardownDisposables = new (_UniversalDisposable().default)();
+
+      const instanceInterface = newSession => {
+        return Object.freeze({
+          customRequest: async (request, args) => {
+            return newSession.custom(request, args);
+          },
+          observeCustomEvents: newSession.observeCustomEvents.bind(newSession)
+        });
+      };
 
       const createInitializeSession = async config => {
         const newSession = await this._createVsDebugSession(config, config.adapterExecutable || adapterExecutable, sessionId);
         process = this._model.addProcess(config, newSession);
 
-        this._emitter.emit(START_DEBUG_SESSION, config);
+        this._viewModel.setFocusedProcess(process, false);
 
-        this.focusStackFrame(null, null, process);
+        this._onDebuggerModeChanged(process, _constants().DebuggerMode.STARTING);
+
+        this._emitter.emit(START_DEBUG_SESSION, config);
 
         this._registerSessionListeners(process, newSession);
 
@@ -1411,8 +1451,14 @@ class DebugService {
           locale: 'en-us'
         });
 
-        if (onInitializeCallback != null) {
-          await onInitializeCallback(newSession);
+        if (onDebugStartingCallback != null) {
+          // Callbacks are passed IVspInstance which exposes only certain
+          // methods to them, rather than getting the full session.
+          const teardown = onDebugStartingCallback(instanceInterface(newSession));
+
+          if (teardown != null) {
+            sessionTeardownDisposables.add(teardown);
+          }
         }
 
         this._model.setExceptionBreakpoints(newSession.getCapabilities().exceptionBreakpointFilters || []);
@@ -1420,10 +1466,21 @@ class DebugService {
         return newSession;
       };
 
-      session = await createInitializeSession(configuration); // We're not awaiting launch/attach to finish because some debug adapters
+      session = await createInitializeSession(configuration);
+
+      const setRunningState = () => {
+        if (process != null) {
+          process.clearProcessStartingFlag();
+
+          this._onDebuggerModeChanged(process, _constants().DebuggerMode.RUNNING);
+
+          this._viewModel.setFocusedProcess(process, false);
+        }
+      }; // We're not awaiting launch/attach to finish because some debug adapters
       // need to do custom work for launch/attach to work (e.g. mobilejs)
 
-      this._launchOrAttachTarget(session, configuration).catch(async error => {
+
+      this._launchOrAttachTarget(session, configuration).then(() => setRunningState()).catch(async error => {
         if (configuration.debugMode === 'attach' && configuration.adapterExecutable != null && configuration.adapterExecutable.command !== 'sudo' && ( // sudo is not supported on Windows, and currently remote projects
         // are not supported on Windows, so a remote URI must be *nix.
         _os.default.platform() !== 'win32' || _nuclideUri().default.isRemote(configuration.targetUri))) {
@@ -1433,21 +1490,29 @@ class DebugService {
           atom.notifications.addWarning(`The debugger was unable to attach to the target process: ${errorMessage}. ` + 'Attempting to re-launch the debugger as root...');
           session = await createInitializeSession(configuration);
 
-          this._launchOrAttachTarget(session, configuration).catch(errorHandler);
+          this._launchOrAttachTarget(session, configuration).then(() => setRunningState()).catch(errorHandler);
         } else {
           errorHandler(error);
         }
-      }); // make sure to add the configuration.customDisposable to dispose on
-      //   session end
+      });
 
+      if (onDebugStartedCallback != null && session != null) {
+        const teardown = onDebugStartedCallback(instanceInterface(session));
 
-      if (customDisposable != null) {
-        customDisposable.add(this.viewModel.onDidFocusProcess(() => {
-          if (!this.getModel().getProcesses().includes(process)) {
-            customDisposable.dispose();
-          }
-        }));
+        if (teardown != null) {
+          sessionTeardownDisposables.add(teardown);
+        }
       }
+
+      this._sessionEndDisposables.add(() => {
+        this._model.onDidChangeProcesses(() => {
+          if (!this.getModel().getProcesses().includes(process)) {
+            sessionTeardownDisposables.dispose();
+          }
+        });
+      });
+
+      this._sessionEndDisposables.add(sessionTeardownDisposables);
 
       return process;
     } catch (error) {
@@ -1508,13 +1573,13 @@ class DebugService {
     this._model.sourceIsNotAvailable(uri);
   }
 
-  async restartProcess() {
+  canRestartProcess() {
     const process = this._getCurrentProcess();
 
-    if (process == null) {
-      return;
-    }
+    return process != null && process.configuration.isRestartable === true;
+  }
 
+  async restartProcess(process) {
     if (process.session.capabilities.supportsRestartRequest) {
       await process.session.custom('restart', null);
     }
@@ -1532,15 +1597,16 @@ class DebugService {
 
   async startDebugging(config) {
     this._timer = (0, _analytics().startTracking)('debugger-atom:startDebugging');
+    const currentProcess = this._viewModel.focusedProcess;
 
-    if (this._viewModel.focusedProcess != null) {
+    if (currentProcess != null) {
       // We currently support only running only one debug session at a time,
       // so stop the current debug session.
       if (_gkService != null) {
         const passesMultiGK = await _gkService.passesGK('nuclide_multitarget_debugging');
 
-        if (!passesMultiGK) {
-          this.stopProcess();
+        if (!passesMultiGK && currentProcess != null) {
+          this.stopProcess(currentProcess);
         }
 
         _gkService.passesGK('nuclide_processtree_debugging').then(passesProcessTree => {
@@ -1549,11 +1615,9 @@ class DebugService {
           }
         });
       } else {
-        this.stopProcess();
+        this.stopProcess(currentProcess);
       }
-    }
-
-    this._updateModeAndEmit(_constants().DebuggerMode.STARTING); // Open the console window if it's not already opened.
+    } // Open the console window if it's not already opened.
     // eslint-disable-next-line nuclide-internal/atom-apis
 
 
@@ -1720,7 +1784,7 @@ class DebugService {
       (0, _utils().expressionAsEvaluationResultStream)(expression, focusedProcess, focusedStackFrame, 'repl').skip(1) // Skip the first pending null value.
       .subscribe(result => {
         // Evaluate all watch expressions and fetch variables again since repl evaluation might have changed some.
-        this.focusStackFrame(this._viewModel.focusedStackFrame, this._viewModel.focusedThread, null, false);
+        this._viewModel.setFocusedStackFrame(this._viewModel.focusedStackFrame, false);
 
         if (result == null || !expression.available) {
           const message = {

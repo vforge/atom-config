@@ -48,7 +48,7 @@ class ThriftClientClass {
     this._client = client;
     this._emitter = new _events.default();
 
-    this._connection.on('end', () => {
+    this._connection.on('close', () => {
       if (this._status === 'CONNECTED') {
         this._status = 'LOST_CONNECTION';
 
@@ -66,7 +66,7 @@ class ThriftClientClass {
         throw new Error('Cannot get a closed client');
 
       case 'LOST_CONNECTION':
-        throw new Error('Cannot get a client because connection ended');
+        throw new Error('Cannot get a client because connection is closed');
 
       default:
         this._status;
@@ -84,23 +84,23 @@ class ThriftClientClass {
     this._emitter.removeAllListeners();
   }
 
-  onConnectionEnd(handler) {
+  onClientClose(handler) {
     const cb = () => {
       if (this._status === 'CLOSED_MANUALLY') {
         handler();
       }
     };
 
-    this._connection.on('end', cb);
+    this._connection.on('close', cb);
 
     return {
       unsubscribe: () => {
-        this._connection.removeListener('end', cb);
+        this._connection.removeListener('close', cb);
       }
     };
   }
 
-  onUnexpectedConnectionEnd(handler) {
+  onUnexpectedClientFailure(handler) {
     this._emitter.on('lost_connection', handler);
 
     return {

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.messages = messages;
 exports.codeActionFetcher = codeActionFetcher;
 exports.codeActionsForMessage = codeActionsForMessage;
+exports.descriptions = descriptions;
 exports.providers = providers;
 
 function Actions() {
@@ -155,7 +156,7 @@ function messages(state = new Map(), action) {
 }
 
 function codeActionFetcher(state = null, action) {
-  if (action.type === 'SET_CODE_ACTION_FETCHER') {
+  if (action.type === Actions().SET_CODE_ACTION_FETCHER) {
     return action.payload.codeActionFetcher;
   }
 
@@ -163,11 +164,23 @@ function codeActionFetcher(state = null, action) {
 }
 
 function codeActionsForMessage(state = new Map(), action) {
-  if (action.type === 'SET_CODE_ACTIONS') {
+  if (action.type === Actions().SET_CODE_ACTIONS) {
     state.forEach(codeActions => {
       codeActions.forEach(codeAction => codeAction.dispose());
     });
     return action.payload.codeActionsForMessage;
+  }
+
+  return state;
+}
+
+function descriptions(state = new Map(), action) {
+  if (action.type === Actions().SET_DESCRIPTIONS) {
+    if (!action.payload.keepDescriptions) {
+      return action.payload.descriptions;
+    }
+
+    return new Map([...state, ...action.payload.descriptions]);
   }
 
   return state;

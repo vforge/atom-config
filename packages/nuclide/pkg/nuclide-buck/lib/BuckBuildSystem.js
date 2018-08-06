@@ -5,6 +5,26 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.BuckBuildSystem = void 0;
 
+function _consumeFirstProvider() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/consumeFirstProvider"));
+
+  _consumeFirstProvider = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _passesGK() {
+  const data = _interopRequireDefault(require("../../commons-node/passesGK"));
+
+  _passesGK = function () {
+    return data;
+  };
+
+  return data;
+}
+
 var _RxMin = require("rxjs/bundles/Rx.min.js");
 
 function _nuclideUri() {
@@ -128,9 +148,20 @@ class BuckBuildSystem {
       return _RxMin.Observable.of(-1);
     }).switchMap(httpPort => {
       let socketEvents = null;
+      let buildId = null;
+      const socketStream = buckService.getWebSocketStream(buckRoot, httpPort).refCount().map(message => message) // The do() and filter() ensures that we only listen to messages
+      // for a single build.
+      .do(message => {
+        // eslint-disable-next-line eqeqeq
+        if (buildId === null) {
+          if (message.type === 'BuildStarted') {
+            buildId = message.buildId;
+          }
+        }
+      }).filter(message => message.buildId == null || buildId === message.buildId);
 
       if (httpPort > 0) {
-        socketEvents = (0, _BuckEventStream().getEventsFromSocket)(buckService.getWebSocketStream(buckRoot, httpPort).refCount()).share();
+        socketEvents = (0, _BuckEventStream().getEventsFromSocket)(socketStream).share();
       }
 
       const args = runArguments.length > 0 && (subcommand === 'run' || subcommand === 'install' || subcommand === 'test') ? buildArguments.concat(['--']).concat(runArguments) : buildArguments;
@@ -248,7 +279,17 @@ function runBuckCommand(buckService, buckRoot, buildTarget, subcommand, args, de
   const targets = splitTargets(buildTarget);
 
   if (subcommand === 'install') {
-    return buckService.installWithOutput(buckRoot, targets, args, simulator, !skipLaunchAfterInstall, debug).refCount();
+    const SENTINEL = {
+      kind: 'exit',
+      exitCode: null,
+      signal: null
+    };
+    return openExopackageTunnelIfNeeded(buckRoot, simulator).switchMap(() => {
+      return buckService.installWithOutput(buckRoot, targets, args, simulator, !skipLaunchAfterInstall, debug).refCount().concat(_RxMin.Observable.of(SENTINEL));
+    }) // We need to do this to make sure that we close the
+    // openExopackageTunnelIfNeeded observable once
+    // buckService.installWithOutput finishes so we can close the tunnel.
+    .takeWhile(value => value !== SENTINEL);
   } else if (subcommand === 'build') {
     return buckService.buildWithOutput(buckRoot, targets, args).refCount();
   } else if (subcommand === 'test') {
@@ -271,4 +312,37 @@ function getCommandStringForResolvedBuildTarget(target) {
 
 function splitTargets(buildTarget) {
   return buildTarget.trim().split(/\s+/);
+}
+
+function isOneWorldDevice(simulator) {
+  return simulator != null && /^localhost:\d+$/.test(simulator);
+}
+
+function openExopackageTunnelIfNeeded(host, simulator) {
+  // We need to create this tunnel for exopackage installations to work as
+  // buck expects this port to be open. We don't need it in the case of
+  // installing to One World though because it's handled by adbmux.
+  if (!_nuclideUri().default.isRemote(host) || isOneWorldDevice(simulator)) {
+    return _RxMin.Observable.of('ready');
+  }
+
+  return _RxMin.Observable.defer(async () => (0, _passesGK().default)('nuclide_adb_exopackage_tunnel')).mergeMap(shouldTunnel => {
+    if (!shouldTunnel) {
+      return _RxMin.Observable.of('ready');
+    } else {
+      return _RxMin.Observable.defer(async () => (0, _consumeFirstProvider().default)('nuclide.ssh-tunnel')).switchMap(service => service.openTunnels([{
+        description: 'exopackage',
+        from: {
+          host,
+          port: 2829,
+          family: 4
+        },
+        to: {
+          host: 'localhost',
+          port: 2829,
+          family: 4
+        }
+      }]));
+    }
+  });
 }

@@ -81,27 +81,7 @@ function _analytics() {
   return data;
 }
 
-function _bindObservableAsProps() {
-  const data = require("../../../../nuclide-commons-ui/bindObservableAsProps");
-
-  _bindObservableAsProps = function () {
-    return data;
-  };
-
-  return data;
-}
-
 var _RxMin = require("rxjs/bundles/Rx.min.js");
-
-function _DiagnosticsPopup() {
-  const data = require("./ui/DiagnosticsPopup");
-
-  _DiagnosticsPopup = function () {
-    return data;
-  };
-
-  return data;
-}
 
 function GroupUtils() {
   const data = _interopRequireWildcard(require("./GroupUtils"));
@@ -117,6 +97,16 @@ function _aim() {
   const data = require("./aim");
 
   _aim = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _getDiagnosticDatatip() {
+  const data = require("./getDiagnosticDatatip.js");
+
+  _getDiagnosticDatatip = function () {
     return data;
   };
 
@@ -405,18 +395,17 @@ function showPopupFor(messages, item, goToLocation, diagnosticUpdater, gutter) {
   }
 
   diagnosticUpdater.fetchCodeActions(editor, messages);
+  diagnosticUpdater.fetchDescriptions(messages);
   const popupTop = itemBottom;
-  const BoundPopup = (0, _bindObservableAsProps().bindObservableAsProps)((0, _event().observableFromSubscribeFunction)(cb => diagnosticUpdater.observeCodeActionsForMessage(cb)).map(codeActionsForMessage => ({
+  const BoundPopup = (0, _getDiagnosticDatatip().makeDatatipComponent)(messages, diagnosticUpdater, {
+    fixer: trackedFixer,
+    goToLocation: trackedGoToLocation,
     style: {
       left: gutterRight,
       top: popupTop,
       position: 'absolute'
-    },
-    messages,
-    fixer: trackedFixer,
-    goToLocation: trackedGoToLocation,
-    codeActionsForMessage
-  })), _DiagnosticsPopup().DiagnosticsPopup);
+    }
+  });
 
   _reactDom.default.render(React.createElement(BoundPopup, null), hostElement); // Check to see whether the popup is within the bounds of the TextEditor. If not, display it above
   // the glyph rather than below it.

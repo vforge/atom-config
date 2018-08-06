@@ -397,7 +397,7 @@ Object.defineProperty(module.exports, "defs", {
       location: {
         type: "source",
         fileName: "types.js",
-        line: 38
+        line: 35
       },
       name: "VSAdapterExecutableInfo",
       definition: {

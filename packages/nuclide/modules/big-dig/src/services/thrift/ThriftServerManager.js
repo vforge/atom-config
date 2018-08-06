@@ -89,29 +89,6 @@ class ThriftServerManager {
 
     this._subscription = this._transport.onMessage().map(message => (0, _util().decodeMessage)(message)).subscribe(message => this._handleMessage(message));
   }
-
-  _createSuccessResponse(port) {
-    return {
-      type: 'response',
-      success: true,
-      port
-    };
-  }
-
-  _createFailureResponse(errorMessage) {
-    return {
-      type: 'response',
-      success: false,
-      error: errorMessage
-    };
-  }
-
-  _createFailureMessage(id, errorMessage) {
-    return {
-      id,
-      payload: this._createFailureResponse(errorMessage)
-    };
-  }
   /**
    * @param message On server side, servers only deal with request messages and
    * do not expect response messages.
@@ -131,7 +108,7 @@ class ThriftServerManager {
     if (id == null || payload == null) {
       const errorMessage = 'Malformatted request message!';
 
-      this._sendMessage(this._createFailureMessage(id, errorMessage));
+      this._sendMessage(createFailureMessage(id, errorMessage));
 
       return;
     } // server does not expect response message
@@ -149,7 +126,7 @@ class ThriftServerManager {
     if (command == null || serverConfig == null) {
       const errorMessage = 'Malformatted request message!';
 
-      this._sendMessage(this._createFailureMessage(id, errorMessage));
+      this._sendMessage(createFailureMessage(id, errorMessage));
 
       return;
     }
@@ -190,7 +167,7 @@ class ThriftServerManager {
         refCount: refCount + 1
       });
 
-      messagePayload = this._createSuccessResponse(String(server.getPort()));
+      messagePayload = createSuccessResponse(String(server.getPort()));
     } else {
       try {
         const server = await (0, _createThriftServer().createThriftServer)(serverConfig);
@@ -200,9 +177,9 @@ class ThriftServerManager {
           server
         });
 
-        messagePayload = this._createSuccessResponse(String(server.getPort()));
+        messagePayload = createSuccessResponse(String(server.getPort()));
       } catch (error) {
-        messagePayload = this._createFailureResponse('Failed to create server');
+        messagePayload = createFailureResponse('Failed to create server');
 
         this._logger.error('Failed to create server ', error);
       }
@@ -259,3 +236,26 @@ class ThriftServerManager {
 }
 
 exports.ThriftServerManager = ThriftServerManager;
+
+function createSuccessResponse(port) {
+  return {
+    type: 'response',
+    success: true,
+    port
+  };
+}
+
+function createFailureResponse(errorMessage) {
+  return {
+    type: 'response',
+    success: false,
+    error: errorMessage
+  };
+}
+
+function createFailureMessage(id, errorMessage) {
+  return {
+    id,
+    payload: createFailureResponse(errorMessage)
+  };
+}

@@ -277,8 +277,8 @@ class AutoGenLaunchAttachUiComponent extends React.Component {
         showThreads: threads,
         customControlButtons: [],
         threadsComponentTitle: 'Threads',
-        customDisposable: new (_UniversalDisposable().default)(),
-        processName: getProcessName(values)
+        processName: getProcessName(values),
+        isRestartable: true
       });
       (0, _DebuggerConfigSerializer().serializeDebuggerConfig)(...this._getSerializationArgs(this.props), {
         atomInputValues: Array.from(atomInputValues),

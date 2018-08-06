@@ -1,16 +1,19 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.activate = activate;
-exports.deactivate = deactivate;
-exports.provideWorkingSetsStore = provideWorkingSetsStore;
+function _createPackage() {
+  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/createPackage"));
 
-function _ProjectManager() {
-  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/ProjectManager"));
+  _createPackage = function () {
+    return data;
+  };
 
-  _ProjectManager = function () {
+  return data;
+}
+
+function _event() {
+  const data = require("../../../modules/nuclide-commons/event");
+
+  _event = function () {
     return data;
   };
 
@@ -26,6 +29,8 @@ function _UniversalDisposable() {
 
   return data;
 }
+
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
 function _nuclideAnalytics() {
   const data = require("../../nuclide-analytics");
@@ -87,6 +92,16 @@ function _constants() {
   return data;
 }
 
+function _extractDefinitionsFromProject() {
+  const data = _interopRequireDefault(require("./extractDefinitionsFromProject"));
+
+  _extractDefinitionsFromProject = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -99,8 +114,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *  strict-local
  * @format
  */
+// $FlowFB
 class Activation {
   constructor() {
+    this._projectManagers = new _RxMin.BehaviorSubject();
     this.workingSetsStore = new (_WorkingSetsStore().WorkingSetsStore)();
     this._workingSetsConfig = new (_WorkingSetsConfig().WorkingSetsConfig)();
     this._disposables = new (_UniversalDisposable().default)();
@@ -113,8 +130,8 @@ class Activation {
       this.workingSetsStore.updateUserDefinitions(definitions);
     }));
 
-    this._disposables.add(_ProjectManager().default.observeActiveProjectSpec(spec => {
-      this.workingSetsStore.updateActiveProject(spec);
+    this._disposables.add(this._projectManagers.switchMap(projectManager => projectManager == null ? _RxMin.Observable.of(null) : (0, _event().observableFromSubscribeFunction)(cb => projectManager.observeActiveProjectSpec(cb))).subscribe(spec => {
+      this.workingSetsStore.updateProjectDefinitions((0, _extractDefinitionsFromProject().default)(spec));
     }));
 
     this._disposables.add(atom.project.onDidChangePaths(() => {
@@ -128,37 +145,24 @@ class Activation {
     this._disposables.add(new (_PathsObserver().PathsObserver)(this.workingSetsStore));
   }
 
-  deactivate() {
+  dispose() {
     this._disposables.dispose();
   }
 
-}
-
-let activation = null;
-
-function activate() {
-  if (activation != null) {
-    return;
+  provideWorkingSetsStore() {
+    return this.workingSetsStore;
   }
 
-  activation = new Activation();
-}
+  consumeProjectManager(projectManager) {
+    this._projectManagers.next(projectManager);
 
-function deactivate() {
-  if (activation == null) {
-    return;
+    return new (_UniversalDisposable().default)(() => {
+      if (this._projectManagers.getValue() === projectManager) {
+        this._projectManagers.next(null);
+      }
+    });
   }
 
-  activation.deactivate();
-  activation = null;
-}
-
-function provideWorkingSetsStore() {
-  if (!activation) {
-    throw new Error('Was requested to provide service from a non-activated package');
-  }
-
-  return activation.workingSetsStore;
 }
 
 async function findInActive() {
@@ -194,3 +198,5 @@ async function findInActive() {
 
   view.pathsEditor.setText(_constants().WORKING_SET_PATH_MARKER);
 }
+
+(0, _createPackage().default)(module.exports, Activation);

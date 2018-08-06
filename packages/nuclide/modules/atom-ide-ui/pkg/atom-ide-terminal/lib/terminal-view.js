@@ -376,11 +376,7 @@ class TerminalView {
 
     this._syncFontAndFit();
 
-    const performanceDisposable = (0, _measurePerformance().default)(this._terminal); // Stop observing performance if the renderer type is no longer auto.
-
-    this._subscriptions.add(_featureConfig().default.observeAsStream(_config().RENDERER_TYPE_CONFIG).filter(value => value !== 'auto').take(1).subscribe(() => performanceDisposable.dispose()));
-
-    this._subscriptions.add(performanceDisposable);
+    this._subscriptions.add((0, _measurePerformance().default)(this._terminal));
   }
 
   _focused() {

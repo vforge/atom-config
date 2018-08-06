@@ -59,6 +59,16 @@ function _ThreadTreeNode() {
   return data;
 }
 
+function _constants() {
+  const data = require("../constants");
+
+  _constants = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -78,7 +88,7 @@ class ProcessTreeNode extends React.Component {
   constructor(props) {
     super(props);
 
-    this._handleThreadsChanged = () => {
+    this._handleFocusChanged = () => {
       this.setState(prevState => this._getState(!(this._computeIsFocused() || !prevState.isCollapsed)));
     };
 
@@ -97,7 +107,6 @@ class ProcessTreeNode extends React.Component {
 
     this.state = this._getState();
     this._disposables = new (_UniversalDisposable().default)();
-    this.handleSelect = this.handleSelect.bind(this);
   }
 
   componentDidMount() {
@@ -109,7 +118,7 @@ class ProcessTreeNode extends React.Component {
       viewModel
     } = service;
 
-    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(viewModel.onDidFocusStackFrame.bind(viewModel)), (0, _event().observableFromSubscribeFunction)(service.onDidChangeMode.bind(service))).let((0, _observable().fastDebounce)(15)).subscribe(this._handleThreadsChanged), (0, _event().observableFromSubscribeFunction)(model.onDidChangeCallStack.bind(model)).let((0, _observable().fastDebounce)(15)).subscribe(this._handleCallStackChanged));
+    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(viewModel.onDidChangeDebuggerFocus.bind(viewModel))).let((0, _observable().fastDebounce)(15)).subscribe(this._handleFocusChanged), (0, _event().observableFromSubscribeFunction)(model.onDidChangeCallStack.bind(model)).let((0, _observable().fastDebounce)(15)).subscribe(this._handleCallStackChanged), (0, _event().observableFromSubscribeFunction)(service.onDidChangeProcessMode.bind(service)).subscribe(() => this.setState(prevState => this._getState(prevState.isCollapsed))));
   }
 
   componentWillUnmount() {
@@ -132,11 +141,14 @@ class ProcessTreeNode extends React.Component {
 
     const isFocused = this._computeIsFocused();
 
+    const pendingStart = process.debuggerMode === _constants().DebuggerMode.STARTING;
+
     const isCollapsed = shouldBeCollapsed != null ? shouldBeCollapsed : !isFocused;
     return {
       isFocused,
       threads: process.getAllThreads(),
-      isCollapsed
+      isCollapsed,
+      pendingStart
     };
   }
 
@@ -154,15 +166,17 @@ class ProcessTreeNode extends React.Component {
     const tooltipTitle = service.viewModel.focusedProcess == null || service.viewModel.focusedProcess.configuration.adapterExecutable == null ? 'Unknown Command' : service.viewModel.focusedProcess.configuration.adapterExecutable.command + service.viewModel.focusedProcess.configuration.adapterExecutable.args.join(' ');
 
     const handleTitleClick = event => {
-      service.focusStackFrame(null, null, process, true);
-      event.stopPropagation();
+      if (!this._computeIsFocused()) {
+        service.viewModel.setFocusedProcess(process, true);
+        event.stopPropagation();
+      }
     };
 
     const formattedTitle = React.createElement("span", {
       onClick: handleTitleClick,
       className: isFocused ? 'debugger-tree-process-thread-selected' : '',
       title: tooltipTitle
-    }, title);
+    }, title, this.state.pendingStart ? ' (starting...)' : '');
     return threads.length === 0 ? React.createElement(_Tree().TreeItem, null, formattedTitle) : React.createElement(_Tree().NestedTreeItem, {
       title: formattedTitle,
       collapsed: isCollapsed,

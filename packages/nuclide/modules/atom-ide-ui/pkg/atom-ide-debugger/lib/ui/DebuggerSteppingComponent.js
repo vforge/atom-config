@@ -178,11 +178,8 @@ class DebuggerSteppingComponent extends React.Component {
     };
 
     this._disposables = new (_UniversalDisposable().default)();
-    const {
-      service
-    } = props;
     this.state = {
-      debuggerMode: service.getDebuggerMode(),
+      debuggerMode: _constants().DebuggerMode.STOPPED,
       waitingForPause: false,
       customControlButtons: []
     };
@@ -194,11 +191,14 @@ class DebuggerSteppingComponent extends React.Component {
     } = this.props;
     const model = service.getModel();
 
-    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(service.onDidChangeMode.bind(service)), (0, _event().observableFromSubscribeFunction)(model.onDidChangeCallStack.bind(model)), (0, _event().observableFromSubscribeFunction)(service.viewModel.onDidFocusStackFrame.bind(service.viewModel))).startWith(null).let((0, _observable().fastDebounce)(10)).subscribe(() => {
-      const debuggerMode = service.getDebuggerMode();
+    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(service.onDidChangeProcessMode.bind(service)), (0, _event().observableFromSubscribeFunction)(model.onDidChangeCallStack.bind(model)), (0, _event().observableFromSubscribeFunction)(service.viewModel.onDidChangeDebuggerFocus.bind(service.viewModel))).startWith(null).let((0, _observable().fastDebounce)(10)).subscribe(() => {
+      const {
+        viewModel
+      } = this.props.service;
       const {
         focusedProcess
-      } = service.viewModel;
+      } = viewModel;
+      const debuggerMode = focusedProcess == null ? _constants().DebuggerMode.STOPPED : focusedProcess.debuggerMode;
       this.setState({
         debuggerMode,
         customControlButtons: focusedProcess == null ? [] : focusedProcess.configuration.customControlButtons || []
@@ -245,6 +245,7 @@ class DebuggerSteppingComponent extends React.Component {
       service
     } = this.props;
     const {
+      focusedProcess,
       focusedThread
     } = service.viewModel;
 
@@ -260,7 +261,7 @@ class DebuggerSteppingComponent extends React.Component {
       className: "debugger-stepping-playpause-button-loading",
       size: _LoadingSpinner().LoadingSpinnerSizes.EXTRA_SMALL
     });
-    const restartDebuggerButton = debuggerMode !== _constants().DebuggerMode.STOPPED ? React.createElement(_Button().Button, {
+    const restartDebuggerButton = debuggerMode !== _constants().DebuggerMode.STOPPED && service.canRestartProcess() ? React.createElement(_Button().Button, {
       icon: "sync",
       className: "debugger-stepping-button-separated",
       disabled: isStopped,
@@ -268,7 +269,13 @@ class DebuggerSteppingComponent extends React.Component {
         title: 'Restart the debugger using the same settings as the current debug session',
         keyBindingCommand: 'debugger:restart-debugging'
       }),
-      onClick: () => service.restartProcess()
+      onClick: () => {
+        if (!(focusedProcess != null)) {
+          throw new Error("Invariant violation: \"focusedProcess != null\"");
+        }
+
+        service.restartProcess(focusedProcess);
+      }
     }) : null;
 
     const DebuggerStepButton = props => React.createElement(SVGButton, {
@@ -330,12 +337,16 @@ class DebuggerSteppingComponent extends React.Component {
       onClick: () => (0, _nullthrows().default)(focusedThread).stepOut()
     }), React.createElement(_Button().Button, {
       icon: "primitive-square",
-      disabled: isStopped,
+      disabled: isStopped || focusedProcess == null,
       tooltip: Object.assign({}, defaultTooltipOptions, {
         title: attached ? 'Detach' : 'Terminate',
         keyBindingCommand: 'debugger:stop-debugging'
       }),
-      onClick: () => service.stopProcess()
+      onClick: () => {
+        if (focusedProcess != null) {
+          service.stopProcess(focusedProcess);
+        }
+      }
     })), React.createElement(_ButtonGroup().ButtonGroup, {
       className: "debugger-stepping-buttongroup"
     }, customControlButtons.map((specification, i) => {

@@ -82,6 +82,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
+// eslint-disable-next-line nuclide-internal/modules-dependencies
 // Only one AdbProcessInfo can be active at a time. Since it ties up a forwarded
 // adb port, new instances need to wait for the previous one to clean up before
 let cleanupSubject = null;

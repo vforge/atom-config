@@ -35,6 +35,7 @@ exports.getFreeSpace = getFreeSpace;
 exports.tempdir = tempdir;
 exports.getNuclideDir = getNuclideDir;
 exports.getNuclideLogDir = getNuclideLogDir;
+exports.guessRealPath = guessRealPath;
 
 var _fs = _interopRequireDefault(require("fs"));
 
@@ -498,4 +499,8 @@ async function getNuclideDir() {
 
 async function getNuclideLogDir() {
   return (0, _nuclideLogging().getPathToLogDir)();
+}
+
+async function guessRealPath(path) {
+  return _fsPromise().default.guessRealPath(path);
 }

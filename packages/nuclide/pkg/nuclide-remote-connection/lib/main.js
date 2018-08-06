@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getBigDigClientByNuclideUri = getBigDigClientByNuclideUri;
 exports.getBuckServiceByNuclideUri = getBuckServiceByNuclideUri;
+exports.getBuckServiceByConnection = getBuckServiceByConnection;
 exports.getClangServiceByNuclideUri = getClangServiceByNuclideUri;
 exports.getCodeSearchServiceByNuclideUri = getCodeSearchServiceByNuclideUri;
 exports.getCtagsServiceByNuclideUri = getCtagsServiceByNuclideUri;
@@ -248,6 +249,10 @@ function getBigDigClientByNuclideUri(uri) {
 
 function getBuckServiceByNuclideUri(uri) {
   return (0, _nullthrows().default)((0, _serviceManager().getServiceByNuclideUri)('BuckService', uri));
+}
+
+function getBuckServiceByConnection(connection) {
+  return (0, _nullthrows().default)((0, _serviceManager().getServiceByConnection)('BuckService', connection));
 }
 
 function getClangServiceByNuclideUri(uri) {

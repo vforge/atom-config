@@ -7,6 +7,9 @@ exports.createVSCodeFsError = createVSCodeFsError;
 exports.convertToVSCodeFileStat = convertToVSCodeFileStat;
 exports.convertToVSCodeFileChangeEvents = convertToVSCodeFileChangeEvents;
 exports.convertToVSCodeFileType = convertToVSCodeFileType;
+exports.toChangeType = toChangeType;
+exports.toFileType = toFileType;
+exports.toStat = toStat;
 
 function vscode() {
   const data = _interopRequireWildcard(require("vscode"));
@@ -157,4 +160,45 @@ function convertToVSCodeFileType(data) {
   }
 
   return type;
+}
+
+function toChangeType(ch) {
+  switch (ch) {
+    case 'a':
+      return vscode().FileChangeType.Created;
+
+    case 'd':
+      return vscode().FileChangeType.Deleted;
+
+    case 'u':
+      return vscode().FileChangeType.Changed;
+
+    default:
+      logger.warn(`Unknown file change type ${ch}`);
+      return vscode().FileChangeType.Changed;
+  }
+}
+
+function toFileType(stat) {
+  if (stat.isFile && stat.isDirectory) {
+    logger.warn('Encountered a path that is both a file and directory.');
+  }
+
+  const flags = [stat.isFile ? vscode().FileType.File : 0, stat.isDirectory ? vscode().FileType.Directory : 0, stat.isSymlink ? vscode().FileType.SymbolicLink : 0] // eslint-disable-next-line no-bitwise
+  .reduce((acc, f) => acc | f, 0);
+  return flags;
+}
+
+function toStat(stat) {
+  const {
+    mtime,
+    ctime,
+    size
+  } = stat;
+  return {
+    mtime,
+    ctime,
+    size,
+    type: toFileType(stat)
+  };
 }

@@ -89,6 +89,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* eslint
  no-console: 0,
 */
+let passesGK = async _ => false;
+
+try {
+  const fbPassesGK = // eslint-disable-next-line nuclide-internal/modules-dependencies
+  require("../../../pkg/commons-node/passesGK");
+
+  passesGK = fbPassesGK.default;
+} catch (e) {}
+
 const MISSING_ADB_ERROR = 'MissingAdbError';
 exports.MISSING_ADB_ERROR = MISSING_ADB_ERROR;
 const VERSION_MISMATCH_ERROR = 'VersionMismatchError'; // 1. Starts adb tunneling immediately (does not care if you subscribe)
@@ -217,7 +226,7 @@ const changes = new _RxMin.Subject();
 
 function checkInToAdbmux(host) {
   return _RxMin.Observable.defer(async () => {
-    const service = await (0, _consumeFirstProvider().default)('nuclide.ssh-tunnel');
+    const [service, avoidPrecreatingExopackageTunnel] = await Promise.all([(0, _consumeFirstProvider().default)('nuclide.ssh-tunnel'), passesGK('nuclide_adb_exopackage_tunnel')]);
 
     if (!service) {
       throw new Error("Invariant violation: \"service\"");
@@ -226,36 +235,46 @@ function checkInToAdbmux(host) {
     const port = await service.getAvailableServerPort(host);
     return {
       service,
-      port
+      port,
+      avoidPrecreatingExopackageTunnel
     };
   }).switchMap(({
     service,
-    port
-  }) => service.openTunnels([{
-    description: 'adbmux',
-    from: {
-      host,
-      port,
-      family: 4
-    },
-    to: {
-      host: 'localhost',
-      port: 5037,
-      family: 4
+    port,
+    avoidPrecreatingExopackageTunnel
+  }) => {
+    const tunnels = [{
+      description: 'adbmux',
+      from: {
+        host,
+        port,
+        family: 4
+      },
+      to: {
+        host: 'localhost',
+        port: 5037,
+        family: 4
+      }
+    }];
+
+    if (!avoidPrecreatingExopackageTunnel) {
+      tunnels.push({
+        description: 'exopackage',
+        from: {
+          host,
+          port: 2829,
+          family: 4
+        },
+        to: {
+          host: 'localhost',
+          port: 2829,
+          family: 4
+        }
+      });
     }
-  }, {
-    description: 'exopackage',
-    from: {
-      host,
-      port: 2829,
-      family: 4
-    },
-    to: {
-      host: 'localhost',
-      port: 2829,
-      family: 4
-    }
-  }]).mapTo(port)).switchMap(async port => {
+
+    return service.openTunnels(tunnels).mapTo(port);
+  }).switchMap(async port => {
     const service = (0, _utils().getAdbServiceByNuclideUri)(host);
     await service.checkInMuxPort(port);
     return port;

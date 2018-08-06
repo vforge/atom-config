@@ -5,6 +5,26 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+function _AtomInput() {
+  const data = require("../../../../../nuclide-commons-ui/AtomInput");
+
+  _AtomInput = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _Button() {
+  const data = require("../../../../../nuclide-commons-ui/Button");
+
+  _Button = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _LoadingSpinner() {
   const data = require("../../../../../nuclide-commons-ui/LoadingSpinner");
 
@@ -141,11 +161,16 @@ class ThreadTreeNode extends React.Component {
     };
 
     this._handleStackFrameClick = (clickedRow, callFrameIndex) => {
-      this.props.service.focusStackFrame(clickedRow.frame, null, null, true);
+      this.props.service.viewModel.setFocusedStackFrame(clickedRow.frame, true);
     };
 
     this._expandedSubject = new _RxMin.Subject();
-    this.state = this._getInitialState();
+    this.state = {
+      isCollapsed: true,
+      stackFrames: _expected().Expect.pending(),
+      callStackLevels: 20,
+      additionalCallStackLevels: 20
+    };
     this._disposables = new (_UniversalDisposable().default)();
   }
 
@@ -156,13 +181,6 @@ class ThreadTreeNode extends React.Component {
     } = this.props;
     const focusedThread = service.viewModel.focusedThread;
     return focusedThread != null && thread.threadId === focusedThread.threadId;
-  }
-
-  _getInitialState() {
-    return {
-      isCollapsed: true,
-      stackFrames: _expected().Expect.pending()
-    };
   }
 
   _getFrames(levels) {
@@ -183,8 +201,12 @@ class ThreadTreeNode extends React.Component {
     const {
       viewModel
     } = service;
+    const changedCallStack = (0, _event().observableFromSubscribeFunction)(model.onDidChangeCallStack.bind(model)); // The React element may have subscribed to the event (call stack
+    // changed) after the event occurred.
 
-    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(viewModel.onDidFocusStackFrame.bind(viewModel)), (0, _event().observableFromSubscribeFunction)(service.onDidChangeMode.bind(service))).subscribe(() => {
+    const additionalFocusedCheck = this._threadIsFocused() ? changedCallStack.startWith(null) : changedCallStack;
+
+    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(viewModel.onDidChangeDebuggerFocus.bind(viewModel))).subscribe(() => {
       const {
         isCollapsed
       } = this.state;
@@ -192,15 +214,12 @@ class ThreadTreeNode extends React.Component {
 
       this._setCollapsed(newIsCollapsed);
     }), this._expandedSubject.asObservable().let((0, _observable().fastDebounce)(100)).switchMap(() => {
-      // Pass null for levels to _getFrames to force fetching of the
-      // entire callstack if it's not loaded, since this thread node
-      // is now expanded and the whole callstack is visible.
-      return this._getFrames(null);
+      return this._getFrames(this.state.callStackLevels);
     }).subscribe(frames => {
       this.setState({
         stackFrames: frames
       });
-    }), (0, _event().observableFromSubscribeFunction)(model.onDidChangeCallStack.bind(model)).let((0, _observable().fastDebounce)(100)).switchMap(() => {
+    }), additionalFocusedCheck.let((0, _observable().fastDebounce)(100)).switchMap(() => {
       // If this node was already collapsed, it stays collapsed
       // unless this thread just became the focused thread, in
       // which case it auto-expands. If this node was already
@@ -209,7 +228,7 @@ class ThreadTreeNode extends React.Component {
       // frame to display the stop location (if any). Otherwise, we need
       // to fetch the call stack.
 
-      return this._getFrames(newIsCollapsed ? 1 : null).switchMap(frames => _RxMin.Observable.of({
+      return this._getFrames(newIsCollapsed ? 1 : this.state.callStackLevels).switchMap(frames => _RxMin.Observable.of({
         frames,
         newIsCollapsed
       }));
@@ -278,7 +297,7 @@ class ThreadTreeNode extends React.Component {
     }];
     return React.createElement("div", {
       className: (0, _classnames().default)({
-        'debugger-container-new-disabled': service.getDebuggerMode() === _constants().DebuggerMode.RUNNING
+        'debugger-container-new-disabled': this.props.thread.process.debuggerMode === _constants().DebuggerMode.RUNNING
       })
     }, React.createElement("div", {
       className: "debugger-callstack-table-div"
@@ -299,14 +318,15 @@ class ThreadTreeNode extends React.Component {
       service
     } = this.props;
     const {
-      stackFrames
+      stackFrames,
+      isCollapsed
     } = this.state;
 
     const isFocused = this._threadIsFocused();
 
     const handleTitleClick = event => {
       if (thread.stopped) {
-        service.focusStackFrame(null, thread, null, true);
+        service.viewModel.setFocusedThread(thread, true);
       }
 
       event.stopPropagation();
@@ -318,7 +338,7 @@ class ThreadTreeNode extends React.Component {
       title: 'Thread ID: ' + thread.threadId + ', Name: ' + thread.name
     }, thread.name + (thread.stoppedDetails == null ? ' (Running)' : ' (Paused)'));
 
-    if (!stackFrames.isPending && !stackFrames.isError && stackFrames.value.length === 0) {
+    if (thread.stoppedDetails == null || !stackFrames.isPending && !stackFrames.isError && stackFrames.value.length === 0) {
       return React.createElement(_Tree().TreeItem, {
         className: "debugger-tree-no-frames"
       }, formattedTitle);
@@ -335,12 +355,60 @@ class ThreadTreeNode extends React.Component {
       className: "debugger-tree-no-frames"
     }, "Error fetching stack frames", ' ', stackFrames.isError ? stackFrames.error.toString() : null);
     const callFramesElements = stackFrames.isPending ? LOADING : stackFrames.isError ? ERROR : this._generateTable(stackFrames.value);
-    return React.createElement(_Tree().NestedTreeItem, {
+    return React.createElement("div", {
+      className: "debugger-tree-frame"
+    }, React.createElement(_Tree().NestedTreeItem, {
       title: formattedTitle,
       collapsed: this.state.isCollapsed,
       onSelect: this.handleSelectThread,
       ref: elem => this._nestedTreeItem = elem
-    }, callFramesElements);
+    }, callFramesElements), isCollapsed ? null : this._renderLoadMoreStackFrames());
+  }
+
+  _renderLoadMoreStackFrames() {
+    const {
+      thread
+    } = this.props;
+    const {
+      stackFrames,
+      callStackLevels,
+      additionalCallStackLevels
+    } = this.state;
+
+    if (!thread.additionalFramesAvailable(callStackLevels + 1)) {
+      return null;
+    }
+
+    return React.createElement("div", {
+      style: {
+        display: 'flex'
+      }
+    }, React.createElement(_Button().Button, {
+      size: _Button().ButtonSizes.EXTRA_SMALL,
+      disabled: stackFrames.isPending || stackFrames.isError,
+      onClick: () => {
+        this.setState({
+          stackFrames: _expected().Expect.pending(),
+          callStackLevels: callStackLevels + additionalCallStackLevels
+        });
+
+        this._expandedSubject.next();
+      }
+    }, "More Stack Frames"), React.createElement(_AtomInput().AtomInput, {
+      style: {
+        'flex-grow': '1'
+      },
+      placeholderText: "Number of stack frames",
+      initialValue: String(this.state.additionalCallStackLevels),
+      size: "xs",
+      onDidChange: value => {
+        if (!isNaN(parseInt(value, 10))) {
+          this.setState({
+            additionalCallStackLevels: parseInt(value, 10)
+          });
+        }
+      }
+    }), React.createElement(_AtomInput().AtomInput, null));
   }
 
 }

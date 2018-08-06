@@ -80,36 +80,43 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 // Tune the parameters for performance measurement.
 const SLOW_CANVAS_RENDER_THRESHOLD = 66; // in ms
+// Always measure a certain number of initial frames.
 
-const NUMBER_OF_FRAMES_TO_MEASURE = 20;
+const INITIAL_FRAMES_TO_MEASURE = 20; // But keep sampling after that.
+
+const FRAME_SAMPLE_RATE = 10; // Take the average of the last N frames.
+
+const FRAME_BUFFER_SIZE = INITIAL_FRAMES_TO_MEASURE;
 /**
- * Track the performance of the canvas terminal renderer and offer switching to
- * the DOM-based fallback if we detect slow rendering.
+ * Track the performance of both terminal renderers and offer switching to
+ * the DOM-based fallback if we detect slow canvas rendering.
  */
 
 function measurePerformance(terminal) {
-  // If the terminal isn't using the canvas renderer, do nothing.
-  if (terminal.getOption('rendererType') !== 'canvas') {
-    return new (_UniversalDisposable().default)();
-  } // Similar to https://github.com/Microsoft/vscode/commit/84eb4778f18215d00608ccf8fb7649e6f2cd428a
+  const rendererType = terminal.getOption('rendererType');
 
+  const rendererConfig = _featureConfig().default.get(_config().RENDERER_TYPE_CONFIG);
 
-  let frameTimes = [];
-  let evaluated = false; // $FlowIgnore: using unofficial _core interface defined in https://github.com/Microsoft/vscode/blob/master/src/typings/vscode-xterm.d.ts#L682-L706
+  let shouldPromptSlow = rendererType === 'canvas' && rendererConfig === 'auto'; // Similar to https://github.com/Microsoft/vscode/commit/84eb4778f18215d00608ccf8fb7649e6f2cd428a
+  // However, we'll use a circular buffer to continuously measure performance over time.
 
-  const textRenderLayer = terminal._core.renderer._renderLayers[0];
-  const originalOnGridChanged = textRenderLayer.onGridChanged;
+  let frameTimeBuffer = new Array(FRAME_BUFFER_SIZE).fill(0);
+  let frameTimeIndex = 0;
+  let frameTimeSum = 0;
+  let frameNumber = 0; // $FlowIgnore: using unofficial _core interface defined in https://github.com/Microsoft/vscode/blob/master/src/typings/vscode-xterm.d.ts#L682-L706
 
-  const evaluateCanvasRenderer = () => {
-    evaluated = true; // Discard first frame time as it's normal to take longer
+  const renderDebouncer = terminal._core.renderer._renderDebouncer;
+  const originalRenderCallback = renderDebouncer._callback;
 
-    frameTimes.shift();
-    const averageTime = frameTimes.reduce((p, c) => p + c) / frameTimes.length;
+  const evaluateAverage = () => {
+    const averageTime = frameTimeSum / frameTimeBuffer.length;
     (0, _analytics().track)('nuclide-terminal.render-performance', {
-      averageTime
+      averageTime,
+      type: rendererType
     });
 
-    if (averageTime > SLOW_CANVAS_RENDER_THRESHOLD) {
+    if (shouldPromptSlow && averageTime > SLOW_CANVAS_RENDER_THRESHOLD) {
+      shouldPromptSlow = false;
       const notification = atom.notifications.addWarning(`The terminal GPU-based rendering appears to be slow on your computer (average frame render time was ${averageTime.toFixed(2)}ms), do you want to use the fallback non-GPU renderer?`, {
         dismissable: true,
         buttons: [{
@@ -136,25 +143,37 @@ function measurePerformance(terminal) {
     }
   };
 
-  textRenderLayer.onGridChanged = (term, firstRow, lastRow) => {
-    const startTime = (0, _performanceNow().default)();
-    originalOnGridChanged.call(textRenderLayer, term, firstRow, lastRow);
-    frameTimes.push((0, _performanceNow().default)() - startTime);
+  renderDebouncer._callback = (start, end) => {
+    frameNumber++;
 
-    if (frameTimes.length === NUMBER_OF_FRAMES_TO_MEASURE) {
-      evaluateCanvasRenderer(); // Restore original function
-
-      textRenderLayer.onGridChanged = originalOnGridChanged;
+    if ( // Don't measure the initial frame, as it might be slow.
+    frameNumber === 1 || // Once we've measured INITIAL_FRAMES_TO_MEASURE, sample at FRAME_SAMPLE_RATE.
+    frameNumber > INITIAL_FRAMES_TO_MEASURE + 1 && frameNumber % FRAME_SAMPLE_RATE !== 0) {
+      // Note: RendererDebouncer's callback must be prebound.
+      originalRenderCallback(start, end);
+      return;
     }
+
+    const startTime = (0, _performanceNow().default)();
+    originalRenderCallback(start, end);
+    process.nextTick(() => {
+      const frameTime = (0, _performanceNow().default)() - startTime;
+      frameTimeSum += frameTime - frameTimeBuffer[frameTimeIndex];
+      frameTimeBuffer[frameTimeIndex] = frameTime;
+      frameTimeIndex++;
+
+      if (frameTimeIndex === FRAME_BUFFER_SIZE) {
+        frameTimeIndex = 0; // Note: We could evaluate more frequently, if we wanted to.
+
+        evaluateAverage();
+      }
+    });
   };
 
   return new (_UniversalDisposable().default)(() => {
-    if (!evaluated) {
-      // Restore original function if we haven't done that already.
-      textRenderLayer.onGridChanged = originalOnGridChanged;
-    } // Clear frame times because it won't be used again.
+    // Restore the original function.
+    renderDebouncer._callback = originalRenderCallback; // Clear frame times because it won't be used again.
 
-
-    frameTimes = [];
+    frameTimeBuffer = [];
   });
 }

@@ -614,6 +614,21 @@ module.exports = _client => {
     });
   };
 
+  remoteModule.guessRealPath = function (arg0) {
+    return _client.callRemoteFunction("FileSystemService/guessRealPath", "promise", _client.marshalArguments(Array.from(arguments), [{
+      name: "path",
+      type: {
+        kind: "named",
+        name: "NuclideUri"
+      }
+    }])).then(value => {
+      return _client.unmarshal(value, {
+        kind: "named",
+        name: "NuclideUri"
+      });
+    });
+  };
+
   return remoteModule;
 };
 
@@ -1839,6 +1854,37 @@ Object.defineProperty(module.exports, "defs", {
         },
         kind: "function",
         argumentTypes: [],
+        returnType: {
+          kind: "promise",
+          type: {
+            kind: "named",
+            name: "NuclideUri"
+          }
+        }
+      }
+    },
+    guessRealPath: {
+      kind: "function",
+      name: "guessRealPath",
+      location: {
+        type: "source",
+        fileName: "FileSystemService.js",
+        line: 421
+      },
+      type: {
+        location: {
+          type: "source",
+          fileName: "FileSystemService.js",
+          line: 421
+        },
+        kind: "function",
+        argumentTypes: [{
+          name: "path",
+          type: {
+            kind: "named",
+            name: "NuclideUri"
+          }
+        }],
         returnType: {
           kind: "promise",
           type: {

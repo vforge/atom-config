@@ -276,7 +276,7 @@ class DebuggerLayoutManager {
         // If the debugger is stopped, let the controls pane keep its default
         // layout to make room for the buttons and additional content. Otherwise,
         // override the layout to shrink the pane and remove extra vertical whitespace.
-        const debuggerMode = this._service.getDebuggerMode();
+        const debuggerMode = this._getFocusedProcessMode();
 
         if (debuggerMode !== _constants().DebuggerMode.STOPPED) {
           this._overridePaneInitialHeight(dockPane, newFlexScale, 250);
@@ -712,7 +712,7 @@ class DebuggerLayoutManager {
   }
 
   debuggerModeChanged() {
-    const mode = this._service.getDebuggerMode(); // Most panes disappear when the debugger is stopped, only keep
+    const mode = this._getFocusedProcessMode(); // Most panes disappear when the debugger is stopped, only keep
     // the ones that should still be shown.
 
 
@@ -737,7 +737,7 @@ class DebuggerLayoutManager {
   }
 
   _countPanesForTargetDock(dockName, defaultDockName) {
-    const mode = this._service.getDebuggerMode();
+    const mode = this._getFocusedProcessMode();
 
     return this._debuggerPanes.filter( // Filter out any panes that the user has hidden or that aren't visible
     // in the current debug mode.
@@ -819,7 +819,7 @@ class DebuggerLayoutManager {
     // debugger panes within the same dock.
 
 
-    const mode = this._service.getDebuggerMode();
+    const mode = this._getFocusedProcessMode();
 
     this._debuggerPanes.slice().sort((a, b) => {
       const aPos = a.previousLocation == null ? 0 : a.previousLocation.layoutIndex;
@@ -874,13 +874,20 @@ class DebuggerLayoutManager {
     return containerModel;
   }
 
+  _getFocusedProcessMode() {
+    const {
+      viewModel
+    } = this._service;
+    return viewModel.focusedProcess == null ? _constants().DebuggerMode.STOPPED : viewModel.focusedProcess.debuggerMode;
+  }
+
   _paneDestroyed(pane) {
     if (pane.isLifetimeView) {
       // Lifetime views are not hidden and remembered like the unimportant views.
       // This view being destroyed means the debugger is exiting completely, and
       // this view is never remembered as "hidden by the user" because it's reqiured
       // for running the debugger.
-      const mode = this._service.getDebuggerMode();
+      const mode = this._getFocusedProcessMode();
 
       if (mode === _constants().DebuggerMode.RUNNING || mode === _constants().DebuggerMode.PAUSED) {
         this._saveDebuggerPaneLocations();
@@ -888,7 +895,9 @@ class DebuggerLayoutManager {
 
       this.hideDebuggerViews(false);
 
-      this._service.stopProcess();
+      for (const process of this._service.getModel().getProcesses()) {
+        this._service.stopProcess(process);
+      }
 
       return;
     } // Views can be selectively hidden by the user while the debugger is
@@ -910,7 +919,7 @@ class DebuggerLayoutManager {
     }
 
     if (config.isEnabled == null || config.isEnabled()) {
-      const mode = this._service.getDebuggerMode();
+      const mode = this._getFocusedProcessMode();
 
       if (config.debuggerModeFilter == null || config.debuggerModeFilter(mode)) {
         if (!(config.previousLocation != null)) {

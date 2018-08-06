@@ -37,6 +37,16 @@ function _DiagnosticsMessageText() {
   return data;
 }
 
+function _DiagnosticsMessageDescription() {
+  const data = require("./DiagnosticsMessageDescription");
+
+  _DiagnosticsMessageDescription = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _DiagnosticsTraceItem() {
   const data = require("./DiagnosticsTraceItem");
 
@@ -116,6 +126,8 @@ const DiagnosticsMessage = props => {
     className: "diagnostics-popup-message"
   }, React.createElement(_DiagnosticsMessageText().DiagnosticsMessageText, {
     message: props.message
+  }), React.createElement(_DiagnosticsMessageDescription().DiagnosticsMessageDescription, {
+    description: props.description
   })), traceElements(props), props.children);
 };
 
@@ -126,6 +138,8 @@ const DiagnosticsMessageNoHeader = props => {
     className: "diagnostics-full-description-message"
   }, React.createElement(_DiagnosticsMessageText().DiagnosticsMessageText, {
     message: props.message
+  }), React.createElement(_DiagnosticsMessageDescription().DiagnosticsMessageDescription, {
+    description: props.description
   }), traceElements(props));
 };
 

@@ -75,24 +75,15 @@ class TunnelsPanelContents extends React.Component {
   }
 
   render() {
-    if (this.state.allowManualTunnels) {
-      return React.createElement("div", {
-        className: "nuclide-ssh-tunnels-panel-contents"
-      }, React.createElement(_TunnelsPanelTable().TunnelsPanelTable, {
-        tunnels: this.props.tunnels,
-        closeTunnel: this.props.closeTunnel
-      }), React.createElement(_ManualTunnelSection().default, {
-        workingDirectoryHost: this.props.workingDirectoryHost,
-        openTunnel: this.props.openTunnel
-      }));
-    } else {
-      return React.createElement("div", {
-        className: "nuclide-ssh-tunnels-panel-contents"
-      }, React.createElement(_TunnelsPanelTable().TunnelsPanelTable, {
-        tunnels: this.props.tunnels,
-        closeTunnel: this.props.closeTunnel
-      }));
-    }
+    return React.createElement("div", {
+      className: "nuclide-ssh-tunnels-panel-contents"
+    }, React.createElement(_TunnelsPanelTable().TunnelsPanelTable, {
+      tunnels: this.props.tunnels,
+      closeTunnel: this.props.closeTunnel
+    }), this.state.allowManualTunnels && React.createElement(_ManualTunnelSection().default, {
+      workingDirectoryHost: this.props.workingDirectoryHost,
+      openTunnel: this.props.openTunnel
+    }));
   }
 
 }

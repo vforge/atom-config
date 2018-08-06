@@ -278,21 +278,17 @@ class Activation {
 
     const removedHostnames = (0, _projects().observeRemovedHostnames)();
     this._disposables = new (_UniversalDisposable().default)(this._layoutManager, this._service, this._uiModel, this._breakpointManager, removedHostnames.subscribe(hostname => {
-      const debuggerProcess = this._service.viewModel.focusedProcess;
+      this._service.getModel().getProcesses().forEach(debuggerProcess => {
+        const debuggeeTargetUri = debuggerProcess.configuration.targetUri;
 
-      if (debuggerProcess == null) {
-        return; // Nothing to do if we're not debugging.
-      }
+        if (_nuclideUri().default.isLocal(debuggeeTargetUri)) {
+          return; // Nothing to do if our debug session is local.
+        }
 
-      const debuggeeTargetUri = debuggerProcess.configuration.targetUri;
-
-      if (_nuclideUri().default.isLocal(debuggeeTargetUri)) {
-        return; // Nothing to do if our debug session is local.
-      }
-
-      if (_nuclideUri().default.getHostname(debuggeeTargetUri) === hostname) {
-        this._service.stopProcess();
-      }
+        if (_nuclideUri().default.getHostname(debuggeeTargetUri) === hostname) {
+          this._service.stopProcess(debuggerProcess);
+        }
+      });
     }), this._uiModel.onConnectionsUpdated(() => {
       const newConnections = this._uiModel.getConnections();
 
@@ -588,7 +584,9 @@ class Activation {
       'debugger:hide': () => {
         this._layoutManager.hideDebuggerViews(false);
 
-        this._service.stopProcess();
+        for (const process of this._service.getModel().getProcesses()) {
+          this._service.stopProcess(process);
+        }
       }
     }), atom.commands.add('atom-workspace', 'debugger:toggle', () => {
       if (this._layoutManager.isDebuggerVisible() === true) {
@@ -596,7 +594,7 @@ class Activation {
       } else {
         atom.commands.dispatch(atom.views.getView(atom.workspace), 'debugger:show');
       }
-    }), this._service.onDidChangeMode(() => this._layoutManager.debuggerModeChanged()), atom.commands.add('atom-workspace', {
+    }), this._service.onDidChangeProcessMode(() => this._layoutManager.debuggerModeChanged()), this._service.viewModel.onDidChangeDebuggerFocus(() => this._layoutManager.debuggerModeChanged()), atom.commands.add('atom-workspace', {
       'debugger:reset-layout': () => {
         this._layoutManager.resetLayout();
       }
@@ -627,11 +625,23 @@ class Activation {
   }
 
   _stop() {
-    this._service.stopProcess();
+    const {
+      focusedProcess
+    } = this._service.viewModel;
+
+    if (focusedProcess) {
+      this._service.stopProcess(focusedProcess);
+    }
   }
 
   _restart() {
-    this._service.restartProcess();
+    const {
+      focusedProcess
+    } = this._service.viewModel;
+
+    if (focusedProcess) {
+      this._service.restartProcess(focusedProcess);
+    }
   }
 
   _stepOver() {
@@ -694,8 +704,8 @@ class Activation {
     let bp = null;
 
     if (target != null && target.dataset != null) {
-      if (target.dataset.bpid != null) {
-        const bpId = target.dataset.bpid;
+      if (target.dataset.bpId != null) {
+        const bpId = target.dataset.bpId;
         bp = this._service.getModel().getBreakpointById(bpId);
       }
 
@@ -905,20 +915,14 @@ class Activation {
 
     if (focusedThread != null) {
       let callstackText = '';
-      const subscription = focusedThread.getFullCallStack().filter(expectedStack => !expectedStack.isPending).subscribe(expectedStack => {
+      focusedThread.getFullCallStack().filter(expectedStack => !expectedStack.isPending).take(1).subscribe(expectedStack => {
         expectedStack.getOrDefault([]).forEach((item, i) => {
           const path = _nuclideUri().default.basename(item.source.uri);
 
           callstackText += `${i}\t${item.name}\t${path}:${item.range.start.row}${_os.default.EOL}`;
         });
         atom.clipboard.write(callstackText.trim());
-
-        this._disposables.remove(subscription);
-
-        subscription.unsubscribe();
       });
-
-      this._disposables.add(subscription);
     }
   }
 

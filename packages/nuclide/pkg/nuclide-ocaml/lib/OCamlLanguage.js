@@ -189,7 +189,7 @@ function createLanguageService() {
       priority: 99,
       observeEventName: 'ocaml.status.observe',
       clickEventName: 'ocaml.status.click',
-      iconMarkdown: 'ml',
+      iconMarkdown: '<div class="icon ocaml-icon" style="margin-left:5px;display:inline"/>',
       description: `__Merlin__ provides errors, autocomplete, hyperclick, and outline from OCaml/reason. [Read more...](${aboutUrl})`
     }
   };

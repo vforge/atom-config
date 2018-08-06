@@ -163,6 +163,12 @@ class BigDigServer {
   }
 
   _onHttpsRequest(request, response) {
+    // catch request's error that might be caused after request ends OK
+    // see: https://github.com/nodejs/node/issues/14102
+    request.on('error', error => {
+      this._logger.error('Received error from https request', error);
+    });
+
     const {
       pathname
     } = _url.default.parse(request.url);

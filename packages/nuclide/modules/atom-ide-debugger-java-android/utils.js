@@ -113,6 +113,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
+// eslint-disable-next-line nuclide-internal/modules-dependencies
 const NUCLIDE_DEBUGGER_DEV_GK = 'nuclide_debugger_dev';
 exports.NUCLIDE_DEBUGGER_DEV_GK = NUCLIDE_DEBUGGER_DEV_GK;
 
@@ -268,9 +269,9 @@ async function resolveConfiguration(configuration) {
 
   const resolvedTargetUri = _getResolvedTargetUri(targetUri, config);
 
-  const packageName = _getPackageName(debugMode, config);
+  const packageName = config.packageName || _getPackageName(debugMode, config);
 
-  const device = _getDevice(debugMode, config);
+  const device = config.device || _getDevice(debugMode, config);
 
   if (debugMode === 'launch') {
     const {
@@ -286,19 +287,10 @@ async function resolveConfiguration(configuration) {
   const pid = await _getPid(debugMode, config, adbServiceUri, device, packageName);
   const subscriptions = new (_UniversalDisposable().default)();
   const attachPortTargetConfig = await (0, _AndroidJavaDebuggerHelpers().getAdbAttachPortTargetInfo)(device, adbServiceUri, resolvedTargetUri, pid, subscriptions, packageName);
-  const customDisposable = configuration.customDisposable || new (_UniversalDisposable().default)();
-  customDisposable.add(subscriptions);
   const androidSdkSourcePaths = await _getAndroidSdkSourcePaths(resolvedTargetUri, adbServiceUri, device);
   const clickEvents = new _RxMin.Subject();
-
-  const onInitializeCallback = async session => {
-    customDisposable.add(...(0, _utils().getSourcePathClickSubscriptions)(resolvedTargetUri, session, clickEvents, androidSdkSourcePaths));
-  };
-
   const adapterExecutable = await (0, _utils().getJavaDebuggerHelpersServiceByNuclideUri)(resolvedTargetUri).getJavaVSAdapterExecutableInfo(false);
-
-  let processName = _getPackageName(debugMode, config); // Gets rid of path to package.
-
+  let processName = packageName; // Gets rid of path to package.
 
   const lastPeriod = processName.lastIndexOf('.');
 
@@ -312,9 +304,14 @@ async function resolveConfiguration(configuration) {
     debugMode: 'attach',
     adapterExecutable,
     customControlButtons: getCustomControlButtonsForJavaSourcePaths(clickEvents),
-    config: attachPortTargetConfig,
-    customDisposable,
-    onInitializeCallback,
+    config: Object.assign({}, attachPortTargetConfig, {
+      device,
+      packageName
+    }),
+    onDebugStartingCallback: instance => {
+      subscriptions.add(...(0, _utils().getSourcePathClickSubscriptions)(resolvedTargetUri, instance, clickEvents, androidSdkSourcePaths));
+      return subscriptions;
+    },
     processName
   });
 }

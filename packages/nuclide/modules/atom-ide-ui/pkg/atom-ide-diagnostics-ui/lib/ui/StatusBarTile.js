@@ -141,7 +141,7 @@ class StatusBarTile {
     }
 
     const item = this._item = document.createElement('div');
-    item.className = 'inline-block';
+    item.classList.add('inline-block', 'diagnostics-status-bar-item');
 
     this._render();
 

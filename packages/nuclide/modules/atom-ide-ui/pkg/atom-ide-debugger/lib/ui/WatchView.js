@@ -85,10 +85,9 @@ class WatchView extends React.PureComponent {
     } = service;
     const model = service.getModel();
     const watchExpressionChanges = (0, _event().observableFromSubscribeFunction)(model.onDidChangeWatchExpressions.bind(model));
-    const focusedProcessChanges = (0, _event().observableFromSubscribeFunction)(viewModel.onDidFocusProcess.bind(viewModel));
-    const focusedStackFrameChanges = (0, _event().observableFromSubscribeFunction)(viewModel.onDidFocusStackFrame.bind(viewModel));
+    const focusChanges = (0, _event().observableFromSubscribeFunction)(viewModel.onDidChangeDebuggerFocus.bind(viewModel));
     const expressionContextChanges = (0, _event().observableFromSubscribeFunction)(viewModel.onDidChangeExpressionContext.bind(viewModel));
-    this._watchExpressionComponentWrapped = (0, _bindObservableAsProps().bindObservableAsProps)(_RxMin.Observable.merge(watchExpressionChanges, focusedProcessChanges, focusedStackFrameChanges, expressionContextChanges).startWith(null).map(() => ({
+    this._watchExpressionComponentWrapped = (0, _bindObservableAsProps().bindObservableAsProps)(_RxMin.Observable.merge(watchExpressionChanges, focusChanges, expressionContextChanges).startWith(null).map(() => ({
       focusedProcess: viewModel.focusedProcess,
       focusedStackFrame: viewModel.focusedStackFrame,
       watchExpressions: model.getWatchExpressions()

@@ -30,15 +30,18 @@ describe('WorkingSetStore', () => {
     store.updateUserDefinitions([{
       name: '1',
       active: true,
-      uris: ['/aaa/bbb1']
+      uris: ['/aaa/bbb1'],
+      sourceType: 'user'
     }, {
       name: '2',
       active: true,
-      uris: ['/aaa/bbb2']
+      uris: ['/aaa/bbb2'],
+      sourceType: 'user'
     }, {
       name: '3',
       active: false,
-      uris: ['/aaa/bbb3']
+      uris: ['/aaa/bbb3'],
+      sourceType: 'user'
     }]);
     expect(store.getCurrent().getUris()).toEqual(['/aaa/bbb1', '/aaa/bbb2']);
   });
@@ -54,17 +57,20 @@ describe('WorkingSetStore', () => {
     const d1 = {
       name: '1',
       active: true,
-      uris: ['/aaa/bbb1/ccc']
+      uris: ['/aaa/bbb1/ccc'],
+      sourceType: 'user'
     };
     const d2 = {
       name: '2',
       active: true,
-      uris: ['/aaa/bbb2/ccc']
+      uris: ['/aaa/bbb2/ccc'],
+      sourceType: 'user'
     };
     const d3 = {
       name: '3',
       active: false,
-      uris: ['/aaa/bbb3/ccc']
+      uris: ['/aaa/bbb3/ccc'],
+      sourceType: 'user'
     };
     const store = new (_WorkingSetsStore().WorkingSetsStore)();
     store.updateUserDefinitions([d1, d2, d3]);

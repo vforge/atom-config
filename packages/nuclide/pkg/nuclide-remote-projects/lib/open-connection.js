@@ -25,16 +25,6 @@ function _showModal() {
   return data;
 }
 
-function _ProjectManager() {
-  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/ProjectManager"));
-
-  _ProjectManager = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function _connectionProfileUtils() {
   const data = require("./connection-profile-utils");
 
@@ -157,12 +147,6 @@ function createPropsStream({
     },
     onConnect: async (connection, config) => {
       onConnected(connection);
-      const project = dialogOptions && dialogOptions.project;
-
-      if (project) {
-        _ProjectManager().default.addRecentProject(project, connection.getConfig().host);
-      }
-
       (0, _connectionProfileUtils().saveConnectionConfig)(config, (0, _connectionProfileUtils().getOfficialRemoteServerCommand)());
     },
     onCancel: () => {

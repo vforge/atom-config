@@ -71,6 +71,12 @@ const OS_TYPE = {
 
 exports.OS_TYPE = OS_TYPE;
 const isRunningInTest = (0, _once().default)(() => {
+  try {
+    if (typeof jest === 'object') {
+      return true;
+    }
+  } catch (e) {}
+
   if (typeof atom === 'object') {
     return atom.inSpecMode();
   } else {

@@ -15,6 +15,16 @@ function _nuclideAdb() {
   return data;
 }
 
+function _AtomInput() {
+  const data = require("../nuclide-commons-ui/AtomInput");
+
+  _AtomInput = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _LoadingSpinner() {
   const data = require("../nuclide-commons-ui/LoadingSpinner");
 
@@ -98,74 +108,7 @@ class DeviceAndProcess extends React.Component {
   constructor(props) {
     super(props);
 
-    this._handleDeviceChange = device => {
-      const oldDevice = this.state.selectedDevice;
-
-      if (oldDevice != null && device != null && oldDevice.serial === device.serial) {
-        // Same device selected.
-        return;
-      }
-
-      if (this._javaProcessSubscription != null) {
-        this._javaProcessSubscription.unsubscribe();
-
-        this._javaProcessSubscription = null;
-      }
-
-      this.setState({
-        selectedDevice: device,
-        javaProcesses: device == null ? _expected().Expect.value([]) : _expected().Expect.pending(),
-        selectedProcess: null,
-        selectedProcessName: this.props.deserialize()
-      });
-
-      if (device != null) {
-        // If a device is selected, observe the Java processes on the device.
-        const adbService = (0, _nuclideAdb().getAdbServiceByNuclideUri)(this.props.targetUri);
-        this._javaProcessSubscription = _RxMin.Observable.interval(2000).startWith(0).switchMap(() => adbService.getJavaProcesses(device.serial).refCount()).distinctUntilChanged((a, b) => (0, _collection().arrayEqual)(a, b, (x, y) => {
-          return x.user === y.user && x.pid === y.pid && x.name === y.name;
-        })).subscribe(javaProcesses => {
-          this._javaProcessListChanged(_expected().Expect.value(javaProcesses));
-        });
-      }
-    };
-
-    this._handleSort = (sortedColumn, sortDescending) => {
-      this.setState({
-        sortedColumn,
-        sortDescending
-      });
-    };
-
-    this._sortRows = (processes, sortedColumnName, sortDescending) => {
-      if (sortedColumnName == null) {
-        return processes;
-      } // Use a numerical comparison for the pid column, string compare for all the others.
-
-
-      const compare = sortedColumnName === 'pid' ? (a, b, isAsc) => {
-        const cmp = (a || 0) - (b || 0);
-        return isAsc ? cmp : -cmp;
-      } : (a, b, isAsc) => {
-        const cmp = String(a).toLowerCase().localeCompare(String(b).toLowerCase());
-        return isAsc ? cmp : -cmp;
-      };
-
-      const getter = row => row.data[sortedColumnName];
-
-      return [...processes].sort((a, b) => {
-        return compare(getter(a), getter(b), !sortDescending);
-      });
-    };
-
-    this._handleSelectTableRow = (item, selectedIndex) => {
-      var _ref;
-
-      this.setState({
-        selectedProcess: item,
-        selectedProcessName: (_ref = item) != null ? _ref.name : _ref
-      });
-    };
+    _initialiseProps.call(this);
 
     this._disposables = new (_UniversalDisposable().default)();
     this._javaProcessSubscription = null;
@@ -176,13 +119,21 @@ class DeviceAndProcess extends React.Component {
       }
     });
 
+    let filterText = '';
+
+    try {
+      // $FlowFB
+      filterText = require("./fb-isFBProcessName").FB_PROCESS_NAME_REGEX_STRING;
+    } catch (e) {}
+
     this.state = {
       selectedDevice: null,
       javaProcesses: _expected().Expect.value([]),
       selectedProcess: null,
       selectedProcessName: null,
       sortedColumn: 'name',
-      sortDescending: false
+      sortDescending: false,
+      filterText
     };
   }
 
@@ -199,18 +150,28 @@ class DeviceAndProcess extends React.Component {
   }
 
   _javaProcessListChanged(javaProcesses) {
-    const selectedPid = this.state.selectedProcess == null ? null : this.state.selectedProcess.pid;
-    let selectedProcess = javaProcesses.getOrDefault([]).find(process => process.pid === selectedPid);
+    var _this$state$selectedP;
 
-    if (this.state.selectedProcessName != null) {
-      selectedProcess = javaProcesses.getOrDefault([]).find(process => process.name === this.state.selectedProcessName);
-    }
-
+    const selectedPid = (_this$state$selectedP = this.state.selectedProcess) === null || _this$state$selectedP === void 0 ? void 0 : _this$state$selectedP.pid;
+    const selectedProcess = javaProcesses.getOrDefault([]).find(process => this.state.selectedProcessName != null ? process.name === this.state.selectedProcessName : process.pid === selectedPid);
     this.setState({
       javaProcesses,
       selectedProcess,
-      selectedProcessName: selectedProcess == null ? null : selectedProcess.name
+      selectedProcessName: selectedProcess === null || selectedProcess === void 0 ? void 0 : selectedProcess.name
     });
+  }
+
+  _filterJavaProcesses(filterText) {
+    // Show all results if invalid regex
+    let filterRegex;
+
+    try {
+      filterRegex = new RegExp(filterText, 'i');
+    } catch (e) {
+      return this.state.javaProcesses.getOrDefault([]);
+    }
+
+    return this.state.javaProcesses.getOrDefault([]).filter(item => filterRegex.test(item.user) || filterRegex.test(item.pid) || filterRegex.test(item.name));
   }
 
   _getColumns() {
@@ -236,34 +197,34 @@ class DeviceAndProcess extends React.Component {
       size: "EXTRA_SMALL"
     }) : emptyMessage);
 
-    let shouldHighlightRow = _ => false;
-
-    try {
-      // $FlowFB
-      shouldHighlightRow = require("./fb-isFBProcessName").isFBProcessName;
-    } catch (e) {}
-
-    const processListRows = this._sortRows(this.state.javaProcesses.getOrDefault([]).map(processRow => {
+    const processListRows = this._sortRows(this._filterJavaProcesses(this.state.filterText).map(processRow => {
       const data = {
         pid: processRow.pid,
         user: processRow.user,
         name: processRow.name
       };
-      const highlightRow = shouldHighlightRow(processRow.name);
       return {
-        data,
-        className: highlightRow ? 'device-and-process-table-highlight-row' : undefined
+        data
       };
     }), this.state.sortedColumn, this.state.sortDescending);
 
-    const selectedRows = this.state.selectedProcess == null ? [] : processListRows.filter(row => this.state.selectedProcess == null || row.data.pid === this.state.selectedProcess.pid && row.data.name === this.state.selectedProcess.name);
-    const selectedRowIndex = selectedRows.length === 1 ? processListRows.indexOf(selectedRows[0]) : -1;
+    const selectedRowIndex = processListRows.findIndex(row => {
+      var _this$state$selectedP2, _this$state$selectedP3;
+
+      return row.data.pid === ((_this$state$selectedP2 = this.state.selectedProcess) === null || _this$state$selectedP2 === void 0 ? void 0 : _this$state$selectedP2.pid) && row.data.name === ((_this$state$selectedP3 = this.state.selectedProcess) === null || _this$state$selectedP3 === void 0 ? void 0 : _this$state$selectedP3.name);
+    });
     return React.createElement("div", {
       className: "block"
     }, React.createElement("label", null, "Device:"), React.createElement(_AdbDeviceSelector().AdbDeviceSelector, {
       onChange: this._handleDeviceChange,
       targetUri: this.props.targetUri
-    }), React.createElement("label", null, "Debuggable Java processes: "), React.createElement(_Table().Table, {
+    }), React.createElement("label", null, "Debuggable Java processes: "), React.createElement(_AtomInput().AtomInput, {
+      placeholderText: "Search with regular expression...",
+      value: this.state.filterText,
+      onDidChange: this._handleFilterTextChange,
+      size: "sm",
+      autofocus: true
+    }), React.createElement(_Table().Table, {
       collapsable: false,
       columns: this._getColumns(),
       emptyComponent: emptyComponent,
@@ -283,3 +244,102 @@ class DeviceAndProcess extends React.Component {
 }
 
 exports.DeviceAndProcess = DeviceAndProcess;
+
+var _initialiseProps = function () {
+  this._handleDeviceChange = device => {
+    const oldDevice = this.state.selectedDevice;
+
+    if (oldDevice != null && device != null && oldDevice.serial === device.serial) {
+      // Same device selected.
+      return;
+    }
+
+    if (this._javaProcessSubscription != null) {
+      this._javaProcessSubscription.unsubscribe();
+
+      this._javaProcessSubscription = null;
+    }
+
+    this.setState({
+      selectedDevice: device,
+      javaProcesses: device == null ? _expected().Expect.value([]) : _expected().Expect.pending(),
+      selectedProcess: null,
+      selectedProcessName: this.props.deserialize()
+    }, () => {
+      if (device != null) {
+        // If a device is selected, observe the Java processes on the device.
+        const adbService = (0, _nuclideAdb().getAdbServiceByNuclideUri)(this.props.targetUri);
+        this._javaProcessSubscription = _RxMin.Observable.interval(2000).startWith(0).switchMap(() => adbService.getJavaProcesses(device.serial).refCount()).distinctUntilChanged((a, b) => (0, _collection().arrayEqual)(a, b, (x, y) => {
+          return x.user === y.user && x.pid === y.pid && x.name === y.name;
+        })).subscribe(javaProcesses => {
+          this._javaProcessListChanged(_expected().Expect.value(javaProcesses));
+        });
+      }
+    });
+  };
+
+  this._handleFilterTextChange = filterText => {
+    // Check if we've filtered down to one option and select if so
+    const filteredProcesses = this._filterJavaProcesses(filterText); // TODO: (goom) this setState depends on current state
+    // and should use an updater function rather than an object
+    // eslint-disable-next-line react/no-access-state-in-setstate
+
+
+    let selectedProcess = this.state.selectedProcess;
+
+    if (filteredProcesses.length === 1) {
+      // Check if we've filtered down to one option and select if so
+      selectedProcess = filteredProcesses[0];
+    } else if (filteredProcesses.findIndex(processRow => {
+      var _selectedProcess;
+
+      return ((_selectedProcess = selectedProcess) === null || _selectedProcess === void 0 ? void 0 : _selectedProcess.pid) === processRow.pid;
+    }) === -1) {
+      // If we filter out our current selection,
+      //   set our current selection to null
+      selectedProcess = null;
+    }
+
+    this.setState({
+      filterText,
+      selectedProcess
+    });
+  };
+
+  this._handleSort = (sortedColumn, sortDescending) => {
+    this.setState({
+      sortedColumn,
+      sortDescending
+    });
+  };
+
+  this._sortRows = (processes, sortedColumnName, sortDescending) => {
+    if (sortedColumnName == null) {
+      return processes;
+    } // Use a numerical comparison for the pid column, string compare for all the others.
+
+
+    const compare = sortedColumnName === 'pid' ? (a, b, isAsc) => {
+      const cmp = (a || 0) - (b || 0);
+      return isAsc ? cmp : -cmp;
+    } : (a, b, isAsc) => {
+      const cmp = String(a).toLowerCase().localeCompare(String(b).toLowerCase());
+      return isAsc ? cmp : -cmp;
+    };
+
+    const getter = row => row.data[sortedColumnName];
+
+    return [...processes].sort((a, b) => {
+      return compare(getter(a), getter(b), !sortDescending);
+    });
+  };
+
+  this._handleSelectTableRow = (item, selectedIndex) => {
+    var _ref;
+
+    this.setState({
+      selectedProcess: item,
+      selectedProcessName: (_ref = item) != null ? _ref.name : _ref
+    });
+  };
+};

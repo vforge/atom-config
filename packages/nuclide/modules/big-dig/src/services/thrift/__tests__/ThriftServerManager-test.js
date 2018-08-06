@@ -120,7 +120,7 @@ _globals().jest.mock(require.resolve("../createThriftServer"));
     _globals().jest.resetAllMocks();
   });
   (0, _globals().it)('successfully start server', async () => {
-    const responseMessage = {
+    const expectedResponse = {
       id: '1',
       payload: {
         type: 'response',
@@ -131,13 +131,13 @@ _globals().jest.mock(require.resolve("../createThriftServer"));
     const responsePromise = serverMessage.take(1).toPromise();
     clientMessage.next((0, _util().encodeMessage)(startServerMessage));
     const response = (0, _util().decodeMessage)((await responsePromise));
-    (0, _globals().expect)(response).toEqual(responseMessage);
+    (0, _globals().expect)(response).toEqual(expectedResponse);
   });
   (0, _globals().it)('responses fail for malformatted message', async () => {
     const malformattedMessage = {
       id: '1'
     };
-    const responseMessage = {
+    const expectedResponse = {
       id: '1',
       payload: {
         type: 'response',
@@ -148,7 +148,7 @@ _globals().jest.mock(require.resolve("../createThriftServer"));
     const responsePromise = serverMessage.take(1).toPromise();
     clientMessage.next(JSON.stringify(malformattedMessage));
     const response = (0, _util().decodeMessage)((await responsePromise));
-    (0, _globals().expect)(response).toEqual(responseMessage);
+    (0, _globals().expect)(response).toEqual(expectedResponse);
   });
   (0, _globals().it)('responses fail for malformatted message payload', async () => {
     const malformattedMessage = {
@@ -157,7 +157,7 @@ _globals().jest.mock(require.resolve("../createThriftServer"));
         type: 'request'
       }
     };
-    const responseMessage = {
+    const expectedResponse = {
       id: '1',
       payload: {
         type: 'response',
@@ -168,10 +168,10 @@ _globals().jest.mock(require.resolve("../createThriftServer"));
     const responsePromise = serverMessage.take(1).toPromise();
     clientMessage.next(JSON.stringify(malformattedMessage));
     const response = (0, _util().decodeMessage)((await responsePromise));
-    (0, _globals().expect)(response).toEqual(responseMessage);
+    (0, _globals().expect)(response).toEqual(expectedResponse);
   });
   (0, _globals().it)('responses fail when server failed to start', async () => {
-    const responseMessage = {
+    const expectedResponse = {
       id: '1',
       payload: {
         type: 'response',
@@ -185,7 +185,7 @@ _globals().jest.mock(require.resolve("../createThriftServer"));
     const responsePromise = serverMessage.take(1).toPromise();
     clientMessage.next((0, _util().encodeMessage)(startServerMessage));
     const response = (0, _util().decodeMessage)((await responsePromise));
-    (0, _globals().expect)(response).toEqual(responseMessage);
+    (0, _globals().expect)(response).toEqual(expectedResponse);
   });
   (0, _globals().it)('successfully close server', async () => {
     const closeServerMessage = {
@@ -196,7 +196,7 @@ _globals().jest.mock(require.resolve("../createThriftServer"));
         serverConfig
       }
     };
-    const responseMessage = {
+    const expectedResponse = {
       id: '2',
       payload: {
         type: 'response',
@@ -209,7 +209,7 @@ _globals().jest.mock(require.resolve("../createThriftServer"));
     const secondResponsePromise = serverMessage.take(1).toPromise();
     clientMessage.next((0, _util().encodeMessage)(closeServerMessage));
     const response = (0, _util().decodeMessage)((await secondResponsePromise));
-    (0, _globals().expect)(response).toEqual(responseMessage);
+    (0, _globals().expect)(response).toEqual(expectedResponse);
     (0, _globals().expect)(mockCloseServerFn).toHaveBeenCalled();
   });
   (0, _globals().it)('reuse existing server', async () => {

@@ -99,47 +99,6 @@ function parseLocationParameter(value) {
     column
   };
 }
-/**
- * Attempts to resolve the physical path of the filename (if it's local).
- * Sometimes filePath may not exist yet, in which case we need to look upwards
- * for the first prefix that actually does exist.
- */
-
-
-async function getRealPath(filePath) {
-  if (_nuclideUri().default.isRemote(filePath)) {
-    return filePath;
-  }
-
-  const resolved = _nuclideUri().default.resolve(filePath);
-
-  let prefix = resolved;
-  let suffix = null;
-
-  while (true) {
-    try {
-      // eslint-disable-next-line no-await-in-loop
-      const realpath = await _fsPromise().default.realpath(prefix);
-      return suffix == null ? realpath : _nuclideUri().default.join(realpath, suffix);
-    } catch (err) {
-      if (err.code !== 'ENOENT') {
-        throw err;
-      }
-
-      const basename = _nuclideUri().default.basename(prefix);
-
-      if (basename === '') {
-        // We've reached the filesystem root.
-        break;
-      }
-
-      suffix = suffix == null ? basename : _nuclideUri().default.join(basename, suffix);
-      prefix = _nuclideUri().default.dirname(prefix);
-    }
-  }
-
-  return resolved;
-}
 
 async function getIsDirectory(filePath) {
   try {
@@ -182,9 +141,9 @@ async function main(argv) {
         filePath,
         line,
         column
-      } = parseLocationParameter(arg); // eslint-disable-next-line no-await-in-loop
-
-      const realpath = await getRealPath(filePath); // eslint-disable-next-line no-await-in-loop
+      } = parseLocationParameter(arg);
+      const realpath = _nuclideUri().default.isRemote(filePath) ? filePath : await _fsPromise().default.guessRealPath(filePath); // eslint-disable-line no-await-in-loop
+      // eslint-disable-next-line no-await-in-loop
 
       const isDirectory = await getIsDirectory(realpath);
 

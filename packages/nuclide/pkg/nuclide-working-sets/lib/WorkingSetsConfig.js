@@ -34,7 +34,9 @@ class WorkingSetsConfig {
     const wrapped = definitions => {
       // Got to create a deep copy, otherwise atom.config invariants might break
       const copiedDefinitions = definitions.map(def => {
-        return Object.assign({}, def);
+        return Object.assign({}, def, {
+          sourceType: 'user'
+        });
       });
       callback(copiedDefinitions);
     };
@@ -47,7 +49,12 @@ class WorkingSetsConfig {
   }
 
   setDefinitions(definitions) {
-    _featureConfig().default.set(CONFIG_KEY, definitions.filter(d => !d.isActiveProject));
+    _featureConfig().default.set(CONFIG_KEY, definitions.filter(d => d.sourceType === 'user').map(def_ => {
+      const def = Object.assign({}, def_);
+      delete def.sourceType; // No need to write this.
+
+      return def;
+    }));
   }
 
 }

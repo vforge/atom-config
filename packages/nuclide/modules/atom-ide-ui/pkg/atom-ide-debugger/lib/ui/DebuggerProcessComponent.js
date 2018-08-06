@@ -47,8 +47,6 @@ function _observable() {
   return data;
 }
 
-var _RxMin = require("rxjs/bundles/Rx.min.js");
-
 function _ProcessTreeNode() {
   const data = _interopRequireDefault(require("./ProcessTreeNode"));
 
@@ -77,35 +75,27 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 class DebuggerProcessComponent extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this._handleThreadsChanged = () => {
-      this.setState(this._getState());
-    };
-
-    this.state = this._getState();
     this._disposables = new (_UniversalDisposable().default)();
+    this.state = {
+      processList: this.props.service.getModel().getProcesses()
+    };
   }
 
   componentDidMount() {
     const {
       service
     } = this.props;
-    const {
-      viewModel
-    } = service;
     const model = service.getModel();
 
-    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(viewModel.onDidFocusStackFrame.bind(viewModel)), (0, _event().observableFromSubscribeFunction)(model.onDidChangeCallStack.bind(model)), (0, _event().observableFromSubscribeFunction)(service.onDidChangeMode.bind(service))).let((0, _observable().fastDebounce)(150)).subscribe(this._handleThreadsChanged));
+    this._disposables.add((0, _event().observableFromSubscribeFunction)(model.onDidChangeProcesses.bind(model)).let((0, _observable().fastDebounce)(150)).subscribe(() => {
+      this.setState({
+        processList: model.getProcesses()
+      });
+    }));
   }
 
   componentWillUnmount() {
     this._disposables.dispose();
-  }
-
-  _getState() {
-    return {
-      processList: this.props.service.getModel().getProcesses()
-    };
   }
 
   render() {
@@ -122,7 +112,7 @@ class DebuggerProcessComponent extends React.PureComponent {
       } = process.configuration;
       return process == null ? 'No processes are currently being debugged' : React.createElement(_ProcessTreeNode().default, {
         title: processName != null ? processName : adapterType,
-        key: processIndex,
+        key: process.getId(),
         childItems: process.getAllThreads(),
         process: process,
         service: service

@@ -5,15 +5,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.RemoteConnection = void 0;
 
-function _ProjectManager() {
-  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/ProjectManager"));
+function _event() {
+  const data = require("../../../modules/nuclide-commons/event");
 
-  _ProjectManager = function () {
+  _event = function () {
     return data;
   };
 
   return data;
 }
+
+var _RxMin = require("rxjs/bundles/Rx.min.js");
 
 function _UniversalDisposable() {
   const data = _interopRequireDefault(require("../../../modules/nuclide-commons/UniversalDisposable"));
@@ -97,6 +99,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 
  * @format
  */
+// $FlowFB
 const logger = (0, _log4js().getLogger)('nuclide-remote-connection');
 const FILE_WATCHER_SERVICE = 'FileWatcherService';
 const FILE_SYSTEM_SERVICE = 'FileSystemService';
@@ -120,14 +123,24 @@ class RemoteConnection {
 
     try {
       const fsService = serverConnection.getService(FILE_SYSTEM_SERVICE);
-      const realPath = await fsService.resolveRealPath(path);
 
       if (hasAtomProjectFormat(path)) {
-        await _ProjectManager().default.open(serverConnection.getUriOfRemotePath(realPath)); // $FlowFixMe: Upstream this and add to our type defs
+        // IMPORTANT: We have to be careful not to assume the existence of the project file in this
+        // code path (e.g. by using `realpath()`) so that the project manager can provide a fallback
+        // for nonexistent files.
+        const projectManager = await getProjectManager();
+
+        if (projectManager == null) {
+          throw new Error("You tried to load a project but the nuclide.project-manager service wasn't available.");
+        }
+
+        const expandedPath = await fsService.expandHomeDir(path);
+        await projectManager.open(serverConnection.getUriOfRemotePath(expandedPath)); // $FlowFixMe: Upstream this and add to our type defs
 
         roots = atom.project.getSpecification().paths;
       } else {
-        // Now that we know the real path, it's possible this collides with an existing connection.
+        const realPath = await fsService.resolveRealPath(path); // Now that we know the real path, it's possible this collides with an existing connection.
+
         if (realPath !== path && _nuclideUri().default.isRemote(path)) {
           const existingConnection = this.getByHostnameAndPath(_nuclideUri().default.getHostname(path), realPath);
 
@@ -438,4 +451,8 @@ function hasAtomProjectFormat(filepath) {
   const ext = _nuclideUri().default.extname(filepath);
 
   return ext === '.json' || ext === '.cson' || ext === '.toml';
+}
+
+function getProjectManager() {
+  return (0, _event().observableFromSubscribeFunction)(cb => atom.packages.serviceHub.consume('nuclide.project-manager', '0.0.0', cb)).take(1).timeoutWith(100, _RxMin.Observable.of(null)).toPromise();
 }

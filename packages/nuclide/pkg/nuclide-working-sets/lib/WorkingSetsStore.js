@@ -27,16 +27,6 @@ function _memoizeUntilChanged() {
   return data;
 }
 
-function _shallowequal() {
-  const data = _interopRequireDefault(require("shallowequal"));
-
-  _shallowequal = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function _nuclideWorkingSetsCommon() {
   const data = require("../../nuclide-working-sets-common");
 
@@ -87,18 +77,6 @@ function _nuclideUri() {
   return data;
 }
 
-function ProjectUtils() {
-  const data = _interopRequireWildcard(require("../../../modules/nuclide-commons-atom/ProjectUtils"));
-
-  ProjectUtils = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -117,6 +95,8 @@ const SAVE_DEFINITIONS_EVENT = 'save-definitions';
 
 class WorkingSetsStore {
   constructor() {
+    this._userDefinitions = [];
+    this._projectDefinitions = [];
     this._groupByApplicability = (0, _memoizeUntilChanged().default)(groupByApplicability, definitions => ({
       definitions,
       // Atom just keeps modifying the same array so we need to make a copy here if we want to
@@ -125,14 +105,13 @@ class WorkingSetsStore {
     }), (a, b) => (0, _collection().arrayEqual)(a.definitions, b.definitions) && (0, _collection().arrayEqual)(a.projectRoots, b.projectRoots));
     this._emitter = new _atom.Emitter();
     this._current = new (_nuclideWorkingSetsCommon().WorkingSet)();
-    this._userDefinitions = [];
     this._prevApplicability = {
       applicable: [],
       notApplicable: []
     };
     this._lastSelected = []; // Don't recompute definitions unless one of the properties it's derived from changes.
 
-    this.getDefinitions = (0, _memoizeUntilChanged().default)(this.getDefinitions, () => [this._userDefinitions, this._activeProjectDefinition]);
+    this.getDefinitions = (0, _memoizeUntilChanged().default)(this.getDefinitions, () => [this._userDefinitions, this._projectDefinitions]);
   }
 
   getCurrent() {
@@ -140,13 +119,7 @@ class WorkingSetsStore {
   }
 
   getDefinitions() {
-    const definitions = this._userDefinitions.slice();
-
-    if (this._activeProjectDefinition != null) {
-      definitions.push(this._activeProjectDefinition);
-    }
-
-    return definitions;
+    return [...this._userDefinitions, ...this._projectDefinitions];
   }
 
   getApplicableDefinitions() {
@@ -174,25 +147,15 @@ class WorkingSetsStore {
       return;
     }
 
-    const nextDefinitions = this.getDefinitions().filter(d => d.isActiveProject).concat(...definitions);
-
-    this._updateDefinitions(nextDefinitions);
+    this._updateDefinitions([...this._projectDefinitions, ...definitions]);
   }
 
-  updateActiveProject(spec) {
-    const definition = getProjectWorkingSetDefinition(spec);
-
-    if ((0, _shallowequal().default)(definition, this._activeProjectDefinition)) {
+  updateProjectDefinitions(definitions) {
+    if ((0, _collection().arrayEqual)(this._projectDefinitions, definitions)) {
       return;
     }
 
-    const nextDefinitions = this.getDefinitions().filter(d => !d.isActiveProject);
-
-    if (definition != null) {
-      nextDefinitions.push(definition);
-    }
-
-    this._updateDefinitions(nextDefinitions);
+    this._updateDefinitions([...this._userDefinitions, ...definitions]);
   }
 
   updateApplicability() {
@@ -260,7 +223,7 @@ class WorkingSetsStore {
     (0, _nuclideAnalytics().track)('working-sets-delete', {
       name
     });
-    const definitions = this.getDefinitions().filter(d => d.name !== name || d.isActiveProject);
+    const definitions = this.getDefinitions().filter(d => d.name !== name || d.sourceType === 'project');
 
     this._updateDefinitions(definitions);
   }
@@ -290,7 +253,8 @@ class WorkingSetsStore {
         name,
         uris: workingSet.getUris(),
         active: false,
-        originURLs
+        originURLs,
+        sourceType: 'user'
       });
     } else {
       (0, _nuclideAnalytics().track)('working-sets-update', {
@@ -299,13 +263,12 @@ class WorkingSetsStore {
         uris: workingSet.getUris().join(','),
         originURLs: originURLs.join(',')
       });
-      const active = definitions[nameIndex].active;
-      newDefinitions = [].concat(definitions.slice(0, nameIndex), {
+      const definition = definitions[nameIndex];
+      newDefinitions = [].concat(definitions.slice(0, nameIndex), Object.assign({}, definition, {
         name: newName,
         uris: workingSet.getUris(),
-        active,
         originURLs
-      }, definitions.slice(nameIndex + 1));
+      }), definitions.slice(nameIndex + 1));
     }
 
     this._updateDefinitions(newDefinitions);
@@ -353,18 +316,15 @@ class WorkingSetsStore {
       this._updateDefinitions(newDefinitions);
     }
   } // Update the working set definitions. All updates should go through this method! In other words,
-  // this should be the only place where `_userDefinitions` and `_activeProjectDefinition` are
-  // changed.
+  // this should be the only place where `_userDefinitions` and `_projectDefinitions` are changed.
 
 
   _updateDefinitions(definitions) {
-    var _ref;
-
     const {
       userDefinitions,
-      activeProject
-    } = (0, _groupBy2().default)(definitions, d => d.isActiveProject ? 'activeProject' : 'userDefinitions');
-    this._activeProjectDefinition = (_ref = activeProject) != null ? _ref[0] : _ref;
+      projectDefinitions
+    } = (0, _groupBy2().default)(definitions, d => d.sourceType === 'project' ? 'projectDefinitions' : 'userDefinitions');
+    this._projectDefinitions = projectDefinitions || [];
     this._userDefinitions = userDefinitions || [];
 
     this._emitter.emit(SAVE_DEFINITIONS_EVENT, this.getDefinitions());
@@ -425,30 +385,6 @@ function isApplicable(definition) {
     }
   });
   return dirs.some(dir => workingSet.containsDir(dir.getPath()));
-} // Given a project specification, create a corresponding working set definition.
-
-
-function getProjectWorkingSetDefinition(spec) {
-  if (spec == null) {
-    return null;
-  } // `_paths` is a special key. Normally, `paths` contains an Array of paths but, because we
-  // want to mount the repository root instead and just filter to the paths using working sets,
-  // we preprocess the spec, set `paths` to the vcs root and put the previous values in
-  // `_paths`.
-
-
-  const paths = spec._paths;
-
-  if (!Array.isArray(paths)) {
-    return null;
-  }
-
-  return {
-    name: ProjectUtils().getLabelFromPath(spec.originPath),
-    active: true,
-    isActiveProject: true,
-    uris: paths
-  };
 }
 
 function repositoryForDirectorySync(dir) {

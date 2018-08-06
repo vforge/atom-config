@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118417-68972-13tsibo.e28oscerk9/package.tgz",
+        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11876-3410-lkxda5.ezmb6e0zfr/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118417-68972-13tsibo.e28oscerk9/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118417-68972-13tsibo.e28oscerk9/package.tgz",
+        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11876-3410-lkxda5.ezmb6e0zfr/package.tgz",
+        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11876-3410-lkxda5.ezmb6e0zfr/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118417-68972-gbwic0.t4st273nmi"
+      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11876-3410-1bbqdj9.ookfn7b9"
     ]
   ],
-  "_from": "../d-118417-68972-13tsibo.e28oscerk9/package.tgz",
-  "_id": "language-blade@0.40.0",
+  "_from": "../d-11876-3410-lkxda5.ezmb6e0zfr/package.tgz",
+  "_id": "language-blade@0.41.1",
   "_inCache": true,
   "_location": "/language-blade",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118417-68972-13tsibo.e28oscerk9/package.tgz",
+    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11876-3410-lkxda5.ezmb6e0zfr/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118417-68972-13tsibo.e28oscerk9/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118417-68972-13tsibo.e28oscerk9/package.tgz",
+    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11876-3410-lkxda5.ezmb6e0zfr/package.tgz",
+    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11876-3410-lkxda5.ezmb6e0zfr/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118417-68972-13tsibo.e28oscerk9/package.tgz",
-  "_shasum": "98f579526dc57840c322ffc94dd7eb640dd4bf84",
+  "_resolved": "file:../d-11876-3410-lkxda5.ezmb6e0zfr/package.tgz",
+  "_shasum": "baa65c4780de1ae195680a6fcd37296757a3cc54",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118417-68972-13tsibo.e28oscerk9/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118417-68972-gbwic0.t4st273nmi",
+  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-11876-3410-lkxda5.ezmb6e0zfr/package.tgz",
+  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-11876-3410-1bbqdj9.ookfn7b9",
   "bugs": {
     "url": "https://github.com/jawee/language-blade/issues"
   },
@@ -55,5 +55,5 @@
     "type": "git",
     "url": "git+https://github.com/jawee/language-blade.git"
   },
-  "version": "0.40.0"
+  "version": "0.41.1"
 }

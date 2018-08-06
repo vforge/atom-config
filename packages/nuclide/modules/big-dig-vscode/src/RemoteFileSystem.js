@@ -212,7 +212,7 @@ class RemoteFileSystem {
   async _statPath(path) {
     const conn = await this.getConnection();
     const result = await conn.fsStat(path);
-    return toStat(result);
+    return (0, _converter().toStat)(result);
   }
 
   stat(resource) {
@@ -297,7 +297,7 @@ class RemoteFileSystem {
       const path = this.uriToPath(uri);
       const files = await conn.fsReaddir(path);
       return files.map(([file, stat]) => {
-        return [file, toFileType(stat)];
+        return [file, (0, _converter().toFileType)(stat)];
       });
     } catch (error) {
       throw (0, _converter().createVSCodeFsError)(error, uri);
@@ -358,7 +358,7 @@ class RemoteFileSystem {
 
   _onFilesChanged(basePath, changes) {
     const fileChanges = changes.map(change => ({
-      type: toChangeType(change.type),
+      type: (0, _converter().toChangeType)(change.type),
       uri: this.pathToUri(pathModule.join(basePath, change.path))
     }));
 
@@ -370,44 +370,3 @@ class RemoteFileSystem {
 }
 
 exports.RemoteFileSystem = RemoteFileSystem;
-
-function toChangeType(ch) {
-  switch (ch) {
-    case 'a':
-      return vscode().FileChangeType.Created;
-
-    case 'd':
-      return vscode().FileChangeType.Deleted;
-
-    case 'u':
-      return vscode().FileChangeType.Changed;
-
-    default:
-      logger.warn(`Unknown file change type ${ch}`);
-      return vscode().FileChangeType.Changed;
-  }
-}
-
-function toFileType(stat) {
-  if (stat.isFile && stat.isDirectory) {
-    logger.warn('Encountered a path that is both a file and directory.');
-  }
-
-  const flags = [stat.isFile ? vscode().FileType.File : 0, stat.isDirectory ? vscode().FileType.Directory : 0, stat.isSymlink ? vscode().FileType.SymbolicLink : 0] // eslint-disable-next-line no-bitwise
-  .reduce((acc, f) => acc | f, 0);
-  return flags;
-}
-
-function toStat(stat) {
-  const {
-    mtime,
-    ctime,
-    size
-  } = stat;
-  return {
-    mtime,
-    ctime,
-    size,
-    type: toFileType(stat)
-  };
-}

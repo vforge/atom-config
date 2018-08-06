@@ -361,7 +361,7 @@ async function getOrCreateRfsClientAdapter(bigDigClient) {
 
 const getOrCreateThriftClient = (0, _memoize2().default)(bigDigClient => {
   return bigDigClient.getOrCreateThriftClient(_serviceConfig().FS_SERVICE_CONIFG).then(clientWrapper => {
-    clientWrapper.onConnectionEnd(() => {
+    clientWrapper.onUnexpectedClientFailure(() => {
       getOrCreateThriftClient.cache.delete(bigDigClient);
     });
     return clientWrapper;
@@ -371,7 +371,7 @@ const getOrCreateThriftClient = (0, _memoize2().default)(bigDigClient => {
   });
 });
 const getOrCreateAdapter = (0, _memoize2().default)(clientWrapper => {
-  clientWrapper.onConnectionEnd(() => {
+  clientWrapper.onUnexpectedClientFailure(() => {
     getOrCreateAdapter.cache.delete(clientWrapper);
   });
   return new ThriftRfsClientAdapter(clientWrapper.getClient());

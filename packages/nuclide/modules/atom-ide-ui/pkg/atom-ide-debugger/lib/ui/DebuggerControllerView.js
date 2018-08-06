@@ -37,6 +37,8 @@ function _UniversalDisposable() {
   return data;
 }
 
+var _RxMin = require("rxjs/bundles/Rx.min.js");
+
 function _constants() {
   const data = require("../constants");
 
@@ -73,7 +75,7 @@ class DebuggerControllerView extends React.Component {
       service
     } = this.props;
 
-    this._disposables.add((0, _event().observableFromSubscribeFunction)(service.onDidChangeMode.bind(service)).subscribe(mode => this.forceUpdate()));
+    this._disposables.add(_RxMin.Observable.merge((0, _event().observableFromSubscribeFunction)(service.viewModel.onDidChangeDebuggerFocus.bind(service.viewModel)), (0, _event().observableFromSubscribeFunction)(service.onDidChangeProcessMode.bind(service))).subscribe(mode => this.forceUpdate()));
   }
 
   componentWillUnmount() {
@@ -81,7 +83,9 @@ class DebuggerControllerView extends React.Component {
   }
 
   render() {
-    if (this.props.service.getDebuggerMode() === _constants().DebuggerMode.STARTING) {
+    var _this$props$service$v;
+
+    if (((_this$props$service$v = this.props.service.viewModel.focusedProcess) === null || _this$props$service$v === void 0 ? void 0 : _this$props$service$v.debuggerMode) === _constants().DebuggerMode.STARTING) {
       return React.createElement("div", {
         className: "debugger-starting-message"
       }, React.createElement("div", null, React.createElement("span", {

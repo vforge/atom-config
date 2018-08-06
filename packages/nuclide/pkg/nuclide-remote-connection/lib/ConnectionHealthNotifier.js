@@ -160,6 +160,7 @@ class ConnectionHealthNotifier {
           type: 'heartbeat-error',
           data: {
             code: code || '',
+            originalCode: originalCode || '',
             message: message || '',
             host
           }

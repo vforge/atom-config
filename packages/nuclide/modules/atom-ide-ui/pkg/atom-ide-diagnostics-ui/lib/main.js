@@ -1,15 +1,5 @@
 "use strict";
 
-function _analytics() {
-  const data = _interopRequireDefault(require("../../../../nuclide-commons/analytics"));
-
-  _analytics = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function _collection() {
   const data = require("../../../../nuclide-commons/collection");
 
@@ -20,20 +10,60 @@ function _collection() {
   return data;
 }
 
-function _nuclideUri() {
-  const data = _interopRequireDefault(require("../../../../nuclide-commons/nuclideUri"));
+function _observable() {
+  const data = require("../../../../nuclide-commons/observable");
 
-  _nuclideUri = function () {
+  _observable = function () {
     return data;
   };
 
   return data;
 }
 
-function _observable() {
-  const data = require("../../../../nuclide-commons/observable");
+function _event() {
+  const data = require("../../../../nuclide-commons/event");
 
-  _observable = function () {
+  _event = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _addNuxTooltip() {
+  const data = _interopRequireDefault(require("./addNuxTooltip"));
+
+  _addNuxTooltip = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _analytics() {
+  const data = _interopRequireDefault(require("../../../../nuclide-commons/analytics"));
+
+  _analytics = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _idbKeyval() {
+  const data = _interopRequireDefault(require("idb-keyval"));
+
+  _idbKeyval = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _createPackage() {
+  const data = _interopRequireDefault(require("../../../../nuclide-commons-atom/createPackage"));
+
+  _createPackage = function () {
     return data;
   };
 
@@ -60,10 +90,10 @@ function _Model() {
   return data;
 }
 
-function _createPackage() {
-  const data = _interopRequireDefault(require("../../../../nuclide-commons-atom/createPackage"));
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../../nuclide-commons/nuclideUri"));
 
-  _createPackage = function () {
+  _nuclideUri = function () {
     return data;
   };
 
@@ -80,10 +110,20 @@ function _UniversalDisposable() {
   return data;
 }
 
-function _event() {
-  const data = require("../../../../nuclide-commons/event");
+function _gutter() {
+  const data = require("./gutter");
 
-  _event = function () {
+  _gutter = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _destroyItemWhere() {
+  const data = require("../../../../nuclide-commons-atom/destroyItemWhere");
+
+  _destroyItemWhere = function () {
     return data;
   };
 
@@ -100,60 +140,10 @@ function _DiagnosticsViewModel() {
   return data;
 }
 
-function _StatusBarTile() {
-  const data = _interopRequireDefault(require("./ui/StatusBarTile"));
-
-  _StatusBarTile = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _gutter() {
-  const data = require("./gutter");
-
-  _gutter = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _getDiagnosticDatatip() {
-  const data = _interopRequireDefault(require("./getDiagnosticDatatip"));
-
-  _getDiagnosticDatatip = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function _goToLocation() {
   const data = require("../../../../nuclide-commons-atom/go-to-location");
 
   _goToLocation = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _featureConfig() {
-  const data = _interopRequireDefault(require("../../../../nuclide-commons-atom/feature-config"));
-
-  _featureConfig = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _destroyItemWhere() {
-  const data = require("../../../../nuclide-commons-atom/destroyItemWhere");
-
-  _destroyItemWhere = function () {
     return data;
   };
 
@@ -171,6 +161,26 @@ function _textEditor() {
 }
 
 var _RxMin = require("rxjs/bundles/Rx.min.js");
+
+function _featureConfig() {
+  const data = _interopRequireDefault(require("../../../../nuclide-commons-atom/feature-config"));
+
+  _featureConfig = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _getDiagnosticDatatip() {
+  const data = _interopRequireDefault(require("./getDiagnosticDatatip"));
+
+  _getDiagnosticDatatip = function () {
+    return data;
+  };
+
+  return data;
+}
 
 function _showActionsMenu() {
   const data = _interopRequireDefault(require("./showActionsMenu"));
@@ -192,6 +202,16 @@ function _showAtomLinterWarning() {
   return data;
 }
 
+function _StatusBarTile() {
+  const data = _interopRequireDefault(require("./ui/StatusBarTile"));
+
+  _StatusBarTile = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -207,16 +227,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 const MAX_OPEN_ALL_FILES = 20;
 const SHOW_TRACES_SETTING = 'atom-ide-diagnostics-ui.showDiagnosticTraces';
+const NUX_ASYNC_STORAGE_KEY = 'nuclide_diagnostics_nux_shown';
 
 class Activation {
   constructor(state) {
     var _ref;
 
-    this._subscriptions = new (_UniversalDisposable().default)(this.registerOpenerAndCommand(), this._registerActionsMenu(), (0, _showAtomLinterWarning().default)());
+    this._gatekeeperServices = new _RxMin.BehaviorSubject();
     this._model = new (_Model().default)({
       filterByActiveTextEditor: ((_ref = state) != null ? _ref.filterByActiveTextEditor : _ref) === true,
       diagnosticUpdater: null
     });
+    this._subscriptions = new (_UniversalDisposable().default)(this.registerOpenerAndCommand(), this._registerActionsMenu(), this._observeDiagnosticsAndOfferTable(), (0, _showAtomLinterWarning().default)());
     this._fileDiagnostics = new WeakMap();
   }
 
@@ -294,6 +316,16 @@ class Activation {
     });
   }
 
+  consumeGatekeeperService(service) {
+    this._gatekeeperServices.next(service);
+
+    return new (_UniversalDisposable().default)(() => {
+      if (this._gatekeeperServices.getValue() === service) {
+        this._gatekeeperServices.next(null);
+      }
+    });
+  }
+
   consumeStatusBar(statusBar) {
     this._getStatusBarTile().consumeStatusBar(statusBar);
   }
@@ -319,6 +351,54 @@ class Activation {
     return {
       filterByActiveTextEditor
     };
+  }
+
+  _observeDiagnosticsAndOfferTable() {
+    return new (_UniversalDisposable().default)(this._gatekeeperServices.switchMap(gatekeeperService => {
+      if (gatekeeperService == null) {
+        return _RxMin.Observable.of(null);
+      }
+
+      return gatekeeperService.passesGK('nuclide_diagnostics_nux');
+    }).filter(Boolean).take(1) // Don't show it to the user if they've seen it before
+    .switchMap(() => _idbKeyval().default.get(NUX_ASYNC_STORAGE_KEY)).filter(seen => !seen).switchMap(() => // Only display once there are errors originating from multiple files
+    this._getGlobalViewStates().debounceTime(500).map(state => state.diagnostics).filter(diags => {
+      // make sure there are diagnostics from at least two different uris
+      // and that those diagnostics are errors
+      const firstErrorDiagIndex = diags.findIndex(diag => diag.type === 'Error');
+
+      if (firstErrorDiagIndex === -1) {
+        return false;
+      }
+
+      const firstUri = diags[firstErrorDiagIndex].filePath;
+
+      for (let i = firstErrorDiagIndex + 1; i < diags.length; i++) {
+        if (diags[i].type === 'Error' && diags[i].filePath !== firstUri) {
+          return true;
+        }
+      }
+
+      return false;
+    }).take(1)).subscribe(async () => {
+      // capture the current focus since opening diagnostics will change it
+      const previouslyFocusedElement = document.activeElement;
+      await (0, _goToLocation().goToLocation)(_DiagnosticsViewModel().WORKSPACE_VIEW_URI); // and then restore the focus if it existed before
+
+      if (previouslyFocusedElement != null) {
+        previouslyFocusedElement.focus();
+      }
+
+      const statusBarNode = document.querySelector('.diagnostics-status-bar-item');
+
+      if (statusBarNode) {
+        (0, _addNuxTooltip().default)(statusBarNode);
+
+        _idbKeyval().default.set(NUX_ASYNC_STORAGE_KEY, true);
+
+        _analytics().default.track('diagnostics-table-nux-shown');
+      }
+    }));
   }
 
   _createDiagnosticsViewModel() {
