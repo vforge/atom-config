@@ -333,7 +333,7 @@ module.exports = _client => {
           line: 214
         },
         name: "FlowLanguageServiceType"
-      }), "rename", "promise", _client.marshalArguments(Array.from(arguments), [{
+      }), "rename", "observable", _client.marshalArguments(Array.from(arguments), [{
         name: "fileVersion",
         type: {
           kind: "named",
@@ -350,7 +350,7 @@ module.exports = _client => {
         type: {
           kind: "string"
         }
-      }])).then(value => {
+      }])).map(value => {
         return _client.unmarshal(value, {
           kind: "nullable",
           type: {
@@ -368,7 +368,7 @@ module.exports = _client => {
             }
           }
         });
-      });
+      }).publish();
     }
 
     getCoverage(arg0) {
@@ -4103,7 +4103,7 @@ Object.defineProperty(module.exports, "defs", {
             }
           }],
           returnType: {
-            kind: "promise",
+            kind: "observable",
             type: {
               kind: "nullable",
               type: {

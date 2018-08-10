@@ -58,6 +58,7 @@ exports.getFullHashForRevision = getFullHashForRevision;
 exports.fold = fold;
 exports.runCommand = runCommand;
 exports.observeExecution = observeExecution;
+exports.addRemove = addRemove;
 exports.gitDiffStrings = gitDiffStrings;
 exports.HgRepositorySubscriptions = void 0;
 
@@ -1045,6 +1046,8 @@ function amend(workingDirectory, message, amendMode, filePaths = []) {
 
   switch (amendMode) {
     case 'Clean':
+      args.push('--no-rebase'); // prevent auto-restack
+
       break;
 
     case 'Rebase':
@@ -1301,7 +1304,7 @@ async function getHeadCommitMessage(workingDirectory) {
 }
 
 async function log(workingDirectory, filePaths, limit) {
-  const args = ['log', '-Tjson'];
+  const args = ['log', '-T', '{dict(node|short, desc, date, author)|json}\n'];
 
   if (limit != null && limit > 0) {
     args.push('--limit', String(limit));
@@ -1315,7 +1318,7 @@ async function log(workingDirectory, filePaths, limit) {
     cwd: workingDirectory
   };
   const result = await (0, _hgUtils().hgAsyncExecute)(args, execOptions);
-  const entries = JSON.parse(result.stdout);
+  const entries = result.stdout.split('\n').filter(s => s !== '').map(JSON.parse);
   return {
     entries
   };
@@ -1518,6 +1521,13 @@ function observeExecution(workingDirectory, args) {
     cwd: workingDirectory
   };
   return (0, _hgUtils().hgObserveExecution)(args, execOptions).publish();
+}
+
+function addRemove(workingDirectory) {
+  const execOptions = {
+    cwd: workingDirectory
+  };
+  return (0, _hgUtils().hgRunCommand)(['addremove'], execOptions).publish();
 } // not really Hg functionality, but this was chosen to be the best current home
 // for this method as it spawns processes and should live in an remote service
 

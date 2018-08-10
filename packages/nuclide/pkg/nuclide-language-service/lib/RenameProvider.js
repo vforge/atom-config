@@ -89,7 +89,7 @@ class RenameProvider {
         return null;
       }
 
-      return (await languageService).rename(fileVersion, position, newName);
+      return (await languageService).rename(fileVersion, position, newName).refCount().toPromise();
     });
   }
 

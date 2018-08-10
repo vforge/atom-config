@@ -460,7 +460,7 @@ class Debugger {
     }
   }
 
-  async getVariables(selectedScope) {
+  async getVariablesByScope(selectedScope) {
     const session = this._ensureDebugSession();
 
     const activeThread = this.getActiveThread();
@@ -510,6 +510,19 @@ class Debugger {
         variables: resultsByVarRef.get(scope.variablesReference)
       };
     });
+  }
+
+  async getVariablesByReference(ref) {
+    const session = this._ensureDebugSession();
+
+    const {
+      body: {
+        variables
+      }
+    } = await session.variables({
+      variablesReference: ref
+    });
+    return variables;
   }
 
   async setSourceBreakpoint(path, line) {

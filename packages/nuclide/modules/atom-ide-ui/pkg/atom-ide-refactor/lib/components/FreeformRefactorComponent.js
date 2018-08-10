@@ -99,7 +99,7 @@ class FreeformRefactorComponent extends React.Component {
         originalRange,
         refactoring
       } = this.props.phase;
-      this.props.store.dispatch(Actions().execute(this.props.phase.provider, {
+      this.props.store.dispatch(Actions().execute(this.props.phase.providers, {
         kind: 'freeform',
         editor,
         originalRange,

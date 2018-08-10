@@ -351,6 +351,15 @@ class TreeItem extends React.Component {
       children
     } = this.props;
     const isSelected = selectedPaths.some(selectedPath => (0, _shallowequal().default)(path, selectedPath));
+
+    if (isSelected) {
+      process.nextTick(() => {
+        // We *are* using `scrollIntoView()` instead of the raw DOM API
+        // eslint-disable-next-line nuclide-internal/dom-apis
+        this.scrollIntoView();
+      });
+    }
+
     return React.createElement("li", {
       "aria-activedescendant": isFocused,
       "aria-selected": isSelected,

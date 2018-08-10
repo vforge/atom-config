@@ -27,7 +27,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 jest.useFakeTimers();
 describe('analytics - BatchProcessedQueue', () => {
   it('regular operation', () => {
-    const handler = jasmine.createSpy('handler');
+    const handler = jest.fn();
     const queue = new (_BatchProcessedQueue().default)(5000, handler);
     queue.add(1);
     queue.add(2);

@@ -5,6 +5,26 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+function _FilterThreadConditions() {
+  const data = require("../vsp/FilterThreadConditions");
+
+  _FilterThreadConditions = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _Button() {
+  const data = require("../../../../../nuclide-commons-ui/Button");
+
+  _Button = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _Tree() {
   const data = require("../../../../../nuclide-commons-ui/Tree");
 
@@ -49,6 +69,16 @@ var React = _interopRequireWildcard(require("react"));
 
 var _RxMin = require("rxjs/bundles/Rx.min.js");
 
+function _DebuggerFilterThreadsUI() {
+  const data = _interopRequireDefault(require("./DebuggerFilterThreadsUI"));
+
+  _DebuggerFilterThreadsUI = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _ThreadTreeNode() {
   const data = _interopRequireDefault(require("./ThreadTreeNode"));
 
@@ -63,6 +93,16 @@ function _constants() {
   const data = require("../constants");
 
   _constants = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _showModal() {
+  const data = _interopRequireDefault(require("../../../../../nuclide-commons-ui/showModal"));
+
+  _showModal = function () {
     return data;
   };
 
@@ -103,6 +143,12 @@ class ProcessTreeNode extends React.Component {
 
     this.handleSelect = () => {
       this.setState(prevState => this._getState(!prevState.isCollapsed));
+    };
+
+    this._addFilterThreadsConditions = conditions => {
+      this.setState({
+        filterThreadConditions: conditions
+      });
     };
 
     this.state = this._getState();
@@ -148,7 +194,8 @@ class ProcessTreeNode extends React.Component {
       isFocused,
       threads: process.getAllThreads(),
       isCollapsed,
-      pendingStart
+      pendingStart,
+      filterThreadConditions: this.state != null ? this.state.filterThreadConditions : null
     };
   }
 
@@ -161,7 +208,8 @@ class ProcessTreeNode extends React.Component {
     const {
       threads,
       isFocused,
-      isCollapsed
+      isCollapsed,
+      filterThreadConditions
     } = this.state;
     const tooltipTitle = service.viewModel.focusedProcess == null || service.viewModel.focusedProcess.configuration.adapterExecutable == null ? 'Unknown Command' : service.viewModel.focusedProcess.configuration.adapterExecutable.command + service.viewModel.focusedProcess.configuration.adapterExecutable.args.join(' ');
 
@@ -172,21 +220,40 @@ class ProcessTreeNode extends React.Component {
       }
     };
 
-    const formattedTitle = React.createElement("span", {
+    const handleFilterThreadClick = event => {
+      const disposable = (0, _showModal().default)(({
+        dismiss
+      }) => React.createElement(_DebuggerFilterThreadsUI().default, {
+        updateFilters: this._addFilterThreadsConditions,
+        dialogCloser: dismiss,
+        currentFilterConditions: this.state.filterThreadConditions
+      }));
+
+      this._disposables.add(disposable);
+
+      event.stopPropagation();
+    };
+
+    const formattedTitle = React.createElement("span", null, React.createElement("span", {
       onClick: handleTitleClick,
       className: isFocused ? 'debugger-tree-process-thread-selected' : '',
       title: tooltipTitle
-    }, title, this.state.pendingStart ? ' (starting...)' : '');
+    }, title, this.state.pendingStart ? ' (starting...)' : ''), React.createElement("span", null, React.createElement(_Button().Button, {
+      className: 'debugger-tree-right-align',
+      onClick: handleFilterThreadClick
+    }, "Filter Threads")));
     return threads.length === 0 ? React.createElement(_Tree().TreeItem, null, formattedTitle) : React.createElement(_Tree().NestedTreeItem, {
       title: formattedTitle,
       collapsed: isCollapsed,
       onSelect: this.handleSelect
     }, threads.map((thread, threadIndex) => {
-      return React.createElement(_ThreadTreeNode().default, {
-        key: threadIndex,
-        thread: thread,
-        service: service
-      });
+      if (filterThreadConditions == null || filterThreadConditions.filterThread(thread)) {
+        return React.createElement(_ThreadTreeNode().default, {
+          key: threadIndex,
+          thread: thread,
+          service: service
+        });
+      }
     }));
   }
 

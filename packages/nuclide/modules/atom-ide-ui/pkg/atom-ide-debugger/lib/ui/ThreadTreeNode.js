@@ -213,6 +213,16 @@ class ThreadTreeNode extends React.Component {
       const newIsCollapsed = isCollapsed && !this._threadIsFocused();
 
       this._setCollapsed(newIsCollapsed);
+
+      setTimeout(() => {
+        if (this._threadIsFocused() && this._nestedTreeItem != null) {
+          const el = _reactDom.default.findDOMNode(this._nestedTreeItem);
+
+          if (el instanceof Element) {
+            (0, _scrollIntoView().scrollIntoViewIfNeeded)(el, false);
+          }
+        }
+      }, 100);
     }), this._expandedSubject.asObservable().let((0, _observable().fastDebounce)(100)).switchMap(() => {
       return this._getFrames(this.state.callStackLevels);
     }).subscribe(frames => {
@@ -241,14 +251,6 @@ class ThreadTreeNode extends React.Component {
         stackFrames: frames,
         isCollapsed: newIsCollapsed
       });
-    }), (0, _event().observableFromSubscribeFunction)(service.onDidChangeActiveThread.bind(service)).subscribe(() => {
-      if (this._threadIsFocused() && this._nestedTreeItem != null) {
-        const el = _reactDom.default.findDOMNode(this._nestedTreeItem);
-
-        if (el instanceof Element) {
-          (0, _scrollIntoView().scrollIntoViewIfNeeded)(el, false);
-        }
-      }
     }));
   }
 
@@ -332,13 +334,14 @@ class ThreadTreeNode extends React.Component {
       event.stopPropagation();
     };
 
+    const stopReason = thread.stoppedDetails == null ? '' : thread.stoppedDetails.description != null ? ': ' + thread.stoppedDetails.description : thread.stoppedDetails.reason != null ? ': ' + thread.stoppedDetails.reason : '';
     const formattedTitle = React.createElement("span", {
       onClick: handleTitleClick,
       className: isFocused ? (0, _classnames().default)('debugger-tree-process-thread-selected') : '',
       title: 'Thread ID: ' + thread.threadId + ', Name: ' + thread.name
-    }, thread.name + (thread.stoppedDetails == null ? ' (Running)' : ' (Paused)'));
+    }, thread.name + (thread.stopped ? ` (Paused${stopReason})` : ' (Running)'));
 
-    if (thread.stoppedDetails == null || !stackFrames.isPending && !stackFrames.isError && stackFrames.value.length === 0) {
+    if (!thread.stopped || !stackFrames.isPending && !stackFrames.isError && stackFrames.value.length === 0) {
       return React.createElement(_Tree().TreeItem, {
         className: "debugger-tree-no-frames"
       }, formattedTitle);
@@ -408,7 +411,7 @@ class ThreadTreeNode extends React.Component {
           });
         }
       }
-    }), React.createElement(_AtomInput().AtomInput, null));
+    }));
   }
 
 }

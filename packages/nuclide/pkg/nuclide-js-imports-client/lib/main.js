@@ -30,6 +30,16 @@ function _textEdit() {
   return data;
 }
 
+function _passesGK() {
+  const data = _interopRequireDefault(require("../../commons-node/passesGK"));
+
+  _passesGK = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _nuclideAnalytics() {
   const data = require("../../nuclide-analytics");
 
@@ -100,6 +110,16 @@ function _featureConfig() {
   return data;
 }
 
+function _nuclideUiComponentToolsCommon() {
+  const data = require("../../nuclide-ui-component-tools-common");
+
+  _nuclideUiComponentToolsCommon = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _QuickOpenProvider() {
   const data = _interopRequireDefault(require("./QuickOpenProvider"));
 
@@ -153,7 +173,7 @@ async function connectToJSImportsService(connection) {
     logLevel: _featureConfig().default.get('nuclide-js-imports-client.logLevel'),
     projectFileNames: ['.flowconfig'],
     fileExtensions: ['.js', '.jsx'],
-    initializationOptions: getAutoImportSettings(),
+    initializationOptions: await getAutoImportSettings(),
     fork: true
   });
   return lspService || new (_nuclideLanguageServiceRpc().NullLanguageService)();
@@ -224,7 +244,7 @@ function onDidInsertSuggestion({
   });
 }
 
-function getAutoImportSettings() {
+async function getAutoImportSettings() {
   // Currently, we will get the settings when the package is initialized. This
   // means that the user would need to restart Nuclide for a change in their
   // settings to take effect. In the future, we would most likely want to observe
@@ -233,7 +253,8 @@ function getAutoImportSettings() {
   return {
     componentModulePathFilter: _featureConfig().default.get('nuclide-js-imports-client.componentModulePathFilter'),
     diagnosticsWhitelist: _featureConfig().default.get('nuclide-js-imports-client.diagnosticsWhitelist'),
-    requiresWhitelist: _featureConfig().default.get('nuclide-js-imports-client.requiresWhitelist')
+    requiresWhitelist: _featureConfig().default.get('nuclide-js-imports-client.requiresWhitelist'),
+    uiComponentToolsIndexingGkEnabled: await (0, _passesGK().default)(_nuclideUiComponentToolsCommon().UI_COMPONENT_TOOLS_INDEXING_GK)
   };
 }
 

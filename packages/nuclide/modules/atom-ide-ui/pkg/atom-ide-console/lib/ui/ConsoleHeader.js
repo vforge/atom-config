@@ -5,6 +5,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+function _ButtonGroup() {
+  const data = require("../../../../../nuclide-commons-ui/ButtonGroup");
+
+  _ButtonGroup = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _LoadingSpinner() {
   const data = require("../../../../../nuclide-commons-ui/LoadingSpinner");
 
@@ -206,7 +216,21 @@ class ConsoleHeader extends React.Component {
     }, "Create Paste");
     return React.createElement(_Toolbar().Toolbar, {
       location: "top"
-    }, React.createElement(_ToolbarLeft().ToolbarLeft, null, sourceButton, React.createElement(_RegExpFilter().default, {
+    }, React.createElement(_ToolbarLeft().ToolbarLeft, null, sourceButton, React.createElement(_ButtonGroup().ButtonGroup, {
+      className: "inline-block"
+    }, React.createElement(FilterButton, {
+      severity: "error",
+      selectedSeverities: this.props.selectedSeverities,
+      toggleSeverity: this.props.toggleSeverity
+    }), React.createElement(FilterButton, {
+      severity: "warning",
+      selectedSeverities: this.props.selectedSeverities,
+      toggleSeverity: this.props.toggleSeverity
+    }), React.createElement(FilterButton, {
+      severity: "info",
+      selectedSeverities: this.props.selectedSeverities,
+      toggleSeverity: this.props.toggleSeverity
+    })), React.createElement(_RegExpFilter().default, {
       ref: component => this._filterComponent = component,
       value: {
         text: this.props.filterText,
@@ -243,4 +267,46 @@ function MultiSelectLabel(props) {
   } = props;
   const label = selectedOptions.length === 1 ? selectedOptions[0].label : `${selectedOptions.length} Sources`;
   return React.createElement("span", null, "Showing: ", label);
+}
+
+function FilterButton(props) {
+  const {
+    severity
+  } = props;
+  const selected = props.selectedSeverities.has(props.severity);
+  let tooltipTitle = selected ? 'Hide ' : 'Show ';
+  let icon;
+
+  switch (severity) {
+    case 'error':
+      tooltipTitle += 'Errors';
+      icon = 'nuclicon-error';
+      break;
+
+    case 'warning':
+      tooltipTitle += 'Warnings';
+      icon = 'nuclicon-warning';
+      break;
+
+    case 'info':
+      tooltipTitle += 'Info';
+      icon = 'info';
+      break;
+
+    default:
+      severity;
+      throw new Error(`Invalid severity: ${severity}`);
+  }
+
+  return React.createElement(_Button().Button, {
+    icon: icon,
+    size: _Button().ButtonSizes.SMALL,
+    selected: props.selectedSeverities.has(severity),
+    onClick: () => {
+      props.toggleSeverity(severity);
+    },
+    tooltip: {
+      title: tooltipTitle
+    }
+  });
 }

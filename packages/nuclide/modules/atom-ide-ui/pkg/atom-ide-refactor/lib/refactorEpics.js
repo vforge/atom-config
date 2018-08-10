@@ -16,6 +16,16 @@ function _projects() {
   return data;
 }
 
+function _collection() {
+  const data = require("../../../../nuclide-commons/collection");
+
+  _collection = function () {
+    return data;
+  };
+
+  return data;
+}
+
 var _RxMin = require("rxjs/bundles/Rx.min.js");
 
 var _atom = require("atom");
@@ -34,6 +44,16 @@ function _diffparser() {
   const data = _interopRequireDefault(require("diffparser"));
 
   _diffparser = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _nullthrows() {
+  const data = _interopRequireDefault(require("nullthrows"));
+
+  _nullthrows = function () {
     return data;
   };
 
@@ -167,7 +187,7 @@ function getEpics(providers) {
   }];
 }
 
-async function getRefactorings(providers) {
+async function getRefactorings(registry) {
   _analytics().default.track('nuclide-refactorizer:get-refactorings');
 
   const editor = atom.workspace.getActiveTextEditor();
@@ -178,15 +198,15 @@ async function getRefactorings(providers) {
 
   try {
     const selectedRange = editor.getSelectedBufferRange();
-    const provider = Array.from(providers.getAllProvidersForEditor(editor)).find(p => p.refactorings != null);
+    const providers = Array.from(registry.getAllProvidersForEditor(editor)).filter(p => p.refactorings != null);
 
-    if (provider == null || provider.refactorings == null) {
+    if (providers.length === 0) {
       return Actions().error('get-refactorings', Error('No providers found.'));
     }
 
-    const availableRefactorings = await provider.refactorings(editor, selectedRange);
+    const availableRefactorings = (0, _collection().arrayFlatten)((await Promise.all(providers.map(p => (0, _nullthrows().default)(p.refactorings)(editor, selectedRange)))));
     availableRefactorings.sort((x, y) => (x.disabled === true ? 1 : 0) - (y.disabled === true ? 1 : 0));
-    return Actions().gotRefactorings(editor, selectedRange, provider, availableRefactorings);
+    return Actions().gotRefactorings(editor, selectedRange, providers, availableRefactorings);
   } catch (e) {
     return Actions().error('get-refactorings', e);
   }
@@ -195,11 +215,13 @@ async function getRefactorings(providers) {
 function executeRefactoring(action) {
   const {
     refactoring,
-    provider
+    providers
   } = action.payload;
+  const refactorProviders = providers.filter(p => p.refactor != null);
+  const renameProviders = providers.filter(p => p.rename != null);
 
-  if (provider.refactor != null && refactoring.kind === 'freeform') {
-    return provider.refactor(refactoring).map(response => {
+  if (refactoring.kind === 'freeform' && refactorProviders.length > 0) {
+    return _RxMin.Observable.from(refactorProviders).mergeMap(p => (0, _nullthrows().default)(p.refactor)(refactoring)).map(response => {
       switch (response.type) {
         case 'progress':
           return Actions().progress(response.message, response.value, response.max);
@@ -218,14 +240,16 @@ function executeRefactoring(action) {
           throw new Error();
       }
     }).catch(e => _RxMin.Observable.of(Actions().error('execute', e)));
-  } else if (provider.rename != null && refactoring.kind === 'rename') {
+  } else if (refactoring.kind === 'rename' && renameProviders.length > 0) {
     const {
       editor,
       position,
       newName
     } = refactoring;
-    return _RxMin.Observable.fromPromise(provider.rename(editor, position, newName)).map(edits => {
-      if (edits == null || edits.size === 0) {
+    return _RxMin.Observable.fromPromise(Promise.all(renameProviders.map(p => (0, _nullthrows().default)(p.rename)(editor, position, newName)))).map(allEdits => {
+      const edits = allEdits.find(e => e != null && e.size > 0);
+
+      if (edits == null) {
         return Actions().close();
       }
 
@@ -252,7 +276,7 @@ function executeRefactoring(action) {
         };
         return Actions().confirm(response);
       }
-    });
+    }).catch(e => _RxMin.Observable.of(Actions().error('execute', e)));
   } else {
     return _RxMin.Observable.of(Actions().error('execute', Error('No appropriate provider found.')));
   }

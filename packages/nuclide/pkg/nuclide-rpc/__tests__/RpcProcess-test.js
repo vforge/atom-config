@@ -173,11 +173,11 @@ describe('RpcProcess', () => {
       throw new Error("Invariant violation: \"process != null\"");
     }
 
-    const spy = jasmine.createSpy();
+    const spy = jest.fn();
     process.on('exit', spy);
     server.dispose();
-    (0, _waits_for().default)(() => spy.wasCalled);
-    const exitSpy = jasmine.createSpy();
+    await (0, _waits_for().default)(() => spy.mock.calls.length > 0);
+    const exitSpy = jest.fn();
     server.observeExitMessage().subscribe(() => exitSpy()); // Manual dispose should not trigger any side effects.
 
     expect(exitSpy).not.toHaveBeenCalled();

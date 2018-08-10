@@ -139,7 +139,7 @@ describe('Directory FileTreeEntryComponent', () => {
   const actions = new (_FileTreeActions().default)(store);
   describe('when expanding/collapsing dir component', () => {
     beforeEach(() => {
-      spyOn(actions, 'expandNode');
+      jest.spyOn(actions, 'expandNode');
     });
     it('expands on click when node is selected', () => {
       const nodeComponent = renderEntryComponentIntoDocument(_FileTreeEntryComponent().FileTreeEntryComponent, store, actions, {
@@ -163,7 +163,7 @@ describe('File FileTreeEntryComponent', () => {
   const actions = new (_FileTreeActions().default)(store);
   describe('when expanding/collapsing file component', () => {
     beforeEach(() => {
-      spyOn(actions, 'expandNode');
+      jest.spyOn(actions, 'expandNode');
     });
     it('does not expand on click when node is selected', () => {
       const nodeComponent = renderEntryComponentIntoDocument(_FileTreeEntryComponent().FileTreeEntryComponent, store, actions, {
@@ -186,7 +186,7 @@ describe('File FileTreeEntryComponent', () => {
   });
   describe('when preview tabs are enabled', () => {
     beforeEach(() => {
-      spyOn(actions, 'confirmNode');
+      jest.spyOn(actions, 'confirmNode');
     });
     it('opens a file if a selected node is clicked', () => {
       const nodeComponent = renderEntryComponentIntoDocument(_FileTreeEntryComponent().FileTreeEntryComponent, store, actions, {

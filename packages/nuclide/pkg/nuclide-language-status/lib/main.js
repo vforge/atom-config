@@ -35,18 +35,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 class Activation {
   constructor(state) {
     this._languageStatusManager = new (_LanguageStatusManager().LanguageStatusManager)();
-
-    this._languageStatusManager.deserialize(state);
   }
 
   dispose() {
     this._languageStatusManager.dispose();
-  }
-
-  serialize() {
-    const serialized = this._languageStatusManager.serialize();
-
-    return serialized;
   }
 
   consumeLanguageStatusProvider(provider) {

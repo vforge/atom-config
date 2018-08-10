@@ -607,9 +607,6 @@ class Activation {
         }]
       }]
     }));
-
-    this._layoutManager.registerContextMenus();
-
     return disposable;
   }
 

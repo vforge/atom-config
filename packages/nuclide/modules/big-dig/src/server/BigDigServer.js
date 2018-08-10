@@ -183,6 +183,10 @@ class BigDigServer {
   }
 
   _onWebSocketConnection(ws, req) {
+    ws.on('error', err => {
+      this._logger.error('Received error from socket', err);
+    });
+
     const {
       pathname
     } = _url.default.parse(req.url);

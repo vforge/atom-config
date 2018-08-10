@@ -202,7 +202,7 @@ describe('refactorStore', () => {
           type: 'edit',
           edits: new Map([[TEST_FILE, TEST_FILE_EDITS]])
         });
-        const displayRenameRequest = [openEditor, provider, TEST_FILE_SELECTED_TEXT, TEST_FILE_MOUNT_POINT, TEST_FILE_SYMBOL_POINT];
+        const displayRenameRequest = [openEditor, [provider], TEST_FILE_SELECTED_TEXT, TEST_FILE_MOUNT_POINT, TEST_FILE_SYMBOL_POINT];
         store.dispatch(Actions().displayRename(...displayRenameRequest));
         await waitForPhase('rename');
         const rename = {
@@ -211,7 +211,7 @@ describe('refactorStore', () => {
           editor: openEditor,
           newName: 'bar'
         };
-        store.dispatch(Actions().execute(provider, rename));
+        store.dispatch(Actions().execute([provider], rename));
         await waitForPhase('execute');
         store.dispatch(Actions().close());
         await waitForClose();
@@ -248,7 +248,7 @@ describe('refactorStore', () => {
       it('tolerates a provider returning refactor results after a close action', async () => {
         const deferred = new _RxMin.Subject();
         refactorReturn = deferred;
-        const displayRenameRequest = [openEditor, provider, TEST_FILE_SELECTED_TEXT, TEST_FILE_MOUNT_POINT, TEST_FILE_SYMBOL_POINT];
+        const displayRenameRequest = [openEditor, [provider], TEST_FILE_SELECTED_TEXT, TEST_FILE_MOUNT_POINT, TEST_FILE_SYMBOL_POINT];
         store.dispatch(Actions().displayRename(...displayRenameRequest));
         await waitForPhase('rename');
         const rename = {
@@ -257,7 +257,7 @@ describe('refactorStore', () => {
           editor: openEditor,
           newName: 'bar'
         };
-        store.dispatch(Actions().execute(provider, rename));
+        store.dispatch(Actions().execute([provider], rename));
         await waitForPhase('execute');
         store.dispatch(Actions().close());
         await waitForClose();
@@ -280,7 +280,7 @@ describe('refactorStore', () => {
 
       it('tolerates a provider throwing in refactor', async () => {
         refactorReturn = _RxMin.Observable.throw(new Error());
-        const displayRenameRequest = [openEditor, provider, TEST_FILE_SELECTED_TEXT, TEST_FILE_MOUNT_POINT, TEST_FILE_SYMBOL_POINT];
+        const displayRenameRequest = [openEditor, [provider], TEST_FILE_SELECTED_TEXT, TEST_FILE_MOUNT_POINT, TEST_FILE_SYMBOL_POINT];
         store.dispatch(Actions().displayRename(...displayRenameRequest));
         await waitForPhase('rename');
         const rename = {
@@ -289,7 +289,7 @@ describe('refactorStore', () => {
           editor: openEditor,
           newName: 'bar'
         };
-        store.dispatch(Actions().execute(provider, rename));
+        store.dispatch(Actions().execute([provider], rename));
         await waitForPhase('execute');
         store.dispatch(Actions().close());
         await waitForClose();
@@ -298,7 +298,7 @@ describe('refactorStore', () => {
       });
       it('tolerates a provider returning empty from refactor', async () => {
         refactorReturn = _RxMin.Observable.empty();
-        const displayRenameRequest = [openEditor, provider, TEST_FILE_SELECTED_TEXT, TEST_FILE_MOUNT_POINT, TEST_FILE_SYMBOL_POINT];
+        const displayRenameRequest = [openEditor, [provider], TEST_FILE_SELECTED_TEXT, TEST_FILE_MOUNT_POINT, TEST_FILE_SYMBOL_POINT];
         store.dispatch(Actions().displayRename(...displayRenameRequest));
         await waitForPhase('rename');
         const rename = {
@@ -307,7 +307,7 @@ describe('refactorStore', () => {
           editor: openEditor,
           newName: 'bar'
         };
-        store.dispatch(Actions().execute(provider, rename));
+        store.dispatch(Actions().execute([provider], rename));
         await waitForPhase('execute');
         store.dispatch(Actions().close());
         await waitForClose();
@@ -326,7 +326,7 @@ describe('refactorStore', () => {
           type: 'edit',
           edits: new Map([[TEST_FILE, edits]])
         });
-        const displayRenameRequest = [openEditor, provider, TEST_FILE_SELECTED_TEXT, TEST_FILE_MOUNT_POINT, TEST_FILE_SYMBOL_POINT];
+        const displayRenameRequest = [openEditor, [provider], TEST_FILE_SELECTED_TEXT, TEST_FILE_MOUNT_POINT, TEST_FILE_SYMBOL_POINT];
         store.dispatch(Actions().displayRename(...displayRenameRequest));
         await waitForPhase('rename');
         const rename = {
@@ -335,7 +335,7 @@ describe('refactorStore', () => {
           editor: openEditor,
           newName: 'bar'
         };
-        store.dispatch(Actions().execute(provider, rename));
+        store.dispatch(Actions().execute([provider], rename));
         await waitForPhase('execute');
         store.dispatch(Actions().close());
         await waitForClose(); // TODO should display an error somewhere
@@ -415,7 +415,7 @@ describe('refactorStore', () => {
           range: new _atom.Range([0, 0], [0, 0]),
           arguments: new Map([['new_name', 'test']])
         };
-        store.dispatch(Actions().execute(provider, asyncify));
+        store.dispatch(Actions().execute([provider], asyncify));
         await waitForClose();
         expect(openEditor.getText()).toEqual('test\nbar\nfoo\n');
       });

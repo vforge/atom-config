@@ -1,15 +1,5 @@
 "use strict";
 
-function _passesGK() {
-  const data = _interopRequireDefault(require("../../commons-node/passesGK"));
-
-  _passesGK = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function _nuclideUri() {
   const data = _interopRequireDefault(require("../../../modules/nuclide-commons/nuclideUri"));
 
@@ -33,17 +23,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @format
  * @emails oncall+nuclide
  */
-jest.mock("../../commons-node/passesGK");
-
-// $FlowFixMe Jest doesn't have a type safe way to do this.
-_passesGK().default.mockImplementation(async () => true);
-
 // eslint-disable-next-line
 const {
   getExportsForFile
 } = require("../src/lib/AutoImportsWorker");
 
 describe('getExportsForFile component definitions', () => {
+  beforeEach(() => {
+    process.env.JS_IMPORTS_INITIALIZATION_SETTINGS = JSON.stringify({
+      componentModulePathFilter: null,
+      uiComponentToolsIndexingGkEnabled: true
+    });
+  });
   it('gets the component definition for a React component', async () => {
     const path = _nuclideUri().default.join(__dirname, '..', '__mocks__', 'componentDefinitions', 'FDSTest.react.js');
 

@@ -210,8 +210,7 @@ function createStep(stepName, action) {
   return _RxMin.Observable.concat(_RxMin.Observable.of({
     type: 'progress',
     progress: null
-  }), // flowlint-next-line sketchy-null-string:off
-  stepName ? _RxMin.Observable.of({
+  }), Boolean(stepName) ? _RxMin.Observable.of({
     type: 'status',
     status: stepName
   }) : _RxMin.Observable.empty(), _RxMin.Observable.defer(action));

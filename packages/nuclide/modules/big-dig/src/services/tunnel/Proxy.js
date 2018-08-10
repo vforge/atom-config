@@ -136,13 +136,11 @@ class Proxy extends _events.default {
 
     const socket = this._socketByClientId.get(clientId);
 
-    if (!socket) {
-      throw new Error("Invariant violation: \"socket\"");
-    }
-
     const arg = msg.arg;
 
-    if (msg.event === 'data') {
+    if (socket == null) {
+      logger.warn(`received a ${msg.event} message for a non-existent or already closed socket`);
+    } else if (msg.event === 'data') {
       if (!(arg != null)) {
         throw new Error("Invariant violation: \"arg != null\"");
       }
@@ -186,7 +184,7 @@ class Proxy extends _events.default {
       throw new Error("Invariant violation: \"socket\"");
     }
 
-    socket.destroy(error);
+    socket.destroy();
 
     this._closeSocket(id);
   }

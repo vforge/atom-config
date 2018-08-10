@@ -35,13 +35,13 @@ function open(ui) {
   };
 }
 
-function gotRefactorings(editor, originalRange, provider, availableRefactorings) {
+function gotRefactorings(editor, originalRange, providers, availableRefactorings) {
   return {
     type: 'got-refactorings',
     payload: {
       editor,
       originalRange,
-      provider,
+      providers,
       availableRefactorings
     }
   };
@@ -75,11 +75,11 @@ function pickedRefactor(refactoring) {
   };
 }
 
-function execute(provider, refactoring) {
+function execute(providers, refactoring) {
   return {
     type: 'execute',
     payload: {
-      provider,
+      providers,
       refactoring
     }
   };
@@ -114,12 +114,12 @@ function displayDiffPreview(diffs) {
   };
 }
 
-function displayRename(editor, provider, selectedText, mountPosition, symbolPosition) {
+function displayRename(editor, providers, selectedText, mountPosition, symbolPosition) {
   return {
     type: 'display-rename',
     payload: {
       editor,
-      provider,
+      providers,
       selectedText,
       mountPosition,
       symbolPosition

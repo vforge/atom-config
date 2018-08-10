@@ -173,7 +173,7 @@ const handleMouseEnterSpawnPopupEventsObservable = handleMouseEnterSpawnPopupEve
 
     return _RxMin.Observable.merge((0, _aim().hoveringOrAiming)(item, innerPopupElement), // This makes sure that the popup disappears when you ctrl+tab to switch tabs.
     (0, _event().observableFromSubscribeFunction)(cb => atom.workspace.onDidChangeActivePaneItem(cb)).mapTo(false));
-  })).takeWhile(Boolean);
+  })).takeUntil((0, _event().observableFromSubscribeFunction)(cb => gutter.onDidDestroy(cb))).takeWhile(Boolean);
 }).share();
 
 function applyUpdateToEditor(editor, update, diagnosticUpdater) {

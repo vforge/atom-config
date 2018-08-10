@@ -1,1 +1,2 @@
 require('./keys');
+require('./assign');

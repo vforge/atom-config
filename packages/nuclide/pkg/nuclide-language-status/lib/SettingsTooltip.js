@@ -50,11 +50,11 @@ const dropdownItems = Array.from(dropdownLabels).map(([value, label]) => ({
 
 class SettingsTooltipComponent extends React.PureComponent {
   render() {
-    const relevantProviders = [...this.props.settings.entries()].filter(([provider, _]) => this.props.providers.includes(provider)).sort(([a], [b]) => a.priority === b.priority ? a.name.localeCompare(b.name) : b.priority - a.priority);
+    const relevantProviders = [...this.props.settings.entries()].map(([name]) => this.props.providers.find(provider => provider.name === name)).filter(Boolean).sort((a, b) => a.priority === b.priority ? a.name.localeCompare(b.name) : b.priority - a.priority);
 
     this._styleTooltip();
 
-    const servers = relevantProviders.map(([provider, kind]) => {
+    const servers = relevantProviders.map(provider => {
       return React.createElement("p", {
         className: "nuclide-language-status-settings-item",
         key: provider.name
@@ -63,7 +63,7 @@ class SettingsTooltipComponent extends React.PureComponent {
         className: "nuclide-language-status-settings-dropdown",
         isFlat: true,
         options: dropdownItems,
-        value: kind
+        value: this.props.settings.get(provider.name)
       }));
     });
     return React.createElement("div", {
@@ -83,7 +83,7 @@ class SettingsTooltipComponent extends React.PureComponent {
 
   _updateSettings(provider, newKind) {
     const newSettings = new Map(this.props.settings);
-    newSettings.set(provider, newKind);
+    newSettings.set(provider.name, newKind);
     this.props.onUpdateSettings(newSettings);
   }
 

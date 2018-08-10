@@ -49,7 +49,7 @@ class NullLanguageService {
   }
 
   rename(fileVersion, position, newName) {
-    return Promise.resolve(null);
+    return _RxMin.Observable.of(null).publish();
   }
 
   getCoverage(filePath) {

@@ -67,13 +67,29 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // flowlint-next-line untyped-import:off
 const babelParserOptions = _AutoImportsManager().babylonOptions;
 
+function matchesExtension(parts, extension) {
+  if (parts.length !== extension.length + 1) {
+    return false;
+  } // Start at 1 to skip the basename, parts should be the entire filename.
+
+
+  for (let i = 1; i < parts.length; i++) {
+    if (parts[i] !== extension[i - 1]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 function getComponentNameFromUri(uri) {
   const basename = _nuclideUri().default.basename(uri);
 
   const parts = basename.split('.');
 
-  if (!(parts.length === 3 && parts[1] === 'react' && parts[2] === 'js')) {
-    // This must be exactly ComponentName.react.js.
+  if (!matchesExtension(parts, ['react', 'js']) && !matchesExtension(parts, ['experimental', 'react', 'js'])) {
+    // This must be exactly ComponentName.react.js or
+    // ComponentName.experimental.react.js.
     // We don't want to index ComponentName.example.react.js and clobber over
     // the ComponentName definition.
     return null;

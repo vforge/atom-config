@@ -202,7 +202,9 @@ function getLaunchProcessConfig(targetUri, scriptPath, scriptArgs, scriptWrapper
   return {
     targetUri,
     debugMode: 'launch',
+    isRestartable: true,
     adapterType: _nuclideDebuggerCommon().VsAdapterTypes.HHVM,
+    processName: `HHVM (${_nuclideUri().default.basename(scriptPath)})`,
     config
   };
 }
@@ -240,6 +242,7 @@ async function startAttachProcessConfig(targetUri, attachPort, serverAttach) {
     targetUri,
     debugMode: 'attach',
     adapterType: _nuclideDebuggerCommon().VsAdapterTypes.HHVM,
+    processName: `HHVM (${serverAttach ? _nuclideUri().default.isRemote(targetUri) ? _nuclideUri().default.getHostname(targetUri) : 'localhost' : 'Attached to script on port ' + (attachPort || 0)})`,
     config,
     customControlButtons: getCustomControlButtons(),
     threadsComponentTitle: 'Requests',

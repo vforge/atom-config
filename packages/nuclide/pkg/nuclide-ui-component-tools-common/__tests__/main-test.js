@@ -21,7 +21,7 @@ function _uiComponentAst() {
 }
 
 function _common() {
-  const data = require("../__mocks__/common");
+  const data = require("../__fixtures__/common");
 
   _common = function () {
     return data;

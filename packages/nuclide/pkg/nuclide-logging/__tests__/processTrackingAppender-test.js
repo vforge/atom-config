@@ -68,7 +68,7 @@ describe('processTrackingAppender', () => {
     await (0, _waits_for().default)(() => _analytics().trackSampled.mock.calls.length > 0);
     expect(_analytics().trackSampled).toHaveBeenCalledWith('process-exit', 10, {
       command: 'true 1',
-      duration: jasmine.any(Number)
+      duration: expect.any(Number)
     });
   });
 });

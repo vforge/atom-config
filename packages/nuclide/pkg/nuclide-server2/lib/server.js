@@ -1,5 +1,15 @@
 "use strict";
 
+function _server() {
+  const data = _interopRequireDefault(require("../../../modules/big-dig-vscode-server/server"));
+
+  _server = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _nuclideLogging() {
   const data = require("../../nuclide-logging");
 
@@ -89,8 +99,9 @@ function launch(server) {
       _nuclideRpc().RpcConnection.createServer(rpcServiceRegistry, rpcTransport, {});
     }
 
-  });
-  return Promise.resolve();
+  }); // Enable VSCode to connect to Nuclide servers by default.
+
+  return (0, _server().default)(server);
 } // eslint-disable-next-line nuclide-internal/no-commonjs
 
 

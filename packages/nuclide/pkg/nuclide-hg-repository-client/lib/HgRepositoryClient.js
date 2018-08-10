@@ -1090,6 +1090,10 @@ class HgRepositoryClient {
     return this._sharedMembers.service.observeExecution(this._sharedMembers.workingDirectoryPath, args).refCount();
   }
 
+  addRemove() {
+    return this._sharedMembers.service.addRemove(this._sharedMembers.workingDirectoryPath).refCount();
+  }
+
 }
 
 exports.HgRepositoryClient = HgRepositoryClient;

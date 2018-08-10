@@ -12,16 +12,6 @@ function _destroyItemWhere() {
 
 var _os = _interopRequireDefault(require("os"));
 
-function _nullthrows() {
-  const data = _interopRequireDefault(require("nullthrows"));
-
-  _nullthrows = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function _createPackage() {
   const data = _interopRequireDefault(require("../../../../nuclide-commons-atom/createPackage"));
 
@@ -131,7 +121,7 @@ class Activation {
     const focusManager = new (_FocusManager().FocusManager)();
     this._subscriptions = new (_UniversalDisposable().default)(focusManager, atom.workspace.addOpener(uri => {
       if (uri.startsWith(_nuclideTerminalUri().URI_PREFIX)) {
-        return new (_terminalView().TerminalView)(uri);
+        return new (_terminalView().TerminalView)(uri, this._cwd != null ? this._cwd.getCwd() : null);
       }
     }), atom.commands.add('atom-workspace', 'atom-ide-terminal:new-terminal', event => {
       const cwd = this._getPathOrCwd(event);
@@ -156,19 +146,12 @@ class Activation {
       },
       close: key => {
         (0, _destroyItemWhere().destroyItemWhere)(item => {
-          if (item.getURI == null || item.getURI() == null) {
+          // $FlowFixMe this is on TerminalViews only
+          if (typeof item.getTerminalKey !== 'function') {
             return false;
           }
 
-          const uri = (0, _nullthrows().default)(item.getURI());
-
-          try {
-            // Only close terminal tabs with the same unique key.
-            const otherInfo = (0, _nuclideTerminalUri().infoFromUri)(uri);
-            return otherInfo.key === key;
-          } catch (e) {}
-
-          return false;
+          return item.getTerminalKey() === key;
         });
       }
     };

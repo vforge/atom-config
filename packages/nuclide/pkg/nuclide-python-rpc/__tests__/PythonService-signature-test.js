@@ -82,7 +82,7 @@ describe('PythonService', () => {
       expect((await jediService.get_signature_help(FIXTURE, contents, [], 12, 11))).toEqual({
         signatures: [{
           label: 'isinstance(obj, class_or_tuple)',
-          documentation: jasmine.any(String),
+          documentation: expect.any(String),
           parameters: [{
             label: 'obj',
             documentation: ''
@@ -98,7 +98,7 @@ describe('PythonService', () => {
       expect((await jediService.get_signature_help(FIXTURE, contents, [], 12, 18))).toEqual({
         signatures: [{
           label: 'isinstance(obj, class_or_tuple)',
-          documentation: jasmine.any(String),
+          documentation: expect.any(String),
           parameters: [{
             label: 'obj',
             documentation: ''

@@ -142,7 +142,7 @@ class SuggestionList extends React.Component {
     const keydown = event => {
       // If the user presses the enter key, confirm the selection.
       if (event.keyCode === 13) {
-        event.stopImmediatePropagation();
+        event.stopPropagation();
 
         this._confirm();
       }
@@ -202,7 +202,7 @@ class SuggestionList extends React.Component {
     this._close();
 
     if (event) {
-      event.stopImmediatePropagation();
+      event.stopPropagation();
     }
   }
 

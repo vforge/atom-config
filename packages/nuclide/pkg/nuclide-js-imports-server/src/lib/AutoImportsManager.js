@@ -135,8 +135,11 @@ const LARGE_FILE_LIMIT = 2000000;
 const MAX_CRASHES = 3;
 
 class AutoImportsManager {
-  constructor(globals, componentModulePathFilter) {
-    this.componentModulePathFilter = componentModulePathFilter;
+  constructor(globals, initializationSettings = {
+    componentModulePathFilter: null,
+    uiComponentToolsIndexingGkEnabled: null
+  }) {
+    this.initializationSettings = initializationSettings;
     this.definitionManager = new (_definitionManager().default)();
     this.suggestedImports = new Map();
     this.exportsManager = new (_ExportManager().ExportManager)();
@@ -164,7 +167,7 @@ class AutoImportsManager {
 
     const worker = _child_process.default.fork(_nuclideUri().default.join(__dirname, 'AutoImportsWorker-entry.js'), [root], {
       env: {
-        componentModulePathFilter: this.componentModulePathFilter
+        JS_IMPORTS_INITIALIZATION_SETTINGS: JSON.stringify(this.initializationSettings)
       }
     });
 

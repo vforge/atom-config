@@ -42,18 +42,6 @@ function _nuclideUri() {
   return data;
 }
 
-function _featureConfig() {
-  const data = _interopRequireDefault(require("../../../modules/nuclide-commons-atom/feature-config"));
-
-  _featureConfig = function () {
-    return data;
-  };
-
-  return data;
-}
-
-var _RxMin = require("rxjs/bundles/Rx.min.js");
-
 function _temp() {
   const data = _interopRequireDefault(require("temp"));
 
@@ -88,7 +76,6 @@ describe('HgRepositoryClient', () => {
 
   const repoPath = _nuclideUri().default.join(tempDir, '.hg');
 
-  const workingDirectory = new _atom.Directory(tempDir);
   const projectDirectory = new _atom.Directory(tempSubDir);
   const repoOptions = {
     originURL: 'http://test.com/testproj',
@@ -231,71 +218,6 @@ describe('HgRepositoryClient', () => {
 
       expect(repo.isStatusModified(status)).toBe(false);
       expect(repo.isStatusNew(status)).toBe(false);
-    });
-  });
-  describe('the hgDiffCache', () => {
-    beforeEach(() => {
-      // Unfortunately, when the temp files in these tests are opened in the editor,
-      // editor.getPath() returns the original file path with '/private/' appended
-      // to it. Thus, the path returned from editor.getPath() (which is what is
-      // used in HgRepository) would fail a real 'contains' method. So we override
-      // this to the expected path.
-      _featureConfig().default.set('nuclide-hg-repository.enableDiffStats', true);
-
-      const workingDirectoryClone = new _atom.Directory(tempDir);
-      jest.spyOn(workingDirectory, 'contains').mockImplementation(filePath => {
-        const prefix = '/private';
-
-        if (filePath.startsWith(prefix)) {
-          const prefixRemovedPath = filePath.slice(prefix.length);
-          return workingDirectoryClone.contains(prefixRemovedPath);
-        }
-
-        return workingDirectoryClone.contains(filePath);
-      });
-      const projectDirectoryClone = new _atom.Directory(tempSubDir);
-      jest.spyOn(projectDirectory, 'contains').mockImplementation(filePath => {
-        const prefix = '/private';
-
-        if (filePath.startsWith(prefix)) {
-          const prefixRemovedPath = filePath.slice(prefix.length);
-          return projectDirectoryClone.contains(prefixRemovedPath);
-        }
-
-        return projectDirectoryClone.contains(filePath);
-      });
-      jest.spyOn(repo, '_updateDiffInfo').mockReturnValue(_RxMin.Observable.of('fake'));
-      jest.spyOn(repo, '_observePaneItemVisibility').mockReturnValue(_RxMin.Observable.of(true));
-    });
-  });
-  describe('::_updateDiffInfo', () => {
-    const mockDiffInfo = {
-      added: 2,
-      deleted: 11,
-      lineDiffs: [{
-        oldStart: 150,
-        oldLines: 11,
-        newStart: 150,
-        newLines: 2
-      }]
-    };
-    beforeEach(() => {
-      jest.spyOn(repo, '_getCurrentHeadId').mockReturnValue(_RxMin.Observable.of('test'));
-      jest.spyOn(repo._sharedMembers.service, 'fetchFileContentAtRevision').mockImplementation(filePath => {
-        return new _RxMin.Observable.of('test').publish();
-      });
-      jest.spyOn(repo, '_getFileDiffs').mockImplementation(pathsToFetch => {
-        const diffs = [];
-
-        for (const filePath of pathsToFetch) {
-          diffs.push([filePath, mockDiffInfo]);
-        }
-
-        return _RxMin.Observable.of(diffs);
-      });
-      jest.spyOn(workingDirectory, 'contains').mockImplementation(() => {
-        return true;
-      });
     });
   });
   describe('::getCachedPathStatus/::getPathStatus', () => {

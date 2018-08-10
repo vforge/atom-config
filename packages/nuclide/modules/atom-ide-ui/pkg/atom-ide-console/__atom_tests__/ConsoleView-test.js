@@ -63,7 +63,9 @@ describe('ConsoleView', () => {
       selectedSourceIds: [],
       sources: [],
       updateFilter: () => {},
-      watchEditor: null
+      watchEditor: null,
+      selectedSeverities: new Set(['error', 'warning', 'info']),
+      toggleSeverity: () => {}
     }));
 
     const workspaceEl = atom.views.getView(atom.workspace);

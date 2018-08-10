@@ -341,7 +341,7 @@ module.exports = _client => {
           line: 152
         },
         name: "LanguageService"
-      }), "rename", "promise", _client.marshalArguments(Array.from(arguments), [{
+      }), "rename", "observable", _client.marshalArguments(Array.from(arguments), [{
         name: "fileVersion",
         type: {
           kind: "named",
@@ -358,7 +358,7 @@ module.exports = _client => {
         type: {
           kind: "string"
         }
-      }])).then(value => {
+      }])).map(value => {
         return _client.unmarshal(value, {
           kind: "nullable",
           type: {
@@ -376,7 +376,7 @@ module.exports = _client => {
             }
           }
         });
-      });
+      }).publish();
     }
 
     getCoverage(arg0) {
@@ -3962,7 +3962,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 178
+            line: 181
           },
           kind: "function",
           argumentTypes: [{
@@ -3993,7 +3993,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 183
+            line: 186
           },
           kind: "function",
           argumentTypes: [{
@@ -4015,7 +4015,7 @@ Object.defineProperty(module.exports, "defs", {
             }
           }],
           returnType: {
-            kind: "promise",
+            kind: "observable",
             type: {
               kind: "nullable",
               type: {
@@ -4039,7 +4039,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 189
+            line: 192
           },
           kind: "function",
           argumentTypes: [{
@@ -4064,7 +4064,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 191
+            line: 194
           },
           kind: "function",
           argumentTypes: [{
@@ -4089,7 +4089,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 193
+            line: 196
           },
           kind: "function",
           argumentTypes: [{
@@ -4117,7 +4117,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 195
+            line: 198
           },
           kind: "function",
           argumentTypes: [{
@@ -4148,7 +4148,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 208
+            line: 211
           },
           kind: "function",
           argumentTypes: [{
@@ -4188,7 +4188,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 214
+            line: 217
           },
           kind: "function",
           argumentTypes: [{
@@ -4219,7 +4219,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 216
+            line: 219
           },
           kind: "function",
           argumentTypes: [{
@@ -4253,7 +4253,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 221
+            line: 224
           },
           kind: "function",
           argumentTypes: [{
@@ -4293,7 +4293,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 227
+            line: 230
           },
           kind: "function",
           argumentTypes: [{
@@ -4342,7 +4342,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 236
+            line: 239
           },
           kind: "function",
           argumentTypes: [{
@@ -4387,7 +4387,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 243
+            line: 246
           },
           kind: "function",
           argumentTypes: [{
@@ -4418,7 +4418,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 248
+            line: 251
           },
           kind: "function",
           argumentTypes: [{
@@ -4438,7 +4438,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 250
+            line: 253
           },
           kind: "function",
           argumentTypes: [{
@@ -4463,7 +4463,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 254
+            line: 257
           },
           kind: "function",
           argumentTypes: [{
@@ -4487,7 +4487,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 256
+            line: 259
           },
           kind: "function",
           argumentTypes: [{
@@ -4523,7 +4523,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 261
+            line: 264
           },
           kind: "function",
           argumentTypes: [{
@@ -4548,7 +4548,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 263
+            line: 266
           },
           kind: "function",
           argumentTypes: [{
@@ -4569,7 +4569,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 265
+            line: 268
           },
           kind: "function",
           argumentTypes: [{
@@ -4600,7 +4600,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 270
+            line: 273
           },
           kind: "function",
           argumentTypes: [{
@@ -4637,7 +4637,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 276
+            line: 279
           },
           kind: "function",
           argumentTypes: [{
@@ -4659,7 +4659,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 278
+            line: 281
           },
           kind: "function",
           argumentTypes: [{
@@ -4690,7 +4690,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 284
+            line: 287
           },
           kind: "function",
           argumentTypes: [{
@@ -4721,7 +4721,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 290
+            line: 293
           },
           kind: "function",
           argumentTypes: [{
@@ -4741,7 +4741,7 @@ Object.defineProperty(module.exports, "defs", {
           location: {
             type: "source",
             fileName: "LanguageService.js",
-            line: 294
+            line: 297
           },
           kind: "function",
           argumentTypes: [],

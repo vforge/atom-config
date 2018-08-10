@@ -29,7 +29,7 @@ var waitsFor = async function waitsFor(fn, message, timeout = 4500) {
     } // eslint-disable-next-line no-await-in-loop
 
 
-    await new Promise(resolve => setTimeout(resolve, 50));
+    await new Promise(resolve => setTimeout(resolve, 40));
   }
 };
 

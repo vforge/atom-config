@@ -5,6 +5,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+function DebugProtocol() {
+  const data = _interopRequireWildcard(require("vscode-debugprotocol"));
+
+  DebugProtocol = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _DebuggerInterface() {
   const data = require("./DebuggerInterface");
 
@@ -14,6 +24,8 @@ function _DebuggerInterface() {
 
   return data;
 }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
@@ -58,14 +70,51 @@ in complex ways.
     try {
       const {
         body: {
-          result
+          result,
+          variablesReference,
+          namedVariables,
+          indexedVariables
         }
       } = await this._debugger.evaluateExpression(expr);
 
-      this._console.outputLine(result);
+      if (variablesReference > 0) {
+        this._console.more((await this.formatVariable({
+          name: '',
+          value: result,
+          variablesReference,
+          namedVariables: namedVariables == null ? 0 : namedVariables,
+          indexedVariables: indexedVariables == null ? 0 : indexedVariables
+        }, 0)));
+      }
     } catch (err) {
       this._console.outputLine(err.message);
     }
+  }
+
+  async formatVariable(v, depth) {
+    if (depth > 4) {
+      return '...';
+    }
+
+    if (v.variablesReference != null && v.variablesReference !== 0) {
+      if ((v.indexedVariables === 0 || v.indexedVariables == null) && (v.namedVariables === 0 || v.namedVariables == null)) {
+        return '[]';
+      }
+
+      const children = await this._debugger.getVariablesByReference(v.variablesReference);
+      const childValues = await Promise.all(children.map(child => this.formatVariable(child, depth + 1)));
+      let formatted = '';
+      formatted += `${' '.repeat(depth)}[\n`;
+
+      for (let index = 0; index < children.length; index++) {
+        formatted += `${' '.repeat(depth + 1)}${children[index].name} => ${childValues[index]},\n`;
+      }
+
+      formatted += `${' '.repeat(depth)}]`;
+      return formatted;
+    }
+
+    return v.value;
   }
 
 }

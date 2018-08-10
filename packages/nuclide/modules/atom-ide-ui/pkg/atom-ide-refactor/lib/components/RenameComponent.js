@@ -81,7 +81,7 @@ class RenameComponent extends React.Component {
         editor: this.props.parentEditor,
         position: this.props.symbolPosition
       };
-      return newName === '' ? store.dispatch(Actions().close()) : store.dispatch(Actions().execute(this.props.provider, renameRequest));
+      return newName === '' ? store.dispatch(Actions().close()) : store.dispatch(Actions().execute(this.props.providers, renameRequest));
     };
 
     this._handleCancel = event => {

@@ -72,7 +72,7 @@ describe('commons-node/process', () => {
   describe('process.killProcess', () => {
     it('should only kill the process when `killTree` is false', async () => {
       const proc = {
-        kill: jasmine.createSpy()
+        kill: jest.fn()
       };
       jest.spyOn(console, 'log'); // suppress log printing
 
@@ -633,16 +633,16 @@ describe('commons-node/process', () => {
     });
     it('adds listeners', () => {
       (0, _process().preventStreamsFromThrowing)(proc);
-      expect(proc.stdin.addListener).toHaveBeenCalledWith('error', jasmine.any(Function));
-      expect(proc.stdout.addListener).toHaveBeenCalledWith('error', jasmine.any(Function));
-      expect(proc.stderr.addListener).toHaveBeenCalledWith('error', jasmine.any(Function));
+      expect(proc.stdin.addListener).toHaveBeenCalledWith('error', expect.any(Function));
+      expect(proc.stdout.addListener).toHaveBeenCalledWith('error', expect.any(Function));
+      expect(proc.stderr.addListener).toHaveBeenCalledWith('error', expect.any(Function));
     });
     it('removes listeners when disposed', () => {
       const disposable = (0, _process().preventStreamsFromThrowing)(proc);
       disposable.dispose();
-      expect(proc.stdin.removeListener).toHaveBeenCalledWith('error', jasmine.any(Function));
-      expect(proc.stdout.removeListener).toHaveBeenCalledWith('error', jasmine.any(Function));
-      expect(proc.stderr.removeListener).toHaveBeenCalledWith('error', jasmine.any(Function));
+      expect(proc.stdin.removeListener).toHaveBeenCalledWith('error', expect.any(Function));
+      expect(proc.stdout.removeListener).toHaveBeenCalledWith('error', expect.any(Function));
+      expect(proc.stderr.removeListener).toHaveBeenCalledWith('error', expect.any(Function));
     });
   });
   describe('logStreamErrors', () => {

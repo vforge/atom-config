@@ -204,7 +204,10 @@ connection.onInitialize(params => {
   const flowConfig = (0, _Config().getConfigFromFlow)(root);
   shouldProvideFlags.diagnostics = shouldProvideDiagnostics(params, root);
   importFormatter = new (_ImportFormatter().ImportFormatter)(flowConfig.moduleDirs, shouldUseRequires(params, root));
-  autoImportsManager = new (_AutoImportsManager().AutoImportsManager)(eslintGlobals, params.initializationOptions.componentModulePathFilter);
+  autoImportsManager = new (_AutoImportsManager().AutoImportsManager)(eslintGlobals, params.initializationOptions ? {
+    componentModulePathFilter: params.initializationOptions.componentModulePathFilter,
+    uiComponentToolsIndexingGkEnabled: params.initializationOptions.uiComponentToolsIndexingGkEnabled
+  } : undefined);
   autoImportsManager.indexAndWatchDirectory(root);
   completion = new (_Completions().Completions)(autoImportsManager.getDefinitionManager(), documents, autoImportsManager, importFormatter);
   diagnostics = new (_Diagnostics().Diagnostics)(autoImportsManager, importFormatter);

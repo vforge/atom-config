@@ -183,14 +183,14 @@ class Activation {
       }
 
       const mountPosition = editor.getSelectedBufferRange().start;
-      const provider = Array.from(this._providerRegistry.getAllProvidersForEditor(editor)).find(p => p.rename != null);
+      const renameProviders = Array.from(this._providerRegistry.getAllProvidersForEditor(editor)).filter(p => p.rename != null);
 
-      if (provider == null) {
+      if (renameProviders.length === 0) {
         (0, _log4js().getLogger)('rename').error('Rename Provider Not Found');
         return null;
       }
 
-      this._store.dispatch(Actions().displayRename(editor, provider, selectedText, mountPosition, position));
+      this._store.dispatch(Actions().displayRename(editor, renameProviders, selectedText, mountPosition, position));
     }), atom.contextMenu.add({
       'atom-text-editor': [{
         label: 'Rename',

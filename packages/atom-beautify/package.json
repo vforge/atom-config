@@ -2,39 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-4144-1wb1y1h.l7y32z9f6r/package.tgz",
+        "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118710-64830-c95bz1.bjis6h6w29/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-4144-1wb1y1h.l7y32z9f6r/package.tgz",
-        "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-4144-1wb1y1h.l7y32z9f6r/package.tgz",
+        "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118710-64830-c95bz1.bjis6h6w29/package.tgz",
+        "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118710-64830-c95bz1.bjis6h6w29/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118520-4144-1vvfdvc.shi7t7f1or"
+      "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118710-64830-eqznzr.0b2ml323xr"
     ]
   ],
-  "_from": "../d-118520-4144-1wb1y1h.l7y32z9f6r/package.tgz",
-  "_id": "atom-beautify@0.32.5",
+  "_from": "../d-118710-64830-c95bz1.bjis6h6w29/package.tgz",
+  "_id": "atom-beautify@0.33.0",
   "_inCache": true,
   "_location": "/atom-beautify",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-4144-1wb1y1h.l7y32z9f6r/package.tgz",
+    "raw": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118710-64830-c95bz1.bjis6h6w29/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-4144-1wb1y1h.l7y32z9f6r/package.tgz",
-    "spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-4144-1wb1y1h.l7y32z9f6r/package.tgz",
+    "rawSpec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118710-64830-c95bz1.bjis6h6w29/package.tgz",
+    "spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118710-64830-c95bz1.bjis6h6w29/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-118520-4144-1wb1y1h.l7y32z9f6r/package.tgz",
-  "_shasum": "d3b89954adc7994bbaa4e7de3079159eba23b270",
+  "_resolved": "file:../d-118710-64830-c95bz1.bjis6h6w29/package.tgz",
+  "_shasum": "703523e78f85fb8221ad65ee28da45bacdc48c80",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/d-118520-4144-1wb1y1h.l7y32z9f6r/package.tgz",
-  "_where": "/private/var/folders/47/zs3x4f1j6gb0f3qkh1_xcr340000gn/T/apm-install-dir-118520-4144-1vvfdvc.shi7t7f1or",
+  "_spec": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/d-118710-64830-c95bz1.bjis6h6w29/package.tgz",
+  "_where": "/private/var/folders/98/ljr9tzhs7mq7hbjtsxrjqr8h0000gn/T/apm-install-dir-118710-64830-eqznzr.0b2ml323xr",
   "activationCommands": {
     "atom-workspace": [
       "atom-beautify:help-debug-editor",
@@ -527,5 +527,5 @@
     "pretest": "npm run lint",
     "test": "atom --test spec"
   },
-  "version": "0.32.5"
+  "version": "0.33.0"
 }

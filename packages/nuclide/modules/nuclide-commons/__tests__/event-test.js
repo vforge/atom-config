@@ -29,7 +29,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 describe('attachEvent', () => {
   describe('the returned disposable', () => {
     it("doesn't remove other listeners when disposed multiple times", () => {
-      const foo = jasmine.createSpy('foo');
+      const foo = jest.fn();
       const emitter = new _events.default();
       const d1 = (0, _event().attachEvent)(emitter, 'event', foo);
       (0, _event().attachEvent)(emitter, 'event', foo);

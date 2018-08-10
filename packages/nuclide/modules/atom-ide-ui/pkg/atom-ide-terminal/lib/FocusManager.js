@@ -142,7 +142,6 @@ class FocusManager {
   }
 
   _onActiveTextEditor(editor) {
-    // Apparently `editor` can be null on startup.
     if (editor != null && editor !== this._lastEditor.item) {
       this._lastEditor.onActiveItem(editor);
     }

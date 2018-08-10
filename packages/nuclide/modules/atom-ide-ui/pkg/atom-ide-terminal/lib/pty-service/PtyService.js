@@ -228,9 +228,9 @@ async function getEnvironment(info) {
     delete newEnv[x];
   }
 
-  return Object.assign({}, newEnv, info.environment != null ? (0, _collection().objectFromMap)(info.environment) : {}, {
+  return Object.assign({}, newEnv, {
     TERM_PROGRAM: 'nuclide'
-  });
+  }, info.environment != null ? (0, _collection().objectFromMap)(info.environment) : {});
 }
 
 class PtyImplementation {

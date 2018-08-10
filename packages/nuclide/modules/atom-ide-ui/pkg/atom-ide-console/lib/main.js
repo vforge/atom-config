@@ -246,7 +246,8 @@ class Activation {
       store: this._getStore(),
       initialFilterText: state.filterText,
       initialEnableRegExpFilter: state.enableRegExpFilter,
-      initialUnselectedSourceIds: state.unselectedSourceIds
+      initialUnselectedSourceIds: state.unselectedSourceIds,
+      initialUnselectedSeverities: new Set(state.unselectedSeverities || [])
     });
   }
   /**

@@ -51,6 +51,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @format
  */
 const LOADING_DELAY_MS = 500;
+const OUTLINE_DEBOUNCE_DELAY = 100;
 
 function createOutlines(editorService) {
   return outlinesForProviderResults(editorService.getResultsStream());
@@ -131,7 +132,7 @@ function treeToUiTree(outlineTree, nameOnly) {
 }
 
 function getHighlightedPaths(outline, editor) {
-  return (0, _textEditor().getCursorPositions)(editor) // optimization: the outline never needs to update when navigating within a row
+  return (0, _textEditor().getCursorPositions)(editor).debounceTime(OUTLINE_DEBOUNCE_DELAY) // optimization: the outline never needs to update when navigating within a row
   .distinctUntilChanged((p1, p2) => p1.row === p2.row).map(position => {
     return highlightedPathsForOutline(outline, position);
   }).distinctUntilChanged((p1, p2) => (0, _collection().arrayEqual)(p1, p2, _collection().arrayEqual));

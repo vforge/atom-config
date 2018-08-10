@@ -5,6 +5,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+function _EmptyState() {
+  const data = require("../../../modules/nuclide-commons-ui/EmptyState");
+
+  _EmptyState = function () {
+    return data;
+  };
+
+  return data;
+}
+
 var React = _interopRequireWildcard(require("react"));
 
 function _projects() {
@@ -83,7 +93,8 @@ class VcsLogComponent extends React.Component {
 
   render() {
     const {
-      logEntries
+      logEntries,
+      fileLoadingError
     } = this.props;
 
     if (logEntries != null) {
@@ -145,24 +156,31 @@ class VcsLogComponent extends React.Component {
           oldContent,
           newContent
         };
+        const diffSection = fileLoadingError != null ? React.createElement(_EmptyState().EmptyState, {
+          title: 'Error loading diffs',
+          message: fileLoadingError
+        }) : React.createElement(_ShowDiff().ShowDiff, props);
         return (// $FlowFixMe(>=0.53.0) Flow suppress
           React.createElement(_ResizableFlexContainer().ResizableFlexContainer, {
             direction: _ResizableFlexContainer().FlexDirections.VERTICAL,
             className: 'nuclide-vcs-log-container'
           }, React.createElement(_ResizableFlexContainer().ResizableFlexItem, {
             initialFlexScale: 3
-          }, React.createElement(_ShowDiff().ShowDiff, props)), React.createElement(_ResizableFlexContainer().ResizableFlexItem, {
+          }, diffSection), React.createElement(_ResizableFlexContainer().ResizableFlexItem, {
             initialFlexScale: 1,
             className: 'nuclide-vcs-log-entries-container'
           }, logTable))
         );
       }
     } else {
-      return React.createElement("div", null, React.createElement("div", null, React.createElement("em", null, "Loading hg log ", this._files.join(' '))), React.createElement("div", {
-        className: "nuclide-vcs-log-spinner"
-      }, React.createElement("div", {
-        className: "loading-spinner-large inline-block"
-      })));
+      return React.createElement(_EmptyState().EmptyState, {
+        title: 'Loading hg log ' + this._files.join(' '),
+        message: React.createElement("div", {
+          className: "nuclide-vcs-log-spinner"
+        }, React.createElement("div", {
+          className: "loading-spinner-large inline-block"
+        }))
+      });
     }
   }
 
@@ -245,7 +263,7 @@ class VcsLogComponent extends React.Component {
       className: "nuclide-vcs-log-id-cell"
     }, logEntry.node.substring(0, 8)), differentialCell, React.createElement("td", {
       className: "nuclide-vcs-log-author-cell"
-    }, (0, _util().shortNameForAuthor)(logEntry.user)), React.createElement("td", {
+    }, (0, _util().shortNameForAuthor)(logEntry.author)), React.createElement("td", {
       className: "nuclide-vcs-log-summary-cell",
       title: logEntry.desc
     }, parseFirstLine(logEntry.desc)), React.createElement("td", {

@@ -205,7 +205,7 @@ const URI_PREFIX = 'atom://nuclide-terminal-view';
 exports.URI_PREFIX = URI_PREFIX;
 
 class TerminalView {
-  constructor(paneUri) {
+  constructor(paneUri, fallbackCwd = '') {
     this._syncFontAndFit = () => {
       this._setTerminalOption('fontSize', (0, _config().getFontSize)());
 
@@ -219,8 +219,9 @@ class TerminalView {
     this._paneUri = paneUri;
     const info = (0, _nuclideTerminalUri().infoFromUri)(paneUri);
     this._terminalInfo = info;
-    const cwd = this._cwd = info.cwd == null ? null : info.cwd;
+    const cwd = this._cwd = info.cwd || fallbackCwd;
     this._command = info.command == null ? null : info.command;
+    this._key = info.key;
     this._title = info.title == null ? 'terminal' : info.title;
     this._path = cwd;
     this._initialInput = info.initialInput == null ? '' : getSafeInitialInput(info.initialInput);
@@ -659,6 +660,10 @@ class TerminalView {
     return this._paneUri;
   }
 
+  getTerminalKey() {
+    return this._key;
+  }
+
   getDefaultLocation() {
     return this._terminalInfo.defaultLocation;
   }
@@ -686,7 +691,8 @@ class TerminalView {
   serialize() {
     return {
       deserializer: 'TerminalView',
-      paneUri: this._paneUri
+      paneUri: this._paneUri,
+      cwd: this._cwd
     };
   }
 
@@ -698,7 +704,7 @@ function deserializeTerminalView(state) {
   // Convert from/to uri to generate a new unique id.
   const info = (0, _nuclideTerminalUri().infoFromUri)(state.paneUri, true);
   const paneUri = (0, _nuclideTerminalUri().uriFromInfo)(info);
-  return new TerminalView(paneUri);
+  return new TerminalView(paneUri, state.cwd);
 }
 
 function registerLinkHandlers(terminal, cwd) {

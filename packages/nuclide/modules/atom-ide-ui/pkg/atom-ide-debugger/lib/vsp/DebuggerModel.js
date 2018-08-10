@@ -5,6 +5,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Model = exports.ExceptionBreakpoint = exports.FunctionBreakpoint = exports.Breakpoint = exports.Process = exports.Thread = exports.StackFrame = exports.Scope = exports.Variable = exports.Expression = exports.Source = void 0;
 
+function _nuclideUri() {
+  const data = _interopRequireDefault(require("../../../../../nuclide-commons/nuclideUri"));
+
+  _nuclideUri = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function DebugProtocol() {
   const data = _interopRequireWildcard(require("vscode-debugprotocol"));
 
@@ -99,9 +109,9 @@ function _expected() {
   return data;
 }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
@@ -758,12 +768,29 @@ exports.Thread = Thread;
 
 class Process {
   constructor(configuration, session) {
+    this._breakpoints = [];
     this._configuration = configuration;
     this._session = session;
     this._threads = new Map();
     this._sources = new Map();
     this._pendingStart = true;
     this._pendingStop = false;
+  }
+
+  get breakpoints() {
+    return this._breakpoints;
+  }
+
+  getBreakpointById(id) {
+    return this._breakpoints.find(bp => bp.getId() === id);
+  }
+
+  setBreakpointById(id, breakpoint) {
+    const index = this._breakpoints.findIndex(bp => bp.getId() === id);
+
+    if (index >= 0) {
+      this._breakpoints[index] = breakpoint;
+    }
   }
 
   get sources() {
@@ -901,6 +928,38 @@ class Process {
         ExpressionContainer.allValues.clear();
       }
     }
+  }
+
+  addBreakpoints(uri, rawData, fireEvent = true) {
+    const newBreakpoints = rawData.map(rawBp => new Breakpoint(uri, rawBp.line, rawBp.column, rawBp.enabled, rawBp.condition, rawBp.hitCondition));
+    this._breakpoints = this._breakpoints.concat(newBreakpoints);
+    return newBreakpoints;
+  }
+
+  updateBreakpoints(data) {
+    const updated = [];
+
+    this._breakpoints.forEach(bp => {
+      const bpData = data[bp.getId()];
+
+      if (bpData != null) {
+        bp.line = bpData.line != null ? bpData.line : bp.line;
+        bp.endLine = bpData.endLine != null ? bpData.endLine : bp.endLine;
+        bp.column = bpData.column != null ? bpData.column : bp.column;
+        bp.endColumn = bpData.endColumn;
+        bp.verified = bpData.verified != null ? bpData.verified : bp.verified;
+        bp.idFromAdapter = bpData.id;
+        bp.message = bpData.message;
+        bp.adapterData = bpData.source ? bpData.source.adapterData : bp.adapterData;
+        updated.push(bp);
+      }
+    });
+  }
+
+  removeBreakpointsByUris(uris) {
+    this._breakpoints = this._breakpoints.filter(breakpoint => {
+      return !uris.includes(breakpoint.uri);
+    });
   }
 
   async completions(frameId, text, position, overwriteBefore) {
@@ -1150,6 +1209,10 @@ class Model {
 
     this._sortAndDeDup();
 
+    this.getProcesses().forEach(process => {
+      process.addBreakpoints(uri, rawData);
+    });
+
     if (fireEvent) {
       this._emitter.emit(BREAKPOINTS_CHANGED, {
         added: newBreakpoints
@@ -1193,19 +1256,69 @@ class Model {
     });
   }
 
-  _sortAndDeDup() {
-    this._breakpoints = this._breakpoints.sort((first, second) => {
-      if (first.uri !== second.uri) {
-        return first.uri.localeCompare(second.uri);
-      }
+  updateBreakpointsForProcess(data, process) {
+    const updated = [];
 
-      if (first.line === second.line) {
-        return first.column - second.column;
-      }
+    for (const bpID of Object.keys(data)) {
+      const bpData = data[bpID];
 
-      return first.line - second.line;
+      if (bpData != null) {
+        const matchingBreakpoint = process.getBreakpointById(bpID);
+
+        if (matchingBreakpoint == null) {
+          // Create a new breakpoint in the process.
+          const targetUri = process.configuration.targetUri;
+          const sourcePath = bpData.source != null ? bpData.source.path : null;
+          const remoteUri = _nuclideUri().default.isRemote(targetUri) && sourcePath != null ? _nuclideUri().default.createRemoteUri(_nuclideUri().default.getHostname(targetUri), sourcePath) : sourcePath;
+
+          if (remoteUri != null && bpData.line != null) {
+            const newBreakpoint = new Breakpoint(remoteUri, bpData.line != null ? bpData.line : -1, bpData.column);
+            process.breakpoints.push(newBreakpoint);
+            updated.push(newBreakpoint);
+          }
+        } else {
+          matchingBreakpoint.line = bpData.line != null ? bpData.line : matchingBreakpoint.line;
+          matchingBreakpoint.endLine = bpData.endLine != null ? bpData.endLine : matchingBreakpoint.endLine;
+          matchingBreakpoint.column = bpData.column != null ? bpData.column : matchingBreakpoint.column;
+          matchingBreakpoint.endColumn = bpData.endColumn;
+          matchingBreakpoint.verified = bpData.verified != null ? bpData.verified : matchingBreakpoint.verified;
+          matchingBreakpoint.idFromAdapter = bpData.id;
+          matchingBreakpoint.message = bpData.message;
+          matchingBreakpoint.adapterData = bpData.source ? bpData.source.adapterData : matchingBreakpoint.adapterData;
+          updated.push(matchingBreakpoint);
+          process.setBreakpointById(bpID, matchingBreakpoint);
+        }
+      }
+    }
+
+    this._sortAndDeDup(process);
+
+    this._emitter.emit(BREAKPOINTS_CHANGED, {
+      changed: updated
     });
-    this._breakpoints = (0, _collection().distinct)(this._breakpoints, bp => `${bp.uri}:${bp.endLine != null ? bp.endLine : bp.line}:${bp.column}`);
+  }
+
+  _sortAndDeDup(process) {
+    const distinctFn = breakpoints => {
+      return (0, _collection().distinct)( // Flow doesn't seem to be able to make breakpoints be IBreakpoint.
+      breakpoints, bp => `${bp.uri}:${bp.endLine != null ? bp.endLine : bp.line}:${bp.column}`).sort((first, second) => {
+        if (first.uri !== second.uri) {
+          return first.uri.localeCompare(second.uri);
+        }
+
+        if (first.line === second.line) {
+          return first.column - second.column;
+        }
+
+        return first.line - second.line;
+      });
+    };
+
+    if (process == null) {
+      this._breakpoints = distinctFn(this._breakpoints);
+    } else {
+      process.breakpoints.splice(0, process.breakpoints.length, ...distinctFn(process.breakpoints));
+    }
   }
 
   setEnablement(element, enable) {

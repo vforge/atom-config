@@ -105,7 +105,7 @@ function showModal(contentFactory, options = defaults) {
 
     atomPanel.destroy();
 
-    if (document.activeElement === document.body && previouslyFocusedElement != null) {
+    if (previouslyFocusedElement != null) {
       previouslyFocusedElement.focus();
     }
   });

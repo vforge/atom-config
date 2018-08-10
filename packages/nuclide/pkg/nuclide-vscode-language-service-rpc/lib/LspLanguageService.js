@@ -1920,7 +1920,11 @@ class LspLanguageService {
     };
   }
 
-  async rename(fileVersion, position, newName) {
+  rename(fileVersion, position, newName) {
+    return _RxMin.Observable.fromPromise(this._rename(fileVersion, position, newName)).publish();
+  }
+
+  async _rename(fileVersion, position, newName) {
     if (this._getState() !== 'Running' || !this._serverCapabilities.renameProvider || !(await this._lspFileVersionNotifier.waitForBufferAtVersion(fileVersion))) {
       return null;
     }
@@ -2657,7 +2661,15 @@ class LspLanguageService {
       reason: _protocol().TextDocumentSaveReason.Manual
     };
     return _RxMin.Observable.create(observer => {
-      this._lspConnection.willSaveWaitUntilTextDocument(params, cancellationSource.token).then(edits => {
+      // Comment above notes _lspConnection is really nullable... and it's been
+      const connection = this._lspConnection;
+
+      if (connection == null) {
+        observer.complete();
+        return;
+      }
+
+      connection.willSaveWaitUntilTextDocument(params, cancellationSource.token).then(edits => {
         for (const edit of convert().lspTextEdits_atomTextEdits(edits)) {
           observer.next(edit);
         }
@@ -2670,7 +2682,6 @@ class LspLanguageService {
 
         observer.complete();
       });
-
       return cancelRequest;
     }).publish();
   }

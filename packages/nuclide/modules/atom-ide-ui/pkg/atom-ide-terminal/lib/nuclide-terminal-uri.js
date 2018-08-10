@@ -21,6 +21,16 @@ function _uuid() {
   return data;
 }
 
+function _isEmpty() {
+  const data = _interopRequireDefault(require("lodash/isEmpty"));
+
+  _isEmpty = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -93,27 +103,32 @@ function infoFromUri(paneUri, uriFromTrustedSource = false) {
     query
   } = _url.default.parse(paneUri, true);
 
-  if (query == null) {
+  if ((0, _isEmpty().default)(query)) {
+    // query can be null, '', or {}
     return Object.assign({}, TERMINAL_DEFAULT_INFO, {
       key: _uuid().default.v4()
     });
   } else {
-    const cwd = query.cwd === '' ? {} : {
+    if (!(query != null)) {
+      throw new Error("Invariant violation: \"query != null\"");
+    }
+
+    const cwd = query.cwd ? {
       cwd: query.cwd
-    };
-    const command = query.command !== '' ? {
+    } : {};
+    const command = query.command ? {
       command: JSON.parse(query.command)
     } : {};
-    const title = query.title === '' ? {} : {
+    const title = query.title ? {
       title: query.title
-    };
+    } : {};
     const remainOnCleanExit = query.remainOnCleanExit === 'true';
     const key = query.key;
-    const defaultLocation = query.defaultLocation != null && query.defaultLocation !== '' ? query.defaultLocation : TERMINAL_DEFAULT_LOCATION;
-    const icon = query.icon != null && query.icon !== '' ? query.icon : TERMINAL_DEFAULT_ICON;
-    const environmentVariables = query.environmentVariables != null && query.environmentVariables !== '' ? new Map(JSON.parse(query.environmentVariables)) : new Map();
+    const defaultLocation = query.defaultLocation || TERMINAL_DEFAULT_LOCATION;
+    const icon = query.icon || TERMINAL_DEFAULT_ICON;
+    const environmentVariables = query.environmentVariables ? new Map(JSON.parse(query.environmentVariables)) : new Map();
     const preservedCommands = JSON.parse(query.preservedCommands || '[]');
-    const initialInput = query.initialInput != null ? query.initialInput : ''; // Information that can affect the commands executed by the terminal,
+    const initialInput = query.initialInput || ''; // Information that can affect the commands executed by the terminal,
     // and that therefore must come from a trusted source.
     //
     // If we detect that the URL did not come from this instance of Nuclide,

@@ -46,6 +46,7 @@ require('raptor-polyfill/function/bind');
 
 // Object methods
 require('raptor-polyfill/object/keys');
+require('raptor-polyfill/objects/assign');
 
 // String methods
 require('raptor-polyfill/string/trim');

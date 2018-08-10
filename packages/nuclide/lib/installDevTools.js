@@ -103,8 +103,12 @@ function installDevTools() {
     }
 
     if (latest != null && latestManifest != null) {
-      remote.BrowserWindow.addDevToolsExtension(latest.dirname);
-      log(`Successfully loaded Chrome extension "${latestManifest.name}"`);
+      try {
+        remote.BrowserWindow.addDevToolsExtension(latest.dirname);
+        log(`Successfully loaded Chrome extension "${latestManifest.name}"`);
+      } catch (e) {// the above call to `addDevToolsExtension` seems to frequently throw after
+        // a recent Electron upgrade, despite the extension actually being added
+      }
     }
   }
 

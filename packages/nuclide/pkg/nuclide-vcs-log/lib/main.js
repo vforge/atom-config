@@ -341,14 +341,22 @@ function createLogPaneForPath(path) {
     if (oldId == null || newId == null) {
       return _RxMin.Observable.of({
         oldContent: null,
-        newContent: null
+        newContent: null,
+        error: null
       });
     }
 
     return _RxMin.Observable.forkJoin(oldId !== '' ? repository.fetchFileContentAtRevision(path, oldId) : _RxMin.Observable.of(''), newId !== '' ? repository.fetchFileContentAtRevision(path, newId) : _RxMin.Observable.of('')).startWith([null, null]).map(([oldContent, newContent]) => ({
       oldContent,
-      newContent
-    }));
+      newContent,
+      error: null
+    })).catch(error => {
+      return _RxMin.Observable.of({
+        oldContent: null,
+        newContent: null,
+        error: error.toString()
+      });
+    });
   });
 
   const props = _RxMin.Observable.combineLatest(_RxMin.Observable.fromPromise(repository.log([path], NUM_LOG_RESULTS)).map(log => log.entries).startWith(null), contentLoader).map(([logEntries, content]) => {
@@ -358,6 +366,7 @@ function createLogPaneForPath(path) {
       repository,
       onDiffClick,
       logEntries,
+      fileLoadingError: content.error,
       oldContent: content.oldContent,
       newContent: content.newContent
     };

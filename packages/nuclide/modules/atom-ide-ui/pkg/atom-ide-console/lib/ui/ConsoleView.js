@@ -329,7 +329,9 @@ class ConsoleView extends React.Component {
       selectedSourceIds: this.props.selectedSourceIds,
       sources: this.props.sources,
       onFilterChange: this.props.updateFilter,
-      onSelectedSourcesChange: this.props.selectSources
+      onSelectedSourcesChange: this.props.selectSources,
+      selectedSeverities: this.props.selectedSeverities,
+      toggleSeverity: this.props.toggleSeverity
     }), React.createElement("div", {
       className: "console-body",
       id: 'console-font-size-' + this._id

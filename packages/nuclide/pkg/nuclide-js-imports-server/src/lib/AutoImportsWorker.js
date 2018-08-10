@@ -153,16 +153,6 @@ function _nuclideUiComponentToolsCommon() {
   return data;
 }
 
-function _passesGK() {
-  const data = _interopRequireDefault(require("../../../commons-node/passesGK"));
-
-  _passesGK = function () {
-    return data;
-  };
-
-  return data;
-}
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -450,9 +440,13 @@ async function getExportsForFile(file, hasteSettings, fileContents_) {
     const updateObj = Object.assign({}, update, {
       exports
     });
-    const componentModulePathFilter = process.env.componentModulePathFilter;
+    const settings = process.env.JS_IMPORTS_INITIALIZATION_SETTINGS;
+    const {
+      componentModulePathFilter,
+      uiComponentToolsIndexingGkEnabled
+    } = settings != null ? JSON.parse(settings) : {};
 
-    if ((await (0, _passesGK().default)(_nuclideUiComponentToolsCommon().UI_COMPONENT_TOOLS_INDEXING_GK)) && (componentModulePathFilter == null || file.includes(componentModulePathFilter))) {
+    if (Boolean(uiComponentToolsIndexingGkEnabled) && (componentModulePathFilter == null || file.includes(componentModulePathFilter))) {
       const definition = (0, _nuclideUiComponentToolsCommon().getComponentDefinitionFromAst)(file, ast);
 
       if (definition != null) {

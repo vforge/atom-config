@@ -225,10 +225,10 @@ class InlineRenameRenderer {
     this._store = store;
   }
 
-  renderRenameInput(editor, selectedText, provider, symbolPosition) {
+  renderRenameInput(editor, selectedText, providers, symbolPosition) {
     return React.createElement(_RenameComponent().default, {
       selectedText: selectedText,
-      provider: provider,
+      providers: providers,
       parentEditor: editor,
       store: this._store,
       symbolPosition: symbolPosition
@@ -264,13 +264,13 @@ class InlineRenameRenderer {
       const container = new (_ReactMountRootElement().default)();
       container.className = 'nuclide-refactorizer-rename-container';
       const {
-        provider,
+        providers,
         editor,
         selectedText,
         mountPosition,
         symbolPosition
       } = state.phase;
-      const renameElement = this.renderRenameInput(editor, selectedText, provider, symbolPosition);
+      const renameElement = this.renderRenameInput(editor, selectedText, providers, symbolPosition);
       this._disposable = this.mountRenameInput(editor, mountPosition, container, renameElement);
     } else {
       this.dispose();

@@ -86,19 +86,28 @@ function observeIosDevices() {
 }
 
 function createPoller() {
-  return _RxMin.Observable.interval(2000).startWith(0).switchMap(() => _RxMin.Observable.defer(async () => _expected().Expect.value((await (0, _nuclideRemoteConnection().getFbsimctlServiceByNuclideUri)('').getDevices()))).catch(error => {
-    const friendlyError = new Error("Can't fetch iOS devices. Make sure that fbsimctl is in your $PATH and that it works properly.");
+  return _RxMin.Observable.interval(2000).startWith(0).exhaustMap(() => {
+    const service = (0, _nuclideRemoteConnection().getFbsimctlServiceByNuclideUri)('');
 
-    if (error.code !== 'ENOENT') {
-      (0, _nuclideAnalytics().track)('nuclide-fbsimctl:error', {
-        error
-      });
-      (0, _log4js().getLogger)().error(error);
-    } else {
-      // Keep the code so tooling higher up knows this is due to the tool missing.
-      friendlyError.code = 'ENOENT';
+    if (service == null) {
+      // Gracefully handle a lost remote connection
+      return _RxMin.Observable.of(_expected().Expect.pending());
     }
 
-    return _RxMin.Observable.of(_expected().Expect.error(friendlyError));
-  })).distinctUntilChanged((a, b) => (0, _expected().expectedEqual)(a, b, (v1, v2) => (0, _collection().arrayEqual)(v1, v2, _shallowequal().default), (e1, e2) => e1.message === e2.message)).publishReplay(1).refCount();
+    return _RxMin.Observable.fromPromise(service.getDevices()).map(devices => _expected().Expect.value(devices)).catch(error => {
+      const message = error.code !== 'ENOENT' ? error.message : "'fbsimctl' not found in $PATH.";
+      return _RxMin.Observable.of(_expected().Expect.error(new Error("Can't fetch iOS devices. " + message)));
+    });
+  }).distinctUntilChanged((a, b) => (0, _expected().expectedEqual)(a, b, (v1, v2) => (0, _collection().arrayEqual)(v1, v2, _shallowequal().default), (e1, e2) => e1.message === e2.message)).do(value => {
+    if (value.isError) {
+      const {
+        error
+      } = value;
+      const logger = (0, _log4js().getLogger)('nuclide-fbsimctl');
+      logger.warn(value.error.message);
+      (0, _nuclideAnalytics().track)('nuclide-fbsimctl:device-poller:error', {
+        error
+      });
+    }
+  }).publishReplay(1).refCount();
 }

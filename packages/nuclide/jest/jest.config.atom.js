@@ -20,7 +20,7 @@ const p = nuclidePath => path.resolve(__dirname, '..', nuclidePath);
 
 module.exports = {
   displayName: 'atom',
-  rootDir: p('../..'),
+  rootDir: p(''),
   roots: [p('')],
   testMatch: ['**/__atom_tests__/**/*.js?(x)'],
   transform: {
@@ -28,9 +28,11 @@ module.exports = {
   },
   setupTestFrameworkScriptFile: p('jest/setupTestFrameworkScriptFile.atom.js'),
   runner: p('modules/jest-atom-runner/build/index.js'),
+  testRunner: require.resolve('jest-circus/runner'),
   moduleNameMapper: {
     oniguruma: p('jest/__mocks__/emptyObject.js'),
   },
   testEnvironment: p('modules/jest-atom-runner/build/environment.js'),
   testPathIgnorePatterns: ['/node_modules/'],
+  reporters: require('./reporters.config'),
 };
